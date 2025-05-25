@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace = "com.arakene.fillsa"
+    namespace = "com.arakene.presentation"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.arakene.fillsa"
+        applicationId = "com.arakene.presentation"
         minSdk = 28
         targetSdk = 35
         versionCode = 1
@@ -40,9 +40,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
-    implementation(project(":data"))
-    implementation(project(":presentation"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
