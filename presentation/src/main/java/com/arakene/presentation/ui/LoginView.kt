@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -79,27 +80,44 @@ fun LoginView() {
         )
 
         // 이용약관 및 개인정보 처리방침
-        Row(
-            modifier = Modifier.padding(top = 12.dp, bottom = 40.dp)
-        ) {
-            Text(
-                stringResource(R.string.terms_of_use),
-                style = FillsaTheme.typography.body2,
-                color = colorResource(R.color.gray_500),
-                textDecoration = TextDecoration.Underline
-            )
-
-            Text(
-                stringResource(R.string.privacy_policy),
-                style = FillsaTheme.typography.body2,
-                color = colorResource(R.color.gray_500),
-                textDecoration = TextDecoration.Underline,
-                modifier = Modifier.padding(start = 20.dp)
-            )
-        }
+        LoginPolicySection()
 
     }
 
+}
+
+@Composable
+private fun LoginPolicySection(
+    modifier: Modifier = Modifier
+) {
+
+    val uriHandler = LocalUriHandler.current
+
+    Row(
+        modifier = modifier.padding(top = 12.dp, bottom = 40.dp)
+    ) {
+        Text(
+            stringResource(R.string.terms_of_use),
+            style = FillsaTheme.typography.body2,
+            color = colorResource(R.color.gray_500),
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier.clickable {
+                uriHandler.openUri("https://www.google.com") // TODO: 노션 링크 요청
+            }
+        )
+
+        Text(
+            stringResource(R.string.privacy_policy),
+            style = FillsaTheme.typography.body2,
+            color = colorResource(R.color.gray_500),
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier
+                .padding(start = 20.dp)
+                .clickable {
+                    uriHandler.openUri("https://www.google.com") // TODO: 노션 링크 요청
+                },
+        )
+    }
 }
 
 @Composable
