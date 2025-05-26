@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">presentation</string>
+    <string name="login_description">로그인 후, 나만의 필사를 안전하게 저장할 수 있습니다.</string>
 </resources>
