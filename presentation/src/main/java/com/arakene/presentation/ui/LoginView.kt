@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.theme.FillsaTheme
 
 
 @Composable
@@ -30,7 +31,7 @@ fun LoginView() {
         )
 
 
-        Text(stringResource(R.string.login_description))
+        Text(stringResource(R.string.login_description), style = FillsaTheme.typography.body2)
 
         // 카카오
         Button(
