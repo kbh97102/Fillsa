@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="primary">#FFEFCC</color>
+
     <color name="kakao_yellow">#FFE600</color>
     <color name="google_gray">#EEEEEF</color>
     <color name="login_black">#371D1E</color>
