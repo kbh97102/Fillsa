@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,7 +8,11 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
 
 private val DarkColorScheme = darkColorScheme(
     primary = Purple80,
@@ -33,6 +36,109 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+internal val fillsaTypo = FillsaTypo(
+    heading1 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 32.sp,
+        lineHeight = 48.sp
+    ),
+    heading2 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 28.sp,
+        lineHeight = 42.sp
+    ),
+    heading3 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 24.sp,
+        lineHeight = 36.sp
+    ),
+    heading4 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 20.sp,
+        lineHeight = 30.sp
+    ),
+    subtitle1 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    ),
+    subtitle2 = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 14.sp,
+        lineHeight = 21.sp
+    ),
+    body1 = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = pretendard,
+        fontSize = 20.sp,
+        lineHeight = 30.sp
+    ),
+    body2 = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = pretendard,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
+    ),
+    body3 = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = pretendard,
+        fontSize = 14.sp,
+        lineHeight = 21.sp
+    ),
+    body4 = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = pretendard,
+        fontSize = 12.sp,
+        lineHeight = 18.sp
+    ),
+    buttonLargeBold = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 20.sp,
+    ),
+    buttonLargeNormal = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = pretendard,
+        fontSize = 20.sp,
+    ),
+    buttonMediumBold = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 16.sp,
+    ),
+    buttonMediumNormal = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = pretendard,
+        fontSize = 16.sp
+    ),
+    buttonSmallBold = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 14.sp,
+    ),
+    buttonSmallNormal = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = pretendard,
+        fontSize = 14.sp,
+    ),
+    buttonXSmallBold = TextStyle(
+        fontWeight = FontWeight.Bold,
+        fontFamily = pretendard,
+        fontSize = 12.sp,
+    ),
+    buttonXSmallNormal = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = pretendard,
+        fontSize = 12.sp,
+    )
+)
+
 @Composable
 fun FillsaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -50,9 +156,12 @@ fun FillsaTheme(
         else -> LightColorScheme
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
-    )
+    CompositionLocalProvider(
+        LocalFillsaTypo provides fillsaTypo
+    ) {
+        MaterialTheme(
+            colorScheme = colorScheme,
+            content = content
+        )
+    }
 }
