@@ -8,6 +8,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="kakao_yellow">#FFE600</color>
+    <color name="google_gray">#EEEEEF</color>
+    <color name="login_black">#371D1E</color>
 
     <color name="gray_100">#eeeeee</color>
     <color name="gray_200">#e0e0e0</color>

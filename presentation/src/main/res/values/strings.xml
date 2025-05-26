@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">presentation</string>
     <string name="login_description">로그인 후, 나만의 필사를 안전하게 저장할 수 있습니다.</string>
+    <string name="login_kakao">카카오 계정으로 시작하기</string>
+    <string name="login_google">구글 계정으로 시작하기</string>
+    <string name="login_non_member">비회원으로 시작하기</string>
+    <string name="terms_of_use">이용약관</string>
+    <string name="privacy_policy">개인정보 처리방침</string>
 </resources>
