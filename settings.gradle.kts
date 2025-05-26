@@ -21,4 +21,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "Fillsa"
 include(":app")
- 
+include(":domain")
+include(":data")
+include(":presentation")
