@@ -18,6 +18,7 @@ pagingCompose = "3.3.6"
 retrofit = "2.11.0"
 logger = "4.12.0"
 google-login = "1.5.0"
+googleid = "1.1.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,7 +55,7 @@ androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", v
 #google-login
 google-login = { group = "androidx.credentials", name = "credentials", version.ref = "google-login"}
 google-login-auth = { group = "androidx.credentials", name = "credentials-play-services-auth", version.ref = "google-login"}
-google-login-googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "google-login"}
+googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
