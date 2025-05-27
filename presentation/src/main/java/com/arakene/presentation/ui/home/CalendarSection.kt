@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -45,6 +46,7 @@ fun CalendarSection(
 
     Column(
         modifier = modifier
+            .aspectRatio(155/120f)
             .background(Color.Transparent)
             .border(
                 width = 1.dp,
@@ -59,6 +61,7 @@ fun CalendarSection(
         )
 
         CalendarBottom(
+            modifier = Modifier.weight(1f),
             date = today.second
         )
 
