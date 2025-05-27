@@ -1,8 +1,15 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
 }
+
+val secretsFile = Properties().apply {
+    load(rootProject.file("secrets.properties").inputStream())
+}
+
 
 android {
     namespace = "com.arakene.presentation"
@@ -11,6 +18,8 @@ android {
     defaultConfig {
         minSdk = 28
         targetSdk = 35
+
+        buildConfigField("String", "kakao_key", secretsFile["KAKAO_KEY"].toString())
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,6 +42,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 }
 
