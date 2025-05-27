@@ -17,7 +17,7 @@ compose-navigation = "2.9.0"
 pagingCompose = "3.3.6"
 retrofit = "2.11.0"
 logger = "4.12.0"
-
+kakao = "2.21.3"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -51,7 +51,9 @@ kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
 androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingCompose" }
 androidx-paging-runtime-ktx = { module = "androidx.paging:paging-runtime-ktx", version.ref = "pagingCompose" }
-
+#kakao
+kakao-login = {group = "com.kakao.sdk", name = "v2-user", version.ref = "kakao"}
+kakao-share = {group = "com.kakao.sdk", name = "v2-share", version.ref = "kakao"}
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
