@@ -34,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.kakao.sdk.common.util.Utility
@@ -67,20 +68,13 @@ fun LoginView(
                 val tokenRequest = resp.createTokenExchangeRequest()
                 authService.performTokenRequest(tokenRequest) { response, exception ->
                     if (response != null) {
-                        val accessToken = response.accessToken
-                        val idToken = response.idToken
-                        val refreshToken = response.refreshToken
-
-                        Log.d("Auth", "AccessToken: $accessToken")
-                        Log.d("Auth", "IdToken: $idToken")
-                        Log.d("Auth", "RefreshToken: $refreshToken")
-
-                        viewModel.login(
-                            refreshToken = refreshToken,
-                            accessToken = accessToken,
-                            id = "", testMethod = {
-                                navigate(Screens.Home)
-                            }
+                        viewModel.handleContract(
+                            LoginAction.ClickGoogleLogin(
+                                refreshToken = response.refreshToken,
+                                accessToken = response.accessToken,
+                                idToken = response.idToken,
+                                accessTokenExpirationTime = response.accessTokenExpirationTime
+                            )
                         )
                     } else {
                         Log.e("Auth", "Token Exchange Error", exception)
@@ -132,14 +126,15 @@ fun LoginView(
                         } else if (token != null) {
                             Log.e(">>>>", "로그인 성공 $token")
 
-                            viewModel.login(
-                                refreshToken = token.refreshToken,
-                                accessToken = token.accessToken,
-                                refreshTokenExpiresIn = token.refreshTokenExpiresAt.toString(),
-                                expiresIn = token.accessTokenExpiresAt.toString(),
-                                id = "", testMethod = {
-                                    navigate(Screens.Home)
-                                }
+                            Log.e(">>>>", "kakao id token ${token.idToken}")
+
+                            viewModel.handleContract(
+                                LoginAction.ClickKakaoLogin(
+                                    refreshToken = token.refreshToken,
+                                    accessToken = token.accessToken,
+                                    refreshTokenExpiresIn = token.refreshTokenExpiresAt.toString(),
+                                    expiresIn = token.accessTokenExpiresAt.toString(),
+                                )
                             )
                         }
                     }
