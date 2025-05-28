@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui
 
 import android.net.Uri
+import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -30,9 +31,15 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.arakene.domain.requests.LoginData
+import com.arakene.domain.requests.LoginRequest
+import com.arakene.domain.requests.TokenData
+import com.arakene.domain.requests.UserData
 import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.viewmodel.LoginViewModel
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import net.openid.appauth.AuthorizationException
@@ -44,7 +51,9 @@ import net.openid.appauth.ResponseTypeValues
 
 
 @Composable
-fun LoginView() {
+fun LoginView(
+    viewModel: LoginViewModel = hiltViewModel()
+) {
 
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -68,6 +77,28 @@ fun LoginView() {
                         Log.d("Auth", "AccessToken: $accessToken")
                         Log.d("Auth", "IdToken: $idToken")
                         Log.d("Auth", "RefreshToken: $refreshToken")
+
+                        viewModel.login(
+                            LoginRequest(
+                                LoginData(
+                                    oAuthProvider = "google",
+                                    tokenData = TokenData(
+                                        deviceId = Settings.Secure.ANDROID_ID,
+                                        accessToken = accessToken,
+                                        refreshToken = refreshToken,
+                                        refreshTokenExpiresIn = null,
+                                        expiresIn = null
+                                    ),
+                                    userData = UserData(
+                                        id = response.idToken ?: "",
+                                        nickname = "",
+                                        profileImageUrl = ""
+                                    )
+                                ),
+                                syncData = null
+                            )
+                        )
+
                     } else {
                         Log.e("Auth", "Token Exchange Error", exception)
                     }

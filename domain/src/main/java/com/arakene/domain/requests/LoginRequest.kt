@@ -23,16 +23,16 @@ data class LoginData(
 
 data class TokenData(
     @SerializedName("deviceId")
-    val deviceId: String,
+    val deviceId: String?,
 
     @SerializedName("accessToken")
-    val accessToken: String,
+    val accessToken: String?,
 
     @SerializedName("expiresIn")
-    val expiresIn: String,
+    val expiresIn: String?,
 
     @SerializedName("refreshToken")
-    val refreshToken: String,
+    val refreshToken: String?,
 
     @SerializedName("refreshTokenExpiresIn")
     val refreshTokenExpiresIn: String? = null // 카카오만 해당

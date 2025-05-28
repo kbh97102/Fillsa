@@ -23,13 +23,7 @@ android {
             )
         }
     }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    apply(from = "../common.gradle")
 }
 
 dependencies {
@@ -43,4 +37,5 @@ dependencies {
 
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.gson)
+    implementation(libs.hilt)
 }
