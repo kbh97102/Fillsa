@@ -1,6 +1,9 @@
 package com.arakene.presentation.ui
 
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +16,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,16 +29,53 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
+import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import net.openid.appauth.AuthorizationException
+import net.openid.appauth.AuthorizationRequest
+import net.openid.appauth.AuthorizationResponse
+import net.openid.appauth.AuthorizationService
+import net.openid.appauth.AuthorizationServiceConfiguration
+import net.openid.appauth.ResponseTypeValues
 
 
 @Composable
 fun LoginView() {
 
+    val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
+    val authService = remember { AuthorizationService(context) }
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val intent = result.data ?: return@rememberLauncherForActivityResult
+            val resp = AuthorizationResponse.fromIntent(intent)
+            val ex = AuthorizationException.fromIntent(intent)
+
+            if (resp != null) {
+                val tokenRequest = resp.createTokenExchangeRequest()
+                authService.performTokenRequest(tokenRequest) { response, exception ->
+                    if (response != null) {
+                        val accessToken = response.accessToken
+                        val idToken = response.idToken
+                        val refreshToken = response.refreshToken
+
+                        Log.d("Auth", "AccessToken: $accessToken")
+                        Log.d("Auth", "IdToken: $idToken")
+                        Log.d("Auth", "RefreshToken: $refreshToken")
+                    } else {
+                        Log.e("Auth", "Token Exchange Error", exception)
+                    }
+                }
+            } else {
+                Log.e("Auth", "Auth failed", ex)
+            }
+        }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,8 +131,25 @@ fun LoginView() {
             icon = painterResource(R.drawable.icn_google),
             text = stringResource(R.string.login_google),
             backgroundColor = colorResource(R.color.google_gray),
-            onClick = {},
-            modifier = Modifier.padding(top = 16.dp)
+            modifier = Modifier.padding(top = 16.dp),
+            onClick = {
+                val serviceConfig = AuthorizationServiceConfiguration(
+                    Uri.parse("https://accounts.google.com/o/oauth2/v2/auth"), // auth endpoint
+                    Uri.parse("https://oauth2.googleapis.com/token")            // token endpoint
+                )
+
+                val authRequest = AuthorizationRequest.Builder(
+                    serviceConfig,
+                    BuildConfig.google_key,   // Google Cloud에서 생성한 OAuth 2.0 클라이언트 ID
+                    ResponseTypeValues.CODE,
+                    "com.arakene.fillsa:/oauth2redirect".toUri() // 앱에 등록한 redirect URI
+                ).setScopes("openid", "email", "profile")
+                    .build()
+
+
+                val authIntent = authService.getAuthorizationRequestIntent(authRequest)
+                launcher.launch(authIntent)
+            },
         )
 
         // 비회원

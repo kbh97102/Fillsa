@@ -21,10 +21,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
-
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretsFile["KAKAO_KEY"].toString()
 
+        manifestPlaceholders["appAuthRedirectScheme"] = "com.arakene.fillsa"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
