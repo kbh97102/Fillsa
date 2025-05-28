@@ -1,7 +1,6 @@
 package com.arakene.presentation.ui
 
 import android.net.Uri
-import android.provider.Settings
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,13 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.arakene.domain.requests.LoginData
-import com.arakene.domain.requests.LoginRequest
-import com.arakene.domain.requests.TokenData
-import com.arakene.domain.requests.UserData
 import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.Screens
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
@@ -52,6 +48,7 @@ import net.openid.appauth.ResponseTypeValues
 
 @Composable
 fun LoginView(
+    navigate: (Screens) -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
@@ -79,26 +76,12 @@ fun LoginView(
                         Log.d("Auth", "RefreshToken: $refreshToken")
 
                         viewModel.login(
-                            LoginRequest(
-                                LoginData(
-                                    oAuthProvider = "google",
-                                    tokenData = TokenData(
-                                        deviceId = Settings.Secure.ANDROID_ID,
-                                        accessToken = accessToken,
-                                        refreshToken = refreshToken,
-                                        refreshTokenExpiresIn = null,
-                                        expiresIn = null
-                                    ),
-                                    userData = UserData(
-                                        id = response.idToken ?: "",
-                                        nickname = "",
-                                        profileImageUrl = ""
-                                    )
-                                ),
-                                syncData = null
-                            )
+                            refreshToken = refreshToken,
+                            accessToken = accessToken,
+                            id = "", testMethod = {
+                                navigate(Screens.Home)
+                            }
                         )
-
                     } else {
                         Log.e("Auth", "Token Exchange Error", exception)
                     }
@@ -148,6 +131,16 @@ fun LoginView(
                             Log.e(">>>>", "로그인 실패 $error")
                         } else if (token != null) {
                             Log.e(">>>>", "로그인 성공 $token")
+
+                            viewModel.login(
+                                refreshToken = token.refreshToken,
+                                accessToken = token.accessToken,
+                                refreshTokenExpiresIn = token.refreshTokenExpiresAt.toString(),
+                                expiresIn = token.accessTokenExpiresAt.toString(),
+                                id = "", testMethod = {
+                                    navigate(Screens.Home)
+                                }
+                            )
                         }
                     }
                 } else {
@@ -188,7 +181,9 @@ fun LoginView(
             icon = painterResource(R.drawable.icn_pencil),
             text = stringResource(R.string.login_non_member),
             backgroundColor = colorResource(R.color.white),
-            onClick = {},
+            onClick = {
+                navigate(Screens.Home)
+            },
             modifier = Modifier.padding(top = 16.dp)
         )
 
@@ -250,7 +245,9 @@ private fun LoginButton(
 @Preview(showBackground = true, widthDp = 400)
 @Composable
 private fun LoginPreview() {
-    LoginView()
+    LoginView(
+        navigate = {}
+    )
 }
 
 @Preview(showBackground = true)
