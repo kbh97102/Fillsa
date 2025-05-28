@@ -1,6 +1,10 @@
 package com.arakene.presentation.ui
 
+import android.net.Uri
+import android.util.Base64
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -13,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +30,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.credentials.CredentialManager
 import androidx.credentials.CustomCredential
 import androidx.credentials.GetCredentialRequest
@@ -37,6 +43,20 @@ import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
 import kotlinx.coroutines.launch
+import net.openid.appauth.AuthorizationRequest
+import net.openid.appauth.AuthorizationService
+import net.openid.appauth.AuthorizationServiceConfiguration
+import net.openid.appauth.ResponseTypeValues
+import androidx.core.net.toUri
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import net.openid.appauth.AppAuthConfiguration
+import net.openid.appauth.AuthorizationException
+import net.openid.appauth.AuthorizationResponse
+import net.openid.appauth.browser.BrowserAllowList
+import net.openid.appauth.browser.VersionedBrowserMatcher
+import java.security.MessageDigest
+import java.security.SecureRandom
 
 
 @Composable
@@ -45,61 +65,30 @@ fun LoginView() {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    fun handleSignIn(result: GetCredentialResponse) {
-        // Handle the successfully returned credential.
-        when (val credential = result.credential) {
+    val authService = remember { AuthorizationService(context) }
 
-            // Passkey credential
-            is PublicKeyCredential -> {
-                // Share responseJson such as a GetCredentialResponse on your server to
-                // validate and authenticate
-                credential.authenticationResponseJson.also {
-                    Log.e(">>>>", "passkey $it")
-                }
-            }
+    val launcher = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        val intent = result.data ?: return@rememberLauncherForActivityResult
+        val resp = AuthorizationResponse.fromIntent(intent)
+        val ex = AuthorizationException.fromIntent(intent)
 
-            // Password credential
-            is PasswordCredential -> {
-                // Send ID and password to your server to validate and authenticate.
-                val username = credential.id
-                val password = credential.password
-                Log.e(">>>>", "name $username pw $password")
-            }
+        if (resp != null) {
+            val tokenRequest = resp.createTokenExchangeRequest()
+            authService.performTokenRequest(tokenRequest) { response, exception ->
+                if (response != null) {
+                    val accessToken = response.accessToken
+                    val idToken = response.idToken
+                    val refreshToken = response.refreshToken
 
-            // GoogleIdToken credential
-            is CustomCredential -> {
-                if (credential.type == GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL) {
-                    try {
-                        // Use googleIdTokenCredential and extract the ID to validate and
-                        // authenticate on your server.
-                        val googleIdTokenCredential = GoogleIdTokenCredential
-                            .createFrom(credential.data)
-                        // You can use the members of googleIdTokenCredential directly for UX
-                        // purposes, but don't use them to store or control access to user
-                        // data. For that you first need to validate the token:
-                        // pass googleIdTokenCredential.getIdToken() to the backend server.
-//                        GoogleIdTokenVerifier verifier = ... // see validation instructions
-//                        GoogleIdToken idToken = verifier.verify(idTokenString);
-                        // To get a stable account identifier (e.g. for storing user data),
-                        // use the subject ID:
-//                        idToken.getPayload().getSubject()
-                        Log.e(
-                            ">>>>",
-                            "idToken ${googleIdTokenCredential.idToken} id ${googleIdTokenCredential.id}"
-                        )
-                    } catch (e: GoogleIdTokenParsingException) {
-                        Log.e(">>>>", "Received an invalid google id token response", e)
-                    }
+                    Log.d("Auth", "AccessToken: $accessToken")
+                    Log.d("Auth", "IdToken: $idToken")
+                    Log.d("Auth", "RefreshToken: $refreshToken")
                 } else {
-                    // Catch any unrecognized custom credential type here.
-                    Log.e(">>>>", "Unexpected type of credential")
+                    Log.e("Auth", "Token Exchange Error", exception)
                 }
             }
-
-            else -> {
-                // Catch any unrecognized credential type here.
-                Log.e(">>>>", "Unexpected type of credential")
-            }
+        } else {
+            Log.e("Auth", "Auth failed", ex)
         }
     }
 
@@ -142,30 +131,22 @@ fun LoginView() {
             backgroundColor = colorResource(R.color.google_gray),
             modifier = Modifier.padding(top = 16.dp),
             onClick = {
+                val serviceConfig = AuthorizationServiceConfiguration(
+                    Uri.parse("https://accounts.google.com/o/oauth2/v2/auth"), // auth endpoint
+                    Uri.parse("https://oauth2.googleapis.com/token")            // token endpoint
+                )
 
-                val googleIdOption: GetGoogleIdOption = GetGoogleIdOption.Builder()
-                    .setFilterByAuthorizedAccounts(false)
-                    .setServerClientId("")
-                    .setAutoSelectEnabled(false)
+                val authRequest = AuthorizationRequest.Builder(
+                    serviceConfig,
+                    "1035238314952-81845771b8jof9oaog72qe1c2os6ikff.apps.googleusercontent.com",   // Google Cloud에서 생성한 OAuth 2.0 클라이언트 ID
+                    ResponseTypeValues.CODE,
+                    "com.arakene.fillsa:/oauth2redirect".toUri() // 앱에 등록한 redirect URI
+                ).setScopes("openid", "email", "profile")
                     .build()
 
-                val request: GetCredentialRequest = GetCredentialRequest.Builder()
-                    .addCredentialOption(googleIdOption)
-                    .build()
 
-                scope.launch {
-                    try {
-                        val result = CredentialManager.create(context).getCredential(
-                            request = request,
-                            context = context,
-                        )
-                        handleSignIn(result)
-                    } catch (e: Exception) {
-//                        handleFailure(e)
-                        e.printStackTrace()
-                    }
-                }
-
+                val authIntent = authService.getAuthorizationRequestIntent(authRequest)
+                launcher.launch(authIntent)
             },
         )
 

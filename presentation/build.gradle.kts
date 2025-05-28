@@ -60,5 +60,7 @@ dependencies {
     implementation(libs.google.login)
     implementation(libs.google.login.auth)
     implementation(libs.googleid)
+    implementation(libs.appauth)
+    implementation(libs.authtest)
 
 }

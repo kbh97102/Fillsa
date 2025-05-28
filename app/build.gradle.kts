@@ -15,6 +15,8 @@ android {
         versionCode = 1
         versionName = "1.0"
 
+        manifestPlaceholders["appAuthRedirectScheme"] = "com.arakene.fillsa"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
