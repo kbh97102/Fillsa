@@ -6,4 +6,6 @@
     <string name="login_non_member">비회원으로 시작하기</string>
     <string name="terms_of_use">이용약관</string>
     <string name="privacy_policy">개인정보 처리방침</string>
+    <string name="locale_type_kor">한</string>
+    <string name="locale_type_eng">A</string>
 </resources>

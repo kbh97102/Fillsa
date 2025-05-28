@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="purple02">#D3D5FF</color>
+
     <color name="primary">#FFEFCC</color>
 
     <color name="kakao_yellow">#FFE600</color>
