@@ -66,6 +66,13 @@ fun HomeView() {
             modifier = Modifier.padding(top = 20.dp)
         )
 
+        HomeBottomSection(
+            copy = {},
+            share = {},
+            isLike = false,
+            setIsLike = {}
+        )
+
     }
 
 }
