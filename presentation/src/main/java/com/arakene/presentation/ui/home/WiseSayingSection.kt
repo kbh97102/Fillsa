@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -42,7 +43,15 @@ fun WiseSayingSection(
                 modifier = modifier
                     .fillMaxWidth()
                     .aspectRatio(320f / 250f)
-                    .background(MaterialTheme.colorScheme.secondary),
+                    .shadow(
+                        3.dp,
+                        shape = MaterialTheme.shapes.medium,
+                        ambientColor = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+                    )
+                    .background(
+                        MaterialTheme.colorScheme.secondary,
+                        shape = MaterialTheme.shapes.medium
+                    ),
                 contentAlignment = Alignment.Center
             ) {
 
@@ -65,7 +74,9 @@ fun WiseSayingSection(
                     )
 
                     Text(
-                        modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 12.dp),
                         text = author,
                         style = FillsaTheme.typography.body2,
                         color = colorResource(R.color.gray_700),
@@ -98,15 +109,21 @@ fun WiseSayingSection(
         layout(rest.measuredWidth, rest.measuredHeight) {
             rest.placeRelative(0, 0)
 
-            leftArrow.placeRelative(0 - leftArrow.measuredWidth/2f.roundToInt(), rest.measuredHeight/2f.roundToInt() - leftArrow.measuredHeight/2f.roundToInt())
-            rightArrow.placeRelative(rest.measuredWidth - leftArrow.measuredWidth/2f.roundToInt(), rest.measuredHeight/2f.roundToInt() - leftArrow.measuredHeight/2f.roundToInt())
+            leftArrow.placeRelative(
+                0 - leftArrow.measuredWidth / 2f.roundToInt(),
+                rest.measuredHeight / 2f.roundToInt() - leftArrow.measuredHeight / 2f.roundToInt()
+            )
+            rightArrow.placeRelative(
+                rest.measuredWidth - leftArrow.measuredWidth / 2f.roundToInt(),
+                rest.measuredHeight / 2f.roundToInt() - leftArrow.measuredHeight / 2f.roundToInt()
+            )
         }
     }
 
 
 }
 
-@Preview(widthDp = 400, heightDp = 300)
+@Preview(widthDp = 500, heightDp = 500, showBackground = true)
 @Composable
 private fun WiseSayingSectionPreview() {
     FillsaTheme {
@@ -114,7 +131,8 @@ private fun WiseSayingSectionPreview() {
             text = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
             author = "jone wooden",
             next = {},
-            before = {}
+            before = {},
+            modifier = Modifier.padding(50.dp)
         )
     }
 }
