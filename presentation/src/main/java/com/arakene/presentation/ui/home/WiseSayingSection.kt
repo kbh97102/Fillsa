@@ -18,6 +18,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
@@ -56,17 +57,20 @@ fun WiseSayingSection(
                     verticalArrangement = Arrangement.Center
                 ) {
                     Text(
+                        modifier = Modifier.fillMaxWidth(),
                         text = text,
                         style = FillsaTheme.typography.body2,
-                        color = colorResource(R.color.gray_700)
+                        color = colorResource(R.color.gray_700),
+                        textAlign = TextAlign.Center
                     )
 
                     Text(
-                        modifier = Modifier.padding(top = 12.dp),
+                        modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
                         text = author,
                         style = FillsaTheme.typography.body2,
                         color = colorResource(R.color.gray_700),
-                        textDecoration = TextDecoration.Underline
+                        textDecoration = TextDecoration.Underline,
+                        textAlign = TextAlign.Center
                     )
                 }
             }
