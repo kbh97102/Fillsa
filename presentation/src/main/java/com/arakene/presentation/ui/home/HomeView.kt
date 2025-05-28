@@ -58,6 +58,14 @@ fun HomeView() {
             modifier = Modifier.padding(top = 20.dp)
         )
 
+        WiseSayingSection(
+            text = "테스트 테스트",
+            author = "Ara",
+            next = {},
+            before = {},
+            modifier = Modifier.padding(top = 20.dp)
+        )
+
     }
 
 }

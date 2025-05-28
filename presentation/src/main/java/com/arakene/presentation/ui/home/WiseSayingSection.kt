@@ -1,0 +1,116 @@
+package com.arakene.presentation.ui.home
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.layout.SubcomposeLayout
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.dp
+import com.arakene.presentation.R
+import com.arakene.presentation.ui.theme.FillsaTheme
+import kotlin.math.roundToInt
+
+@Composable
+fun WiseSayingSection(
+    text: String,
+    author: String,
+    next: () -> Unit,
+    before: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    SubcomposeLayout(modifier = modifier.fillMaxWidth()) { constraints ->
+        val rest = subcompose("WiseSayingRest") {
+            Box(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .aspectRatio(320f / 250f)
+                    .background(MaterialTheme.colorScheme.secondary),
+                contentAlignment = Alignment.Center
+            ) {
+
+                Image(
+                    painter = painterResource(R.drawable.img_wise_saying_background),
+                    contentDescription = null,
+                    modifier = Modifier.fillMaxSize()
+                )
+
+                Column(
+                    modifier = Modifier.padding(horizontal = 20.dp),
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Text(
+                        text = text,
+                        style = FillsaTheme.typography.body2,
+                        color = colorResource(R.color.gray_700)
+                    )
+
+                    Text(
+                        modifier = Modifier.padding(top = 12.dp),
+                        text = author,
+                        style = FillsaTheme.typography.body2,
+                        color = colorResource(R.color.gray_700),
+                        textDecoration = TextDecoration.Underline
+                    )
+                }
+            }
+        }
+            .map {
+                it.measure(constraints)
+            }.first()
+
+        val leftArrow = subcompose("WireSayingLeftArrow") {
+            Image(painterResource(R.drawable.icn_arrow_circle), contentDescription = null)
+        }.map {
+            it.measure(Constraints())
+        }.first()
+
+        val rightArrow = subcompose("WireSayingRightArrow") {
+            Image(
+                painterResource(R.drawable.icn_arrow_circle),
+                contentDescription = null,
+                modifier = Modifier.rotate(180f)
+            )
+        }.map {
+            it.measure(Constraints())
+        }.first()
+
+        layout(rest.measuredWidth, rest.measuredHeight) {
+            rest.placeRelative(0, 0)
+
+            leftArrow.placeRelative(0 - leftArrow.measuredWidth/2f.roundToInt(), rest.measuredHeight/2f.roundToInt() - leftArrow.measuredHeight/2f.roundToInt())
+            rightArrow.placeRelative(rest.measuredWidth - leftArrow.measuredWidth/2f.roundToInt(), rest.measuredHeight/2f.roundToInt() - leftArrow.measuredHeight/2f.roundToInt())
+        }
+    }
+
+
+}
+
+@Preview(widthDp = 400, heightDp = 300)
+@Composable
+private fun WiseSayingSectionPreview() {
+    FillsaTheme {
+        WiseSayingSection(
+            text = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+            author = "jone wooden",
+            next = {},
+            before = {}
+        )
+    }
+}
