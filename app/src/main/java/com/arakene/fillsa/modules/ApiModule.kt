@@ -17,7 +17,7 @@ class ApiModule {
     @Provides
     fun provideApi(): FillsaApi {
         return Retrofit.Builder()
-            .baseUrl("https://api.pexels.com/")
+            .baseUrl("https://www.fillsa.store/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
