@@ -1,12 +1,16 @@
 package com.arakene.presentation.ui
 
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,9 +28,14 @@ fun BottomNavigationBar(navController: NavHostController) {
 
 
 
-    NavigationBar {
+    NavigationBar(
+        containerColor = MaterialTheme.colorScheme.primary
+    ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
+
+        val black = colorResource(R.color.gray_700)
+        val purple = colorResource(R.color.purple01)
 
         items.forEach { item ->
             val routeString = remember { item.first::class.qualifiedName }
@@ -42,7 +51,16 @@ fun BottomNavigationBar(navController: NavHostController) {
                     }
                 },
                 icon = { Icon(painterResource(item.second), contentDescription = null) },
-                label = { Text(item.first.routeString) }
+                label = { Text(item.first.routeString) },
+                colors = NavigationBarItemColors(
+                    selectedIconColor = purple,
+                    selectedTextColor = purple,
+                    selectedIndicatorColor = Color.Transparent,
+                    unselectedIconColor = black,
+                    unselectedTextColor = black,
+                    disabledIconColor = black,
+                    disabledTextColor = black
+                )
             )
         }
     }
