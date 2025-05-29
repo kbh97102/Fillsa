@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.noEffectClickable
 import kotlin.math.roundToInt
 
 @Composable
@@ -91,7 +92,10 @@ fun WiseSayingSection(
             }.first()
 
         val leftArrow = subcompose("WireSayingLeftArrow") {
-            Image(painterResource(R.drawable.icn_arrow_circle), contentDescription = null)
+            Image(
+                painterResource(R.drawable.icn_arrow_circle),
+                contentDescription = null,
+                modifier = Modifier.noEffectClickable { before() })
         }.map {
             it.measure(Constraints())
         }.first()
@@ -100,7 +104,9 @@ fun WiseSayingSection(
             Image(
                 painterResource(R.drawable.icn_arrow_circle),
                 contentDescription = null,
-                modifier = Modifier.rotate(180f)
+                modifier = Modifier
+                    .rotate(180f)
+                    .noEffectClickable { next() }
             )
         }.map {
             it.measure(Constraints())

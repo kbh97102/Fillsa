@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
+import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.viewmodel.HomeViewModel
 
@@ -33,6 +34,9 @@ fun HomeView(
         viewModel.getDailyQuotaNoToken("2025-05-29")
     }
 
+    val date by remember {
+        viewModel.date
+    }
 
     var selectedLocale by remember {
         mutableStateOf(LocaleType.KOR)
@@ -73,6 +77,7 @@ fun HomeView(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             CalendarSection(
+                date = date,
                 modifier = Modifier.weight(1f)
             )
 
@@ -95,8 +100,12 @@ fun HomeView(
         WiseSayingSection(
             text = quota,
             author = author,
-            next = {},
-            before = {},
+            next = {
+                viewModel.handleContract(HomeAction.ClickNext)
+            },
+            before = {
+                viewModel.handleContract(HomeAction.ClickBefore)
+            },
             modifier = Modifier.padding(top = 20.dp)
         )
 

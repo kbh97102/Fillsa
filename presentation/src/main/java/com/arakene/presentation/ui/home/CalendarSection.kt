@@ -32,15 +32,15 @@ import java.util.Locale
 
 @Composable
 fun CalendarSection(
+    date: LocalDate,
     modifier: Modifier = Modifier
 ) {
 
-    val today = remember {
-        val now = LocalDate.now()
+    val today = remember(date) {
         Triple(
-            now.format(DateTimeFormatter.ofPattern("yyyy.MM")),
-            now.dayOfMonth.toString(),
-            now.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREA)
+            date.format(DateTimeFormatter.ofPattern("yyyy.MM")),
+            date.dayOfMonth.toString(),
+            date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale.KOREA)
         )
     }
 
@@ -136,5 +136,7 @@ private fun CalendarBottom(
 @Preview(widthDp = 150)
 @Composable
 private fun CalendarSectionPreview() {
-    CalendarSection()
+    CalendarSection(
+        date = LocalDate.now()
+    )
 }
