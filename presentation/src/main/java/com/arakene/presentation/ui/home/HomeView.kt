@@ -97,7 +97,7 @@ fun HomeView(
             )
         }
 
-        WiseSayingSection(
+        DailyQuotaSection(
             text = quota,
             author = author,
             next = {
