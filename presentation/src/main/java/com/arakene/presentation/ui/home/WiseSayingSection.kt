@@ -40,7 +40,7 @@ fun WiseSayingSection(
     SubcomposeLayout(modifier = modifier.fillMaxWidth()) { constraints ->
         val rest = subcompose("WiseSayingRest") {
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxWidth()
                     .aspectRatio(320f / 250f)
                     .shadow(
