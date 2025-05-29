@@ -74,7 +74,10 @@ fun HomeView() {
             copy = {},
             share = {},
             isLike = false,
-            setIsLike = {}
+            setIsLike = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 28.dp)
         )
     }
 
