@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Column
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.theme.FillsaTheme
@@ -17,7 +18,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             FillsaTheme {
 //                LoginView()
-                HomeView()
+                Column {
+                    HomeView()
+                }
             }
         }
     }
