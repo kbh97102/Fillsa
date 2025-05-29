@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.kotlinx.serialization.json)
 }
 
 val secretsFile = Properties().apply {
@@ -78,6 +79,6 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
     implementation(libs.hilt.navigation)
-
     runtimeOnly(libs.material3)
+    implementation(libs.compose.navigation)
 }
