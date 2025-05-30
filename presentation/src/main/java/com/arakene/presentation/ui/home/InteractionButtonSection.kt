@@ -14,7 +14,7 @@ import com.arakene.presentation.R
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
-fun HomeBottomSection(
+fun InteractionButtonSection(
 
     copy: () -> Unit,
     share: () -> Unit,
@@ -59,7 +59,7 @@ fun HomeBottomSection(
 @Preview(showBackground = true)
 @Composable
 private fun HomeBottomSectionPreview() {
-    HomeBottomSection(
+    InteractionButtonSection(
         copy = {},
         share = {},
         isLike = false,
