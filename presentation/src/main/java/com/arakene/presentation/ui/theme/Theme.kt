@@ -47,6 +47,16 @@ val ColorScheme.defaultButtonColors: ButtonColors
         )
     }
 
+val ColorScheme.positiveButtonColors: ButtonColors
+    get() {
+        return ButtonColors(
+            contentColor = Purple01,
+            containerColor = Purple01,
+            disabledContentColor = Purple01,
+            disabledContainerColor = Purple01
+        )
+    }
+
 internal val fillsaTypo = FillsaTypo(
     heading1 = TextStyle(
         fontWeight = FontWeight.Bold,
