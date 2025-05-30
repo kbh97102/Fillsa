@@ -1,10 +1,8 @@
 package com.arakene.presentation
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
@@ -20,14 +18,12 @@ import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
 
             val navController = rememberNavController()
@@ -39,11 +35,11 @@ class MainActivity : ComponentActivity() {
             }
 
             val displayBottomBar by remember(currentDestination) {
-               mutableStateOf(
-                   notAllowList.none {
-                       it == (currentDestination?.destination?.route ?: "")
-                   }
-               )
+                mutableStateOf(
+                    notAllowList.none {
+                        it == (currentDestination?.destination?.route ?: "")
+                    }
+                )
             }
 
             FillsaTheme {
