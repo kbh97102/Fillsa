@@ -2,6 +2,7 @@ package com.arakene.presentation.util
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arakene.domain.util.ApiResult
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -10,7 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel: ViewModel() {
+abstract class BaseViewModel : ViewModel() {
 
     private val _action: MutableSharedFlow<Action> = MutableSharedFlow()
     val action = _action.asSharedFlow()
@@ -55,6 +56,24 @@ abstract class BaseViewModel: ViewModel() {
         viewModelScope.launch {
             _effect.send(effect)
         }
+    }
+
+    protected fun <T> getResponse(response: ApiResult<T>): T? {
+
+        return when (response) {
+            is ApiResult.Success -> {
+                response.data
+            }
+
+            is ApiResult.Fail -> {
+                null
+            }
+
+            is ApiResult.Error -> {
+                null
+            }
+        }
+
     }
 
 }

@@ -4,9 +4,13 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.theme.FillsaTheme
@@ -23,24 +27,27 @@ class MainActivity : ComponentActivity() {
             val navController = rememberNavController()
 
             FillsaTheme {
+                Scaffold(
+                    bottomBar = { BottomNavigationBar(navController) }
+                ) { paddingValues ->
+                    NavHost(
+                        modifier = Modifier.padding(paddingValues),
+                        navController = navController,
+                        startDestination = Screens.Home
+                    ) {
 
-                NavHost(
-                    navController = navController,
-                    startDestination = Screens.Login
-                ) {
+                        composable<Screens.Login> {
+                            LoginView(
+                                navigate = {
+                                    navController.navigate(it)
+                                }
+                            )
+                        }
 
-                    composable<Screens.Login> {
-                        LoginView(
-                            navigate = {
-                                navController.navigate(it)
-                            }
-                        )
+                        composable<Screens.Home> {
+                            HomeView()
+                        }
                     }
-
-                    composable<Screens.Home> {
-                        HomeView()
-                    }
-
                 }
             }
         }
