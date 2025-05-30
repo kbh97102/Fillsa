@@ -9,6 +9,10 @@ import com.arakene.domain.requests.LoginRequest
 import com.arakene.domain.requests.TokenData
 import com.arakene.domain.requests.UserData
 import com.arakene.domain.usecase.LoginUseCase
+import com.arakene.domain.usecase.common.GetAccessTokenUseCase
+import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
+import com.arakene.domain.usecase.common.SetAccessTokenUseCase
+import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -32,7 +36,9 @@ import kotlin.coroutines.suspendCoroutine
 
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
+    private val setAccessTokenUseCase: SetAccessTokenUseCase,
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -180,6 +186,10 @@ class LoginViewModel @Inject constructor(
 
         when (val result = loginUseCase(request)) {
             is ApiResult.Success -> {
+
+                setAccessTokenUseCase(result.data.accessToken)
+                setRefreshTokenUseCase(result.data.refreshToken)
+
                 Log.d(">>>>", "Success ${result.data}")
                 emitEffect(LoginEffect.Move(Screens.Home))
             }
