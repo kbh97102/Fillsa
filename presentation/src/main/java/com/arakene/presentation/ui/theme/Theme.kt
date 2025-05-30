@@ -1,15 +1,14 @@
 package com.arakene.presentation.ui.theme
 
-import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.dynamicDarkColorScheme
-import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -37,6 +36,16 @@ private val LightColorScheme = lightColorScheme(
     onSurface = Color(0xFF1C1B1F),
     */
 )
+
+val ColorScheme.defaultButtonColors: ButtonColors
+    get() {
+        return ButtonColors(
+            contentColor = Color.White,
+            containerColor = Color.White,
+            disabledContentColor = Color.White,
+            disabledContainerColor = Color.White
+        )
+    }
 
 internal val fillsaTypo = FillsaTypo(
     heading1 = TextStyle(
@@ -158,6 +167,7 @@ fun FillsaTheme(
             primary = colorResource(R.color.primary),
             secondary = colorResource(R.color.yellow01)
         )
+
         else -> lightColorScheme(
             primary = colorResource(R.color.primary),
             secondary = colorResource(R.color.yellow01)
