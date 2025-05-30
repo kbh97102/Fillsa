@@ -1,7 +1,16 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.hilt.plugin)
+    alias(libs.plugins.kotlin.kapt)
+}
+
+
+val secretsFile = Properties().apply {
+    load(rootProject.file("secrets.properties").inputStream())
 }
 
 android {
@@ -14,6 +23,9 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretsFile["KAKAO_KEY"].toString()
+
+        manifestPlaceholders["appAuthRedirectScheme"] = "com.arakene.fillsa"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -31,9 +43,8 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+
+    apply(from = "../common.gradle")
     buildFeatures {
         compose = true
     }
@@ -59,4 +70,14 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.kakao.login)
+
+    implementation(libs.hilt)
+    kapt(libs.hilt.compiler)
+
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.gson)
+    implementation(libs.logger)
+    implementation(libs.datastore)
 }
