@@ -40,4 +40,15 @@ data class DailyQuoteDto(
         engAuthor = "",
         authorUrl = ""
     )
+
+    constructor(quote: String) : this(
+        likeYn = "",
+        imagePath = "",
+        dailyQuoteSeq = 0,
+        korQuote = quote,
+        engQuote = "",
+        korAuthor = "",
+        engAuthor = "",
+        authorUrl = ""
+    )
 }

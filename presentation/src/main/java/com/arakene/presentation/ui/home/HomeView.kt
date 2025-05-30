@@ -110,7 +110,7 @@ fun HomeView(
             modifier = Modifier.padding(top = 20.dp)
         )
 
-        HomeBottomSection(
+        InteractionButtonSection(
             copy = {},
             share = {},
             isLike = false,
