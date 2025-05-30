@@ -6,14 +6,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.DailyQuoteDto
-import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -27,6 +28,8 @@ class HomeViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+    val isLogged = getLoginStatusUseCase()
 
     val date = mutableStateOf(LocalDate.now())
 
@@ -58,7 +61,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun refresh() = viewModelScope.launch {
-        val isLogged = getLoginStatusUseCase()
+        val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
         val convertedDate = convertDate(date.value)
         logDebug("logged? $isLogged")
 

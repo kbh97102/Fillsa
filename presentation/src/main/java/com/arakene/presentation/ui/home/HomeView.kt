@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +35,8 @@ fun HomeView(
         // TODO: 여기서 해야할까?
         viewModel.handleContract(HomeAction.Refresh)
     }
+
+    val isLogged by viewModel.isLogged.collectAsState(false)
 
     val date by remember {
         viewModel.date
@@ -83,7 +86,7 @@ fun HomeView(
             )
 
             ImageSection(
-                isLogged = false,
+                isLogged = isLogged,
                 modifier = Modifier.weight(1f)
             )
         }

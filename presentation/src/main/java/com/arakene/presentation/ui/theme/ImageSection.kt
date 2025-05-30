@@ -39,18 +39,18 @@ fun ImageSection(
             modifier = Modifier.matchParentSize()
         )
 
-        // Image
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .background(
-                    colorResource(R.color.black_0c).copy(alpha = 0.6f),
-                    shape = MaterialTheme.shapes.medium
-                ),
-        )
-
         if (!isLogged) {
-            Image(painterResource(R.drawable.icn_lock), contentDescription = null)
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(
+                        colorResource(R.color.black_0c).copy(alpha = 0.6f),
+                        shape = MaterialTheme.shapes.medium
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(painterResource(R.drawable.icn_lock), contentDescription = null)
+            }
         }
 
     }
