@@ -6,11 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.DailyQuoteDto
-import com.arakene.domain.usecase.GetDailyQuotaNoTokenUseCase
+import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.HomeAction
+import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -19,8 +21,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getDailyQuotaNoTokenUseCase: GetDailyQuotaNoTokenUseCase,
-    private val getLoginStatusUseCase: GetLoginStatusUseCase
+    private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
+    private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
+    private val getLoginStatusUseCase: GetLoginStatusUseCase,
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -35,12 +38,16 @@ class HomeViewModel @Inject constructor(
         when (homeAction) {
             is HomeAction.ClickBefore -> {
                 date.value = date.value.minusDays(1)
-                getDailyQuotaNoToken(convertDate(date.value))
+                getDailyQuoteNoToken(convertDate(date.value))
             }
 
             is HomeAction.ClickNext -> {
                 date.value = date.value.plusDays(1)
-                getDailyQuotaNoToken(convertDate(date.value))
+                getDailyQuoteNoToken(convertDate(date.value))
+            }
+
+            is HomeAction.Refresh -> {
+                refresh()
             }
 
             else -> {
@@ -48,6 +55,18 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+    }
+
+    private fun refresh() = viewModelScope.launch {
+        val isLogged = getLoginStatusUseCase()
+        val convertedDate = convertDate(date.value)
+        logDebug("logged? $isLogged")
+
+        if (isLogged) {
+            getDailyQuote(convertedDate)
+        } else {
+            getDailyQuoteNoToken(convertedDate)
+        }
     }
 
     fun testMethod() {
@@ -58,8 +77,14 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun getDailyQuotaNoToken(date: String) = viewModelScope.launch {
-        getResponse(getDailyQuotaNoTokenUseCase(date))?.let {
+    private fun getDailyQuote(date: String) = viewModelScope.launch {
+        getResponse(getDailyQuoteUseCase(date))?.let {
+            currentQuota = it
+        }
+    }
+
+    private fun getDailyQuoteNoToken(date: String) = viewModelScope.launch {
+        getResponse(getDailyQuoteNoTokenUseCase(date))?.let {
             currentQuota = DailyQuoteDto(
                 likeYn = "N",
                 imagePath = "",

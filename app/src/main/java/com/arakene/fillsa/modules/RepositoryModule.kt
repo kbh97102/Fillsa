@@ -7,6 +7,7 @@ import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.repository.HomeRepositoryImpl
 import com.arakene.data.repository.LocalRepositoryImpl
 import com.arakene.data.repository.LoginRepositoryImpl
+import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.HomeRepository
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.repository.LoginRepository
@@ -20,13 +21,16 @@ import dagger.hilt.components.SingletonComponent
 class RepositoryModule {
 
     @Provides
-    fun provideLoginRepository(api: FillsaApi): LoginRepository {
+    fun provideLoginRepository(api: FillsaNoTokenApi): LoginRepository {
         return LoginRepositoryImpl(api)
     }
 
     @Provides
-    fun provideLocalRepository(dataStore: DataStore<Preferences>): LocalRepository {
-        return LocalRepositoryImpl(dataStore)
+    fun provideLocalRepository(
+        dataStore: DataStore<Preferences>,
+        tokenProvider: TokenProvider
+    ): LocalRepository {
+        return LocalRepositoryImpl(dataStore, tokenProvider)
     }
 
     @Provides
