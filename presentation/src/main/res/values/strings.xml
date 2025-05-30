@@ -8,4 +8,7 @@
     <string name="privacy_policy">개인정보 처리방침</string>
     <string name="locale_type_kor">한</string>
     <string name="locale_type_eng">A</string>
+    <string name="delete">삭제하기</string>
+    <string name="ok">확인</string>
+    <string name="change_image">이미지 변경</string>
 </resources>
