@@ -31,9 +31,8 @@ fun HomeView(
 ) {
 
     LaunchedEffect(Unit) {
-        viewModel.getDailyQuotaNoToken("2025-05-29")
-
-        viewModel.testMethod()
+        // TODO: 여기서 해야할까?
+        viewModel.handleContract(HomeAction.Refresh)
     }
 
     val date by remember {

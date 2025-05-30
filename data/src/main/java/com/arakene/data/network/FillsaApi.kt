@@ -17,7 +17,7 @@ interface FillsaApi {
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse>
 
-    @GET(ApiEndPoint.GET_DAILY_QUOTE_NON_MEMBER)
+    @GET(ApiEndPoint.GET_DAILY_QUOTE)
     suspend fun getDailyQuote(
         @Query("quoteDate") quoteDate: String
     ): Response<DailyQuoteDto>
