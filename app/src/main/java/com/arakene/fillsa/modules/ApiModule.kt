@@ -1,6 +1,7 @@
 package com.arakene.fillsa.modules
 
 import com.arakene.data.network.FillsaApi
+import com.arakene.data.network.FillsaNoTokenApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,5 +30,22 @@ class ApiModule {
             .build()
             .create(FillsaApi::class.java)
     }
+
+    @Provides
+    fun provideNoTokenApi(): FillsaNoTokenApi {
+        return Retrofit.Builder()
+            .baseUrl("https://www.fillsa.store/")
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(
+                OkHttpClient.Builder()
+                    .addInterceptor(HttpLoggingInterceptor().apply {
+                        level = HttpLoggingInterceptor.Level.BODY
+                    })
+                    .build()
+            )
+            .build()
+            .create(FillsaNoTokenApi::class.java)
+    }
+
 
 }
