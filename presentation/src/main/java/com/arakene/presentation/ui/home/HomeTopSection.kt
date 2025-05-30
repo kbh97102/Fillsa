@@ -24,7 +24,7 @@ fun HomeTopSection(
         modifier = modifier
             .fillMaxWidth()
             .background(Color.Transparent)
-            .padding(vertical = 10.dp, horizontal = 20.dp),
+            .padding(vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

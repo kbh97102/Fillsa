@@ -18,3 +18,9 @@ sealed interface LoginAction : Action {
     ) : LoginAction
 
 }
+
+
+sealed interface HomeAction: Action {
+    data object ClickNext: HomeAction
+    data object ClickBefore: HomeAction
+}

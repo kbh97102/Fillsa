@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -23,7 +24,7 @@ fun HomeBottomSection(
 
 ) {
 
-    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically) {
+    Row(modifier = modifier, verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
 
         Image(
             painter = painterResource(R.drawable.icn_copy),
@@ -36,7 +37,7 @@ fun HomeBottomSection(
             painter = painterResource(R.drawable.icn_share),
             contentDescription = null,
             modifier = Modifier
-                .padding(horizontal = 64.dp)
+                .padding(horizontal = 40.dp)
                 .noEffectClickable { share() })
 
         Image(

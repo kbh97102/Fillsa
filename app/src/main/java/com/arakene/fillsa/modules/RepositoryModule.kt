@@ -3,8 +3,11 @@ package com.arakene.fillsa.modules
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.arakene.data.network.FillsaApi
+import com.arakene.data.network.FillsaNoTokenApi
+import com.arakene.data.repository.HomeRepositoryImpl
 import com.arakene.data.repository.LocalRepositoryImpl
 import com.arakene.data.repository.LoginRepositoryImpl
+import com.arakene.domain.repository.HomeRepository
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.repository.LoginRepository
 import dagger.Module
@@ -24,5 +27,10 @@ class RepositoryModule {
     @Provides
     fun provideLocalRepository(dataStore: DataStore<Preferences>): LocalRepository {
         return LocalRepositoryImpl(dataStore)
+    }
+
+    @Provides
+    fun provideHomeRepository(api: FillsaApi, noTokenApi: FillsaNoTokenApi): HomeRepository {
+        return HomeRepositoryImpl(api = api, nonTokenApi = noTokenApi)
     }
 }
