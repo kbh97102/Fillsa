@@ -1,5 +1,7 @@
 package com.arakene.presentation.ui.home
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +37,15 @@ fun ImageDialog(
     author: String,
     onDismiss: () -> Unit
 ) {
+
+    val galleryLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent(),
+        onResult = { uri ->
+            uri?.let {
+//                imageUri = it
+            }
+        }
+    )
 
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -112,6 +123,9 @@ fun ImageDialog(
                             stringResource(R.string.change_image),
                             style = FillsaTheme.typography.buttonMediumBold,
                             color = colorResource(R.color.gray_700),
+                            modifier = Modifier.noEffectClickable {
+                                galleryLauncher.launch("image/*")
+                            }
                         )
                     }
 
