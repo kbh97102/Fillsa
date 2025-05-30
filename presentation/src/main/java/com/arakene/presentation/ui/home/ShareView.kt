@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
@@ -16,9 +17,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,31 +37,59 @@ fun ShareView(
 
     Column(modifier = Modifier.fillMaxSize()) {
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.White)
+                .padding(horizontal = 15.dp, vertical = 9.dp)
+        ) {
+
+            Image(
+                painter = painterResource(R.drawable.icn_arrow),
+                contentDescription = null,
+                modifier = Modifier.noEffectClickable {
+
+                })
+
+        }
 
         Box(modifier = Modifier.weight(1f)) {
 
             Image(
                 painter = painterResource(R.drawable.img_image_background),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
             )
 
-            Text(
-                quote,
-                color = colorResource(R.color.gray_700),
-                style = FillsaTheme.typography.body1
-            )
+            Column(modifier = Modifier.align(Alignment.Center)) {
+                Text(
+                    text = quote,
+                    color = colorResource(R.color.gray_700),
+                    style = FillsaTheme.typography.body1,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth(),
+                )
 
-            Text(
-                author,
-                color = colorResource(R.color.gray_700),
-                style = FillsaTheme.typography.body1,
-                textDecoration = TextDecoration.Underline
-            )
+                Text(
+                    author,
+                    color = colorResource(R.color.gray_700),
+                    style = FillsaTheme.typography.body1,
+                    textDecoration = TextDecoration.Underline,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 20.dp),
+                )
+            }
 
             ShareBottomSection(
                 shareOnClick = {},
                 copyOnClick = {},
-                saveOnClick = {}
+                saveOnClick = {},
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(bottom = 50.dp)
             )
 
         }
