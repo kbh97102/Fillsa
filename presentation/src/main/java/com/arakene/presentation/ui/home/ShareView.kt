@@ -1,0 +1,150 @@
+package com.arakene.presentation.ui.home
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.arakene.presentation.R
+import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.noEffectClickable
+
+@Composable
+fun ShareView(
+    quote: String,
+    author: String
+) {
+
+    Column(modifier = Modifier.fillMaxSize()) {
+
+
+        Box(modifier = Modifier.weight(1f)) {
+
+            Image(
+                painter = painterResource(R.drawable.img_image_background),
+                contentDescription = null
+            )
+
+            Text(
+                quote,
+                color = colorResource(R.color.gray_700),
+                style = FillsaTheme.typography.body1
+            )
+
+            Text(
+                author,
+                color = colorResource(R.color.gray_700),
+                style = FillsaTheme.typography.body1,
+                textDecoration = TextDecoration.Underline
+            )
+
+            ShareBottomSection(
+                shareOnClick = {},
+                copyOnClick = {},
+                saveOnClick = {}
+            )
+
+        }
+    }
+
+}
+
+@Composable
+private fun ShareBottomSection(
+    saveOnClick: () -> Unit,
+    copyOnClick: () -> Unit,
+    shareOnClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(50.dp)
+    ) {
+        ShareButton(
+            image = painterResource(R.drawable.icn_download_circle),
+            text = stringResource(R.string.download),
+            onClick = {}
+        )
+
+        ShareButton(
+            image = painterResource(R.drawable.icn_copy_circle),
+            text = stringResource(R.string.copy),
+            onClick = {}
+        )
+
+        ShareButton(
+            image = painterResource(R.drawable.icn_kakao_circle),
+            text = stringResource(R.string.kakao_talk),
+            onClick = {}
+        )
+    }
+}
+
+@Composable
+private fun ShareButton(
+    image: Painter,
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .noEffectClickable { onClick() }, horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .background(color = Color.White, shape = CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+
+            Image(painter = image, contentDescription = null)
+        }
+
+        Text(
+            text,
+            color = Color.White,
+            style = FillsaTheme.typography.body3,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+}
+
+
+@Composable
+@Preview
+private fun ShareBottomSectionPreview() {
+    ShareBottomSection(
+        shareOnClick = {},
+        copyOnClick = {},
+        saveOnClick = {}
+    )
+}
+
+@Composable
+@Preview
+private fun ShareViewPreview() {
+    ShareView(
+        quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+        author = "존 우든"
+    )
+}
