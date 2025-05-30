@@ -31,4 +31,6 @@ dependencies {
     implementation(libs.logger)
 
     implementation(libs.hilt)
+
+    implementation(libs.datastore)
 }

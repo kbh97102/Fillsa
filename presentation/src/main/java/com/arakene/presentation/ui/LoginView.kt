@@ -16,6 +16,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -35,6 +38,7 @@ import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LoginAction
+import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.kakao.sdk.common.util.Utility
@@ -57,6 +61,22 @@ fun LoginView(
     val context = LocalContext.current
 
     val authService = remember { AuthorizationService(context) }
+
+    val effects by viewModel.effect.collectAsState(null)
+
+    // TODO: 추후에 다른 함수로 추출
+    LaunchedEffect(effects) {
+
+        effects ?: return@LaunchedEffect
+
+        when (effects) {
+            is LoginEffect.Move -> {
+                val data = effects as LoginEffect.Move
+                navigate(data.screen)
+            }
+        }
+
+    }
 
     val launcher =
         rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

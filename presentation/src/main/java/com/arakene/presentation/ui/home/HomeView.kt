@@ -32,6 +32,8 @@ fun HomeView(
 
     LaunchedEffect(Unit) {
         viewModel.getDailyQuotaNoToken("2025-05-29")
+
+        viewModel.testMethod()
     }
 
     val date by remember {

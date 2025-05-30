@@ -1,11 +1,13 @@
 package com.arakene.presentation.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.GetDailyQuotaNoTokenUseCase
+import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.HomeAction
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getDailyQuotaNoTokenUseCase: GetDailyQuotaNoTokenUseCase
+    private val getDailyQuotaNoTokenUseCase: GetDailyQuotaNoTokenUseCase,
+    private val getLoginStatusUseCase: GetLoginStatusUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -45,6 +48,14 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun testMethod() {
+        viewModelScope.launch {
+            getLoginStatusUseCase().also {
+                Log.e(">>>>", "Login $it")
+            }
+        }
     }
 
     fun getDailyQuotaNoToken(date: String) = viewModelScope.launch {
