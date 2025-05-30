@@ -16,6 +16,7 @@ import androidx.navigation.compose.rememberNavController
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.home.HomeView
+import com.arakene.presentation.ui.home.TypingQuoteBodySection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,32 +44,36 @@ class MainActivity : ComponentActivity() {
             }
 
             FillsaTheme {
-                Scaffold(
-                    bottomBar = {
-                        if (displayBottomBar) {
-                            BottomNavigationBar(navController)
-                        }
-                    }
-                ) { paddingValues ->
-                    NavHost(
-                        modifier = Modifier.padding(paddingValues),
-                        navController = navController,
-                        startDestination = Screens.Login
-                    ) {
+                TypingQuoteBodySection(
+                    quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+                )
 
-                        composable<Screens.Login> {
-                            LoginView(
-                                navigate = {
-                                    navController.navigate(it)
-                                }
-                            )
-                        }
-
-                        composable<Screens.Home> {
-                            HomeView()
-                        }
-                    }
-                }
+//                Scaffold(
+//                    bottomBar = {
+//                        if (displayBottomBar) {
+//                            BottomNavigationBar(navController)
+//                        }
+//                    }
+//                ) { paddingValues ->
+//                    NavHost(
+//                        modifier = Modifier.padding(paddingValues),
+//                        navController = navController,
+//                        startDestination = Screens.Login
+//                    ) {
+//
+//                        composable<Screens.Login> {
+//                            LoginView(
+//                                navigate = {
+//                                    navController.navigate(it)
+//                                }
+//                            )
+//                        }
+//
+//                        composable<Screens.Home> {
+//                            HomeView()
+//                        }
+//                    }
+//                }
             }
         }
     }

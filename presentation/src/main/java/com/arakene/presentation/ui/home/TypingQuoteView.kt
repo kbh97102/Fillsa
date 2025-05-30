@@ -9,14 +9,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.R
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun TypingQuoteView(
-    quote: String,
-    author: String
+    data: DailyQuoteDto
 ) {
 
     Column {
@@ -24,7 +24,6 @@ fun TypingQuoteView(
     }
 
 }
-
 
 @Composable
 private fun TypingQuoteTopSection(
