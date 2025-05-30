@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.DailyQuoteDto
-import com.arakene.domain.usecase.GetDailyQuotaNoTokenUseCase
+import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
-    private val getDailyQuotaNoTokenUseCase: GetDailyQuotaNoTokenUseCase,
+    private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase
 ) : BaseViewModel() {
 
@@ -43,9 +43,24 @@ class HomeViewModel @Inject constructor(
                 getDailyQuotaNoToken(convertDate(date.value))
             }
 
+            is HomeAction.Refresh -> {
+
+            }
+
             else -> {
 
             }
+        }
+
+    }
+
+    private fun refresh() = viewModelScope.launch {
+        val isLogged = getLoginStatusUseCase()
+
+        if (isLogged) {
+
+        } else {
+            getDailyQuotaNoToken(convertDate(date.value))
         }
 
     }
@@ -59,7 +74,7 @@ class HomeViewModel @Inject constructor(
     }
 
     fun getDailyQuotaNoToken(date: String) = viewModelScope.launch {
-        getResponse(getDailyQuotaNoTokenUseCase(date))?.let {
+        getResponse(getDailyQuoteNoTokenUseCase(date))?.let {
             currentQuota = DailyQuoteDto(
                 likeYn = "N",
                 imagePath = "",

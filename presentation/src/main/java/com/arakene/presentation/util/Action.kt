@@ -23,4 +23,5 @@ sealed interface LoginAction : Action {
 sealed interface HomeAction: Action {
     data object ClickNext: HomeAction
     data object ClickBefore: HomeAction
+    data object Refresh: HomeAction
 }

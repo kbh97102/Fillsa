@@ -1,13 +1,13 @@
-package com.arakene.domain.usecase
+package com.arakene.domain.usecase.home
 
 import com.arakene.domain.repository.HomeRepository
 import javax.inject.Inject
 
-class GetDailyQuotaNoTokenUseCase @Inject constructor(
+class GetDailyQuoteNoTokenUseCase @Inject constructor(
     private val homeRepository: HomeRepository
 ) {
 
     suspend operator fun invoke(quotaDate: String) =
-        homeRepository.getDailyQuotaNoToken(quotaDate)
+        homeRepository.getDailyQuoteNoToken(quotaDate)
 
 }
