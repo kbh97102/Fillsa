@@ -6,5 +6,5 @@ interface LocalRepository {
     suspend fun getAccessToken(): String
     suspend fun setRefreshToken(token: String)
     suspend fun getRefreshToken(): String
-
+    suspend fun getLoginStatus(): Boolean
 }

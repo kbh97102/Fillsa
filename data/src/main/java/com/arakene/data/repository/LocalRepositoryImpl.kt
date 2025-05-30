@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import com.arakene.data.util.DataStoreKey
 import com.arakene.domain.repository.LocalRepository
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
@@ -30,5 +31,12 @@ class LocalRepositoryImpl @Inject constructor(
 
     override suspend fun getRefreshToken(): String {
         return dataStore.data.firstOrNull()?.get(DataStoreKey.REFRESH_TOKEN) ?: ""
+    }
+
+    override suspend fun getLoginStatus(): Boolean {
+        val access = getAccessToken()
+        val refresh = getRefreshToken()
+
+        return access.isNotEmpty() && refresh.isNotEmpty()
     }
 }
