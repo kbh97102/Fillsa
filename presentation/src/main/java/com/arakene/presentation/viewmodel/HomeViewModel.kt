@@ -11,7 +11,10 @@ import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
+import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HomeAction
+import com.arakene.presentation.util.HomeEffect
+import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
@@ -53,11 +56,26 @@ class HomeViewModel @Inject constructor(
                 refresh()
             }
 
+            is HomeAction.ClickImage -> {
+                clickImage(homeAction)
+            }
+
             else -> {
 
             }
         }
 
+    }
+
+    private fun clickImage(action: HomeAction.ClickImage) {
+        if (!action.isLogged) {
+            emitEffect(CommonEffect.Move(Screens.Login))
+        } else {
+            emitEffect(HomeEffect.OpenImageDialog(
+                quote = action.quote,
+                author = action.author
+            ))
+        }
     }
 
     private fun refresh() = viewModelScope.launch {
@@ -69,14 +87,6 @@ class HomeViewModel @Inject constructor(
             getDailyQuote(convertedDate)
         } else {
             getDailyQuoteNoToken(convertedDate)
-        }
-    }
-
-    fun testMethod() {
-        viewModelScope.launch {
-            getLoginStatusUseCase().also {
-                Log.e(">>>>", "Login $it")
-            }
         }
     }
 

@@ -27,15 +27,20 @@ import androidx.compose.ui.window.DialogProperties
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun ImageDialog(
-
+    quote: String,
+    author: String,
+    onDismiss: () -> Unit
 ) {
 
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
-        onDismissRequest = {}
+        onDismissRequest = {
+            onDismiss()
+        }
     ) {
 
         Box(
@@ -58,7 +63,11 @@ fun ImageDialog(
             ) {
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(painterResource(R.drawable.icn_close_black), contentDescription = null)
+                    Image(
+                        painterResource(R.drawable.icn_close_black), contentDescription = null,
+                        modifier = Modifier.noEffectClickable {
+                            onDismiss()
+                        })
 
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
@@ -70,7 +79,7 @@ fun ImageDialog(
                 }
 
                 Text(
-                    "명언명언명언명언명언명언",
+                    quote,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 90.dp),
@@ -80,7 +89,7 @@ fun ImageDialog(
                 )
 
                 Text(
-                    "저자저ㅏㅈ저자저자",
+                    author,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp),
@@ -109,7 +118,7 @@ fun ImageDialog(
                     Button(
                         shape = MaterialTheme.shapes.small,
                         colors = MaterialTheme.colorScheme.defaultButtonColors,
-                        onClick = {},
+                        onClick = onDismiss,
                         contentPadding = PaddingValues(vertical = 15.dp),
                         modifier = Modifier
                             .weight(1f)
@@ -136,6 +145,10 @@ fun ImageDialog(
 @Preview
 private fun ImageDialogPreview() {
     FillsaTheme {
-        ImageDialog()
+        ImageDialog(
+            quote = "123123123123",
+            author = "asdfasdf",
+            onDismiss = {}
+        )
     }
 }
