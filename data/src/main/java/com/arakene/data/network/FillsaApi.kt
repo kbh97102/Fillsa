@@ -12,11 +12,6 @@ import retrofit2.http.Query
 
 interface FillsaApi {
 
-    @POST(ApiEndPoint.LOGIN)
-    suspend fun login(
-        @Body loginRequest: LoginRequest
-    ): Response<LoginResponse>
-
     @GET(ApiEndPoint.GET_DAILY_QUOTE)
     suspend fun getDailyQuote(
         @Query("quoteDate") quoteDate: String
