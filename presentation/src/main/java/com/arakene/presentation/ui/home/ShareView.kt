@@ -11,13 +11,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,13 +31,20 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.LocalSnackbarHost
+import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun ShareView(
     quote: String,
-    author: String
+    author: String,
+    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
+
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val clipBoard = LocalClipboard.current
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -84,9 +95,15 @@ fun ShareView(
             }
 
             ShareBottomSection(
-                shareOnClick = {},
-                copyOnClick = {},
-                saveOnClick = {},
+                shareOnClick = {
+                    // TODO: 카톡 공유
+                },
+                copyOnClick = {
+                    copyToClipboard(context, scope, clipBoard, snackbarHostState, quote, author)
+                },
+                saveOnClick = {
+                    // TODO: 이미지 저장
+                },
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
                     .padding(bottom = 50.dp)
