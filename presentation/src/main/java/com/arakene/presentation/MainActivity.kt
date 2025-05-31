@@ -116,7 +116,10 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 val data = it.toRoute<Screens.DailyQuote>()
                                 TypingQuoteView(
-                                    data.dailyQuoteDto
+                                    data.dailyQuoteDto,
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
                                 )
                             }
 

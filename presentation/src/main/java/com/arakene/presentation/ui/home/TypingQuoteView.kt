@@ -26,16 +26,24 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocaleType
+import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.noEffectClickable
+import com.arakene.presentation.viewmodel.TypingViewModel
 
 @Composable
 fun TypingQuoteView(
-    data: DailyQuoteDto
+    data: DailyQuoteDto,
+    navigate: (Screens) -> Unit,
+    viewModel: TypingViewModel = hiltViewModel()
 ) {
 
     var write by remember {
@@ -44,6 +52,21 @@ fun TypingQuoteView(
 
     var localeType by remember {
         mutableStateOf(LocaleType.KOR)
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    HandleViewEffect(
+        viewModel.effect,
+        lifecycleOwner = lifecycleOwner
+    ) {
+
+        when (it) {
+            is CommonEffect.Move -> {
+                navigate(it.screen)
+            }
+        }
+
     }
 
     Column(modifier = Modifier.background(Color.White)) {
@@ -187,6 +210,7 @@ private fun TypingQuoteViewPreview() {
     TypingQuoteView(
         DailyQuoteDto(
             quote = "Live as if you were to die tomorrow."
-        )
+        ),
+        navigate = {}
     )
 }

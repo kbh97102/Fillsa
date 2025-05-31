@@ -28,3 +28,8 @@ sealed interface HomeAction: Action {
     data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
     data class ClickShare(val quote: String, val author: String): HomeAction
 }
+
+sealed interface TypingAction: Action{
+    // TODO: 공통으로?
+    data class ClickShare(val quote: String, val author: String): TypingAction
+}
