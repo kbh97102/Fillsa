@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,14 +20,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeAction
+import com.arakene.presentation.util.HomeEffect
+import com.arakene.presentation.util.ImageDialogDataHolder
 import com.arakene.presentation.util.LocaleType
+import com.arakene.presentation.util.Screens
 import com.arakene.presentation.viewmodel.HomeViewModel
 
 @Composable
 fun HomeView(
+    navigate: (Screens) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
 
@@ -34,6 +42,8 @@ fun HomeView(
         // TODO: 여기서 해야할까?
         viewModel.handleContract(HomeAction.Refresh)
     }
+
+    val isLogged by viewModel.isLogged.collectAsState(false)
 
     val date by remember {
         viewModel.date
@@ -43,7 +53,7 @@ fun HomeView(
         mutableStateOf(LocaleType.KOR)
     }
 
-    val quota by remember(viewModel.currentQuota, selectedLocale) {
+    val quote by remember(viewModel.currentQuota, selectedLocale) {
         mutableStateOf(
             if (selectedLocale == LocaleType.KOR) {
                 viewModel.currentQuota.korQuote ?: ""
@@ -63,6 +73,32 @@ fun HomeView(
         )
     }
 
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val imageDialogDataHolder = remember {
+        ImageDialogDataHolder()
+    }
+
+    HandleViewEffect(
+        viewModel.effect,
+        lifecycleOwner = lifecycleOwner
+    ) {
+        when (it) {
+            is CommonEffect.Move -> {
+                navigate(it.screen)
+            }
+
+            is HomeEffect.OpenImageDialog -> {
+                imageDialogDataHolder.apply {
+                    this.quote = it.quote
+                    this.author = it.author
+                }.run {
+                    show = true
+                }
+            }
+        }
+    }
+
     val isLike by remember {
         viewModel.isLike
     }
@@ -73,6 +109,16 @@ fun HomeView(
             .background(MaterialTheme.colorScheme.primary)
             .padding(horizontal = 20.dp)
     ) {
+
+        if (imageDialogDataHolder.show) {
+            ImageDialog(
+                author = imageDialogDataHolder.author,
+                quote = imageDialogDataHolder.quote,
+                onDismiss = {
+                    imageDialogDataHolder.show = false
+                }
+            )
+        }
 
         HomeTopSection()
 
@@ -87,8 +133,17 @@ fun HomeView(
             )
 
             ImageSection(
-                isLogged = false,
-                modifier = Modifier.weight(1f)
+                isLogged = isLogged,
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    viewModel.handleContract(
+                        HomeAction.ClickImage(
+                            isLogged = isLogged,
+                            author = author,
+                            quote = quote
+                        )
+                    )
+                }
             )
         }
 
@@ -103,7 +158,7 @@ fun HomeView(
         }
 
         DailyQuotaSection(
-            text = quota,
+            text = quote,
             author = author,
             next = {
                 viewModel.handleContract(HomeAction.ClickNext)
@@ -137,6 +192,8 @@ fun HomeView(
 @Composable
 private fun HomeViewPreview() {
     FillsaTheme {
-        HomeView()
+        HomeView(
+            navigate = {}
+        )
     }
 }

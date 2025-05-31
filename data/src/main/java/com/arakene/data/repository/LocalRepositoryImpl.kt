@@ -7,6 +7,7 @@ import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.LocalRepository
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
@@ -35,10 +36,10 @@ class LocalRepositoryImpl @Inject constructor(
         return dataStore.data.firstOrNull()?.get(DataStoreKey.REFRESH_TOKEN) ?: ""
     }
 
-    override suspend fun getLoginStatus(): Boolean {
+    override fun getLoginStatus() = flow {
         val access = getAccessToken()
         val refresh = getRefreshToken()
 
-        return access.isNotEmpty() && refresh.isNotEmpty()
+        emit(access.isNotEmpty() && refresh.isNotEmpty())
     }
 }

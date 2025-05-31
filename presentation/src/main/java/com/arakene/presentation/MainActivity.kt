@@ -67,7 +67,11 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable<Screens.Home> {
-                            HomeView()
+                            HomeView(
+                                navigate = {
+                                    navController.navigate(it)
+                                }
+                            )
                         }
 
                         composable<Screens.DailyQuote> {

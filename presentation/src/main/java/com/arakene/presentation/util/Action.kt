@@ -16,7 +16,6 @@ sealed interface LoginAction : Action {
         val refreshTokenExpiresIn: String? = null,
         val expiresIn: String? = null
     ) : LoginAction
-
 }
 
 
@@ -26,4 +25,5 @@ sealed interface HomeAction: Action {
     data object Refresh: HomeAction
     data object ClickLike: HomeAction
     data object ClickQuote: HomeAction
+    data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
 }

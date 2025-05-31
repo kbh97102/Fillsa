@@ -1,5 +1,6 @@
 package com.arakene.presentation.viewmodel
 
+
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -14,9 +15,11 @@ import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HomeAction
+import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.YN
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -32,6 +35,8 @@ class HomeViewModel @Inject constructor(
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+    val isLogged = getLoginStatusUseCase()
+
     val date = mutableStateOf(LocalDate.now())
 
     var currentQuota by mutableStateOf(DailyQuoteDto())
@@ -39,9 +44,7 @@ class HomeViewModel @Inject constructor(
     var isLike = mutableStateOf(false)
 
     override fun handleAction(action: Action) {
-        val homeAction = action as HomeAction
-
-        when (homeAction) {
+        when (val homeAction = action as HomeAction) {
             is HomeAction.ClickBefore -> {
                 date.value = date.value.minusDays(1)
                 refresh()
@@ -56,6 +59,10 @@ class HomeViewModel @Inject constructor(
                 refresh()
             }
 
+            is HomeAction.ClickImage -> {
+                clickImage(homeAction)
+            }
+
             is HomeAction.ClickLike -> {
                 postLike()
             }
@@ -65,6 +72,20 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+    }
+
+
+    private fun clickImage(action: HomeAction.ClickImage) {
+        if (!action.isLogged) {
+            emitEffect(CommonEffect.Move(Screens.Login))
+        } else {
+            emitEffect(
+                HomeEffect.OpenImageDialog(
+                    quote = action.quote,
+                    author = action.author
+                )
+            )
+        }
     }
 
     private fun postLike() = viewModelScope.launch {
@@ -82,7 +103,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun refresh() = viewModelScope.launch {
-        val isLogged = getLoginStatusUseCase()
+        val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
         val convertedDate = convertDate(date.value)
 
         if (isLogged) {
