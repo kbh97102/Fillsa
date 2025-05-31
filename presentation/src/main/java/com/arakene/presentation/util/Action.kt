@@ -25,4 +25,5 @@ sealed interface HomeAction: Action {
     data object ClickBefore: HomeAction
     data object Refresh: HomeAction
     data object ClickLike: HomeAction
+    data object ClickQuote: HomeAction
 }

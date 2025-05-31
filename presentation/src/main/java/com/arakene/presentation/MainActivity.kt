@@ -13,9 +13,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.home.HomeView
+import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,6 +68,13 @@ class MainActivity : ComponentActivity() {
 
                         composable<Screens.Home> {
                             HomeView()
+                        }
+
+                        composable<Screens.DailyQuote> {
+                            val data = it.toRoute<Screens.DailyQuote>()
+                            TypingQuoteView(
+                                data.dailyQuoteDto
+                            )
                         }
                     }
                 }

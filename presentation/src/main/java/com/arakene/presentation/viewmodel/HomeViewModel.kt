@@ -12,7 +12,9 @@ import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
+import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HomeAction
+import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.YN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

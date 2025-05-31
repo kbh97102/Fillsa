@@ -111,6 +111,9 @@ fun HomeView(
             before = {
                 viewModel.handleContract(HomeAction.ClickBefore)
             },
+            navigate = {
+                viewModel.handleContract(HomeAction.ClickQuote)
+            },
             modifier = Modifier.padding(top = 20.dp)
         )
 

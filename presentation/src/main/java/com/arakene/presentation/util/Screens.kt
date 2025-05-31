@@ -1,5 +1,6 @@
 package com.arakene.presentation.util
 
+import com.arakene.domain.responses.DailyQuoteDto
 import kotlinx.serialization.Serializable
 
 sealed interface Screens {
@@ -34,5 +35,13 @@ sealed interface Screens {
     data object MyPage: Screens {
         override val routeString: String
             get() = "My page"
+    }
+
+    @Serializable
+    data class DailyQuote(
+        val dailyQuoteDto: DailyQuoteDto
+    ): Screens {
+        override val routeString: String
+            get() = "DailyQuote"
     }
 }
