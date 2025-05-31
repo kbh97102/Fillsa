@@ -15,4 +15,5 @@
     <string name="download">저장</string>
     <string name="copy">복사</string>
     <string name="kakao_talk">카카오톡</string>
+    <string name="copied">복사되었습니다.</string>
 </resources>
