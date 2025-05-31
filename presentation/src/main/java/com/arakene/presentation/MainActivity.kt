@@ -1,6 +1,5 @@
 package com.arakene.presentation
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +9,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -24,8 +22,8 @@ import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.serialization.json.Json
 import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
@@ -38,21 +36,16 @@ class MainActivity : ComponentActivity() {
 
             val currentDestination by navController.currentBackStackEntryAsState()
 
-            val notAllowList = remember {
-                listOf(Screens.Login::class.qualifiedName)
-            }
-
             val displayBottomBar by remember(currentDestination) {
                 mutableStateOf(
-                    notAllowList.none {
-                        it == (currentDestination?.destination?.route ?: "")
-                    }
+                    shouldShowBottomBar(currentDestination?.destination?.route)
                 )
             }
 
             FillsaTheme {
                 Scaffold(
                     bottomBar = {
+                        logDebug("bottomBar $displayBottomBar")
                         if (displayBottomBar) {
                             BottomNavigationBar(navController)
                         }
@@ -81,7 +74,7 @@ class MainActivity : ComponentActivity() {
                         }
 
                         composable<Screens.DailyQuote>(
-                            typeMap =  mapOf(
+                            typeMap = mapOf(
                                 typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
                             )
                         ) {
@@ -94,5 +87,14 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun shouldShowBottomBar(route: String?): Boolean {
+        return route?.substringBefore("/") in setOf(
+            Screens.Home::class.qualifiedName,
+            Screens.List::class.qualifiedName,
+            Screens.Calendar::class.qualifiedName,
+            Screens.MyPage::class.qualifiedName
+        )
     }
 }
