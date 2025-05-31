@@ -82,7 +82,7 @@ fun TypingQuoteView(
                 shareOnClick = {},
                 copyOnClick = {},
                 like = false,
-                setLike = {}
+                setLike = {},
             )
 
         }
