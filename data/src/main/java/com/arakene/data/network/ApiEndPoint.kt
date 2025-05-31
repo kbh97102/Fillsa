@@ -7,4 +7,6 @@ object ApiEndPoint {
     const val GET_DAILY_QUOTE_NON_MEMBER = "/api/v1/quotes/daily"
 
     const val GET_DAILY_QUOTE = "/api/v1/member-quotes/daily"
+
+    const val POST_LIKE = "/api/v1/member-quotes/{dailyQuoteSeq}/like"
 }
