@@ -147,12 +147,12 @@ private fun TypingQuoteTopSection(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 7.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
-        // TODO: 이미지 간격 수정요청했으니 반영되면 아이콘 수정
         Image(
-            painterResource(R.drawable.icn_arrow_circle),
+            painterResource(R.drawable.icn_arrow),
             contentDescription = null,
             modifier = Modifier.noEffectClickable {
                 onBackClick()
