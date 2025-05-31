@@ -1,8 +1,13 @@
 package com.arakene.presentation.util
 
 import android.content.ClipData
+import android.content.ContentValues
 import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.SnackbarHostState
@@ -24,6 +29,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.io.OutputStream
 
 @Composable
 fun Modifier.noEffectClickable(enable: Boolean = true, click: () -> Unit) = this.clickable(
@@ -69,4 +75,26 @@ fun copyToClipboard(
             snackbarHostState.showSnackbar(context.getString(R.string.copied))
         }
     }
+}
+
+fun saveBitmapToGallery(context: Context, bitmap: Bitmap): Uri? {
+    val filename = "quote_${System.currentTimeMillis()}.jpg"
+    val fos: OutputStream
+
+    val contentValues = ContentValues().apply {
+        put(MediaStore.Images.Media.DISPLAY_NAME, filename)
+        put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg")
+        put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/MyQuotes")
+    }
+
+    val contentResolver = context.contentResolver
+    val uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues)
+        ?: return null
+
+    fos = contentResolver.openOutputStream(uri) ?: return null
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
+    fos.flush()
+    fos.close()
+
+    return uri
 }
