@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +39,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
+import com.arakene.presentation.util.saveBitmapToCache
 import com.arakene.presentation.util.saveBitmapToGallery
 import kotlinx.coroutines.launch
 
@@ -53,6 +55,7 @@ fun ShareView(
     val clipBoard = LocalClipboard.current
 
     val graphicLayer = rememberGraphicsLayer()
+
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -116,6 +119,21 @@ fun ShareView(
             ShareBottomSection(
                 shareOnClick = {
                     // TODO: 카톡 공유
+                    scope.launch {
+                        val uri = saveBitmapToCache(context, graphicLayer.toImageBitmap().asAndroidBitmap())
+
+                        val intent = Intent(Intent.ACTION_SEND).apply {
+                            type = "image/png"
+                            putExtra(Intent.EXTRA_STREAM, uri)
+                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        }
+
+                        context.startActivity(
+                            Intent.createChooser(intent, "이미지 공유")
+                        )
+
+                    }
+
                 },
                 copyOnClick = {
                     copyToClipboard(context, scope, clipBoard, snackbarHostState, quote, author)
@@ -136,7 +154,6 @@ fun ShareView(
                         } else {
                             snackbarHostState.showSnackbar("저장 실패")
                         }
-
                     }
 
                 },
