@@ -44,4 +44,13 @@ sealed interface Screens {
         override val routeString: String
             get() = "DailyQuote"
     }
+
+    @Serializable
+    data class Share(
+        val quote: String,
+        val author: String
+    ): Screens {
+        override val routeString: String
+            get() = "Share"
+    }
 }

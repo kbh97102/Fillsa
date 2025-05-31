@@ -27,6 +27,7 @@ import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.home.HomeView
+import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
@@ -118,6 +119,15 @@ class MainActivity : ComponentActivity() {
                                     data.dailyQuoteDto
                                 )
                             }
+
+                            composable<Screens.Share> {
+                                val data = it.toRoute<Screens.Share>()
+                                ShareView(
+                                    quote = data.quote,
+                                    author = data.author
+                                )
+                            }
+
                         }
                     }
                 }
