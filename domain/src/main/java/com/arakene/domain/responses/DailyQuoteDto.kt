@@ -2,8 +2,11 @@ package com.arakene.domain.responses
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
+
 
 @Keep
+@Serializable
 data class DailyQuoteDto(
     @SerializedName("likeYn")
     val likeYn: String,
@@ -37,6 +40,17 @@ data class DailyQuoteDto(
         korQuote = "",
         engQuote = "",
         korAuthor = "",
+        engAuthor = "",
+        authorUrl = ""
+    )
+
+    constructor(quote: String, author: String = "") : this(
+        likeYn = "",
+        imagePath = "",
+        dailyQuoteSeq = 0,
+        korQuote = quote,
+        engQuote = "",
+        korAuthor = author,
         engAuthor = "",
         authorUrl = ""
     )

@@ -7,6 +7,6 @@ class GetLoginStatusUseCase @Inject constructor(
     private val localRepository: LocalRepository
 ) {
 
-    suspend operator fun invoke() = localRepository.getLoginStatus()
+    operator fun invoke() = localRepository.getLoginStatus()
 
 }

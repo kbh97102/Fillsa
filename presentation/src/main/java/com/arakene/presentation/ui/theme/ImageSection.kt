@@ -17,17 +17,23 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.arakene.presentation.R
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun ImageSection(
     isLogged: Boolean,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     Box(
         modifier = modifier
             .aspectRatio(155/120f)
-            .clip(MaterialTheme.shapes.medium),
+            .clip(MaterialTheme.shapes.medium)
+            .noEffectClickable {
+                onClick()
+            }
+        ,
         contentAlignment = Alignment.Center
     ) {
 
@@ -39,18 +45,18 @@ fun ImageSection(
             modifier = Modifier.matchParentSize()
         )
 
-        // Image
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .background(
-                    colorResource(R.color.black_0c).copy(alpha = 0.6f),
-                    shape = MaterialTheme.shapes.medium
-                ),
-        )
-
         if (!isLogged) {
-            Image(painterResource(R.drawable.icn_lock), contentDescription = null)
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .background(
+                        colorResource(R.color.black_0c).copy(alpha = 0.6f),
+                        shape = MaterialTheme.shapes.medium
+                    ),
+                contentAlignment = Alignment.Center
+            ) {
+                Image(painterResource(R.drawable.icn_lock), contentDescription = null)
+            }
         }
 
     }
@@ -62,6 +68,7 @@ fun ImageSection(
 @Composable
 private fun ImageSectionPreview() {
     ImageSection(
-        isLogged = false
+        isLogged = false,
+        onClick = {}
     )
 }
