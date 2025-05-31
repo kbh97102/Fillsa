@@ -4,8 +4,10 @@ import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.util.safeApi
 import com.arakene.domain.repository.HomeRepository
+import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.SimpleIntResponse
 import com.arakene.domain.util.ApiResult
 import javax.inject.Inject
 
@@ -13,6 +15,15 @@ class HomeRepositoryImpl @Inject constructor(
     private val nonTokenApi: FillsaNoTokenApi,
     private val api: FillsaApi
 ): HomeRepository{
+
+    override suspend fun postLike(
+        likeRequest: LikeRequest,
+        dailyQuoteSeq: Int
+    ): ApiResult<SimpleIntResponse> {
+        return safeApi {
+            api.postLike(dailyQuoteSeq, likeRequest)
+        }
+    }
 
     override suspend fun getDailyQuoteNoToken(quoteDate: String): ApiResult<DailyQuotaNoToken> {
         return safeApi {
