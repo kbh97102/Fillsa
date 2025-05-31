@@ -63,7 +63,7 @@ fun HomeView(
         )
     }
 
-    val isLike = remember {
+    val isLike by remember {
         viewModel.isLike
     }
 

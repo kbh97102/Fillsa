@@ -4,10 +4,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
+import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
+import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.HomeAction
@@ -23,6 +25,7 @@ class HomeViewModel @Inject constructor(
     private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
     private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
+    private val postLikeUseCase: PostLikeUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -31,7 +34,7 @@ class HomeViewModel @Inject constructor(
 
     var currentQuota by mutableStateOf(DailyQuoteDto())
 
-    var isLike by mutableStateOf(false)
+    var isLike = mutableStateOf(false)
 
     override fun handleAction(action: Action) {
         val homeAction = action as HomeAction
@@ -39,12 +42,12 @@ class HomeViewModel @Inject constructor(
         when (homeAction) {
             is HomeAction.ClickBefore -> {
                 date.value = date.value.minusDays(1)
-                getDailyQuoteNoToken(convertDate(date.value))
+                refresh()
             }
 
             is HomeAction.ClickNext -> {
                 date.value = date.value.plusDays(1)
-                getDailyQuoteNoToken(convertDate(date.value))
+                refresh()
             }
 
             is HomeAction.Refresh -> {
@@ -52,7 +55,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickLike -> {
-                isLike = !isLike
+                postLike()
             }
 
             else -> {
@@ -60,6 +63,20 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+    }
+
+    private fun postLike() = viewModelScope.launch {
+        isLike.value = !isLike.value
+        postLikeUseCase(
+            LikeRequest(
+                if (isLike.value) {
+                    YN.Y.type
+                } else {
+                    YN.N.type
+                }
+            ),
+            dailyQuoteSeq = currentQuota.dailyQuoteSeq
+        )
     }
 
     private fun refresh() = viewModelScope.launch {
@@ -76,7 +93,7 @@ class HomeViewModel @Inject constructor(
     private fun getDailyQuote(date: String) = viewModelScope.launch {
         getResponse(getDailyQuoteUseCase(date))?.let {
             currentQuota = it
-            isLike = it.likeYn == YN.Y.type
+            isLike.value = it.likeYn == YN.Y.type
         }
     }
 
