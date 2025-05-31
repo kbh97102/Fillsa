@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -11,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
@@ -22,7 +24,10 @@ import com.arakene.presentation.util.noEffectClickable
 fun LocaleSwitch(
     selected: LocaleType,
     setSelected: (LocaleType) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = FillsaTheme.typography.buttonXSmallBold,
+    rootPadding: PaddingValues = PaddingValues(horizontal = 3.dp, vertical = 4.dp),
+    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
 ) {
 
     Row(
@@ -31,7 +36,7 @@ fun LocaleSwitch(
                 color = colorResource(R.color.purple02),
                 shape = RoundedCornerShape(99.dp)
             )
-            .padding(horizontal = 3.dp, vertical = 4.dp)
+            .padding(rootPadding)
             .noEffectClickable {
                 setSelected(
                     if (selected == LocaleType.ENG) {
@@ -46,12 +51,16 @@ fun LocaleSwitch(
 
         LocaleItem(
             stringResource(R.string.locale_type_kor),
-            selected = selected == LocaleType.KOR
+            selected = selected == LocaleType.KOR,
+            textStyle = textStyle,
+            contentPadding = contentPadding
         )
 
         LocaleItem(
             stringResource(R.string.locale_type_eng),
-            selected = selected == LocaleType.ENG
+            selected = selected == LocaleType.ENG,
+            textStyle = textStyle,
+            contentPadding = contentPadding
         )
 
     }
@@ -62,11 +71,13 @@ fun LocaleSwitch(
 private fun LocaleItem(
     type: String,
     selected: Boolean,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textStyle: TextStyle = FillsaTheme.typography.buttonXSmallBold,
+    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
 ) {
     Text(
         type,
-        style = FillsaTheme.typography.buttonXSmallBold,
+        style = textStyle,
         color = colorResource(R.color.gray_700),
         modifier = modifier
             .background(
@@ -74,7 +85,7 @@ private fun LocaleItem(
                 else Color.Transparent,
                 shape = RoundedCornerShape(99.dp)
             )
-            .padding(horizontal = 8.dp, vertical = 2.dp)
+            .padding(contentPadding)
     )
 }
 

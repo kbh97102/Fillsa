@@ -99,6 +99,10 @@ fun HomeView(
         }
     }
 
+    val isLike by remember {
+        viewModel.isLike
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -165,11 +169,13 @@ fun HomeView(
             modifier = Modifier.padding(top = 20.dp)
         )
 
-        HomeBottomSection(
+        InteractionButtonSection(
             copy = {},
             share = {},
-            isLike = false,
-            setIsLike = {},
+            isLike = isLike,
+            setIsLike = {
+                viewModel.handleContract(HomeAction.ClickLike)
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 28.dp)

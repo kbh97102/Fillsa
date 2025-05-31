@@ -11,4 +11,8 @@
     <string name="delete">삭제하기</string>
     <string name="ok">확인</string>
     <string name="change_image">이미지 변경</string>
+    <string name="out">나가기</string>
+    <string name="download">저장</string>
+    <string name="copy">복사</string>
+    <string name="kakao_talk">카카오톡</string>
 </resources>
