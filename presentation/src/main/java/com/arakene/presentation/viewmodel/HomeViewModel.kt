@@ -1,18 +1,17 @@
 package com.arakene.presentation.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.DailyQuoteDto
-import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.HomeAction
-import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.YN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -32,6 +31,8 @@ class HomeViewModel @Inject constructor(
 
     var currentQuota by mutableStateOf(DailyQuoteDto())
 
+    var isLike by mutableStateOf(false)
+
     override fun handleAction(action: Action) {
         val homeAction = action as HomeAction
 
@@ -50,6 +51,10 @@ class HomeViewModel @Inject constructor(
                 refresh()
             }
 
+            is HomeAction.ClickLike -> {
+                isLike = !isLike
+            }
+
             else -> {
 
             }
@@ -60,7 +65,6 @@ class HomeViewModel @Inject constructor(
     private fun refresh() = viewModelScope.launch {
         val isLogged = getLoginStatusUseCase()
         val convertedDate = convertDate(date.value)
-        logDebug("logged? $isLogged")
 
         if (isLogged) {
             getDailyQuote(convertedDate)
@@ -69,17 +73,10 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun testMethod() {
-        viewModelScope.launch {
-            getLoginStatusUseCase().also {
-                Log.e(">>>>", "Login $it")
-            }
-        }
-    }
-
     private fun getDailyQuote(date: String) = viewModelScope.launch {
         getResponse(getDailyQuoteUseCase(date))?.let {
             currentQuota = it
+            isLike = it.likeYn == YN.Y.type
         }
     }
 
