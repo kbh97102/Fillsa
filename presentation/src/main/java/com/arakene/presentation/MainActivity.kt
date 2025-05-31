@@ -9,6 +9,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,7 +30,9 @@ import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
+import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.typeOf
@@ -54,6 +59,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
 
+            val snackbarHostState = remember { SnackbarHostState() }
+
             val navController = rememberNavController()
 
             val currentDestination by navController.currentBackStackEntryAsState()
@@ -65,45 +72,52 @@ class MainActivity : ComponentActivity() {
             }
 
             FillsaTheme {
-                Scaffold(
-                    bottomBar = {
-                        logDebug("bottomBar $displayBottomBar")
-                        if (displayBottomBar) {
-                            BottomNavigationBar(navController)
+                CompositionLocalProvider(LocalSnackbarHost provides snackbarHostState) {
+                    Scaffold(
+                        snackbarHost = {
+                            SnackbarHost(snackbarHostState) {
+                                SnackbarContent(message = it.visuals.message)
+                            }
+                        },
+                        bottomBar = {
+                            logDebug("bottomBar $displayBottomBar")
+                            if (displayBottomBar) {
+                                BottomNavigationBar(navController)
+                            }
                         }
-                    }
-                ) { paddingValues ->
-                    NavHost(
-                        modifier = Modifier.padding(paddingValues),
-                        navController = navController,
-                        startDestination = Screens.Login,
-                    ) {
-
-                        composable<Screens.Login> {
-                            LoginView(
-                                navigate = {
-                                    navController.navigate(it)
-                                }
-                            )
-                        }
-
-                        composable<Screens.Home> {
-                            HomeView(
-                                navigate = {
-                                    navController.navigate(it)
-                                }
-                            )
-                        }
-
-                        composable<Screens.DailyQuote>(
-                            typeMap = mapOf(
-                                typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
-                            )
+                    ) { paddingValues ->
+                        NavHost(
+                            modifier = Modifier.padding(paddingValues),
+                            navController = navController,
+                            startDestination = Screens.Login,
                         ) {
-                            val data = it.toRoute<Screens.DailyQuote>()
-                            TypingQuoteView(
-                                data.dailyQuoteDto
-                            )
+
+                            composable<Screens.Login> {
+                                LoginView(
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
+                                )
+                            }
+
+                            composable<Screens.Home> {
+                                HomeView(
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
+                                )
+                            }
+
+                            composable<Screens.DailyQuote>(
+                                typeMap = mapOf(
+                                    typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
+                                )
+                            ) {
+                                val data = it.toRoute<Screens.DailyQuote>()
+                                TypingQuoteView(
+                                    data.dailyQuoteDto
+                                )
+                            }
                         }
                     }
                 }

@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.home
 
 import android.content.ClipData
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,10 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
@@ -32,6 +36,7 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.ImageDialogDataHolder
+import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.viewmodel.HomeViewModel
@@ -40,13 +45,16 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeView(
     navigate: (Screens) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel()
+    viewModel: HomeViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
 
     LaunchedEffect(Unit) {
         // TODO: 여기서 해야할까?
         viewModel.handleContract(HomeAction.Refresh)
     }
+
+    val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
 
@@ -191,6 +199,9 @@ fun HomeView(
                             ClipData.newPlainText(copyText, copyText)
                         )
                     )
+                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
+                        snackbarHostState.showSnackbar(context.getString(R.string.copied))
+                    }
                 }
 
             },
