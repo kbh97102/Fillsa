@@ -205,7 +205,14 @@ fun HomeView(
                 }
 
             },
-            share = {},
+            share = {
+                viewModel.handleContract(
+                    HomeAction.ClickShare(
+                        author = author,
+                        quote = quote
+                    )
+                )
+            },
             isLike = isLike,
             setIsLike = {
                 viewModel.handleContract(HomeAction.ClickLike)
