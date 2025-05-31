@@ -67,6 +67,10 @@ class HomeViewModel @Inject constructor(
                 postLike()
             }
 
+            is HomeAction.ClickQuote -> {
+                emitEffect(CommonEffect.Move(Screens.DailyQuote(currentQuota)))
+            }
+
             else -> {
 
             }

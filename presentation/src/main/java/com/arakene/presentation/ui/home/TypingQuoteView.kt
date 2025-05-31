@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,6 +20,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -44,7 +46,7 @@ fun TypingQuoteView(
         mutableStateOf(LocaleType.KOR)
     }
 
-    Column {
+    Column(modifier = Modifier.background(Color.White)) {
         TypingQuoteTopSection(
             locale = localeType,
             setLocale = {
@@ -80,7 +82,7 @@ fun TypingQuoteView(
                 shareOnClick = {},
                 copyOnClick = {},
                 like = false,
-                setLike = {}
+                setLike = {},
             )
 
         }
@@ -145,12 +147,12 @@ private fun TypingQuoteTopSection(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 7.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
 
-        // TODO: 이미지 간격 수정요청했으니 반영되면 아이콘 수정
         Image(
-            painterResource(R.drawable.icn_arrow_circle),
+            painterResource(R.drawable.icn_arrow),
             contentDescription = null,
             modifier = Modifier.noEffectClickable {
                 onBackClick()

@@ -19,10 +19,11 @@ sealed interface LoginAction : Action {
 }
 
 
-sealed interface HomeAction : Action {
-    data object ClickNext : HomeAction
-    data object ClickBefore : HomeAction
-    data object Refresh : HomeAction
+sealed interface HomeAction: Action {
+    data object ClickNext: HomeAction
+    data object ClickBefore: HomeAction
+    data object Refresh: HomeAction
+    data object ClickLike: HomeAction
+    data object ClickQuote: HomeAction
     data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
-    data object ClickLike : HomeAction
 }

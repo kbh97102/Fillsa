@@ -41,6 +41,7 @@ fun DailyQuotaSection(
     author: String,
     next: () -> Unit,
     before: () -> Unit,
+    navigate: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -59,6 +60,9 @@ fun DailyQuotaSection(
                         MaterialTheme.colorScheme.secondary,
                         shape = MaterialTheme.shapes.medium
                     )
+                    .noEffectClickable {
+                        navigate()
+                    }
                     .pointerInput(Unit) {
                         while (true) {
                             awaitPointerEventScope {
@@ -171,6 +175,7 @@ private fun WiseSayingSectionPreview() {
             author = "jone wooden",
             next = {},
             before = {},
+            navigate = {},
             modifier = Modifier.padding(50.dp)
         )
     }
