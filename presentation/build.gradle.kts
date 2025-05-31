@@ -81,4 +81,5 @@ dependencies {
     implementation(libs.hilt.navigation)
     runtimeOnly(libs.material3)
     implementation(libs.compose.navigation)
+    implementation(libs.splash)
 }
