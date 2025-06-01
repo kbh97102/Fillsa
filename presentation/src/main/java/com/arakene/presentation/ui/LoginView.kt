@@ -206,7 +206,7 @@ fun LoginView(
             text = stringResource(R.string.login_non_member),
             backgroundColor = colorResource(R.color.white),
             onClick = {
-                navigate(Screens.Home)
+                viewModel.handleContract(LoginAction.ClickNonMember)
             },
             modifier = Modifier.padding(top = 16.dp)
         )
