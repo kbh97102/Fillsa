@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ContentValues
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -31,7 +32,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.File
+import java.io.FileOutputStream
 import java.io.OutputStream
+import androidx.core.graphics.scale
 
 @Composable
 fun Modifier.noEffectClickable(enable: Boolean = true, click: () -> Unit) = this.clickable(
@@ -114,4 +117,93 @@ fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri {
         "${context.packageName}.fileprovider",
         file
     )
+}
+
+fun uriToCacheFile(context: Context, uri: Uri): File? {
+    return try {
+        val inputStream = context.contentResolver.openInputStream(uri)
+        val file = File.createTempFile("temp", null, context.cacheDir)
+        inputStream?.use { input ->
+            file.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+        file.deleteOnExit()
+        file
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
+    }
+}
+
+private fun shouldResizeBitmap(
+    bitmap: Bitmap,
+    maxSize: Long = 1 * 1024 * 1024 // 5MB
+): Boolean {
+    val originalWidth = bitmap.width
+    val originalHeight = bitmap.height
+
+    // Bitmap을 압축하지 않고 계산할 수 있는 최대 해상도 비율을 대략적으로 계산
+    val originalSize = originalWidth * originalHeight * 4 // ARGB (4 bytes per pixel) 기준
+
+    return originalSize >= maxSize
+}
+
+private fun calculateResizeRatio(
+    bitmap: Bitmap,
+    maxSize: Long = 1 * 1024 * 1024 // 5MB
+): Float {
+    // Bitmap을 JPEG로 압축했을 때의 크기를 예상할 수 없으므로, 해상도 비율을 계산해야 합니다.
+    val originalWidth = bitmap.width
+    val originalHeight = bitmap.height
+
+    // Bitmap을 압축하지 않고 계산할 수 있는 최대 해상도 비율을 대략적으로 계산
+    val originalSize = originalWidth * originalHeight * 4 // ARGB (4 bytes per pixel) 기준
+
+    val ratio = Math.sqrt((maxSize / originalSize.toFloat()).toDouble()).toFloat()
+
+    // 1보다 작은 비율을 반환하여 파일 크기를 줄입니다.
+    return ratio.coerceIn(0.1f, 1f) // 너무 작은 비율을 방지하기 위해 최소 10% 크기로 제한
+}
+
+fun resizeImageToMaxSize(originalFile: File, cacheDir: File, maxSize: Long = 1 * 1024 * 1024): File? {
+    return try {
+        // 원본 이미지를 Bitmap으로 디코딩
+        val originalBitmap = BitmapFactory.decodeFile(originalFile.absolutePath)
+        originalBitmap?.let { bitmap ->
+            // 5MB 이하여서 라사이즈가 필요 없는 경우
+            if (shouldResizeBitmap(bitmap).not()) {
+                return originalFile
+            }
+
+            // 원본 이미지의 크기와 해상도를 기반으로 리사이즈 비율 계산
+            val ratio = calculateResizeRatio(bitmap, maxSize)
+
+            // 해상도 비율에 맞춰 리사이즈된 Bitmap 생성
+            val resizedBitmap =
+                bitmap.scale((bitmap.width * ratio).toInt(), (bitmap.height * ratio).toInt())
+
+            // 리사이즈된 Bitmap을 임시 파일로 저장
+            val name = "background_scaled.jpeg"
+            val cacheFile = File(cacheDir, name)
+
+            if (cacheFile.exists()) {
+                cacheFile.delete()
+            }
+
+            val outputStream = FileOutputStream(cacheFile)
+
+            // 100% 품질로 저장
+            resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+            outputStream.flush()
+            outputStream.close()
+
+            cacheFile.deleteOnExit()
+
+            // 리사이즈된 파일 반환
+            cacheFile
+        }
+    } catch (e: Exception) {
+        null
+    }
 }

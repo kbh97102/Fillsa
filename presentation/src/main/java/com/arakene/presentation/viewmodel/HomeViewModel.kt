@@ -11,6 +11,7 @@ import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
+import com.arakene.domain.usecase.home.PostUploadImageUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -18,7 +19,6 @@ import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.YN
-import com.google.android.gms.common.internal.service.Common
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -31,7 +31,8 @@ class HomeViewModel @Inject constructor(
     private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
     private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
-    private val postLikeUseCase: PostLikeUseCase
+    private val postLikeUseCase: PostLikeUseCase,
+    private val postUploadImageUseCase: PostUploadImageUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -73,10 +74,25 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickShare -> {
-                emitEffect(CommonEffect.Move(Screens.Share(
-                    homeAction.quote,
-                    homeAction.author
-                )))
+                emitEffect(
+                    CommonEffect.Move(
+                        Screens.Share(
+                            homeAction.quote,
+                            homeAction.author
+                        )
+                    )
+                )
+            }
+
+            is HomeAction.ClickChangeImage -> {
+                viewModelScope.launch {
+                    homeAction.file?.let { file ->
+                        postUploadImageUseCase(
+                            dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                            imageFile = file
+                        )
+                    }
+                }
             }
 
             else -> {

@@ -1,7 +1,5 @@
 package com.arakene.presentation.ui.home
 
-import android.content.ClipData
-import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,14 +19,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
@@ -40,8 +36,9 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.resizeImageToMaxSize
+import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 fun HomeView(
@@ -136,7 +133,17 @@ fun HomeView(
                     imageDialogDataHolder.show = false
                 },
                 uploadImage = {
-
+                    viewModel.handleContract(
+                        HomeAction.ClickChangeImage(
+                            // TODO: 뷰모델에서 하고싶은데 context가 계속 걸림
+                            uriToCacheFile(context = context, uri = it)?.let { file ->
+                                resizeImageToMaxSize(
+                                    originalFile = file,
+                                    cacheDir = context.cacheDir
+                                )
+                            }
+                        )
+                    )
                 }
             )
         }
