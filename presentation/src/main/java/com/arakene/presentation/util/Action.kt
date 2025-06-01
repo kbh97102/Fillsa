@@ -7,14 +7,16 @@ sealed interface LoginAction : Action {
         val accessToken: String?,
         val refreshToken: String?,
         val idToken: String?,
-        val accessTokenExpirationTime: Long?
+        val accessTokenExpirationTime: Long?,
+        val appVersion: String
     ) : LoginAction
 
     data class ClickKakaoLogin(
         val accessToken: String?,
         val refreshToken: String?,
         val refreshTokenExpiresIn: String? = null,
-        val expiresIn: String? = null
+        val expiresIn: String? = null,
+        val appVersion: String,
     ) : LoginAction
 }
 
