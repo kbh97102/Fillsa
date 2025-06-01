@@ -11,4 +11,6 @@ object ApiEndPoint {
     const val POST_LIKE = "/api/v1/member-quotes/{dailyQuoteSeq}/like"
 
     const val POST_UPLOAD_IMAGE = "/api/v1/member-quotes/{dailyQuoteSeq}/images"
+
+    const val DELETE_UPLOAD_IMAGE = "/api/v1/member-quotes/{dailyQuoteSeq}/images"
 }

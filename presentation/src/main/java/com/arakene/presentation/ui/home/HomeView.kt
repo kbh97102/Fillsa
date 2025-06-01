@@ -36,6 +36,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
@@ -50,6 +51,14 @@ fun HomeView(
     LaunchedEffect(Unit) {
         // TODO: 여기서 해야할까?
         viewModel.handleContract(HomeAction.Refresh)
+    }
+
+    val backgroundImageUrl by remember {
+        viewModel.backgroundImageUri
+    }
+
+    LaunchedEffect(backgroundImageUrl) {
+        logDebug("url $backgroundImageUrl")
     }
 
     val context = LocalContext.current
@@ -141,9 +150,14 @@ fun HomeView(
                                     originalFile = file,
                                     cacheDir = context.cacheDir
                                 )
-                            }
+                            },
+                            uri = it.toString()
                         )
                     )
+                },
+                backgroundImageUrl = backgroundImageUrl,
+                deleteOnClick = {
+                    viewModel.handleContract(HomeAction.ClickDeleteImage)
                 }
             )
         }
@@ -163,6 +177,7 @@ fun HomeView(
             ImageSection(
                 isLogged = isLogged,
                 modifier = Modifier.weight(1f),
+                imageUri = backgroundImageUrl,
                 onClick = {
                     viewModel.handleContract(
                         HomeAction.ClickImage(

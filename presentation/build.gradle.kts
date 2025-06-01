@@ -86,4 +86,6 @@ dependencies {
     implementation(libs.splash)
 
     implementation(platform(libs.firebase.bom))
+    implementation(libs.coil)
+    implementation(libs.coil.network)
 }

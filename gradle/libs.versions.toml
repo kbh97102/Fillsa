@@ -30,6 +30,7 @@ gms = "4.4.2"
 firebase-bom = "33.14.0"
 firebaseInstallationsKtx = "18.0.0"
 firebaseCommonKtx = "21.0.0"
+coil = "3.2.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -54,7 +55,9 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 datastore = { group = "androidx.datastore", name = "datastore-preferences", version.ref = "datastore" }
 material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
-firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom"}
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
+coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 
 #hilt
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -91,4 +94,4 @@ hilt-plugin = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlinx-serialization-json = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "2.1.20-2.0.0" }
-gms = {id = "com.google.gms.google-services", version.ref = "gms"}
+gms = { id = "com.google.gms.google-services", version.ref = "gms" }

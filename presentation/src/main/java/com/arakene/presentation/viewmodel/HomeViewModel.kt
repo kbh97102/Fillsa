@@ -8,10 +8,12 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.home.DeleteUploadImageUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostUploadImageUseCase
+import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -19,6 +21,8 @@ import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.YN
+import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.logError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -32,7 +36,8 @@ class HomeViewModel @Inject constructor(
     private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
     private val postLikeUseCase: PostLikeUseCase,
-    private val postUploadImageUseCase: PostUploadImageUseCase
+    private val postUploadImageUseCase: PostUploadImageUseCase,
+    private val deleteUploadImageUseCase: DeleteUploadImageUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -44,6 +49,8 @@ class HomeViewModel @Inject constructor(
     var currentQuota by mutableStateOf(DailyQuoteDto())
 
     var isLike = mutableStateOf(false)
+
+    val backgroundImageUri = mutableStateOf("")
 
     override fun handleAction(action: Action) {
         when (val homeAction = action as HomeAction) {
@@ -85,14 +92,11 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickChangeImage -> {
-                viewModelScope.launch {
-                    homeAction.file?.let { file ->
-                        postUploadImageUseCase(
-                            dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-                            imageFile = file
-                        )
-                    }
-                }
+                uploadBackgroundImage(homeAction)
+            }
+
+            is HomeAction.ClickDeleteImage -> {
+                deleteBackgroundImage()
             }
 
             else -> {
@@ -102,6 +106,22 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
+        viewModelScope.launch {
+            backgroundImageUri.value = homeAction.uri
+
+            homeAction.file?.let { file ->
+                postUploadImageUseCase(
+                    dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                    imageFile = file
+                )
+            }
+        }
+
+    private fun deleteBackgroundImage() = viewModelScope.launch {
+        deleteUploadImageUseCase(currentQuota.dailyQuoteSeq)
+        backgroundImageUri.value = ""
+    }
 
     private fun clickImage(action: HomeAction.ClickImage) {
         if (!action.isLogged) {
@@ -145,6 +165,7 @@ class HomeViewModel @Inject constructor(
         getResponse(getDailyQuoteUseCase(date))?.let {
             currentQuota = it
             isLike.value = it.likeYn == YN.Y.type
+            backgroundImageUri.value = (it.imagePath ?: "")
         }
     }
 
@@ -160,9 +181,18 @@ class HomeViewModel @Inject constructor(
                 engAuthor = it.engAuthor,
                 authorUrl = it.authorUrl
             )
+
+            backgroundImageUri.value = ""
         }
     }
 
     private fun convertDate(date: LocalDate) = dateFormat.format(date)
+
+
+    fun testMethod() {
+        viewModelScope.launch {
+            backgroundImageUri.value = ""
+        }
+    }
 
 }

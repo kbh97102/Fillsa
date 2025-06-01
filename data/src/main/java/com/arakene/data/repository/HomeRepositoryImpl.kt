@@ -56,4 +56,10 @@ class HomeRepositoryImpl @Inject constructor(
             )
         }
     }
+
+    override suspend fun deleteUploadImage(dailyQuoteSeq: Int): ApiResult<SimpleIntResponse> {
+        return safeApi {
+            api.deleteUploadImage(dailyQuoteSeq)
+        }
+    }
 }
