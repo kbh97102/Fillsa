@@ -57,6 +57,10 @@ fun HomeView(
         viewModel.backgroundImageUri
     }
 
+    LaunchedEffect(backgroundImageUrl) {
+        logDebug("url $backgroundImageUrl")
+    }
+
     val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
@@ -153,7 +157,7 @@ fun HomeView(
                 },
                 backgroundImageUrl = backgroundImageUrl,
                 deleteOnClick = {
-                    imageDialogDataHolder.show = false
+                    viewModel.handleContract(HomeAction.ClickDeleteImage)
                 }
             )
         }
