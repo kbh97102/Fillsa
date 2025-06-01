@@ -17,12 +17,14 @@ import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.YN
 import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.logError
+import com.google.android.gms.common.internal.service.Common
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -125,7 +127,15 @@ class HomeViewModel @Inject constructor(
 
     private fun clickImage(action: HomeAction.ClickImage) {
         if (!action.isLogged) {
-            emitEffect(CommonEffect.Move(Screens.Login))
+            emitEffect(CommonEffect.ShowDialog(
+                // TODO: 이 구조가 과연 좋은거일까? , onClick의 시점, textStyle도 지정하고싶긴한데 viewModel에서 composable함수 참조 해야함
+                DialogData.Builder()
+                    .title("로그인 후 사용하실 수 있습니다.")
+                    .onClick {
+                        emitEffect(CommonEffect.Move(Screens.Login))
+                    }
+                    .build()
+            ))
         } else {
             emitEffect(
                 HomeEffect.OpenImageDialog(

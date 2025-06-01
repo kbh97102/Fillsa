@@ -25,15 +25,18 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 @Composable
 fun CommonDialog(
     title: String,
-    negativeText: String,
-    negativeOnClick: () -> Unit,
-    positiveText: String,
     positiveOnClick: () -> Unit,
+    dismiss: () -> Unit,
+    positiveText: String = "확인",
+    negativeText: String = "취소",
+    negativeOnClick: () -> Unit = {},
     reversed: Boolean = false
 ) {
 
     Dialog(
-        onDismissRequest = {},
+        onDismissRequest = {
+            dismiss()
+        },
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
 
@@ -66,25 +69,37 @@ fun CommonDialog(
                     NegativeButton(
                         modifier = Modifier.weight(1f),
                         text = negativeText,
-                        onClick = negativeOnClick
+                        onClick = {
+                            negativeOnClick()
+                            dismiss()
+                        }
                     )
 
                     PositiveButton(
                         modifier = Modifier.weight(1f),
                         text = positiveText,
-                        onClick = positiveOnClick
+                        onClick = {
+                            positiveOnClick()
+                            dismiss()
+                        }
                     )
                 } else {
                     PositiveButton(
                         modifier = Modifier.weight(1f),
                         text = negativeText,
-                        onClick = negativeOnClick
+                        onClick = {
+                            negativeOnClick()
+                            dismiss()
+                        }
                     )
 
                     NegativeButton(
                         modifier = Modifier.weight(1f),
                         text = positiveText,
-                        onClick = positiveOnClick
+                        onClick = {
+                            positiveOnClick()
+                            dismiss()
+                        }
                     )
                 }
 
@@ -105,7 +120,8 @@ private fun CommonDialogPreview() {
             positiveText = "로그인 하기",
             positiveOnClick = {},
             negativeText = "취소",
-            negativeOnClick = {}
+            negativeOnClick = {},
+            dismiss = {}
         )
     }
 }
