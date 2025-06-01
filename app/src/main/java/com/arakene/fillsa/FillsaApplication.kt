@@ -4,6 +4,7 @@ import android.app.Application
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.presentation.BuildConfig
+import com.google.firebase.FirebaseApp
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -22,6 +23,8 @@ class FillsaApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        FirebaseApp.initializeApp(this)
 
         KakaoSdk.init(this, BuildConfig.kakao_key)
 

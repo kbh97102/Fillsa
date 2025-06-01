@@ -1,16 +1,14 @@
 package com.arakene.presentation.viewmodel
 
-import android.provider.Settings
+import android.os.Build
 import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.arakene.domain.requests.DeviceData
 import com.arakene.domain.requests.LoginData
 import com.arakene.domain.requests.LoginRequest
-import com.arakene.domain.requests.TokenData
 import com.arakene.domain.requests.UserData
 import com.arakene.domain.usecase.LoginUseCase
-import com.arakene.domain.usecase.common.GetAccessTokenUseCase
-import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.util.ApiResult
@@ -19,9 +17,13 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logError
+import com.google.firebase.installations.FirebaseInstallations
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -55,6 +57,7 @@ class LoginViewModel @Inject constructor(
                     refreshToken = loginAction.refreshToken,
                     expiresIn = loginAction.expiresIn,
                     refreshTokenExpiresIn = loginAction.refreshTokenExpiresIn,
+                    appVersion = loginAction.appVersion
                 )
             }
 
@@ -75,7 +78,8 @@ class LoginViewModel @Inject constructor(
             id = id,
             nickName = nickName,
             profileImageUrl = profileImageUrl,
-            provider = "GOOGLE"
+            provider = "GOOGLE",
+            appVersion = loginAction.appVersion
         )
     }
 
@@ -83,7 +87,8 @@ class LoginViewModel @Inject constructor(
         accessToken: String?,
         refreshToken: String?,
         refreshTokenExpiresIn: String?,
-        expiresIn: String?
+        expiresIn: String?,
+        appVersion: String
     ) {
         viewModelScope.launch {
             val (id, nickName, imageUrl) = getKakaoUserData()
@@ -100,7 +105,8 @@ class LoginViewModel @Inject constructor(
                 id = id,
                 nickName = nickName,
                 profileImageUrl = imageUrl,
-                provider = "KAKAO"
+                provider = "KAKAO",
+                appVersion = appVersion
             )
 
         }
@@ -162,21 +168,33 @@ class LoginViewModel @Inject constructor(
         profileImageUrl: String?,
         refreshTokenExpiresIn: String? = null,
         expiresIn: String? = null,
-        provider: String
+        provider: String,
+        appVersion: String
     ) = viewModelScope.launch {
+
+        val fid = suspendCancellableCoroutine<String> { cont ->
+            FirebaseInstallations.getInstance().id
+                .addOnSuccessListener { fid ->
+                    cont.resume(fid)
+                }.addOnFailureListener {
+                    it.printStackTrace()
+                    cont.resume("")
+                }
+        }
+
 
         val request = LoginRequest(
             LoginData(
-                oAuthProvider = provider,
-                tokenData = TokenData(
-                    deviceId = Settings.Secure.ANDROID_ID,
-                    accessToken = accessToken ?: "",
-                    refreshToken = refreshToken ?: "",
-                    refreshTokenExpiresIn = refreshTokenExpiresIn ?: "",
-                    expiresIn = expiresIn ?: ""
+                deviceData = DeviceData(
+                    deviceId = fid,
+                    osType = "ANDROID",
+                    appVersion = appVersion,
+                    osVersion = Build.VERSION.RELEASE,
+                    deviceModel = Build.MODEL
                 ),
                 userData = UserData(
-                    id = id ?: "",
+                    oAuthProvider = provider,
+                    oAuthId = id ?: "",
                     nickname = nickName ?: "",
                     profileImageUrl = profileImageUrl ?: ""
                 )
@@ -187,8 +205,8 @@ class LoginViewModel @Inject constructor(
         when (val result = loginUseCase(request)) {
             is ApiResult.Success -> {
 
-                setAccessTokenUseCase(result.data.accessToken)
-                setRefreshTokenUseCase(result.data.refreshToken)
+                setAccessTokenUseCase(accessToken ?: "")
+                setRefreshTokenUseCase(refreshToken ?: "")
 
                 Log.d(">>>>", "Success ${result.data}")
                 emitEffect(LoginEffect.Move(Screens.Home))
@@ -202,7 +220,6 @@ class LoginViewModel @Inject constructor(
                 Log.d(">>>>", "Error ${result.error}")
             }
         }
-
     }
 
     private fun convertToIso8601(dateString: String): String {

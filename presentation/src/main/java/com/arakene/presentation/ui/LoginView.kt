@@ -93,7 +93,12 @@ fun LoginView(
                                 refreshToken = response.refreshToken,
                                 accessToken = response.accessToken,
                                 idToken = response.idToken,
-                                accessTokenExpirationTime = response.accessTokenExpirationTime
+                                accessTokenExpirationTime = response.accessTokenExpirationTime,
+                                appVersion = context.packageManager.getPackageInfo(
+                                    context.packageName,
+                                    0
+                                )
+                                    .longVersionCode.toString()
                             )
                         )
                     } else {
@@ -154,6 +159,10 @@ fun LoginView(
                                     accessToken = token.accessToken,
                                     refreshTokenExpiresIn = token.refreshTokenExpiresAt.toString(),
                                     expiresIn = token.accessTokenExpiresAt.toString(),
+                                    appVersion = context.packageManager.getPackageInfo(
+                                        context.packageName,
+                                        0
+                                    ).longVersionCode.toString()
                                 )
                             )
                         }

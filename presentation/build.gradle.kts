@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kotlinx.serialization.json)
+    alias(libs.plugins.gms)
 }
 
 val secretsFile = Properties().apply {
@@ -61,6 +62,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.googleid)
+    implementation(libs.firebase.installations.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -82,4 +84,6 @@ dependencies {
     runtimeOnly(libs.material3)
     implementation(libs.compose.navigation)
     implementation(libs.splash)
+
+    implementation(platform(libs.firebase.bom))
 }

@@ -11,36 +11,28 @@ data class LoginRequest(
 )
 
 data class LoginData(
-    @SerializedName("oAuthProvider")
-    val oAuthProvider: String, // "KAKAO" or "GOOGLE"
 
-    @SerializedName("tokenData")
-    val tokenData: TokenData,
+    @SerializedName("deviceData")
+    val deviceData: DeviceData,
 
     @SerializedName("userData")
     val userData: UserData
 )
 
-data class TokenData(
-    @SerializedName("deviceId")
+data class DeviceData(
     val deviceId: String,
-
-    @SerializedName("accessToken")
-    val accessToken: String,
-
-    @SerializedName("accessTokenExpiresAt")
-    val expiresIn: String,
-
-    @SerializedName("refreshToken")
-    val refreshToken: String,
-
-    @SerializedName("refreshTokenExpiresAt")
-    val refreshTokenExpiresIn: String // 카카오만 해당
+    val osType: String,
+    val appVersion: String,
+    val osVersion: String,
+    val deviceModel: String
 )
 
 data class UserData(
-    @SerializedName("id")
-    val id: String,
+    @SerializedName("oAuthProvider")
+    val oAuthProvider: String, // "KAKAO" or "GOOGLE"
+
+    @SerializedName("oAuthId")
+    val oAuthId: String,
 
     @SerializedName("nickname")
     val nickname: String,
