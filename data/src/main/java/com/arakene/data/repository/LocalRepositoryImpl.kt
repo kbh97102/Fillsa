@@ -6,8 +6,10 @@ import androidx.datastore.preferences.core.edit
 import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.LocalRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
@@ -41,5 +43,17 @@ class LocalRepositoryImpl @Inject constructor(
         val refresh = getRefreshToken()
 
         emit(access.isNotEmpty() && refresh.isNotEmpty())
+    }
+
+    override suspend fun setImageUri(uri: String) {
+        dataStore.edit {
+            it[DataStoreKey.IMAGE_URI] = uri
+        }
+    }
+
+    override suspend fun getImageUri(): Flow<String> {
+        return dataStore.data.map {
+            it[DataStoreKey.IMAGE_URI] ?: ""
+        }
     }
 }
