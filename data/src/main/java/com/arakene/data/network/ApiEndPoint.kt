@@ -9,4 +9,6 @@ object ApiEndPoint {
     const val GET_DAILY_QUOTE = "/api/v1/member-quotes/daily"
 
     const val POST_LIKE = "/api/v1/member-quotes/{dailyQuoteSeq}/like"
+
+    const val POST_UPLOAD_IMAGE = "/api/v1/member-quotes/{dailyQuoteSeq}/images"
 }

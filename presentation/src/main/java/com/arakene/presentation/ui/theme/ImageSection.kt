@@ -39,10 +39,10 @@ fun ImageSection(
 
 
         Image(
-            painterResource(R.drawable.ic_launcher_background),
+            painterResource(R.drawable.img_image_background),
             contentDescription = null,
             contentScale = ContentScale.Crop,
-            modifier = Modifier.matchParentSize()
+            modifier = Modifier.fillMaxSize()
         )
 
         if (!isLogged) {
