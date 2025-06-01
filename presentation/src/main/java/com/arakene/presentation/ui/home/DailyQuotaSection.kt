@@ -2,9 +2,7 @@ package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.awaitFirstDown
-import androidx.compose.foundation.gestures.awaitHorizontalDragOrCancellation
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,12 +13,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.input.pointer.positionChange
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -45,7 +46,14 @@ fun DailyQuotaSection(
     modifier: Modifier = Modifier
 ) {
 
-    SubcomposeLayout(modifier = modifier.fillMaxWidth()) { constraints ->
+    var amount by remember {
+        mutableStateOf(0f)
+    }
+
+    SubcomposeLayout(
+        modifier = modifier
+            .fillMaxWidth()
+    ) { constraints ->
         val rest = subcompose("WiseSayingRest") {
             Box(
                 modifier = Modifier
@@ -64,32 +72,21 @@ fun DailyQuotaSection(
                         navigate()
                     }
                     .pointerInput(Unit) {
-                        while (true) {
-                            awaitPointerEventScope {
-
-                                val down = awaitFirstDown()
-                                var totalDrag = 0f
-
-                                // 드래그 추적 시작
-                                var drag = awaitHorizontalDragOrCancellation(down.id)
-                                while (drag != null) {
-                                    totalDrag += drag.positionChange().x
-                                    drag = awaitHorizontalDragOrCancellation(drag.id)
-                                }
-
-                                // 손을 뗀 시점에서 판단
-                                if (abs(totalDrag) > 100) { // threshold 조정 가능
-                                    if (totalDrag > 0) {
+                        detectDragGestures(
+                            onDragEnd = {
+                                if (abs(amount) > 150) {
+                                    if (amount > 0) {
                                         before()
                                     } else {
                                         next()
                                     }
                                 }
-
+                                amount = 0f
                             }
+                        ) { change, dragAmount ->
+                            amount += dragAmount.x
                         }
-                    }
-                ,
+                    },
                 contentAlignment = Alignment.Center
             ) {
 
