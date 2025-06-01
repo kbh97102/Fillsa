@@ -10,8 +10,10 @@ import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
+import com.arakene.domain.usecase.home.GetImageUriUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostUploadImageUseCase
+import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -32,7 +34,9 @@ class HomeViewModel @Inject constructor(
     private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
     private val postLikeUseCase: PostLikeUseCase,
-    private val postUploadImageUseCase: PostUploadImageUseCase
+    private val postUploadImageUseCase: PostUploadImageUseCase,
+    private val getImageUriUseCase: GetImageUriUseCase,
+    private val setImageUriUseCase: SetImageUriUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -44,6 +48,8 @@ class HomeViewModel @Inject constructor(
     var currentQuota by mutableStateOf(DailyQuoteDto())
 
     var isLike = mutableStateOf(false)
+
+    val backgroundImageUri = getImageUriUseCase()
 
     override fun handleAction(action: Action) {
         when (val homeAction = action as HomeAction) {
@@ -86,6 +92,9 @@ class HomeViewModel @Inject constructor(
 
             is HomeAction.ClickChangeImage -> {
                 viewModelScope.launch {
+
+                    setImageUriUseCase(homeAction.uri)
+
                     homeAction.file?.let { file ->
                         postUploadImageUseCase(
                             dailyQuoteSeq = currentQuota.dailyQuoteSeq,
@@ -145,6 +154,7 @@ class HomeViewModel @Inject constructor(
         getResponse(getDailyQuoteUseCase(date))?.let {
             currentQuota = it
             isLike.value = it.likeYn == YN.Y.type
+            setImageUriUseCase(it.imagePath ?: "")
         }
     }
 
@@ -160,6 +170,8 @@ class HomeViewModel @Inject constructor(
                 engAuthor = it.engAuthor,
                 authorUrl = it.authorUrl
             )
+
+            setImageUriUseCase("")
         }
     }
 

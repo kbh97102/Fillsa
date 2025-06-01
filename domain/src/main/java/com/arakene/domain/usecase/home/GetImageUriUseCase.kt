@@ -7,6 +7,6 @@ class GetImageUriUseCase @Inject constructor(
     private val localRepository: LocalRepository
 ) {
 
-    suspend operator fun invoke() = localRepository.getImageUri()
+    operator fun invoke() = localRepository.getImageUri()
 
 }

@@ -51,7 +51,7 @@ class LocalRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun getImageUri(): Flow<String> {
+    override fun getImageUri(): Flow<String> {
         return dataStore.data.map {
             it[DataStoreKey.IMAGE_URI] ?: ""
         }

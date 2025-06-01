@@ -38,7 +38,7 @@ import kotlin.coroutines.suspendCoroutine
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
-    private val setAccessTokenUseCase: SetAccessTokenUseCase,
+    private val setAccessTokenUseCase: SetAccessTokenUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
