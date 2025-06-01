@@ -39,6 +39,7 @@ import com.arakene.presentation.util.ImageDialogDataHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.launch
 
@@ -191,21 +192,16 @@ fun HomeView(
 
         InteractionButtonSection(
             copy = {
-
-                scope.launch {
-                    val copyText = "${quote} - ${author}"
-                    clipboard.setClipEntry(
-                        ClipEntry(
-                            ClipData.newPlainText(copyText, copyText)
-                        )
-                    )
-                    if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-                        snackbarHostState.showSnackbar(context.getString(R.string.copied))
-                    }
-                }
-
+                copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author)
             },
-            share = {},
+            share = {
+                viewModel.handleContract(
+                    HomeAction.ClickShare(
+                        author = author,
+                        quote = quote
+                    )
+                )
+            },
             isLike = isLike,
             setIsLike = {
                 viewModel.handleContract(HomeAction.ClickLike)

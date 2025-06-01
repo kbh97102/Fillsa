@@ -18,6 +18,7 @@ import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.YN
+import com.google.android.gms.common.internal.service.Common
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -69,6 +70,13 @@ class HomeViewModel @Inject constructor(
 
             is HomeAction.ClickQuote -> {
                 emitEffect(CommonEffect.Move(Screens.DailyQuote(currentQuota)))
+            }
+
+            is HomeAction.ClickShare -> {
+                emitEffect(CommonEffect.Move(Screens.Share(
+                    homeAction.quote,
+                    homeAction.author
+                )))
             }
 
             else -> {
