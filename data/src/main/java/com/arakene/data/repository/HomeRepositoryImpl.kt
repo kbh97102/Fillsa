@@ -49,7 +49,7 @@ class HomeRepositoryImpl @Inject constructor(
             api.postUploadImage(
                 dailyQuoteSeq = dailyQuoteSeq,
                 MultipartBody.Part.createFormData(
-                    "file",
+                    "image",
                     imageFile.name,
                     imageFile.asRequestBody("image/*".toMediaTypeOrNull())
                 )
