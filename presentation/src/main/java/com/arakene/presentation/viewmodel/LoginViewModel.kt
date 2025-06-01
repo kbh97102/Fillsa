@@ -17,11 +17,9 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logError
 import com.google.firebase.installations.FirebaseInstallations
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.suspendCancellableCoroutine
 import org.json.JSONObject
@@ -205,8 +203,8 @@ class LoginViewModel @Inject constructor(
         when (val result = loginUseCase(request)) {
             is ApiResult.Success -> {
 
-                setAccessTokenUseCase(accessToken ?: "")
-                setRefreshTokenUseCase(refreshToken ?: "")
+                setAccessTokenUseCase(result.data.accessToken)
+                setRefreshTokenUseCase(result.data.refreshToken)
 
                 Log.d(">>>>", "Success ${result.data}")
                 emitEffect(LoginEffect.Move(Screens.Home))
