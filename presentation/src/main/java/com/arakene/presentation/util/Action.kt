@@ -32,4 +32,5 @@ sealed interface HomeAction: Action {
 sealed interface TypingAction: Action{
     // TODO: 공통으로?
     data class ClickShare(val quote: String, val author: String): TypingAction
+    data class ClickLike(val like: Boolean, val dailyQuoteSeq: Int): TypingAction
 }

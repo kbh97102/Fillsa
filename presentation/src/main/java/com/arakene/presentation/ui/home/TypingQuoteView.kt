@@ -41,6 +41,8 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.TypingAction
+import com.arakene.presentation.util.YN
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
@@ -53,6 +55,10 @@ fun TypingQuoteView(
     viewModel: TypingViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
+
+    var isLike by remember {
+        mutableStateOf(data.likeYn == YN.Y.type)
+    }
 
     var write by remember {
         mutableStateOf("")
@@ -133,8 +139,17 @@ fun TypingQuoteView(
                         snackbarHostState = snackbarHostState
                     )
                 },
-                like = false,
-                setLike = {},
+                like = isLike,
+                setLike = {
+                    // TODO: 어떻게 관리하는게 mvi 패턴을 더 잘 사용하는 걸까 너무 갇히는건가
+                    isLike = !isLike
+                    viewModel.handleContract(
+                        TypingAction.ClickLike(
+                            like = isLike,
+                            dailyQuoteSeq = data.dailyQuoteSeq
+                        )
+                    )
+                },
             )
 
         }

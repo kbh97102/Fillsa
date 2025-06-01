@@ -119,6 +119,9 @@ class MainActivity : ComponentActivity() {
                                     data.dailyQuoteDto,
                                     navigate = {
                                         navController.navigate(it)
+                                    },
+                                    backOnClick = {
+                                        navController.popBackStack()
                                     }
                                 )
                             }
