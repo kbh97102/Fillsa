@@ -12,15 +12,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,8 +38,10 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
 
@@ -43,7 +49,9 @@ import com.arakene.presentation.viewmodel.TypingViewModel
 fun TypingQuoteView(
     data: DailyQuoteDto,
     navigate: (Screens) -> Unit,
-    viewModel: TypingViewModel = hiltViewModel()
+    backOnClick: () -> Unit,
+    viewModel: TypingViewModel = hiltViewModel(),
+    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
 
     var write by remember {
@@ -56,6 +64,11 @@ fun TypingQuoteView(
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
+    val context = LocalContext.current
+    val clipBoard = LocalClipboard.current
+
+    val scope = rememberCoroutineScope()
+
     HandleViewEffect(
         viewModel.effect,
         lifecycleOwner = lifecycleOwner
@@ -66,7 +79,6 @@ fun TypingQuoteView(
                 navigate(it.screen)
             }
         }
-
     }
 
     Column(modifier = Modifier.background(Color.White)) {
@@ -75,9 +87,7 @@ fun TypingQuoteView(
             setLocale = {
                 localeType = it
             },
-            onBackClick = {
-
-            },
+            onBackClick = backOnClick,
             modifier = Modifier.padding(horizontal = 15.dp)
         )
 
@@ -101,9 +111,28 @@ fun TypingQuoteView(
             Spacer(Modifier.weight(1f))
 
             TypingQuoteBottomSection(
-                onBackClick = {},
-                shareOnClick = {},
-                copyOnClick = {},
+                onBackClick = backOnClick,
+                shareOnClick = {
+
+                },
+                copyOnClick = {
+                    copyToClipboard(
+                        context = context,
+                        clipBoard = clipBoard,
+                        author = if (localeType == LocaleType.KOR) {
+                            data.korAuthor
+                        } else {
+                            data.engAuthor
+                        } ?: "",
+                        quote = if (localeType == LocaleType.KOR) {
+                            data.korQuote
+                        } else {
+                            data.engQuote
+                        } ?: "",
+                        scope = scope,
+                        snackbarHostState = snackbarHostState
+                    )
+                },
                 like = false,
                 setLike = {},
             )
@@ -211,6 +240,7 @@ private fun TypingQuoteViewPreview() {
         DailyQuoteDto(
             quote = "Live as if you were to die tomorrow."
         ),
-        navigate = {}
+        navigate = {},
+        backOnClick = {}
     )
 }
