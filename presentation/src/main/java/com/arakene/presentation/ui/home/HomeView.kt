@@ -134,6 +134,9 @@ fun HomeView(
                 quote = imageDialogDataHolder.quote,
                 onDismiss = {
                     imageDialogDataHolder.show = false
+                },
+                uploadImage = {
+
                 }
             )
         }

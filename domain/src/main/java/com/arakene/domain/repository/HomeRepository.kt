@@ -5,6 +5,7 @@ import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.SimpleIntResponse
 import com.arakene.domain.util.ApiResult
+import java.io.File
 
 interface HomeRepository {
 
@@ -13,5 +14,7 @@ interface HomeRepository {
     suspend fun getDailyQuote(quoteDate: String): ApiResult<DailyQuoteDto>
 
     suspend fun postLike(likeRequest: LikeRequest, dailyQuoteSeq: Int): ApiResult<SimpleIntResponse>
+
+    suspend fun postUploadImage(imageFile: File, dailyQuoteSeq: Int): ApiResult<SimpleIntResponse>
 
 }

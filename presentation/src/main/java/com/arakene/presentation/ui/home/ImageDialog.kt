@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -35,14 +36,15 @@ import com.arakene.presentation.util.noEffectClickable
 fun ImageDialog(
     quote: String,
     author: String,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    uploadImage: (Uri) -> Unit
 ) {
 
     val galleryLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent(),
         onResult = { uri ->
             uri?.let {
-//                imageUri = it
+                uploadImage(it)
             }
         }
     )
@@ -162,7 +164,8 @@ private fun ImageDialogPreview() {
         ImageDialog(
             quote = "123123123123",
             author = "asdfasdf",
-            onDismiss = {}
+            onDismiss = {},
+            uploadImage = {}
         )
     }
 }
