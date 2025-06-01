@@ -53,7 +53,9 @@ fun HomeView(
         viewModel.handleContract(HomeAction.Refresh)
     }
 
-    val backgroundImageUri by viewModel.backgroundImageUri.collectAsState("")
+    val backgroundImageUrl by remember {
+        viewModel.backgroundImageUri
+    }
 
     val context = LocalContext.current
 
@@ -145,9 +147,13 @@ fun HomeView(
                                     cacheDir = context.cacheDir
                                 )
                             },
-                            uri = it.path ?: ""
+                            uri = it.toString()
                         )
                     )
+                },
+                backgroundImageUrl = backgroundImageUrl,
+                deleteOnClick = {
+                    imageDialogDataHolder.show = false
                 }
             )
         }
@@ -167,11 +173,8 @@ fun HomeView(
             ImageSection(
                 isLogged = isLogged,
                 modifier = Modifier.weight(1f),
-                imageUri = backgroundImageUri,
+                imageUri = backgroundImageUrl,
                 onClick = {
-
-                    logDebug("check URI ${backgroundImageUri}")
-
                     viewModel.handleContract(
                         HomeAction.ClickImage(
                             isLogged = isLogged,
