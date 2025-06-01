@@ -17,4 +17,6 @@ interface HomeRepository {
 
     suspend fun postUploadImage(imageFile: File, dailyQuoteSeq: Int): ApiResult<SimpleIntResponse>
 
+    suspend fun deleteUploadImage(dailyQuoteSeq: Int): ApiResult<SimpleIntResponse>
+
 }
