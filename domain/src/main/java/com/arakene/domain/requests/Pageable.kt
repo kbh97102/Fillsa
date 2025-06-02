@@ -1,10 +1,12 @@
 package com.arakene.domain.requests
 
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 
 @Keep
 data class Pageable(
+    @SerializedName("page")
     val page: Int,
-    val size: Int,
-    val sort: List<String>
+    @SerializedName("size")
+    val size: Int
 )

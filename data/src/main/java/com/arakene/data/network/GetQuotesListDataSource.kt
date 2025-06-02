@@ -23,8 +23,7 @@ class GetQuotesListDataSource(
             val response = api.getQuoteList(
                 pageable = Pageable(
                     page = page,
-                    size = 30,
-                    sort = emptyList()
+                    size = 30
                 ), request = request
             )
             val data = response.body()?.content ?: emptyList()
