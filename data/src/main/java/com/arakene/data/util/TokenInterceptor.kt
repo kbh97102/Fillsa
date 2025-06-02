@@ -1,5 +1,6 @@
 package com.arakene.data.util
 
+import android.util.Log
 import okhttp3.Interceptor
 import okhttp3.Response
 import javax.inject.Inject
@@ -15,6 +16,9 @@ class TokenInterceptor @Inject constructor(
         val requestBuilder = original.newBuilder()
 
         if (accessToken.isNotBlank()) {
+
+            Log.d(">>>> Token", "EndPoint ${original.url.encodedPath} query ${original.url.encodedQuery} token $accessToken")
+
             requestBuilder.addHeader("Authorization", "Bearer $accessToken")
         }
 
