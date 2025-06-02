@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.repository.HomeRepositoryImpl
+import com.arakene.data.repository.ListRepositoryImpl
 import com.arakene.data.repository.LocalRepositoryImpl
 import com.arakene.data.repository.LoginRepositoryImpl
 import com.arakene.data.util.TokenProvider
@@ -37,4 +38,7 @@ class RepositoryModule {
     fun provideHomeRepository(api: FillsaApi, noTokenApi: FillsaNoTokenApi): HomeRepository {
         return HomeRepositoryImpl(api = api, nonTokenApi = noTokenApi)
     }
+
+    @Provides
+    fun provideListRepository(api: FillsaApi) = ListRepositoryImpl(api)
 }

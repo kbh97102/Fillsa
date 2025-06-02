@@ -13,4 +13,6 @@ object ApiEndPoint {
     const val POST_UPLOAD_IMAGE = "/api/v1/member-quotes/{dailyQuoteSeq}/images"
 
     const val DELETE_UPLOAD_IMAGE = "/api/v1/member-quotes/{dailyQuoteSeq}/images"
+
+    const val GET_QUOTE_LIST = "/api/v1/member-quotes"
 }
