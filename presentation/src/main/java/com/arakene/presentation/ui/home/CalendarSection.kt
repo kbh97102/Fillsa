@@ -51,7 +51,7 @@ fun CalendarSection(
             .border(
                 width = 1.dp,
                 shape = MaterialTheme.shapes.medium,
-                color = colorResource(R.color.blue_d3)
+                color = MaterialTheme.colorScheme.tertiary
             )
     ) {
 
@@ -80,7 +80,7 @@ private fun CalendarTop(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = colorResource(R.color.blue_d3),
+                color = MaterialTheme.colorScheme.tertiary,
                 shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
             )
             .padding(12.dp), verticalAlignment = Alignment.CenterVertically,
