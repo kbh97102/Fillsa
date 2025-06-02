@@ -1,7 +1,10 @@
 package com.arakene.presentation.ui.quotelist
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,14 +42,18 @@ fun QuoteListView(
             modifier = Modifier.padding(top = 20.dp)
         )
 
-        IsLikeSection(
-            isLike = isLike,
-            setIsLike = {
-                isLike = it
-            }
-        )
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            IsLikeSection(
+                modifier = Modifier.padding(top = 20.dp),
+                isLike = isLike,
+                setIsLike = {
+                    isLike = it
+                }
+            )
+        }
 
         QuoteListSection(
+            modifier = Modifier.padding(top = 10.dp),
             list = paging
         )
 
