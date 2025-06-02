@@ -30,6 +30,7 @@ import com.arakene.presentation.ui.common.CommonDialog
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
+import com.arakene.presentation.ui.quotelist.QuoteListView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
 import com.arakene.presentation.util.DialogDataHolder
@@ -112,7 +113,7 @@ class MainActivity : ComponentActivity() {
                         NavHost(
                             modifier = Modifier.padding(paddingValues),
                             navController = navController,
-                            startDestination = Screens.Login,
+                            startDestination = Screens.QuoteList,
                         ) {
 
                             composable<Screens.Login> {
@@ -153,6 +154,13 @@ class MainActivity : ComponentActivity() {
                                 ShareView(
                                     quote = data.quote,
                                     author = data.author
+                                )
+                            }
+
+                            composable<Screens.QuoteList> {
+                                QuoteListView(
+                                    startDate = "",
+                                    endDate = ""
                                 )
                             }
 

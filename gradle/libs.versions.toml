@@ -31,6 +31,7 @@ firebase-bom = "33.14.0"
 firebaseInstallationsKtx = "18.0.0"
 firebaseCommonKtx = "21.0.0"
 coil = "3.2.0"
+paging = "3.3.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -58,7 +59,8 @@ splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "s
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
-
+paging = {group = "androidx.paging", name = "paging-runtime", version.ref = "paging"}
+paging-compose = {group = "androidx.paging", name = "paging-compose", version.ref = "paging"}
 #hilt
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }

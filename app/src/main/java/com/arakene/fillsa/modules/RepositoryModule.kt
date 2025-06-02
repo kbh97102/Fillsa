@@ -5,10 +5,12 @@ import androidx.datastore.preferences.core.Preferences
 import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.repository.HomeRepositoryImpl
+import com.arakene.data.repository.ListRepositoryImpl
 import com.arakene.data.repository.LocalRepositoryImpl
 import com.arakene.data.repository.LoginRepositoryImpl
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.HomeRepository
+import com.arakene.domain.repository.ListRepository
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.repository.LoginRepository
 import dagger.Module
@@ -37,4 +39,7 @@ class RepositoryModule {
     fun provideHomeRepository(api: FillsaApi, noTokenApi: FillsaNoTokenApi): HomeRepository {
         return HomeRepositoryImpl(api = api, nonTokenApi = noTokenApi)
     }
+
+    @Provides
+    fun provideListRepository(api: FillsaApi): ListRepository = ListRepositoryImpl(api)
 }

@@ -1,7 +1,9 @@
 package com.arakene.data.network
 
 import com.arakene.domain.requests.LikeRequest
+import com.arakene.domain.requests.Pageable
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.PageResponseMemberQuotesResponse
 import com.arakene.domain.responses.SimpleIntResponse
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -39,4 +41,11 @@ interface FillsaApi {
     suspend fun deleteUploadImage(
         @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
     ): Response<SimpleIntResponse>
+
+    @GET(ApiEndPoint.GET_QUOTE_LIST)
+    suspend fun getQuoteList(
+        @Query("pageable") pageable: Pageable,
+        @Query("request") request: LikeRequest
+    ): Response<PageResponseMemberQuotesResponse>
+
 }

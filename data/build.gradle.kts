@@ -33,4 +33,6 @@ dependencies {
     implementation(libs.hilt)
 
     implementation(libs.datastore)
+
+    implementation(libs.paging)
 }

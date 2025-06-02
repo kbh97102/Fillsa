@@ -88,4 +88,6 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     implementation(libs.coil)
     implementation(libs.coil.network)
+
+    implementation(libs.paging.compose)
 }
