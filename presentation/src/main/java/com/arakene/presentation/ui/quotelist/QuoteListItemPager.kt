@@ -11,14 +11,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
@@ -62,7 +63,10 @@ fun QuoteListItemPager(
             ) {
                 repeat(2) {
                     val color =
-                        if (pagerState.currentPage == it) MaterialTheme.colorScheme.primary else Color.White
+                        if (pagerState.currentPage == it)
+                            colorResource(R.color.yellow02)
+                        else
+                            colorResource(R.color.gray_200)
                     Box(
                         modifier = Modifier
                             .padding(4.dp)
