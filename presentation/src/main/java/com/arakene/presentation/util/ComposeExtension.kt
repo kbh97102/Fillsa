@@ -63,6 +63,8 @@ fun HandleViewEffect(
 
 val LocalSnackbarHost = compositionLocalOf { SnackbarHostState() }
 
+val LocalDialogDataHolder = compositionLocalOf { DialogDataHolder() }
+
 
 fun copyToClipboard(
     context: Context,

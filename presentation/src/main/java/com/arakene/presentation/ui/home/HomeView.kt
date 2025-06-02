@@ -28,15 +28,16 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.ImageDialogDataHolder
+import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
@@ -45,7 +46,8 @@ import com.arakene.presentation.viewmodel.HomeViewModel
 fun HomeView(
     navigate: (Screens) -> Unit,
     viewModel: HomeViewModel = hiltViewModel(),
-    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
+    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
 
     LaunchedEffect(Unit) {
@@ -55,10 +57,6 @@ fun HomeView(
 
     val backgroundImageUrl by remember {
         viewModel.backgroundImageUri
-    }
-
-    LaunchedEffect(backgroundImageUrl) {
-        logDebug("url $backgroundImageUrl")
     }
 
     val context = LocalContext.current
@@ -103,6 +101,7 @@ fun HomeView(
         ImageDialogDataHolder()
     }
 
+
     HandleViewEffect(
         viewModel.effect,
         lifecycleOwner = lifecycleOwner
@@ -119,6 +118,11 @@ fun HomeView(
                 }.run {
                     show = true
                 }
+            }
+
+            is CommonEffect.ShowDialog -> {
+                dialogDataHolder.data = it.dialogData
+                dialogDataHolder.show = true
             }
         }
     }

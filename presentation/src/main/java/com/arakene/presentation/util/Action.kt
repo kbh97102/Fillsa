@@ -20,6 +20,8 @@ sealed interface LoginAction : Action {
         val expiresIn: String? = null,
         val appVersion: String,
     ) : LoginAction
+
+    data object ClickNonMember: LoginAction
 }
 
 

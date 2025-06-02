@@ -59,8 +59,19 @@ class LoginViewModel @Inject constructor(
                 )
             }
 
+            is LoginAction.ClickNonMember -> {
+                clickNonMember()
+            }
+
             else -> {}
         }
+    }
+
+    private fun clickNonMember() = viewModelScope.launch {
+        setRefreshTokenUseCase("")
+        setAccessTokenUseCase("")
+
+        emitEffect(LoginEffect.Move(Screens.Home))
     }
 
     private fun loginGoogle(loginAction: LoginAction.ClickGoogleLogin) {

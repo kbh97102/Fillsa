@@ -26,11 +26,14 @@ import androidx.navigation.toRoute
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.LoginView
+import com.arakene.presentation.ui.common.CommonDialog
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
+import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
@@ -72,8 +75,16 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+            val dialogData = remember {
+                DialogDataHolder()
+            }
+
             FillsaTheme {
-                CompositionLocalProvider(LocalSnackbarHost provides snackbarHostState) {
+
+                CompositionLocalProvider(
+                    LocalSnackbarHost provides snackbarHostState,
+                    LocalDialogDataHolder provides dialogData
+                ) {
                     Scaffold(
                         snackbarHost = {
                             SnackbarHost(snackbarHostState) {
@@ -87,6 +98,17 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     ) { paddingValues ->
+
+                        if (dialogData.show) {
+                            CommonDialog(
+                                title = dialogData.data?.title ?: "",
+                                positiveOnClick = dialogData.data?.onClick ?: {},
+                                dismiss = {
+                                    dialogData.show = false
+                                }
+                            )
+                        }
+
                         NavHost(
                             modifier = Modifier.padding(paddingValues),
                             navController = navController,
