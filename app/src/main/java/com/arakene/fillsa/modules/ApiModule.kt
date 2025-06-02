@@ -31,6 +31,7 @@ class ApiModule {
                     .addInterceptor(tokenInterceptor)
                     .build()
             )
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(FillsaApi::class.java)
     }

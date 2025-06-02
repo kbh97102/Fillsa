@@ -37,7 +37,7 @@ fun QuoteListSection(
                         data = second,
                         modifier = Modifier.weight(1f)
                     )
-                } ?: let {
+                } ?: run {
                     Spacer(Modifier.weight(1f))
                 }
 
