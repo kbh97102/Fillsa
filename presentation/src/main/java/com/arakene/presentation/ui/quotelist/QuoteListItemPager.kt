@@ -11,8 +11,10 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -26,15 +28,22 @@ fun QuoteListItemPager(
     modifier: Modifier = Modifier
 ) {
 
-    if (memo.isEmpty()) {
-        PagerItem(quote)
-    } else {
+    val pagerState = rememberPagerState {
+        2
+    }
 
-        val pagerState = rememberPagerState {
-            2
-        }
 
-        Column {
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 10.dp)
+            .padding(top = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        if (memo.isEmpty()) {
+            PagerItem(quote)
+        } else {
             HorizontalPager(pagerState) {
                 when (it) {
                     0 -> {
@@ -47,19 +56,22 @@ fun QuoteListItemPager(
                 }
             }
 
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                repeat(2){
-                    val color = if (pagerState.currentPage == it) Color.DarkGray else Color.LightGray
+            Row(
+                modifier = Modifier.padding(top = 12.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                repeat(2) {
+                    val color =
+                        if (pagerState.currentPage == it) MaterialTheme.colorScheme.primary else Color.White
                     Box(
                         modifier = Modifier
-                            .padding(8.dp)
+                            .padding(4.dp)
                             .background(color, CircleShape)
-                            .size(10.dp)
+                            .size(6.dp)
                     )
                 }
             }
         }
-
     }
 
 

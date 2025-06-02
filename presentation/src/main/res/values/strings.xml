@@ -17,4 +17,5 @@
     <string name="kakao_talk">카카오톡</string>
     <string name="copied">복사되었습니다.</string>
     <string name="like">좋아요</string>
+    <string name="memo">메모</string>
 </resources>
