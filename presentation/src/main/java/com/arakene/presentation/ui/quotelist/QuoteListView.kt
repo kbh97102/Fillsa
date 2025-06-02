@@ -31,6 +31,13 @@ fun QuoteListView(
             modifier = Modifier.padding(top = 20.dp)
         )
 
+        IsLikeSection(
+            isLike = isLike,
+            setIsLike = {
+                isLike = it
+            }
+        )
+
     }
 
 
