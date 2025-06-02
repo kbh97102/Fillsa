@@ -46,4 +46,16 @@ data class MemberQuotesResponse(
 
     @SerializedName("likeYn")
     val likeYn: String  // "Y" or "N"
-)
+){
+    constructor() : this(
+        memberQuoteSeq = 0,
+        quoteDate = "",
+        quoteDayOfWeek = "",
+        quote = "",
+        author = "",
+        authorUrl = "",
+        memo = "",
+        memoYn = "N",
+        likeYn = "N"
+    )
+}

@@ -10,6 +10,7 @@ import com.arakene.data.repository.LocalRepositoryImpl
 import com.arakene.data.repository.LoginRepositoryImpl
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.HomeRepository
+import com.arakene.domain.repository.ListRepository
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.repository.LoginRepository
 import dagger.Module
@@ -40,5 +41,5 @@ class RepositoryModule {
     }
 
     @Provides
-    fun provideListRepository(api: FillsaApi) = ListRepositoryImpl(api)
+    fun provideListRepository(api: FillsaApi): ListRepository = ListRepositoryImpl(api)
 }

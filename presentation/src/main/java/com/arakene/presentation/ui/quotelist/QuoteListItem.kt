@@ -15,12 +15,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun QuoteListItem(
-    data: DailyQuoteDto,
+    data: MemberQuotesResponse,
     modifier: Modifier = Modifier
 ) {
 
@@ -81,7 +82,7 @@ fun QuoteListItem(
 private fun QuoteListItemPreview() {
     FillsaTheme {
         QuoteListItem(
-            data = DailyQuoteDto()
+            data = MemberQuotesResponse()
         )
     }
 }
