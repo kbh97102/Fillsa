@@ -39,4 +39,6 @@ dependencies {
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.gson)
     implementation(libs.hilt)
+
+    implementation(libs.paging)
 }

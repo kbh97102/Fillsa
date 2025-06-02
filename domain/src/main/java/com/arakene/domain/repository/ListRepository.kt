@@ -1,12 +1,15 @@
 package com.arakene.domain.repository
 
+import androidx.paging.PagingData
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.Pageable
-import com.arakene.domain.responses.PageResponseMemberQuotesResponse
-import com.arakene.domain.util.ApiResult
+import com.arakene.domain.responses.MemberQuotesResponse
+import kotlinx.coroutines.flow.Flow
 
 interface ListRepository {
 
-    suspend fun getQuotesList(pageable: Pageable, request: LikeRequest) : ApiResult<PageResponseMemberQuotesResponse>
+    fun getQuotesList(
+        request: LikeRequest
+    ): Flow<PagingData<MemberQuotesResponse>>
 
 }

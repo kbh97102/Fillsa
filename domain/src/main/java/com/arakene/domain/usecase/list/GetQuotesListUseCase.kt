@@ -9,7 +9,7 @@ class GetQuotesListUseCase @Inject constructor(
     private val listRepository: ListRepository
 ) {
 
-    suspend operator fun invoke(pageable: Pageable, request: LikeRequest) =
-        listRepository.getQuotesList(pageable, request)
+    operator fun invoke(request: LikeRequest) =
+        listRepository.getQuotesList(request)
 
 }

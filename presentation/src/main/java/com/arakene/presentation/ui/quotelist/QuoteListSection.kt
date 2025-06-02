@@ -6,28 +6,31 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
 
 @Composable
 fun QuoteListSection(
-    list: List<MemberQuotesResponse>,
+    list: LazyPagingItems<MemberQuotesResponse>,
     modifier: Modifier = Modifier
 ) {
 
     LazyColumn(modifier = modifier) {
 
-        items(list.size) {
+        items(list.itemCount) {
             Row(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 val firstIndex = it * 2
                 val firstItem = list[firstIndex]
-                val secondItem = if (firstIndex + 1 < list.size) list[firstIndex + 1] else null
+                val secondItem = if (firstIndex + 1 < list.itemCount) list[firstIndex + 1] else null
 
-                QuoteListItem(
-                    data = firstItem,
-                    modifier = Modifier.weight(1f)
-                )
+                firstItem?.let { first ->
+                    QuoteListItem(
+                        data = first,
+                        modifier = Modifier.weight(1f)
+                    )
+                }
 
                 secondItem?.let { second ->
                     QuoteListItem(
