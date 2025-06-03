@@ -90,4 +90,5 @@ dependencies {
     implementation(libs.coil.network)
 
     implementation(libs.paging.compose)
+    implementation(libs.calendar)
 }
