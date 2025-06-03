@@ -8,6 +8,9 @@ import com.arakene.domain.usecase.list.GetQuotesListUseCase
 import com.arakene.domain.usecase.list.PostSaveMemoUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.YN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -25,7 +28,23 @@ class ListViewModel @Inject constructor(
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun handleAction(action: Action) {
-        TODO("Not yet implemented")
+        when (val listAction = action as QuoteListAction) {
+            is QuoteListAction.ClickItem -> {
+                val data = listAction.memberQuotesResponse
+                emitEffect(
+                    CommonEffect.Move(
+                        Screens.QuoteDetail(
+                            memo = data.memo,
+                            authorUrl = data.authorUrl,
+                            author = data.author,
+                            quote = data.quote,
+                            memberQuoteSeq = data.memberQuoteSeq.toString()
+                        )
+                    )
+                )
+            }
+        }
+
     }
 
     fun getQuotesList(likeYn: Boolean) = getQuotesListUseCase(

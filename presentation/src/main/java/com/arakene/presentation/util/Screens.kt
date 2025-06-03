@@ -59,4 +59,22 @@ sealed interface Screens {
         override val routeString: String
             get() = "QuoteList"
     }
+
+    @Serializable
+    data class QuoteDetail(
+        val quote: String,
+        val author: String,
+        val authorUrl: String,
+        val memberQuoteSeq: String,
+        val memo: String
+    ): Screens {
+        override val routeString: String
+            get() = "QuoteDetail"
+    }
+
+    @Serializable
+    data object MemoInsert: Screens {
+        override val routeString: String
+            get() = "MemoInsert"
+    }
 }

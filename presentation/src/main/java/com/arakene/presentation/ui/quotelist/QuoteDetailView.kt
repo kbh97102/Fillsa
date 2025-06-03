@@ -35,7 +35,13 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LocaleType
 
 @Composable
-fun MemoView() {
+fun QuoteDetailView(
+    quote: String,
+    author: String,
+    authorUrl: String,
+    memberQuoteSeq: String,
+    memo: String
+) {
 
     var localeType by remember {
         mutableStateOf(LocaleType.KOR)
@@ -120,6 +126,12 @@ fun MemoView() {
 @Composable
 private fun MemoViewPreview() {
     FillsaTheme {
-        MemoView()
+        QuoteDetailView(
+            memo = "",
+            memberQuoteSeq = "",
+            quote = "",
+            author = "",
+            authorUrl = ""
+        )
     }
 }

@@ -14,13 +14,19 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.QuoteListAction
 import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
 fun QuoteListView(
     startDate: String,
     endDate: String,
+    navigate: Navigate,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -29,6 +35,19 @@ fun QuoteListView(
     }
 
     val paging = viewModel.getQuotesList(isLike).collectAsLazyPagingItems()
+
+    val lifeCycle = LocalLifecycleOwner.current
+
+    HandleViewEffect(
+        viewModel.effect,
+        lifeCycle
+    ) {
+        when (it) {
+            is CommonEffect.Move -> {
+                navigate(it.screen)
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -54,7 +73,10 @@ fun QuoteListView(
 
         QuoteListSection(
             modifier = Modifier.padding(top = 10.dp),
-            list = paging
+            list = paging,
+            onClick = {
+                viewModel.handleContract(QuoteListAction.ClickItem(it))
+            }
         )
 
     }
