@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.calendar
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -10,13 +11,13 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,7 +37,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -213,7 +213,7 @@ private fun Day(
     isMonthDate: Boolean = true,
     onClick: (CalendarDay) -> Unit = {},
 ) {
-    Box(
+    Column(
         modifier = Modifier
             .aspectRatio(1f) // This is important for square-sizing!
             .padding(1.dp)
@@ -222,6 +222,7 @@ private fun Day(
                 enabled = day.position == DayPosition.MonthDate,
                 onClick = { onClick(day) },
             ),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val textColor = when (day.position) {
             DayPosition.MonthDate -> Color.Unspecified
@@ -229,16 +230,31 @@ private fun Day(
         }
         Text(
             modifier = Modifier
-                .align(Alignment.Center)
-                .padding(top = 3.dp, end = 4.dp),
+                .padding(top = 4.dp),
             text = day.date.dayOfMonth.toString(),
-            color = if (isMonthDate){
+            color = if (isMonthDate) {
                 colorResource(R.color.gray_700)
             } else {
                 colorResource(R.color.gray_400)
             },
             style = FillsaTheme.typography.buttonSmallNormal
         )
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(top = 3.dp)
+        ) {
+            Image(
+                painterResource(R.drawable.icn_note_calendar),
+                contentDescription = null,
+                modifier = Modifier.size(12.dp)
+            )
+            Image(
+                painterResource(R.drawable.icn_fill_heart),
+                contentDescription = null,
+                modifier = Modifier.size(12.dp)
+            )
+        }
 
     }
 }
