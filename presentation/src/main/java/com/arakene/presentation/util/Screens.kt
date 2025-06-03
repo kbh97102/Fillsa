@@ -20,12 +20,6 @@ sealed interface Screens {
     }
 
     @Serializable
-    data object List : Screens {
-        override val routeString: String
-            get() = "List"
-    }
-
-    @Serializable
     data object Calendar : Screens {
         override val routeString: String
             get() = "Calendar"
@@ -57,7 +51,7 @@ sealed interface Screens {
     @Serializable
     data object QuoteList : Screens {
         override val routeString: String
-            get() = "QuoteList"
+            get() = "List"
     }
 
     @Serializable

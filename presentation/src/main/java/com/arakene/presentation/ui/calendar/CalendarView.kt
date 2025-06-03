@@ -2,7 +2,7 @@ package com.arakene.presentation.ui.calendar
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -19,7 +19,7 @@ fun CalendarView(
 
     Column(
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
             .padding(horizontal = 20.dp)
     ) {

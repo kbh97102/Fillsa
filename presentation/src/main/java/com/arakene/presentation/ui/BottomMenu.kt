@@ -21,7 +21,7 @@ import com.arakene.presentation.util.Screens
 fun BottomNavigationBar(navController: NavHostController) {
     val items = listOf(
         Pair(Screens.Home, R.drawable.icn_bottom_menu_home),
-        Pair(Screens.List, R.drawable.icn_bottom_menu_list),
+        Pair(Screens.QuoteList, R.drawable.icn_bottom_menu_list),
         Pair(Screens.Calendar, R.drawable.icn_bottom_menu_calendar),
         Pair(Screens.MyPage, R.drawable.icn_bottom_menu_my_page),
     )
