@@ -36,6 +36,8 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 import androidx.core.graphics.scale
 
+typealias Navigate = (Screens) -> Unit
+
 @Composable
 fun Modifier.noEffectClickable(enable: Boolean = true, click: () -> Unit) = this.clickable(
     enabled = enable, onClick = click, interactionSource =

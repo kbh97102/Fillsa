@@ -18,4 +18,5 @@
     <string name="copied">복사되었습니다.</string>
     <string name="like">좋아요</string>
     <string name="memo">메모</string>
+    <string name="insert_memo">메모를 남겨주세요.</string>
 </resources>

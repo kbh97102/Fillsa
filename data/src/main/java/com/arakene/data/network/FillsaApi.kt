@@ -1,6 +1,7 @@
 package com.arakene.data.network
 
 import com.arakene.domain.requests.LikeRequest
+import com.arakene.domain.requests.MemoRequest
 import com.arakene.domain.requests.Pageable
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
@@ -47,5 +48,11 @@ interface FillsaApi {
         @Query("pageable") pageable: Pageable,
         @Query("request") request: LikeRequest
     ): Response<PageResponseMemberQuotesResponse>
+
+    @POST(ApiEndPoint.POST_SAVE_MEMO)
+    suspend fun postSaveMemo(
+        @Path("memberQuoteSeq") memberQuoteSeq: String,
+        @Body body: MemoRequest
+    ): Response<SimpleIntResponse>
 
 }

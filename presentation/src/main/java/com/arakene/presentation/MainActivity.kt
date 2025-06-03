@@ -30,6 +30,8 @@ import com.arakene.presentation.ui.common.CommonDialog
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
+import com.arakene.presentation.ui.quotelist.MemoInsertView
+import com.arakene.presentation.ui.quotelist.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.QuoteListView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
@@ -113,7 +115,7 @@ class MainActivity : ComponentActivity() {
                         NavHost(
                             modifier = Modifier.padding(paddingValues),
                             navController = navController,
-                            startDestination = Screens.QuoteList,
+                            startDestination = Screens.Login,
                         ) {
 
                             composable<Screens.Login> {
@@ -160,10 +162,34 @@ class MainActivity : ComponentActivity() {
                             composable<Screens.QuoteList> {
                                 QuoteListView(
                                     startDate = "",
-                                    endDate = ""
+                                    endDate = "",
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
                                 )
                             }
 
+                            composable<Screens.QuoteDetail> {
+                                val data = it.toRoute<Screens.QuoteDetail>()
+                                QuoteDetailView(
+                                    memo = data.memo,
+                                    authorUrl = data.authorUrl,
+                                    author = data.author,
+                                    quote = data.quote,
+                                    memberQuoteSeq = data.memberQuoteSeq,
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
+                                )
+                            }
+
+                            composable<Screens.MemoInsert> {
+                                val data = it.toRoute<Screens.MemoInsert>()
+                                MemoInsertView(
+                                    memberQuoteSeq = data.memberQuoteSeq,
+                                    savedMemo = data.savedMemo
+                                )
+                            }
                         }
                     }
                 }

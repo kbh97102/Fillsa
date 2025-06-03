@@ -8,10 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun QuoteListSection(
     list: LazyPagingItems<MemberQuotesResponse>,
+    onClick: (MemberQuotesResponse) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -29,6 +31,9 @@ fun QuoteListSection(
                     QuoteListItem(
                         data = first,
                         modifier = Modifier.weight(1f)
+                            .noEffectClickable {
+                                onClick(first)
+                            }
                     )
                 }
 
@@ -36,6 +41,9 @@ fun QuoteListSection(
                     QuoteListItem(
                         data = second,
                         modifier = Modifier.weight(1f)
+                            .noEffectClickable {
+                                onClick(second)
+                            }
                     )
                 } ?: run {
                     Spacer(Modifier.weight(1f))

@@ -64,11 +64,6 @@ data class TypingQuoteRequest(
     val typingEngQuote: String
 )
 
-data class MemoRequest(
-    @SerializedName("memo")
-    val memo: String
-)
-
 data class LikeRequest(
     @SerializedName("likeYn")
     val likeYn: String // "Y" or "N"
