@@ -31,12 +31,13 @@ import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
 fun MemoInsertView(
+    savedMemo: String,
     memberQuoteSeq: String,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
     var memo by remember {
-        mutableStateOf("")
+        mutableStateOf(savedMemo)
     }
 
     val black = colorResource(R.color.gray_700)

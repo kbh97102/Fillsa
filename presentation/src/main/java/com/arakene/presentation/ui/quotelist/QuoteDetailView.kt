@@ -29,10 +29,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.home.LocaleSwitch
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocaleType
+import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.noEffectClickable
+import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
 fun QuoteDetailView(
@@ -40,11 +48,26 @@ fun QuoteDetailView(
     author: String,
     authorUrl: String,
     memberQuoteSeq: String,
-    memo: String
+    memo: String,
+    navigate: Navigate,
+    viewModel: ListViewModel = hiltViewModel()
 ) {
 
     var localeType by remember {
         mutableStateOf(LocaleType.KOR)
+    }
+
+    val lifeCycle = LocalLifecycleOwner.current
+
+    HandleViewEffect(
+        viewModel.effect,
+        lifeCycle
+    ) {
+        when (it) {
+            is CommonEffect.Move -> {
+                navigate(it.screen)
+            }
+        }
     }
 
     Column(
@@ -115,7 +138,16 @@ fun QuoteDetailView(
         // 메모
         MemoInsertSection(
             memo = "",
-            modifier = Modifier.padding(top = 20.dp, bottom = 50.dp)
+            modifier = Modifier
+                .padding(top = 20.dp, bottom = 50.dp)
+                .noEffectClickable {
+                    viewModel.handleContract(
+                        QuoteListAction.ClickMemo(
+                            memberQuoteSeq = memberQuoteSeq,
+                            savedMemo = memo
+                        )
+                    )
+                }
         )
 
     }
@@ -131,7 +163,8 @@ private fun MemoViewPreview() {
             memberQuoteSeq = "",
             quote = "",
             author = "",
-            authorUrl = ""
+            authorUrl = "",
+            navigate = {}
         )
     }
 }

@@ -176,13 +176,18 @@ class MainActivity : ComponentActivity() {
                                     authorUrl = data.authorUrl,
                                     author = data.author,
                                     quote = data.quote,
-                                    memberQuoteSeq = data.memberQuoteSeq
+                                    memberQuoteSeq = data.memberQuoteSeq,
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
                                 )
                             }
 
                             composable<Screens.MemoInsert> {
+                                val data = it.toRoute<Screens.MemoInsert>()
                                 MemoInsertView(
-                                    memberQuoteSeq = ""
+                                    memberQuoteSeq = data.memberQuoteSeq,
+                                    savedMemo = data.savedMemo
                                 )
                             }
                         }

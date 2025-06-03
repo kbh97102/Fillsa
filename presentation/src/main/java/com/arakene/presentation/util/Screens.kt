@@ -8,31 +8,31 @@ sealed interface Screens {
     val routeString: String
 
     @Serializable
-    data object Login: Screens {
+    data object Login : Screens {
         override val routeString: String
             get() = "Login"
     }
 
     @Serializable
-    data object Home: Screens {
+    data object Home : Screens {
         override val routeString: String
             get() = "home"
     }
 
     @Serializable
-    data object List: Screens {
+    data object List : Screens {
         override val routeString: String
             get() = "List"
     }
 
     @Serializable
-    data object Calendar: Screens {
+    data object Calendar : Screens {
         override val routeString: String
             get() = "Calendar"
     }
 
     @Serializable
-    data object MyPage: Screens {
+    data object MyPage : Screens {
         override val routeString: String
             get() = "My page"
     }
@@ -40,7 +40,7 @@ sealed interface Screens {
     @Serializable
     data class DailyQuote(
         val dailyQuoteDto: DailyQuoteDto
-    ): Screens {
+    ) : Screens {
         override val routeString: String
             get() = "DailyQuote"
     }
@@ -49,13 +49,13 @@ sealed interface Screens {
     data class Share(
         val quote: String,
         val author: String
-    ): Screens {
+    ) : Screens {
         override val routeString: String
             get() = "Share"
     }
 
     @Serializable
-    data object QuoteList: Screens {
+    data object QuoteList : Screens {
         override val routeString: String
             get() = "QuoteList"
     }
@@ -67,13 +67,16 @@ sealed interface Screens {
         val authorUrl: String,
         val memberQuoteSeq: String,
         val memo: String
-    ): Screens {
+    ) : Screens {
         override val routeString: String
             get() = "QuoteDetail"
     }
 
     @Serializable
-    data object MemoInsert: Screens {
+    data class MemoInsert(
+        val savedMemo: String,
+        val memberQuoteSeq: String,
+    ) : Screens {
         override val routeString: String
             get() = "MemoInsert"
     }

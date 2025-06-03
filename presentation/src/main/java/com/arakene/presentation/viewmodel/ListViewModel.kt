@@ -43,6 +43,18 @@ class ListViewModel @Inject constructor(
                     )
                 )
             }
+
+            is QuoteListAction.ClickMemo -> {
+                emitEffect(
+                    CommonEffect.Move(
+                        Screens.MemoInsert(
+                            memberQuoteSeq = listAction.memberQuoteSeq,
+                            savedMemo = listAction.savedMemo
+                        )
+                    )
+                )
+            }
+
         }
 
     }

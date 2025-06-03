@@ -48,4 +48,9 @@ sealed interface QuoteListAction : Action {
     data class ClickItem(
         val memberQuotesResponse: MemberQuotesResponse
     ): QuoteListAction
+
+    data class ClickMemo(
+        val memberQuoteSeq: String,
+        val savedMemo: String
+    ): QuoteListAction
 }
