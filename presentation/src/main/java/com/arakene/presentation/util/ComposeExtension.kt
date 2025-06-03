@@ -35,8 +35,20 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
 import androidx.core.graphics.scale
+import java.time.DayOfWeek
 
 typealias Navigate = (Screens) -> Unit
+
+
+fun DayOfWeek.toKoreanShort(): String = when (this) {
+    DayOfWeek.SUNDAY    -> "일"
+    DayOfWeek.MONDAY    -> "월"
+    DayOfWeek.TUESDAY   -> "화"
+    DayOfWeek.WEDNESDAY -> "수"
+    DayOfWeek.THURSDAY  -> "목"
+    DayOfWeek.FRIDAY    -> "금"
+    DayOfWeek.SATURDAY  -> "토"
+}
 
 @Composable
 fun Modifier.noEffectClickable(enable: Boolean = true, click: () -> Unit) = this.clickable(

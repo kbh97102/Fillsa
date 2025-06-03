@@ -26,6 +26,7 @@ import androidx.navigation.toRoute
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.LoginView
+import com.arakene.presentation.ui.calendar.CalendarView
 import com.arakene.presentation.ui.common.CommonDialog
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
@@ -41,6 +42,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.logDebug
+import com.kizitonwose.calendar.core.CalendarMonth
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.typeOf
 
@@ -84,115 +86,117 @@ class MainActivity : ComponentActivity() {
 
             FillsaTheme {
 
-                CompositionLocalProvider(
-                    LocalSnackbarHost provides snackbarHostState,
-                    LocalDialogDataHolder provides dialogData
-                ) {
-                    Scaffold(
-                        snackbarHost = {
-                            SnackbarHost(snackbarHostState) {
-                                SnackbarContent(message = it.visuals.message)
-                            }
-                        },
-                        bottomBar = {
-                            logDebug("bottomBar $displayBottomBar")
-                            if (displayBottomBar) {
-                                BottomNavigationBar(navController)
-                            }
-                        }
-                    ) { paddingValues ->
+                CalendarView()
 
-                        if (dialogData.show) {
-                            CommonDialog(
-                                title = dialogData.data?.title ?: "",
-                                positiveOnClick = dialogData.data?.onClick ?: {},
-                                dismiss = {
-                                    dialogData.show = false
-                                }
-                            )
-                        }
-
-                        NavHost(
-                            modifier = Modifier.padding(paddingValues),
-                            navController = navController,
-                            startDestination = Screens.Login,
-                        ) {
-
-                            composable<Screens.Login> {
-                                LoginView(
-                                    navigate = {
-                                        navController.navigate(it)
-                                    }
-                                )
-                            }
-
-                            composable<Screens.Home> {
-                                HomeView(
-                                    navigate = {
-                                        navController.navigate(it)
-                                    }
-                                )
-                            }
-
-                            composable<Screens.DailyQuote>(
-                                typeMap = mapOf(
-                                    typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
-                                )
-                            ) {
-                                val data = it.toRoute<Screens.DailyQuote>()
-                                TypingQuoteView(
-                                    data.dailyQuoteDto,
-                                    navigate = {
-                                        navController.navigate(it)
-                                    },
-                                    backOnClick = {
-                                        navController.popBackStack()
-                                    }
-                                )
-                            }
-
-                            composable<Screens.Share> {
-                                val data = it.toRoute<Screens.Share>()
-                                ShareView(
-                                    quote = data.quote,
-                                    author = data.author
-                                )
-                            }
-
-                            composable<Screens.QuoteList> {
-                                QuoteListView(
-                                    startDate = "",
-                                    endDate = "",
-                                    navigate = {
-                                        navController.navigate(it)
-                                    }
-                                )
-                            }
-
-                            composable<Screens.QuoteDetail> {
-                                val data = it.toRoute<Screens.QuoteDetail>()
-                                QuoteDetailView(
-                                    memo = data.memo,
-                                    authorUrl = data.authorUrl,
-                                    author = data.author,
-                                    quote = data.quote,
-                                    memberQuoteSeq = data.memberQuoteSeq,
-                                    navigate = {
-                                        navController.navigate(it)
-                                    }
-                                )
-                            }
-
-                            composable<Screens.MemoInsert> {
-                                val data = it.toRoute<Screens.MemoInsert>()
-                                MemoInsertView(
-                                    memberQuoteSeq = data.memberQuoteSeq,
-                                    savedMemo = data.savedMemo
-                                )
-                            }
-                        }
-                    }
-                }
+//                CompositionLocalProvider(
+//                    LocalSnackbarHost provides snackbarHostState,
+//                    LocalDialogDataHolder provides dialogData
+//                ) {
+//                    Scaffold(
+//                        snackbarHost = {
+//                            SnackbarHost(snackbarHostState) {
+//                                SnackbarContent(message = it.visuals.message)
+//                            }
+//                        },
+//                        bottomBar = {
+//                            logDebug("bottomBar $displayBottomBar")
+//                            if (displayBottomBar) {
+//                                BottomNavigationBar(navController)
+//                            }
+//                        }
+//                    ) { paddingValues ->
+//
+//                        if (dialogData.show) {
+//                            CommonDialog(
+//                                title = dialogData.data?.title ?: "",
+//                                positiveOnClick = dialogData.data?.onClick ?: {},
+//                                dismiss = {
+//                                    dialogData.show = false
+//                                }
+//                            )
+//                        }
+//
+//                        NavHost(
+//                            modifier = Modifier.padding(paddingValues),
+//                            navController = navController,
+//                            startDestination = Screens.Login,
+//                        ) {
+//
+//                            composable<Screens.Login> {
+//                                LoginView(
+//                                    navigate = {
+//                                        navController.navigate(it)
+//                                    }
+//                                )
+//                            }
+//
+//                            composable<Screens.Home> {
+//                                HomeView(
+//                                    navigate = {
+//                                        navController.navigate(it)
+//                                    }
+//                                )
+//                            }
+//
+//                            composable<Screens.DailyQuote>(
+//                                typeMap = mapOf(
+//                                    typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
+//                                )
+//                            ) {
+//                                val data = it.toRoute<Screens.DailyQuote>()
+//                                TypingQuoteView(
+//                                    data.dailyQuoteDto,
+//                                    navigate = {
+//                                        navController.navigate(it)
+//                                    },
+//                                    backOnClick = {
+//                                        navController.popBackStack()
+//                                    }
+//                                )
+//                            }
+//
+//                            composable<Screens.Share> {
+//                                val data = it.toRoute<Screens.Share>()
+//                                ShareView(
+//                                    quote = data.quote,
+//                                    author = data.author
+//                                )
+//                            }
+//
+//                            composable<Screens.QuoteList> {
+//                                QuoteListView(
+//                                    startDate = "",
+//                                    endDate = "",
+//                                    navigate = {
+//                                        navController.navigate(it)
+//                                    }
+//                                )
+//                            }
+//
+//                            composable<Screens.QuoteDetail> {
+//                                val data = it.toRoute<Screens.QuoteDetail>()
+//                                QuoteDetailView(
+//                                    memo = data.memo,
+//                                    authorUrl = data.authorUrl,
+//                                    author = data.author,
+//                                    quote = data.quote,
+//                                    memberQuoteSeq = data.memberQuoteSeq,
+//                                    navigate = {
+//                                        navController.navigate(it)
+//                                    }
+//                                )
+//                            }
+//
+//                            composable<Screens.MemoInsert> {
+//                                val data = it.toRoute<Screens.MemoInsert>()
+//                                MemoInsertView(
+//                                    memberQuoteSeq = data.memberQuoteSeq,
+//                                    savedMemo = data.savedMemo
+//                                )
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
     }
