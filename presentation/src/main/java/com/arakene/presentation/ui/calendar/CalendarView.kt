@@ -142,22 +142,15 @@ private fun CalendarNavigationIcon(
     painter: Painter,
     contentDescription: String,
     modifier: Modifier = Modifier,
-    isHorizontal: Boolean = true,
     onClick: () -> Unit,
 ) = Box(
     modifier = modifier
-        .clip(shape = CircleShape)
         .clickable(role = Role.Button, onClick = onClick),
 ) {
-    val rotation by animateFloatAsState(
-        targetValue = if (isHorizontal) 0f else 90f,
-        label = "CalendarNavigationIconAnimation",
-    )
-    Icon(
+    Image(
         modifier = Modifier
             .padding(4.dp)
-            .align(Alignment.Center)
-            .rotate(rotation),
+            .align(Alignment.Center),
         painter = painter,
         contentDescription = contentDescription,
     )
@@ -189,7 +182,6 @@ fun SimpleCalendarTitle(
             painter = painterResource(R.drawable.icn_arror_purple),
             contentDescription = "Previous",
             onClick = goToPrevious,
-            isHorizontal = isHorizontal,
         )
         Text(
             modifier = Modifier
@@ -203,7 +195,6 @@ fun SimpleCalendarTitle(
             painter = painterResource(R.drawable.icn_arror_purple),
             contentDescription = "Next",
             onClick = goToNext,
-            isHorizontal = isHorizontal,
         )
     }
 }
