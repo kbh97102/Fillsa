@@ -16,6 +16,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -69,47 +71,65 @@ fun CalendarView(
 
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.secondary, shape = MaterialTheme.shapes.medium)
-            .border(1.dp, color = colorResource(R.color.yellow02))
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.primary)
+            .padding(horizontal = 20.dp)
     ) {
 
-        SimpleCalendarTitle(
+        Column(
             modifier = Modifier
-                .padding(top = 8.dp)
-                .padding(horizontal = 16.dp),
-            currentMonth = currentMonth,
-            goToPrevious = {
-                scope.launch {
-                    state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.previousMonth)
-                }
-            },
-            goToNext = {
-                scope.launch {
-                    state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.nextMonth)
-                }
-            },
-        )
-
-        HorizontalCalendar(
-            modifier = Modifier
-                .wrapContentWidth()
-                .padding(top = 10.dp, bottom = 8.dp),
-            state = state,
-            dayContent = { day ->
-                Day(
-                    day = day,
-                    isSelected = selection == day,
-                ) { clicked ->
-                    selection = clicked
-                }
-            },
-            monthHeader = {
-                MonthHeader(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    daysOfWeek = daysOfWeek,
+                .padding(top = 20.dp)
+                .background(
+                    MaterialTheme.colorScheme.secondary,
+                    shape = MaterialTheme.shapes.medium
                 )
-            },
-        )
+                .border(
+                    1.dp,
+                    color = colorResource(R.color.yellow02),
+                    shape = MaterialTheme.shapes.medium
+                )
+        ) {
+
+            SimpleCalendarTitle(
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .padding(horizontal = 16.dp),
+                currentMonth = currentMonth,
+                goToPrevious = {
+                    scope.launch {
+                        state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.previousMonth)
+                    }
+                },
+                goToNext = {
+                    scope.launch {
+                        state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.nextMonth)
+                    }
+                },
+            )
+
+            HorizontalCalendar(
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(top = 10.dp, bottom = 8.dp),
+                state = state,
+                dayContent = { day ->
+                    Day(
+                        day = day,
+                        isSelected = selection == day,
+                        isMonthDate = day.position == DayPosition.MonthDate
+                    ) { clicked ->
+                        selection = clicked
+                    }
+                },
+                monthHeader = {
+                    MonthHeader(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        daysOfWeek = daysOfWeek,
+                    )
+                },
+            )
+        }
+
     }
 
 }
@@ -190,7 +210,7 @@ fun SimpleCalendarTitle(
 private fun Day(
     day: CalendarDay,
     isSelected: Boolean = false,
-    colors: List<Color> = emptyList(),
+    isMonthDate: Boolean = true,
     onClick: (CalendarDay) -> Unit = {},
 ) {
     Box(
@@ -212,7 +232,11 @@ private fun Day(
                 .align(Alignment.Center)
                 .padding(top = 3.dp, end = 4.dp),
             text = day.date.dayOfMonth.toString(),
-            color = colorResource(R.color.gray_700),
+            color = if (isMonthDate){
+                colorResource(R.color.gray_700)
+            } else {
+                colorResource(R.color.gray_400)
+            },
             style = FillsaTheme.typography.buttonSmallNormal
         )
 
