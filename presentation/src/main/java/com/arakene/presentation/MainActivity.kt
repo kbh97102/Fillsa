@@ -115,7 +115,7 @@ class MainActivity : ComponentActivity() {
                         NavHost(
                             modifier = Modifier.padding(paddingValues),
                             navController = navController,
-                            startDestination = Screens.Login,
+                            startDestination = Screens.Home,
                         ) {
 
                             composable<Screens.Login> {

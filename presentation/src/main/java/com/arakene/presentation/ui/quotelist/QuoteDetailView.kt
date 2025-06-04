@@ -22,7 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -39,6 +39,7 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.dropShadow
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.ListViewModel
 
@@ -80,7 +81,10 @@ fun QuoteDetailView(
 
         // TODO: 공통화 필요
         // 탑 영역, 뒤로가기 , 메모 텍스트
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(vertical = 13.dp)
+        ) {
             Image(painter = painterResource(R.drawable.icn_arrow), contentDescription = null)
 
             Text(
@@ -94,19 +98,22 @@ fun QuoteDetailView(
         // 이미지
         Box(
             modifier = Modifier
+                .padding(top = 20.dp)
                 .fillMaxWidth()
                 .aspectRatio(320f / 350f)
-                .shadow(
-                    2.dp,
+                .dropShadow(
                     shape = MaterialTheme.shapes.medium,
-                    ambientColor = colorResource(R.color.gray_89).copy(alpha = 0.5f)
+                    color = colorResource(R.color.gray_89).copy(alpha = 0.5f),
+                    blur = 23.2.dp,
+                    spread = 2.dp
                 ),
         ) {
             Image(
                 painter = painterResource(R.drawable.img_memo_image_default),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.matchParentSize()
+                modifier = Modifier.fillMaxSize()
+                    .clip(MaterialTheme.shapes.medium)
             )
         }
 
@@ -157,14 +164,12 @@ fun QuoteDetailView(
 @Preview
 @Composable
 private fun MemoViewPreview() {
-    FillsaTheme {
-        QuoteDetailView(
-            memo = "",
-            memberQuoteSeq = "",
-            quote = "",
-            author = "",
-            authorUrl = "",
-            navigate = {}
-        )
-    }
+    QuoteDetailView(
+        memo = "",
+        memberQuoteSeq = "",
+        quote = "",
+        author = "",
+        authorUrl = "",
+        navigate = {}
+    )
 }
