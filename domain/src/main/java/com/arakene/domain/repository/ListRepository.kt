@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 interface ListRepository {
 
     fun getQuotesList(
-        request: LikeRequest
+        likeYn: String,
     ): Flow<PagingData<MemberQuotesResponse>>
 
     suspend fun postSaveMemo(

@@ -2,7 +2,6 @@ package com.arakene.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.MemoRequest
 import com.arakene.domain.usecase.list.GetQuotesListUseCase
 import com.arakene.domain.usecase.list.PostSaveMemoUseCase
@@ -60,13 +59,11 @@ class ListViewModel @Inject constructor(
     }
 
     fun getQuotesList(likeYn: Boolean) = getQuotesListUseCase(
-        LikeRequest(
-            if (likeYn) {
-                YN.Y.type
-            } else {
-                YN.N.type
-            }
-        )
+        if (likeYn) {
+            YN.Y.type
+        } else {
+            YN.N.type
+        }
     ).cachedIn(viewModelScope)
 
     fun postSaveMemo(memberQuoteSeq: String, memo: String) {
