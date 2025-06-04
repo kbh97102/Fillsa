@@ -3,6 +3,7 @@ package com.arakene.data.network
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.MemoRequest
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.MemberMonthlyQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
 import com.arakene.domain.responses.SimpleIntResponse
 import okhttp3.MultipartBody
@@ -54,5 +55,10 @@ interface FillsaApi {
         @Path("memberQuoteSeq") memberQuoteSeq: String,
         @Body body: MemoRequest
     ): Response<SimpleIntResponse>
+
+    @GET(ApiEndPoint.GET_QUOTE_MONTHLY)
+    suspend fun getQuotesMonthly(
+        @Query("yearMonth") yearMonth: String
+    ): Response<MemberMonthlyQuoteResponse>
 
 }
