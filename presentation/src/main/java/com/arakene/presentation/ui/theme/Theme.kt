@@ -175,7 +175,8 @@ fun FillsaTheme(
 
         darkTheme -> darkColorScheme(
             primary = colorResource(R.color.primary),
-            secondary = colorResource(R.color.yellow01)
+            secondary = colorResource(R.color.yellow01),
+            tertiary = colorResource(R.color.purple02)
         )
 
         else -> lightColorScheme(

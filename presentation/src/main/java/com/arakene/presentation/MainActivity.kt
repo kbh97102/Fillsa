@@ -172,7 +172,7 @@ class MainActivity : ComponentActivity() {
                             composable<Screens.QuoteDetail> {
                                 val data = it.toRoute<Screens.QuoteDetail>()
                                 QuoteDetailView(
-                                    memo = data.memo,
+                                    memo = data.memo ?: "",
                                     authorUrl = data.authorUrl,
                                     author = data.author,
                                     quote = data.quote,

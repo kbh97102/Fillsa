@@ -39,7 +39,7 @@ data class MemberQuotesResponse(
     val authorUrl: String,
 
     @SerializedName("memo")
-    val memo: String,
+    val memo: String?,
 
     @SerializedName("memoYn")
     val memoYn: String, // "Y" or "N"

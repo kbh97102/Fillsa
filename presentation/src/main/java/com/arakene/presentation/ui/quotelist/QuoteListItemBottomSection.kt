@@ -26,7 +26,8 @@ fun QuoteListItemBottomSection(
 ) {
 
     Row(
-        modifier = modifier,
+        modifier = modifier
+            .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
@@ -37,8 +38,10 @@ fun QuoteListItemBottomSection(
                     color = Color.White.copy(alpha = 0.6f),
                     shape = RoundedCornerShape(100.dp)
                 )
-                .padding(horizontal = 14.dp, vertical = 1.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(vertical = 1.dp)
+                .weight(1f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
 
             Image(painterResource(R.drawable.icn_memo), contentDescription = null)
@@ -47,7 +50,8 @@ fun QuoteListItemBottomSection(
                 stringResource(R.string.memo),
                 style = FillsaTheme.typography.body4,
                 color = colorResource(R.color.gray_700),
-                modifier = Modifier.padding(start = 4.dp)
+                modifier = Modifier.padding(start = 4.dp),
+                maxLines = 1
             )
 
         }
@@ -58,8 +62,10 @@ fun QuoteListItemBottomSection(
                     color = Color.White.copy(alpha = 0.6f),
                     shape = RoundedCornerShape(100.dp)
                 )
-                .padding(horizontal = 14.dp, vertical = 1.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(vertical = 1.dp)
+                .weight(1f),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
 
             Image(
@@ -72,7 +78,8 @@ fun QuoteListItemBottomSection(
                 stringResource(R.string.like),
                 style = FillsaTheme.typography.body4,
                 color = colorResource(R.color.gray_700),
-                modifier = Modifier.padding(start = 4.dp)
+                modifier = Modifier.padding(start = 4.dp),
+                maxLines = 1
             )
 
         }

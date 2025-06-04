@@ -26,7 +26,7 @@ fun DateSelectSection(
 ) {
 
     Row(
-        verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+        verticalAlignment = Alignment.CenterVertically, modifier = modifier
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.secondary,
