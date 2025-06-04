@@ -1,6 +1,7 @@
 package com.arakene.domain.responses
 
 import androidx.annotation.Keep
+import com.arakene.domain.util.YN
 import com.google.gson.annotations.SerializedName
 
 @Keep
@@ -18,8 +19,11 @@ data class MemberQuotesData(
     val author: String,
 
     @SerializedName("typingYn")
-    val typingYn: String,  // "Y" 또는 "N"
+    val typingYnString: String,  // "Y" 또는 "N"
 
     @SerializedName("likeYn")
-    val likeYn: String     // "Y" 또는 "N"
-)
+    val likeYnString: String     // "Y" 또는 "N"
+) {
+    val likeYn get() = YN.getYN(likeYnString)
+    val typingYn get() = YN.getYN(typingYnString)
+}

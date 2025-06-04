@@ -13,7 +13,6 @@ import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostUploadImageUseCase
-import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -21,10 +20,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.YN
-import com.arakene.presentation.util.logDebug
-import com.arakene.presentation.util.logError
-import com.google.android.gms.common.internal.service.Common
+import com.arakene.domain.util.YN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch

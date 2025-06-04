@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -32,6 +33,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.arakene.domain.responses.MemberQuotesData
+import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.logDebug
@@ -51,6 +54,7 @@ import java.util.Locale
 
 @Composable
 fun CalendarSection(
+    memberQuotes: List<MemberQuotesData>,
     changeMonth: (YearMonth) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -60,6 +64,7 @@ fun CalendarSection(
     val endMonth = remember { currentMonth.plusMonths(24) }
     var selection by remember { mutableStateOf<CalendarDay?>(null) }
     val daysOfWeek = remember { daysOfWeek() }
+    val dateFormat = remember { DateTimeFormatter.ofPattern("yyyy-MM-dd") }
 
     val state = rememberCalendarState(
         startMonth = startMonth,
@@ -68,10 +73,6 @@ fun CalendarSection(
     )
 
     val scope = rememberCoroutineScope()
-
-    LaunchedEffect(currentMonth) {
-        logDebug("Current Month $currentMonth")
-    }
 
     Column(
         modifier = modifier
@@ -117,11 +118,22 @@ fun CalendarSection(
                 .padding(top = 10.dp, bottom = 8.dp),
             state = state,
             dayContent = { day ->
+                val quoteData by remember(day, memberQuotes) {
+                    mutableStateOf(
+                        memberQuotes.firstOrNull { findData ->
+                            findData.quoteDate == dateFormat.format(
+                                day.date
+                            )
+                        }
+                    )
+                }
+
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Day(
                         day = day,
                         isSelected = selection == day,
-                        isMonthDate = day.position == DayPosition.MonthDate
+                        isMonthDate = day.position == DayPosition.MonthDate,
+                        quoteData = quoteData
                     ) { clicked ->
                         selection = clicked
                     }
@@ -204,10 +216,18 @@ fun SimpleCalendarTitle(
 @Composable
 private fun Day(
     day: CalendarDay,
+    quoteData: MemberQuotesData?,
     isSelected: Boolean = false,
     isMonthDate: Boolean = true,
     onClick: (CalendarDay) -> Unit = {},
 ) {
+
+    LaunchedEffect(quoteData) {
+        if (quoteData?.likeYn == YN.Y || quoteData?.likeYnString == "Y") {
+            logDebug("????? $quoteData")
+        }
+    }
+
     Column(
         modifier = Modifier
             .background(
@@ -239,18 +259,24 @@ private fun Day(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(top = 3.dp)
+            modifier = Modifier
+                .padding(top = 3.dp)
+                .heightIn(min = 12.dp)
         ) {
-            Image(
-                painterResource(R.drawable.icn_note_calendar),
-                contentDescription = null,
-                modifier = Modifier.size(12.dp)
-            )
-            Image(
-                painterResource(R.drawable.icn_fill_heart),
-                contentDescription = null,
-                modifier = Modifier.size(12.dp)
-            )
+            if (quoteData?.typingYn == YN.Y) {
+                Image(
+                    painterResource(R.drawable.icn_note_calendar),
+                    contentDescription = null,
+                    modifier = Modifier.size(12.dp)
+                )
+            }
+            if (quoteData?.likeYn == YN.Y) {
+                Image(
+                    painterResource(R.drawable.icn_fill_heart),
+                    contentDescription = null,
+                    modifier = Modifier.size(12.dp)
+                )
+            }
         }
     }
 }
@@ -279,6 +305,7 @@ private fun MonthHeader(
 private fun CalendarSectionPreview() {
     FillsaTheme {
         CalendarSection(
+            memberQuotes = emptyList(),
             changeMonth = {}
         )
     }
