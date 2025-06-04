@@ -4,4 +4,5 @@ interface CommonEffect : Effect {
 
     data class Move(val screen: Screens) : CommonEffect
     data class ShowDialog(val dialogData: DialogData): CommonEffect
+    data object Refresh: CommonEffect
 }

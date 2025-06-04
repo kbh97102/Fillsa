@@ -49,25 +49,23 @@ import java.util.Locale
 
 @Composable
 fun CalendarSection(
-
+    changeMonth: (YearMonth) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
-    val currentMonth = remember { YearMonth.now() }
-    val startMonth = remember { currentMonth.minusMonths(500) }
-    val endMonth = remember { currentMonth.plusMonths(500) }
+    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
+
     var selection by remember { mutableStateOf<CalendarDay?>(null) }
     val daysOfWeek = remember { daysOfWeek() }
 
     val state = rememberCalendarState(
-        startMonth = startMonth,
-        endMonth = endMonth,
         firstVisibleMonth = currentMonth,
     )
 
     val scope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(top = 20.dp)
             .background(
                 MaterialTheme.colorScheme.secondary,
@@ -88,11 +86,18 @@ fun CalendarSection(
             goToPrevious = {
                 scope.launch {
                     state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.previousMonth)
+                    val current = state.firstVisibleMonth.yearMonth
+                    changeMonth(current)
+                    currentMonth = current
                 }
             },
             goToNext = {
                 scope.launch {
                     state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.nextMonth)
+                    // TODO: 이거 구조 영 불편한데
+                    val current = state.firstVisibleMonth.yearMonth
+                    changeMonth(current)
+                    currentMonth = current
                 }
             },
         )
@@ -264,6 +269,8 @@ private fun MonthHeader(
 @Composable
 private fun CalendarSectionPreview() {
     FillsaTheme {
-        CalendarSection()
+        CalendarSection(
+            changeMonth = {}
+        )
     }
 }

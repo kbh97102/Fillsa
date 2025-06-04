@@ -2,6 +2,7 @@ package com.arakene.presentation.util
 
 import com.arakene.domain.responses.MemberQuotesResponse
 import java.io.File
+import java.time.YearMonth
 
 
 sealed interface LoginAction : Action {
@@ -47,10 +48,16 @@ sealed interface TypingAction : Action {
 sealed interface QuoteListAction : Action {
     data class ClickItem(
         val memberQuotesResponse: MemberQuotesResponse
-    ): QuoteListAction
+    ) : QuoteListAction
 
     data class ClickMemo(
         val memberQuoteSeq: String,
         val savedMemo: String
-    ): QuoteListAction
+    ) : QuoteListAction
+}
+
+sealed interface CalendarAction : Action {
+    data class ChangeMonth(
+        val target: YearMonth
+    ) : CalendarAction
 }
