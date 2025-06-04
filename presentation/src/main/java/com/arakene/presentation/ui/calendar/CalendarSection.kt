@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -260,8 +261,11 @@ private fun Day(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(top = 3.dp)
-                .heightIn(min = 12.dp)
+                .padding(horizontal = 5.dp)
+                .heightIn(min = 12.dp),
+            horizontalArrangement = Arrangement.Start
         ) {
             if (quoteData?.typingYn == YN.Y) {
                 Image(
