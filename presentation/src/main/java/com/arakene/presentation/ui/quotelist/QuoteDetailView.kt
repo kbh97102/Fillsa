@@ -112,7 +112,8 @@ fun QuoteDetailView(
                 painter = painterResource(R.drawable.img_memo_image_default),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier
+                    .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium)
             )
         }
@@ -137,14 +138,14 @@ fun QuoteDetailView(
 
         // 명언
         MemoQuoteSection(
-            author = "존 우든",
-            quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+            author = author,
+            quote = quote,
             modifier = Modifier.padding(top = 20.dp)
         )
 
         // 메모
         MemoInsertSection(
-            memo = "",
+            memo = memo,
             modifier = Modifier
                 .padding(top = 20.dp, bottom = 50.dp)
                 .noEffectClickable {
