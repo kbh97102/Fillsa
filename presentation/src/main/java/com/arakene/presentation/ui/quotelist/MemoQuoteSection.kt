@@ -10,9 +10,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
@@ -37,7 +39,8 @@ fun MemoQuoteSection(
             quote,
             style = FillsaTheme.typography.body2,
             modifier = Modifier.fillMaxWidth(),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = colorResource(R.color.gray_700)
         )
         Text(
             author,
@@ -45,7 +48,8 @@ fun MemoQuoteSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 12.dp),
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
+            color = colorResource(R.color.gray_700)
         )
     }
 
