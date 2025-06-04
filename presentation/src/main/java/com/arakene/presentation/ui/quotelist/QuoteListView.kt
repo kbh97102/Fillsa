@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.quotelist
 
+import android.net.wifi.hotspot2.pps.HomeSp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
@@ -57,6 +59,8 @@ fun QuoteListView(
             .background(MaterialTheme.colorScheme.primary)
             .padding(horizontal = 20.dp)
     ) {
+
+        HomeTopSection()
 
         DateSelectSection(
             startDate = startDate,
