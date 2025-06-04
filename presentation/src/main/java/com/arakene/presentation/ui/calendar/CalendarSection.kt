@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -33,6 +34,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -54,15 +56,22 @@ fun CalendarSection(
 ) {
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-
+    val startMonth = remember { currentMonth.minusMonths(24) }
+    val endMonth = remember { currentMonth.plusMonths(24) }
     var selection by remember { mutableStateOf<CalendarDay?>(null) }
     val daysOfWeek = remember { daysOfWeek() }
 
     val state = rememberCalendarState(
+        startMonth = startMonth,
+        endMonth = endMonth,
         firstVisibleMonth = currentMonth,
     )
 
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(currentMonth) {
+        logDebug("Current Month $currentMonth")
+    }
 
     Column(
         modifier = modifier
@@ -85,19 +94,19 @@ fun CalendarSection(
             currentMonth = currentMonth,
             goToPrevious = {
                 scope.launch {
-                    state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.previousMonth)
-                    val current = state.firstVisibleMonth.yearMonth
-                    changeMonth(current)
-                    currentMonth = current
+                    val target = state.firstVisibleMonth.yearMonth.previousMonth
+                    state.animateScrollToMonth(target)
+                    changeMonth(target)
+                    currentMonth = target
                 }
             },
             goToNext = {
                 scope.launch {
-                    state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.nextMonth)
+                    val target = state.firstVisibleMonth.yearMonth.nextMonth
+                    state.animateScrollToMonth(target)
                     // TODO: 이거 구조 영 불편한데
-                    val current = state.firstVisibleMonth.yearMonth
-                    changeMonth(current)
-                    currentMonth = current
+                    changeMonth(target)
+                    currentMonth = target
                 }
             },
         )
