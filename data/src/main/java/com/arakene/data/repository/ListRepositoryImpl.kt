@@ -29,14 +29,14 @@ class ListRepositoryImpl @Inject constructor(
     }
 
     override fun getQuotesList(
-        request: LikeRequest
+        likeYn: String
     ): Flow<PagingData<MemberQuotesResponse>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 30,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { GetQuotesListDataSource(api, request) }
+            pagingSourceFactory = { GetQuotesListDataSource(api, likeYn) }
         ).flow
     }
 

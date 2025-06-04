@@ -3,12 +3,11 @@ package com.arakene.data.network
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.arakene.domain.requests.LikeRequest
-import com.arakene.domain.requests.Pageable
 import com.arakene.domain.responses.MemberQuotesResponse
 
 class GetQuotesListDataSource(
     private val api: FillsaApi,
-    private val request: LikeRequest
+    private val likeYn: String
 ) : PagingSource<Int, MemberQuotesResponse>() {
 
     override fun getRefreshKey(state: PagingState<Int, MemberQuotesResponse>): Int? {
@@ -21,10 +20,9 @@ class GetQuotesListDataSource(
         val page = params.key ?: 0
         return try {
             val response = api.getQuoteList(
-                pageable = Pageable(
-                    page = page,
-                    size = 30
-                ), request = request
+                page = page,
+                size = 30,
+                likeYn = likeYn
             )
             val data = response.body()?.content ?: emptyList()
 

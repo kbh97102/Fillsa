@@ -5,9 +5,11 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
@@ -24,13 +26,16 @@ fun QuoteListSection(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 val firstIndex = it * 2
-                val firstItem = list[firstIndex]
+                val firstItem = if (firstIndex < list.itemCount) {
+                    list[firstIndex]
+                } else null
                 val secondItem = if (firstIndex + 1 < list.itemCount) list[firstIndex + 1] else null
 
                 firstItem?.let { first ->
                     QuoteListItem(
                         data = first,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier
+                            .weight(1f)
                             .noEffectClickable {
                                 onClick(first)
                             }
@@ -40,7 +45,8 @@ fun QuoteListSection(
                 secondItem?.let { second ->
                     QuoteListItem(
                         data = second,
-                        modifier = Modifier.weight(1f)
+                        modifier = Modifier
+                            .weight(1f)
                             .noEffectClickable {
                                 onClick(second)
                             }
