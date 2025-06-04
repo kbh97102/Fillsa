@@ -36,6 +36,7 @@ import com.arakene.presentation.ui.quotelist.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.QuoteListView
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
+import com.arakene.presentation.util.DataKey
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalSnackbarHost
@@ -171,8 +172,20 @@ class MainActivity : ComponentActivity() {
 
                             composable<Screens.QuoteDetail> {
                                 val data = it.toRoute<Screens.QuoteDetail>()
+
+                                val insertedMemoInMemoInsertView =
+                                    navController.currentBackStackEntry?.savedStateHandle?.get<String>(
+                                        DataKey.INSERTED_MEMO
+                                    )
+
+                                val memo = if (insertedMemoInMemoInsertView.isNullOrBlank()) {
+                                    data.memo ?: ""
+                                } else {
+                                    insertedMemoInMemoInsertView
+                                }
+
                                 QuoteDetailView(
-                                    memo = data.memo ?: "",
+                                    memo = memo,
                                     authorUrl = data.authorUrl,
                                     author = data.author,
                                     quote = data.quote,
@@ -185,10 +198,16 @@ class MainActivity : ComponentActivity() {
 
                             composable<Screens.MemoInsert> {
                                 val data = it.toRoute<Screens.MemoInsert>()
+
                                 MemoInsertView(
                                     memberQuoteSeq = data.memberQuoteSeq,
                                     savedMemo = data.savedMemo,
                                     popBackStack = {
+                                        navController.previousBackStackEntry?.savedStateHandle?.set(
+                                            DataKey.INSERTED_MEMO,
+                                            it
+                                        )
+
                                         navController.popBackStack()
                                     }
                                 )

@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.quotelist
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -35,7 +36,7 @@ import com.arakene.presentation.viewmodel.ListViewModel
 fun MemoInsertView(
     savedMemo: String,
     memberQuoteSeq: String,
-    popBackStack: () -> Unit,
+    popBackStack: (String) -> Unit,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -44,6 +45,10 @@ fun MemoInsertView(
     }
 
     val black = colorResource(R.color.gray_700)
+
+    BackHandler {
+        popBackStack(memo)
+    }
 
     DisposableEffect(Unit) {
         onDispose {
@@ -63,7 +68,7 @@ fun MemoInsertView(
             contentDescription = null,
             modifier = Modifier
                 .padding(vertical = 9.dp)
-                .noEffectClickable { popBackStack() }
+                .noEffectClickable { popBackStack(memo) }
         )
 
         Column(modifier = Modifier.padding(horizontal = 5.dp)) {
@@ -101,7 +106,7 @@ fun MemoInsertView(
                 shape = MaterialTheme.shapes.small,
                 colors = MaterialTheme.colorScheme.defaultButtonColors,
                 onClick = {
-                    popBackStack()
+                    popBackStack(memo)
                 },
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
             ) {
