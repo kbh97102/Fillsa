@@ -187,7 +187,10 @@ class MainActivity : ComponentActivity() {
                                 val data = it.toRoute<Screens.MemoInsert>()
                                 MemoInsertView(
                                     memberQuoteSeq = data.memberQuoteSeq,
-                                    savedMemo = data.savedMemo
+                                    savedMemo = data.savedMemo,
+                                    popBackStack = {
+                                        navController.popBackStack()
+                                    }
                                 )
                             }
 

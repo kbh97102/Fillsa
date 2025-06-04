@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.quotelist
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -27,12 +28,14 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomTextField
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
 fun MemoInsertView(
     savedMemo: String,
     memberQuoteSeq: String,
+    popBackStack: () -> Unit,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -51,13 +54,16 @@ fun MemoInsertView(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.White)
             .padding(horizontal = 15.dp)
     ) {
 
         Image(
             painter = painterResource(R.drawable.icn_arrow),
             contentDescription = null,
-            modifier = Modifier.padding(vertical = 9.dp)
+            modifier = Modifier
+                .padding(vertical = 9.dp)
+                .noEffectClickable { popBackStack() }
         )
 
         Column(modifier = Modifier.padding(horizontal = 5.dp)) {
@@ -94,7 +100,9 @@ fun MemoInsertView(
                 border = BorderStroke(1.dp, color = black),
                 shape = MaterialTheme.shapes.small,
                 colors = MaterialTheme.colorScheme.defaultButtonColors,
-                onClick = {},
+                onClick = {
+                    popBackStack()
+                },
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
             ) {
                 Text(
