@@ -22,7 +22,7 @@ class CalendarViewModel @Inject constructor(
 
 ) : BaseViewModel() {
 
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM")
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM")
 
     val data = mutableStateOf<MemberMonthlyQuoteResponse?>(null)
 
