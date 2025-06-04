@@ -1,15 +1,15 @@
 package com.arakene.presentation.ui.quotelist
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
@@ -19,11 +19,12 @@ fun QuoteListSection(
     modifier: Modifier = Modifier
 ) {
 
-    LazyColumn(modifier = modifier) {
+    LazyColumn(modifier = modifier, verticalArrangement = Arrangement.spacedBy(20.dp)) {
 
         items(list.itemCount) {
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 val firstIndex = it * 2
                 val firstItem = if (firstIndex < list.itemCount) {
