@@ -60,7 +60,7 @@ sealed interface Screens {
         val author: String,
         val authorUrl: String,
         val memberQuoteSeq: String,
-        val memo: String
+        val memo: String?
     ) : Screens {
         override val routeString: String
             get() = "QuoteDetail"
