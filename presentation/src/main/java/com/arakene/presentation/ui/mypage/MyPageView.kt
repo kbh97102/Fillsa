@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
@@ -37,17 +38,36 @@ fun MyPageView(modifier: Modifier = Modifier) {
 
         // Login or UserName
         MyPageLoginSection(
-            modifier = Modifier.padding(vertical = 10.dp),
+            modifier = Modifier.padding(top = 10.dp),
             isLogged = false
         )
 
         // Notice
+        MyPageItem(
+            image = painterResource(R.drawable.icn_info),
+            text = stringResource(R.string.notice),
+            onClick = {},
+            modifier = Modifier.padding(top = 20.dp)
+        )
 
         // Alert
+        MyPageItem(
+            image = painterResource(R.drawable.icn_bell),
+            text = stringResource(R.string.alert),
+            onClick = {},
+            modifier = Modifier.padding(top = 20.dp)
+        )
 
         // Theme
+        MyPageItem(
+            image = painterResource(R.drawable.icn_theme),
+            text = stringResource(R.string.theme),
+            onClick = {},
+            modifier = Modifier.padding(top = 20.dp)
+        )
 
         // version
+
 
         // logout
     }
