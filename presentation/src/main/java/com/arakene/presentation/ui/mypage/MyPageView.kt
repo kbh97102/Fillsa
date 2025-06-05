@@ -39,7 +39,7 @@ fun MyPageView(modifier: Modifier = Modifier) {
         // Login or UserName
         MyPageLoginSection(
             modifier = Modifier.padding(top = 10.dp),
-            isLogged = false
+            isLogged = true
         )
 
         // Notice

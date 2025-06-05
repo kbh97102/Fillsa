@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -37,12 +38,16 @@ fun MyPageLoginSection(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
+                .fillMaxWidth()
+                .background(color = Color.White, shape = MaterialTheme.shapes.medium)
                 .padding(horizontal = 20.dp, vertical = 15.dp)
         ) {
             Image(
                 painter = painterResource(R.drawable.img_mypage_non_login_default_image),
                 contentDescription = null,
-                modifier = Modifier.clip(CircleShape)
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(50.dp),
             )
 
             Text(
@@ -112,12 +117,23 @@ fun MyPageLoginSection(
 }
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, name = "로그인 X")
 @Composable
 private fun MyPageLoginSectionPreview() {
     FillsaTheme {
         MyPageLoginSection(
             isLogged = false
+        )
+    }
+}
+
+
+@Preview(showBackground = true, name = "로그인함")
+@Composable
+private fun MyPageLoginSectionPreview2() {
+    FillsaTheme {
+        MyPageLoginSection(
+            isLogged = true
         )
     }
 }
