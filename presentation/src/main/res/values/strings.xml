@@ -25,4 +25,5 @@
     <string name="alert">알림</string>
     <string name="theme">테마</string>
     <string name="version">버전</string>
+    <string name="logout">로그아웃</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -18,7 +19,11 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
-fun VersionSection(modifier: Modifier = Modifier) {
+fun VersionSection(
+    isLogged: Boolean,
+    logout: () -> Unit,
+    modifier: Modifier = Modifier
+) {
 
     val context = LocalContext.current
 
@@ -27,28 +32,37 @@ fun VersionSection(modifier: Modifier = Modifier) {
             .versionName.toString()
     }
 
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 12.dp, vertical = 13.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
-    ) {
+    Column(modifier = modifier.padding(horizontal = 12.dp)) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 13.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
 
-        Text(
-            stringResource(R.string.version),
-            style = FillsaTheme.typography.subtitle1,
-            color = colorResource(R.color.gray_700)
-        )
+            Text(
+                stringResource(R.string.version),
+                style = FillsaTheme.typography.subtitle1,
+                color = colorResource(R.color.gray_700)
+            )
 
-        Text(version, style = FillsaTheme.typography.body2, color = colorResource(R.color.gray_700))
+            Text(version, style = FillsaTheme.typography.body2, color = colorResource(R.color.gray_700))
+        }
 
+        if (isLogged) {
+            Text(
+                stringResource(R.string.logout),
+                style = FillsaTheme.typography.subtitle1,
+                color = colorResource(R.color.gray_700),
+                modifier = Modifier.padding(top = 13.dp)
+            )
+        }
     }
-
 }
 
 @Preview(showBackground = true)
 @Composable
 private fun VersionSectionPreview() {
-    VersionSection()
+    VersionSection(isLogged = true, logout = {})
 }
