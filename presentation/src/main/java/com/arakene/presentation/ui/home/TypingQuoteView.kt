@@ -42,7 +42,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
-import com.arakene.presentation.util.YN
+import com.arakene.domain.util.YN
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel

@@ -8,7 +8,7 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
-import com.arakene.presentation.util.YN
+import com.arakene.domain.util.YN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

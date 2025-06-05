@@ -6,16 +6,47 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CalendarAction
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.noEffectClickable
+import com.arakene.presentation.viewmodel.CalendarViewModel
 
 @Composable
 fun CalendarView(
-
+    navigate: Navigate,
+    viewModel: CalendarViewModel = hiltViewModel()
 ) {
 
+    val data by remember {
+        viewModel.data
+    }
+
+    val selectedDayQuote by remember {
+        viewModel.selectedDayQuote
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    HandleViewEffect(
+        viewModel.effect,
+        lifecycleOwner
+    ) {
+        when (it) {
+            is CommonEffect.Move -> {
+                navigate(it.screen)
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -24,14 +55,29 @@ fun CalendarView(
             .padding(horizontal = 20.dp)
     ) {
 
-        CalendarSection()
+        CalendarSection(
+            memberQuotes = data?.memberQuotes ?: emptyList(),
+            changeMonth = {
+                viewModel.handleContract(CalendarAction.ChangeMonth(it))
+            },
+            selectDay = {
+                viewModel.handleContract(CalendarAction.SelectDay(it))
+            }
+        )
 
         CalendarCountSection(
+            typingCount = data?.monthlySummary?.typingCount ?: 0,
+            likeCount = data?.monthlySummary?.likeCount ?: 0,
             modifier = Modifier.padding(top = 15.dp)
         )
 
         CalendarQuoteSection(
-            modifier = Modifier.padding(top = 15.dp, bottom = 30.dp)
+            selectedDayQuote = selectedDayQuote,
+            modifier = Modifier
+                .padding(top = 15.dp, bottom = 30.dp)
+                .noEffectClickable {
+                    viewModel.handleContract(CalendarAction.ClickBottomQuote)
+                }
         )
 
     }
@@ -41,5 +87,5 @@ fun CalendarView(
 @Composable
 @Preview
 private fun CalendarViewPreview() {
-    FillsaTheme { CalendarView() }
+    FillsaTheme { CalendarView(navigate = {}) }
 }

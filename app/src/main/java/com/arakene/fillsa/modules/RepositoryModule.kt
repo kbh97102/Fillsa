@@ -4,11 +4,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
+import com.arakene.data.repository.CalendarRepositoryImpl
 import com.arakene.data.repository.HomeRepositoryImpl
 import com.arakene.data.repository.ListRepositoryImpl
 import com.arakene.data.repository.LocalRepositoryImpl
 import com.arakene.data.repository.LoginRepositoryImpl
 import com.arakene.data.util.TokenProvider
+import com.arakene.domain.repository.CalendarRepository
 import com.arakene.domain.repository.HomeRepository
 import com.arakene.domain.repository.ListRepository
 import com.arakene.domain.repository.LocalRepository
@@ -42,4 +44,8 @@ class RepositoryModule {
 
     @Provides
     fun provideListRepository(api: FillsaApi): ListRepository = ListRepositoryImpl(api)
+
+    @Provides
+    fun provideCalendarRepository(api: FillsaApi): CalendarRepository = CalendarRepositoryImpl(api)
+
 }

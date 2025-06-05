@@ -1,6 +1,5 @@
 package com.arakene.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.arakene.domain.requests.MemoRequest
@@ -11,13 +10,11 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.QuoteListAction
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.YN
-import com.arakene.presentation.util.logDebug
+import com.arakene.domain.util.YN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

@@ -4,10 +4,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -15,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,8 +34,11 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.arakene.domain.responses.MemberQuotesData
+import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -49,14 +55,18 @@ import java.util.Locale
 
 @Composable
 fun CalendarSection(
-
+    memberQuotes: List<MemberQuotesData>,
+    changeMonth: (YearMonth) -> Unit,
+    selectDay: (CalendarDay) -> Unit,
+    modifier: Modifier = Modifier
 ) {
 
-    val currentMonth = remember { YearMonth.now() }
-    val startMonth = remember { currentMonth.minusMonths(500) }
-    val endMonth = remember { currentMonth.plusMonths(500) }
+    var currentMonth by remember { mutableStateOf(YearMonth.now()) }
+    val startMonth = remember { currentMonth.minusMonths(24) }
+    val endMonth = remember { currentMonth.plusMonths(24) }
     var selection by remember { mutableStateOf<CalendarDay?>(null) }
     val daysOfWeek = remember { daysOfWeek() }
+    val dateFormat = remember { DateTimeFormatter.ofPattern("yyyy-MM-dd") }
 
     val state = rememberCalendarState(
         startMonth = startMonth,
@@ -67,7 +77,7 @@ fun CalendarSection(
     val scope = rememberCoroutineScope()
 
     Column(
-        modifier = Modifier
+        modifier = modifier
             .padding(top = 20.dp)
             .background(
                 MaterialTheme.colorScheme.secondary,
@@ -87,12 +97,19 @@ fun CalendarSection(
             currentMonth = currentMonth,
             goToPrevious = {
                 scope.launch {
-                    state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.previousMonth)
+                    val target = state.firstVisibleMonth.yearMonth.previousMonth
+                    state.animateScrollToMonth(target)
+                    changeMonth(target)
+                    currentMonth = target
                 }
             },
             goToNext = {
                 scope.launch {
-                    state.animateScrollToMonth(state.firstVisibleMonth.yearMonth.nextMonth)
+                    val target = state.firstVisibleMonth.yearMonth.nextMonth
+                    state.animateScrollToMonth(target)
+                    // TODO: 이거 구조 영 불편한데
+                    changeMonth(target)
+                    currentMonth = target
                 }
             },
         )
@@ -103,13 +120,28 @@ fun CalendarSection(
                 .padding(top = 10.dp, bottom = 8.dp),
             state = state,
             dayContent = { day ->
+                val quoteData by remember(day, memberQuotes) {
+                    mutableStateOf(
+                        memberQuotes.firstOrNull { findData ->
+                            findData.quoteDate == dateFormat.format(
+                                day.date
+                            )
+                        }
+                    )
+                }
+
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Day(
                         day = day,
                         isSelected = selection == day,
-                        isMonthDate = day.position == DayPosition.MonthDate
+                        isMonthDate = day.position == DayPosition.MonthDate,
+                        quoteData = quoteData
                     ) { clicked ->
+                        // TODO: MVI패턴으로하려면 이 selection도 주입을 해야할까?
+                        // TODO: 주어진 데이터로 기능처리가 가능한데 다시 외부에서 넣어야할까?
+                        // TODO: 가능은 하지만 MVI 패턴을 무시하는게 아닐까
                         selection = clicked
+                        selectDay(clicked)
                     }
                 }
             },
@@ -190,10 +222,18 @@ fun SimpleCalendarTitle(
 @Composable
 private fun Day(
     day: CalendarDay,
+    quoteData: MemberQuotesData?,
     isSelected: Boolean = false,
     isMonthDate: Boolean = true,
     onClick: (CalendarDay) -> Unit = {},
 ) {
+
+    LaunchedEffect(quoteData) {
+        if (quoteData?.likeYn == YN.Y || quoteData?.likeYnString == "Y") {
+            logDebug("????? $quoteData")
+        }
+    }
+
     Column(
         modifier = Modifier
             .background(
@@ -225,18 +265,27 @@ private fun Day(
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(top = 3.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 3.dp)
+                .padding(horizontal = 5.dp)
+                .heightIn(min = 12.dp),
+            horizontalArrangement = Arrangement.Start
         ) {
-            Image(
-                painterResource(R.drawable.icn_note_calendar),
-                contentDescription = null,
-                modifier = Modifier.size(12.dp)
-            )
-            Image(
-                painterResource(R.drawable.icn_fill_heart),
-                contentDescription = null,
-                modifier = Modifier.size(12.dp)
-            )
+            if (quoteData?.typingYn == YN.Y) {
+                Image(
+                    painterResource(R.drawable.icn_note_calendar),
+                    contentDescription = null,
+                    modifier = Modifier.size(12.dp)
+                )
+            }
+            if (quoteData?.likeYn == YN.Y) {
+                Image(
+                    painterResource(R.drawable.icn_fill_heart),
+                    contentDescription = null,
+                    modifier = Modifier.size(12.dp)
+                )
+            }
         }
     }
 }
@@ -264,6 +313,10 @@ private fun MonthHeader(
 @Composable
 private fun CalendarSectionPreview() {
     FillsaTheme {
-        CalendarSection()
+        CalendarSection(
+            memberQuotes = emptyList(),
+            changeMonth = {},
+            selectDay = {}
+        )
     }
 }

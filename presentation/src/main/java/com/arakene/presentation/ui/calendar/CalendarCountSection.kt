@@ -19,6 +19,8 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun CalendarCountSection(
+    likeCount: Int,
+    typingCount: Int,
     modifier: Modifier = Modifier
 ) {
     Row(
@@ -29,7 +31,7 @@ fun CalendarCountSection(
         Image(painterResource(R.drawable.icn_note_calendar_purple), contentDescription = null)
 
         Text(
-            "3",
+            typingCount.toString(),
             style = FillsaTheme.typography.body3,
             color = colorResource(R.color.gray_700),
             modifier = Modifier.padding(start = 4.dp)
@@ -44,7 +46,7 @@ fun CalendarCountSection(
         )
 
         Text(
-            "2",
+            likeCount.toString(),
             style = FillsaTheme.typography.body3,
             color = colorResource(R.color.gray_700),
             modifier = Modifier.padding(start = 4.dp)
@@ -55,5 +57,8 @@ fun CalendarCountSection(
 @Composable
 @Preview(showBackground = true)
 private fun CalendarCountSectionPreview() {
-    CalendarCountSection()
+    CalendarCountSection(
+        typingCount = 3,
+        likeCount = 5
+    )
 }
