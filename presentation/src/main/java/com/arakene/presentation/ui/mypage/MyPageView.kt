@@ -67,7 +67,7 @@ fun MyPageView(modifier: Modifier = Modifier) {
         )
 
         // version
-
+        VersionSection(modifier.padding(top = 20.dp))
 
         // logout
     }
