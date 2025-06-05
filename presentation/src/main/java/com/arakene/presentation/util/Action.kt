@@ -1,6 +1,7 @@
 package com.arakene.presentation.util
 
 import com.arakene.domain.responses.MemberQuotesResponse
+import com.kizitonwose.calendar.core.CalendarDay
 import java.io.File
 import java.time.YearMonth
 
@@ -60,4 +61,8 @@ sealed interface CalendarAction : Action {
     data class ChangeMonth(
         val target: YearMonth
     ) : CalendarAction
+
+    data class SelectDay(
+        val target: CalendarDay
+    ): CalendarAction
 }

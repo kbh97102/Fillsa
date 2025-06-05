@@ -23,6 +23,7 @@ import java.util.Locale
 
 @Composable
 fun CalendarQuoteSection(
+    selectedDayQuote: String,
     modifier: Modifier = Modifier
 ) {
     val day = remember {
@@ -63,7 +64,7 @@ fun CalendarQuoteSection(
         }
 
         Text(
-            "",
+            selectedDayQuote,
             modifier = Modifier
                 .weight(1f)
                 .padding(start = 20.dp, end = 10.dp)
@@ -81,6 +82,8 @@ fun CalendarQuoteSection(
 @Composable
 private fun CalendarQuoteSectionPreview() {
     FillsaTheme {
-        CalendarQuoteSection()
+        CalendarQuoteSection(
+            selectedDayQuote = ""
+        )
     }
 }

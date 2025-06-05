@@ -57,6 +57,7 @@ import java.util.Locale
 fun CalendarSection(
     memberQuotes: List<MemberQuotesData>,
     changeMonth: (YearMonth) -> Unit,
+    selectDay: (CalendarDay) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -136,7 +137,11 @@ fun CalendarSection(
                         isMonthDate = day.position == DayPosition.MonthDate,
                         quoteData = quoteData
                     ) { clicked ->
+                        // TODO: MVI패턴으로하려면 이 selection도 주입을 해야할까?
+                        // TODO: 주어진 데이터로 기능처리가 가능한데 다시 외부에서 넣어야할까?
+                        // TODO: 가능은 하지만 MVI 패턴을 무시하는게 아닐까
                         selection = clicked
+                        selectDay(clicked)
                     }
                 }
             },
@@ -310,7 +315,8 @@ private fun CalendarSectionPreview() {
     FillsaTheme {
         CalendarSection(
             memberQuotes = emptyList(),
-            changeMonth = {}
+            changeMonth = {},
+            selectDay = {}
         )
     }
 }

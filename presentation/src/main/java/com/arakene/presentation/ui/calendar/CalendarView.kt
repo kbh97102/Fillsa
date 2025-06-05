@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -15,7 +14,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CalendarAction
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.CalendarViewModel
 
 @Composable
@@ -25,6 +23,10 @@ fun CalendarView(
 
     val data by remember {
         viewModel.data
+    }
+
+    val selectedDayQuote by remember {
+        viewModel.selectedDayQuote
     }
 
     Column(
@@ -38,6 +40,9 @@ fun CalendarView(
             memberQuotes = data?.memberQuotes ?: emptyList(),
             changeMonth = {
                 viewModel.handleContract(CalendarAction.ChangeMonth(it))
+            },
+            selectDay = {
+                viewModel.handleContract(CalendarAction.SelectDay(it))
             }
         )
 
@@ -48,6 +53,7 @@ fun CalendarView(
         )
 
         CalendarQuoteSection(
+            selectedDayQuote = selectedDayQuote,
             modifier = Modifier.padding(top = 15.dp, bottom = 30.dp)
         )
 

@@ -26,6 +26,8 @@ class CalendarViewModel @Inject constructor(
 
     val data = mutableStateOf<MemberMonthlyQuoteResponse?>(null)
 
+    val selectedDayQuote = mutableStateOf("")
+
     init {
 
         // TODO: 데이터 초기화 좋은 방법 유튜브에서 봤던거 적용해보기
@@ -36,6 +38,17 @@ class CalendarViewModel @Inject constructor(
         when (val calendarAction = action as CalendarAction) {
             is CalendarAction.ChangeMonth -> {
                 getQuotesMonthly(calendarAction.target.format(dateFormatter))
+            }
+
+            is CalendarAction.SelectDay -> {
+                val list = data.value?.memberQuotes ?: emptyList()
+
+                selectedDayQuote.value = list.find {
+                    it.quoteDate == dateFormatter.format(
+                        calendarAction.target.date
+                    )
+                }?.quote ?: ""
+
             }
 
             else -> {
