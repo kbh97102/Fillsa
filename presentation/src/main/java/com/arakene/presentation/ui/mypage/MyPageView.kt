@@ -24,6 +24,7 @@ fun MyPageView(modifier: Modifier = Modifier) {
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
+            .padding(horizontal = 20.dp)
     ) {
         // LOGO
         Row(
@@ -35,6 +36,10 @@ fun MyPageView(modifier: Modifier = Modifier) {
         }
 
         // Login or UserName
+        MyPageLoginSection(
+            modifier = Modifier.padding(vertical = 10.dp),
+            isLogged = false
+        )
 
         // Notice
 

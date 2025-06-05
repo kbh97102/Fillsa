@@ -20,4 +20,5 @@
     <string name="memo">메모</string>
     <string name="insert_memo">메모를 남겨주세요.</string>
     <string name="use_after_login">로그인 후 사용해 주세요!</string>
+    <string name="login">로그인</string>
 </resources>
