@@ -31,6 +31,7 @@ import com.arakene.presentation.ui.common.CommonDialog
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
+import com.arakene.presentation.ui.mypage.MyPageView
 import com.arakene.presentation.ui.quotelist.MemoInsertView
 import com.arakene.presentation.ui.quotelist.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.QuoteListView
@@ -116,7 +117,7 @@ class MainActivity : ComponentActivity() {
                         NavHost(
                             modifier = Modifier.padding(paddingValues),
                             navController = navController,
-                            startDestination = Screens.Home,
+                            startDestination = Screens.MyPage,
                         ) {
 
                             composable<Screens.Login> {
@@ -219,6 +220,10 @@ class MainActivity : ComponentActivity() {
                                         navController.navigate(it)
                                     }
                                 )
+                            }
+
+                            composable<Screens.MyPage> {
+                                MyPageView()
                             }
 
                         }
