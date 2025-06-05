@@ -65,4 +65,6 @@ sealed interface CalendarAction : Action {
     data class SelectDay(
         val target: CalendarDay
     ): CalendarAction
+
+    data object ClickBottomQuote: CalendarAction
 }

@@ -9,6 +9,7 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CalendarAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
+import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -49,6 +50,12 @@ class CalendarViewModel @Inject constructor(
                     )
                 }?.quote ?: ""
 
+            }
+
+            is CalendarAction.ClickBottomQuote -> {
+                emitEffect(CommonEffect.Move(
+                    Screens.QuoteList
+                ))
             }
 
             else -> {

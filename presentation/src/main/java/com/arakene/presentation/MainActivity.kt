@@ -214,7 +214,11 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable<Screens.Calendar> {
-                                CalendarView()
+                                CalendarView(
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
+                                )
                             }
 
                         }

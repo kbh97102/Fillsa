@@ -12,12 +12,18 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CalendarAction
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.CalendarViewModel
 
 @Composable
 fun CalendarView(
+    navigate: Navigate,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
 
@@ -27,6 +33,19 @@ fun CalendarView(
 
     val selectedDayQuote by remember {
         viewModel.selectedDayQuote
+    }
+
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    HandleViewEffect(
+        viewModel.effect,
+        lifecycleOwner
+    ) {
+        when (it) {
+            is CommonEffect.Move -> {
+                navigate(it.screen)
+            }
+        }
     }
 
     Column(
@@ -54,7 +73,11 @@ fun CalendarView(
 
         CalendarQuoteSection(
             selectedDayQuote = selectedDayQuote,
-            modifier = Modifier.padding(top = 15.dp, bottom = 30.dp)
+            modifier = Modifier
+                .padding(top = 15.dp, bottom = 30.dp)
+                .noEffectClickable {
+                    viewModel.handleContract(CalendarAction.ClickBottomQuote)
+                }
         )
 
     }
@@ -64,5 +87,5 @@ fun CalendarView(
 @Composable
 @Preview
 private fun CalendarViewPreview() {
-    FillsaTheme { CalendarView() }
+    FillsaTheme { CalendarView(navigate = {}) }
 }
