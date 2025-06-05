@@ -36,27 +36,37 @@ fun MyPageLoginSection(
     if (isLogged) {
 
         Row(
-            verticalAlignment = Alignment.CenterVertically,
             modifier = modifier
-                .fillMaxWidth()
-                .background(color = Color.White, shape = MaterialTheme.shapes.medium)
-                .padding(horizontal = 20.dp, vertical = 15.dp)
+                .dropShadow(
+                    shape = MaterialTheme.shapes.medium,
+                    blur = 16.dp,
+                    spread = (-3).dp,
+                    color = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+                )
         ) {
-            Image(
-                painter = painterResource(R.drawable.img_mypage_non_login_default_image),
-                contentDescription = null,
+            Row(
                 modifier = Modifier
-                    .clip(CircleShape)
-                    .size(50.dp),
-            )
+                    .fillMaxWidth()
+                    .background(color = Color.White, shape = MaterialTheme.shapes.medium)
+                    .padding(horizontal = 20.dp, vertical = 15.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.img_mypage_non_login_default_image),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .size(50.dp),
+                )
 
-            Text(
-                "닉네임 or 연동된 계정 이름?",
-                style = FillsaTheme.typography.subtitle1,
-                color = colorResource(R.color.gray_700),
-                maxLines = 1,
-                modifier = Modifier.padding(horizontal = 16.dp)
-            )
+                Text(
+                    "닉네임 or 연동된 계정 이름?",
+                    style = FillsaTheme.typography.subtitle1,
+                    color = colorResource(R.color.gray_700),
+                    maxLines = 1,
+                    modifier = Modifier.padding(horizontal = 16.dp)
+                )
+            }
 
         }
 
