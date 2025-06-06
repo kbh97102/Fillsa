@@ -3,6 +3,7 @@ package com.arakene.data.network
 import com.arakene.domain.requests.LoginRequest
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.LoginResponse
+import com.arakene.domain.responses.PageResponseNoticeResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -20,5 +21,11 @@ interface FillsaNoTokenApi {
     suspend fun login(
         @Body loginRequest: LoginRequest
     ): Response<LoginResponse>
+
+    @GET(ApiEndPoint.GET_NOTICE)
+    suspend fun getNotice(
+        @Query("size") size: Int,
+        @Query("page") page: Int,
+    ): Response<PageResponseNoticeResponse>
 
 }
