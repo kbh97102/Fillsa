@@ -32,6 +32,7 @@ import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.mypage.MyPageView
+import com.arakene.presentation.ui.mypage.NoticeView
 import com.arakene.presentation.ui.quotelist.MemoInsertView
 import com.arakene.presentation.ui.quotelist.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.QuoteListView
@@ -41,6 +42,7 @@ import com.arakene.presentation.util.DataKey
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalSnackbarHost
+import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.logDebug
@@ -226,7 +228,22 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable<Screens.MyPage> {
-                                MyPageView()
+                                MyPageView(
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
+                                )
+                            }
+
+                            composable<MyPageScreens.Notice> {
+                                NoticeView(
+                                    onBackPress = {
+                                        navController.popBackStack()
+                                    },
+                                    navigate = {
+                                        navController.navigate(it)
+                                    }
+                                )
                             }
 
                         }

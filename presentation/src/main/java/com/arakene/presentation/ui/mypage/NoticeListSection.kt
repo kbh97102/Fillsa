@@ -14,10 +14,12 @@ import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.responses.NoticeResponse
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun NoticeListSection(
     data: LazyPagingItems<NoticeResponse>,
+    onClick: (NoticeResponse) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -28,7 +30,8 @@ fun NoticeListSection(
         }) {
             data[it]?.let { it1 ->
                 NoticeItem(
-                    noticeResponse = it1
+                    noticeResponse = it1,
+                    modifier = Modifier.noEffectClickable { onClick(it1) }
                 )
             }
         }

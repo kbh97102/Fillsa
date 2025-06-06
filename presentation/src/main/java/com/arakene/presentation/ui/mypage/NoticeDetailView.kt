@@ -10,13 +10,16 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arakene.domain.responses.NoticeResponse
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun NoticeDetailView(
+    onBackPress: () -> Unit,
     noticeResponse: NoticeResponse,
     modifier: Modifier = Modifier
 ) {
@@ -24,6 +27,11 @@ fun NoticeDetailView(
     Column(modifier = modifier
         .fillMaxSize()
         .background(MaterialTheme.colorScheme.primary)) {
+
+        HeaderSection(
+            text = stringResource(R.string.notice),
+            onBackPress = onBackPress
+        )
 
         Text(
             noticeResponse.title,

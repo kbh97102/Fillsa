@@ -11,20 +11,40 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.MyPageScreens
+import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.viewmodel.MyPageViewModel
 
 @Composable
 fun NoticeView(
     onBackPress: () -> Unit,
+    navigate: Navigate,
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
 
     val data = viewModel.getNotice.collectAsLazyPagingItems()
+
+    val lifeCycle = LocalLifecycleOwner.current
+
+    HandleViewEffect(
+        viewModel.effect,
+        lifeCycle
+    ) {
+        when (it) {
+            is CommonEffect.Move -> {
+                navigate(it.screen)
+            }
+        }
+    }
+
 
     Column(
         modifier = modifier
@@ -42,7 +62,16 @@ fun NoticeView(
             EmptyNoticeSection()
         } else {
             NoticeListSection(
-                data
+                data,
+                onClick = {
+                    viewModel.handleContract(
+                        CommonEffect.Move(
+                            MyPageScreens.NoticeDetail(
+                                it
+                            )
+                        )
+                    )
+                }
             )
         }
 
@@ -55,7 +84,8 @@ fun NoticeView(
 private fun NoticeViewPreview() {
     FillsaTheme {
         NoticeView(
-            onBackPress = {}
+            onBackPress = {},
+            navigate = {}
         )
     }
 }

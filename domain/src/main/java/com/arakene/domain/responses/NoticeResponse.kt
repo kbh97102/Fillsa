@@ -2,7 +2,9 @@ package com.arakene.domain.responses
 
 import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializable
 
+@Serializable
 @Keep
 data class NoticeResponse(
     @SerializedName("noticeSeq")
