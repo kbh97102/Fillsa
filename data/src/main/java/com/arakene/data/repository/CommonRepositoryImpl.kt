@@ -1,0 +1,26 @@
+package com.arakene.data.repository
+
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import com.arakene.data.network.FillsaNoTokenApi
+import com.arakene.data.network.GetNoticeDataSource
+import com.arakene.domain.repository.CommonRepository
+import com.arakene.domain.responses.NoticeResponse
+import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
+
+class CommonRepositoryImpl @Inject constructor(
+    private val noTokenApi: FillsaNoTokenApi
+) : CommonRepository {
+
+    override fun getNotice(): Flow<PagingData<NoticeResponse>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 30,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { GetNoticeDataSource(noTokenApi) }
+        ).flow
+    }
+}
