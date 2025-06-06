@@ -14,13 +14,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -32,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.home.LocaleSwitch
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
@@ -51,6 +50,7 @@ fun QuoteDetailView(
     memberQuoteSeq: String,
     memo: String,
     navigate: Navigate,
+    onBackPress: () -> Unit,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -79,21 +79,8 @@ fun QuoteDetailView(
             .padding(horizontal = 20.dp)
     ) {
 
-        // TODO: 공통화 필요
         // 탑 영역, 뒤로가기 , 메모 텍스트
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.padding(vertical = 13.dp)
-        ) {
-            Image(painter = painterResource(R.drawable.icn_arrow), contentDescription = null)
-
-            Text(
-                stringResource(R.string.memo),
-                style = FillsaTheme.typography.heading4,
-                color = colorResource(R.color.gray_700),
-                modifier = Modifier.padding(start = 10.dp)
-            )
-        }
+        HeaderSection(text = stringResource(R.string.memo), onBackPress = onBackPress)
 
         // 이미지
         Box(
@@ -171,6 +158,7 @@ private fun MemoViewPreview() {
         quote = "",
         author = "",
         authorUrl = "",
-        navigate = {}
+        navigate = {},
+        onBackPress = {}
     )
 }

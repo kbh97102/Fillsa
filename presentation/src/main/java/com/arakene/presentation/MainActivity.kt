@@ -193,6 +193,9 @@ class MainActivity : ComponentActivity() {
                                     memberQuoteSeq = data.memberQuoteSeq,
                                     navigate = {
                                         navController.navigate(it)
+                                    },
+                                    onBackPress = {
+                                        navController.popBackStack()
                                     }
                                 )
                             }
