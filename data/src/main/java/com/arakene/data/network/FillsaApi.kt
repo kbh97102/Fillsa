@@ -61,4 +61,8 @@ interface FillsaApi {
         @Query("yearMonth") yearMonth: String
     ): Response<MemberMonthlyQuoteResponse>
 
+    @DELETE(ApiEndPoint.DELETE_RESIGN)
+    suspend fun deleteResign(
+    ): Response<SimpleIntResponse>
+
 }
