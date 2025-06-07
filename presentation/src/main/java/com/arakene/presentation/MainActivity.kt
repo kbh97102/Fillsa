@@ -31,6 +31,7 @@ import com.arakene.presentation.ui.common.CommonDialog
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
+import com.arakene.presentation.ui.mypage.AlertView
 import com.arakene.presentation.ui.mypage.MyPageView
 import com.arakene.presentation.ui.mypage.NoticeView
 import com.arakene.presentation.ui.quotelist.MemoInsertView
@@ -112,7 +113,8 @@ class MainActivity : ComponentActivity() {
                                 positiveOnClick = dialogData.data?.onClick ?: {},
                                 dismiss = {
                                     dialogData.show = false
-                                }
+                                },
+                                reversed = dialogData.data?.reversed ?: false
                             )
                         }
 
@@ -244,6 +246,10 @@ class MainActivity : ComponentActivity() {
                                         navController.navigate(it)
                                     }
                                 )
+                            }
+
+                            composable<MyPageScreens.Alert> {
+                                AlertView()
                             }
 
                         }

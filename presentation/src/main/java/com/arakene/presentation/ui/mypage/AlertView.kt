@@ -11,6 +11,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -18,9 +19,22 @@ import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.LocalDialogDataHolder
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
-fun AlertView(modifier: Modifier = Modifier) {
+fun AlertView(
+    modifier: Modifier = Modifier,
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
+) {
+
+    val context = LocalContext.current
+
+    // TODO: 이게 정말 좋은 구조일까? 그냥 텍스트 크기정도만 조절 가능하도록 하는게 좋지 않을까
+    val titleTextStyle = FillsaTheme.typography.heading4
+    val bodyTextStyle = FillsaTheme.typography.body2
 
     Column {
         HeaderSection(
@@ -28,14 +42,28 @@ fun AlertView(modifier: Modifier = Modifier) {
             onBackPress = {}
         )
 
-
         AlertSwitchSection()
 
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.secondary)
-                .padding(horizontal = 20.dp, vertical = 19.dp),
+                .padding(horizontal = 20.dp, vertical = 19.dp)
+                .noEffectClickable {
+                    dialogDataHolder.data = DialogData.Builder()
+                        .title(context.getString(R.string.resign_title))
+                        .titleTextStyle(titleTextStyle)
+                        .bodyTextStyle(bodyTextStyle)
+                        .body(context.getString(R.string.resign_body))
+                        .reversed(true)
+                        .okText(context.getString(R.string.cancel))
+                        .cancelText(context.getString(R.string.resign))
+                        .cancelOnClick {
+                            //
+                        }
+                        .build()
+                }
+            ,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
