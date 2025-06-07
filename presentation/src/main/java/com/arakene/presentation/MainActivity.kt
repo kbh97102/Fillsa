@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -27,8 +28,8 @@ import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.calendar.CalendarView
-import com.arakene.presentation.ui.common.CommonDialog
 import com.arakene.presentation.ui.common.DialogSection
+import com.arakene.presentation.ui.common.WithBaseErrorHandling
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
@@ -48,6 +49,7 @@ import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.viewmodel.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.typeOf
 
@@ -125,9 +127,17 @@ class MainActivity : ComponentActivity() {
                             }
 
                             composable<Screens.Home> {
-                                HomeView(
-                                    navigate = {
-                                        navController.navigate(it)
+
+                                val viewModel: HomeViewModel = hiltViewModel()
+
+                                WithBaseErrorHandling(
+                                    viewModel,
+                                    content = {
+                                        HomeView(
+                                            navigate = {
+                                                navController.navigate(it)
+                                            }
+                                        )
                                     }
                                 )
                             }

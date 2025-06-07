@@ -89,6 +89,26 @@ fun HandleViewEffect(
     }
 }
 
+@Composable
+fun HandleError(
+    effect: Flow<String>,
+    lifecycleOwner: LifecycleOwner,
+    compositionScope: CoroutineScope = rememberCoroutineScope(),
+    effectHandler: suspend (String) -> Unit
+) = LaunchedEffect(effect, lifecycleOwner) {
+
+    lifecycleOwner.lifecycleScope.launch {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            effect
+                .onEach {
+                    effectHandler(it)
+                }
+                .launchIn(compositionScope)
+        }
+    }
+}
+
+
 val LocalSnackbarHost = compositionLocalOf { SnackbarHostState() }
 
 val LocalDialogDataHolder = compositionLocalOf { DialogDataHolder() }

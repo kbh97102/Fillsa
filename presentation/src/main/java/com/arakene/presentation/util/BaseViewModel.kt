@@ -10,8 +10,12 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 abstract class BaseViewModel : ViewModel() {
+
+    // TODO: 이게 최선인가?
+    var lastContract: Contract? = null
 
     private val _action: MutableSharedFlow<Action> = MutableSharedFlow()
     val action = _action.asSharedFlow()
@@ -19,6 +23,8 @@ abstract class BaseViewModel : ViewModel() {
     private val _effect: Channel<Effect> = Channel()
     val effect = _effect.receiveAsFlow()
 
+    private val _error: MutableSharedFlow<String> = MutableSharedFlow()
+    val error = _error.asSharedFlow()
 
     init {
         viewModelScope.launch {
@@ -31,7 +37,7 @@ abstract class BaseViewModel : ViewModel() {
     protected abstract fun handleAction(action: Action)
 
     fun handleContract(contract: Contract) {
-
+        lastContract = contract
         when (contract) {
             is Action -> {
                 emitAction(contract)
@@ -58,7 +64,7 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected fun <T> getResponse(response: ApiResult<T>): T? {
+    protected suspend fun <T> getResponse(response: ApiResult<T>): T? {
 
         return when (response) {
             is ApiResult.Success -> {
@@ -70,6 +76,11 @@ abstract class BaseViewModel : ViewModel() {
             }
 
             is ApiResult.Error -> {
+                when (response.error) {
+                    is HttpException -> {
+                        _error.emit("404")
+                    }
+                }
                 null
             }
         }

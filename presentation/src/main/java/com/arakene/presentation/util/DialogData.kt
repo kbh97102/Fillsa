@@ -1,11 +1,13 @@
 package com.arakene.presentation.util
 
+import android.content.Context
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
+import com.arakene.presentation.R
 
 @Stable
 class DialogData private constructor() {
@@ -19,6 +21,7 @@ class DialogData private constructor() {
     var titleTextSize: TextUnit = 16.sp
     var bodyTextSize: TextUnit = 16.sp
     var reversed = false
+    var drawableId = -1
 
 
     class Builder {
@@ -37,6 +40,22 @@ class DialogData private constructor() {
         fun reversed(reversed: Boolean) = apply { data.reversed = reversed }
 
         fun build(): DialogData = data
+
+        fun buildNetworkError(
+            context: Context,
+            okOnClick: () -> Unit
+        ): DialogData {
+
+            data.apply {
+                title = context.getString(R.string.network_error)
+                drawableId = R.drawable.icn_network_error
+                cancelText = context.getString(R.string.finish)
+                okText = context.getString(R.string.retry)
+                onClick = okOnClick
+            }
+
+            return data
+        }
     }
 }
 

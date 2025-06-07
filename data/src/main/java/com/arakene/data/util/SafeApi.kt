@@ -19,7 +19,6 @@ suspend fun <T> safeApi(execute: suspend () -> Response<T>): ApiResult<T> {
             ApiResult.Fail(error = parsedError)
         }
     } catch (e: HttpException) {
-        // TODO: 차후에 인터넷 오류 팝업 노출
         ApiResult.Error(e)
     } catch (e: Exception) {
         ApiResult.Error(e)
