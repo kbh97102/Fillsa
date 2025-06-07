@@ -30,6 +30,7 @@ class DialogData private constructor() {
         fontSize = 16.sp,
         lineHeight = 24.sp
     )
+    var reversed = false
 
 
     class Builder {
@@ -45,6 +46,7 @@ class DialogData private constructor() {
         fun cancelText(cancelText: String) = apply { data.cancelText = cancelText }
         fun titleTextStyle(style: TextStyle) = apply { data.titleTextStyle = style }
         fun bodyTextStyle(style: TextStyle) = apply { data.bodyTextStyle = style }
+        fun reversed(reversed: Boolean) = apply { data.reversed = reversed }
 
         fun build(): DialogData = data
     }

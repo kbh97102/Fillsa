@@ -51,6 +51,6 @@ class RepositoryModule {
     fun provideCalendarRepository(api: FillsaApi): CalendarRepository = CalendarRepositoryImpl(api)
 
     @Provides
-    fun provideCommonRepository(api: FillsaNoTokenApi): CommonRepository = CommonRepositoryImpl(api)
+    fun provideCommonRepository(api: FillsaNoTokenApi, tokenApi: FillsaApi): CommonRepository = CommonRepositoryImpl(api, tokenApi)
 
 }

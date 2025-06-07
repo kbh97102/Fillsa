@@ -19,4 +19,10 @@ sealed interface MyPageScreens: Screens {
             get() = "NoticeDetail"
     }
 
+    @Serializable
+    data object Alert: MyPageScreens {
+        override val routeString: String
+            get() = "Alert"
+    }
+
 }

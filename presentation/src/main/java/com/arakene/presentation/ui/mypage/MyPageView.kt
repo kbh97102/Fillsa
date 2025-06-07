@@ -81,7 +81,9 @@ fun MyPageView(
         MyPageItem(
             image = painterResource(R.drawable.icn_bell),
             text = stringResource(R.string.alert),
-            onClick = {},
+            onClick = {
+                viewModel.handleContract(CommonEffect.Move(MyPageScreens.Alert))
+            },
             modifier = Modifier.padding(top = 20.dp)
         )
 

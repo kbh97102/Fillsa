@@ -21,4 +21,6 @@ object ApiEndPoint {
     const val GET_QUOTE_MONTHLY = "/api/v1/member-quotes/monthly"
 
     const val GET_NOTICE = "/api/v1/notices"
+
+    const val DELETE_RESIGN = "/api/v1/auth/auth/withdraw"
 }
