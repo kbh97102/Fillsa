@@ -17,6 +17,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
@@ -36,10 +37,6 @@ fun AlertView(
 ) {
 
     val context = LocalContext.current
-
-    // TODO: 이게 정말 좋은 구조일까? 그냥 텍스트 크기정도만 조절 가능하도록 하는게 좋지 않을까
-    val titleTextStyle = FillsaTheme.typography.heading4
-    val bodyTextStyle = FillsaTheme.typography.body2
 
     Column(
         modifier = modifier
@@ -62,8 +59,8 @@ fun AlertView(
                 .noEffectClickable {
                     dialogDataHolder.data = DialogData.Builder()
                         .title(context.getString(R.string.resign_title))
-                        .titleTextStyle(titleTextStyle)
-                        .bodyTextStyle(bodyTextStyle)
+                        .titleTextSize(20.sp)
+                        .bodyTextSize(16.sp)
                         .body(context.getString(R.string.resign_body))
                         .reversed(true)
                         .okText(context.getString(R.string.cancel))
