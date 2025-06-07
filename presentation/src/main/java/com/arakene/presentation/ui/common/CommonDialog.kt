@@ -16,7 +16,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.arakene.presentation.R
@@ -30,7 +32,10 @@ fun CommonDialog(
     positiveText: String = "확인",
     negativeText: String = "취소",
     negativeOnClick: () -> Unit = {},
-    reversed: Boolean = false
+    reversed: Boolean = false,
+    body: String = "",
+    titleTextSize: TextUnit = 16.sp,
+    bodyTextSize: TextUnit = 16.sp
 ) {
 
     Dialog(
@@ -51,13 +56,25 @@ fun CommonDialog(
 
             Text(
                 title,
-                style = FillsaTheme.typography.subtitle1,
+                style = FillsaTheme.typography.subtitle1.copy(fontSize = titleTextSize),
                 color = colorResource(R.color.gray_700),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 52.dp),
                 textAlign = TextAlign.Center,
             )
+
+            if (body.isNotEmpty()) {
+                Text(
+                    body,
+                    style = FillsaTheme.typography.body2.copy(fontSize = bodyTextSize),
+                    color = colorResource(R.color.gray_700),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 2.dp),
+                    textAlign = TextAlign.Center,
+                )
+            }
 
             Row(
                 modifier = Modifier.padding(top = 44.dp),

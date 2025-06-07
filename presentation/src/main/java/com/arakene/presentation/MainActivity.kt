@@ -28,6 +28,7 @@ import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.calendar.CalendarView
 import com.arakene.presentation.ui.common.CommonDialog
+import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.home.HomeView
 import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
@@ -107,16 +108,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { paddingValues ->
 
-                        if (dialogData.show) {
-                            CommonDialog(
-                                title = dialogData.data?.title ?: "",
-                                positiveOnClick = dialogData.data?.onClick ?: {},
-                                dismiss = {
-                                    dialogData.show = false
-                                },
-                                reversed = dialogData.data?.reversed ?: false
-                            )
-                        }
+                        DialogSection(dialogData)
 
                         NavHost(
                             modifier = Modifier.padding(paddingValues),
