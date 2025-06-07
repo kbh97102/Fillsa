@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -36,7 +37,11 @@ fun AlertView(
     val titleTextStyle = FillsaTheme.typography.heading4
     val bodyTextStyle = FillsaTheme.typography.body2
 
-    Column {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.primary)
+    ) {
         HeaderSection(
             stringResource(R.string.alert),
             onBackPress = {}
@@ -46,6 +51,7 @@ fun AlertView(
 
         Row(
             modifier = Modifier
+                .padding(top = 50.dp)
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.secondary)
                 .padding(horizontal = 20.dp, vertical = 19.dp)
@@ -62,8 +68,9 @@ fun AlertView(
                             //
                         }
                         .build()
-                }
-            ,
+
+                    dialogDataHolder.show = true
+                },
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
