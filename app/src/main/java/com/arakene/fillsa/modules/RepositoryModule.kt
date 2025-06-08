@@ -4,12 +4,14 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
+import com.arakene.data.network.TokenApi
 import com.arakene.data.repository.CalendarRepositoryImpl
 import com.arakene.data.repository.CommonRepositoryImpl
 import com.arakene.data.repository.HomeRepositoryImpl
 import com.arakene.data.repository.ListRepositoryImpl
 import com.arakene.data.repository.LocalRepositoryImpl
 import com.arakene.data.repository.LoginRepositoryImpl
+import com.arakene.data.repository.TokenRepositoryImpl
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.CalendarRepository
 import com.arakene.domain.repository.CommonRepository
@@ -17,6 +19,7 @@ import com.arakene.domain.repository.HomeRepository
 import com.arakene.domain.repository.ListRepository
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.repository.LoginRepository
+import com.arakene.domain.repository.TokenRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,5 +55,8 @@ class RepositoryModule {
 
     @Provides
     fun provideCommonRepository(api: FillsaNoTokenApi, tokenApi: FillsaApi): CommonRepository = CommonRepositoryImpl(api, tokenApi)
+
+    @Provides
+    fun provideTokenRepository(tokenApi: TokenApi): TokenRepository = TokenRepositoryImpl(tokenApi)
 
 }

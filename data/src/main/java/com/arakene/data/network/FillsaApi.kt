@@ -66,9 +66,4 @@ interface FillsaApi {
     @DELETE(ApiEndPoint.DELETE_RESIGN)
     suspend fun deleteResign(
     ): Response<SimpleIntResponse>
-
-    @POST(ApiEndPoint.UPDATE_ACCESS_TOKEN)
-    suspend fun updateToken(
-        @Body body: TokenRefreshRequest
-    ): Response<TokenInfo>
 }

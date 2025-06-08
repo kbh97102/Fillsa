@@ -12,6 +12,4 @@ interface CommonRepository {
 
     fun getNotice(): Flow<PagingData<NoticeResponse>>
     suspend fun deleteResign(): ApiResult<SimpleIntResponse>
-
-    suspend fun updateAccessToken(request: TokenRefreshRequest): TokenInfo?
 }
