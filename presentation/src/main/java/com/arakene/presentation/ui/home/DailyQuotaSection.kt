@@ -31,8 +31,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.AuthorText
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.noEffectClickable
+import com.google.android.gms.auth.api.Auth
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -108,15 +110,11 @@ fun DailyQuotaSection(
                         textAlign = TextAlign.Center
                     )
 
-                    Text(
+                    AuthorText(
+                        author = author,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 12.dp),
-                        text = author,
-                        style = FillsaTheme.typography.body2,
-                        color = colorResource(R.color.gray_700),
-                        textDecoration = TextDecoration.Underline,
-                        textAlign = TextAlign.Center
+                            .padding(top = 12.dp)
                     )
                 }
             }

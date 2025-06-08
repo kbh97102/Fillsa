@@ -50,6 +50,7 @@ import java.io.FileOutputStream
 import java.io.OutputStream
 import androidx.core.graphics.scale
 import java.time.DayOfWeek
+import androidx.core.net.toUri
 
 typealias Navigate = (Screens) -> Unit
 
@@ -300,4 +301,9 @@ fun Modifier.dropShadow(
             canvas.restore()
         }
     }
+}
+
+fun getWikipediaUriString(personName: String): String {
+    val encodedName = personName.trim().replace(" ", "_")
+    return "https://wikipedia.org/wiki/$encodedName"
 }
