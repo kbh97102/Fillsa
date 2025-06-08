@@ -14,6 +14,7 @@ import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
+import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
@@ -61,6 +62,14 @@ class LoginViewModel @Inject constructor(
 
             is LoginAction.ClickNonMember -> {
                 clickNonMember()
+            }
+
+            is LoginAction.ClickPrivacyPolicy -> {
+                emitEffect(CommonEffect.OpenUri("https://home.fillsa.store/3p4kj92yn5qwkm57q1x8"))
+            }
+
+            is LoginAction.ClickTermsOfUse -> {
+                emitEffect(CommonEffect.OpenUri("https://home.fillsa.store/7vgjr4m1n5gkk2dwpy86"))
             }
 
             else -> {}

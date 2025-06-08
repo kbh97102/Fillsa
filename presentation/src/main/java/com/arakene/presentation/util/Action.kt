@@ -25,6 +25,11 @@ sealed interface LoginAction : Action {
     ) : LoginAction
 
     data object ClickNonMember : LoginAction
+
+
+    data object ClickTermsOfUse: LoginAction
+
+    data object ClickPrivacyPolicy: LoginAction
 }
 
 
