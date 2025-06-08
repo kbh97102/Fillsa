@@ -7,6 +7,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -53,6 +54,7 @@ import com.arakene.presentation.viewmodel.HomeViewModel
 import com.arakene.presentation.viewmodel.ListViewModel
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.arakene.presentation.viewmodel.MyPageViewModel
+import com.arakene.presentation.viewmodel.SplashViewModel
 import com.arakene.presentation.viewmodel.TypingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.reflect.typeOf
@@ -62,21 +64,27 @@ class MainActivity : ComponentActivity() {
 
     private var keepSplash by mutableStateOf(true)
 
+    private val viewModel: SplashViewModel by viewModels()
+
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { result ->
-//        val granted = result.values.all { it }
-        keepSplash = false
+        viewModel.permissionChecked.value = true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         val splashScreen = installSplashScreen()
-        splashScreen.setKeepOnScreenCondition { keepSplash }
+        splashScreen.setKeepOnScreenCondition {
+            viewModel.ready.value
+        }
 
         checkPermission()
 
         super.onCreate(savedInstanceState)
+
+        viewModel.checkReady()
+
         setContent {
 
             val snackbarHostState = remember { SnackbarHostState() }
@@ -96,6 +104,14 @@ class MainActivity : ComponentActivity() {
             }
 
             FillsaTheme {
+                val ready by remember {
+                    viewModel.ready
+                }
+
+                val startDestination by remember {
+                    viewModel.destination
+                }
+
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
                     LocalDialogDataHolder provides dialogData
@@ -116,163 +132,165 @@ class MainActivity : ComponentActivity() {
 
                         DialogSection(dialogData)
 
-                        NavHost(
-                            modifier = Modifier.padding(paddingValues),
-                            navController = navController,
-                            startDestination = Screens.Login,
-                        ) {
-
-                            composable<Screens.Login> {
-                                WithBaseErrorHandling<LoginViewModel> {
-                                    LoginView(
-                                        navigate = {
-                                            navController.navigate(it)
-                                        }
-                                    )
-                                }
-                            }
-
-                            composable<Screens.Home> {
-                                WithBaseErrorHandling<HomeViewModel> {
-                                    HomeView(
-                                        navigate = {
-                                            navController.navigate(it)
-                                        }
-                                    )
-                                }
-                            }
-
-                            composable<Screens.DailyQuote>(
-                                typeMap = mapOf(
-                                    typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
-                                )
+                        if (ready){
+                            NavHost(
+                                modifier = Modifier.padding(paddingValues),
+                                navController = navController,
+                                startDestination = startDestination,
                             ) {
-                                WithBaseErrorHandling<TypingViewModel> {
-                                    val data = it.toRoute<Screens.DailyQuote>()
-                                    TypingQuoteView(
-                                        data.dailyQuoteDto,
-                                        navigate = {
-                                            navController.navigate(it)
-                                        },
-                                        backOnClick = {
-                                            navController.popBackStack()
-                                        }
-                                    )
-                                }
-                            }
 
-                            composable<Screens.Share> {
-                                val data = it.toRoute<Screens.Share>()
-                                ShareView(
-                                    quote = data.quote,
-                                    author = data.author
-                                )
-                            }
-
-                            composable<Screens.QuoteList> {
-                                WithBaseErrorHandling<ListViewModel>(
-                                    content = {
-                                        QuoteListView(
-                                            startDate = "",
-                                            endDate = "",
+                                composable<Screens.Login> {
+                                    WithBaseErrorHandling<LoginViewModel> {
+                                        LoginView(
                                             navigate = {
                                                 navController.navigate(it)
                                             }
                                         )
                                     }
-                                )
-                            }
+                                }
 
-                            composable<Screens.QuoteDetail> {
-                                WithBaseErrorHandling<ListViewModel> {
-                                    val data = it.toRoute<Screens.QuoteDetail>()
-
-                                    val insertedMemoInMemoInsertView =
-                                        navController.currentBackStackEntry?.savedStateHandle?.get<String>(
-                                            DataKey.INSERTED_MEMO
+                                composable<Screens.Home> {
+                                    WithBaseErrorHandling<HomeViewModel> {
+                                        HomeView(
+                                            navigate = {
+                                                navController.navigate(it)
+                                            }
                                         )
+                                    }
+                                }
 
-                                    val memo =
-                                        if (insertedMemoInMemoInsertView.isNullOrBlank()) {
-                                            data.memo ?: ""
-                                        } else {
-                                            insertedMemoInMemoInsertView
-                                        }
+                                composable<Screens.DailyQuote>(
+                                    typeMap = mapOf(
+                                        typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
+                                    )
+                                ) {
+                                    WithBaseErrorHandling<TypingViewModel> {
+                                        val data = it.toRoute<Screens.DailyQuote>()
+                                        TypingQuoteView(
+                                            data.dailyQuoteDto,
+                                            navigate = {
+                                                navController.navigate(it)
+                                            },
+                                            backOnClick = {
+                                                navController.popBackStack()
+                                            }
+                                        )
+                                    }
+                                }
 
-                                    QuoteDetailView(
-                                        memo = memo,
-                                        authorUrl = data.authorUrl,
-                                        author = data.author,
+                                composable<Screens.Share> {
+                                    val data = it.toRoute<Screens.Share>()
+                                    ShareView(
                                         quote = data.quote,
-                                        memberQuoteSeq = data.memberQuoteSeq,
-                                        navigate = {
-                                            navController.navigate(it)
-                                        },
-                                        onBackPress = {
-                                            navController.popBackStack()
+                                        author = data.author
+                                    )
+                                }
+
+                                composable<Screens.QuoteList> {
+                                    WithBaseErrorHandling<ListViewModel>(
+                                        content = {
+                                            QuoteListView(
+                                                startDate = "",
+                                                endDate = "",
+                                                navigate = {
+                                                    navController.navigate(it)
+                                                }
+                                            )
                                         }
                                     )
                                 }
-                            }
 
-                            composable<Screens.MemoInsert> {
-                                WithBaseErrorHandling<ListViewModel> {
-                                    val data = it.toRoute<Screens.MemoInsert>()
+                                composable<Screens.QuoteDetail> {
+                                    WithBaseErrorHandling<ListViewModel> {
+                                        val data = it.toRoute<Screens.QuoteDetail>()
 
-                                    MemoInsertView(
-                                        memberQuoteSeq = data.memberQuoteSeq,
-                                        savedMemo = data.savedMemo,
-                                        popBackStack = {
-                                            navController.previousBackStackEntry?.savedStateHandle?.set(
-                                                DataKey.INSERTED_MEMO,
-                                                it
+                                        val insertedMemoInMemoInsertView =
+                                            navController.currentBackStackEntry?.savedStateHandle?.get<String>(
+                                                DataKey.INSERTED_MEMO
                                             )
 
-                                            navController.popBackStack()
-                                        }
-                                    )
-                                }
-                            }
+                                        val memo =
+                                            if (insertedMemoInMemoInsertView.isNullOrBlank()) {
+                                                data.memo ?: ""
+                                            } else {
+                                                insertedMemoInMemoInsertView
+                                            }
 
-                            composable<Screens.Calendar> {
-                                WithBaseErrorHandling<CalendarViewModel> {
-                                    CalendarView(
-                                        navigate = {
-                                            navController.navigate(it)
-                                        }
-                                    )
+                                        QuoteDetailView(
+                                            memo = memo,
+                                            authorUrl = data.authorUrl,
+                                            author = data.author,
+                                            quote = data.quote,
+                                            memberQuoteSeq = data.memberQuoteSeq,
+                                            navigate = {
+                                                navController.navigate(it)
+                                            },
+                                            onBackPress = {
+                                                navController.popBackStack()
+                                            }
+                                        )
+                                    }
                                 }
-                            }
 
-                            composable<Screens.MyPage> {
-                                WithBaseErrorHandling<MyPageViewModel> {
-                                    MyPageView(
-                                        navigate = {
-                                            navController.navigate(it)
-                                        }
-                                    )
+                                composable<Screens.MemoInsert> {
+                                    WithBaseErrorHandling<ListViewModel> {
+                                        val data = it.toRoute<Screens.MemoInsert>()
+
+                                        MemoInsertView(
+                                            memberQuoteSeq = data.memberQuoteSeq,
+                                            savedMemo = data.savedMemo,
+                                            popBackStack = {
+                                                navController.previousBackStackEntry?.savedStateHandle?.set(
+                                                    DataKey.INSERTED_MEMO,
+                                                    it
+                                                )
+
+                                                navController.popBackStack()
+                                            }
+                                        )
+                                    }
                                 }
-                            }
 
-                            composable<MyPageScreens.Notice> {
-                                WithBaseErrorHandling<MyPageViewModel> {
-                                    NoticeView(
-                                        onBackPress = {
-                                            navController.popBackStack()
-                                        },
-                                        navigate = {
-                                            navController.navigate(it)
-                                        }
-                                    )
+                                composable<Screens.Calendar> {
+                                    WithBaseErrorHandling<CalendarViewModel> {
+                                        CalendarView(
+                                            navigate = {
+                                                navController.navigate(it)
+                                            }
+                                        )
+                                    }
                                 }
-                            }
 
-                            composable<MyPageScreens.Alert> {
-                                WithBaseErrorHandling<MyPageViewModel> {
-                                    AlertView()
+                                composable<Screens.MyPage> {
+                                    WithBaseErrorHandling<MyPageViewModel> {
+                                        MyPageView(
+                                            navigate = {
+                                                navController.navigate(it)
+                                            }
+                                        )
+                                    }
                                 }
-                            }
 
+                                composable<MyPageScreens.Notice> {
+                                    WithBaseErrorHandling<MyPageViewModel> {
+                                        NoticeView(
+                                            onBackPress = {
+                                                navController.popBackStack()
+                                            },
+                                            navigate = {
+                                                navController.navigate(it)
+                                            }
+                                        )
+                                    }
+                                }
+
+                                composable<MyPageScreens.Alert> {
+                                    WithBaseErrorHandling<MyPageViewModel> {
+                                        AlertView()
+                                    }
+                                }
+
+                            }
                         }
                     }
                 }

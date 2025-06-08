@@ -11,4 +11,6 @@ interface LocalRepository {
     suspend fun setImageUri(uri: String)
     fun getImageUri(): Flow<String>
     fun getLoginStatus(): Flow<Boolean>
+    suspend fun isFirstOpen(): Flow<Boolean>
+    suspend fun setFirstOpen(value: Boolean)
 }
