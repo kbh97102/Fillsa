@@ -144,6 +144,9 @@ class MainActivity : ComponentActivity() {
                                         LoginView(
                                             navigate = {
                                                 navController.navigate(it)
+                                            },
+                                            popBackStack = {
+                                                navController.popBackStack()
                                             }
                                         )
                                     }
