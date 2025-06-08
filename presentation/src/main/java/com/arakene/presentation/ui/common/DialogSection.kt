@@ -17,20 +17,37 @@ fun DialogSection(
 
     if (dialogDataHolder.show) {
         data?.let { dialogData ->
-            CommonDialog(
-                title = dialogData.title,
-                body = dialogData.body,
-                titleTextSize = dialogData.titleTextSize,
-                bodyTextSize = dialogData.bodyTextSize,
-                positiveText = dialogData.okText,
-                negativeText = dialogData.cancelText,
-                positiveOnClick = dialogData.onClick ?: {},
-                negativeOnClick = dialogData.cancelOnClick ?: {},
-                dismiss = {
-                    dialogDataHolder.show = false
-                },
-                reversed = dialogData.reversed
-            )
+
+            if (dialogData.drawableId < 0) {
+                CommonDialog(
+                    title = dialogData.title,
+                    body = dialogData.body,
+                    titleTextSize = dialogData.titleTextSize,
+                    bodyTextSize = dialogData.bodyTextSize,
+                    positiveText = dialogData.okText,
+                    negativeText = dialogData.cancelText,
+                    positiveOnClick = dialogData.onClick ?: {},
+                    negativeOnClick = dialogData.cancelOnClick ?: {},
+                    dismiss = {
+                        dialogDataHolder.show = false
+                    },
+                    reversed = dialogData.reversed
+                )
+            } else {
+                DialogWIthImage(
+                    title = dialogData.title,
+                    drawableId = dialogData.drawableId,
+                    titleTextSize = dialogData.titleTextSize,
+                    positiveText = dialogData.okText,
+                    negativeText = dialogData.cancelText,
+                    positiveOnClick = dialogData.onClick ?: {},
+                    negativeOnClick = dialogData.cancelOnClick ?: {},
+                    dismiss = {
+                        dialogDataHolder.show = false
+                    },
+                    reversed = dialogData.reversed
+                )
+            }
         }
     }
 }

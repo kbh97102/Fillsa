@@ -28,7 +28,9 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.HandleError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
@@ -100,6 +102,7 @@ fun HomeView(
     val imageDialogDataHolder = remember {
         ImageDialogDataHolder()
     }
+
 
 
     HandleViewEffect(
