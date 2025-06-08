@@ -1,5 +1,6 @@
 package com.arakene.presentation.util
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.util.ApiResult
@@ -25,6 +26,8 @@ abstract class BaseViewModel : ViewModel() {
 
     private val _error: MutableSharedFlow<String> = MutableSharedFlow()
     val error = _error.asSharedFlow()
+
+    val isProcessing = mutableStateOf(false)
 
     init {
         viewModelScope.launch {
@@ -65,17 +68,20 @@ abstract class BaseViewModel : ViewModel() {
     }
 
     protected suspend fun <T> getResponse(response: ApiResult<T>): T? {
-
+        isProcessing.value = true
         return when (response) {
             is ApiResult.Success -> {
+                isProcessing.value = false
                 response.data
             }
 
             is ApiResult.Fail -> {
+                isProcessing.value = false
                 null
             }
 
             is ApiResult.Error -> {
+                isProcessing.value = false
                 when (response.error) {
                     is HttpException -> {
                         _error.emit("404")
