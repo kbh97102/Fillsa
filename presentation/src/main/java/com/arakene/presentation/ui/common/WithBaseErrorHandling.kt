@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.DialogData
@@ -10,10 +11,10 @@ import com.arakene.presentation.util.HandleError
 import com.arakene.presentation.util.LocalDialogDataHolder
 
 @Composable
-fun WithBaseErrorHandling(
-    viewModel: BaseViewModel,
+inline fun <reified VM: BaseViewModel>WithBaseErrorHandling(
+    viewModel: BaseViewModel = hiltViewModel<VM>(),
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
     content: @Composable () -> Unit,
-    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
 
     val lifecycleOwner = LocalLifecycleOwner.current
