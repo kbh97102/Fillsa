@@ -80,7 +80,7 @@ class LoginViewModel @Inject constructor(
         setRefreshTokenUseCase("")
         setAccessTokenUseCase("")
 
-        emitEffect(LoginEffect.Move(Screens.Home))
+        emitEffect(LoginEffect.Move)
     }
 
     private fun loginGoogle(loginAction: LoginAction.ClickGoogleLogin) {
@@ -227,7 +227,7 @@ class LoginViewModel @Inject constructor(
                 setRefreshTokenUseCase(result.data.refreshToken)
 
                 Log.d(">>>>", "Success ${result.data}")
-                emitEffect(LoginEffect.Move(Screens.Home))
+                emitEffect(LoginEffect.Move)
             }
 
             is ApiResult.Fail -> {

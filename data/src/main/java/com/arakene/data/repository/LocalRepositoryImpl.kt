@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.arakene.data.util.DataStoreKey
+import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.LocalRepository
 import kotlinx.coroutines.flow.Flow
@@ -16,6 +17,16 @@ class LocalRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val tokenProvider: TokenProvider
 ) : LocalRepository {
+
+    override suspend fun isFirstOpen(): Flow<Boolean> {
+        return dataStore.data.map {
+            it[FIRST_OPEN_KEY] ?: false
+        }
+    }
+
+    override suspend fun setFirstOpen(value: Boolean) {
+        dataStore.edit { it[FIRST_OPEN_KEY] = value }
+    }
 
     override suspend fun setAccessToken(token: String) {
         tokenProvider.setToken(token)

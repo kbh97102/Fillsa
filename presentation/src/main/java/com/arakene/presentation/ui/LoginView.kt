@@ -57,6 +57,7 @@ import net.openid.appauth.ResponseTypeValues
 @Composable
 fun LoginView(
     navigate: (Screens) -> Unit,
+    popBackStack: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
@@ -77,7 +78,7 @@ fun LoginView(
     ) { effect ->
         when (effect) {
             is LoginEffect.Move -> {
-                navigate(effect.screen)
+                popBackStack()
             }
 
             is CommonEffect.OpenUri -> {
@@ -281,7 +282,8 @@ private fun LoginButton(
 @Composable
 private fun LoginPreview() {
     LoginView(
-        navigate = {}
+        navigate = {},
+        popBackStack = {}
     )
 }
 
