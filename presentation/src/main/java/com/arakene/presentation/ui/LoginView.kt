@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui
 
-import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +15,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -26,6 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,12 +33,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
@@ -64,18 +67,23 @@ fun LoginView(
 
     val effects by viewModel.effect.collectAsState(null)
 
-    // TODO: 추후에 다른 함수로 추출
-    LaunchedEffect(effects) {
+    val uriHandler = LocalUriHandler.current
 
-        effects ?: return@LaunchedEffect
+    val lifeCycle = LocalLifecycleOwner.current
 
-        when (effects) {
+    HandleViewEffect(
+        viewModel.effect,
+        lifeCycle
+    ) { effect ->
+        when (effect) {
             is LoginEffect.Move -> {
-                val data = effects as LoginEffect.Move
-                navigate(data.screen)
+                navigate(effect.screen)
+            }
+
+            is CommonEffect.OpenUri -> {
+                uriHandler.openUri(effect.uri)
             }
         }
-
     }
 
     val launcher =
@@ -182,8 +190,8 @@ fun LoginView(
             modifier = Modifier.padding(top = 16.dp),
             onClick = {
                 val serviceConfig = AuthorizationServiceConfiguration(
-                    Uri.parse("https://accounts.google.com/o/oauth2/v2/auth"), // auth endpoint
-                    Uri.parse("https://oauth2.googleapis.com/token")            // token endpoint
+                    "https://accounts.google.com/o/oauth2/v2/auth".toUri(), // auth endpoint
+                    "https://oauth2.googleapis.com/token".toUri()            // token endpoint
                 )
 
                 val authRequest = AuthorizationRequest.Builder(
@@ -219,7 +227,8 @@ fun LoginView(
                 stringResource(R.string.terms_of_use),
                 style = FillsaTheme.typography.body2,
                 color = colorResource(R.color.gray_500),
-                textDecoration = TextDecoration.Underline
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.noEffectClickable { viewModel.handleContract(LoginAction.ClickTermsOfUse) }
             )
 
             Text(
@@ -227,7 +236,9 @@ fun LoginView(
                 style = FillsaTheme.typography.body2,
                 color = colorResource(R.color.gray_500),
                 textDecoration = TextDecoration.Underline,
-                modifier = Modifier.padding(start = 20.dp)
+                modifier = Modifier
+                    .padding(start = 20.dp)
+                    .noEffectClickable { viewModel.handleContract(LoginAction.ClickPrivacyPolicy) }
             )
         }
 
