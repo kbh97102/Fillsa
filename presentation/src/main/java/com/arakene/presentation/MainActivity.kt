@@ -13,12 +13,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -57,12 +58,11 @@ import com.arakene.presentation.viewmodel.MyPageViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import com.arakene.presentation.viewmodel.TypingViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private var keepSplash by mutableStateOf(true)
 
     private val viewModel: SplashViewModel by viewModels()
 
@@ -78,11 +78,8 @@ class MainActivity : ComponentActivity() {
         splashScreen.setKeepOnScreenCondition {
             viewModel.ready.value
         }
-
-        checkPermission()
-
         super.onCreate(savedInstanceState)
-
+        checkPermission()
         viewModel.checkReady()
 
         setContent {
@@ -112,6 +109,14 @@ class MainActivity : ComponentActivity() {
                     viewModel.destination
                 }
 
+                LaunchedEffect(ready) {
+                    logDebug("ready $ready")
+                }
+
+                LaunchedEffect(startDestination) {
+                    logDebug("start $startDestination")
+                }
+
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
                     LocalDialogDataHolder provides dialogData
@@ -132,7 +137,7 @@ class MainActivity : ComponentActivity() {
 
                         DialogSection(dialogData)
 
-                        if (ready){
+                        if (ready) {
                             NavHost(
                                 modifier = Modifier.padding(paddingValues),
                                 navController = navController,
@@ -318,7 +323,7 @@ class MainActivity : ComponentActivity() {
         if (notGranted) {
             permissionLauncher.launch(permissions)
         } else {
-            keepSplash = false
+            viewModel.permissionChecked.value = true
         }
     }
 
