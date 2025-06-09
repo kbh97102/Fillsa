@@ -40,6 +40,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
@@ -47,7 +48,7 @@ import com.arakene.presentation.viewmodel.HomeViewModel
 @Composable
 fun HomeView(
     navigate: (Screens) -> Unit,
-    viewModel: HomeViewModel = hiltViewModel(),
+    viewModel: HomeViewModel = rememberBaseViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {

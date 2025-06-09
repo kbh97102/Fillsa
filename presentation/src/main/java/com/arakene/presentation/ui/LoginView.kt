@@ -66,8 +66,6 @@ fun LoginView(
 
     val authService = remember { AuthorizationService(context) }
 
-    val effects by viewModel.effect.collectAsState(null)
-
     val uriHandler = LocalUriHandler.current
 
     val lifeCycle = LocalLifecycleOwner.current

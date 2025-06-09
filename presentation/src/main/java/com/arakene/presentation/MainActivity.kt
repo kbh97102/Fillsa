@@ -8,56 +8,38 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
-import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.ui.BottomNavigationBar
-import com.arakene.presentation.ui.LoginView
-import com.arakene.presentation.ui.calendar.CalendarView
+import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
-import com.arakene.presentation.ui.common.WithBaseErrorHandling
-import com.arakene.presentation.ui.home.HomeView
-import com.arakene.presentation.ui.home.ShareView
-import com.arakene.presentation.ui.home.TypingQuoteView
-import com.arakene.presentation.ui.mypage.AlertView
-import com.arakene.presentation.ui.mypage.MyPageView
-import com.arakene.presentation.ui.mypage.NoticeView
-import com.arakene.presentation.ui.quotelist.MemoInsertView
-import com.arakene.presentation.ui.quotelist.QuoteDetailView
-import com.arakene.presentation.ui.quotelist.QuoteListView
+import com.arakene.presentation.ui.common.MainNavHost
 import com.arakene.presentation.ui.theme.FillsaTheme
-import com.arakene.presentation.util.DailyQuoteDtoTypeMap
-import com.arakene.presentation.util.DataKey
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
+import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
-import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.logDebug
-import com.arakene.presentation.viewmodel.CalendarViewModel
-import com.arakene.presentation.viewmodel.HomeViewModel
-import com.arakene.presentation.viewmodel.ListViewModel
-import com.arakene.presentation.viewmodel.LoginViewModel
-import com.arakene.presentation.viewmodel.MyPageViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
-import com.arakene.presentation.viewmodel.TypingViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.reflect.typeOf
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -79,9 +61,9 @@ class MainActivity : ComponentActivity() {
             viewModel.ready.value
         }
 
-        checkPermission()
-
         super.onCreate(savedInstanceState)
+
+        checkPermission()
 
         viewModel.checkReady()
 
@@ -99,6 +81,10 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+            val globalLoadingState = remember { MutableStateFlow(false) }
+
+            val loadingState by globalLoadingState.collectAsState()
+
             val dialogData = remember {
                 DialogDataHolder()
             }
@@ -114,187 +100,43 @@ class MainActivity : ComponentActivity() {
 
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
-                    LocalDialogDataHolder provides dialogData
+                    LocalDialogDataHolder provides dialogData,
+                    LocalLoadingState provides globalLoadingState
                 ) {
-                    Scaffold(
-                        snackbarHost = {
-                            SnackbarHost(snackbarHostState) {
-                                SnackbarContent(message = it.visuals.message)
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+
+                        Scaffold(
+                            snackbarHost = {
+                                SnackbarHost(snackbarHostState) {
+                                    SnackbarContent(message = it.visuals.message)
+                                }
+                            },
+                            bottomBar = {
+                                logDebug("bottomBar $displayBottomBar")
+                                if (displayBottomBar) {
+                                    BottomNavigationBar(navController)
+                                }
                             }
-                        },
-                        bottomBar = {
-                            logDebug("bottomBar $displayBottomBar")
-                            if (displayBottomBar) {
-                                BottomNavigationBar(navController)
-                            }
-                        }
-                    ) { paddingValues ->
+                        ) { paddingValues ->
 
-                        DialogSection(dialogData)
+                            DialogSection(dialogData)
 
-                        if (ready){
-                            NavHost(
-                                modifier = Modifier.padding(paddingValues),
-                                navController = navController,
-                                startDestination = startDestination,
-                            ) {
-
-                                composable<Screens.Login> {
-                                    WithBaseErrorHandling<LoginViewModel> {
-                                        LoginView(
-                                            navigate = {
-                                                navController.navigate(it)
-                                            },
-                                            popBackStack = {
-                                                navController.popBackStack()
-                                            }
-                                        )
-                                    }
-                                }
-
-                                composable<Screens.Home> {
-                                    WithBaseErrorHandling<HomeViewModel> {
-                                        HomeView(
-                                            navigate = {
-                                                navController.navigate(it)
-                                            }
-                                        )
-                                    }
-                                }
-
-                                composable<Screens.DailyQuote>(
-                                    typeMap = mapOf(
-                                        typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
-                                    )
-                                ) {
-                                    WithBaseErrorHandling<TypingViewModel> {
-                                        val data = it.toRoute<Screens.DailyQuote>()
-                                        TypingQuoteView(
-                                            data.dailyQuoteDto,
-                                            navigate = {
-                                                navController.navigate(it)
-                                            },
-                                            backOnClick = {
-                                                navController.popBackStack()
-                                            }
-                                        )
-                                    }
-                                }
-
-                                composable<Screens.Share> {
-                                    val data = it.toRoute<Screens.Share>()
-                                    ShareView(
-                                        quote = data.quote,
-                                        author = data.author
-                                    )
-                                }
-
-                                composable<Screens.QuoteList> {
-                                    WithBaseErrorHandling<ListViewModel>(
-                                        content = {
-                                            QuoteListView(
-                                                startDate = "",
-                                                endDate = "",
-                                                navigate = {
-                                                    navController.navigate(it)
-                                                }
-                                            )
-                                        }
-                                    )
-                                }
-
-                                composable<Screens.QuoteDetail> {
-                                    WithBaseErrorHandling<ListViewModel> {
-                                        val data = it.toRoute<Screens.QuoteDetail>()
-
-                                        val insertedMemoInMemoInsertView =
-                                            navController.currentBackStackEntry?.savedStateHandle?.get<String>(
-                                                DataKey.INSERTED_MEMO
-                                            )
-
-                                        val memo =
-                                            if (insertedMemoInMemoInsertView.isNullOrBlank()) {
-                                                data.memo ?: ""
-                                            } else {
-                                                insertedMemoInMemoInsertView
-                                            }
-
-                                        QuoteDetailView(
-                                            memo = memo,
-                                            authorUrl = data.authorUrl,
-                                            author = data.author,
-                                            quote = data.quote,
-                                            memberQuoteSeq = data.memberQuoteSeq,
-                                            navigate = {
-                                                navController.navigate(it)
-                                            },
-                                            onBackPress = {
-                                                navController.popBackStack()
-                                            }
-                                        )
-                                    }
-                                }
-
-                                composable<Screens.MemoInsert> {
-                                    WithBaseErrorHandling<ListViewModel> {
-                                        val data = it.toRoute<Screens.MemoInsert>()
-
-                                        MemoInsertView(
-                                            memberQuoteSeq = data.memberQuoteSeq,
-                                            savedMemo = data.savedMemo,
-                                            popBackStack = {
-                                                navController.previousBackStackEntry?.savedStateHandle?.set(
-                                                    DataKey.INSERTED_MEMO,
-                                                    it
-                                                )
-
-                                                navController.popBackStack()
-                                            }
-                                        )
-                                    }
-                                }
-
-                                composable<Screens.Calendar> {
-                                    WithBaseErrorHandling<CalendarViewModel> {
-                                        CalendarView(
-                                            navigate = {
-                                                navController.navigate(it)
-                                            }
-                                        )
-                                    }
-                                }
-
-                                composable<Screens.MyPage> {
-                                    WithBaseErrorHandling<MyPageViewModel> {
-                                        MyPageView(
-                                            navigate = {
-                                                navController.navigate(it)
-                                            }
-                                        )
-                                    }
-                                }
-
-                                composable<MyPageScreens.Notice> {
-                                    WithBaseErrorHandling<MyPageViewModel> {
-                                        NoticeView(
-                                            onBackPress = {
-                                                navController.popBackStack()
-                                            },
-                                            navigate = {
-                                                navController.navigate(it)
-                                            }
-                                        )
-                                    }
-                                }
-
-                                composable<MyPageScreens.Alert> {
-                                    WithBaseErrorHandling<MyPageViewModel> {
-                                        AlertView()
-                                    }
-                                }
-
+                            if (ready) {
+                                MainNavHost(
+                                    modifier = Modifier.padding(paddingValues),
+                                    navController = navController,
+                                    startDestination = startDestination
+                                )
                             }
                         }
+
+                        CircleLoadingSpinner(
+                            isLoading = loadingState
+                        )
+
                     }
                 }
             }
@@ -318,7 +160,7 @@ class MainActivity : ComponentActivity() {
         if (notGranted) {
             permissionLauncher.launch(permissions)
         } else {
-            keepSplash = false
+            viewModel.permissionChecked.value = true
         }
     }
 
