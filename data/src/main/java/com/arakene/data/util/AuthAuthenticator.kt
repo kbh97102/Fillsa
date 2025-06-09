@@ -2,10 +2,12 @@ package com.arakene.data.util
 
 import android.util.Log
 import com.arakene.domain.requests.TokenRefreshRequest
+import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.UpdateTokenUseCase
+import com.google.gson.Gson
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
 import okhttp3.Request
@@ -22,7 +24,23 @@ class AuthAuthenticator @Inject constructor(
 
     override fun authenticate(route: Route?, response: Response): Request? {
 
-        Log.e(">>>>TOKEN", "여기오니? ${route?.address}")
+        Log.e(">>>>TOKEN", "여기오니? ${route?.address} responseCode ${response.code}")
+
+        try {
+            val body = response.body?.string()
+
+            val errorResponse = Gson().fromJson(body, ErrorResponse::class.java)
+
+            if (response.code == 401 && errorResponse.errorCode != 3003) {
+                return null
+            }
+
+            Log.e(">>>>TOKEN", "error $errorResponse")
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+
 
         if (responseCount(response) >= 2) return null
 
