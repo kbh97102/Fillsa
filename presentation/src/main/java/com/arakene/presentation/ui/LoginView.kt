@@ -42,6 +42,7 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.kakao.sdk.common.util.Utility
@@ -61,12 +62,9 @@ fun LoginView(
     viewModel: LoginViewModel = hiltViewModel()
 ) {
 
-    val scope = rememberCoroutineScope()
     val context = LocalContext.current
 
     val authService = remember { AuthorizationService(context) }
-
-    val effects by viewModel.effect.collectAsState(null)
 
     val uriHandler = LocalUriHandler.current
 
