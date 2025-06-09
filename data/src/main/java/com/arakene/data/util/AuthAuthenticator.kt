@@ -1,15 +1,12 @@
 package com.arakene.data.util
 
 import com.arakene.domain.requests.TokenRefreshRequest
-import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.UpdateTokenUseCase
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.runBlocking
 import okhttp3.Authenticator
-import okhttp3.Dispatcher
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.Route
@@ -31,16 +28,13 @@ class AuthAuthenticator @Inject constructor(
                     deviceId = "",
                     refreshToken = getRefreshTokenUseCase()
                 )
-            )
+            ).also { tokenInfo ->
+                setAccessTokenUseCase(tokenInfo?.accessToken ?: "")
+                setRefreshTokenUseCase(tokenInfo?.refreshToken ?: "")
+            }
         }
 
         val accessToken = tokens?.accessToken
-
-        // TODO: 나중에 비동기로 처리
-        runBlocking {
-            setAccessTokenUseCase(accessToken ?: "")
-            setRefreshTokenUseCase(tokens?.refreshToken ?: "")
-        }
 
         return if (accessToken != null) {
             response.request.newBuilder()
