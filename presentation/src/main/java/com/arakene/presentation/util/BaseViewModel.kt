@@ -77,6 +77,13 @@ abstract class BaseViewModel : ViewModel() {
 
             is ApiResult.Fail -> {
                 isProcessing.value = false
+
+                when (response.error?.errorCode) {
+                    403 -> {
+                        _error.emit("403")
+                    }
+                }
+
                 null
             }
 

@@ -19,7 +19,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
@@ -58,7 +57,6 @@ import com.arakene.presentation.viewmodel.MyPageViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import com.arakene.presentation.viewmodel.TypingViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import kotlin.reflect.typeOf
 
 @AndroidEntryPoint
@@ -87,6 +85,13 @@ class MainActivity : ComponentActivity() {
             val snackbarHostState = remember { SnackbarHostState() }
 
             val navController = rememberNavController()
+
+            val logoutEvent = remember {
+                {
+                    viewModel.clearToken()
+                    navController.navigate(Screens.Login)
+                }
+            }
 
             val currentDestination by navController.currentBackStackEntryAsState()
 
@@ -145,7 +150,9 @@ class MainActivity : ComponentActivity() {
                             ) {
 
                                 composable<Screens.Login> {
-                                    WithBaseErrorHandling<LoginViewModel> {
+                                    WithBaseErrorHandling<LoginViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         LoginView(
                                             navigate = {
                                                 navController.navigate(it)
@@ -158,7 +165,9 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 composable<Screens.Home> {
-                                    WithBaseErrorHandling<HomeViewModel> {
+                                    WithBaseErrorHandling<HomeViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         HomeView(
                                             navigate = {
                                                 navController.navigate(it)
@@ -172,7 +181,9 @@ class MainActivity : ComponentActivity() {
                                         typeOf<DailyQuoteDto>() to DailyQuoteDtoTypeMap
                                     )
                                 ) {
-                                    WithBaseErrorHandling<TypingViewModel> {
+                                    WithBaseErrorHandling<TypingViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         val data = it.toRoute<Screens.DailyQuote>()
                                         TypingQuoteView(
                                             data.dailyQuoteDto,
@@ -196,20 +207,22 @@ class MainActivity : ComponentActivity() {
 
                                 composable<Screens.QuoteList> {
                                     WithBaseErrorHandling<ListViewModel>(
-                                        content = {
-                                            QuoteListView(
-                                                startDate = "",
-                                                endDate = "",
-                                                navigate = {
-                                                    navController.navigate(it)
-                                                }
-                                            )
-                                        }
-                                    )
+                                        logoutEvent = logoutEvent
+                                    ) {
+                                        QuoteListView(
+                                            startDate = "",
+                                            endDate = "",
+                                            navigate = {
+                                                navController.navigate(it)
+                                            }
+                                        )
+                                    }
                                 }
 
                                 composable<Screens.QuoteDetail> {
-                                    WithBaseErrorHandling<ListViewModel> {
+                                    WithBaseErrorHandling<ListViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         val data = it.toRoute<Screens.QuoteDetail>()
 
                                         val insertedMemoInMemoInsertView =
@@ -241,7 +254,9 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 composable<Screens.MemoInsert> {
-                                    WithBaseErrorHandling<ListViewModel> {
+                                    WithBaseErrorHandling<ListViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         val data = it.toRoute<Screens.MemoInsert>()
 
                                         MemoInsertView(
@@ -260,7 +275,9 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 composable<Screens.Calendar> {
-                                    WithBaseErrorHandling<CalendarViewModel> {
+                                    WithBaseErrorHandling<CalendarViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         CalendarView(
                                             navigate = {
                                                 navController.navigate(it)
@@ -270,7 +287,9 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 composable<Screens.MyPage> {
-                                    WithBaseErrorHandling<MyPageViewModel> {
+                                    WithBaseErrorHandling<MyPageViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         MyPageView(
                                             navigate = {
                                                 navController.navigate(it)
@@ -280,7 +299,9 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 composable<MyPageScreens.Notice> {
-                                    WithBaseErrorHandling<MyPageViewModel> {
+                                    WithBaseErrorHandling<MyPageViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         NoticeView(
                                             onBackPress = {
                                                 navController.popBackStack()
@@ -293,7 +314,9 @@ class MainActivity : ComponentActivity() {
                                 }
 
                                 composable<MyPageScreens.Alert> {
-                                    WithBaseErrorHandling<MyPageViewModel> {
+                                    WithBaseErrorHandling<MyPageViewModel>(
+                                        logoutEvent = logoutEvent
+                                    ) {
                                         AlertView()
                                     }
                                 }

@@ -1,5 +1,6 @@
 package com.arakene.data.util
 
+import android.util.Log
 import com.arakene.domain.requests.TokenRefreshRequest
 import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
@@ -20,6 +21,9 @@ class AuthAuthenticator @Inject constructor(
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
+
+        Log.e(">>>>TOKEN", "여기오니? ${route?.address}")
+
         if (responseCount(response) >= 2) return null
 
         val tokens = runBlocking {
