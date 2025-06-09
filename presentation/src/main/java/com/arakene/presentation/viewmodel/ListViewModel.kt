@@ -1,8 +1,10 @@
 package com.arakene.presentation.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.arakene.domain.requests.MemoRequest
+import com.arakene.domain.usecase.home.GetImageUriUseCase
 import com.arakene.domain.usecase.list.GetQuotesListUseCase
 import com.arakene.domain.usecase.list.PostSaveMemoUseCase
 import com.arakene.presentation.util.Action
@@ -15,16 +17,24 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ListViewModel @Inject constructor(
     private val getQuotesListUseCase: GetQuotesListUseCase,
-    private val postSaveMemoUseCase: PostSaveMemoUseCase
+    private val postSaveMemoUseCase: PostSaveMemoUseCase,
+    private val getImageUriUseCase: GetImageUriUseCase
 ) : BaseViewModel() {
 
+    val imageUri = mutableStateOf("")
+
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    init {
+        getImageUri()
+    }
 
     override fun handleAction(action: Action) {
         when (val listAction = action as QuoteListAction) {
@@ -56,6 +66,14 @@ class ListViewModel @Inject constructor(
 
         }
 
+    }
+
+    private fun getImageUri() {
+        viewModelScope.launch {
+            getImageUriUseCase().collectLatest {
+                imageUri.value = it
+            }
+        }
     }
 
     fun getQuotesList(likeYn: Boolean) = getQuotesListUseCase(

@@ -14,6 +14,7 @@ import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun QuoteListSection(
+    imageUri: String,
     list: LazyPagingItems<MemberQuotesResponse>,
     onClick: (MemberQuotesResponse) -> Unit,
     modifier: Modifier = Modifier
@@ -35,6 +36,7 @@ fun QuoteListSection(
                 firstItem?.let { first ->
                     QuoteListItem(
                         data = first,
+                        imagePath = imageUri,
                         modifier = Modifier
                             .weight(1f)
                             .noEffectClickable {
@@ -46,6 +48,7 @@ fun QuoteListSection(
                 secondItem?.let { second ->
                     QuoteListItem(
                         data = second,
+                        imagePath = imageUri,
                         modifier = Modifier
                             .weight(1f)
                             .noEffectClickable {
