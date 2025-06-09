@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui.quotelist
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,23 +10,45 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.ImageLoader
+import coil3.compose.AsyncImage
+import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import okhttp3.OkHttpClient
 
 @Composable
 fun QuoteListItem(
+    imagePath: String,
     data: MemberQuotesResponse,
     modifier: Modifier = Modifier
 ) {
+
+    val context = LocalContext.current
+
+    val imageLoader = remember {
+        ImageLoader.Builder(context)
+            .components {
+                add(
+                    OkHttpNetworkFetcherFactory(
+                        callFactory = {
+                            OkHttpClient()
+                        }
+                    ))
+            }
+            .build()
+    }
 
     Column(
         modifier.clip(MaterialTheme.shapes.medium),
@@ -60,19 +81,20 @@ fun QuoteListItem(
         }
 
         Box {
-            Image(
-                painter = painterResource(R.drawable.icn_quote_list_item_background),
+            AsyncImage(
+                model = imagePath,
                 contentDescription = null,
-                contentScale = ContentScale.Crop,
-                modifier = Modifier.matchParentSize()
+                error = painterResource(R.drawable.img_image_background),
+                imageLoader = imageLoader,
+                modifier = Modifier.matchParentSize(),
+                contentScale = ContentScale.Crop
             )
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                 QuoteListItemPager(
-                    quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.\n" +
-                            "필사 문장이 들어가용",
-                    memo = "메모ㅔ몸메모메모메ㅗ메ㅗㅔ모ㅔ모ㅔ모ㅔ모ㅔ모ㅔ모ㅔ모ㅔㅗ모"
+                    quote = data.quote,
+                    memo = data.memo ?: ""
                 )
 
                 QuoteListItemBottomSection(
@@ -89,6 +111,7 @@ fun QuoteListItem(
 private fun QuoteListItemPreview() {
     FillsaTheme {
         QuoteListItem(
+            imagePath = "",
             data = MemberQuotesResponse()
         )
     }

@@ -38,6 +38,10 @@ fun QuoteListView(
         mutableStateOf(false)
     }
 
+    val imageUri by remember {
+        viewModel.imageUri
+    }
+
     val paging = viewModel.getQuotesList(isLike).collectAsLazyPagingItems()
 
     val lifeCycle = LocalLifecycleOwner.current
@@ -79,6 +83,7 @@ fun QuoteListView(
         }
 
         QuoteListSection(
+            imageUri = imageUri,
             modifier = Modifier.padding(top = 10.dp),
             list = paging,
             onClick = {
