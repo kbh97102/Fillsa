@@ -15,7 +15,9 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -51,9 +53,30 @@ import java.io.OutputStream
 import androidx.core.graphics.scale
 import java.time.DayOfWeek
 import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
 
 typealias Navigate = (Screens) -> Unit
 
+
+val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
+    error("No loading state provided")
+}
+
+@Composable
+inline fun <reified VM : BaseViewModel> rememberBaseViewModel(): VM {
+    val viewModel = hiltViewModel<VM>()
+    val loadingState = LocalLoadingState.current
+
+    val isLoading by viewModel.isLoading.collectAsState()
+
+    LaunchedEffect(isLoading) {
+        logDebug("Update loading state ${isLoading}")
+        loadingState.value = isLoading
+    }
+
+    return viewModel
+}
 
 fun DayOfWeek.toKoreanShort(): String = when (this) {
     DayOfWeek.SUNDAY    -> "일"
