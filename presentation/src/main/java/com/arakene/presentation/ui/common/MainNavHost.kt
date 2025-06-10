@@ -126,8 +126,10 @@ fun MainNavHost(
                 QuoteDetailView(
                     memo = memo,
                     authorUrl = data.authorUrl,
-                    author = data.author,
-                    quote = data.quote,
+                    korAuthor = data.korAuthor,
+                    engAuthor = data.engAuthor,
+                    korQuote = data.korQuote,
+                    engQuote = data.engQuote,
                     memberQuoteSeq = data.memberQuoteSeq,
                     navigate = {
                         navController.navigate(it)
