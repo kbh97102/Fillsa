@@ -72,11 +72,14 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-
+    implementation(libs.androidx.work.runtime.ktx)
     implementation(libs.kakao.login)
 
     implementation(libs.hilt)
     kapt(libs.hilt.compiler)
+    kapt(libs.hilt.work)
+    kapt(libs.hilt.androidx.compiler)
+    implementation(libs.hilt.work)
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)

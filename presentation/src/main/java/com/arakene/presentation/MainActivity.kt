@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
 
         val splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition {
-            viewModel.ready.value
+            !viewModel.ready.value
         }
 
         super.onCreate(savedInstanceState)
@@ -157,7 +157,7 @@ class MainActivity : ComponentActivity() {
 
     private fun getImagePermissions(): Array<String> {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arrayOf(Manifest.permission.READ_MEDIA_IMAGES)
+            arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.POST_NOTIFICATIONS)
         } else {
             arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
         }
@@ -168,6 +168,8 @@ class MainActivity : ComponentActivity() {
         val notGranted = permissions.any {
             checkSelfPermission(it) == PackageManager.PERMISSION_DENIED
         }
+
+        logDebug("permissions? $notGranted")
 
         if (notGranted) {
             permissionLauncher.launch(permissions)
