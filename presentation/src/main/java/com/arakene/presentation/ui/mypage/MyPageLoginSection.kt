@@ -24,6 +24,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.dropShadow
 import com.arakene.presentation.util.noEffectClickable
@@ -31,6 +32,8 @@ import com.arakene.presentation.util.noEffectClickable
 @Composable
 fun MyPageLoginSection(
     isLogged: Boolean,
+    userName: String,
+    imagePath: String,
     loginEvent: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -53,16 +56,16 @@ fun MyPageLoginSection(
                     .padding(horizontal = 20.dp, vertical = 15.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Image(
-                    painter = painterResource(R.drawable.img_mypage_non_login_default_image),
-                    contentDescription = null,
+                CustomAsyncImage(
+                    imagePath = imagePath,
                     modifier = Modifier
                         .clip(CircleShape)
                         .size(50.dp),
+                    error = painterResource(R.drawable.img_mypage_non_login_default_image),
                 )
 
                 Text(
-                    "닉네임 or 연동된 계정 이름?",
+                    userName,
                     style = FillsaTheme.typography.subtitle1,
                     color = colorResource(R.color.gray_700),
                     maxLines = 1,
@@ -138,7 +141,9 @@ private fun MyPageLoginSectionPreview() {
     FillsaTheme {
         MyPageLoginSection(
             isLogged = false,
-            loginEvent = {}
+            loginEvent = {},
+            imagePath = "",
+            userName = ""
         )
     }
 }
@@ -150,7 +155,9 @@ private fun MyPageLoginSectionPreview2() {
     FillsaTheme {
         MyPageLoginSection(
             isLogged = true,
-            loginEvent = {}
+            loginEvent = {},
+            imagePath = "",
+            userName = ""
         )
     }
 }

@@ -6,8 +6,10 @@ import com.arakene.domain.usecase.GetNoticeUseCase
 import com.arakene.domain.usecase.common.DeleteResignUseCase
 import com.arakene.domain.usecase.common.GetAlarmUsageUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.common.GetUserNameUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
+import com.arakene.domain.usecase.home.GetImageUriUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -26,7 +28,9 @@ class MyPageViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
     private val setAlarmUsageUseCase: SetAlarmUsageUseCase,
-    private val getAlarmUsageUseCase: GetAlarmUsageUseCase
+    private val getAlarmUsageUseCase: GetAlarmUsageUseCase,
+    private val getUserNameUseCase: GetUserNameUseCase,
+    private val getImageUriUseCase: GetImageUriUseCase
 ) : BaseViewModel() {
 
     val isLogged = getLoginStatusUseCase()
@@ -35,6 +39,10 @@ class MyPageViewModel @Inject constructor(
         .cachedIn(viewModelScope)
 
     val getAlarmUsage = getAlarmUsageUseCase()
+
+    val userName = getUserNameUseCase()
+
+    val imageUri = getImageUriUseCase()
 
     override fun handleAction(action: Action) {
         when (val myPageAction = action as MyPageAction) {
