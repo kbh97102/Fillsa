@@ -50,6 +50,9 @@ fun MyPageView(
         }
     }
 
+    val userName by viewModel.userName.collectAsState("")
+
+    val imagePath by viewModel.imageUri.collectAsState("")
 
     Column(
         modifier = modifier
@@ -70,6 +73,8 @@ fun MyPageView(
         MyPageLoginSection(
             modifier = Modifier.padding(top = 10.dp),
             isLogged = isLogged,
+            userName = userName,
+            imagePath = imagePath,
             loginEvent = {
                 viewModel.handleContract(MyPageAction.Login)
             }

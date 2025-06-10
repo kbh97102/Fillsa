@@ -38,7 +38,6 @@ class HomeViewModel @Inject constructor(
     private val postLikeUseCase: PostLikeUseCase,
     private val postUploadImageUseCase: PostUploadImageUseCase,
     private val deleteUploadImageUseCase: DeleteUploadImageUseCase,
-    private val setImageUriUseCase: SetImageUriUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -176,7 +175,6 @@ class HomeViewModel @Inject constructor(
             currentQuota = it
             isLike.value = it.likeYn == YN.Y.type
             backgroundImageUri.value = (it.imagePath ?: "")
-            setImageUriUseCase(it.imagePath ?: "")
 
 //            delay(33000)
 //            postLike()

@@ -11,6 +11,8 @@ import com.arakene.domain.requests.UserData
 import com.arakene.domain.usecase.LoginUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
+import com.arakene.domain.usecase.common.SetUserNameUseCase
+import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -39,7 +41,9 @@ import kotlin.coroutines.suspendCoroutine
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
-    private val setAccessTokenUseCase: SetAccessTokenUseCase
+    private val setAccessTokenUseCase: SetAccessTokenUseCase,
+    private val setImageUriUseCase: SetImageUriUseCase,
+    private val setUserNameUseCase: SetUserNameUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -84,21 +88,26 @@ class LoginViewModel @Inject constructor(
     }
 
     private fun loginGoogle(loginAction: LoginAction.ClickGoogleLogin) {
-        val (id, nickName, profileImageUrl) = getLoginUserData(loginAction.idToken)
+        viewModelScope.launch {
+            val (id, nickName, profileImageUrl) = getLoginUserData(loginAction.idToken)
 
-        login(
-            accessToken = loginAction.accessToken,
-            refreshToken = loginAction.refreshToken,
-            expiresIn = loginAction.accessTokenExpirationTime?.let {
-                formatToIso8601(it)
-            } ?: "",
-            refreshTokenExpiresIn = sixMonthsFromNowInIso8601(),
-            id = id,
-            nickName = nickName,
-            profileImageUrl = profileImageUrl,
-            provider = "GOOGLE",
-            appVersion = loginAction.appVersion
-        )
+            setUserNameUseCase(nickName)
+            setImageUriUseCase(profileImageUrl)
+
+            login(
+                accessToken = loginAction.accessToken,
+                refreshToken = loginAction.refreshToken,
+                expiresIn = loginAction.accessTokenExpirationTime?.let {
+                    formatToIso8601(it)
+                } ?: "",
+                refreshTokenExpiresIn = sixMonthsFromNowInIso8601(),
+                id = id,
+                nickName = nickName,
+                profileImageUrl = profileImageUrl,
+                provider = "GOOGLE",
+                appVersion = loginAction.appVersion
+            )
+        }
     }
 
     private fun loginKakao(
@@ -110,6 +119,9 @@ class LoginViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             val (id, nickName, imageUrl) = getKakaoUserData()
+
+            setUserNameUseCase(nickName)
+            setImageUriUseCase(imageUrl)
 
             login(
                 accessToken = accessToken,
