@@ -15,11 +15,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -43,8 +43,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    private var keepSplash by mutableStateOf(true)
 
     private val viewModel: SplashViewModel by viewModels()
 
@@ -73,6 +71,13 @@ class MainActivity : ComponentActivity() {
 
             val navController = rememberNavController()
 
+            val logoutEvent = remember {
+                {
+                    viewModel.clearToken()
+                    navController.navigate(Screens.Login)
+                }
+            }
+
             val currentDestination by navController.currentBackStackEntryAsState()
 
             val displayBottomBar by remember(currentDestination) {
@@ -96,6 +101,14 @@ class MainActivity : ComponentActivity() {
 
                 val startDestination by remember {
                     viewModel.destination
+                }
+
+                LaunchedEffect(ready) {
+                    logDebug("ready $ready")
+                }
+
+                LaunchedEffect(startDestination) {
+                    logDebug("start $startDestination")
                 }
 
                 CompositionLocalProvider(
@@ -136,7 +149,6 @@ class MainActivity : ComponentActivity() {
                         CircleLoadingSpinner(
                             isLoading = loadingState
                         )
-
                     }
                 }
             }

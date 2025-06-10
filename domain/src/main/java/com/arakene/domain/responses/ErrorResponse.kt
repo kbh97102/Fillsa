@@ -13,4 +13,13 @@ data class ErrorResponse(
     val errorCode: Int,
     @SerializedName("message")
     val message: String
-)
+){
+    companion object{
+        fun getTokenExpired() = ErrorResponse(
+            timestamp = "",
+            httpStatus = 403,
+            errorCode = 403,
+            message = ""
+        )
+    }
+}
