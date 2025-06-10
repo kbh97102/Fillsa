@@ -67,7 +67,7 @@ fun QuoteListItem(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                "2025.03.25",
+                data.quoteDate,
                 style = FillsaTheme.typography.buttonXSmallBold,
                 color = colorResource(
                     R.color.gray_700
@@ -75,7 +75,7 @@ fun QuoteListItem(
             )
 
             Text(
-                "(수)",
+                data.quoteDayOfWeek,
                 style = FillsaTheme.typography.buttonXSmallNormal,
                 color = colorResource(R.color.gray_700),
                 modifier = Modifier.padding(start = 10.dp)
