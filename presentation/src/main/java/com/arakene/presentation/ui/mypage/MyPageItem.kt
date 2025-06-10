@@ -39,7 +39,7 @@ fun MyPageItem(
             .noEffectClickable { onClick() }
             .fillMaxWidth()
             .background(Color.White, shape = MaterialTheme.shapes.medium)
-            .border(1.dp, color = colorResource(R.color.purple02))
+            .border(1.dp, color = colorResource(R.color.purple02), shape = MaterialTheme.shapes.medium)
             .padding(vertical = 18.dp, horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
