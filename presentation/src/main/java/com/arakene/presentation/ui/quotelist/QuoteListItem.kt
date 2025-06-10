@@ -23,6 +23,7 @@ import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.DayOfWeek
 
 @Composable
 fun QuoteListItem(
@@ -56,18 +57,20 @@ fun QuoteListItem(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                data.quoteDate,
+                data.quoteDate.replace("-", "."),
                 style = FillsaTheme.typography.buttonXSmallBold,
                 color = colorResource(
                     R.color.gray_700
-                )
+                ),
+                maxLines = 1
             )
 
             Text(
-                data.quoteDayOfWeek,
+                DayOfWeek.valueOf(data.quoteDayOfWeek).kor,
                 style = FillsaTheme.typography.buttonXSmallNormal,
                 color = colorResource(R.color.gray_700),
-                modifier = Modifier.padding(start = 10.dp)
+                modifier = Modifier.padding(start = 10.dp),
+                maxLines = 1
             )
         }
 
