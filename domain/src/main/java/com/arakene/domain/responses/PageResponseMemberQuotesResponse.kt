@@ -29,11 +29,17 @@ data class MemberQuotesResponse(
     @SerializedName("quoteDayOfWeek")
     val quoteDayOfWeek: String,
 
-    @SerializedName("quote")
-    val quote: String,
+    @SerializedName("korQuote")
+    val korQuote: String?,
 
-    @SerializedName("author")
-    val author: String,
+    @SerializedName("engQuote")
+    val engQuote: String?,
+
+    @SerializedName("korAuthor")
+    val korAuthor: String?,
+
+    @SerializedName("engAuthor")
+    val engAuthor: String?,
 
     @SerializedName("authorUrl")
     val authorUrl: String,
@@ -46,13 +52,15 @@ data class MemberQuotesResponse(
 
     @SerializedName("likeYn")
     val likeYn: String  // "Y" or "N"
-){
+) {
     constructor() : this(
         memberQuoteSeq = 0,
         quoteDate = "",
         quoteDayOfWeek = "",
-        quote = "",
-        author = "",
+        korQuote = "",
+        engQuote = "",
+        korAuthor = "",
+        engAuthor = "",
         authorUrl = "",
         memo = "",
         memoYn = "N",
