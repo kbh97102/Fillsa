@@ -44,8 +44,10 @@ import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
 fun QuoteDetailView(
-    quote: String,
-    author: String,
+    engQuote: String,
+    engAuthor: String,
+    korQuote: String,
+    korAuthor: String,
     authorUrl: String,
     memberQuoteSeq: String,
     memo: String,
@@ -69,6 +71,34 @@ fun QuoteDetailView(
                 navigate(it.screen)
             }
         }
+    }
+
+    val quote by remember(localeType) {
+        mutableStateOf(
+            when (localeType) {
+                LocaleType.KOR -> {
+                    korQuote
+                }
+
+                else -> {
+                    engQuote
+                }
+            }
+        )
+    }
+
+    val author by remember(localeType) {
+        mutableStateOf(
+            when (localeType) {
+                LocaleType.KOR -> {
+                    korAuthor
+                }
+
+                else -> {
+                    engAuthor
+                }
+            }
+        )
     }
 
     Column(
@@ -155,8 +185,10 @@ private fun MemoViewPreview() {
     QuoteDetailView(
         memo = "",
         memberQuoteSeq = "",
-        quote = "",
-        author = "",
+        korQuote = "",
+        korAuthor = "",
+        engQuote = "",
+        engAuthor = "",
         authorUrl = "",
         navigate = {},
         onBackPress = {}

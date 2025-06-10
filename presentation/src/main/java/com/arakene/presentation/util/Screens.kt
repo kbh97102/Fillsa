@@ -56,8 +56,10 @@ sealed interface Screens {
 
     @Serializable
     data class QuoteDetail(
-        val quote: String,
-        val author: String,
+        val engQuote: String,
+        val engAuthor: String,
+        val korQuote: String,
+        val korAuthor: String,
         val authorUrl: String,
         val memberQuoteSeq: String,
         val memo: String?

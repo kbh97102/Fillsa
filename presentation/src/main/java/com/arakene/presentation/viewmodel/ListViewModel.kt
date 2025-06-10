@@ -7,12 +7,12 @@ import com.arakene.domain.requests.MemoRequest
 import com.arakene.domain.usecase.home.GetImageUriUseCase
 import com.arakene.domain.usecase.list.GetQuotesListUseCase
 import com.arakene.domain.usecase.list.PostSaveMemoUseCase
+import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.QuoteListAction
 import com.arakene.presentation.util.Screens
-import com.arakene.domain.util.YN
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -45,8 +45,10 @@ class ListViewModel @Inject constructor(
                         Screens.QuoteDetail(
                             memo = data.memo,
                             authorUrl = data.authorUrl,
-                            author = data.author,
-                            quote = data.quote,
+                            korAuthor = data.korAuthor ?: "",
+                            engAuthor = data.engAuthor ?: "",
+                            korQuote = data.korQuote ?: "",
+                            engQuote = data.engQuote ?: "",
                             memberQuoteSeq = data.memberQuoteSeq.toString()
                         )
                     )

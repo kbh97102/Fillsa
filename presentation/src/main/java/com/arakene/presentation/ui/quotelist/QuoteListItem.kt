@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +38,16 @@ fun QuoteListItem(
 ) {
 
     val context = LocalContext.current
+
+    val quote by remember(data) {
+        mutableStateOf(
+            if (data.korQuote.isNullOrEmpty()) {
+                data.engQuote ?: ""
+            } else {
+                data.korQuote ?: ""
+            }
+        )
+    }
 
     val imageLoader = remember {
         ImageLoader.Builder(context)
@@ -93,7 +105,7 @@ fun QuoteListItem(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
                 QuoteListItemPager(
-                    quote = data.quote,
+                    quote = quote,
                     memo = data.memo ?: ""
                 )
 
