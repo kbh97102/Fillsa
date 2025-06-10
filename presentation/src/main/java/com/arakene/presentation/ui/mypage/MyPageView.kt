@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,6 +23,7 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.viewmodel.MyPageViewModel
@@ -31,6 +34,8 @@ fun MyPageView(
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
+
+    val isLogged by viewModel.isLogged.collectAsState(false)
 
     val lifeCycle = LocalLifecycleOwner.current
 
@@ -64,7 +69,10 @@ fun MyPageView(
         // Login or UserName
         MyPageLoginSection(
             modifier = Modifier.padding(top = 10.dp),
-            isLogged = true
+            isLogged = isLogged,
+            loginEvent = {
+                viewModel.handleContract(MyPageAction.Login)
+            }
         )
 
         // Notice
@@ -95,10 +103,13 @@ fun MyPageView(
             modifier = Modifier.padding(top = 20.dp)
         )
 
-        // version
-        VersionSection(modifier = modifier.padding(top = 20.dp), isLogged = true, logout = {})
-
-        // logout
+        // version + logout
+        MyPageBottomButtonSection(
+            modifier = modifier.padding(top = 20.dp),
+            isLogged = isLogged,
+            logout = {
+                viewModel.handleContract(MyPageAction.Logout)
+            })
     }
 
 }

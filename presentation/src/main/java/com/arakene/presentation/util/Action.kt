@@ -76,4 +76,6 @@ sealed interface CalendarAction : Action {
 
 sealed interface MyPageAction : Action {
     data object Resign : MyPageAction
+    data object Logout: MyPageAction
+    data object Login: MyPageAction
 }
