@@ -69,7 +69,10 @@ fun MyPageView(
         // Login or UserName
         MyPageLoginSection(
             modifier = Modifier.padding(top = 10.dp),
-            isLogged = isLogged
+            isLogged = isLogged,
+            loginEvent = {
+                viewModel.handleContract(MyPageAction.Login)
+            }
         )
 
         // Notice

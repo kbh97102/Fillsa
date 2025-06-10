@@ -26,10 +26,12 @@ import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.dropShadow
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun MyPageLoginSection(
     isLogged: Boolean,
+    loginEvent: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -75,6 +77,9 @@ fun MyPageLoginSection(
 
         Column(
             modifier = modifier
+                .noEffectClickable {
+                    loginEvent()
+                }
                 .dropShadow(
                     shape = MaterialTheme.shapes.medium,
                     blur = 16.dp,
@@ -132,7 +137,8 @@ fun MyPageLoginSection(
 private fun MyPageLoginSectionPreview() {
     FillsaTheme {
         MyPageLoginSection(
-            isLogged = false
+            isLogged = false,
+            loginEvent = {}
         )
     }
 }
@@ -143,7 +149,8 @@ private fun MyPageLoginSectionPreview() {
 private fun MyPageLoginSectionPreview2() {
     FillsaTheme {
         MyPageLoginSection(
-            isLogged = true
+            isLogged = true,
+            loginEvent = {}
         )
     }
 }
