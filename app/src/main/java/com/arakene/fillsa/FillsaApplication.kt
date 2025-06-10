@@ -10,12 +10,14 @@ import androidx.work.WorkManager
 import com.arakene.data.util.DailyNotificationWorker
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.usecase.common.GetAccessTokenUseCase
+import com.arakene.domain.usecase.common.GetAlarmUsageUseCase
 import com.arakene.presentation.BuildConfig
 import com.google.firebase.FirebaseApp
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.Duration
 import java.time.LocalDateTime
@@ -34,6 +36,9 @@ class FillsaApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
+    @Inject
+    lateinit var getAlarmUsageUseCase: GetAlarmUsageUseCase
+
     override fun onCreate() {
         super.onCreate()
 
@@ -45,7 +50,22 @@ class FillsaApplication : Application(), Configuration.Provider {
             tokenProvider.setToken(getAccessTokenUseCase())
         }
 
-        scheduleDailyNotification(this)
+        toggleAlert()
+    }
+
+    private fun toggleAlert() {
+        CoroutineScope(Dispatchers.IO).launch {
+            getAlarmUsageUseCase()
+                .collectLatest {
+
+                    if (it) {
+                        scheduleDailyNotification(this@FillsaApplication)
+                    } else {
+                        WorkManager.getInstance(this@FillsaApplication)
+                            .cancelUniqueWork("DailyNotification")
+                    }
+                }
+        }
     }
 
     private fun scheduleDailyNotification(context: Context) {
