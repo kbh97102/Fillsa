@@ -177,6 +177,12 @@ class HomeViewModel @Inject constructor(
             isLike.value = it.likeYn == YN.Y.type
             backgroundImageUri.value = (it.imagePath ?: "")
             setImageUriUseCase(it.imagePath ?: "")
+
+//            delay(33000)
+//            postLike()
+//
+//            delay(60 * 1000 + 3000)
+//            postLike()
         }
     }
 

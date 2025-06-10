@@ -27,9 +27,11 @@ class AuthAuthenticator @Inject constructor(
         Log.e(">>>>TOKEN", "여기오니? ${route?.address} responseCode ${response.code}")
 
         try {
-            val body = response.body?.string()
+            val body = response.peekBody(1024 * 1024L).string()
 
             val errorResponse = Gson().fromJson(body, ErrorResponse::class.java)
+
+            Log.e(">>>>TOKEN", "파싱성공? ${errorResponse}")
 
             if (response.code == 401 && errorResponse.errorCode != 3003) {
                 return null
