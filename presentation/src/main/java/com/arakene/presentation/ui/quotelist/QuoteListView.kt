@@ -66,11 +66,14 @@ fun QuoteListView(
 
         HomeTopSection()
 
-        DateSelectSection(
-            startDate = startDate,
-            endDate = endDate,
-            modifier = Modifier.padding(top = 20.dp)
-        )
+        /**
+         * Ver 2.0에서 도입될 기능
+         */
+//        DateSelectSection(
+//            startDate = startDate,
+//            endDate = endDate,
+//            modifier = Modifier.padding(top = 20.dp)
+//        )
 
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             IsLikeSection(
