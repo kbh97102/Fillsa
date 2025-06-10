@@ -59,10 +59,10 @@ class ApiModule {
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
-                    .authenticator(auth)
                     .addInterceptor(HttpLoggingInterceptor().apply {
                         level = HttpLoggingInterceptor.Level.BODY
                     })
+                    .authenticator(auth)
                     .addInterceptor(tokenInterceptor)
                     .build()
             )
