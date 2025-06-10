@@ -62,7 +62,8 @@ sealed interface Screens {
         val korAuthor: String,
         val authorUrl: String,
         val memberQuoteSeq: String,
-        val memo: String?
+        val memo: String?,
+        val imagePath: String
     ) : Screens {
         override val routeString: String
             get() = "QuoteDetail"
