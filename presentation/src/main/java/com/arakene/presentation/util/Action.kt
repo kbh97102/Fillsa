@@ -78,4 +78,5 @@ sealed interface MyPageAction : Action {
     data object Resign : MyPageAction
     data object Logout: MyPageAction
     data object Login: MyPageAction
+    data class ClickAlarmUsage(val usage: Boolean): MyPageAction
 }
