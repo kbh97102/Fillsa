@@ -23,6 +23,7 @@ import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -176,6 +177,12 @@ class HomeViewModel @Inject constructor(
             isLike.value = it.likeYn == YN.Y.type
             backgroundImageUri.value = (it.imagePath ?: "")
             setImageUriUseCase(it.imagePath ?: "")
+
+//            delay(33000)
+//            postLike()
+//
+//            delay(60 * 1000 + 3000)
+//            postLike()
         }
     }
 

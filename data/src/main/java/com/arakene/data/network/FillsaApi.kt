@@ -2,10 +2,12 @@ package com.arakene.data.network
 
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.MemoRequest
+import com.arakene.domain.requests.TokenRefreshRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberMonthlyQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
 import com.arakene.domain.responses.SimpleIntResponse
+import com.arakene.domain.responses.TokenInfo
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -64,5 +66,4 @@ interface FillsaApi {
     @DELETE(ApiEndPoint.DELETE_RESIGN)
     suspend fun deleteResign(
     ): Response<SimpleIntResponse>
-
 }
