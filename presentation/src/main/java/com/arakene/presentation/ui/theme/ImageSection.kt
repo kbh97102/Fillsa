@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,13 +16,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import coil3.ImageLoader
-import coil3.compose.AsyncImage
-import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
-import okhttp3.OkHttpClient
 
 @Composable
 fun ImageSection(
@@ -38,19 +34,6 @@ fun ImageSection(
     }
 
     val context = LocalContext.current
-
-    val imageLoader = remember {
-        ImageLoader.Builder(context)
-            .components {
-                add(
-                    OkHttpNetworkFetcherFactory(
-                        callFactory = {
-                            OkHttpClient()
-                        }
-                    ))
-            }
-            .build()
-    }
 
     Box(
         modifier = modifier
@@ -70,13 +53,9 @@ fun ImageSection(
                 modifier = Modifier.fillMaxSize()
             )
         } else {
-            AsyncImage(
-                model = imageUri,
-                contentDescription = null,
-                error = painterResource(R.drawable.img_image_background),
-                imageLoader = imageLoader,
+            CustomAsyncImage(
+                imagePath = imageUri,
                 modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
             )
         }
 

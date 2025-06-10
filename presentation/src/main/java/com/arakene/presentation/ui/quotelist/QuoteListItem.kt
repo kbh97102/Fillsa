@@ -28,6 +28,7 @@ import coil3.compose.AsyncImage
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
 import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.logDebug
 import okhttp3.OkHttpClient
@@ -49,19 +50,6 @@ fun QuoteListItem(
                 data.korQuote ?: ""
             }
         )
-    }
-
-    val imageLoader = remember {
-        ImageLoader.Builder(context)
-            .components {
-                add(
-                    OkHttpNetworkFetcherFactory(
-                        callFactory = {
-                            OkHttpClient()
-                        }
-                    ))
-            }
-            .build()
     }
 
     Column(
@@ -95,13 +83,10 @@ fun QuoteListItem(
         }
 
         Box {
-            AsyncImage(
-                model = imagePath,
-                contentDescription = null,
-                error = painterResource(R.drawable.img_image_background),
-                imageLoader = imageLoader,
+
+            CustomAsyncImage(
+                imagePath = imagePath,
                 modifier = Modifier.matchParentSize(),
-                contentScale = ContentScale.Crop
             )
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
