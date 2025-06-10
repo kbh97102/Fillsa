@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.arakene.domain.usecase.GetNoticeUseCase
 import com.arakene.domain.usecase.common.DeleteResignUseCase
+import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -17,9 +18,11 @@ import javax.inject.Inject
 class MyPageViewModel @Inject constructor(
     private val getNoticeUseCase: GetNoticeUseCase,
     private val deleteResignUseCase: DeleteResignUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val getLoginStatusUseCase: GetLoginStatusUseCase
 ) : BaseViewModel() {
 
+    val isLogged = getLoginStatusUseCase()
 
     val getNotice = getNoticeUseCase()
         .cachedIn(viewModelScope)

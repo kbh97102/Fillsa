@@ -4,12 +4,13 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.arakene.data.util.DataStoreKey
+import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
 import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
+import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.LocalRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
@@ -31,29 +32,28 @@ class LocalRepositoryImpl @Inject constructor(
     override suspend fun setAccessToken(token: String) {
         tokenProvider.setToken(token)
         dataStore.edit {
-            it[DataStoreKey.ACCESS_TOKEN] = token
+            it[ACCESS_TOKEN] = token
         }
     }
 
     override suspend fun getAccessToken(): String {
-        return dataStore.data.firstOrNull()?.get(DataStoreKey.ACCESS_TOKEN) ?: ""
+        return dataStore.data.firstOrNull()?.get(ACCESS_TOKEN) ?: ""
     }
 
     override suspend fun setRefreshToken(token: String) {
         dataStore.edit {
-            it[DataStoreKey.REFRESH_TOKEN] = token
+            it[REFRESH_TOKEN] = token
         }
     }
 
     override suspend fun getRefreshToken(): String {
-        return dataStore.data.firstOrNull()?.get(DataStoreKey.REFRESH_TOKEN) ?: ""
+        return dataStore.data.firstOrNull()?.get(REFRESH_TOKEN) ?: ""
     }
 
-    override fun getLoginStatus() = flow {
-        val access = getAccessToken()
-        val refresh = getRefreshToken()
-
-        emit(access.isNotEmpty() && refresh.isNotEmpty())
+    override fun getLoginStatus() = dataStore.data.map { preferences ->
+        val accessToken = preferences[ACCESS_TOKEN]
+        val refreshToken = preferences[REFRESH_TOKEN]
+        !accessToken.isNullOrBlank() && !refreshToken.isNullOrBlank()
     }
 
     override suspend fun setImageUri(uri: String) {
