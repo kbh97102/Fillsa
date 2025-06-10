@@ -15,7 +15,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -30,16 +29,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import coil3.ImageLoader
-import coil3.compose.AsyncImage
-import coil3.network.okhttp.OkHttpNetworkFetcherFactory
-import coil3.util.DebugLogger
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
 import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
-import okhttp3.OkHttpClient
 
 @Composable
 fun ImageDialog(
@@ -63,20 +58,6 @@ fun ImageDialog(
 
     val context = LocalContext.current
 
-    val imageLoader = remember(backgroundImageUrl) {
-        ImageLoader.Builder(context)
-            .logger(DebugLogger())
-            .components {
-                add(
-                    OkHttpNetworkFetcherFactory(
-                    callFactory = {
-                        OkHttpClient()
-                    }
-                ))
-            }
-            .build()
-    }
-
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
         onDismissRequest = {
@@ -99,13 +80,9 @@ fun ImageDialog(
                     contentScale = ContentScale.Crop
                 )
             } else {
-                AsyncImage(
-                    model = backgroundImageUrl,
-                    contentDescription = null,
-                    error = painterResource(R.drawable.img_image_background),
-                    imageLoader = imageLoader,
+                CustomAsyncImage(
+                    imagePath = backgroundImageUrl,
                     modifier = Modifier.matchParentSize(),
-                    contentScale = ContentScale.Crop
                 )
             }
 

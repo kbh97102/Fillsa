@@ -49,7 +49,8 @@ class ListViewModel @Inject constructor(
                             engAuthor = data.engAuthor ?: "",
                             korQuote = data.korQuote ?: "",
                             engQuote = data.engQuote ?: "",
-                            memberQuoteSeq = data.memberQuoteSeq.toString()
+                            memberQuoteSeq = data.memberQuoteSeq.toString(),
+                            imagePath = data.imagePath ?: ""
                         )
                     )
                 )

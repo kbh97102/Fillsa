@@ -136,7 +136,8 @@ fun MainNavHost(
                     },
                     onBackPress = {
                         navController.popBackStack()
-                    }
+                    },
+                    imagePath = data.imagePath
                 )
             }
         }

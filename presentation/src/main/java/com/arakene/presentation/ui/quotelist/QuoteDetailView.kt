@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui.quotelist
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -21,15 +20,14 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.home.LocaleSwitch
 import com.arakene.presentation.ui.theme.FillsaTheme
@@ -51,6 +49,7 @@ fun QuoteDetailView(
     authorUrl: String,
     memberQuoteSeq: String,
     memo: String,
+    imagePath: String,
     navigate: Navigate,
     onBackPress: () -> Unit,
     viewModel: ListViewModel = hiltViewModel()
@@ -125,10 +124,8 @@ fun QuoteDetailView(
                     spread = 2.dp
                 ),
         ) {
-            Image(
-                painter = painterResource(R.drawable.img_memo_image_default),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
+            CustomAsyncImage(
+                imagePath = imagePath,
                 modifier = Modifier
                     .fillMaxSize()
                     .clip(MaterialTheme.shapes.medium)
@@ -191,6 +188,7 @@ private fun MemoViewPreview() {
         engAuthor = "",
         authorUrl = "",
         navigate = {},
-        onBackPress = {}
+        onBackPress = {},
+        imagePath = ""
     )
 }
