@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
@@ -38,6 +40,8 @@ fun AlertView(
 
     val context = LocalContext.current
 
+    val selected by viewModel.getAlarmUsage.collectAsState(false)
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -48,7 +52,12 @@ fun AlertView(
             onBackPress = {}
         )
 
-        AlertSwitchSection()
+        AlertSwitchSection(
+            selected = selected,
+            setSelected = {
+                viewModel.handleContract(MyPageAction.ClickAlarmUsage(usage = it))
+            }
+        )
 
         Row(
             modifier = Modifier
