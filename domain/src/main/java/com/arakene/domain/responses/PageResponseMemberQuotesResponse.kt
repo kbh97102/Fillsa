@@ -54,7 +54,7 @@ data class MemberQuotesResponse(
     val likeYn: String,  // "Y" or "N"
 
     @SerializedName("imagePath")
-    val imagePath: String
+    val imagePath: String?
 ) {
     constructor() : this(
         memberQuoteSeq = 0,
