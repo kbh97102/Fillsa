@@ -14,5 +14,7 @@ interface LocalRepository {
     suspend fun isFirstOpen(): Flow<Boolean>
     suspend fun setFirstOpen(value: Boolean)
     suspend fun setAlarm(value: Boolean)
+    suspend fun setName(value: String)
     fun getAlarm(): Flow<Boolean>
+    fun getName(): Flow<String>
 }

@@ -78,4 +78,14 @@ class LocalRepositoryImpl @Inject constructor(
             it[DataStoreKey.IMAGE_URI] ?: ""
         }
     }
+
+    override suspend fun setName(value: String) {
+        dataStore.edit {
+            it[DataStoreKey.USER_NAME] = value
+        }
+    }
+
+    override fun getName(): Flow<String> = dataStore.data.map {
+        it[DataStoreKey.USER_NAME] ?: ""
+    }
 }

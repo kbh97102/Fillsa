@@ -11,6 +11,7 @@ import com.arakene.domain.requests.UserData
 import com.arakene.domain.usecase.LoginUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
+import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -39,7 +40,8 @@ import kotlin.coroutines.suspendCoroutine
 class LoginViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
-    private val setAccessTokenUseCase: SetAccessTokenUseCase
+    private val setAccessTokenUseCase: SetAccessTokenUseCase,
+    private val setImageUriUseCase: SetImageUriUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
