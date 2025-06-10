@@ -28,6 +28,7 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -220,7 +221,7 @@ fun LoginView(
 
         // 이용약관 및 개인정보 처리방침
         Row(
-            modifier = Modifier.padding(top = 12.dp, bottom = 40.dp)
+            modifier = Modifier.padding(top = 12.dp)
         ) {
             Text(
                 stringResource(R.string.terms_of_use),
@@ -241,6 +242,15 @@ fun LoginView(
             )
         }
 
+        Text(
+            text = stringResource(R.string.login_agreement),
+            style = FillsaTheme.typography.body4,
+            color = colorResource(R.color.gray_500),
+            modifier = Modifier
+                .padding(top = 12.dp, bottom = 50.dp)
+                .fillMaxWidth(),
+            textAlign = TextAlign.Center
+        )
     }
 
 }
