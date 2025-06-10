@@ -21,6 +21,7 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.viewmodel.MyPageViewModel
@@ -95,10 +96,13 @@ fun MyPageView(
             modifier = Modifier.padding(top = 20.dp)
         )
 
-        // version
-        VersionSection(modifier = modifier.padding(top = 20.dp), isLogged = true, logout = {})
-
-        // logout
+        // version + logout
+        MyPageBottomButtonSection(
+            modifier = modifier.padding(top = 20.dp),
+            isLogged = true,
+            logout = {
+                viewModel.handleContract(MyPageAction.Logout)
+            })
     }
 
 }

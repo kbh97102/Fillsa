@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.arakene.domain.usecase.GetNoticeUseCase
 import com.arakene.domain.usecase.common.DeleteResignUseCase
+import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.MyPageAction
@@ -15,7 +16,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MyPageViewModel @Inject constructor(
     private val getNoticeUseCase: GetNoticeUseCase,
-    private val deleteResignUseCase: DeleteResignUseCase
+    private val deleteResignUseCase: DeleteResignUseCase,
+    private val logoutUseCase: LogoutUseCase
 ) : BaseViewModel() {
 
 
@@ -27,6 +29,16 @@ class MyPageViewModel @Inject constructor(
             MyPageAction.Resign -> {
                 resign()
             }
+
+            MyPageAction.Logout -> {
+                logout()
+            }
+        }
+    }
+
+    private fun logout() {
+        viewModelScope.launch {
+            logoutUseCase()
         }
     }
 

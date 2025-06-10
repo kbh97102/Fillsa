@@ -17,9 +17,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
-fun VersionSection(
+fun MyPageBottomButtonSection(
     isLogged: Boolean,
     logout: () -> Unit,
     modifier: Modifier = Modifier
@@ -47,7 +48,11 @@ fun VersionSection(
                 color = colorResource(R.color.gray_700)
             )
 
-            Text(version, style = FillsaTheme.typography.body2, color = colorResource(R.color.gray_700))
+            Text(
+                version,
+                style = FillsaTheme.typography.body2,
+                color = colorResource(R.color.gray_700)
+            )
         }
 
         if (isLogged) {
@@ -55,7 +60,9 @@ fun VersionSection(
                 stringResource(R.string.logout),
                 style = FillsaTheme.typography.subtitle1,
                 color = colorResource(R.color.gray_700),
-                modifier = Modifier.padding(top = 13.dp)
+                modifier = Modifier
+                    .padding(top = 13.dp)
+                    .noEffectClickable { logout() }
             )
         }
     }
@@ -64,5 +71,5 @@ fun VersionSection(
 @Preview(showBackground = true)
 @Composable
 private fun VersionSectionPreview() {
-    VersionSection(isLogged = true, logout = {})
+    MyPageBottomButtonSection(isLogged = true, logout = {})
 }
