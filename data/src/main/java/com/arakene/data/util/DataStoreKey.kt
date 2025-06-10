@@ -9,4 +9,5 @@ object DataStoreKey {
     val REFRESH_TOKEN = stringPreferencesKey("refresh_token")
     val IMAGE_URI = stringPreferencesKey("image_uri")
     val FIRST_OPEN_KEY = booleanPreferencesKey("is_first_open")
+    val ALARM_KEY  = booleanPreferencesKey("alarm_key")
 }

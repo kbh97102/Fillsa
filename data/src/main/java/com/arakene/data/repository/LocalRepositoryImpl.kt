@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
+import com.arakene.data.util.DataStoreKey.ALARM_KEY
 import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
 import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
 import com.arakene.data.util.TokenProvider
@@ -18,6 +19,16 @@ class LocalRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val tokenProvider: TokenProvider
 ) : LocalRepository {
+
+    override suspend fun setAlarm(value: Boolean) {
+        dataStore.edit {
+            it[ALARM_KEY] = value
+        }
+    }
+
+    override fun getAlarm(): Flow<Boolean> = dataStore.data.map {
+        it[ALARM_KEY] ?: false
+    }
 
     override suspend fun isFirstOpen(): Flow<Boolean> {
         return dataStore.data.map {
