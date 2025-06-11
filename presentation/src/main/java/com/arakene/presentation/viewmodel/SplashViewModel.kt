@@ -3,6 +3,7 @@ package com.arakene.presentation.viewmodel
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.usecase.common.CheckFirstOpenUseCase
+import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -20,8 +21,11 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val checkFirstOpenUseCase: CheckFirstOpenUseCase,
-    private val logoutUseCase: LogoutUseCase
+    private val logoutUseCase: LogoutUseCase,
+    private val getLoginStatusUseCase: GetLoginStatusUseCase
 ) : BaseViewModel() {
+
+    val isLogged = getLoginStatusUseCase()
 
     var ready = mutableStateOf(false)
 

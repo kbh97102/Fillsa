@@ -15,18 +15,26 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.arakene.presentation.R
+import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Screens
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
-    val items = listOf(
-        Pair(Screens.Home, R.drawable.icn_bottom_menu_home),
-        Pair(Screens.QuoteList, R.drawable.icn_bottom_menu_list),
-        Pair(Screens.Calendar, R.drawable.icn_bottom_menu_calendar),
-        Pair(Screens.MyPage, R.drawable.icn_bottom_menu_my_page),
-    )
+fun BottomNavigationBar(
+    isLogged: Boolean,
+    navController: NavHostController,
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
+) {
 
-
+    val items = remember {
+        listOf(
+            Pair(Screens.Home, R.drawable.icn_bottom_menu_home),
+            Pair(Screens.QuoteList, R.drawable.icn_bottom_menu_list),
+            Pair(Screens.Calendar, R.drawable.icn_bottom_menu_calendar),
+            Pair(Screens.MyPage, R.drawable.icn_bottom_menu_my_page),
+        )
+    }
 
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primary
@@ -43,6 +51,23 @@ fun BottomNavigationBar(navController: NavHostController) {
                 selected = currentRoute == routeString,
                 onClick = {
                     if (currentRoute != routeString) {
+
+                        if (item.first.needLogin && !isLogged) {
+
+                            dialogDataHolder.apply {
+                                data = DialogData.Builder()
+                                    .title("로그인 후 사용하실 수 있습니다.")
+                                    .onClick {
+                                        navController.navigate(Screens.Login)
+                                    }
+                                    .build()
+                            }.run {
+                                show = true
+                            }
+
+                            return@NavigationBarItem
+                        }
+
                         navController.navigate(item.first) {
                             popUpTo(navController.graph.startDestinationId) { saveState = true }
                             launchSingleTop = true
