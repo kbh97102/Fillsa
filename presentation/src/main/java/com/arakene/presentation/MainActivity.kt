@@ -94,6 +94,8 @@ class MainActivity : ComponentActivity() {
                 DialogDataHolder()
             }
 
+            val isLogged by viewModel.isLogged.collectAsState(false)
+
             FillsaTheme {
                 val ready by remember {
                     viewModel.ready
@@ -128,9 +130,10 @@ class MainActivity : ComponentActivity() {
                                 }
                             },
                             bottomBar = {
-                                logDebug("bottomBar $displayBottomBar")
                                 if (displayBottomBar) {
-                                    BottomNavigationBar(navController)
+                                    BottomNavigationBar(
+                                        isLogged = isLogged,
+                                        navController = navController)
                                 }
                             }
                         ) { paddingValues ->

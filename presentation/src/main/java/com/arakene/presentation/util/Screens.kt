@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 sealed interface Screens {
 
     val routeString: String
+    val needLogin: Boolean
+        get() = false
 
     @Serializable
     data object Login : Screens {
@@ -23,6 +25,8 @@ sealed interface Screens {
     data object Calendar : Screens {
         override val routeString: String
             get() = "Calendar"
+        override val needLogin: Boolean
+            get() = true
     }
 
     @Serializable
@@ -52,6 +56,8 @@ sealed interface Screens {
     data object QuoteList : Screens {
         override val routeString: String
             get() = "List"
+        override val needLogin: Boolean
+            get() = true
     }
 
     @Serializable
