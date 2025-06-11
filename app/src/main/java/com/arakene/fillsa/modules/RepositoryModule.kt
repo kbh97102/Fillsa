@@ -2,6 +2,7 @@ package com.arakene.fillsa.modules
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import com.arakene.data.db.LocalQuoteInfoDao
 import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.network.TokenApi
@@ -37,9 +38,10 @@ class RepositoryModule {
     @Provides
     fun provideLocalRepository(
         dataStore: DataStore<Preferences>,
-        tokenProvider: TokenProvider
+        tokenProvider: TokenProvider,
+        dao: LocalQuoteInfoDao
     ): LocalRepository {
-        return LocalRepositoryImpl(dataStore, tokenProvider)
+        return LocalRepositoryImpl(dataStore, tokenProvider, dao)
     }
 
     @Provides
