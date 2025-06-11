@@ -26,7 +26,7 @@ sealed interface Screens {
         override val routeString: String
             get() = "Calendar"
         override val needLogin: Boolean
-            get() = true
+            get() = false
     }
 
     @Serializable
@@ -57,7 +57,7 @@ sealed interface Screens {
         override val routeString: String
             get() = "List"
         override val needLogin: Boolean
-            get() = true
+            get() = false
     }
 
     @Serializable
