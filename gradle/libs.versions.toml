@@ -35,6 +35,7 @@ paging = "3.3.6"
 calendar = "2.7.0"
 workRuntimeKtx = "2.10.1"
 androidx-hilt = "1.2.0"
+room = "2.7.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -88,6 +89,13 @@ authtest = { group = "com.google.android.gms", name = "play-services-auth", vers
 firebase-installations-ktx = { group = "com.google.firebase", name = "firebase-installations-ktx", version.ref = "firebaseInstallationsKtx" }
 firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
+#room
+room-compiler = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
+room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
+room-paging = {group = "androidx.room", name = "room-paging", version.ref = "room"}
+
+
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

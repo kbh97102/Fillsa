@@ -41,4 +41,8 @@ dependencies {
     implementation(libs.datastore)
 
     implementation(libs.paging)
+
+    implementation(libs.room.ktx)
+    implementation(libs.room.compiler)
+    implementation(libs.room.paging)
 }

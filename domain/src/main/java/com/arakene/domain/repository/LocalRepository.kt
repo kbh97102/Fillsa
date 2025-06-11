@@ -1,5 +1,6 @@
 package com.arakene.domain.repository
 
+import com.arakene.domain.requests.LocalQuoteInfo
 import kotlinx.coroutines.flow.Flow
 
 interface LocalRepository {
@@ -17,4 +18,10 @@ interface LocalRepository {
     suspend fun setName(value: String)
     fun getAlarm(): Flow<Boolean>
     fun getName(): Flow<String>
+
+    suspend fun getLocalQuotes(): List<LocalQuoteInfo>
+    suspend fun addLocalQuote(quote: LocalQuoteInfo)
+    suspend fun deleteQuote(quote: LocalQuoteInfo)
+    suspend fun updateQuote(quote: LocalQuoteInfo)
+
 }
