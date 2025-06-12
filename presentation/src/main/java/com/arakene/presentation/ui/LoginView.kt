@@ -65,7 +65,8 @@ fun LoginView(
     navigate: (Screens) -> Unit,
     popBackStack: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel(),
-    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
+    isOnboarding: Boolean = true
 ) {
 
     val context = LocalContext.current
@@ -130,6 +131,10 @@ fun LoginView(
             .background(MaterialTheme.colorScheme.primary)
             .padding(horizontal = 20.dp)
     ) {
+
+        if (isOnboarding) {
+            LoginOnBoardingTopSection()
+        }
 
         Image(
             modifier = Modifier.padding(top = 154.dp),
@@ -219,15 +224,17 @@ fun LoginView(
         )
 
         // 비회원
-        LoginButton(
-            icon = painterResource(R.drawable.icn_pencil),
-            text = stringResource(R.string.login_non_member),
-            backgroundColor = colorResource(R.color.white),
-            onClick = {
-                viewModel.handleContract(LoginAction.ClickNonMember)
-            },
-            modifier = Modifier.padding(top = 16.dp)
-        )
+        if (!isOnboarding) {
+            LoginButton(
+                icon = painterResource(R.drawable.icn_pencil),
+                text = stringResource(R.string.login_non_member),
+                backgroundColor = colorResource(R.color.white),
+                onClick = {
+                    viewModel.handleContract(LoginAction.ClickNonMember)
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            )
+        }
 
         // 이용약관 및 개인정보 처리방침
         LoginDescriptionText(
@@ -244,6 +251,16 @@ fun LoginView(
         )
     }
 
+}
+
+@Composable
+private fun LoginOnBoardingTopSection(modifier: Modifier = Modifier) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(vertical = 13.dp),
+        horizontalArrangement = Arrangement.End
+    ) { Image(painter = painterResource(R.drawable.icn_exit), contentDescription = null) }
 }
 
 @Composable
