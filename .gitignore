@@ -19,6 +19,13 @@ captures/
 *.apk
 output.json
 
+# fastlane
+.fastlane/
+fastlane/plugins
+
+.env
+.env.*
+
 # IntelliJ
 *.iml
 .idea/
