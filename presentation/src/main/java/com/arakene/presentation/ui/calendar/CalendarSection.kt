@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -35,6 +36,7 @@ import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.HorizontalCalendar
@@ -79,7 +81,7 @@ fun CalendarSection(
     val scope = rememberCoroutineScope()
 
     val startDay = remember {
-        LocalDate.of(2025, 5, 18)
+        LocalDate.of(2025, 6, 18)
     }
 
     Column(
@@ -104,18 +106,23 @@ fun CalendarSection(
             goToPrevious = {
                 scope.launch {
                     val target = state.firstVisibleMonth.yearMonth.previousMonth
-                    state.animateScrollToMonth(target)
-                    changeMonth(target)
-                    currentMonth = target
+                    if (target >= state.startMonth) {
+                        state.animateScrollToMonth(target)
+                        changeMonth(target)
+                        currentMonth = target
+                    }
                 }
             },
             goToNext = {
                 scope.launch {
                     val target = state.firstVisibleMonth.yearMonth.nextMonth
-                    state.animateScrollToMonth(target)
-                    // TODO: 이거 구조 영 불편한데
-                    changeMonth(target)
-                    currentMonth = target
+                    logDebug("firstVisible ${state.firstVisibleMonth}  target $target, endMonth ${state.endMonth}")
+                    if (target <= state.endMonth) {
+                        state.animateScrollToMonth(target)
+                        // TODO: 이거 구조 영 불편한데
+                        changeMonth(target)
+                        currentMonth = target
+                    }
                 }
             },
         )
