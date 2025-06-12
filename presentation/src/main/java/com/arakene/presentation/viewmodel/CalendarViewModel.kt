@@ -56,6 +56,7 @@ class CalendarViewModel @Inject constructor(
                         calendarAction.target.date
                     )
                 }?.quote ?: ""
+                selectedDay.value = calendarAction.target
             }
 
             is CalendarAction.ClickBottomQuote -> {
@@ -97,7 +98,8 @@ class CalendarViewModel @Inject constructor(
     }
 
     private fun changeDayToTargetMonth(yearMonth: YearMonth) {
-        selectedDay.value = CalendarDay(LocalDate.of(yearMonth.year, yearMonth.month, 1), DayPosition.InDate)
+        selectedDay.value =
+            CalendarDay(LocalDate.of(yearMonth.year, yearMonth.month, 1), DayPosition.InDate)
     }
 
     private suspend fun getQuotesMonthly(yearMonth: String) =
