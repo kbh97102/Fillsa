@@ -77,7 +77,7 @@ fun TypingQuoteView(
     val scope = rememberCoroutineScope()
 
     BackHandler {
-        viewModel.handleContract(TypingAction.Back(write, data, localeType))
+        viewModel.handleContract(TypingAction.Back(write, data, localeType, isLike))
 
         backOnClick()
     }
@@ -101,7 +101,7 @@ fun TypingQuoteView(
                 localeType = it
             },
             onBackClick = {
-                viewModel.handleContract(TypingAction.Back(write, data, localeType))
+                viewModel.handleContract(TypingAction.Back(write, data, localeType, isLike))
                 backOnClick()
             },
             modifier = Modifier.padding(horizontal = 15.dp)
@@ -128,11 +128,26 @@ fun TypingQuoteView(
 
             TypingQuoteBottomSection(
                 onBackClick = {
-                    viewModel.handleContract(TypingAction.Back(write, data, localeType))
+                    viewModel.handleContract(TypingAction.Back(write, data, localeType, isLike))
                     backOnClick()
                 },
                 shareOnClick = {
-
+                    viewModel.handleContract(
+                        CommonEffect.Move(
+                            Screens.Share(
+                                quote = if (localeType == LocaleType.KOR) {
+                                    data.korQuote
+                                } else {
+                                    data.engQuote
+                                } ?: "",
+                                author = if (localeType == LocaleType.KOR) {
+                                    data.korAuthor
+                                } else {
+                                    data.engAuthor
+                                } ?: ""
+                            )
+                        )
+                    )
                 },
                 copyOnClick = {
                     copyToClipboard(

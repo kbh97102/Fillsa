@@ -8,12 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.home.DeleteUploadImageUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostUploadImageUseCase
-import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -23,7 +24,6 @@ import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -38,6 +38,8 @@ class HomeViewModel @Inject constructor(
     private val postLikeUseCase: PostLikeUseCase,
     private val postUploadImageUseCase: PostUploadImageUseCase,
     private val deleteUploadImageUseCase: DeleteUploadImageUseCase,
+    private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
+    private val getLocalQuoteUseCase: GetLocalQuoteUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -127,14 +129,14 @@ class HomeViewModel @Inject constructor(
         if (!action.isLogged) {
             emitEffect(
                 CommonEffect.ShowDialog(
-                // TODO: 이 구조가 과연 좋은거일까? , onClick의 시점, textStyle도 지정하고싶긴한데 viewModel에서 composable함수 참조 해야함
-                DialogData.Builder()
-                    .title("로그인 후 사용하실 수 있습니다.")
-                    .onClick {
-                        emitEffect(CommonEffect.Move(Screens.Login))
-                    }
-                    .build()
-            ))
+                    // TODO: 이 구조가 과연 좋은거일까? , onClick의 시점, textStyle도 지정하고싶긴한데 viewModel에서 composable함수 참조 해야함
+                    DialogData.Builder()
+                        .title("로그인 후 사용하실 수 있습니다.")
+                        .onClick {
+                            emitEffect(CommonEffect.Move(Screens.Login))
+                        }
+                        .build()
+                ))
         } else {
             emitEffect(
                 HomeEffect.OpenImageDialog(
@@ -147,16 +149,28 @@ class HomeViewModel @Inject constructor(
 
     private fun postLike() = viewModelScope.launch {
         isLike.value = !isLike.value
-        postLikeUseCase(
-            LikeRequest(
-                if (isLike.value) {
-                    YN.Y.type
+        val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
+
+        if (isLogged) {
+            postLikeUseCase(
+                LikeRequest(
+                    if (isLike.value) {
+                        YN.Y.type
+                    } else {
+                        YN.N.type
+                    }
+                ),
+                dailyQuoteSeq = currentQuota.dailyQuoteSeq
+            )
+        } else {
+            updateLocalQuoteLikeUseCase(
+                likeYN = if (isLike.value) {
+                    YN.Y
                 } else {
-                    YN.N.type
-                }
-            ),
-            dailyQuoteSeq = currentQuota.dailyQuoteSeq
-        )
+                    YN.N
+                }, seq = currentQuota.dailyQuoteSeq
+            )
+        }
     }
 
     private fun refresh() = viewModelScope.launch {
@@ -185,6 +199,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getDailyQuoteNoToken(date: String) = viewModelScope.launch {
+        val localList = getLocalQuoteUseCase()
+
         getResponse(getDailyQuoteNoTokenUseCase(date))?.let {
             currentQuota = DailyQuoteDto(
                 likeYn = "N",
@@ -194,8 +210,18 @@ class HomeViewModel @Inject constructor(
                 engQuote = it.engQuote,
                 korAuthor = it.korAuthor,
                 engAuthor = it.engAuthor,
-                authorUrl = it.authorUrl
-            )
+                authorUrl = it.authorUrl,
+            ).apply {
+                quoteDate = date
+            }
+
+            localList.find { local ->
+                local.dailyQuoteSeq == it.dailyQuoteSeq
+            }?.let { find ->
+                isLike.value = find.likeYn == YN.Y.type
+            } ?: let {
+                isLike.value = false
+            }
 
             backgroundImageUri.value = ""
         }

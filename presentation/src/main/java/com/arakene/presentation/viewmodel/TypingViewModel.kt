@@ -6,6 +6,7 @@ import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
+import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.util.YN
@@ -15,6 +16,8 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
+import com.arakene.presentation.util.getDayOfWeekEnglish
+import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +30,8 @@ class TypingViewModel @Inject constructor(
     private val postLikeUseCase: PostLikeUseCase,
     private val updateLocalQuoteUseCase: UpdateLocalQuoteUseCase,
     private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
-    private val getLoginStateUseCase: GetLoginStatusUseCase
+    private val getLoginStateUseCase: GetLoginStatusUseCase,
+    private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -49,7 +53,12 @@ class TypingViewModel @Inject constructor(
             }
 
             is TypingAction.Back -> {
-                saveTyping(typingAction.typing, typingAction.dailyQuote, typingAction.localeType)
+                saveTyping(
+                    typingAction.typing,
+                    typingAction.dailyQuote,
+                    typingAction.localeType,
+                    likeYn = typingAction.isLike
+                )
             }
 
             else -> {
@@ -59,12 +68,19 @@ class TypingViewModel @Inject constructor(
 
     }
 
-    private fun saveTyping(typing: String, dailyQuoteDto: DailyQuoteDto, localeType: LocaleType) {
+    private fun saveTyping(
+        typing: String,
+        dailyQuoteDto: DailyQuoteDto,
+        localeType: LocaleType,
+        likeYn: Boolean
+    ) {
 
         CoroutineScope(Dispatchers.IO).launch {
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
 
             if (!loginStatus) {
+                logDebug("date ${dailyQuoteDto.quoteDate}")
+
                 addLocalQuoteUseCase(
                     LocalQuoteInfo(
                         memo = "",
@@ -79,9 +95,13 @@ class TypingViewModel @Inject constructor(
                             typing
                         } else "",
                         dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
-                        likeYn = dailyQuoteDto.likeYn,
-                        date = "",
-                        dayOfWeek = ""
+                        likeYn = if (likeYn) {
+                            YN.Y.type
+                        } else {
+                            YN.N.type
+                        },
+                        date = dailyQuoteDto.quoteDate,
+                        dayOfWeek = getDayOfWeekEnglish(dateStr = dailyQuoteDto.quoteDate)
                     )
                 )
             }
@@ -90,17 +110,30 @@ class TypingViewModel @Inject constructor(
     }
 
     private fun postLike(like: Boolean, dailyQuoteSeq: Int) = viewModelScope.launch {
-        postLikeUseCase(
-            LikeRequest(
-                likeYn =
-                    if (like) {
-                        YN.Y.type
-                    } else {
-                        YN.N.type
-                    }
-            ),
-            dailyQuoteSeq = dailyQuoteSeq
-        )
+
+        val isLogged = getLoginStateUseCase().firstOrNull() ?: false
+
+        if (isLogged) {
+            postLikeUseCase(
+                LikeRequest(
+                    likeYn =
+                        if (like) {
+                            YN.Y.type
+                        } else {
+                            YN.N.type
+                        }
+                ),
+                dailyQuoteSeq = dailyQuoteSeq
+            )
+        } else {
+            updateLocalQuoteLikeUseCase(
+                likeYN = if (like) {
+                    YN.Y
+                } else {
+                    YN.N
+                }, seq = dailyQuoteSeq
+            )
+        }
     }
 
 }

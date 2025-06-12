@@ -40,6 +40,10 @@ fun CalendarView(
         viewModel.selectedDay
     }
 
+    LaunchedEffect(Unit) { 
+        viewModel.handleContract(CommonEffect.Refresh)
+    }
+
     LaunchedEffect(data?.memberQuotes) {
         if (!data?.memberQuotes.isNullOrEmpty()) {
             viewModel.handleContract(CalendarAction.SelectDay(selectedDay))

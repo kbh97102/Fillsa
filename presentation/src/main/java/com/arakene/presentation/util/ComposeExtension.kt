@@ -55,12 +55,20 @@ import java.time.DayOfWeek
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 typealias Navigate = (Screens) -> Unit
 
 
 val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
     error("No loading state provided")
+}
+
+fun getDayOfWeekEnglish(dateStr: String): String {
+    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    val date = LocalDate.parse(dateStr, formatter)
+    return date.dayOfWeek.name
 }
 
 @Composable

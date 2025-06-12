@@ -42,12 +42,6 @@ class CalendarViewModel @Inject constructor(
     val selectedDay =
         mutableStateOf(CalendarDay(date = LocalDate.now(), position = DayPosition.InDate))
 
-    init {
-
-        // TODO: 데이터 초기화 좋은 방법 유튜브에서 봤던거 적용해보기
-        emitEffect(CommonEffect.Refresh)
-    }
-
     override fun handleAction(action: Action) {
         when (val calendarAction = action as CalendarAction) {
             is CalendarAction.ChangeMonth -> {
