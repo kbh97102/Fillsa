@@ -27,7 +27,9 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
@@ -223,41 +225,71 @@ fun LoginView(
             text = stringResource(R.string.login_agreement),
             modifier = Modifier
                 .padding(top = 12.dp, bottom = 50.dp)
-                .fillMaxWidth()
+                .fillMaxWidth(),
+            termsOfUse = {
+                viewModel.handleContract(LoginAction.ClickTermsOfUse)
+            },
+            privacyPolicy = {
+                viewModel.handleContract(LoginAction.ClickPrivacyPolicy)
+            }
         )
     }
 
 }
 
 @Composable
-private fun LoginDescriptionText(text: String, modifier: Modifier = Modifier) {
+private fun LoginDescriptionText(
+    text: String,
+    termsOfUse: () -> Unit,
+    privacyPolicy: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val underLine = FillsaTheme.typography.subtitle2
-    val normal = FillsaTheme.typography.body3
 
     val annotatedString by remember {
         mutableStateOf(
             buildAnnotatedString {
                 val termsStart = text.indexOf("이용약관")
                 val privacyStart = text.indexOf("개인정보")
+                val boldStyle = SpanStyle(
+                    textDecoration = TextDecoration.Underline,
+                    fontSize = underLine.fontSize,
+                    fontFamily = underLine.fontFamily,
+                    fontStyle = underLine.fontStyle,
+                    fontWeight = underLine.fontWeight
+                )
+
                 append(text)
                 addStyle(
-                    SpanStyle(
-                        textDecoration = TextDecoration.Underline,
-                        fontSize = underLine.fontSize,
-                        fontFamily = underLine.fontFamily,
-                        fontStyle = underLine.fontStyle,
-                        fontWeight = underLine.fontWeight
-                    ),
+                    boldStyle,
                     start = termsStart,
                     end = termsStart + 4
                 )
                 addStyle(
-                    SpanStyle(
-                        textDecoration = TextDecoration.Underline,
-                        fontSize = underLine.fontSize,
-                        fontFamily = underLine.fontFamily,
-                        fontStyle = underLine.fontStyle,
-                        fontWeight = underLine.fontWeight
+                    boldStyle,
+                    start = privacyStart,
+                    end = privacyStart + 9
+                )
+
+                addLink(
+                    LinkAnnotation.Clickable(
+                        tag = "TermsOfUseClickTag",
+                        styles = TextLinkStyles(boldStyle.copy()),
+                        linkInteractionListener = {
+                            termsOfUse()
+                        }
+                    ),
+                    start = termsStart,
+                    end = termsStart + 4
+                )
+
+                addLink(
+                    LinkAnnotation.Clickable(
+                        tag = "PrivacyPolicyClickTag",
+                        styles = TextLinkStyles(boldStyle.copy()),
+                        linkInteractionListener = {
+                            privacyPolicy()
+                        }
                     ),
                     start = privacyStart,
                     end = privacyStart + 9
