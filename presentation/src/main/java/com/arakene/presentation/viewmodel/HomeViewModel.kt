@@ -206,8 +206,10 @@ class HomeViewModel @Inject constructor(
                 engQuote = it.engQuote,
                 korAuthor = it.korAuthor,
                 engAuthor = it.engAuthor,
-                authorUrl = it.authorUrl
-            )
+                authorUrl = it.authorUrl,
+            ).apply {
+                quoteDate = date
+            }
 
             backgroundImageUri.value = ""
         }

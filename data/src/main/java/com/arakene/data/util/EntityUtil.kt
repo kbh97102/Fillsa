@@ -18,5 +18,7 @@ fun LocalQuoteInfo.toEntity() = LocalQuoteInfoEntity(
     korTyping = korTyping,
     engTyping = engTyping,
     likeYn = likeYn,
-    memo = memo
+    memo = memo,
+    dayOfWeek = dayOfWeek,
+    date = date
 )

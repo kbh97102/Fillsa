@@ -32,6 +32,7 @@ data class DailyQuoteDto(
     @SerializedName("authorUrl")
     val authorUrl: String?
 ){
+    var quoteDate: String = ""
 
     constructor() : this(
         likeYn = "",
