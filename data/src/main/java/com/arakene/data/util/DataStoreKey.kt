@@ -11,4 +11,5 @@ object DataStoreKey {
     val USER_NAME = stringPreferencesKey("user_name")
     val FIRST_OPEN_KEY = booleanPreferencesKey("is_first_open")
     val ALARM_KEY  = booleanPreferencesKey("alarm_key")
+    val TOKEN_EXPIRED = stringPreferencesKey("token_expired")
 }

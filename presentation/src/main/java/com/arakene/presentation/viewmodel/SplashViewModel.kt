@@ -4,17 +4,16 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.usecase.common.CheckFirstOpenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.common.GetTokenExpiredUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,7 +21,8 @@ import javax.inject.Inject
 class SplashViewModel @Inject constructor(
     private val checkFirstOpenUseCase: CheckFirstOpenUseCase,
     private val logoutUseCase: LogoutUseCase,
-    private val getLoginStatusUseCase: GetLoginStatusUseCase
+    private val getLoginStatusUseCase: GetLoginStatusUseCase,
+    private val getTokenExpiredUseCase: GetTokenExpiredUseCase
 ) : BaseViewModel() {
 
     val isLogged = getLoginStatusUseCase()
@@ -32,6 +32,9 @@ class SplashViewModel @Inject constructor(
     val destination = mutableStateOf<Screens>(Screens.Login)
 
     var permissionChecked = MutableStateFlow(false)
+
+    val checkTokenExpired = getTokenExpiredUseCase()
+
 
     fun clearToken() {
         viewModelScope.launch {

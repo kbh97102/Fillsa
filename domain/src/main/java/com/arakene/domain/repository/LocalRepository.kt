@@ -29,4 +29,7 @@ interface LocalRepository {
     suspend fun updateLocalQuoteMemo(memo: String, seq: Int)
     suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int
     suspend fun getQuoteLocal(seq: Int): LocalQuoteInfo?
+
+    suspend fun emitTokenExpired(errorCode: String)
+    fun getTokenExpired(): Flow<String>
 }
