@@ -68,11 +68,12 @@ fun BottomNavigationBar(
                             return@NavigationBarItem
                         }
 
-                        navController.navigate(item.first) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
-                        }
+//                        navController.navigate(item.first) {
+//                            popUpTo(navController.graph.startDestinationId) { saveState = true }
+//                            launchSingleTop = true
+//                            restoreState = true
+//                        }
+                        navController.navigate(item.first)
                     }
                 },
                 icon = { Icon(painterResource(item.second), contentDescription = null) },

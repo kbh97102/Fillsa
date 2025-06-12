@@ -1,5 +1,6 @@
 package com.arakene.presentation.util
 
+import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberQuotesResponse
 import com.kizitonwose.calendar.core.CalendarDay
 import java.io.File
@@ -49,6 +50,7 @@ sealed interface TypingAction : Action {
     // TODO: 공통으로?
     data class ClickShare(val quote: String, val author: String) : TypingAction
     data class ClickLike(val like: Boolean, val dailyQuoteSeq: Int) : TypingAction
+    data class Back(val typing: String, val dailyQuote: DailyQuoteDto, val localeType: LocaleType): TypingAction
 }
 
 sealed interface QuoteListAction : Action {

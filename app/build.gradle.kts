@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.gms)
+    alias(libs.plugins.ksp)
 }
 
 
@@ -86,4 +87,7 @@ dependencies {
     implementation(libs.logger)
     implementation(libs.datastore)
     implementation(platform(libs.firebase.bom))
+
+    implementation(libs.room.runtime)
+    ksp(libs.room.compiler)
 }

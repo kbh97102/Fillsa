@@ -49,6 +49,7 @@ import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
+import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -58,13 +59,13 @@ fun CalendarSection(
     memberQuotes: List<MemberQuotesData>,
     changeMonth: (YearMonth) -> Unit,
     selectDay: (CalendarDay) -> Unit,
+    selectedDay :CalendarDay,
     modifier: Modifier = Modifier
 ) {
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
     val startMonth = remember { currentMonth.minusMonths(24) }
     val endMonth = remember { currentMonth.plusMonths(24) }
-    var selection by remember { mutableStateOf<CalendarDay?>(null) }
     val daysOfWeek = remember { daysOfWeek() }
     val dateFormat = remember { DateTimeFormatter.ofPattern("yyyy-MM-dd") }
 
@@ -130,17 +131,17 @@ fun CalendarSection(
                     )
                 }
 
+                val selected by remember(selectedDay, day) {
+                    mutableStateOf(selectedDay.date == day.date)
+                }
+
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Day(
                         day = day,
-                        isSelected = selection == day,
+                        isSelected = selected,
                         isMonthDate = day.position == DayPosition.MonthDate,
                         quoteData = quoteData
                     ) { clicked ->
-                        // TODO: MVI패턴으로하려면 이 selection도 주입을 해야할까?
-                        // TODO: 주어진 데이터로 기능처리가 가능한데 다시 외부에서 넣어야할까?
-                        // TODO: 가능은 하지만 MVI 패턴을 무시하는게 아닐까
-                        selection = clicked
                         selectDay(clicked)
                     }
                 }
@@ -316,7 +317,8 @@ private fun CalendarSectionPreview() {
         CalendarSection(
             memberQuotes = emptyList(),
             changeMonth = {},
-            selectDay = {}
+            selectDay = {},
+            selectedDay = CalendarDay(LocalDate.now(), DayPosition.InDate)
         )
     }
 }
