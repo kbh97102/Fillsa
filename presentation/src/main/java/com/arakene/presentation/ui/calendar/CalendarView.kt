@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -35,6 +36,16 @@ fun CalendarView(
         viewModel.selectedDayQuote
     }
 
+    val selectedDay by remember {
+        viewModel.selectedDay
+    }
+
+    LaunchedEffect(data?.memberQuotes) {
+        if (!data?.memberQuotes.isNullOrEmpty()) {
+            viewModel.handleContract(CalendarAction.SelectDay(selectedDay))
+        }
+    }
+
     val lifecycleOwner = LocalLifecycleOwner.current
 
     HandleViewEffect(
@@ -62,7 +73,8 @@ fun CalendarView(
             },
             selectDay = {
                 viewModel.handleContract(CalendarAction.SelectDay(it))
-            }
+            },
+            selectedDay = selectedDay
         )
 
         CalendarCountSection(
@@ -73,6 +85,7 @@ fun CalendarView(
 
         CalendarQuoteSection(
             selectedDayQuote = selectedDayQuote,
+            selectedDay = selectedDay,
             modifier = Modifier
                 .padding(top = 15.dp, bottom = 30.dp)
                 .noEffectClickable {

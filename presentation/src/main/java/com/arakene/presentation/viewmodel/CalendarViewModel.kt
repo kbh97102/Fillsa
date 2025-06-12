@@ -15,6 +15,9 @@ import com.arakene.presentation.util.CalendarAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.DayPosition
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -31,11 +34,12 @@ class CalendarViewModel @Inject constructor(
 
 ) : BaseViewModel() {
 
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM")
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     val data = mutableStateOf<MemberMonthlyQuoteResponse?>(null)
 
     val selectedDayQuote = mutableStateOf("")
+    val selectedDay = mutableStateOf(CalendarDay(date = LocalDate.now(), position = DayPosition.InDate))
 
     init {
 
@@ -52,11 +56,19 @@ class CalendarViewModel @Inject constructor(
             is CalendarAction.SelectDay -> {
                 val list = data.value?.memberQuotes ?: emptyList()
 
+                list.forEach {
+                    logDebug("LIST Data $it ${dateFormatter.format(
+                        calendarAction.target.date
+                    )}")
+                }
+
                 selectedDayQuote.value = list.find {
                     it.quoteDate == dateFormatter.format(
                         calendarAction.target.date
                     )
                 }?.quote ?: ""
+
+                logDebug("왜안도니? ${selectedDayQuote.value}")
 
             }
 

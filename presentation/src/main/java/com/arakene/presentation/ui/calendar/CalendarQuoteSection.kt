@@ -17,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.DayPosition
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -24,15 +26,15 @@ import java.util.Locale
 @Composable
 fun CalendarQuoteSection(
     selectedDayQuote: String,
+    selectedDay: CalendarDay,
     modifier: Modifier = Modifier
 ) {
-    val day = remember {
-        LocalDate.now()
-            .dayOfMonth.toString()
+    val day = remember(selectedDay) {
+        selectedDay.date.dayOfMonth.toString()
     }
 
     val dayOfWeek = remember {
-        LocalDate.now()
+        selectedDay.date
             .dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREA)
             .let {
                 "($it)"
@@ -83,7 +85,8 @@ fun CalendarQuoteSection(
 private fun CalendarQuoteSectionPreview() {
     FillsaTheme {
         CalendarQuoteSection(
-            selectedDayQuote = ""
+            selectedDayQuote = "",
+            CalendarDay(LocalDate.now(), DayPosition.InDate)
         )
     }
 }
