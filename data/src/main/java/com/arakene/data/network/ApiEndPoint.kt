@@ -25,4 +25,8 @@ object ApiEndPoint {
     const val DELETE_RESIGN = "/api/v1/auth/auth/withdraw"
 
     const val UPDATE_ACCESS_TOKEN = "/api/v1/auth/refresh"
+
+    const val POST_TYPING = "/api/v1/member-quotes/{dailyQuoteSeq}/typing"
+
+    const val GET_TYPING = "/api/v1/member-quotes/{dailyQuoteSeq}/typing"
 }
