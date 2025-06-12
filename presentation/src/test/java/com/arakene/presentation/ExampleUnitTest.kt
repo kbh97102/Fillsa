@@ -11,7 +11,11 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun TextIndexFindTest() {
+        val text= "로그인 시, 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주됩니다."
+
+        val target = "이용약관"
+
+        println("targetIndex ${text.indexOf(target)}")
     }
 }
