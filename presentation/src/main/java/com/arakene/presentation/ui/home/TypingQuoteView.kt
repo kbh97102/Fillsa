@@ -48,6 +48,7 @@ import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
 import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
 
@@ -74,6 +75,10 @@ fun TypingQuoteView(
 
     var engTyping by remember(viewModel.savedEngTyping.value) {
         mutableStateOf(viewModel.savedEngTyping.value)
+    }
+
+    LaunchedEffect(korTyping, engTyping) {
+        logDebug("korTyping $korTyping engTyping $engTyping")
     }
 
     var localeType by remember {
@@ -141,6 +146,7 @@ fun TypingQuoteView(
                 write = if (localeType == LocaleType.KOR) {
                     korTyping
                 } else {
+                    logDebug("여기 오긴하는거니? ${viewModel.savedEngTyping.value}")
                     engTyping
                 },
                 setWrite = {
@@ -149,7 +155,8 @@ fun TypingQuoteView(
                     } else {
                         engTyping = it
                     }
-                }
+                },
+                localeType = localeType
             )
 
             Spacer(Modifier.weight(1f))
