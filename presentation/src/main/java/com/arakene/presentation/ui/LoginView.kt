@@ -42,7 +42,10 @@ import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
@@ -61,7 +64,8 @@ import net.openid.appauth.ResponseTypeValues
 fun LoginView(
     navigate: (Screens) -> Unit,
     popBackStack: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
 
     val context = LocalContext.current
@@ -177,6 +181,11 @@ fun LoginView(
                         }
                     }
                 } else {
+                    dialogDataHolder.apply {
+                        data = DialogData.Builder()
+                            .title(context.getString(R.string.login_after_install_kakao))
+                            .build()
+                    }.run { show = true }
                     Log.e(">>>>", "Fail")
                 }
 
