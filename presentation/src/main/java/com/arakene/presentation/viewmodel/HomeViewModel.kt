@@ -133,7 +133,7 @@ class HomeViewModel @Inject constructor(
                     DialogData.Builder()
                         .title("로그인 후 사용하실 수 있습니다.")
                         .onClick {
-                            emitEffect(CommonEffect.Move(Screens.Login))
+                            emitEffect(CommonEffect.Move(Screens.Login(isOnBoarding = true)))
                         }
                         .build()
                 ))

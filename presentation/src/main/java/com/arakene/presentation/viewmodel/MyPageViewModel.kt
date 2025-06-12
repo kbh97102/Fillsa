@@ -16,7 +16,6 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -57,13 +56,13 @@ class MyPageViewModel @Inject constructor(
             MyPageAction.Login -> {
                 emitEffect(
                     CommonEffect.Move(
-                        Screens.Login
+                        Screens.Login(isOnBoarding = true)
                     )
                 )
             }
 
             is MyPageAction.ClickAlarmUsage -> {
-               updateAlarmUsage(myPageAction.usage)
+                updateAlarmUsage(myPageAction.usage)
             }
 
             else -> {
