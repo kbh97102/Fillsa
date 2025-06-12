@@ -1,5 +1,6 @@
 package com.arakene.data.db
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.time.LocalDate
@@ -7,8 +8,8 @@ import java.time.format.DateTimeFormatter
 
 @Entity(tableName = "quoteInfo")
 data class LocalQuoteInfoEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     val dailyQuoteSeq: Int,
 
     val korQuote: String,

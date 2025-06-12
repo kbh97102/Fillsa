@@ -25,9 +25,9 @@ interface LocalQuoteInfoDao {
     @Query("SELECT * FROM quoteInfo ORDER BY id ASC LIMIT 10 OFFSET :offset")
     fun getPagingList(offset: Int): List<LocalQuoteInfoEntity>
 
-    @Query("UPDATE quoteInfo SET memo = :memo WHERE dailyQuoteSeq = :seq")
+    @Query("UPDATE quoteInfo SET memo = :memo WHERE id = :seq")
     suspend fun updateMemo(memo: String, seq: Int)
 
-    @Query("UPDATE quoteinfo SET likeYn = :likeYn WHERE dailyQuoteSeq = :seq")
+    @Query("UPDATE quoteinfo SET likeYn = :likeYn WHERE id = :seq")
     suspend fun updateLike(likeYn: String, seq: Int): Int
 }
