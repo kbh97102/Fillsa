@@ -1,5 +1,6 @@
 package com.arakene.presentation.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
@@ -16,9 +17,11 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
+import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.getDayOfWeekEnglish
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -38,6 +41,9 @@ class TypingViewModel @Inject constructor(
     private val getTypingUseCase: GetTypingUseCase,
     private val postTypingUseCase: PostTypingUseCase
 ) : BaseViewModel() {
+
+    val savedKorTyping = mutableStateOf("")
+    val savedEngTyping = mutableStateOf("")
 
     override fun handleAction(action: Action) {
         when (val typingAction = action as TypingAction) {
@@ -71,7 +77,27 @@ class TypingViewModel @Inject constructor(
 
             }
         }
+    }
 
+    override fun emitEffect(effect: Effect) {
+        when (effect) {
+            is TypingEffect.Refresh -> {
+                getQuote(effect.seq)
+            }
+
+            else -> super.emitEffect(effect)
+        }
+    }
+
+    private fun getQuote(seq: Int) {
+        viewModelScope.launch {
+
+            getResponse(getTypingUseCase(seq))?.let { response ->
+                savedEngTyping.value = response.typingEngQuote ?: ""
+                savedKorTyping.value = response.typingKorQuote ?: ""
+            }
+
+        }
     }
 
     private fun saveTyping(

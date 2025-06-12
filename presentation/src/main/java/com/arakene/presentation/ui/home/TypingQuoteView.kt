@@ -16,6 +16,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,6 +46,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
+import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
@@ -58,16 +60,20 @@ fun TypingQuoteView(
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
 
+    LaunchedEffect(data.dailyQuoteSeq) {
+        viewModel.handleContract(TypingEffect.Refresh(data.dailyQuoteSeq))
+    }
+
     var isLike by remember {
         mutableStateOf(data.likeYn == YN.Y.type)
     }
 
-    var korTyping by remember {
-        mutableStateOf("")
+    var korTyping by remember(viewModel.savedKorTyping.value) {
+        mutableStateOf(viewModel.savedKorTyping.value)
     }
 
-    var engTyping by remember {
-        mutableStateOf("")
+    var engTyping by remember(viewModel.savedEngTyping.value) {
+        mutableStateOf(viewModel.savedEngTyping.value)
     }
 
     var localeType by remember {
@@ -82,7 +88,15 @@ fun TypingQuoteView(
     val scope = rememberCoroutineScope()
 
     val updateBackEvent by rememberUpdatedState({
-        viewModel.handleContract(TypingAction.Back(korTyping = korTyping, engTyping = engTyping, data, localeType, isLike))
+        viewModel.handleContract(
+            TypingAction.Back(
+                korTyping = korTyping,
+                engTyping = engTyping,
+                data,
+                localeType,
+                isLike
+            )
+        )
 
         backOnClick()
     })
