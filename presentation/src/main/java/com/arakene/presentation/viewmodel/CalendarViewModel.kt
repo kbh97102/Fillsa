@@ -21,6 +21,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -44,7 +45,8 @@ class CalendarViewModel @Inject constructor(
     override fun handleAction(action: Action) {
         when (val calendarAction = action as CalendarAction) {
             is CalendarAction.ChangeMonth -> {
-                refreshData(calendarAction.target.format(dateFormatter))
+                refreshData(calendarAction.target)
+                changeDayToTargetMonth(calendarAction.target)
             }
 
             is CalendarAction.SelectDay -> {
@@ -73,7 +75,7 @@ class CalendarViewModel @Inject constructor(
     override fun emitEffect(effect: Effect) {
         when (effect) {
             is CommonEffect.Refresh -> {
-                refreshData(dateFormatter.format(LocalDate.now()))
+                refreshData(YearMonth.now())
             }
 
             else -> {
@@ -82,17 +84,20 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    private fun refreshData(yearMonth: String) {
+    private fun refreshData(yearMonth: YearMonth) {
         viewModelScope.launch {
             val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
 
             if (isLogged) {
-                getQuotesMonthly(yearMonth)
+                getQuotesMonthly(yearMonth.format(dateFormatter))
             } else {
                 getQuotesLocal()
             }
-
         }
+    }
+
+    private fun changeDayToTargetMonth(yearMonth: YearMonth) {
+        selectedDay.value = CalendarDay(LocalDate.of(yearMonth.year, yearMonth.month, 1), DayPosition.InDate)
     }
 
     private suspend fun getQuotesMonthly(yearMonth: String) =
