@@ -53,11 +53,6 @@ fun HomeView(
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
 
-    LaunchedEffect(Unit) {
-        // TODO: 여기서 해야할까?
-        viewModel.handleContract(HomeAction.Refresh)
-    }
-
     val backgroundImageUrl by remember {
         viewModel.backgroundImageUri
     }
@@ -69,6 +64,11 @@ fun HomeView(
     val clipboard = LocalClipboard.current
 
     val isLogged by viewModel.isLogged.collectAsState(false)
+
+    LaunchedEffect(isLogged) {
+        // TODO: 여기서 해야할까?
+        viewModel.handleContract(HomeAction.Refresh)
+    }
 
     val date by remember {
         viewModel.date

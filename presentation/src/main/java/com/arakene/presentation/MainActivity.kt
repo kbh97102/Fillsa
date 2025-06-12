@@ -74,7 +74,6 @@ class MainActivity : ComponentActivity() {
             val logoutEvent = remember {
                 {
                     viewModel.clearToken()
-                    navController.navigate(Screens.Login)
                 }
             }
 
@@ -105,12 +104,13 @@ class MainActivity : ComponentActivity() {
                     viewModel.destination
                 }
 
-                LaunchedEffect(ready) {
-                    logDebug("ready $ready")
-                }
+                val tokenExpired by viewModel.checkTokenExpired.collectAsState("")
 
-                LaunchedEffect(startDestination) {
-                    logDebug("start $startDestination")
+                LaunchedEffect(tokenExpired) {
+                    logDebug("expired?? $tokenExpired")
+                    if (tokenExpired == "401") {
+                        logoutEvent()
+                    }
                 }
 
                 CompositionLocalProvider(
@@ -133,7 +133,8 @@ class MainActivity : ComponentActivity() {
                                 if (displayBottomBar) {
                                     BottomNavigationBar(
                                         isLogged = isLogged,
-                                        navController = navController)
+                                        navController = navController
+                                    )
                                 }
                             }
                         ) { paddingValues ->
@@ -144,7 +145,8 @@ class MainActivity : ComponentActivity() {
                                 MainNavHost(
                                     modifier = Modifier.padding(paddingValues),
                                     navController = navController,
-                                    startDestination = startDestination
+                                    startDestination = startDestination,
+                                    logoutEvent = logoutEvent
                                 )
                             }
                         }

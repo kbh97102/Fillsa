@@ -152,7 +152,7 @@ class HomeViewModel @Inject constructor(
         val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
 
         if (isLogged) {
-            postLikeUseCase(
+            getResponse(postLikeUseCase(
                 LikeRequest(
                     if (isLike.value) {
                         YN.Y.type
@@ -161,7 +161,7 @@ class HomeViewModel @Inject constructor(
                     }
                 ),
                 dailyQuoteSeq = currentQuota.dailyQuoteSeq
-            )
+            ))
         } else {
             updateLocalQuoteLikeUseCase(
                 likeYN = if (isLike.value) {
@@ -228,12 +228,5 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun convertDate(date: LocalDate) = dateFormat.format(date)
-
-
-    fun testMethod() {
-        viewModelScope.launch {
-            backgroundImageUri.value = ""
-        }
-    }
 
 }

@@ -18,7 +18,6 @@ import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetUserNameUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.home.SetImageUriUseCase
-import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -254,23 +253,10 @@ class LoginViewModel @Inject constructor(
             syncData = syncData
         )
 
-        when (val result = loginUseCase(request)) {
-            is ApiResult.Success -> {
-
-                setAccessTokenUseCase(result.data.accessToken)
-                setRefreshTokenUseCase(result.data.refreshToken)
-
-                Log.d(">>>>", "Success ${result.data}")
-                emitEffect(LoginEffect.Move)
-            }
-
-            is ApiResult.Fail -> {
-                Log.d(">>>>", "Fail ${result.error}")
-            }
-
-            is ApiResult.Error -> {
-                Log.d(">>>>", "Error ${result.error}")
-            }
+        getResponse(loginUseCase(request))?.let { data ->
+            setAccessTokenUseCase(data.accessToken)
+            setRefreshTokenUseCase(data.refreshToken)
+            emitEffect(LoginEffect.Move)
         }
     }
 

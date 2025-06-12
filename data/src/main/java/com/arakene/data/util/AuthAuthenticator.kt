@@ -3,6 +3,7 @@ package com.arakene.data.util
 import android.util.Log
 import com.arakene.domain.requests.TokenRefreshRequest
 import com.arakene.domain.responses.ErrorResponse
+import com.arakene.domain.usecase.common.EmitTokenExpiredUseCase
 import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
@@ -19,7 +20,8 @@ class AuthAuthenticator @Inject constructor(
     private val updateTokenUseCase: UpdateTokenUseCase,
     private val getRefreshTokenUseCase: GetRefreshTokenUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
-    private val setAccessTokenUseCase: SetAccessTokenUseCase
+    private val setAccessTokenUseCase: SetAccessTokenUseCase,
+    private val emitTokenExpiredUseCase: EmitTokenExpiredUseCase
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -53,6 +55,10 @@ class AuthAuthenticator @Inject constructor(
                     refreshToken = getRefreshTokenUseCase()
                 )
             ).also { tokenInfo ->
+                Log.e(">>>>TOKEN", "여긴오니? ${tokenInfo}")
+                if (tokenInfo == null) {
+                    emitTokenExpiredUseCase("401")
+                }
                 setAccessTokenUseCase(tokenInfo?.accessToken ?: "")
                 setRefreshTokenUseCase(tokenInfo?.refreshToken ?: "")
             }

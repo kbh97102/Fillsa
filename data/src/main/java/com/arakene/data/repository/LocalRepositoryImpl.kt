@@ -31,6 +31,16 @@ class LocalRepositoryImpl @Inject constructor(
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
 
+    override suspend fun emitTokenExpired(errorCode: String) {
+        dataStore.edit {
+            it[DataStoreKey.TOKEN_EXPIRED] = errorCode
+        }
+    }
+
+    override fun getTokenExpired(): Flow<String> = dataStore.data.map {
+        it[DataStoreKey.TOKEN_EXPIRED] ?: ""
+    }
+
     override suspend fun getQuoteLocal(seq: Int): LocalQuoteInfo? {
         return dao.getQuote(seq)?.toDomain()
     }
