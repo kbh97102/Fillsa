@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -62,8 +61,12 @@ fun CalendarSection(
 ) {
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-    val startMonth = remember { currentMonth.minusMonths(24) }
-    val endMonth = remember { currentMonth.plusMonths(24) }
+    val startMonth = remember {
+        YearMonth.of(2025, 5).apply {
+            atDay(16)
+        }
+    }
+    val endMonth = remember { currentMonth }
     val daysOfWeek = remember { daysOfWeek() }
     val dateFormat = remember { DateTimeFormatter.ofPattern("yyyy-MM-dd") }
 
@@ -74,6 +77,10 @@ fun CalendarSection(
     )
 
     val scope = rememberCoroutineScope()
+
+    val startDay = remember {
+        LocalDate.of(2025, 5, 18)
+    }
 
     Column(
         modifier = modifier
@@ -133,11 +140,15 @@ fun CalendarSection(
                     mutableStateOf(selectedDay.date == day.date)
                 }
 
+                val isMonthDate by remember(day) {
+                    mutableStateOf((day.position == DayPosition.MonthDate) && day.date > startDay)
+                }
+
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Day(
                         day = day,
                         isSelected = selected,
-                        isMonthDate = day.position == DayPosition.MonthDate,
+                        isMonthDate = isMonthDate,
                         quoteData = quoteData
                     ) { clicked ->
                         selectDay(clicked)
@@ -234,7 +245,7 @@ private fun Day(
                 shape = RoundedCornerShape(10.dp)
             )
             .padding(vertical = 4.dp)
-            .noEffectClickable(enable = day.position == DayPosition.MonthDate) {
+            .noEffectClickable(enable = isMonthDate) {
                 onClick(day)
             },
         horizontalAlignment = Alignment.CenterHorizontally
