@@ -3,12 +3,15 @@ package com.arakene.presentation.viewmodel
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
+import com.arakene.domain.usecase.home.GetTypingUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
+import com.arakene.domain.usecase.home.PostTypingUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -31,7 +34,9 @@ class TypingViewModel @Inject constructor(
     private val updateLocalQuoteUseCase: UpdateLocalQuoteUseCase,
     private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
     private val getLoginStateUseCase: GetLoginStatusUseCase,
-    private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase
+    private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
+    private val getTypingUseCase: GetTypingUseCase,
+    private val postTypingUseCase: PostTypingUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -54,7 +59,8 @@ class TypingViewModel @Inject constructor(
 
             is TypingAction.Back -> {
                 saveTyping(
-                    typingAction.typing,
+                    typingAction.korTyping,
+                    typingAction.engTyping,
                     typingAction.dailyQuote,
                     typingAction.localeType,
                     likeYn = typingAction.isLike
@@ -69,7 +75,8 @@ class TypingViewModel @Inject constructor(
     }
 
     private fun saveTyping(
-        typing: String,
+        korTyping: String,
+        engTyping: String,
         dailyQuoteDto: DailyQuoteDto,
         localeType: LocaleType,
         likeYn: Boolean
@@ -88,12 +95,8 @@ class TypingViewModel @Inject constructor(
                         korQuote = dailyQuoteDto.korQuote ?: "",
                         engQuote = dailyQuoteDto.engQuote ?: "",
                         engAuthor = dailyQuoteDto.engAuthor ?: "",
-                        korTyping = if (localeType == LocaleType.KOR) {
-                            typing
-                        } else "",
-                        engTyping = if (localeType == LocaleType.ENG) {
-                            typing
-                        } else "",
+                        korTyping = korTyping,
+                        engTyping = engTyping,
                         dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
                         likeYn = if (likeYn) {
                             YN.Y.type
@@ -102,6 +105,14 @@ class TypingViewModel @Inject constructor(
                         },
                         date = dailyQuoteDto.quoteDate,
                         dayOfWeek = getDayOfWeekEnglish(dateStr = dailyQuoteDto.quoteDate)
+                    )
+                )
+            } else {
+                postTypingUseCase(
+                    dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
+                    request = TypingQuoteRequest(
+                        typingKorQuote = korTyping,
+                        typingEngQuote = engTyping
                     )
                 )
             }
