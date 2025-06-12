@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -24,6 +26,7 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
@@ -42,7 +45,19 @@ fun QuoteListView(
         viewModel.imageUri
     }
 
-    val paging = viewModel.getQuotesList(isLike).collectAsLazyPagingItems()
+    val isLogged by viewModel.isLogged.collectAsState(false)
+
+    val paging = remember(isLogged) {
+        if (isLogged) {
+            viewModel.getQuotesList(isLike)
+        } else {
+            viewModel.getLocalQuotesList()
+        }
+    }.collectAsLazyPagingItems()
+
+    LaunchedEffect(paging.itemCount) {
+        logDebug("Count? ${paging.itemCount}")
+    }
 
     val lifeCycle = LocalLifecycleOwner.current
 

@@ -3,7 +3,12 @@ package com.arakene.data.repository
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.map
 import com.arakene.data.db.LocalQuoteInfoDao
+import com.arakene.data.network.GetLocalQuoteDataSource
 import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
 import com.arakene.data.util.DataStoreKey.ALARM_KEY
@@ -24,6 +29,18 @@ class LocalRepositoryImpl @Inject constructor(
     private val tokenProvider: TokenProvider,
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
+
+    override fun getLocalQuotesPaging(): Flow<PagingData<LocalQuoteInfo>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = 10,
+                enablePlaceholders = false
+            ),
+            pagingSourceFactory = { GetLocalQuoteDataSource(dao) }
+        ).flow.map { pagingData ->
+            pagingData.map { it.toDomain() }
+        }
+    }
 
     override suspend fun getLocalQuotes(): List<LocalQuoteInfo> {
         return dao.getAllQuotes().map {

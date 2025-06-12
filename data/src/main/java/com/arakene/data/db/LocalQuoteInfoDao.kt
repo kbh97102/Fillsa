@@ -21,4 +21,8 @@ interface LocalQuoteInfoDao {
 
     @Update
     fun updateQuote(quote: LocalQuoteInfoEntity)
+
+    @Query("SELECT * FROM quoteInfo ORDER BY id ASC LIMIT 10 OFFSET :offset")
+    fun getPagingList(offset: Int): List<LocalQuoteInfoEntity>
+
 }
