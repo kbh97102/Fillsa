@@ -28,9 +28,9 @@ sealed interface LoginAction : Action {
     data object ClickNonMember : LoginAction
 
 
-    data object ClickTermsOfUse: LoginAction
+    data object ClickTermsOfUse : LoginAction
 
-    data object ClickPrivacyPolicy: LoginAction
+    data object ClickPrivacyPolicy : LoginAction
 }
 
 
@@ -50,7 +50,13 @@ sealed interface TypingAction : Action {
     // TODO: 공통으로?
     data class ClickShare(val quote: String, val author: String) : TypingAction
     data class ClickLike(val like: Boolean, val dailyQuoteSeq: Int) : TypingAction
-    data class Back(val typing: String, val dailyQuote: DailyQuoteDto, val localeType: LocaleType, val isLike: Boolean): TypingAction
+    data class Back(
+        val korTyping: String,
+        val engTyping: String,
+        val dailyQuote: DailyQuoteDto,
+        val localeType: LocaleType,
+        val isLike: Boolean
+    ) : TypingAction
 }
 
 sealed interface QuoteListAction : Action {
@@ -78,7 +84,7 @@ sealed interface CalendarAction : Action {
 
 sealed interface MyPageAction : Action {
     data object Resign : MyPageAction
-    data object Logout: MyPageAction
-    data object Login: MyPageAction
-    data class ClickAlarmUsage(val usage: Boolean): MyPageAction
+    data object Logout : MyPageAction
+    data object Login : MyPageAction
+    data class ClickAlarmUsage(val usage: Boolean) : MyPageAction
 }

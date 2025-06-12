@@ -1,21 +1,28 @@
 package com.arakene.presentation.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
+import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
+import com.arakene.domain.usecase.home.GetTypingUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
+import com.arakene.domain.usecase.home.PostTypingUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
+import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.getDayOfWeekEnglish
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -31,8 +38,14 @@ class TypingViewModel @Inject constructor(
     private val updateLocalQuoteUseCase: UpdateLocalQuoteUseCase,
     private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
     private val getLoginStateUseCase: GetLoginStatusUseCase,
-    private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase
+    private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
+    private val getTypingUseCase: GetTypingUseCase,
+    private val postTypingUseCase: PostTypingUseCase,
+    private val getLocalQuoteUseCase: GetLocalQuoteUseCase
 ) : BaseViewModel() {
+
+    val savedKorTyping = mutableStateOf("")
+    val savedEngTyping = mutableStateOf("")
 
     override fun handleAction(action: Action) {
         when (val typingAction = action as TypingAction) {
@@ -54,7 +67,8 @@ class TypingViewModel @Inject constructor(
 
             is TypingAction.Back -> {
                 saveTyping(
-                    typingAction.typing,
+                    typingAction.korTyping,
+                    typingAction.engTyping,
                     typingAction.dailyQuote,
                     typingAction.localeType,
                     likeYn = typingAction.isLike
@@ -65,11 +79,40 @@ class TypingViewModel @Inject constructor(
 
             }
         }
+    }
 
+    override fun emitEffect(effect: Effect) {
+        when (effect) {
+            is TypingEffect.Refresh -> {
+                getQuote(effect.seq)
+            }
+
+            else -> super.emitEffect(effect)
+        }
+    }
+
+    private fun getQuote(seq: Int) {
+        viewModelScope.launch {
+
+            val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
+
+            if (loginStatus) {
+                getResponse(getTypingUseCase(seq))?.let { response ->
+                    savedEngTyping.value = response.typingEngQuote ?: ""
+                    savedKorTyping.value = response.typingKorQuote ?: ""
+                }
+            } else {
+                getLocalQuoteUseCase(seq)?.let {
+                    savedEngTyping.value = it.engTyping
+                    savedKorTyping.value = it.korTyping
+                }
+            }
+        }
     }
 
     private fun saveTyping(
-        typing: String,
+        korTyping: String,
+        engTyping: String,
         dailyQuoteDto: DailyQuoteDto,
         localeType: LocaleType,
         likeYn: Boolean
@@ -88,12 +131,8 @@ class TypingViewModel @Inject constructor(
                         korQuote = dailyQuoteDto.korQuote ?: "",
                         engQuote = dailyQuoteDto.engQuote ?: "",
                         engAuthor = dailyQuoteDto.engAuthor ?: "",
-                        korTyping = if (localeType == LocaleType.KOR) {
-                            typing
-                        } else "",
-                        engTyping = if (localeType == LocaleType.ENG) {
-                            typing
-                        } else "",
+                        korTyping = korTyping,
+                        engTyping = engTyping,
                         dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
                         likeYn = if (likeYn) {
                             YN.Y.type
@@ -102,6 +141,14 @@ class TypingViewModel @Inject constructor(
                         },
                         date = dailyQuoteDto.quoteDate,
                         dayOfWeek = getDayOfWeekEnglish(dateStr = dailyQuoteDto.quoteDate)
+                    )
+                )
+            } else {
+                postTypingUseCase(
+                    dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
+                    request = TypingQuoteRequest(
+                        typingKorQuote = korTyping,
+                        typingEngQuote = engTyping
                     )
                 )
             }

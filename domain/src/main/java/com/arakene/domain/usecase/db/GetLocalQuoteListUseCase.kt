@@ -3,10 +3,10 @@ package com.arakene.domain.usecase.db
 import com.arakene.domain.repository.LocalRepository
 import javax.inject.Inject
 
-class GetLocalQuoteUseCase @Inject constructor(
+class GetLocalQuoteListUseCase @Inject constructor(
     private val localRepository: LocalRepository
 ) {
 
-    suspend operator fun invoke(seq: Int) = localRepository.getQuoteLocal(seq)
+    suspend operator fun invoke() = localRepository.getLocalQuotes()
 
 }

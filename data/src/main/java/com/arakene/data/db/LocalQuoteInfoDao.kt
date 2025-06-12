@@ -30,4 +30,7 @@ interface LocalQuoteInfoDao {
 
     @Query("UPDATE quoteinfo SET likeYn = :likeYn WHERE id = :seq")
     suspend fun updateLike(likeYn: String, seq: Int): Int
+
+    @Query("SELECT * FROM quoteInfo WHERE id = :seq")
+    suspend fun getQuote(seq: Int): LocalQuoteInfoEntity?
 }

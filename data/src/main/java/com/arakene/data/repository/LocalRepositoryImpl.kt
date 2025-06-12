@@ -31,6 +31,10 @@ class LocalRepositoryImpl @Inject constructor(
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
 
+    override suspend fun getQuoteLocal(seq: Int): LocalQuoteInfo? {
+        return dao.getQuote(seq)?.toDomain()
+    }
+
     override suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int {
         return dao.updateLike(likeYN.type, seq)
     }

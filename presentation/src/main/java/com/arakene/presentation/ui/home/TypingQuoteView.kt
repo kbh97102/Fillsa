@@ -16,10 +16,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,6 +46,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
+import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
@@ -57,12 +60,20 @@ fun TypingQuoteView(
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
 
+    LaunchedEffect(data.dailyQuoteSeq) {
+        viewModel.handleContract(TypingEffect.Refresh(data.dailyQuoteSeq))
+    }
+
     var isLike by remember {
         mutableStateOf(data.likeYn == YN.Y.type)
     }
 
-    var write by remember {
-        mutableStateOf("")
+    var korTyping by remember(viewModel.savedKorTyping.value) {
+        mutableStateOf(viewModel.savedKorTyping.value)
+    }
+
+    var engTyping by remember(viewModel.savedEngTyping.value) {
+        mutableStateOf(viewModel.savedEngTyping.value)
     }
 
     var localeType by remember {
@@ -76,10 +87,22 @@ fun TypingQuoteView(
 
     val scope = rememberCoroutineScope()
 
-    BackHandler {
-        viewModel.handleContract(TypingAction.Back(write, data, localeType, isLike))
+    val updateBackEvent by rememberUpdatedState({
+        viewModel.handleContract(
+            TypingAction.Back(
+                korTyping = korTyping,
+                engTyping = engTyping,
+                data,
+                localeType,
+                isLike
+            )
+        )
 
         backOnClick()
+    })
+
+    BackHandler {
+        updateBackEvent.invoke()
     }
 
     HandleViewEffect(
@@ -100,10 +123,7 @@ fun TypingQuoteView(
             setLocale = {
                 localeType = it
             },
-            onBackClick = {
-                viewModel.handleContract(TypingAction.Back(write, data, localeType, isLike))
-                backOnClick()
-            },
+            onBackClick = updateBackEvent,
             modifier = Modifier.padding(horizontal = 15.dp)
         )
 
@@ -118,19 +138,24 @@ fun TypingQuoteView(
                 } else {
                     data.engQuote ?: ""
                 },
-                write = write,
+                write = if (localeType == LocaleType.KOR) {
+                    korTyping
+                } else {
+                    engTyping
+                },
                 setWrite = {
-                    write = it
+                    if (localeType == LocaleType.KOR) {
+                        korTyping = it
+                    } else {
+                        engTyping = it
+                    }
                 }
             )
 
             Spacer(Modifier.weight(1f))
 
             TypingQuoteBottomSection(
-                onBackClick = {
-                    viewModel.handleContract(TypingAction.Back(write, data, localeType, isLike))
-                    backOnClick()
-                },
+                onBackClick = updateBackEvent,
                 shareOnClick = {
                     viewModel.handleContract(
                         CommonEffect.Move(
