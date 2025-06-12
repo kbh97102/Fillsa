@@ -50,7 +50,7 @@ sealed interface TypingAction : Action {
     // TODO: 공통으로?
     data class ClickShare(val quote: String, val author: String) : TypingAction
     data class ClickLike(val like: Boolean, val dailyQuoteSeq: Int) : TypingAction
-    data class Back(val typing: String, val dailyQuote: DailyQuoteDto, val localeType: LocaleType): TypingAction
+    data class Back(val typing: String, val dailyQuote: DailyQuoteDto, val localeType: LocaleType, val isLike: Boolean): TypingAction
 }
 
 sealed interface QuoteListAction : Action {

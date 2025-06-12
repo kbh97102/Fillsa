@@ -19,6 +19,7 @@ import com.arakene.data.util.toDomain
 import com.arakene.data.util.toEntity
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -29,6 +30,10 @@ class LocalRepositoryImpl @Inject constructor(
     private val tokenProvider: TokenProvider,
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
+
+    override suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int {
+        return dao.updateLike(likeYN.type, seq)
+    }
 
     override suspend fun updateLocalQuoteMemo(memo: String, seq: Int) {
         dao.updateMemo(memo, seq)

@@ -28,4 +28,6 @@ interface LocalQuoteInfoDao {
     @Query("UPDATE quoteInfo SET memo = :memo WHERE dailyQuoteSeq = :seq")
     suspend fun updateMemo(memo: String, seq: Int)
 
+    @Query("UPDATE quoteinfo SET likeYn = :likeYn WHERE dailyQuoteSeq = :seq")
+    suspend fun updateLike(likeYn: String, seq: Int): Int
 }

@@ -2,6 +2,7 @@ package com.arakene.domain.repository
 
 import androidx.paging.PagingData
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 
 interface LocalRepository {
@@ -26,4 +27,5 @@ interface LocalRepository {
     suspend fun updateQuote(quote: LocalQuoteInfo)
     fun getLocalQuotesPaging(): Flow<PagingData<LocalQuoteInfo>>
     suspend fun updateLocalQuoteMemo(memo: String, seq: Int)
+    suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int
 }
