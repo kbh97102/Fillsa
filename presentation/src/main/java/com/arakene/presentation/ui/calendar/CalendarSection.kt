@@ -3,8 +3,6 @@ package com.arakene.presentation.ui.calendar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -25,12 +23,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -39,6 +37,7 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -59,13 +58,17 @@ fun CalendarSection(
     memberQuotes: List<MemberQuotesData>,
     changeMonth: (YearMonth) -> Unit,
     selectDay: (CalendarDay) -> Unit,
-    selectedDay :CalendarDay,
+    selectedDay: CalendarDay,
     modifier: Modifier = Modifier
 ) {
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-    val startMonth = remember { currentMonth.minusMonths(24) }
-    val endMonth = remember { currentMonth.plusMonths(24) }
+    val startMonth = remember {
+        YearMonth.of(2025, 5).apply {
+            atDay(16)
+        }
+    }
+    val endMonth = remember { currentMonth }
     val daysOfWeek = remember { daysOfWeek() }
     val dateFormat = remember { DateTimeFormatter.ofPattern("yyyy-MM-dd") }
 
@@ -76,6 +79,10 @@ fun CalendarSection(
     )
 
     val scope = rememberCoroutineScope()
+
+    val startDay = remember {
+        LocalDate.of(2025, 6, 18)
+    }
 
     Column(
         modifier = modifier
@@ -99,18 +106,23 @@ fun CalendarSection(
             goToPrevious = {
                 scope.launch {
                     val target = state.firstVisibleMonth.yearMonth.previousMonth
-                    state.animateScrollToMonth(target)
-                    changeMonth(target)
-                    currentMonth = target
+                    if (target >= state.startMonth) {
+                        state.animateScrollToMonth(target)
+                        changeMonth(target)
+                        currentMonth = target
+                    }
                 }
             },
             goToNext = {
                 scope.launch {
                     val target = state.firstVisibleMonth.yearMonth.nextMonth
-                    state.animateScrollToMonth(target)
-                    // TODO: 이거 구조 영 불편한데
-                    changeMonth(target)
-                    currentMonth = target
+                    logDebug("firstVisible ${state.firstVisibleMonth}  target $target, endMonth ${state.endMonth}")
+                    if (target <= state.endMonth) {
+                        state.animateScrollToMonth(target)
+                        // TODO: 이거 구조 영 불편한데
+                        changeMonth(target)
+                        currentMonth = target
+                    }
                 }
             },
         )
@@ -135,11 +147,15 @@ fun CalendarSection(
                     mutableStateOf(selectedDay.date == day.date)
                 }
 
+                val isMonthDate by remember(day) {
+                    mutableStateOf((day.position == DayPosition.MonthDate) && day.date > startDay)
+                }
+
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
                     Day(
                         day = day,
                         isSelected = selected,
-                        isMonthDate = day.position == DayPosition.MonthDate,
+                        isMonthDate = isMonthDate,
                         quoteData = quoteData
                     ) { clicked ->
                         selectDay(clicked)
@@ -166,7 +182,7 @@ private fun CalendarNavigationIcon(
     onClick: () -> Unit,
 ) = Box(
     modifier = modifier
-        .clickable(role = Role.Button, onClick = onClick),
+        .noEffectClickable { onClick() },
 ) {
     Image(
         modifier = Modifier
@@ -229,23 +245,16 @@ private fun Day(
     onClick: (CalendarDay) -> Unit = {},
 ) {
 
-    LaunchedEffect(quoteData) {
-        if (quoteData?.likeYn == YN.Y || quoteData?.likeYnString == "Y") {
-            logDebug("????? $quoteData")
-        }
-    }
-
     Column(
         modifier = Modifier
             .background(
                 color = if (isSelected) colorResource(R.color.purple01) else Color.Transparent,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(horizontal = 5.dp, vertical = 4.dp)
-            .clickable(
-                enabled = day.position == DayPosition.MonthDate,
-                onClick = { onClick(day) },
-            ),
+            .padding(vertical = 4.dp)
+            .noEffectClickable(enable = isMonthDate) {
+                onClick(day)
+            },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -267,26 +276,33 @@ private fun Day(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .fillMaxWidth()
                 .padding(top = 3.dp)
                 .padding(horizontal = 5.dp)
                 .heightIn(min = 12.dp),
-            horizontalArrangement = Arrangement.Start
         ) {
-            if (quoteData?.typingYn == YN.Y) {
-                Image(
-                    painterResource(R.drawable.icn_note_calendar),
-                    contentDescription = null,
-                    modifier = Modifier.size(12.dp)
-                )
-            }
-            if (quoteData?.likeYn == YN.Y) {
-                Image(
-                    painterResource(R.drawable.icn_fill_heart),
-                    contentDescription = null,
-                    modifier = Modifier.size(12.dp)
-                )
-            }
+            Image(
+                painterResource(R.drawable.icn_note_calendar),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(12.dp)
+                    .alpha(
+                        if (quoteData?.typingYn == YN.Y) {
+                            1f
+                        } else 0f
+                    )
+            )
+
+            Image(
+                painterResource(R.drawable.icn_fill_heart),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(12.dp)
+                    .alpha(
+                        if (quoteData?.likeYn == YN.Y) {
+                            1f
+                        } else 0f
+                    )
+            )
         }
     }
 }

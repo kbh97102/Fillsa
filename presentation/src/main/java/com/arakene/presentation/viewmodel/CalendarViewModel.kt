@@ -15,13 +15,13 @@ import com.arakene.presentation.util.CalendarAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -34,7 +34,7 @@ class CalendarViewModel @Inject constructor(
 
 ) : BaseViewModel() {
 
-    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM")
 
     val data = mutableStateOf<MemberMonthlyQuoteResponse?>(null)
 
@@ -45,30 +45,18 @@ class CalendarViewModel @Inject constructor(
     override fun handleAction(action: Action) {
         when (val calendarAction = action as CalendarAction) {
             is CalendarAction.ChangeMonth -> {
-                refreshData(calendarAction.target.format(dateFormatter))
+                refreshData(calendarAction.target)
+                changeDayToTargetMonth(calendarAction.target)
             }
 
             is CalendarAction.SelectDay -> {
                 val list = data.value?.memberQuotes ?: emptyList()
-
-                list.forEach {
-                    logDebug(
-                        "LIST Data $it ${
-                            dateFormatter.format(
-                                calendarAction.target.date
-                            )
-                        }"
-                    )
-                }
-
                 selectedDayQuote.value = list.find {
                     it.quoteDate == dateFormatter.format(
                         calendarAction.target.date
                     )
                 }?.quote ?: ""
-
-                logDebug("왜안도니? ${selectedDayQuote.value}")
-
+                selectedDay.value = calendarAction.target
             }
 
             is CalendarAction.ClickBottomQuote -> {
@@ -88,7 +76,7 @@ class CalendarViewModel @Inject constructor(
     override fun emitEffect(effect: Effect) {
         when (effect) {
             is CommonEffect.Refresh -> {
-                refreshData(dateFormatter.format(LocalDate.now()))
+                refreshData(YearMonth.now())
             }
 
             else -> {
@@ -97,17 +85,21 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    private fun refreshData(yearMonth: String) {
+    private fun refreshData(yearMonth: YearMonth) {
         viewModelScope.launch {
             val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
 
             if (isLogged) {
-                getQuotesMonthly(yearMonth)
+                getQuotesMonthly(yearMonth.format(dateFormatter))
             } else {
                 getQuotesLocal()
             }
-
         }
+    }
+
+    private fun changeDayToTargetMonth(yearMonth: YearMonth) {
+        selectedDay.value =
+            CalendarDay(LocalDate.of(yearMonth.year, yearMonth.month, 1), DayPosition.InDate)
     }
 
     private suspend fun getQuotesMonthly(yearMonth: String) =
