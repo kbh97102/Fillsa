@@ -76,7 +76,9 @@ class TypingViewModel @Inject constructor(
                         engAuthor = dailyQuoteDto.engAuthor ?: "",
                         typing = typing,
                         dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
-                        likeYn = dailyQuoteDto.likeYn
+                        likeYn = dailyQuoteDto.likeYn,
+                        date = "",
+                        dayOfWeek = ""
                     )
                 )
             }

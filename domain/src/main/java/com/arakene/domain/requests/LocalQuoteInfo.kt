@@ -1,5 +1,7 @@
 package com.arakene.domain.requests
 
+import java.time.DayOfWeek
+
 data class LocalQuoteInfo(
     val dailyQuoteSeq: Int,
 
@@ -15,6 +17,10 @@ data class LocalQuoteInfo(
 
     val likeYn: String,
 
-    val memo: String
+    val memo: String,
+
+    val date: String,
+
+    val dayOfWeek: String
 
 )

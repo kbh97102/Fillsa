@@ -2,6 +2,8 @@ package com.arakene.data.db
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Entity(tableName = "quoteInfo")
 data class LocalQuoteInfoEntity(
@@ -21,6 +23,9 @@ data class LocalQuoteInfoEntity(
 
     val likeYn: String,
 
-    val memo: String
+    val memo: String,
 
+    val date: String = LocalDate.now().format(DateTimeFormatter.ISO_DATE),
+
+    val dayOfWeek: String = LocalDate.now().dayOfWeek.name
 )

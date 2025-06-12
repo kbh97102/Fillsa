@@ -21,7 +21,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -87,8 +86,8 @@ class ListViewModel @Inject constructor(
                 logDebug("Mapping? ${it}")
                 MemberQuotesResponse(
                     memberQuoteSeq = it.dailyQuoteSeq,
-                    quoteDate = "",
-                    quoteDayOfWeek = "MONDAY",
+                    quoteDate = it.date,
+                    quoteDayOfWeek = it.dayOfWeek,
                     korQuote = it.korQuote,
                     engQuote = it.engQuote,
                     korAuthor = it.korAuthor,
@@ -101,7 +100,7 @@ class ListViewModel @Inject constructor(
                         YN.Y.type
                     },
                     imagePath = "",
-                    likeYn = it.likeYn
+                    likeYn = it.likeYn,
                 )
             }
         }
