@@ -10,7 +10,9 @@ sealed interface Screens {
         get() = false
 
     @Serializable
-    data object Login : Screens {
+    data class Login(
+        val isOnBoarding: Boolean = false
+    ) : Screens {
         override val routeString: String
             get() = "Login"
     }

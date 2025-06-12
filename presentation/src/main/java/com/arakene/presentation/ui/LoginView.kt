@@ -49,6 +49,7 @@ import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
@@ -133,7 +134,9 @@ fun LoginView(
     ) {
 
         if (isOnboarding) {
-            LoginOnBoardingTopSection()
+            LoginOnBoardingTopSection(
+                popBackStack = popBackStack
+            )
         }
 
         Image(
@@ -254,13 +257,23 @@ fun LoginView(
 }
 
 @Composable
-private fun LoginOnBoardingTopSection(modifier: Modifier = Modifier) {
+private fun LoginOnBoardingTopSection(
+    popBackStack: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(vertical = 13.dp),
         horizontalArrangement = Arrangement.End
-    ) { Image(painter = painterResource(R.drawable.icn_exit), contentDescription = null) }
+    ) {
+        Image(
+            painter = painterResource(R.drawable.icn_exit),
+            contentDescription = null,
+            modifier = Modifier.noEffectClickable {
+                popBackStack()
+            })
+    }
 }
 
 @Composable
