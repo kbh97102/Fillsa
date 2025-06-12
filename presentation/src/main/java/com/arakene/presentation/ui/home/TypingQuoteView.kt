@@ -132,7 +132,22 @@ fun TypingQuoteView(
                     backOnClick()
                 },
                 shareOnClick = {
-
+                    viewModel.handleContract(
+                        CommonEffect.Move(
+                            Screens.Share(
+                                quote = if (localeType == LocaleType.KOR) {
+                                    data.korQuote
+                                } else {
+                                    data.engQuote
+                                } ?: "",
+                                author = if (localeType == LocaleType.KOR) {
+                                    data.korAuthor
+                                } else {
+                                    data.engAuthor
+                                } ?: ""
+                            )
+                        )
+                    )
                 },
                 copyOnClick = {
                     copyToClipboard(
