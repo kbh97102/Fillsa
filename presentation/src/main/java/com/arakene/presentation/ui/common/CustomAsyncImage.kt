@@ -17,8 +17,8 @@ import okhttp3.OkHttpClient
 fun CustomAsyncImage(
     imagePath: String,
     modifier: Modifier = Modifier,
-    error: Painter = painterResource(R.drawable.img_image_background),
-    contentScale: ContentScale = ContentScale.Crop
+    error: Painter? = painterResource(R.drawable.img_image_background),
+    contentScale: ContentScale = ContentScale.Crop,
 ) {
 
     val context = LocalContext.current

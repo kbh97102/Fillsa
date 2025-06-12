@@ -112,31 +112,33 @@ fun QuoteDetailView(
         HeaderSection(text = stringResource(R.string.memo), onBackPress = onBackPress)
 
         // 이미지
-        Box(
-            modifier = Modifier
-                .padding(top = 20.dp)
-                .fillMaxWidth()
-                .aspectRatio(320f / 350f)
-                .dropShadow(
-                    shape = MaterialTheme.shapes.medium,
-                    color = colorResource(R.color.gray_89).copy(alpha = 0.5f),
-                    blur = 23.2.dp,
-                    spread = 2.dp
-                ),
-        ) {
-            CustomAsyncImage(
-                imagePath = imagePath,
+        if (imagePath.isNotEmpty()) {
+            Box(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .clip(MaterialTheme.shapes.medium)
-            )
+                    .padding(vertical = 20.dp)
+                    .fillMaxWidth()
+                    .aspectRatio(320f / 350f)
+                    .dropShadow(
+                        shape = MaterialTheme.shapes.medium,
+                        color = colorResource(R.color.gray_89).copy(alpha = 0.5f),
+                        blur = 23.2.dp,
+                        spread = 2.dp
+                    ),
+            ) {
+                CustomAsyncImage(
+                    imagePath = imagePath,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(MaterialTheme.shapes.medium),
+                    error = null
+                )
+            }
         }
 
         // 스위치
         Row(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 20.dp),
+                .fillMaxWidth(),
             horizontalArrangement = Arrangement.End
         ) {
             LocaleSwitch(
