@@ -4,14 +4,19 @@ import android.os.Build
 import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.viewModelScope
+import com.arakene.domain.requests.DailySyncData
 import com.arakene.domain.requests.DeviceData
+import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LoginData
 import com.arakene.domain.requests.LoginRequest
+import com.arakene.domain.requests.MemoRequest
+import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.requests.UserData
 import com.arakene.domain.usecase.LoginUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetUserNameUseCase
+import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
 import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
@@ -19,7 +24,6 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
-import com.arakene.presentation.util.Screens
 import com.google.firebase.installations.FirebaseInstallations
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,7 +47,8 @@ class LoginViewModel @Inject constructor(
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
     private val setImageUriUseCase: SetImageUriUseCase,
-    private val setUserNameUseCase: SetUserNameUseCase
+    private val setUserNameUseCase: SetUserNameUseCase,
+    private val getLocalQuoteUseCase: GetLocalQuoteUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -212,6 +217,23 @@ class LoginViewModel @Inject constructor(
                 }
         }
 
+        val syncData = getLocalQuoteUseCase()
+            .map {
+                DailySyncData(
+                    dailyQuoteSeq = it.dailyQuoteSeq,
+                    typingQuoteRequest = TypingQuoteRequest(
+                        typingKorQuote = it.korTyping,
+                        typingEngQuote = it.engTyping
+                    ),
+                    memoRequest = MemoRequest(
+                        memo = it.memo
+                    ),
+                    likeRequest = LikeRequest(
+                        likeYn = it.likeYn
+                    )
+                )
+            }
+
 
         val request = LoginRequest(
             LoginData(
@@ -229,7 +251,7 @@ class LoginViewModel @Inject constructor(
                     profileImageUrl = profileImageUrl ?: ""
                 )
             ),
-            syncData = null
+            syncData = syncData
         )
 
         when (val result = loginUseCase(request)) {

@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
 @Keep
 data class LoginRequest(
     val loginData: LoginData,
-    val syncData: DailySyncData?
+    val syncData: List<DailySyncData>
 )
 
 data class LoginData(

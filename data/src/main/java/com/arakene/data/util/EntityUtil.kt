@@ -5,7 +5,7 @@ import com.arakene.domain.requests.LocalQuoteInfo
 
 fun LocalQuoteInfoEntity.toDomain() = LocalQuoteInfo(
     dailyQuoteSeq,
-    korQuote, engQuote, korAuthor, engAuthor, typing, likeYn, memo,
+    korQuote, engQuote, korAuthor, engAuthor, korTyping, engTyping, likeYn, memo,
     date, dayOfWeek
 )
 
@@ -15,7 +15,8 @@ fun LocalQuoteInfo.toEntity() = LocalQuoteInfoEntity(
     engQuote = engQuote,
     korAuthor = korAuthor,
     engAuthor = engAuthor,
-    typing = typing,
+    korTyping = korTyping,
+    engTyping = engTyping,
     likeYn = likeYn,
     memo = memo
 )

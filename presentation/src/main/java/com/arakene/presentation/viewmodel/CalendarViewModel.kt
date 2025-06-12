@@ -39,7 +39,8 @@ class CalendarViewModel @Inject constructor(
     val data = mutableStateOf<MemberMonthlyQuoteResponse?>(null)
 
     val selectedDayQuote = mutableStateOf("")
-    val selectedDay = mutableStateOf(CalendarDay(date = LocalDate.now(), position = DayPosition.InDate))
+    val selectedDay =
+        mutableStateOf(CalendarDay(date = LocalDate.now(), position = DayPosition.InDate))
 
     init {
 
@@ -57,9 +58,13 @@ class CalendarViewModel @Inject constructor(
                 val list = data.value?.memberQuotes ?: emptyList()
 
                 list.forEach {
-                    logDebug("LIST Data $it ${dateFormatter.format(
-                        calendarAction.target.date
-                    )}")
+                    logDebug(
+                        "LIST Data $it ${
+                            dateFormatter.format(
+                                calendarAction.target.date
+                            )
+                        }"
+                    )
                 }
 
                 selectedDayQuote.value = list.find {
@@ -123,7 +128,7 @@ class CalendarViewModel @Inject constructor(
                 quoteDate = it.date,
                 quote = it.korQuote,
                 author = it.korAuthor,
-                typingYnString = if (it.typing.isEmpty()) {
+                typingYnString = if (it.korTyping.isEmpty() && it.engTyping.isEmpty()) {
                     YN.N.type
                 } else {
                     YN.Y.type

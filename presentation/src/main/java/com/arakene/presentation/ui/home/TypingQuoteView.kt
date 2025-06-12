@@ -77,7 +77,7 @@ fun TypingQuoteView(
     val scope = rememberCoroutineScope()
 
     BackHandler {
-        viewModel.handleContract(TypingAction.Back(write, data))
+        viewModel.handleContract(TypingAction.Back(write, data, localeType))
 
         backOnClick()
     }
@@ -101,7 +101,7 @@ fun TypingQuoteView(
                 localeType = it
             },
             onBackClick = {
-                viewModel.handleContract(TypingAction.Back(write, data))
+                viewModel.handleContract(TypingAction.Back(write, data, localeType))
                 backOnClick()
             },
             modifier = Modifier.padding(horizontal = 15.dp)
@@ -128,7 +128,7 @@ fun TypingQuoteView(
 
             TypingQuoteBottomSection(
                 onBackClick = {
-                    viewModel.handleContract(TypingAction.Back(write, data))
+                    viewModel.handleContract(TypingAction.Back(write, data, localeType))
                     backOnClick()
                 },
                 shareOnClick = {

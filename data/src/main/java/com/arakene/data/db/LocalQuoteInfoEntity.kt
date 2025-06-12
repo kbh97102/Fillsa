@@ -19,7 +19,9 @@ data class LocalQuoteInfoEntity(
 
     val engAuthor: String,
 
-    val typing: String,
+    val korTyping: String,
+
+    val engTyping: String,
 
     val likeYn: String,
 
