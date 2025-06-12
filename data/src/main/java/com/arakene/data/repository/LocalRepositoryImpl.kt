@@ -30,6 +30,10 @@ class LocalRepositoryImpl @Inject constructor(
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
 
+    override suspend fun updateLocalQuoteMemo(memo: String, seq: Int) {
+        dao.updateMemo(memo, seq)
+    }
+
     override fun getLocalQuotesPaging(): Flow<PagingData<LocalQuoteInfo>> {
         return Pager(
             config = PagingConfig(

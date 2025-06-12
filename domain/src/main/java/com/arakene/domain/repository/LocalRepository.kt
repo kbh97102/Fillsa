@@ -25,4 +25,5 @@ interface LocalRepository {
     suspend fun deleteQuote(quote: LocalQuoteInfo)
     suspend fun updateQuote(quote: LocalQuoteInfo)
     fun getLocalQuotesPaging(): Flow<PagingData<LocalQuoteInfo>>
+    suspend fun updateLocalQuoteMemo(memo: String, seq: Int)
 }
