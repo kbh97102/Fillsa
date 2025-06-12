@@ -16,7 +16,7 @@ import com.arakene.domain.usecase.LoginUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetUserNameUseCase
-import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.Action
@@ -48,7 +48,7 @@ class LoginViewModel @Inject constructor(
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
     private val setImageUriUseCase: SetImageUriUseCase,
     private val setUserNameUseCase: SetUserNameUseCase,
-    private val getLocalQuoteUseCase: GetLocalQuoteUseCase
+    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -217,7 +217,7 @@ class LoginViewModel @Inject constructor(
                 }
         }
 
-        val syncData = getLocalQuoteUseCase()
+        val syncData = getLocalQuoteListUseCase()
             .map {
                 DailySyncData(
                     dailyQuoteSeq = it.dailyQuoteSeq,

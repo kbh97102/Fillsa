@@ -7,7 +7,7 @@ import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.responses.MonthlySummaryData
 import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
-import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -29,7 +29,7 @@ import javax.inject.Inject
 class CalendarViewModel @Inject constructor(
 
     private val getQuotesMonthlyUseCase: GetQuotesMonthlyUseCase,
-    private val getLocalQuoteUseCase: GetLocalQuoteUseCase,
+    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase
 
 ) : BaseViewModel() {
@@ -116,7 +116,7 @@ class CalendarViewModel @Inject constructor(
         }
 
     private suspend fun getQuotesLocal() {
-        data.value = getLocalQuoteUseCase().map {
+        data.value = getLocalQuoteListUseCase().map {
             MemberQuotesData(
                 dailyQuoteSeq = it.dailyQuoteSeq,
                 quoteDate = it.date,

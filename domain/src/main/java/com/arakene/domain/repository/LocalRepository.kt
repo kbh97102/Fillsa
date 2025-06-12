@@ -28,4 +28,5 @@ interface LocalRepository {
     fun getLocalQuotesPaging(): Flow<PagingData<LocalQuoteInfo>>
     suspend fun updateLocalQuoteMemo(memo: String, seq: Int)
     suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int
+    suspend fun getQuoteLocal(seq: Int): LocalQuoteInfo?
 }

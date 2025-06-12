@@ -8,6 +8,7 @@ import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
+import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
@@ -39,7 +40,8 @@ class TypingViewModel @Inject constructor(
     private val getLoginStateUseCase: GetLoginStatusUseCase,
     private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
     private val getTypingUseCase: GetTypingUseCase,
-    private val postTypingUseCase: PostTypingUseCase
+    private val postTypingUseCase: PostTypingUseCase,
+    private val getLocalQuoteUseCase: GetLocalQuoteUseCase
 ) : BaseViewModel() {
 
     val savedKorTyping = mutableStateOf("")
@@ -92,11 +94,19 @@ class TypingViewModel @Inject constructor(
     private fun getQuote(seq: Int) {
         viewModelScope.launch {
 
-            getResponse(getTypingUseCase(seq))?.let { response ->
-                savedEngTyping.value = response.typingEngQuote ?: ""
-                savedKorTyping.value = response.typingKorQuote ?: ""
-            }
+            val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
 
+            if (loginStatus) {
+                getResponse(getTypingUseCase(seq))?.let { response ->
+                    savedEngTyping.value = response.typingEngQuote ?: ""
+                    savedKorTyping.value = response.typingKorQuote ?: ""
+                }
+            } else {
+                getLocalQuoteUseCase(seq)?.let {
+                    savedEngTyping.value = it.engTyping
+                    savedKorTyping.value = it.korTyping
+                }
+            }
         }
     }
 

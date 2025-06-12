@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
-import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.home.DeleteUploadImageUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
     private val postUploadImageUseCase: PostUploadImageUseCase,
     private val deleteUploadImageUseCase: DeleteUploadImageUseCase,
     private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
-    private val getLocalQuoteUseCase: GetLocalQuoteUseCase
+    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -199,7 +199,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getDailyQuoteNoToken(date: String) = viewModelScope.launch {
-        val localList = getLocalQuoteUseCase()
+        val localList = getLocalQuoteListUseCase()
 
         getResponse(getDailyQuoteNoTokenUseCase(date))?.let {
             currentQuota = DailyQuoteDto(
