@@ -15,10 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +27,10 @@ import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.LinkAnnotation
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextLinkStyles
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,8 +46,6 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
-import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
@@ -220,38 +221,92 @@ fun LoginView(
         )
 
         // 이용약관 및 개인정보 처리방침
-        Row(
-            modifier = Modifier.padding(top = 12.dp)
-        ) {
-            Text(
-                stringResource(R.string.terms_of_use),
-                style = FillsaTheme.typography.body2,
-                color = colorResource(R.color.gray_500),
-                textDecoration = TextDecoration.Underline,
-                modifier = Modifier.noEffectClickable { viewModel.handleContract(LoginAction.ClickTermsOfUse) }
-            )
-
-            Text(
-                stringResource(R.string.privacy_policy),
-                style = FillsaTheme.typography.body2,
-                color = colorResource(R.color.gray_500),
-                textDecoration = TextDecoration.Underline,
-                modifier = Modifier
-                    .padding(start = 20.dp)
-                    .noEffectClickable { viewModel.handleContract(LoginAction.ClickPrivacyPolicy) }
-            )
-        }
-
-        Text(
+        LoginDescriptionText(
             text = stringResource(R.string.login_agreement),
-            style = FillsaTheme.typography.body4,
-            color = colorResource(R.color.gray_500),
             modifier = Modifier
                 .padding(top = 12.dp, bottom = 50.dp)
                 .fillMaxWidth(),
-            textAlign = TextAlign.Center
+            termsOfUse = {
+                viewModel.handleContract(LoginAction.ClickTermsOfUse)
+            },
+            privacyPolicy = {
+                viewModel.handleContract(LoginAction.ClickPrivacyPolicy)
+            }
         )
     }
+
+}
+
+@Composable
+private fun LoginDescriptionText(
+    text: String,
+    termsOfUse: () -> Unit,
+    privacyPolicy: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val underLine = FillsaTheme.typography.subtitle2
+
+    val annotatedString by remember {
+        mutableStateOf(
+            buildAnnotatedString {
+                val termsStart = text.indexOf("이용약관")
+                val privacyStart = text.indexOf("개인정보")
+                val boldStyle = SpanStyle(
+                    textDecoration = TextDecoration.Underline,
+                    fontSize = underLine.fontSize,
+                    fontFamily = underLine.fontFamily,
+                    fontStyle = underLine.fontStyle,
+                    fontWeight = underLine.fontWeight
+                )
+
+                append(text)
+                addStyle(
+                    boldStyle,
+                    start = termsStart,
+                    end = termsStart + 4
+                )
+                addStyle(
+                    boldStyle,
+                    start = privacyStart,
+                    end = privacyStart + 9
+                )
+
+                addLink(
+                    LinkAnnotation.Clickable(
+                        tag = "TermsOfUseClickTag",
+                        styles = TextLinkStyles(boldStyle.copy()),
+                        linkInteractionListener = {
+                            termsOfUse()
+                        }
+                    ),
+                    start = termsStart,
+                    end = termsStart + 4
+                )
+
+                addLink(
+                    LinkAnnotation.Clickable(
+                        tag = "PrivacyPolicyClickTag",
+                        styles = TextLinkStyles(boldStyle.copy()),
+                        linkInteractionListener = {
+                            privacyPolicy()
+                        }
+                    ),
+                    start = privacyStart,
+                    end = privacyStart + 9
+                )
+            }
+
+        )
+    }
+
+    Text(
+        annotatedString,
+        style = FillsaTheme.typography.body3,
+        modifier = modifier,
+        textAlign = TextAlign.Center,
+        color = colorResource(R.color.gray_500)
+    )
+
 
 }
 
