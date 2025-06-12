@@ -103,6 +103,7 @@ class TypingViewModel @Inject constructor(
                 }
             } else {
                 getLocalQuoteUseCase(seq)?.let {
+                    logDebug("안가져오니? $it")
                     savedEngTyping.value = it.engTyping
                     savedKorTyping.value = it.korTyping
                 }

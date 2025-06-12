@@ -146,7 +146,6 @@ fun TypingQuoteView(
                 write = if (localeType == LocaleType.KOR) {
                     korTyping
                 } else {
-                    logDebug("여기 오긴하는거니? ${viewModel.savedEngTyping.value}")
                     engTyping
                 },
                 setWrite = {

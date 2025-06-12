@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,7 +14,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import com.arakene.presentation.R
@@ -35,17 +36,18 @@ fun TypingQuoteBodySection(
     val gray = colorResource(R.color.gray_ca)
     val black = colorResource(R.color.gray_700)
 
-    var input by remember(localeType) {
-        mutableStateOf(write)
+    var input by remember(localeType, write) {
+        mutableStateOf(TextFieldValue(write, selection = TextRange(write.length)))
     }
 
     BasicTextField(
         value = input,
         onValueChange = {
-            if (input.length <= quote.length) {
-                val subString = quote.substring(0, it.length)
-                if (it == subString) {
-                    setWrite(it)
+            logDebug("onValueChange $it")
+            if (input.text.length <= quote.length) {
+                val subString = quote.substring(0, it.text.length)
+                if (it.text == subString) {
+                    setWrite(it.text)
                 }
             }
 
@@ -57,9 +59,9 @@ fun TypingQuoteBodySection(
         decorationBox = { _ ->
             val annotated = buildAnnotatedString {
 
-                for (i in input.indices) {
+                for (i in input.text.indices) {
                     val expectedChar = quote[i]
-                    val typedChar = input[i]
+                    val typedChar = input.text[i]
                     val color = when {
                         typedChar == expectedChar -> black
                         else -> gray
@@ -69,7 +71,7 @@ fun TypingQuoteBodySection(
                     addStyle(SpanStyle(color = color), i, i + 1)
                 }
 
-                for (i in input.length until quote.length) {
+                for (i in input.text.length until quote.length) {
                     val expectedChar = quote[i]
 
                     append(expectedChar)
