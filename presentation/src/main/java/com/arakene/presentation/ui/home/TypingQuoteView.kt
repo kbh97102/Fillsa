@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -33,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
@@ -42,7 +44,6 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
-import com.arakene.domain.util.YN
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
@@ -75,6 +76,12 @@ fun TypingQuoteView(
 
     val scope = rememberCoroutineScope()
 
+    BackHandler {
+        viewModel.handleContract(TypingAction.Back(write, data))
+
+        backOnClick()
+    }
+
     HandleViewEffect(
         viewModel.effect,
         lifecycleOwner = lifecycleOwner
@@ -93,7 +100,10 @@ fun TypingQuoteView(
             setLocale = {
                 localeType = it
             },
-            onBackClick = backOnClick,
+            onBackClick = {
+                viewModel.handleContract(TypingAction.Back(write, data))
+                backOnClick()
+            },
             modifier = Modifier.padding(horizontal = 15.dp)
         )
 
@@ -117,7 +127,10 @@ fun TypingQuoteView(
             Spacer(Modifier.weight(1f))
 
             TypingQuoteBottomSection(
-                onBackClick = backOnClick,
+                onBackClick = {
+                    viewModel.handleContract(TypingAction.Back(write, data))
+                    backOnClick()
+                },
                 shareOnClick = {
 
                 },

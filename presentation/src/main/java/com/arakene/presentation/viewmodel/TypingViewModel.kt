@@ -2,20 +2,34 @@ package com.arakene.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
+import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
+import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
+import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
-import com.arakene.domain.util.YN
+import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class TypingViewModel @Inject constructor(
-    private val postLikeUseCase: PostLikeUseCase
+    private val postLikeUseCase: PostLikeUseCase,
+    private val updateLocalQuoteUseCase: UpdateLocalQuoteUseCase,
+    private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
+    private val getLoginStateUseCase: GetLoginStatusUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -36,8 +50,35 @@ class TypingViewModel @Inject constructor(
                 postLike(typingAction.like, typingAction.dailyQuoteSeq)
             }
 
+            is TypingAction.Back -> {
+                saveTyping(typingAction.typing, typingAction.dailyQuote)
+            }
+
             else -> {
 
+            }
+        }
+
+    }
+
+    private fun saveTyping(typing: String, dailyQuoteDto: DailyQuoteDto) {
+
+        CoroutineScope(Dispatchers.IO).launch {
+            val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
+
+            if (!loginStatus) {
+                addLocalQuoteUseCase(
+                    LocalQuoteInfo(
+                        memo = "",
+                        korAuthor = dailyQuoteDto.korAuthor ?: "",
+                        korQuote = dailyQuoteDto.korQuote ?: "",
+                        engQuote = dailyQuoteDto.engQuote ?: "",
+                        engAuthor = dailyQuoteDto.engAuthor ?: "",
+                        typing = typing,
+                        dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
+                        likeYn = dailyQuoteDto.likeYn
+                    )
+                )
             }
         }
 

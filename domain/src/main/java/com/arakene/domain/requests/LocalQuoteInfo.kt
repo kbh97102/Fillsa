@@ -1,8 +1,6 @@
 package com.arakene.domain.requests
 
 data class LocalQuoteInfo(
-    val id: Int,
-
     val dailyQuoteSeq: Int,
 
     val korQuote: String,
