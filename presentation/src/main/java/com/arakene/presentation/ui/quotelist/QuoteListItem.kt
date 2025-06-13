@@ -20,6 +20,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.domain.responses.MemberQuotesResponse
+import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
@@ -82,13 +83,14 @@ fun QuoteListItem(
             )
 
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
                 QuoteListItemPager(
                     quote = quote,
                     memo = data.memo ?: ""
                 )
 
                 QuoteListItemBottomSection(
+                    hasMemo = data.memoYN == YN.Y,
+                    isLike = data.likeYN == YN.Y,
                     modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
                 )
             }
