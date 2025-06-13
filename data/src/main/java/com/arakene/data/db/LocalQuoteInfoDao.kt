@@ -13,6 +13,9 @@ interface LocalQuoteInfoDao {
     @Query("SELECT * FROM quoteInfo")
     suspend fun getAllQuotes(): List<LocalQuoteInfoEntity>
 
+    @Query("SELECT * FROM quoteInfo WHERE id = :seq")
+    suspend fun findQuoteById(seq: Int): LocalQuoteInfoEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertQuote(quote: LocalQuoteInfoEntity)
 
