@@ -10,14 +10,12 @@ import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.GetLocalQuotePagingUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteMemoUseCase
-import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.list.GetQuotesListUseCase
 import com.arakene.domain.usecase.list.PostSaveMemoUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
-import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.QuoteListAction
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.logDebug
@@ -108,13 +106,13 @@ class ListViewModel @Inject constructor(
                     engAuthor = it.engAuthor,
                     authorUrl = "",
                     memo = it.memo,
-                    memoYn = if (it.memo.isEmpty()) {
+                    memoYnString = if (it.memo.isEmpty()) {
                         YN.N.type
                     } else {
                         YN.Y.type
                     },
                     imagePath = "",
-                    likeYn = it.likeYn,
+                    likeYnString = it.likeYn,
                 )
             }
         }
