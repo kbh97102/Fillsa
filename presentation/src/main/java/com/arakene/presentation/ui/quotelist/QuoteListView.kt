@@ -20,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
@@ -28,6 +29,7 @@ import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
 import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.ListViewModel
+import java.net.UnknownHostException
 
 @Composable
 fun QuoteListView(
@@ -55,8 +57,20 @@ fun QuoteListView(
         }
     }.collectAsLazyPagingItems()
 
-    LaunchedEffect(paging.itemCount) {
-        logDebug("Count? ${paging.itemCount}")
+    LaunchedEffect(paging.loadState) {
+        when (val loadState = paging.loadState.refresh) {
+            is LoadState.Error -> {
+                val error = loadState.error
+                // error.localizedMessage 또는 타입 분기 가능
+                logDebug("Error? $error")
+                if (error is UnknownHostException) {
+                    logDebug("UnknownHostException")
+                }
+            }
+            else -> {
+                logDebug("여기옴?")
+            }
+        }
     }
 
     val lifeCycle = LocalLifecycleOwner.current
