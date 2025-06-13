@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui.quotelist
 
-import android.net.wifi.hotspot2.pps.HomeSp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,10 +21,10 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
@@ -55,9 +53,9 @@ fun QuoteListView(
         }
     }.collectAsLazyPagingItems()
 
-    LaunchedEffect(paging.itemCount) {
-        logDebug("Count? ${paging.itemCount}")
-    }
+    HandlePagingError(paging, refresh = {
+        paging.refresh()
+    })
 
     val lifeCycle = LocalLifecycleOwner.current
 

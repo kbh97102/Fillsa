@@ -20,6 +20,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
@@ -29,32 +30,35 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
-import androidx.compose.ui.graphics.nativeCanvas
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.Clipboard
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
+import androidx.core.graphics.scale
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import com.arakene.presentation.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import androidx.core.graphics.scale
+import java.net.UnknownHostException
 import java.time.DayOfWeek
-import androidx.core.net.toUri
-import androidx.hilt.navigation.compose.hiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
@@ -63,6 +67,45 @@ typealias Navigate = (Screens) -> Unit
 
 val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
     error("No loading state provided")
+}
+
+@Composable
+fun HandlePagingError(
+    paging: LazyPagingItems<*>,
+    refresh: () -> Unit = {},
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+) {
+
+    val context = LocalContext.current
+
+    LaunchedEffect(lifecycleOwner, paging) {
+
+        lifecycleOwner.lifecycleScope.launch {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                snapshotFlow { paging.loadState.refresh }
+                    .collectLatest {
+                        when (val loadState = it) {
+                            is LoadState.Error -> {
+                                val error = loadState.error
+                                // error.localizedMessage 또는 타입 분기 가능
+                                if (error is UnknownHostException) {
+                                    logDebug("UnknownHostException")
+                                    dialogDataHolder.apply {
+                                        data = DialogData.Builder()
+                                            .buildNetworkError(context, okOnClick = refresh)
+                                    }.show = true
+                                }
+                            }
+
+                            else -> {
+
+                            }
+                        }
+                    }
+            }
+        }
+    }
 }
 
 fun getDayOfWeekEnglish(dateStr: String): String {
@@ -87,13 +130,13 @@ inline fun <reified VM : BaseViewModel> rememberBaseViewModel(): VM {
 }
 
 fun DayOfWeek.toKoreanShort(): String = when (this) {
-    DayOfWeek.SUNDAY    -> "일"
-    DayOfWeek.MONDAY    -> "월"
-    DayOfWeek.TUESDAY   -> "화"
+    DayOfWeek.SUNDAY -> "일"
+    DayOfWeek.MONDAY -> "월"
+    DayOfWeek.TUESDAY -> "화"
     DayOfWeek.WEDNESDAY -> "수"
-    DayOfWeek.THURSDAY  -> "목"
-    DayOfWeek.FRIDAY    -> "금"
-    DayOfWeek.SATURDAY  -> "토"
+    DayOfWeek.THURSDAY -> "목"
+    DayOfWeek.FRIDAY -> "금"
+    DayOfWeek.SATURDAY -> "토"
 }
 
 @Composable
@@ -248,7 +291,11 @@ private fun calculateResizeRatio(
     return ratio.coerceIn(0.1f, 1f) // 너무 작은 비율을 방지하기 위해 최소 10% 크기로 제한
 }
 
-fun resizeImageToMaxSize(originalFile: File, cacheDir: File, maxSize: Long = 1 * 1024 * 1024): File? {
+fun resizeImageToMaxSize(
+    originalFile: File,
+    cacheDir: File,
+    maxSize: Long = 1 * 1024 * 1024
+): File? {
     return try {
         // 원본 이미지를 Bitmap으로 디코딩
         val originalBitmap = BitmapFactory.decodeFile(originalFile.absolutePath)

@@ -32,6 +32,7 @@ class GetQuotesListDataSource(
                 nextKey = if (data.isEmpty()) null else page + 1
             )
         } catch (e: Exception) {
+            e.printStackTrace()
             LoadResult.Error(e)
         }
     }
