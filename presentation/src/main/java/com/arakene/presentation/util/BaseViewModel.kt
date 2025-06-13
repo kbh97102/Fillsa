@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
+import java.net.UnknownHostException
 
 abstract class BaseViewModel : ViewModel() {
 
@@ -100,6 +101,7 @@ abstract class BaseViewModel : ViewModel() {
                     403 -> {
                         _error.emit("403")
                     }
+
                     401 -> {
                         _error.emit("401")
                     }
@@ -112,7 +114,7 @@ abstract class BaseViewModel : ViewModel() {
                 isProcessing.value = false
                 setLoading(false)
                 when (response.error) {
-                    is HttpException -> {
+                    is HttpException, is UnknownHostException -> {
                         _error.emit("404")
                     }
                 }
