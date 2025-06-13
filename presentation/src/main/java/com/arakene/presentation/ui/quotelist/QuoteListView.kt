@@ -24,6 +24,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
@@ -57,21 +58,7 @@ fun QuoteListView(
         }
     }.collectAsLazyPagingItems()
 
-    LaunchedEffect(paging.loadState) {
-        when (val loadState = paging.loadState.refresh) {
-            is LoadState.Error -> {
-                val error = loadState.error
-                // error.localizedMessage 또는 타입 분기 가능
-                logDebug("Error? $error")
-                if (error is UnknownHostException) {
-                    logDebug("UnknownHostException")
-                }
-            }
-            else -> {
-                logDebug("여기옴?")
-            }
-        }
-    }
+    HandlePagingError(paging)
 
     val lifeCycle = LocalLifecycleOwner.current
 
