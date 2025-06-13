@@ -88,7 +88,13 @@ class ListViewModel @Inject constructor(
         ).cachedIn(viewModelScope)
     }
 
-    fun getLocalQuotesList() = getLocalQuotePagingUseCase()
+    fun getLocalQuotesList(likeYn: Boolean) = getLocalQuotePagingUseCase(
+        if (likeYn) {
+            YN.Y
+        } else {
+            YN.N
+        }
+    )
         .map { pagingData ->
             pagingData.map {
                 logDebug("Mapping? ${it}")
