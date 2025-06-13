@@ -45,11 +45,11 @@ fun QuoteListView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
-    val paging = remember(isLogged) {
+    val paging = remember(isLogged, isLike) {
         if (isLogged) {
             viewModel.getQuotesList(isLike)
         } else {
-            viewModel.getLocalQuotesList()
+            viewModel.getLocalQuotesList(isLike)
         }
     }.collectAsLazyPagingItems()
 

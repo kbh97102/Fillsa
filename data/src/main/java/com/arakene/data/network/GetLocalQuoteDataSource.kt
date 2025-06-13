@@ -5,11 +5,13 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.arakene.data.db.LocalQuoteInfoDao
 import com.arakene.data.db.LocalQuoteInfoEntity
+import com.arakene.domain.util.YN
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class GetLocalQuoteDataSource(
-    private val dao: LocalQuoteInfoDao
+    private val dao: LocalQuoteInfoDao,
+    private val likeYn: String
 ) : PagingSource<Int, LocalQuoteInfoEntity>() {
 
     override fun getRefreshKey(state: PagingState<Int, LocalQuoteInfoEntity>): Int? {
@@ -23,9 +25,16 @@ class GetLocalQuoteDataSource(
         return try {
 
             val response = withContext(Dispatchers.IO) {
-                dao.getPagingList(
-                    offset = page * 10
-                )
+                if (likeYn == YN.Y.type) {
+                    dao.getPagingListWithLike(
+                        offset = page * 10,
+                        likeYn
+                    )
+                } else {
+                    dao.getPagingList(
+                        offset = page * 10
+                    )
+                }
             }
 
             Log.d(">>>>", "Paging Source page $page ${response}")

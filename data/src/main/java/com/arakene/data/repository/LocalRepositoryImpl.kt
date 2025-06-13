@@ -53,13 +53,13 @@ class LocalRepositoryImpl @Inject constructor(
         dao.updateMemo(memo, seq)
     }
 
-    override fun getLocalQuotesPaging(): Flow<PagingData<LocalQuoteInfo>> {
+    override fun getLocalQuotesPaging(likeYN: YN): Flow<PagingData<LocalQuoteInfo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { GetLocalQuoteDataSource(dao) }
+            pagingSourceFactory = { GetLocalQuoteDataSource(dao, likeYn = likeYN.type) }
         ).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }
