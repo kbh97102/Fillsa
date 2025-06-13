@@ -25,7 +25,6 @@ import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
-import com.arakene.presentation.util.QuoteListEffect
 import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
@@ -55,7 +54,7 @@ fun QuoteListView(
     }.collectAsLazyPagingItems()
 
     HandlePagingError(paging, refresh = {
-        viewModel.handleContract(QuoteListEffect.Refresh(isLike))
+        paging.refresh()
     })
 
     val lifeCycle = LocalLifecycleOwner.current

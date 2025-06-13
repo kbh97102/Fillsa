@@ -2,6 +2,7 @@ package com.arakene.presentation.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.arakene.domain.requests.MemoRequest
@@ -18,13 +19,13 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.QuoteListAction
-import com.arakene.presentation.util.QuoteListEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
@@ -77,24 +78,15 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    override fun emitEffect(effect: Effect) {
-        when(effect) {
-            is QuoteListEffect.Refresh -> {
-                getQuotesList(effect.likeYn)
+    fun getQuotesList(likeYn: Boolean): Flow<PagingData<MemberQuotesResponse>> {
+        return getQuotesListUseCase(
+            if (likeYn) {
+                YN.Y.type
+            } else {
+                YN.N.type
             }
-            else -> {
-                super.emitEffect(effect)
-            }
-        }
+        ).cachedIn(viewModelScope)
     }
-
-    fun getQuotesList(likeYn: Boolean) = getQuotesListUseCase(
-        if (likeYn) {
-            YN.Y.type
-        } else {
-            YN.N.type
-        }
-    ).cachedIn(viewModelScope)
 
     fun getLocalQuotesList() = getLocalQuotePagingUseCase()
         .map { pagingData ->

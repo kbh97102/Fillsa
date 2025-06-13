@@ -20,6 +20,7 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
@@ -40,6 +41,7 @@ import androidx.core.graphics.scale
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
@@ -48,6 +50,7 @@ import com.arakene.presentation.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
@@ -70,26 +73,36 @@ val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
 fun HandlePagingError(
     paging: LazyPagingItems<*>,
     refresh: () -> Unit = {},
-    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
+    lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
 
     val context = LocalContext.current
 
-    LaunchedEffect(paging.loadState) {
-        when (val loadState = paging.loadState.refresh) {
-            is LoadState.Error -> {
-                val error = loadState.error
-                // error.localizedMessage 또는 타입 분기 가능
-                if (error is UnknownHostException) {
-                    logDebug("UnknownHostException")
-                    dialogDataHolder.apply {
-                        data = DialogData.Builder().buildNetworkError(context, okOnClick = refresh)
-                    }.show = true
-                }
-            }
+    LaunchedEffect(lifecycleOwner, paging) {
 
-            else -> {
+        lifecycleOwner.lifecycleScope.launch {
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                snapshotFlow { paging.loadState.refresh }
+                    .collectLatest {
+                        when (val loadState = it) {
+                            is LoadState.Error -> {
+                                val error = loadState.error
+                                // error.localizedMessage 또는 타입 분기 가능
+                                if (error is UnknownHostException) {
+                                    logDebug("UnknownHostException")
+                                    dialogDataHolder.apply {
+                                        data = DialogData.Builder()
+                                            .buildNetworkError(context, okOnClick = refresh)
+                                    }.show = true
+                                }
+                            }
 
+                            else -> {
+
+                            }
+                        }
+                    }
             }
         }
     }
