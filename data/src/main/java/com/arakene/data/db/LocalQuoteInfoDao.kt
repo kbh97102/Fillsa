@@ -22,6 +22,9 @@ interface LocalQuoteInfoDao {
     @Delete
     suspend fun deleteQuote(quote: LocalQuoteInfoEntity)
 
+    @Query("DELETE FROM quoteInfo WHERE id = :seq")
+    suspend fun deleteQuoteById(seq: Int)
+
     @Update
     fun updateQuote(quote: LocalQuoteInfoEntity)
 

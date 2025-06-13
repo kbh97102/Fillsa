@@ -50,6 +50,16 @@ class LocalRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int {
+
+        if (likeYN == YN.N) {
+            dao.findQuoteById(seq)?.let { quote ->
+                if (quote.korTyping.isEmpty() && quote.engTyping.isEmpty()) {
+                    dao.deleteQuoteById(seq)
+                    return 0
+                }
+            }
+        }
+
         return dao.updateLike(likeYN.type, seq)
     }
 
