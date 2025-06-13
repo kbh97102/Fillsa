@@ -16,7 +16,9 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.QuoteListEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -73,7 +75,17 @@ class ListViewModel @Inject constructor(
             }
 
         }
+    }
 
+    override fun emitEffect(effect: Effect) {
+        when(effect) {
+            is QuoteListEffect.Refresh -> {
+                getQuotesList(effect.likeYn)
+            }
+            else -> {
+                super.emitEffect(effect)
+            }
+        }
     }
 
     fun getQuotesList(likeYn: Boolean) = getQuotesListUseCase(

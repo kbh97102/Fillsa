@@ -69,6 +69,7 @@ val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
 @Composable
 fun HandlePagingError(
     paging: LazyPagingItems<*>,
+    refresh: () -> Unit = {},
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
 
@@ -82,7 +83,7 @@ fun HandlePagingError(
                 if (error is UnknownHostException) {
                     logDebug("UnknownHostException")
                     dialogDataHolder.apply {
-                        data = DialogData.Builder().buildNetworkError(context, okOnClick = {})
+                        data = DialogData.Builder().buildNetworkError(context, okOnClick = refresh)
                     }.show = true
                 }
             }

@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui.quotelist
 
-import android.net.wifi.hotspot2.pps.HomeSp
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,7 +18,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
@@ -28,9 +25,8 @@ import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
-import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.QuoteListEffect
 import com.arakene.presentation.viewmodel.ListViewModel
-import java.net.UnknownHostException
 
 @Composable
 fun QuoteListView(
@@ -58,7 +54,9 @@ fun QuoteListView(
         }
     }.collectAsLazyPagingItems()
 
-    HandlePagingError(paging)
+    HandlePagingError(paging, refresh = {
+        viewModel.handleContract(QuoteListEffect.Refresh(isLike))
+    })
 
     val lifeCycle = LocalLifecycleOwner.current
 
