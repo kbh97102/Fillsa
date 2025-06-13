@@ -66,7 +66,7 @@ fun TypingQuoteView(
     }
 
     var isLike by remember {
-        mutableStateOf(data.likeYn == YN.Y.type)
+        viewModel.isLike
     }
 
     var korTyping by remember(viewModel.savedKorTyping.value) {
@@ -75,10 +75,6 @@ fun TypingQuoteView(
 
     var engTyping by remember(viewModel.savedEngTyping.value) {
         mutableStateOf(viewModel.savedEngTyping.value)
-    }
-
-    LaunchedEffect(korTyping, engTyping) {
-        logDebug("korTyping $korTyping engTyping $engTyping")
     }
 
     var localeType by remember {

@@ -44,6 +44,8 @@ class TypingViewModel @Inject constructor(
     private val getLocalQuoteUseCase: GetLocalQuoteUseCase
 ) : BaseViewModel() {
 
+    var isLike = mutableStateOf(false)
+
     val savedKorTyping = mutableStateOf("")
     val savedEngTyping = mutableStateOf("")
 
@@ -100,12 +102,13 @@ class TypingViewModel @Inject constructor(
                 getResponse(getTypingUseCase(seq))?.let { response ->
                     savedEngTyping.value = response.typingEngQuote ?: ""
                     savedKorTyping.value = response.typingKorQuote ?: ""
+                    isLike.value = YN.getYN(response.likeYn) == YN.Y
                 }
             } else {
                 getLocalQuoteUseCase(seq)?.let {
-                    logDebug("안가져오니? $it")
                     savedEngTyping.value = it.engTyping
                     savedKorTyping.value = it.korTyping
+                    isLike.value = YN.getYN(it.likeYn) == YN.Y
                 }
             }
         }

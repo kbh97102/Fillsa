@@ -26,6 +26,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -227,6 +228,7 @@ class HomeViewModel @Inject constructor(
     private fun getDailyQuoteNoToken(date: String) = viewModelScope.launch {
         val localList = getLocalQuoteListUseCase()
 
+
         getResponse(getDailyQuoteNoTokenUseCase(date))?.let {
             currentQuota = DailyQuoteDto(
                 likeYn = "N",
@@ -239,6 +241,12 @@ class HomeViewModel @Inject constructor(
                 authorUrl = it.authorUrl,
             ).apply {
                 quoteDate = date
+            }
+
+            localList.find {
+                it.dailyQuoteSeq == currentQuota.dailyQuoteSeq
+            }.also {
+                logDebug("find $it")
             }
 
             localList.find { local ->
