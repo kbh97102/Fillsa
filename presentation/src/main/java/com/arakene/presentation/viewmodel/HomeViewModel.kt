@@ -6,8 +6,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
+import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
+import com.arakene.domain.usecase.db.FindLocalQuoteByIdUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.home.DeleteUploadImageUseCase
@@ -32,6 +35,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    // TODO: 이거 정리하는거 디자인패턴? 설계? 관련 글 봤는데 찾아보기
     private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
     private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
@@ -39,7 +43,9 @@ class HomeViewModel @Inject constructor(
     private val postUploadImageUseCase: PostUploadImageUseCase,
     private val deleteUploadImageUseCase: DeleteUploadImageUseCase,
     private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
-    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase
+    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
+    private val findLocalQuoteByIdUseCase: FindLocalQuoteByIdUseCase,
+    private val addLocalQuoteUseCase: AddLocalQuoteUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -152,17 +158,25 @@ class HomeViewModel @Inject constructor(
         val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
 
         if (isLogged) {
-            getResponse(postLikeUseCase(
-                LikeRequest(
-                    if (isLike.value) {
-                        YN.Y.type
-                    } else {
-                        YN.N.type
-                    }
-                ),
-                dailyQuoteSeq = currentQuota.dailyQuoteSeq
-            ))
+            getResponse(
+                postLikeUseCase(
+                    LikeRequest(
+                        if (isLike.value) {
+                            YN.Y.type
+                        } else {
+                            YN.N.type
+                        }
+                    ),
+                    dailyQuoteSeq = currentQuota.dailyQuoteSeq
+                )
+            )
         } else {
+            postLocalLike()
+        }
+    }
+
+    private suspend fun postLocalLike() {
+        findLocalQuoteByIdUseCase(currentQuota.dailyQuoteSeq)?.let {
             updateLocalQuoteLikeUseCase(
                 likeYN = if (isLike.value) {
                     YN.Y
@@ -170,7 +184,25 @@ class HomeViewModel @Inject constructor(
                     YN.N
                 }, seq = currentQuota.dailyQuoteSeq
             )
-        }
+        } ?: addLocalQuote()
+    }
+
+    private suspend fun addLocalQuote() {
+        addLocalQuoteUseCase(
+            LocalQuoteInfo(
+                dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                korQuote = currentQuota.korQuote ?: "",
+                engQuote = currentQuota.engQuote ?: "",
+                korAuthor = currentQuota.korAuthor ?: "",
+                engAuthor = currentQuota.engAuthor ?: "",
+                korTyping = "",
+                engTyping = "",
+                likeYn = YN.Y.type,
+                memo = "",
+                date = date.value.format(dateFormat),
+                dayOfWeek = date.value.dayOfWeek.name
+            )
+        )
     }
 
     private fun refresh() = viewModelScope.launch {
@@ -189,12 +221,6 @@ class HomeViewModel @Inject constructor(
             currentQuota = it
             isLike.value = it.likeYn == YN.Y.type
             backgroundImageUri.value = (it.imagePath ?: "")
-
-//            delay(33000)
-//            postLike()
-//
-//            delay(60 * 1000 + 3000)
-//            postLike()
         }
     }
 
