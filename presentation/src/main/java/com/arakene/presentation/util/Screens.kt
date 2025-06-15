@@ -18,7 +18,10 @@ sealed interface Screens {
     }
 
     @Serializable
-    data object Home : Screens {
+    data class Home(
+        val targetMonth: Int = 0,
+        val targetYear: Int = 0
+    ) : Screens {
         override val routeString: String
             get() = "home"
     }

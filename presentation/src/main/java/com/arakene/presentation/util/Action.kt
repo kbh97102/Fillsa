@@ -4,6 +4,7 @@ import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberQuotesResponse
 import com.kizitonwose.calendar.core.CalendarDay
 import java.io.File
+import java.time.LocalDate
 import java.time.YearMonth
 
 
@@ -35,10 +36,10 @@ sealed interface LoginAction : Action {
 
 
 sealed interface HomeAction : Action {
-    data object ClickNext : HomeAction
-    data object ClickBefore : HomeAction
-    data object Refresh : HomeAction
-    data object ClickLike : HomeAction
+    data class ClickNext(val date: LocalDate) : HomeAction
+    data class ClickBefore(val date: LocalDate) : HomeAction
+    data class Refresh(val date: LocalDate) : HomeAction
+    data class ClickLike(val date: LocalDate) : HomeAction
     data object ClickQuote : HomeAction
     data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
     data class ClickShare(val quote: String, val author: String) : HomeAction
