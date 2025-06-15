@@ -107,7 +107,6 @@ class MainActivity : ComponentActivity() {
                 val tokenExpired by viewModel.checkTokenExpired.collectAsState("")
 
                 LaunchedEffect(tokenExpired) {
-                    logDebug("expired?? $tokenExpired")
                     if (tokenExpired == "401") {
                         logoutEvent()
                     }
@@ -174,8 +173,6 @@ class MainActivity : ComponentActivity() {
             checkSelfPermission(it) == PackageManager.PERMISSION_DENIED
         }
 
-        logDebug("permissions? $notGranted")
-
         if (notGranted) {
             permissionLauncher.launch(permissions)
         } else {
@@ -184,7 +181,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun shouldShowBottomBar(route: String?): Boolean {
-        return route?.substringBefore("/") in setOf(
+        return route?.substringBefore("?") in setOf(
             Screens.Home::class.qualifiedName,
             Screens.QuoteList::class.qualifiedName,
             Screens.Calendar::class.qualifiedName,

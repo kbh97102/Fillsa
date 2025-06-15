@@ -18,7 +18,6 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.QuoteListAction
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -95,7 +94,6 @@ class ListViewModel @Inject constructor(
     )
         .map { pagingData ->
             pagingData.map {
-                logDebug("Mapping? ${it}")
                 MemberQuotesResponse(
                     memberQuoteSeq = it.dailyQuoteSeq,
                     quoteDate = it.date,

@@ -7,7 +7,9 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -19,6 +21,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
 
 @Composable
 fun BottomNavigationBar(
@@ -28,8 +31,8 @@ fun BottomNavigationBar(
 ) {
 
     val items = remember {
-        listOf(
-            Pair(Screens.Home, R.drawable.icn_bottom_menu_home),
+        listOf<Pair<Screens, Int>>(
+            Pair(Screens.Home(), R.drawable.icn_bottom_menu_home),
             Pair(Screens.QuoteList, R.drawable.icn_bottom_menu_list),
             Pair(Screens.Calendar, R.drawable.icn_bottom_menu_calendar),
             Pair(Screens.MyPage, R.drawable.icn_bottom_menu_my_page),
@@ -40,13 +43,16 @@ fun BottomNavigationBar(
         containerColor = MaterialTheme.colorScheme.primary
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute = navBackStackEntry?.destination?.route
+        val currentRoute by remember(navBackStackEntry?.destination?.route) {
+            mutableStateOf(navBackStackEntry?.destination?.route?.substringBefore("?"))
+        }
 
         val black = colorResource(R.color.gray_700)
         val purple = colorResource(R.color.purple01)
 
         items.forEach { item ->
             val routeString = remember { item.first::class.qualifiedName }
+
             NavigationBarItem(
                 selected = currentRoute == routeString,
                 onClick = {
@@ -58,7 +64,7 @@ fun BottomNavigationBar(
                                 data = DialogData.Builder()
                                     .title("로그인 후 사용하실 수 있습니다.")
                                     .onClick {
-                                        navController.navigate(Screens.Login)
+                                        navController.navigate(Screens.Login())
                                     }
                                     .build()
                             }.run {

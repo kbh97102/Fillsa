@@ -38,7 +38,6 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
             }
 
             "401" -> {
-                logDebug("여기오니?? 401")
                 dialogDataHolder.apply {
                     data = DialogData.Builder()
                         .title("로그인 시간이 만료되었습니다.\n재로그인해주세요")

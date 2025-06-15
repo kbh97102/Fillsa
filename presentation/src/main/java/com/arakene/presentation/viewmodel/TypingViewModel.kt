@@ -24,7 +24,6 @@ import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
 import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.getDayOfWeekEnglish
-import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -126,8 +125,6 @@ class TypingViewModel @Inject constructor(
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
 
             if (!loginStatus) {
-                logDebug("date ${dailyQuoteDto.quoteDate}")
-
                 addLocalQuoteUseCase(
                     LocalQuoteInfo(
                         memo = "",

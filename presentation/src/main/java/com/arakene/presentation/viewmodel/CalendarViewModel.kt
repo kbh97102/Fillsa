@@ -62,7 +62,11 @@ class CalendarViewModel @Inject constructor(
             is CalendarAction.ClickBottomQuote -> {
                 emitEffect(
                     CommonEffect.Move(
-                        Screens.QuoteList
+                        Screens.Home(
+                            targetYear = selectedDay.value.date.year,
+                            targetMonth = selectedDay.value.date.monthValue,
+                            targetDay = selectedDay.value.date.dayOfMonth
+                        )
                     )
                 )
             }

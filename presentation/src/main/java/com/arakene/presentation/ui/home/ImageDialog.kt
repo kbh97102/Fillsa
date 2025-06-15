@@ -33,7 +33,6 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
@@ -50,7 +49,6 @@ fun ImageDialog(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = { uri ->
             uri?.let {
-                logDebug("gallery uri $it")
                 uploadImage(it)
             }
         }

@@ -116,7 +116,6 @@ fun CalendarSection(
             goToNext = {
                 scope.launch {
                     val target = state.firstVisibleMonth.yearMonth.nextMonth
-                    logDebug("firstVisible ${state.firstVisibleMonth}  target $target, endMonth ${state.endMonth}")
                     if (target <= state.endMonth) {
                         state.animateScrollToMonth(target)
                         // TODO: 이거 구조 영 불편한데

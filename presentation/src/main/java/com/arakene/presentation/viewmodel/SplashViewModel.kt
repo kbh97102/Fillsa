@@ -52,7 +52,7 @@ class SplashViewModel @Inject constructor(
                 if (firstOpen) {
                     destination.value = Screens.Login(isOnBoarding = false)
                 } else {
-                    destination.value = Screens.Home
+                    destination.value = Screens.Home()
                 }
 
                 ready.value = it.second

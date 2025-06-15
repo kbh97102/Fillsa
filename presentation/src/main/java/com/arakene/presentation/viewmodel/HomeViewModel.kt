@@ -53,8 +53,6 @@ class HomeViewModel @Inject constructor(
 
     val isLogged = getLoginStatusUseCase()
 
-    val date = mutableStateOf(LocalDate.now())
-
     var currentQuota by mutableStateOf(DailyQuoteDto())
 
     var isLike = mutableStateOf(false)
@@ -62,27 +60,27 @@ class HomeViewModel @Inject constructor(
     val backgroundImageUri = mutableStateOf("")
 
     override fun handleAction(action: Action) {
-        when (val homeAction = action as HomeAction) {
+        when (action) {
             is HomeAction.ClickBefore -> {
-                date.value = date.value.minusDays(1)
-                refresh()
+//                date.value = date.value.minusDays(1)
+                refresh(action.date)
             }
 
             is HomeAction.ClickNext -> {
-                date.value = date.value.plusDays(1)
-                refresh()
+//                date.value = date.value.plusDays(1)
+                refresh(action.date)
             }
 
             is HomeAction.Refresh -> {
-                refresh()
+                refresh(action.date)
             }
 
             is HomeAction.ClickImage -> {
-                clickImage(homeAction)
+                clickImage(action)
             }
 
             is HomeAction.ClickLike -> {
-                postLike()
+                postLike(action.date)
             }
 
             is HomeAction.ClickQuote -> {
@@ -93,15 +91,15 @@ class HomeViewModel @Inject constructor(
                 emitEffect(
                     CommonEffect.Move(
                         Screens.Share(
-                            homeAction.quote,
-                            homeAction.author
+                            action.quote,
+                            action.author
                         )
                     )
                 )
             }
 
             is HomeAction.ClickChangeImage -> {
-                uploadBackgroundImage(homeAction)
+                uploadBackgroundImage(action)
             }
 
             is HomeAction.ClickDeleteImage -> {
@@ -154,7 +152,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun postLike() = viewModelScope.launch {
+    private fun postLike(date: LocalDate) = viewModelScope.launch {
         isLike.value = !isLike.value
         val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
 
@@ -172,11 +170,11 @@ class HomeViewModel @Inject constructor(
                 )
             )
         } else {
-            postLocalLike()
+            postLocalLike(date)
         }
     }
 
-    private suspend fun postLocalLike() {
+    private suspend fun postLocalLike(date: LocalDate) {
         findLocalQuoteByIdUseCase(currentQuota.dailyQuoteSeq)?.let {
             updateLocalQuoteLikeUseCase(
                 likeYN = if (isLike.value) {
@@ -185,10 +183,10 @@ class HomeViewModel @Inject constructor(
                     YN.N
                 }, seq = currentQuota.dailyQuoteSeq
             )
-        } ?: addLocalQuote()
+        } ?: addLocalQuote(date)
     }
 
-    private suspend fun addLocalQuote() {
+    private suspend fun addLocalQuote(date: LocalDate) {
         addLocalQuoteUseCase(
             LocalQuoteInfo(
                 dailyQuoteSeq = currentQuota.dailyQuoteSeq,
@@ -200,15 +198,15 @@ class HomeViewModel @Inject constructor(
                 engTyping = "",
                 likeYn = YN.Y.type,
                 memo = "",
-                date = date.value.format(dateFormat),
-                dayOfWeek = date.value.dayOfWeek.name
+                date = date.format(dateFormat),
+                dayOfWeek = date.dayOfWeek.name
             )
         )
     }
 
-    private fun refresh() = viewModelScope.launch {
+    private fun refresh(date: LocalDate) = viewModelScope.launch {
         val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
-        val convertedDate = convertDate(date.value)
+        val convertedDate = convertDate(date)
 
         if (isLogged) {
             getDailyQuote(convertedDate)

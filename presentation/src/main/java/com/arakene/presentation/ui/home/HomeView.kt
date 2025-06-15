@@ -44,9 +44,12 @@ import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
+import java.time.LocalDate
+import java.time.YearMonth
 
 @Composable
 fun HomeView(
+    requestDate: LocalDate,
     navigate: (Screens) -> Unit,
     viewModel: HomeViewModel = rememberBaseViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
@@ -65,13 +68,8 @@ fun HomeView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
-    LaunchedEffect(isLogged) {
-        // TODO: 여기서 해야할까?
-        viewModel.handleContract(HomeAction.Refresh)
-    }
-
-    val date by remember {
-        viewModel.date
+    val date by remember(requestDate) {
+        mutableStateOf(requestDate)
     }
 
     var selectedLocale by remember {
@@ -102,6 +100,11 @@ fun HomeView(
 
     val imageDialogDataHolder = remember {
         ImageDialogDataHolder()
+    }
+
+    LaunchedEffect(isLogged, date) {
+        // TODO: 여기서 해야할까?
+        viewModel.handleContract(HomeAction.Refresh(date))
     }
 
 
@@ -212,10 +215,10 @@ fun HomeView(
             text = quote,
             author = author,
             next = {
-                viewModel.handleContract(HomeAction.ClickNext)
+                viewModel.handleContract(HomeAction.ClickNext(date))
             },
             before = {
-                viewModel.handleContract(HomeAction.ClickBefore)
+                viewModel.handleContract(HomeAction.ClickBefore(date))
             },
             navigate = {
                 viewModel.handleContract(HomeAction.ClickQuote)
@@ -237,7 +240,7 @@ fun HomeView(
             },
             isLike = isLike,
             setIsLike = {
-                viewModel.handleContract(HomeAction.ClickLike)
+                viewModel.handleContract(HomeAction.ClickLike(date))
             },
             modifier = Modifier
                 .fillMaxWidth()
@@ -253,6 +256,7 @@ fun HomeView(
 private fun HomeViewPreview() {
     FillsaTheme {
         HomeView(
+            requestDate = LocalDate.now(),
             navigate = {}
         )
     }

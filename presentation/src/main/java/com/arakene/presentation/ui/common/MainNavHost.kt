@@ -30,6 +30,8 @@ import com.arakene.presentation.viewmodel.ListViewModel
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.arakene.presentation.viewmodel.MyPageViewModel
 import com.arakene.presentation.viewmodel.TypingViewModel
+import java.time.LocalDate
+import java.time.YearMonth
 import kotlin.reflect.typeOf
 
 @Composable
@@ -63,7 +65,18 @@ fun MainNavHost(
 
         composable<Screens.Home> {
             WithBaseErrorHandling<HomeViewModel>(logoutEvent = updatedLogoutEvent) {
+
+                val data = it.toRoute<Screens.Home>()
+
+                val requestDate =
+                    if (data.targetMonth != 0 && data.targetYear != 0 && data.targetDay != 0) {
+                        LocalDate.of(data.targetYear, data.targetMonth, data.targetDay)
+                    } else {
+                        LocalDate.now()
+                    }
+
                 HomeView(
+                    requestDate = requestDate,
                     navigate = {
                         navController.navigate(it)
                     }
