@@ -122,7 +122,6 @@ inline fun <reified VM : BaseViewModel> rememberBaseViewModel(): VM {
     val isLoading by viewModel.isLoading.collectAsState()
 
     LaunchedEffect(isLoading) {
-        logDebug("Update loading state ${isLoading}")
         loadingState.value = isLoading
     }
 

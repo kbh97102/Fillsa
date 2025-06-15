@@ -53,10 +53,6 @@ fun BottomNavigationBar(
         items.forEach { item ->
             val routeString = remember { item.first::class.qualifiedName }
 
-            LaunchedEffect(currentRoute) {
-                logDebug("current Route $currentRoute string $routeString")
-            }
-
             NavigationBarItem(
                 selected = currentRoute == routeString,
                 onClick = {

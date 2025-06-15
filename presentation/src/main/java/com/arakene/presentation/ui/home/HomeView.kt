@@ -102,7 +102,7 @@ fun HomeView(
         ImageDialogDataHolder()
     }
 
-    LaunchedEffect(isLogged) {
+    LaunchedEffect(isLogged, date) {
         // TODO: 여기서 해야할까?
         viewModel.handleContract(HomeAction.Refresh(date))
     }

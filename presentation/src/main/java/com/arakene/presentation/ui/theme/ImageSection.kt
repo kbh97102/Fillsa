@@ -29,12 +29,6 @@ fun ImageSection(
     modifier: Modifier = Modifier
 ) {
 
-    LaunchedEffect(imageUri) {
-        logDebug("uri $imageUri")
-    }
-
-    val context = LocalContext.current
-
     Box(
         modifier = modifier
             .aspectRatio(155 / 120f)

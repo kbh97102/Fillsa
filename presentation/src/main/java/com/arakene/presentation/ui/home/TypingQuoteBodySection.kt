@@ -43,7 +43,6 @@ fun TypingQuoteBodySection(
     BasicTextField(
         value = input,
         onValueChange = {
-            logDebug("onValueChange $it")
             if (input.text.length <= quote.length) {
                 val subString = quote.substring(0, it.text.length)
                 if (it.text == subString) {
