@@ -64,7 +64,8 @@ class CalendarViewModel @Inject constructor(
                     CommonEffect.Move(
                         Screens.Home(
                             targetYear = selectedDay.value.date.year,
-                            targetMonth = selectedDay.value.date.monthValue
+                            targetMonth = selectedDay.value.date.monthValue,
+                            targetDay = selectedDay.value.date.dayOfMonth
                         )
                     )
                 )

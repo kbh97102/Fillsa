@@ -49,7 +49,7 @@ import java.time.YearMonth
 
 @Composable
 fun HomeView(
-    requestDate: YearMonth,
+    requestDate: LocalDate,
     navigate: (Screens) -> Unit,
     viewModel: HomeViewModel = rememberBaseViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
@@ -69,7 +69,7 @@ fun HomeView(
     val isLogged by viewModel.isLogged.collectAsState(false)
 
     val date by remember(requestDate) {
-        mutableStateOf(requestDate.atDay(LocalDate.now().dayOfMonth))
+        mutableStateOf(requestDate)
     }
 
     var selectedLocale by remember {
@@ -256,7 +256,7 @@ fun HomeView(
 private fun HomeViewPreview() {
     FillsaTheme {
         HomeView(
-            requestDate = YearMonth.now(),
+            requestDate = LocalDate.now(),
             navigate = {}
         )
     }
