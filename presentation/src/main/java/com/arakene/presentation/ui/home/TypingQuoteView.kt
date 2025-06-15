@@ -31,12 +31,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.domain.responses.DailyQuoteDto
-import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
@@ -48,7 +49,6 @@ import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
 import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.copyToClipboard
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
 
@@ -69,12 +69,24 @@ fun TypingQuoteView(
         viewModel.isLike
     }
 
-    var korTyping by remember(viewModel.savedKorTyping.value) {
-        mutableStateOf(viewModel.savedKorTyping.value)
+    val savedKorTyping by remember {
+        viewModel.savedKorTyping
     }
 
-    var engTyping by remember(viewModel.savedEngTyping.value) {
-        mutableStateOf(viewModel.savedEngTyping.value)
+    val savedEngTyping by remember {
+        viewModel.savedEngTyping
+    }
+
+    var korTyping by remember(savedKorTyping) {
+        mutableStateOf(
+            TextFieldValue(savedKorTyping, selection = TextRange(savedKorTyping.length))
+        )
+    }
+
+    var engTyping by remember(savedEngTyping) {
+        mutableStateOf(
+            TextFieldValue(savedEngTyping, selection = TextRange(savedEngTyping.length))
+        )
     }
 
     var localeType by remember {
@@ -91,8 +103,8 @@ fun TypingQuoteView(
     val updateBackEvent by rememberUpdatedState({
         viewModel.handleContract(
             TypingAction.Back(
-                korTyping = korTyping,
-                engTyping = engTyping,
+                korTyping = korTyping.text,
+                engTyping = engTyping.text,
                 data,
                 localeType,
                 isLike

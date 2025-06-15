@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -27,43 +28,34 @@ import com.arakene.presentation.util.logDebug
 @Composable
 fun TypingQuoteBodySection(
     quote: String,
-    write: String,
+    write: TextFieldValue,
     localeType: LocaleType,
-    setWrite: (String) -> Unit,
+    setWrite: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     val gray = colorResource(R.color.gray_ca)
     val black = colorResource(R.color.gray_700)
 
-    var input by remember(localeType, write) {
-        mutableStateOf(TextFieldValue(write, selection = TextRange(write.length)))
-    }
-
     var lastCondition by remember {
         mutableStateOf(true)
     }
 
     BasicTextField(
-        value = input,
+        value = write,
         onValueChange = {
             if (it.text.length <= quote.length) {
                 val newTextEnd = it.composition?.end ?: 0
-                val inputTextEnd = input.composition?.end ?: 0
+                val inputTextEnd = write.composition?.end ?: 0
                 val answerSubString = quote.substring(0, it.text.length)
-
-
-                logDebug("newText ${it.text} inputText ${input.text}  newTextEnd $newTextEnd inputEnd $inputTextEnd lastCondition $lastCondition")
 
                 if (newTextEnd > inputTextEnd && !lastCondition) {
 
                     val newTextSubString = it.text.substring(0, newTextEnd - 1)
                     val quoteTextSubString = quote.substring(0, newTextEnd - 1)
 
-                    logDebug("Checking newText $newTextSubString quote $quoteTextSubString")
-
                     if (newTextSubString == quoteTextSubString) {
-                        input = it
+                        setWrite(it)
                     }
 
                     return@BasicTextField
@@ -72,8 +64,7 @@ fun TypingQuoteBodySection(
                 lastCondition =
                     it.text.lastOrNull() == answerSubString.lastOrNull()
 
-                input = it
-//                setWrite(it.text)
+                setWrite(it)
             }
         },
         textStyle = FillsaTheme.typography.body1,
@@ -82,9 +73,9 @@ fun TypingQuoteBodySection(
         decorationBox = { _ ->
             val annotated = buildAnnotatedString {
 
-                for (i in input.text.indices) {
+                for (i in write.text.indices) {
                     val expectedChar = quote[i]
-                    val typedChar = input.text[i]
+                    val typedChar = write.text[i]
                     val color = when {
                         typedChar == expectedChar -> black
                         else -> gray
@@ -94,7 +85,7 @@ fun TypingQuoteBodySection(
                     addStyle(SpanStyle(color = color), i, i + 1)
                 }
 
-                for (i in input.text.length until quote.length) {
+                for (i in write.text.length until quote.length) {
                     val expectedChar = quote[i]
 
                     append(expectedChar)
@@ -120,7 +111,7 @@ fun TypingQuoteBodySection(
 private fun TypingQuoteBodySectionPreview() {
     TypingQuoteBodySection(
         quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
-        write = "",
+        write = TextFieldValue(),
         setWrite = {},
         localeType = LocaleType.KOR
     )
