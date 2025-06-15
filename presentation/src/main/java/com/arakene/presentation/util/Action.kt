@@ -81,6 +81,8 @@ sealed interface CalendarAction : Action {
     ) : CalendarAction
 
     data object ClickBottomQuote : CalendarAction
+
+    data object ClickCount: CalendarAction
 }
 
 sealed interface MyPageAction : Action {
