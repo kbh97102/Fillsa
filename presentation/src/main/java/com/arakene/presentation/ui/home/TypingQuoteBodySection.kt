@@ -40,17 +40,41 @@ fun TypingQuoteBodySection(
         mutableStateOf(TextFieldValue(write, selection = TextRange(write.length)))
     }
 
+    var lastCondition by remember {
+        mutableStateOf(true)
+    }
+
     BasicTextField(
         value = input,
         onValueChange = {
-            if (input.text.length <= quote.length) {
-                val subString = quote.substring(0, it.text.length)
-                if (it.text == subString) {
-                    setWrite(it.text)
-                }
-            }
+            if (it.text.length <= quote.length) {
+                val newTextEnd = it.composition?.end ?: 0
+                val inputTextEnd = input.composition?.end ?: 0
+                val answerSubString = quote.substring(0, it.text.length)
 
-            input = it
+
+                logDebug("newText ${it.text} inputText ${input.text}  newTextEnd $newTextEnd inputEnd $inputTextEnd lastCondition $lastCondition")
+
+                if (newTextEnd > inputTextEnd && !lastCondition) {
+
+                    val newTextSubString = it.text.substring(0, newTextEnd - 1)
+                    val quoteTextSubString = quote.substring(0, newTextEnd - 1)
+
+                    logDebug("Checking newText $newTextSubString quote $quoteTextSubString")
+
+                    if (newTextSubString == quoteTextSubString) {
+                        input = it
+                    }
+
+                    return@BasicTextField
+                }
+
+                lastCondition =
+                    it.text.lastOrNull() == answerSubString.lastOrNull()
+
+                input = it
+//                setWrite(it.text)
+            }
         },
         textStyle = FillsaTheme.typography.body1,
         cursorBrush = SolidColor(Color.Black),
