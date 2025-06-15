@@ -71,6 +71,14 @@ class CalendarViewModel @Inject constructor(
                 )
             }
 
+            is CalendarAction.ClickCount -> {
+                emitEffect(
+                    CommonEffect.Move(
+                        Screens.QuoteList
+                    )
+                )
+            }
+
             else -> {
 
             }

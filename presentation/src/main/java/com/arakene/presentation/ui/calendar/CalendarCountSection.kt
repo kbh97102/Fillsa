@@ -16,41 +16,50 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun CalendarCountSection(
     likeCount: Int,
     typingCount: Int,
+    countOnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Row(
-        verticalAlignment = Alignment.CenterVertically, modifier = modifier
+        modifier = modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.End
     ) {
-        Image(painterResource(R.drawable.icn_note_calendar_purple), contentDescription = null)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.noEffectClickable {
+                countOnClick()
+            }
+        ) {
+            Image(painterResource(R.drawable.icn_note_calendar_purple), contentDescription = null)
 
-        Text(
-            typingCount.toString(),
-            style = FillsaTheme.typography.body3,
-            color = colorResource(R.color.gray_700),
-            modifier = Modifier.padding(start = 4.dp)
-        )
+            Text(
+                typingCount.toString(),
+                style = FillsaTheme.typography.body3,
+                color = colorResource(R.color.gray_700),
+                modifier = Modifier.padding(start = 4.dp)
+            )
 
-        Image(
-            painterResource(R.drawable.icn_fill_heart),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(start = 20.dp)
-                .size(16.dp)
-        )
+            Image(
+                painterResource(R.drawable.icn_fill_heart),
+                contentDescription = null,
+                modifier = Modifier
+                    .padding(start = 20.dp)
+                    .size(16.dp)
+            )
 
-        Text(
-            likeCount.toString(),
-            style = FillsaTheme.typography.body3,
-            color = colorResource(R.color.gray_700),
-            modifier = Modifier.padding(start = 4.dp)
-        )
+            Text(
+                likeCount.toString(),
+                style = FillsaTheme.typography.body3,
+                color = colorResource(R.color.gray_700),
+                modifier = Modifier.padding(start = 4.dp)
+            )
+        }
     }
 }
 
@@ -59,6 +68,7 @@ fun CalendarCountSection(
 private fun CalendarCountSectionPreview() {
     CalendarCountSection(
         typingCount = 3,
-        likeCount = 5
+        likeCount = 5,
+        countOnClick = {}
     )
 }
