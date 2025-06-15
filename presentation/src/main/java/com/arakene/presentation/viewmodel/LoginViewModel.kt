@@ -52,6 +52,10 @@ class LoginViewModel @Inject constructor(
 
     override fun handleAction(action: Action) {
 
+        if (isProcessing.value) {
+            return
+        }
+
         when (val loginAction = action as LoginAction) {
 
             is LoginAction.ClickGoogleLogin -> {
@@ -256,6 +260,7 @@ class LoginViewModel @Inject constructor(
         getResponse(loginUseCase(request))?.let { data ->
             setAccessTokenUseCase(data.accessToken)
             setRefreshTokenUseCase(data.refreshToken)
+            isProcessing.value = true
             emitEffect(LoginEffect.Move)
         }
     }
