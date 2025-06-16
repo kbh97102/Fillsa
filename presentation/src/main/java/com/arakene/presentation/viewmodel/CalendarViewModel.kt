@@ -38,6 +38,7 @@ class CalendarViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM")
+    private val dateFormatterWithDay = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     val data = mutableStateOf<MemberMonthlyQuoteResponse?>(null)
 
@@ -55,7 +56,7 @@ class CalendarViewModel @Inject constructor(
             is CalendarAction.SelectDay -> {
                 val list = data.value?.memberQuotes ?: emptyList()
                 selectedDayQuote.value = list.find {
-                    it.quoteDate == dateFormatter.format(
+                    it.quoteDate == dateFormatterWithDay.format(
                         calendarAction.target.date
                     )
                 }?.quote ?: ""
