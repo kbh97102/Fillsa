@@ -51,8 +51,12 @@ fun MainNavHost(
     ) {
 
         composable<Screens.Login> {
+
+            val data = it.toRoute<Screens.Login>()
+
             WithBaseErrorHandling<LoginViewModel>(logoutEvent = updatedLogoutEvent) {
                 LoginView(
+                    isOnboarding = data.isOnBoarding,
                     navigate = {
                         navController.navigate(it)
                     },
