@@ -36,6 +36,7 @@ import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -72,6 +73,7 @@ class MainActivity : ComponentActivity() {
 
             val logoutEvent = remember {
                 {
+                    logDebug("혹시 여기오니? clearToken")
                     viewModel.clearToken()
                 }
             }
@@ -101,14 +103,6 @@ class MainActivity : ComponentActivity() {
 
                 val startDestination by remember {
                     viewModel.destination
-                }
-
-                val tokenExpired by viewModel.checkTokenExpired.collectAsState("")
-
-                LaunchedEffect(tokenExpired) {
-                    if (tokenExpired == "401") {
-                        logoutEvent()
-                    }
                 }
 
                 CompositionLocalProvider(

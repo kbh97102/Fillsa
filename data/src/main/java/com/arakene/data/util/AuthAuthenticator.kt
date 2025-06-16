@@ -21,7 +21,6 @@ class AuthAuthenticator @Inject constructor(
     private val getRefreshTokenUseCase: GetRefreshTokenUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
-    private val emitTokenExpiredUseCase: EmitTokenExpiredUseCase
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -56,9 +55,6 @@ class AuthAuthenticator @Inject constructor(
                 )
             ).also { tokenInfo ->
                 Log.e(">>>>TOKEN", "여긴오니? ${tokenInfo}")
-                if (tokenInfo == null) {
-                    emitTokenExpiredUseCase("401")
-                }
                 setAccessTokenUseCase(tokenInfo?.accessToken ?: "")
                 setRefreshTokenUseCase(tokenInfo?.refreshToken ?: "")
             }
