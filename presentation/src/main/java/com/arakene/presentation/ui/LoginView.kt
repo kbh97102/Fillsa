@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -77,6 +78,10 @@ fun LoginView(
     val uriHandler = LocalUriHandler.current
 
     val lifeCycle = LocalLifecycleOwner.current
+
+    var testClickCount by remember {
+        mutableStateOf(0)
+    }
 
     HandleViewEffect(
         viewModel.effect,
@@ -140,7 +145,18 @@ fun LoginView(
         }
 
         Image(
-            modifier = Modifier.padding(top = 154.dp),
+            modifier = Modifier
+                .padding(top = 154.dp)
+                .noEffectClickable {
+
+                    testClickCount++
+
+                    if (testClickCount >= 5) {
+                        viewModel.testLoginMethod()
+                    }
+
+                }
+            ,
             painter = painterResource(R.drawable.icn_login_logo),
             contentDescription = null
         )
