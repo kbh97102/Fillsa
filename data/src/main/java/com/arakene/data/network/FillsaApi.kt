@@ -58,7 +58,7 @@ interface FillsaApi {
         @Body body: MemoRequest
     ): Response<SimpleIntResponse>
 
-    @GET(ApiEndPoint.GET_QUOTE_MONTHLY)
+    @GET(ApiEndPoint.GET_MEMBER_MONTHLY_QUOTES)
     suspend fun getQuotesMonthly(
         @Query("yearMonth") yearMonth: String
     ): Response<MemberMonthlyQuoteResponse>
