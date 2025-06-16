@@ -1,0 +1,28 @@
+android {
+    signingConfigs{
+
+        release {
+            storeFile file('../fillsa_keystore.jks')
+            storePassword 'fillsa'
+            keyAlias 'release_key'
+            keyPassword 'fillsa'
+        }
+    }
+
+    buildTypes {
+        release {
+            signingConfig = signingConfigs.release
+            minifyEnabled = true
+            debuggable = false
+            proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+            )
+        }
+
+        debug {
+            minifyEnabled = false
+            debuggable = true
+        }
+    }
+}
