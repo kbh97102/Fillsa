@@ -6,14 +6,12 @@ import com.arakene.domain.usecase.common.CheckFirstOpenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetTokenExpiredUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
+import com.arakene.domain.usecase.common.SetFirstOpenUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -22,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val checkFirstOpenUseCase: CheckFirstOpenUseCase,
+    private val setFirstOpenUseCase: SetFirstOpenUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
     private val getTokenExpiredUseCase: GetTokenExpiredUseCase
@@ -43,19 +42,17 @@ class SplashViewModel @Inject constructor(
 
     fun checkReady() {
         viewModelScope.launch {
-            checkFirstOpenUseCase().combine(permissionChecked) { firstOpen, permission ->
-                Pair(firstOpen, permission)
-            }.collectLatest {
+            val firstOpen = checkFirstOpenUseCase().first()
+            val checked = permissionChecked.filter { it }.first()
 
-                val firstOpen = it.first
-
+            if (checked) {
                 if (firstOpen) {
+                    setFirstOpenUseCase()
                     destination.value = Screens.Login(isOnBoarding = false)
                 } else {
                     destination.value = Screens.Home()
                 }
-
-                ready.value = it.second
+                ready.value = true
             }
         }
     }
