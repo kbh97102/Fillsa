@@ -81,7 +81,11 @@ fun CalendarSection(
     val scope = rememberCoroutineScope()
 
     val startDay = remember {
-        LocalDate.of(2025, 6, 18)
+        LocalDate.of(2025, 6, 16)
+    }
+
+    val today = remember {
+        LocalDate.now()
     }
 
     Column(
@@ -147,7 +151,7 @@ fun CalendarSection(
                 }
 
                 val isMonthDate by remember(day) {
-                    mutableStateOf((day.position == DayPosition.MonthDate) && day.date > startDay)
+                    mutableStateOf((day.position == DayPosition.MonthDate) && day.date in startDay .. today)
                 }
 
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
