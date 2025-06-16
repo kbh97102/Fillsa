@@ -12,7 +12,7 @@
              drawable. One of these is required. -->
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/icn_fillsa_splash_logo</item>
 
-        <item name="android:windowSplashScreenAnimationDuration">5000</item>
+        <item name="android:windowSplashScreenAnimationDuration">1000</item>
 
         <!-- Set the theme of the Activity that directly follows your splash
         screen. This is required. -->

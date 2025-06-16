@@ -36,13 +36,11 @@ import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
-import okhttp3.internal.wait
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -72,7 +70,6 @@ class MainActivity : ComponentActivity() {
 
             val logoutEvent = remember {
                 {
-                    logDebug("혹시 여기오니? clearToken")
                     viewModel.clearToken()
                 }
             }
@@ -152,10 +149,8 @@ class MainActivity : ComponentActivity() {
             .apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     setOnExitAnimationListener {
-
                         lifecycleScope.launch {
-                            delay(5000)
-
+                            delay(1000)
                             val isReady = viewModel.waitUntilReady()
 
                             if (isReady) {
@@ -163,7 +158,6 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
-
                 } else {
                     setKeepOnScreenCondition {
                         !viewModel.ready.value
