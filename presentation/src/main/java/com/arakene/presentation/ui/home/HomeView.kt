@@ -69,7 +69,7 @@ fun HomeView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
-    val date by remember(requestDate) {
+    var date by remember(requestDate) {
         mutableStateOf(requestDate)
     }
 
@@ -217,9 +217,12 @@ fun HomeView(
             text = quote,
             author = author,
             next = {
+                // TODO: 이건 effect로 옮겨야하나? 데이터 변경은 한곳으로 해야하니 맞는거같긴한데
+                date = date.plusDays(1)
                 viewModel.handleContract(HomeAction.ClickNext(date))
             },
             before = {
+                date = date.minusDays(1)
                 viewModel.handleContract(HomeAction.ClickBefore(date))
             },
             navigate = {
