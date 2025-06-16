@@ -3,6 +3,7 @@ package com.arakene.data.network
 import com.arakene.domain.requests.LoginRequest
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.LoginResponse
+import com.arakene.domain.responses.MonthlyQuoteResponse
 import com.arakene.domain.responses.PageResponseNoticeResponse
 import retrofit2.Response
 import retrofit2.http.Body
@@ -27,5 +28,10 @@ interface FillsaNoTokenApi {
         @Query("size") size: Int,
         @Query("page") page: Int,
     ): Response<PageResponseNoticeResponse>
+
+    @GET(ApiEndPoint.GET_MONTHLY_QUOTES)
+    suspend fun getMonthlyQuotesNonMember(
+        @Query("yearMonth") yearMonth: String
+    ): Response<List<MonthlyQuoteResponse>>
 
 }
