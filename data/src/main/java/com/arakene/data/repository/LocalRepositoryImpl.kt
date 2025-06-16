@@ -109,7 +109,7 @@ class LocalRepositoryImpl @Inject constructor(
 
     override suspend fun isFirstOpen(): Flow<Boolean> {
         return dataStore.data.map {
-            it[FIRST_OPEN_KEY] ?: false
+            it[FIRST_OPEN_KEY] ?: true
         }
     }
 

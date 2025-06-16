@@ -87,6 +87,10 @@ fun LoginView(
                 popBackStack()
             }
 
+            is CommonEffect.Move -> {
+                navigate(effect.screen)
+            }
+
             is CommonEffect.OpenUri -> {
                 uriHandler.openUri(effect.uri)
             }
