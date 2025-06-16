@@ -61,6 +61,8 @@ class HomeViewModel @Inject constructor(
 
     val date = mutableStateOf(LocalDate.now())
 
+    private val today = LocalDate.now()
+
     override fun handleAction(action: Action) {
         when (action) {
             is HomeAction.ClickBefore -> {
@@ -69,8 +71,10 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickNext -> {
-                date.value = date.value.plusDays(1)
-                refresh(date.value)
+                if (date.value.plusDays(1) <= today) {
+                    date.value = date.value.plusDays(1)
+                    refresh(date.value)
+                }
             }
 
             is HomeAction.Refresh -> {
