@@ -81,7 +81,7 @@ fun CalendarSection(
     val scope = rememberCoroutineScope()
 
     val startDay = remember {
-        LocalDate.of(2025, 6, 16)
+        LocalDate.of(2025, 6, 10)
     }
 
     val today = remember {

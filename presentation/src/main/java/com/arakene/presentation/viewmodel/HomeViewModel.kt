@@ -59,16 +59,22 @@ class HomeViewModel @Inject constructor(
 
     val backgroundImageUri = mutableStateOf("")
 
+    val date = mutableStateOf(LocalDate.now())
+
+    private val today = LocalDate.now()
+
     override fun handleAction(action: Action) {
         when (action) {
             is HomeAction.ClickBefore -> {
-//                date.value = date.value.minusDays(1)
-                refresh(action.date)
+                date.value = date.value.minusDays(1)
+                refresh(date.value)
             }
 
             is HomeAction.ClickNext -> {
-//                date.value = date.value.plusDays(1)
-                refresh(action.date)
+                if (date.value.plusDays(1) <= today) {
+                    date.value = date.value.plusDays(1)
+                    refresh(date.value)
+                }
             }
 
             is HomeAction.Refresh -> {
@@ -80,7 +86,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickLike -> {
-                postLike(action.date)
+                postLike(date.value)
             }
 
             is HomeAction.ClickQuote -> {
@@ -104,6 +110,10 @@ class HomeViewModel @Inject constructor(
 
             is HomeAction.ClickDeleteImage -> {
                 deleteBackgroundImage()
+            }
+
+            is HomeAction.SetDate -> {
+                date.value = action.date
             }
 
             else -> {
