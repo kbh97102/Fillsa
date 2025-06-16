@@ -23,14 +23,11 @@ import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
-import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
-import com.arakene.presentation.util.HandleError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
@@ -46,7 +43,6 @@ import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
 import java.time.LocalDate
-import java.time.YearMonth
 
 @Composable
 fun HomeView(
@@ -69,8 +65,8 @@ fun HomeView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
-    var date by remember(requestDate) {
-        mutableStateOf(requestDate)
+    val date by remember {
+        viewModel.date
     }
 
     var selectedLocale by remember {
@@ -103,13 +99,13 @@ fun HomeView(
         ImageDialogDataHolder()
     }
 
-    LaunchedEffect(isLogged, date) {
-        // TODO: 여기서 해야할까?
-        logDebug("HOme IsLogged $isLogged")
-        viewModel.handleContract(HomeAction.Refresh(date))
+    LaunchedEffect(requestDate) {
+        viewModel.handleContract(HomeAction.SetDate(requestDate))
     }
 
-
+    LaunchedEffect(isLogged) {
+        viewModel.handleContract(HomeAction.Refresh(date))
+    }
 
     HandleViewEffect(
         viewModel.effect,
@@ -217,13 +213,10 @@ fun HomeView(
             text = quote,
             author = author,
             next = {
-                // TODO: 이건 effect로 옮겨야하나? 데이터 변경은 한곳으로 해야하니 맞는거같긴한데
-                date = date.plusDays(1)
-                viewModel.handleContract(HomeAction.ClickNext(date))
+                viewModel.handleContract(HomeAction.ClickNext)
             },
             before = {
-                date = date.minusDays(1)
-                viewModel.handleContract(HomeAction.ClickBefore(date))
+                viewModel.handleContract(HomeAction.ClickBefore)
             },
             navigate = {
                 viewModel.handleContract(HomeAction.ClickQuote)
@@ -245,7 +238,7 @@ fun HomeView(
             },
             isLike = isLike,
             setIsLike = {
-                viewModel.handleContract(HomeAction.ClickLike(date))
+                viewModel.handleContract(HomeAction.ClickLike)
             },
             modifier = Modifier
                 .fillMaxWidth()
