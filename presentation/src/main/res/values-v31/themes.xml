@@ -10,7 +10,7 @@
 
         <!-- Use windowSplashScreenAnimatedIcon to add a drawable or an animated
              drawable. One of these is required. -->
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_screen_news_avd_preview</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/icn_fillsa_splash_logo</item>
 
         <item name="android:windowSplashScreenAnimationDuration">1000</item>
 

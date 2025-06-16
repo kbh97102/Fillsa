@@ -15,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -23,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.arakene.presentation.ui.BottomNavigationBar
@@ -36,10 +36,11 @@ import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -53,11 +54,7 @@ class MainActivity : ComponentActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        val splashScreen = installSplashScreen()
-        splashScreen.setKeepOnScreenCondition {
-            !viewModel.ready.value
-        }
+        installSplash()
 
         super.onCreate(savedInstanceState)
 
@@ -73,7 +70,6 @@ class MainActivity : ComponentActivity() {
 
             val logoutEvent = remember {
                 {
-                    logDebug("혹시 여기오니? clearToken")
                     viewModel.clearToken()
                 }
             }
@@ -97,9 +93,7 @@ class MainActivity : ComponentActivity() {
             val isLogged by viewModel.isLogged.collectAsState(false)
 
             FillsaTheme {
-                val ready by remember {
-                    viewModel.ready
-                }
+                val ready by viewModel.ready.collectAsState()
 
                 val startDestination by remember {
                     viewModel.destination
@@ -148,6 +142,28 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    private fun installSplash() {
+        installSplashScreen()
+            .apply {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    setOnExitAnimationListener {
+                        lifecycleScope.launch {
+                            delay(1000)
+                            val isReady = viewModel.waitUntilReady()
+
+                            if (isReady) {
+                                it.remove()
+                            }
+                        }
+                    }
+                } else {
+                    setKeepOnScreenCondition {
+                        !viewModel.ready.value
+                    }
+                }
+            }
     }
 
     private fun getImagePermissions(): Array<String> {

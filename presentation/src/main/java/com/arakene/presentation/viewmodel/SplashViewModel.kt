@@ -10,9 +10,12 @@ import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -26,14 +29,11 @@ class SplashViewModel @Inject constructor(
 
     val isLogged = getLoginStatusUseCase()
 
-    var ready = mutableStateOf(false)
+    var ready = MutableStateFlow(false)
 
     val destination = mutableStateOf<Screens>(Screens.Login(isOnBoarding = false))
 
     var permissionChecked = MutableStateFlow(false)
-
-    val checkTokenExpired = getTokenExpiredUseCase()
-
 
     fun clearToken() {
         viewModelScope.launch {
@@ -60,6 +60,7 @@ class SplashViewModel @Inject constructor(
         }
     }
 
+    suspend fun waitUntilReady() = ready.filter { it }.first()
 
     override fun handleAction(action: Action) {
 
