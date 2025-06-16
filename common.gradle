@@ -4,24 +4,9 @@ android {
         targetCompatibility JavaVersion.VERSION_17
     }
 
-    buildTypes {
-        release {
-            minifyEnabled = true
-            debuggable = false
-            proguardFiles(
-                    getDefaultProguardFile("proguard-android-optimize.txt"),
-                    "proguard-rules.pro"
-            )
-        }
-
-        debug {
-            minifyEnabled = false
-            debuggable = true
-        }
-    }
-
     kotlinOptions {
         jvmTarget = '17'
+        freeCompilerArgs += ["-Xstring-concat=inline"]
     }
 
     packagingOptions {

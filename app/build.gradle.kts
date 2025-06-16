@@ -33,6 +33,7 @@ android {
     }
 
     apply(from = "../common.gradle")
+    apply(from = "../signing_config.gradle")
     buildFeatures {
         compose = true
     }
