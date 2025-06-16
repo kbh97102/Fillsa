@@ -40,6 +40,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
@@ -104,6 +105,7 @@ fun HomeView(
 
     LaunchedEffect(isLogged, date) {
         // TODO: 여기서 해야할까?
+        logDebug("HOme IsLogged $isLogged")
         viewModel.handleContract(HomeAction.Refresh(date))
     }
 
