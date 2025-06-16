@@ -14,7 +14,7 @@ class CalendarRepositoryImpl @Inject constructor(
     private val noTokenApi: FillsaNoTokenApi
 ) : CalendarRepository {
 
-    override suspend fun getQuotesMonthlyNonMember(yearMonth: String): ApiResult<MonthlyQuoteResponse> {
+    override suspend fun getQuotesMonthlyNonMember(yearMonth: String): ApiResult<List<MonthlyQuoteResponse>> {
         return safeApi {
             noTokenApi.getMonthlyQuotesNonMember(yearMonth)
         }

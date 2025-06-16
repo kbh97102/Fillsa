@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.MemberMonthlyQuoteResponse
 import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.responses.MonthlySummaryData
+import com.arakene.domain.usecase.calendar.GetMonthlyQuotesNonMemberUseCase
 import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
@@ -15,6 +16,7 @@ import com.arakene.presentation.util.CalendarAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,7 +32,8 @@ class CalendarViewModel @Inject constructor(
 
     private val getQuotesMonthlyUseCase: GetQuotesMonthlyUseCase,
     private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
-    private val getLoginStatusUseCase: GetLoginStatusUseCase
+    private val getLoginStatusUseCase: GetLoginStatusUseCase,
+    private val getMonthlyQuotesNonMemberUseCase: GetMonthlyQuotesNonMemberUseCase
 
 ) : BaseViewModel() {
 
@@ -101,10 +104,53 @@ class CalendarViewModel @Inject constructor(
         viewModelScope.launch {
             val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
 
+            val requestDate = yearMonth.format(dateFormatter)
+
             if (isLogged) {
-                getQuotesMonthly(yearMonth.format(dateFormatter))
+                getQuotesMonthly(requestDate)
             } else {
-                getQuotesLocal()
+                getQuotesMonthlyNonMember(requestDate)
+            }
+        }
+    }
+
+    private fun getQuotesMonthlyNonMember(yearMonth: String) {
+        viewModelScope.launch {
+            val localData = getLocalQuoteListUseCase()
+            getResponse(getMonthlyQuotesNonMemberUseCase(yearMonth))?.let { quotes ->
+
+                data.value = quotes.map { quote ->
+                    val localMatchingData =
+                        localData.find { it.dailyQuoteSeq == quote.dailyQuoteSeq }
+                    MemberQuotesData(
+                        dailyQuoteSeq = quote.dailyQuoteSeq,
+                        quote = quote.quote,
+                        quoteDate = quote.quoteDate,
+                        author = quote.author,
+                        typingYnString = if (localMatchingData?.korTyping?.isNotEmpty() == true || localMatchingData?.engTyping?.isNotEmpty() == true) {
+                            YN.Y.type
+                        } else {
+                            YN.N.type
+                        },
+                        likeYnString = localMatchingData?.likeYn ?: YN.N.type
+                    )
+                }.let {
+                    MemberMonthlyQuoteResponse(
+                        memberQuotes = it,
+                        monthlySummary = MonthlySummaryData(
+                            typingCount = it.count { data -> data.typingYn == YN.Y },
+                            likeCount = it.count { data -> data.likeYn == YN.Y },
+                        )
+                    )
+                }
+
+
+                data.value?.let {
+                    it.memberQuotes.forEach { quote ->
+                        logDebug("Quote $quote")
+                    }
+                }
+
             }
         }
     }
@@ -114,33 +160,9 @@ class CalendarViewModel @Inject constructor(
             CalendarDay(LocalDate.of(yearMonth.year, yearMonth.month, 1), DayPosition.InDate)
     }
 
-    private suspend fun getQuotesMonthly(yearMonth: String) =
+    private fun getQuotesMonthly(yearMonth: String) = viewModelScope.launch {
         getResponse(getQuotesMonthlyUseCase(yearMonth))?.let {
             data.value = it
-        }
-
-    private suspend fun getQuotesLocal() {
-        data.value = getLocalQuoteListUseCase().map {
-            MemberQuotesData(
-                dailyQuoteSeq = it.dailyQuoteSeq,
-                quoteDate = it.date,
-                quote = it.korQuote,
-                author = it.korAuthor,
-                typingYnString = if (it.korTyping.isEmpty() && it.engTyping.isEmpty()) {
-                    YN.N.type
-                } else {
-                    YN.Y.type
-                },
-                likeYnString = it.likeYn
-            )
-        }.let {
-            MemberMonthlyQuoteResponse(
-                memberQuotes = it,
-                monthlySummary = MonthlySummaryData(
-                    typingCount = it.count { data -> data.typingYn == YN.Y },
-                    likeCount = it.count { data -> data.likeYn == YN.Y },
-                )
-            )
         }
     }
 

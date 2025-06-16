@@ -32,6 +32,6 @@ interface FillsaNoTokenApi {
     @GET(ApiEndPoint.GET_MONTHLY_QUOTES)
     suspend fun getMonthlyQuotesNonMember(
         @Query("yearMonth") yearMonth: String
-    ): Response<MonthlyQuoteResponse>
+    ): Response<List<MonthlyQuoteResponse>>
 
 }

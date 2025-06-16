@@ -13,6 +13,6 @@ interface CalendarRepository {
 
     suspend fun getQuotesMonthlyNonMember(
         yearMonth: String
-    ): ApiResult<MonthlyQuoteResponse>
+    ): ApiResult<List<MonthlyQuoteResponse>>
 
 }
