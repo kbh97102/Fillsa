@@ -29,3 +29,12 @@
 -keepclassmembers,allowobfuscation class * {
   @com.google.gson.annotations.SerializedName <fields>;
 }
+
+-keep class com.arakene.presentation.util.Screens { *; }
+
+# Screens를 구현한 모든 클래스 보존
+-keep class com.arakene.presentaion.** implements com.arakene.presentation.util.Screens { *; }
+
+# 내부 클래스, 제네릭, 네스트 정보 유지
+-keepattributes InnerClasses, EnclosingMethod, Signature, NestMembers
+
