@@ -101,12 +101,13 @@ fun MyPageView(
         )
 
         // Theme
-        MyPageItem(
-            image = painterResource(R.drawable.icn_theme),
-            text = stringResource(R.string.theme),
-            onClick = {},
-            modifier = Modifier.padding(top = 20.dp)
-        )
+        // version 2에서 기능
+//        MyPageItem(
+//            image = painterResource(R.drawable.icn_theme),
+//            text = stringResource(R.string.theme),
+//            onClick = {},
+//            modifier = Modifier.padding(top = 20.dp)
+//        )
 
         // version + logout
         MyPageBottomButtonSection(
