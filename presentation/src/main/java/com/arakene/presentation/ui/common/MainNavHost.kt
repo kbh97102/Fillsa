@@ -111,7 +111,10 @@ fun MainNavHost(
             val data = it.toRoute<Screens.Share>()
             ShareView(
                 quote = data.quote,
-                author = data.author
+                author = data.author,
+                popBackStack = {
+                    navController.popBackStack()
+                }
             )
         }
 
