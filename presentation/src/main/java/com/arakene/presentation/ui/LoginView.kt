@@ -117,7 +117,8 @@ fun LoginView(
                                     context.packageName,
                                     0
                                 )
-                                    .longVersionCode.toString()
+                                    .longVersionCode.toString(),
+                                isOnboarding = isOnboarding
                             )
                         )
                     } else {
@@ -187,7 +188,8 @@ fun LoginView(
                                     appVersion = context.packageManager.getPackageInfo(
                                         context.packageName,
                                         0
-                                    ).longVersionCode.toString()
+                                    ).longVersionCode.toString(),
+                                    isOnboarding = isOnboarding
                                 )
                             )
                         }

@@ -69,7 +69,8 @@ class LoginViewModel @Inject constructor(
                     refreshToken = loginAction.refreshToken,
                     expiresIn = loginAction.expiresIn,
                     refreshTokenExpiresIn = loginAction.refreshTokenExpiresIn,
-                    appVersion = loginAction.appVersion
+                    appVersion = loginAction.appVersion,
+                    isOnBoarding = loginAction.isOnboarding
                 )
             }
 
@@ -118,7 +119,8 @@ class LoginViewModel @Inject constructor(
                 nickName = nickName,
                 profileImageUrl = profileImageUrl,
                 provider = "GOOGLE",
-                appVersion = loginAction.appVersion
+                appVersion = loginAction.appVersion,
+                isOnBoarding = loginAction.isOnboarding
             )
         }
     }
@@ -128,7 +130,8 @@ class LoginViewModel @Inject constructor(
         refreshToken: String?,
         refreshTokenExpiresIn: String?,
         expiresIn: String?,
-        appVersion: String
+        appVersion: String,
+        isOnBoarding: Boolean
     ) {
         viewModelScope.launch {
             val (id, nickName, imageUrl) = getKakaoUserData()
@@ -149,7 +152,8 @@ class LoginViewModel @Inject constructor(
                 nickName = nickName,
                 profileImageUrl = imageUrl,
                 provider = "KAKAO",
-                appVersion = appVersion
+                appVersion = appVersion,
+                isOnBoarding = isOnBoarding
             )
 
         }
@@ -212,7 +216,8 @@ class LoginViewModel @Inject constructor(
         refreshTokenExpiresIn: String? = null,
         expiresIn: String? = null,
         provider: String,
-        appVersion: String
+        appVersion: String,
+        isOnBoarding: Boolean
     ) = viewModelScope.launch {
 
         val fid = suspendCancellableCoroutine<String> { cont ->
@@ -266,7 +271,11 @@ class LoginViewModel @Inject constructor(
             setAccessTokenUseCase(data.accessToken)
             setRefreshTokenUseCase(data.refreshToken)
             isProcessing.value = true
-            emitEffect(LoginEffect.Move)
+            if (isOnBoarding) {
+                emitEffect(LoginEffect.Move)
+            } else {
+                emitEffect(CommonEffect.Move(Screens.Home()))
+            }
         }
     }
 
