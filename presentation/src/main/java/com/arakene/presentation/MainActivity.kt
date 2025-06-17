@@ -36,6 +36,7 @@ import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -188,6 +189,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun shouldShowBottomBar(route: String?): Boolean {
+
         return route?.substringBefore("?") in setOf(
             Screens.Home::class.qualifiedName,
             Screens.QuoteList::class.qualifiedName,

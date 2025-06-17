@@ -1,8 +1,10 @@
 package com.arakene.presentation.util
 
+import androidx.annotation.Keep
 import com.arakene.domain.responses.DailyQuoteDto
 import kotlinx.serialization.Serializable
 
+@Keep
 sealed interface Screens {
 
     val routeString: String
@@ -18,6 +20,7 @@ sealed interface Screens {
     }
 
     @Serializable
+    @Keep
     data class Home(
         val targetMonth: Int = 0,
         val targetYear: Int = 0,
@@ -28,6 +31,7 @@ sealed interface Screens {
     }
 
     @Serializable
+    @Keep
     data object Calendar : Screens {
         override val routeString: String
             get() = "Calendar"
@@ -36,6 +40,7 @@ sealed interface Screens {
     }
 
     @Serializable
+    @Keep
     data object MyPage : Screens {
         override val routeString: String
             get() = "My page"
@@ -59,6 +64,7 @@ sealed interface Screens {
     }
 
     @Serializable
+    @Keep
     data object QuoteList : Screens {
         override val routeString: String
             get() = "List"
