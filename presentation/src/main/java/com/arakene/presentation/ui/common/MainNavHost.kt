@@ -216,7 +216,11 @@ fun MainNavHost(
 
         composable<MyPageScreens.Alert> {
             WithBaseErrorHandling<MyPageViewModel>(logoutEvent = updatedLogoutEvent) {
-                AlertView()
+                AlertView(
+                    popBackStack = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
 
