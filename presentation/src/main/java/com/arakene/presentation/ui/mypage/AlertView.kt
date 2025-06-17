@@ -49,7 +49,8 @@ fun AlertView(
             .background(MaterialTheme.colorScheme.primary)
     ) {
         HeaderSection(
-            stringResource(R.string.alert),
+            modifier = Modifier.padding(horizontal = 20.dp),
+            text = stringResource(R.string.alert),
             onBackPress = popBackStack
         )
 
