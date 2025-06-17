@@ -77,7 +77,9 @@ fun QuoteListView(
             .padding(horizontal = 20.dp)
     ) {
 
-        HomeTopSection()
+        HomeTopSection(
+            navigate = navigate
+        )
 
         /**
          * Ver 2.0에서 도입될 기능
