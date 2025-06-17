@@ -10,6 +10,7 @@ data class LoginRequest(
     val syncData: List<DailySyncData>
 )
 
+@Keep
 data class LoginData(
 
     @SerializedName("deviceData")
@@ -19,6 +20,7 @@ data class LoginData(
     val userData: UserData
 )
 
+@Keep
 data class DeviceData(
     val deviceId: String,
     val osType: String,
@@ -27,6 +29,7 @@ data class DeviceData(
     val deviceModel: String
 )
 
+@Keep
 data class UserData(
     @SerializedName("oAuthProvider")
     val oAuthProvider: String, // "KAKAO" or "GOOGLE"
@@ -41,7 +44,7 @@ data class UserData(
     val profileImageUrl: String
 )
 
-
+@Keep
 data class DailySyncData(
     @SerializedName("dailyQuoteSeq")
     val dailyQuoteSeq: Int,
@@ -56,6 +59,7 @@ data class DailySyncData(
     val likeRequest: LikeRequest
 )
 
+@Keep
 data class TypingQuoteRequest(
     @SerializedName("typingKorQuote")
     val typingKorQuote: String,
@@ -64,6 +68,7 @@ data class TypingQuoteRequest(
     val typingEngQuote: String
 )
 
+@Keep
 data class LikeRequest(
     @SerializedName("likeYn")
     val likeYn: String // "Y" or "N"
