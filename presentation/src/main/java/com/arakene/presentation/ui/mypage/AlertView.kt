@@ -43,6 +43,8 @@ fun AlertView(
 
     val selected by viewModel.getAlarmUsage.collectAsState(false)
 
+    val isLogged by viewModel.isLogged.collectAsState(false)
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -61,38 +63,40 @@ fun AlertView(
             }
         )
 
-        Row(
-            modifier = Modifier
-                .padding(top = 50.dp)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.secondary)
-                .padding(horizontal = 20.dp, vertical = 19.dp)
-                .noEffectClickable {
-                    dialogDataHolder.data = DialogData.Builder()
-                        .title(context.getString(R.string.resign_title))
-                        .titleTextSize(20.sp)
-                        .bodyTextSize(16.sp)
-                        .body(context.getString(R.string.resign_body))
-                        .reversed(true)
-                        .okText(context.getString(R.string.cancel))
-                        .cancelText(context.getString(R.string.resign))
-                        .cancelOnClick {
-                            viewModel.handleContract(MyPageAction.Resign)
-                        }
-                        .build()
+        if (isLogged) {
+            Row(
+                modifier = Modifier
+                    .padding(top = 50.dp)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.secondary)
+                    .padding(horizontal = 20.dp, vertical = 19.dp)
+                    .noEffectClickable {
+                        dialogDataHolder.data = DialogData.Builder()
+                            .title(context.getString(R.string.resign_title))
+                            .titleTextSize(20.sp)
+                            .bodyTextSize(16.sp)
+                            .body(context.getString(R.string.resign_body))
+                            .reversed(true)
+                            .okText(context.getString(R.string.cancel))
+                            .cancelText(context.getString(R.string.resign))
+                            .cancelOnClick {
+                                viewModel.handleContract(MyPageAction.Resign)
+                            }
+                            .build()
 
-                    dialogDataHolder.show = true
-                },
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                stringResource(R.string.resign),
-                style = FillsaTheme.typography.body2,
-                color = colorResource(R.color.gray_700)
-            )
+                        dialogDataHolder.show = true
+                    },
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    stringResource(R.string.resign),
+                    style = FillsaTheme.typography.body2,
+                    color = colorResource(R.color.gray_700)
+                )
 
-            Image(painter = painterResource(R.drawable.icn_sign_out), contentDescription = null)
+                Image(painter = painterResource(R.drawable.icn_sign_out), contentDescription = null)
 
+            }
         }
 
     }
