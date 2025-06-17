@@ -34,6 +34,7 @@ import com.arakene.presentation.viewmodel.MyPageViewModel
 @Composable
 fun AlertView(
     modifier: Modifier = Modifier,
+    popBackStack: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
@@ -49,7 +50,7 @@ fun AlertView(
     ) {
         HeaderSection(
             stringResource(R.string.alert),
-            onBackPress = {}
+            onBackPress = popBackStack
         )
 
         AlertSwitchSection(
