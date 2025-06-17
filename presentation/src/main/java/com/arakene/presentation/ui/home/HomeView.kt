@@ -37,7 +37,6 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
@@ -171,7 +170,7 @@ fun HomeView(
             )
         }
 
-        HomeTopSection()
+        HomeTopSection(navigate = navigate)
 
         Row(
             modifier = Modifier.padding(top = 20.dp),
