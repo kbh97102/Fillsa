@@ -2,7 +2,6 @@ package com.arakene.data.network
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.responses.MemberQuotesResponse
 
 class GetQuotesListDataSource(
@@ -24,12 +23,17 @@ class GetQuotesListDataSource(
                 size = 30,
                 likeYn = likeYn
             )
-            val data = response.body()?.content ?: emptyList()
+
+            val data = response.body()?.content.orEmpty()
+            val totalPage = response.body()?.totalPages ?: 0
+            val currentPage = response.body()?.currentPage ?: 0
+
+            val isLast = data.isEmpty() || totalPage - currentPage == 1
 
             LoadResult.Page(
                 data = data,
                 prevKey = if (page == 0) null else page - 1,
-                nextKey = if (data.isEmpty()) null else page + 1
+                nextKey = if (isLast) null else page + 1
             )
         } catch (e: Exception) {
             e.printStackTrace()
