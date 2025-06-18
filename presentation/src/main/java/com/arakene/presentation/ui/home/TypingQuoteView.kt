@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
@@ -63,6 +66,10 @@ fun TypingQuoteView(
 ) {
 
     val focusManager = LocalFocusManager.current
+
+    val typingSectionFocusRequester = remember {
+        FocusRequester()
+    }
 
     LaunchedEffect(data.dailyQuoteSeq) {
         viewModel.handleContract(TypingEffect.Refresh(data.dailyQuoteSeq))
@@ -133,9 +140,12 @@ fun TypingQuoteView(
         }
     }
 
-    Column(modifier = Modifier.background(Color.White).noEffectClickable {
-        focusManager.clearFocus()
-    }) {
+    Column(
+        modifier = Modifier
+            .background(Color.White)
+            .noEffectClickable {
+                focusManager.clearFocus()
+            }) {
         TypingQuoteTopSection(
             locale = localeType,
             setLocale = {
@@ -149,8 +159,12 @@ fun TypingQuoteView(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
                 .padding(top = 20.dp)
+                .noEffectClickable {
+                    typingSectionFocusRequester.requestFocus()
+                }
         ) {
             TypingQuoteBodySection(
+                modifier = Modifier.focusRequester(focusRequester = typingSectionFocusRequester),
                 quote = if (localeType == LocaleType.KOR) {
                     data.korQuote ?: ""
                 } else {
@@ -241,7 +255,9 @@ private fun TypingQuoteBottomSection(
 
     Row(
         modifier = modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .imePadding()
+        ,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
