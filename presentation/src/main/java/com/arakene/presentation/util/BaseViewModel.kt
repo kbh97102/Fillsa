@@ -78,14 +78,16 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected suspend fun <T> getResponse(response: ApiResult<T>): T? {
+    protected suspend fun <T> getResponse(response: ApiResult<T>, useLoading: Boolean = true): T? {
         isProcessing.value = true
         setLoading(true)
         viewModelScope.launch {
             delay(250)
             // TODO: 검증 필요
             if (isProcessing.value) {
-                setLoading(true)
+                if (useLoading) {
+                    setLoading(true)
+                }
             }
         }
         return when (response) {

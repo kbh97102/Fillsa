@@ -149,7 +149,9 @@ class HomeViewModel @Inject constructor(
                 .okText("취소")
                 .cancelOnClick {
                     viewModelScope.launch {
-                        deleteUploadImageUseCase(currentQuota.dailyQuoteSeq)
+                        getResponse(deleteUploadImageUseCase(currentQuota.dailyQuoteSeq), useLoading = false)?.let {
+                            emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
+                        }
                         backgroundImageUri.value = ""
                     }
                 }

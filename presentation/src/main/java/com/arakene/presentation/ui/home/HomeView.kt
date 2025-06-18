@@ -124,6 +124,10 @@ fun HomeView(
                 }
             }
 
+            is CommonEffect.ShowSnackBar -> {
+                snackbarHostState.showSnackbar(it.message)
+            }
+
             is CommonEffect.ShowDialog -> {
                 dialogDataHolder.data = it.dialogData
                 dialogDataHolder.show = true
