@@ -12,14 +12,19 @@ import androidx.compose.ui.text.input.TextFieldValue
 
 fun Modifier.cursorBlinking(
     value: TextFieldValue,
-    layoutResult: TextLayoutResult?
+    layoutResult: TextLayoutResult?,
+    hasFocus: Boolean
 ) = composed {
 
     val state = remember { CursorAnimateState() }
-    val scope = rememberCoroutineScope()
 
-    LaunchedEffect(value.annotatedString) {
-        state.startBlinking()
+    LaunchedEffect(value.annotatedString, hasFocus) {
+        logDebug("focused $hasFocus")
+        if (hasFocus) {
+            state.startBlinking()
+        } else {
+            state.cancelJob()
+        }
     }
 
     drawWithContent {

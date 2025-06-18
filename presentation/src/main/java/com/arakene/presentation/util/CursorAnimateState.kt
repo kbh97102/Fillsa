@@ -14,7 +14,7 @@ class CursorAnimateState {
 
     val atomicJob = AtomicReference<Job?>()
 
-    var cursorAlpha by mutableFloatStateOf(1f)
+    var cursorAlpha by mutableFloatStateOf(0f)
         private set
 
     suspend fun startBlinking() {
@@ -34,9 +34,9 @@ class CursorAnimateState {
                         cursorAlpha = 1f
                         while (true) {
                             delay(500)
-                            cursorAlpha = 1f
-                            delay(500)
                             cursorAlpha = 0f
+                            delay(500)
+                            cursorAlpha = 1f
                         }
                     } finally {
                         cursorAlpha = 0f

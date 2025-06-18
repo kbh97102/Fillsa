@@ -1,5 +1,7 @@
 package com.arakene.presentation.ui.home
 
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
@@ -41,6 +43,12 @@ fun TypingQuoteBodySection(
         mutableStateOf(true)
     }
 
+    val interactionSource = remember {
+        MutableInteractionSource()
+    }
+
+    val hasFocus by interactionSource.collectIsFocusedAsState()
+
     var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
 
     BasicTextField(
@@ -72,6 +80,7 @@ fun TypingQuoteBodySection(
         textStyle = FillsaTheme.typography.body1,
         cursorBrush = SolidColor(Color.Black),
         modifier = modifier.fillMaxWidth(),
+        interactionSource = interactionSource,
         decorationBox = { inner ->
             Box(modifier = Modifier.fillMaxWidth()) {
                 val annotated = buildAnnotatedString {
@@ -104,7 +113,8 @@ fun TypingQuoteBodySection(
                     modifier = Modifier
                         .cursorBlinking(
                             value = write,
-                            layoutResult
+                            layoutResult = layoutResult,
+                            hasFocus = hasFocus
                         ),
                     textAlign = TextAlign.Center,
                     onTextLayout = { layoutResult = it }
