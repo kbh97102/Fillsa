@@ -36,6 +36,7 @@ import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.toKoreanShort
@@ -81,7 +82,7 @@ fun CalendarSection(
     val scope = rememberCoroutineScope()
 
     val startDay = remember {
-        LocalDate.of(2025, 6, 10)
+        DateCondition.startDay
     }
 
     val today = remember {

@@ -26,15 +26,15 @@ import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.AuthorText
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.noEffectClickable
-import com.google.android.gms.auth.api.Auth
+import java.time.LocalDate
 import kotlin.math.abs
 import kotlin.math.roundToInt
 
@@ -45,11 +45,20 @@ fun DailyQuotaSection(
     next: () -> Unit,
     before: () -> Unit,
     navigate: () -> Unit,
+    date: LocalDate,
     modifier: Modifier = Modifier
 ) {
 
     var amount by remember {
         mutableStateOf(0f)
+    }
+
+    val displayBeforeButton by remember(date) {
+        mutableStateOf(date > DateCondition.startDay)
+    }
+
+    val displayNextButton by remember(date) {
+        mutableStateOf(date < LocalDate.now())
     }
 
     SubcomposeLayout(
@@ -124,36 +133,40 @@ fun DailyQuotaSection(
             }.first()
 
         val leftArrow = subcompose("WireSayingLeftArrow") {
-            Image(
-                painterResource(R.drawable.icn_arrow_circle),
-                contentDescription = null,
-                modifier = Modifier.noEffectClickable { before() })
+            if (displayBeforeButton) {
+                Image(
+                    painterResource(R.drawable.icn_arrow_circle),
+                    contentDescription = null,
+                    modifier = Modifier.noEffectClickable { before() })
+            }
         }.map {
             it.measure(Constraints())
-        }.first()
+        }.firstOrNull()
 
         val rightArrow = subcompose("WireSayingRightArrow") {
-            Image(
-                painterResource(R.drawable.icn_arrow_circle),
-                contentDescription = null,
-                modifier = Modifier
-                    .rotate(180f)
-                    .noEffectClickable { next() }
-            )
+            if (displayNextButton) {
+                Image(
+                    painterResource(R.drawable.icn_arrow_circle),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .rotate(180f)
+                        .noEffectClickable { next() }
+                )
+            }
         }.map {
             it.measure(Constraints())
-        }.first()
+        }.firstOrNull()
 
         layout(rest.measuredWidth, rest.measuredHeight) {
             rest.placeRelative(0, 0)
 
-            leftArrow.placeRelative(
+            leftArrow?.placeRelative(
                 0 - leftArrow.measuredWidth / 2f.roundToInt(),
                 rest.measuredHeight / 2f.roundToInt() - leftArrow.measuredHeight / 2f.roundToInt()
             )
-            rightArrow.placeRelative(
-                rest.measuredWidth - leftArrow.measuredWidth / 2f.roundToInt(),
-                rest.measuredHeight / 2f.roundToInt() - leftArrow.measuredHeight / 2f.roundToInt()
+            rightArrow?.placeRelative(
+                rest.measuredWidth - rightArrow.measuredWidth / 2f.roundToInt(),
+                rest.measuredHeight / 2f.roundToInt() - rightArrow.measuredHeight / 2f.roundToInt()
             )
         }
     }
@@ -171,6 +184,7 @@ private fun WiseSayingSectionPreview() {
             next = {},
             before = {},
             navigate = {},
+            date = LocalDate.now(),
             modifier = Modifier.padding(50.dp)
         )
     }
