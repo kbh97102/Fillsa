@@ -25,6 +25,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
@@ -63,6 +65,10 @@ fun TypingQuoteView(
 ) {
 
     val focusManager = LocalFocusManager.current
+
+    val typingSectionFocusRequester = remember {
+        FocusRequester()
+    }
 
     LaunchedEffect(data.dailyQuoteSeq) {
         viewModel.handleContract(TypingEffect.Refresh(data.dailyQuoteSeq))
@@ -133,9 +139,12 @@ fun TypingQuoteView(
         }
     }
 
-    Column(modifier = Modifier.background(Color.White).noEffectClickable {
-        focusManager.clearFocus()
-    }) {
+    Column(
+        modifier = Modifier
+            .background(Color.White)
+            .noEffectClickable {
+                focusManager.clearFocus()
+            }) {
         TypingQuoteTopSection(
             locale = localeType,
             setLocale = {
@@ -149,8 +158,12 @@ fun TypingQuoteView(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
                 .padding(top = 20.dp)
+                .noEffectClickable {
+                    typingSectionFocusRequester.requestFocus()
+                }
         ) {
             TypingQuoteBodySection(
+                modifier = Modifier.focusRequester(focusRequester = typingSectionFocusRequester),
                 quote = if (localeType == LocaleType.KOR) {
                     data.korQuote ?: ""
                 } else {
