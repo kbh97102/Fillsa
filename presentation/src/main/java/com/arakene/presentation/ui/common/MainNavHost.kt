@@ -5,6 +5,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
@@ -76,7 +77,7 @@ fun MainNavHost(
                     if (data.targetMonth != 0 && data.targetYear != 0 && data.targetDay != 0) {
                         LocalDate.of(data.targetYear, data.targetMonth, data.targetDay)
                     } else {
-                        LocalDate.now()
+                        null
                     }
 
                 HomeView(

@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -45,7 +46,7 @@ import java.time.LocalDate
 
 @Composable
 fun HomeView(
-    requestDate: LocalDate,
+    requestDate: LocalDate?,
     navigate: (Screens) -> Unit,
     viewModel: HomeViewModel = rememberBaseViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
@@ -64,7 +65,7 @@ fun HomeView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
-    val date by remember {
+    val date by rememberSaveable {
         viewModel.date
     }
 
@@ -98,8 +99,13 @@ fun HomeView(
         ImageDialogDataHolder()
     }
 
+    /**
+     *
+     */
     LaunchedEffect(requestDate) {
-        viewModel.handleContract(HomeAction.SetDate(requestDate))
+        if (requestDate != null) {
+            viewModel.handleContract(HomeAction.SetDate(requestDate))
+        }
     }
 
     LaunchedEffect(isLogged) {
