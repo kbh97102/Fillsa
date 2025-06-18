@@ -158,6 +158,8 @@ class HomeViewModel @Inject constructor(
                                 useLoading = false
                             )?.let {
                                 emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
+                            } ?: let {
+                                logDebug("Fail?")
                             }
                             backgroundImageUri.value = ""
                         }
