@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -60,6 +61,8 @@ fun TypingQuoteView(
     viewModel: TypingViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
+
+    val focusManager = LocalFocusManager.current
 
     LaunchedEffect(data.dailyQuoteSeq) {
         viewModel.handleContract(TypingEffect.Refresh(data.dailyQuoteSeq))
@@ -130,7 +133,9 @@ fun TypingQuoteView(
         }
     }
 
-    Column(modifier = Modifier.background(Color.White)) {
+    Column(modifier = Modifier.background(Color.White).noEffectClickable {
+        focusManager.clearFocus()
+    }) {
         TypingQuoteTopSection(
             locale = localeType,
             setLocale = {
