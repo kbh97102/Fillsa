@@ -44,7 +44,7 @@ class HomeRepositoryImpl @Inject constructor(
     override suspend fun postUploadImage(
         imageFile: File,
         dailyQuoteSeq: Int
-    ): ApiResult<SimpleIntResponse> {
+    ): ApiResult<Int> {
         return safeApi {
             api.postUploadImage(
                 dailyQuoteSeq = dailyQuoteSeq,
@@ -57,7 +57,7 @@ class HomeRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun deleteUploadImage(dailyQuoteSeq: Int): ApiResult<SimpleIntResponse> {
+    override suspend fun deleteUploadImage(dailyQuoteSeq: Int): ApiResult<Int> {
         return safeApi {
             api.deleteUploadImage(dailyQuoteSeq)
         }
