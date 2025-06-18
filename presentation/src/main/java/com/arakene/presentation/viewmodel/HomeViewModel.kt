@@ -4,6 +4,7 @@ package com.arakene.presentation.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
@@ -136,8 +137,24 @@ class HomeViewModel @Inject constructor(
         }
 
     private fun deleteBackgroundImage() = viewModelScope.launch {
-        deleteUploadImageUseCase(currentQuota.dailyQuoteSeq)
-        backgroundImageUri.value = ""
+        emitEffect(
+            CommonEffect.ShowDialog(
+                dialogData = DialogData.Builder()
+                .title("이미지를 삭제하시겠습니까?")
+                .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
+                .titleTextSize(20.sp)
+                .bodyTextSize(16.sp)
+                .reversed(true)
+                .cancelText("삭제하기")
+                .okText("취소")
+                .cancelOnClick {
+                    viewModelScope.launch {
+                        deleteUploadImageUseCase(currentQuota.dailyQuoteSeq)
+                        backgroundImageUri.value = ""
+                    }
+                }
+                .build()
+        ))
     }
 
     private fun clickImage(action: HomeAction.ClickImage) {
