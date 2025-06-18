@@ -220,6 +220,7 @@ fun HomeView(
             navigate = {
                 viewModel.handleContract(HomeAction.ClickQuote)
             },
+            date = date,
             modifier = Modifier.padding(top = 20.dp)
         )
 
