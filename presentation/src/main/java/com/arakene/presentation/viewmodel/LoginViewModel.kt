@@ -16,6 +16,7 @@ import com.arakene.domain.usecase.LoginUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetUserNameUseCase
+import com.arakene.domain.usecase.db.ClearLocalDataUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.presentation.util.Action
@@ -48,7 +49,8 @@ class LoginViewModel @Inject constructor(
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
     private val setImageUriUseCase: SetImageUriUseCase,
     private val setUserNameUseCase: SetUserNameUseCase,
-    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase
+    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
+    private val clearLocalDataUseCase: ClearLocalDataUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -276,6 +278,7 @@ class LoginViewModel @Inject constructor(
             } else {
                 emitEffect(CommonEffect.Move(Screens.Home()))
             }
+            clearLocalDataUseCase()
         }
     }
 

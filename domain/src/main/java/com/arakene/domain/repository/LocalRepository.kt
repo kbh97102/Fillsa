@@ -34,4 +34,6 @@ interface LocalRepository {
     fun getTokenExpired(): Flow<String>
 
     suspend fun findLocalQuoteById(seq: Int): LocalQuoteInfo?
+
+    suspend fun clear()
 }
