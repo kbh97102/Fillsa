@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,7 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextRange
+import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -23,7 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LocaleType
-import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.cursorBlinking
 
 @Composable
 fun TypingQuoteBodySection(
@@ -36,10 +35,13 @@ fun TypingQuoteBodySection(
 
     val gray = colorResource(R.color.gray_ca)
     val black = colorResource(R.color.gray_700)
+    val red = Color.Red
 
     var lastCondition by remember {
         mutableStateOf(true)
     }
+
+    var layoutResult by remember { mutableStateOf<TextLayoutResult?>(null) }
 
     BasicTextField(
         value = write,
@@ -70,36 +72,44 @@ fun TypingQuoteBodySection(
         textStyle = FillsaTheme.typography.body1,
         cursorBrush = SolidColor(Color.Black),
         modifier = modifier.fillMaxWidth(),
-        decorationBox = { _ ->
-            val annotated = buildAnnotatedString {
+        decorationBox = { inner ->
+            Box(modifier = Modifier.fillMaxWidth()) {
+                val annotated = buildAnnotatedString {
 
-                for (i in write.text.indices) {
-                    val expectedChar = quote[i]
-                    val typedChar = write.text[i]
-                    val color = when {
-                        typedChar == expectedChar -> black
-                        else -> gray
+                    for (i in write.text.indices) {
+                        val expectedChar = quote[i]
+                        val typedChar = write.text[i]
+                        val color = when {
+                            typedChar == expectedChar -> black
+                            else -> red
+                        }
+
+                        append(typedChar)
+                        addStyle(SpanStyle(color = color), i, i + 1)
                     }
 
-                    append(typedChar)
-                    addStyle(SpanStyle(color = color), i, i + 1)
+                    for (i in write.text.length until quote.length) {
+                        val expectedChar = quote[i]
+
+                        append(expectedChar)
+                        addStyle(SpanStyle(color = gray), i, i + 1)
+                    }
                 }
 
-                for (i in write.text.length until quote.length) {
-                    val expectedChar = quote[i]
 
-                    append(expectedChar)
-                    addStyle(SpanStyle(color = gray), i, i + 1)
-                }
-            }
 
-            Box(modifier = Modifier.fillMaxWidth()) {
                 Text(
                     text = annotated,
                     style = FillsaTheme.typography.body1,
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
+                    modifier = Modifier
+                        .cursorBlinking(
+                            value = write,
+                            layoutResult
+                        ),
+                    textAlign = TextAlign.Center,
+                    onTextLayout = { layoutResult = it }
                 )
+
             }
         },
     )
