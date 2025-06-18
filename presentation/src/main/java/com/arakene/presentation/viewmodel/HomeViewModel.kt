@@ -129,10 +129,14 @@ class HomeViewModel @Inject constructor(
             backgroundImageUri.value = homeAction.uri
 
             homeAction.file?.let { file ->
-                postUploadImageUseCase(
-                    dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-                    imageFile = file
-                )
+                getResponse(
+                    postUploadImageUseCase(
+                        dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                        imageFile = file
+                    ), useLoading = false
+                )?.let {
+                    emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
+                }
             }
         }
 
@@ -140,23 +144,26 @@ class HomeViewModel @Inject constructor(
         emitEffect(
             CommonEffect.ShowDialog(
                 dialogData = DialogData.Builder()
-                .title("이미지를 삭제하시겠습니까?")
-                .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
-                .titleTextSize(20.sp)
-                .bodyTextSize(16.sp)
-                .reversed(true)
-                .cancelText("삭제하기")
-                .okText("취소")
-                .cancelOnClick {
-                    viewModelScope.launch {
-                        getResponse(deleteUploadImageUseCase(currentQuota.dailyQuoteSeq), useLoading = false)?.let {
-                            emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
+                    .title("이미지를 삭제하시겠습니까?")
+                    .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
+                    .titleTextSize(20.sp)
+                    .bodyTextSize(16.sp)
+                    .reversed(true)
+                    .cancelText("삭제하기")
+                    .okText("취소")
+                    .cancelOnClick {
+                        viewModelScope.launch {
+                            getResponse(
+                                deleteUploadImageUseCase(currentQuota.dailyQuoteSeq),
+                                useLoading = false
+                            )?.let {
+                                emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
+                            }
+                            backgroundImageUri.value = ""
                         }
-                        backgroundImageUri.value = ""
                     }
-                }
-                .build()
-        ))
+                    .build()
+            ))
     }
 
     private fun clickImage(action: HomeAction.ClickImage) {
