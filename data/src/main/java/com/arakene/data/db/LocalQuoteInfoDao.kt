@@ -42,4 +42,7 @@ interface LocalQuoteInfoDao {
 
     @Query("SELECT * FROM quoteInfo WHERE id = :seq")
     suspend fun getQuote(seq: Int): LocalQuoteInfoEntity?
+
+    @Query("DELETE FROM quoteInfo")
+    suspend fun clear()
 }
