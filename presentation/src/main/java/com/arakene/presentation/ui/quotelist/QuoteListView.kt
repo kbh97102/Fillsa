@@ -86,23 +86,28 @@ fun QuoteListView(
 //            modifier = Modifier.padding(top = 20.dp)
 //        )
 
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            IsLikeSection(
-                modifier = Modifier.padding(top = 20.dp),
-                isLike = isLike,
-                setIsLike = {
-                    isLike = it
+        if (paging.itemCount == 0) {
+            QuoteListEmptySection()
+        } else {
+
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                IsLikeSection(
+                    modifier = Modifier.padding(top = 20.dp),
+                    isLike = isLike,
+                    setIsLike = {
+                        isLike = it
+                    }
+                )
+            }
+
+            QuoteListSection(
+                modifier = Modifier.padding(top = 10.dp),
+                list = paging,
+                onClick = {
+                    viewModel.handleContract(QuoteListAction.ClickItem(it))
                 }
             )
         }
-
-        QuoteListSection(
-            modifier = Modifier.padding(top = 10.dp),
-            list = paging,
-            onClick = {
-                viewModel.handleContract(QuoteListAction.ClickItem(it))
-            }
-        )
 
     }
 
