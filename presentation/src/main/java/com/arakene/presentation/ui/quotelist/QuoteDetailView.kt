@@ -31,6 +31,7 @@ import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.home.LocaleSwitch
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocaleType
@@ -68,6 +69,10 @@ fun QuoteDetailView(
         when (it) {
             is CommonEffect.Move -> {
                 navigate(it.screen)
+            }
+
+            is CommonEffect.PopBackStack -> {
+                onBackPress()
             }
         }
     }
@@ -109,7 +114,9 @@ fun QuoteDetailView(
     ) {
 
         // 탑 영역, 뒤로가기 , 메모 텍스트
-        HeaderSection(text = stringResource(R.string.memo), onBackPress = onBackPress)
+        HeaderSection(text = stringResource(R.string.memo), onBackPress = {
+            viewModel.handleContract(CommonAction.PopBackStack)
+        })
 
         // 이미지
         if (imagePath.isNotEmpty()) {

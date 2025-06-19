@@ -25,10 +25,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomTextField
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
+import com.arakene.presentation.util.CommonAction
+import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.ListViewModel
 
@@ -56,6 +60,17 @@ fun MemoInsertView(
         }
     }
 
+    HandleViewEffect(
+        viewModel.effect,
+        LocalLifecycleOwner.current
+    ) {
+        when (it) {
+            is CommonEffect.PopBackStack -> {
+                popBackStack(memo)
+            }
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -68,7 +83,7 @@ fun MemoInsertView(
             contentDescription = null,
             modifier = Modifier
                 .padding(vertical = 9.dp)
-                .noEffectClickable { popBackStack(memo) }
+                .noEffectClickable { viewModel.handleContract(CommonAction.PopBackStack) }
         )
 
         Column(modifier = Modifier.padding(horizontal = 5.dp)) {
