@@ -6,6 +6,7 @@ import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.usecase.common.DeleteLocalQuoteUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
@@ -40,7 +41,8 @@ class TypingViewModel @Inject constructor(
     private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
     private val getTypingUseCase: GetTypingUseCase,
     private val postTypingUseCase: PostTypingUseCase,
-    private val getLocalQuoteUseCase: GetLocalQuoteUseCase
+    private val getLocalQuoteUseCase: GetLocalQuoteUseCase,
+    private val deleteLocalQuoteUseCase: DeleteLocalQuoteUseCase
 ) : BaseViewModel() {
 
     var isLike = mutableStateOf(false)
@@ -120,11 +122,23 @@ class TypingViewModel @Inject constructor(
         localeType: LocaleType,
         likeYn: Boolean
     ) {
-
         CoroutineScope(Dispatchers.IO).launch {
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
 
             if (!loginStatus) {
+
+                if (korTyping.isEmpty() && engTyping.isEmpty()) {
+
+                    val data = getLocalQuoteUseCase(dailyQuoteDto.dailyQuoteSeq)
+
+                    if (data != null) {
+                        if (data.memo.isEmpty() && data.likeYn == YN.N.type) {
+                            deleteLocalQuoteUseCase(dailyQuoteDto.dailyQuoteSeq)
+                            return@launch
+                        }
+                    }
+                }
+
                 addLocalQuoteUseCase(
                     LocalQuoteInfo(
                         memo = "",

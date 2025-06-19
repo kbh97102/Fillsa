@@ -36,4 +36,6 @@ interface LocalRepository {
     suspend fun findLocalQuoteById(seq: Int): LocalQuoteInfo?
 
     suspend fun clear()
+
+    suspend fun deleteQuote(seq: Int)
 }
