@@ -45,6 +45,7 @@ import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
+import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalSnackbarHost
@@ -137,6 +138,10 @@ fun TypingQuoteView(
             is CommonEffect.Move -> {
                 navigate(it.screen)
             }
+
+            is CommonEffect.PopBackStack -> {
+                updateBackEvent()
+            }
         }
     }
 
@@ -151,7 +156,7 @@ fun TypingQuoteView(
             setLocale = {
                 localeType = it
             },
-            onBackClick = updateBackEvent,
+            onBackClick = { viewModel.handleContract(CommonAction.PopBackStack) },
             modifier = Modifier.padding(horizontal = 15.dp)
         )
 
@@ -256,8 +261,7 @@ private fun TypingQuoteBottomSection(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .imePadding()
-        ,
+            .imePadding(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {

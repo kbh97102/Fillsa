@@ -110,8 +110,12 @@ fun HandlePagingError(
 
 fun getDayOfWeekEnglish(dateStr: String): String {
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    val date = LocalDate.parse(dateStr, formatter)
-    return date.dayOfWeek.name
+    return try {
+        val date = LocalDate.parse(dateStr, formatter)
+        date.dayOfWeek.name
+    } catch (e: Exception) {
+        LocalDate.now().dayOfWeek.name
+    }
 }
 
 @Composable
