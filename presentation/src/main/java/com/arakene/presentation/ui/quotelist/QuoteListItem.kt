@@ -5,8 +5,15 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,60 +49,112 @@ fun QuoteListItem(
         )
     }
 
+    val pagerState = rememberPagerState {
+        2
+    }
+
     Column(
-        modifier.clip(MaterialTheme.shapes.medium),
+        modifier = modifier
+            .fillMaxSize()
+            .clip(MaterialTheme.shapes.medium),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = MaterialTheme.colorScheme.tertiary,
-                )
-                .padding(vertical = 12.dp, horizontal = 27.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                data.quoteDate.replace("-", "."),
-                style = FillsaTheme.typography.buttonXSmallBold,
-                color = colorResource(
-                    R.color.gray_700
-                ),
-                maxLines = 1
-            )
+        QuoteListItemHeader(data)
 
-            Text(
-                DayOfWeek.valueOf(data.quoteDayOfWeek).kor,
-                style = FillsaTheme.typography.buttonXSmallNormal,
-                color = colorResource(R.color.gray_700),
-                modifier = Modifier.padding(start = 10.dp),
-                maxLines = 1
-            )
-        }
-
-        Box {
+        Box(modifier = Modifier.weight(1f)) {
 
             CustomAsyncImage(
                 imagePath = data.imagePath ?: "",
-                modifier = Modifier.matchParentSize(),
+                modifier = Modifier.fillMaxSize(),
             )
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
                 QuoteListItemPager(
+                    modifier = Modifier.weight(1f),
                     quote = quote,
-                    memo = data.memo ?: ""
+                    memo = data.memo ?: "",
+                    pagerState = pagerState
                 )
 
-                QuoteListItemBottomSection(
-                    hasMemo = data.memoYN == YN.Y,
-                    isLike = data.likeYN == YN.Y,
-                    modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.wrapContentHeight()
+                ) {
+                    if (data.memoYN == YN.Y) {
+                        QuoteListItemIndicator(
+                            pagerState = pagerState
+                        )
+                    }
+
+                    QuoteListItemBottomSection(
+                        hasMemo = data.memoYN == YN.Y,
+                        isLike = data.likeYN == YN.Y,
+                        modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
+                    )
+                }
             }
         }
     }
 
+}
+
+@Composable
+private fun QuoteListItemIndicator(
+    pagerState: PagerState
+) {
+    Row(
+        modifier = Modifier.padding(top = 12.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        repeat(2) {
+            val color =
+                if (pagerState.currentPage == it)
+                    colorResource(R.color.yellow02)
+                else
+                    colorResource(R.color.gray_200)
+            Box(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .background(color, CircleShape)
+                    .size(6.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun QuoteListItemHeader(data: MemberQuotesResponse) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.tertiary,
+            )
+            .padding(vertical = 12.dp, horizontal = 27.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            data.quoteDate.replace("-", "."),
+            style = FillsaTheme.typography.buttonXSmallBold,
+            color = colorResource(
+                R.color.gray_700
+            ),
+            maxLines = 1
+        )
+
+        Text(
+            DayOfWeek.valueOf(data.quoteDayOfWeek).kor,
+            style = FillsaTheme.typography.buttonXSmallNormal,
+            color = colorResource(R.color.gray_700),
+            modifier = Modifier.padding(start = 10.dp),
+            maxLines = 1
+        )
+    }
 }
 
 @Composable
