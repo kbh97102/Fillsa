@@ -21,11 +21,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CommonAction
+import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.noEffectClickable
@@ -45,6 +49,17 @@ fun AlertView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
+    HandleViewEffect(
+        viewModel.effect,
+        LocalLifecycleOwner.current
+    ) {
+        when (it) {
+            CommonEffect.PopBackStack -> {
+                popBackStack()
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -53,7 +68,9 @@ fun AlertView(
         HeaderSection(
             modifier = Modifier.padding(horizontal = 20.dp),
             text = stringResource(R.string.alert),
-            onBackPress = popBackStack
+            onBackPress = {
+                viewModel.handleContract(CommonAction.PopBackStack)
+            }
         )
 
         AlertSwitchSection(
