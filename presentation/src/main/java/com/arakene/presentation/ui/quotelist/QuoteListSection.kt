@@ -20,6 +20,7 @@ fun QuoteListSection(
 ) {
 
     LazyVerticalGrid(
+        modifier = modifier,
         columns = GridCells.Fixed(2),
         horizontalArrangement = Arrangement.spacedBy(20.dp),
         verticalArrangement = Arrangement.spacedBy(20.dp)
