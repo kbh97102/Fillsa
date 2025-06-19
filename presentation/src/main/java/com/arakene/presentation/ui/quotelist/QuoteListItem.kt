@@ -28,7 +28,6 @@ import com.arakene.presentation.util.DayOfWeek
 
 @Composable
 fun QuoteListItem(
-    imagePath: String,
     data: MemberQuotesResponse,
     modifier: Modifier = Modifier
 ) {
@@ -78,7 +77,7 @@ fun QuoteListItem(
         Box {
 
             CustomAsyncImage(
-                imagePath = imagePath,
+                imagePath = data.imagePath ?: "",
                 modifier = Modifier.matchParentSize(),
             )
 
@@ -104,7 +103,6 @@ fun QuoteListItem(
 private fun QuoteListItemPreview() {
     FillsaTheme {
         QuoteListItem(
-            imagePath = "",
             data = MemberQuotesResponse()
         )
     }

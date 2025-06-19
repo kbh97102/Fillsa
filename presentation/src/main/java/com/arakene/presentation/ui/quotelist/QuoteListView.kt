@@ -39,10 +39,6 @@ fun QuoteListView(
         mutableStateOf(false)
     }
 
-    val imageUri by remember {
-        viewModel.imageUri
-    }
-
     val isLogged by viewModel.isLogged.collectAsState(false)
 
     val paging = remember(isLogged, isLike) {
@@ -101,7 +97,6 @@ fun QuoteListView(
         }
 
         QuoteListSection(
-            imageUri = imageUri,
             modifier = Modifier.padding(top = 10.dp),
             list = paging,
             onClick = {
