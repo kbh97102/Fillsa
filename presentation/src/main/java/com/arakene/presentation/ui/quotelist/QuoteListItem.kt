@@ -9,6 +9,11 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -45,6 +49,10 @@ fun QuoteListItem(
         )
     }
 
+    val pagerState = rememberPagerState {
+        2
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -67,19 +75,56 @@ fun QuoteListItem(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 QuoteListItemPager(
+                    modifier = Modifier.weight(1f),
                     quote = quote,
-                    memo = data.memo ?: ""
+                    memo = data.memo ?: "",
+                    pagerState = pagerState
                 )
 
-                QuoteListItemBottomSection(
-                    hasMemo = data.memoYN == YN.Y,
-                    isLike = data.likeYN == YN.Y,
-                    modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
-                )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.wrapContentHeight()
+                ) {
+                    if (data.memoYN == YN.Y) {
+                        QuoteListItemIndicator(
+                            pagerState = pagerState
+                        )
+                    }
+
+                    QuoteListItemBottomSection(
+                        hasMemo = data.memoYN == YN.Y,
+                        isLike = data.likeYN == YN.Y,
+                        modifier = Modifier.padding(top = 20.dp, bottom = 10.dp)
+                    )
+                }
             }
         }
     }
 
+}
+
+@Composable
+private fun QuoteListItemIndicator(
+    pagerState: PagerState
+) {
+    Row(
+        modifier = Modifier.padding(top = 12.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        repeat(2) {
+            val color =
+                if (pagerState.currentPage == it)
+                    colorResource(R.color.yellow02)
+                else
+                    colorResource(R.color.gray_200)
+            Box(
+                modifier = Modifier
+                    .padding(4.dp)
+                    .background(color, CircleShape)
+                    .size(6.dp)
+            )
+        }
+    }
 }
 
 @Composable
