@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -16,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -43,45 +46,26 @@ fun QuoteListItem(
     }
 
     Column(
-        modifier.clip(MaterialTheme.shapes.medium),
+        modifier = modifier
+            .fillMaxSize()
+            .clip(MaterialTheme.shapes.medium),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(
-                    color = MaterialTheme.colorScheme.tertiary,
-                )
-                .padding(vertical = 12.dp, horizontal = 27.dp),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Text(
-                data.quoteDate.replace("-", "."),
-                style = FillsaTheme.typography.buttonXSmallBold,
-                color = colorResource(
-                    R.color.gray_700
-                ),
-                maxLines = 1
-            )
+        QuoteListItemHeader(data)
 
-            Text(
-                DayOfWeek.valueOf(data.quoteDayOfWeek).kor,
-                style = FillsaTheme.typography.buttonXSmallNormal,
-                color = colorResource(R.color.gray_700),
-                modifier = Modifier.padding(start = 10.dp),
-                maxLines = 1
-            )
-        }
-
-        Box {
+        Box(modifier = Modifier.weight(1f)) {
 
             CustomAsyncImage(
                 imagePath = data.imagePath ?: "",
-                modifier = Modifier.matchParentSize(),
+                modifier = Modifier.fillMaxSize(),
             )
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            Column(
+                modifier = Modifier.fillMaxHeight(),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
                 QuoteListItemPager(
                     quote = quote,
                     memo = data.memo ?: ""
@@ -96,6 +80,36 @@ fun QuoteListItem(
         }
     }
 
+}
+
+@Composable
+private fun QuoteListItemHeader(data: MemberQuotesResponse) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = MaterialTheme.colorScheme.tertiary,
+            )
+            .padding(vertical = 12.dp, horizontal = 27.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text(
+            data.quoteDate.replace("-", "."),
+            style = FillsaTheme.typography.buttonXSmallBold,
+            color = colorResource(
+                R.color.gray_700
+            ),
+            maxLines = 1
+        )
+
+        Text(
+            DayOfWeek.valueOf(data.quoteDayOfWeek).kor,
+            style = FillsaTheme.typography.buttonXSmallNormal,
+            color = colorResource(R.color.gray_700),
+            modifier = Modifier.padding(start = 10.dp),
+            maxLines = 1
+        )
+    }
 }
 
 @Composable
