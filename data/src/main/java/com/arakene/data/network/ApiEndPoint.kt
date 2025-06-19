@@ -22,7 +22,7 @@ object ApiEndPoint {
 
     const val GET_NOTICE = "/api/v1/notices"
 
-    const val DELETE_RESIGN = "/api/v1/auth/auth/withdraw"
+    const val DELETE_RESIGN = "/api/v1/auth/withdraw"
 
     const val UPDATE_ACCESS_TOKEN = "/api/v1/auth/refresh"
 
