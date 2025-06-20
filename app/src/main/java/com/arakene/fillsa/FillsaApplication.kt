@@ -1,17 +1,19 @@
 package com.arakene.fillsa
 
+import android.app.AlarmManager
 import android.app.Application
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
+import android.icu.util.Calendar
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import androidx.work.ExistingPeriodicWorkPolicy
-import androidx.work.PeriodicWorkRequestBuilder
-import androidx.work.WorkManager
-import com.arakene.data.util.DailyNotificationWorker
+import com.arakene.data.util.AlarmReceiver
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetAlarmUsageUseCase
 import com.arakene.presentation.BuildConfig
+import com.arakene.presentation.util.logDebug
 import com.google.firebase.FirebaseApp
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
@@ -19,9 +21,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.time.Duration
-import java.time.LocalDateTime
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -57,34 +56,59 @@ class FillsaApplication : Application(), Configuration.Provider {
         CoroutineScope(Dispatchers.IO).launch {
             getAlarmUsageUseCase()
                 .collectLatest {
-
-                    if (it) {
-                        scheduleDailyNotification(this@FillsaApplication)
-                    } else {
-                        WorkManager.getInstance(this@FillsaApplication)
-                            .cancelUniqueWork("DailyNotification")
-                    }
+                    scheduleDailyNotification(this@FillsaApplication, it)
                 }
         }
     }
 
-    private fun scheduleDailyNotification(context: Context) {
-        val currentTime = LocalDateTime.now()
-        val targetTime = currentTime.withHour(9).withMinute(0).withSecond(0).withNano(0)
+    private fun scheduleDailyNotification(context: Context, enable: Boolean) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val delay = Duration.between(currentTime, targetTime).toMillis().let {
-            if (it < 0) it + 24 * 60 * 60 * 1000 else it
+        val intent = Intent(context, AlarmReceiver::class.java).apply {
+            action = "com.arakene.TESTACTION"
         }
 
-        val workRequest = PeriodicWorkRequestBuilder<DailyNotificationWorker>(1, TimeUnit.DAYS)
-            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
-            .build()
-
-        WorkManager.getInstance(context).enqueueUniquePeriodicWork(
-            "DailyNotification",
-            ExistingPeriodicWorkPolicy.UPDATE,
-            workRequest
+        val checkPendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
         )
+
+        logDebug("혹시여기오니? 111")
+        if (checkPendingIntent != null) {
+            logDebug("혹시여기오니? 222")
+            return
+        }
+        logDebug("혹시여기오니? 333")
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+
+        if (enable) {
+            val calendar = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, 9)
+                set(Calendar.MINUTE, 0)
+                set(Calendar.SECOND, 0)
+                if (before(Calendar.getInstance())) {
+                    add(Calendar.DAY_OF_MONTH, 1)
+                }
+            }
+
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                pendingIntent
+            )
+        } else {
+            alarmManager.cancel(pendingIntent)
+        }
+
+
     }
 
     override val workManagerConfiguration: Configuration
