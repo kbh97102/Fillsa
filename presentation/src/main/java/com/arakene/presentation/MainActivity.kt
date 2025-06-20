@@ -51,6 +51,13 @@ class MainActivity : ComponentActivity() {
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
     ) { result ->
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && result.containsKey(Manifest.permission.POST_NOTIFICATIONS)) {
+            viewModel.setAlarmUsage(result[Manifest.permission.POST_NOTIFICATIONS] == true)
+        }
+
+
         viewModel.permissionChecked.value = true
     }
 
