@@ -78,18 +78,18 @@ class AlarmManagerHelper @Inject constructor(
                 }
             }
 
-            alarmManager.setAndAllowWhileIdle(
-                AlarmManager.RTC_WAKEUP,
-                System.currentTimeMillis() + 61 * 1000L,
-                pendingIntent
-            )
-
-//            alarmManager.setRepeating(
+//            alarmManager.setAndAllowWhileIdle(
 //                AlarmManager.RTC_WAKEUP,
-//                calendar.timeInMillis,
-//                AlarmManager.INTERVAL_DAY,
+//                System.currentTimeMillis() + 61 * 1000L,
 //                pendingIntent
 //            )
+
+            alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.timeInMillis,
+                AlarmManager.INTERVAL_DAY,
+                pendingIntent
+            )
 
         }
     }
