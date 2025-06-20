@@ -8,6 +8,7 @@ import android.content.Intent
 import android.icu.util.Calendar
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
+import com.arakene.data.util.AlarmManagerHelper
 import com.arakene.data.util.AlarmReceiver
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.usecase.common.GetAccessTokenUseCase
@@ -38,6 +39,9 @@ class FillsaApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var getAlarmUsageUseCase: GetAlarmUsageUseCase
 
+    @Inject
+    lateinit var alarmManagerHelper: AlarmManagerHelper
+
     override fun onCreate() {
         super.onCreate()
 
@@ -62,53 +66,13 @@ class FillsaApplication : Application(), Configuration.Provider {
     }
 
     private fun scheduleDailyNotification(context: Context, enable: Boolean) {
-        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val intent = Intent(context, AlarmReceiver::class.java).apply {
-            action = "com.arakene.TESTACTION"
-        }
-
-        val checkPendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_NO_CREATE or PendingIntent.FLAG_IMMUTABLE
-        )
-
-        logDebug("혹시여기오니? 111")
-        if (checkPendingIntent != null) {
-            logDebug("혹시여기오니? 222")
-            return
-        }
-        logDebug("혹시여기오니? 333")
-        val pendingIntent = PendingIntent.getBroadcast(
-            context,
-            0,
-            intent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
 
         if (enable) {
-            val calendar = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 9)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                if (before(Calendar.getInstance())) {
-                    add(Calendar.DAY_OF_MONTH, 1)
-                }
-            }
-
-            alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                pendingIntent
-            )
+            alarmManagerHelper.setAlarm()
         } else {
-            alarmManager.cancel(pendingIntent)
+            alarmManagerHelper.cancelAlarm()
         }
-
-
     }
 
     override val workManagerConfiguration: Configuration
