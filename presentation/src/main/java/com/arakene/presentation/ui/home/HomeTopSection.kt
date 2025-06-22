@@ -32,7 +32,12 @@ fun HomeTopSection(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Image(painterResource(R.drawable.icn_logo), contentDescription = null)
+        Image(
+            painterResource(R.drawable.icn_logo),
+            contentDescription = null,
+            modifier = Modifier.noEffectClickable {
+                navigate(Screens.Home())
+            })
 
         Image(
             painterResource(R.drawable.icn_my_page),
