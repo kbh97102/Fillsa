@@ -165,33 +165,24 @@ fun LoginView(
             backgroundColor = colorResource(R.color.kakao_yellow),
             modifier = Modifier.padding(top = 12.dp),
             onClick = {
-
-                Utility.getKeyHash(context).also {
-                    Log.e(">>>>", it)
-                }
-
                 if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
                     UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                        if (error != null) {
-                            Log.e(">>>>", "로그인 실패 $error")
-                        } else if (token != null) {
-                            Log.e(">>>>", "로그인 성공 $token")
-
-                            Log.e(">>>>", "kakao id token ${token.idToken}")
-
-                            viewModel.handleContract(
-                                LoginAction.ClickKakaoLogin(
-                                    refreshToken = token.refreshToken,
-                                    accessToken = token.accessToken,
-                                    refreshTokenExpiresIn = token.refreshTokenExpiresAt.toString(),
-                                    expiresIn = token.accessTokenExpiresAt.toString(),
-                                    appVersion = context.packageManager.getPackageInfo(
-                                        context.packageName,
-                                        0
-                                    ).longVersionCode.toString(),
-                                    isOnboarding = isOnboarding
+                        if (error == null) {
+                            if (token != null) {
+                                viewModel.handleContract(
+                                    LoginAction.ClickKakaoLogin(
+                                        refreshToken = token.refreshToken,
+                                        accessToken = token.accessToken,
+                                        refreshTokenExpiresIn = token.refreshTokenExpiresAt.toString(),
+                                        expiresIn = token.accessTokenExpiresAt.toString(),
+                                        appVersion = context.packageManager.getPackageInfo(
+                                            context.packageName,
+                                            0
+                                        ).longVersionCode.toString(),
+                                        isOnboarding = isOnboarding
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 } else {
@@ -200,7 +191,6 @@ fun LoginView(
                             .title(context.getString(R.string.login_after_install_kakao))
                             .build()
                     }.run { show = true }
-                    Log.e(">>>>", "Fail")
                 }
 
             }
