@@ -24,6 +24,7 @@ import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
@@ -78,10 +79,6 @@ class HomeViewModel @Inject constructor(
                 }
             }
 
-            is HomeAction.Refresh -> {
-                refresh(action.date)
-            }
-
             is HomeAction.ClickImage -> {
                 clickImage(action)
             }
@@ -113,15 +110,25 @@ class HomeViewModel @Inject constructor(
                 deleteBackgroundImage()
             }
 
-            is HomeAction.SetDate -> {
-                date.value = action.date
-            }
-
             else -> {
 
             }
         }
 
+    }
+
+    override fun emitEffect(effect: Effect) {
+        when (effect) {
+            is HomeEffect.SetDate -> {
+                date.value = effect.date
+            }
+
+            is HomeEffect.Refresh -> {
+                refresh(effect.date)
+            }
+
+            else -> super.emitEffect(effect)
+        }
     }
 
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =

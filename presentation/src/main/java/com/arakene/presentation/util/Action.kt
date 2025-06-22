@@ -40,14 +40,12 @@ sealed interface LoginAction : Action {
 sealed interface HomeAction : Action {
     data object ClickNext : HomeAction
     data object ClickBefore : HomeAction
-    data class Refresh(val date: LocalDate) : HomeAction
     data object ClickLike : HomeAction
     data object ClickQuote : HomeAction
     data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
     data class ClickShare(val quote: String, val author: String) : HomeAction
     data class ClickChangeImage(val file: File?, val uri: String) : HomeAction
     data object ClickDeleteImage : HomeAction
-    data class SetDate(val date: LocalDate): HomeAction
 }
 
 sealed interface TypingAction : Action {

@@ -42,6 +42,7 @@ import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 
 @Composable
@@ -104,12 +105,11 @@ fun HomeView(
      */
     LaunchedEffect(requestDate) {
         if (requestDate != null) {
-            viewModel.handleContract(HomeAction.SetDate(requestDate))
+            viewModel.handleContract(HomeEffect.SetDate(requestDate))
+            viewModel.handleContract(HomeEffect.Refresh(requestDate))
+        } else {
+            viewModel.handleContract(HomeEffect.Refresh(date))
         }
-    }
-
-    LaunchedEffect(isLogged) {
-        viewModel.handleContract(HomeAction.Refresh(date))
     }
 
     HandleViewEffect(
