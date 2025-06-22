@@ -5,7 +5,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
-import androidx.navigation.NavOptions
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
@@ -32,7 +31,6 @@ import com.arakene.presentation.viewmodel.LoginViewModel
 import com.arakene.presentation.viewmodel.MyPageViewModel
 import com.arakene.presentation.viewmodel.TypingViewModel
 import java.time.LocalDate
-import java.time.YearMonth
 import kotlin.reflect.typeOf
 
 @Composable
@@ -51,7 +49,7 @@ fun MainNavHost(
         startDestination = startDestination,
     ) {
 
-        composable<Screens.Login> {
+        composable<Screens.Login>(deepLinks = emptyList()) {
 
             val data = it.toRoute<Screens.Login>()
 
@@ -83,6 +81,11 @@ fun MainNavHost(
                 HomeView(
                     requestDate = requestDate,
                     navigate = {
+                        if (navController.currentDestination?.route?.lowercase()
+                                ?.contains(Screens.Home().routeString) == true
+                        ) {
+                            return@HomeView
+                        }
                         navController.navigate(it)
                     }
                 )
