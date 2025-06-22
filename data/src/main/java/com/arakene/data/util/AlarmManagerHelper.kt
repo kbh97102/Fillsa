@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
-import android.util.Log
 import androidx.core.os.bundleOf
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
@@ -45,9 +44,7 @@ class AlarmManagerHelper @Inject constructor(
 
     fun setAlarm() {
 
-        Log.e(">>>>", "Set Alarm")
         if (checkDuplicated()) {
-            Log.e(">>>>", "Duplicated")
             return
         }
 
@@ -95,8 +92,6 @@ class AlarmManagerHelper @Inject constructor(
     }
 
     fun cancelAlarm() {
-
-        Log.e(">>>>", "Cancel Alarm")
         val pendingIntent = PendingIntent.getBroadcast(
             context,
             0,

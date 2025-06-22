@@ -25,14 +25,10 @@ class AuthAuthenticator @Inject constructor(
 
     override fun authenticate(route: Route?, response: Response): Request? {
 
-        Log.e(">>>>TOKEN", "여기오니? ${route?.address} responseCode ${response.code}")
-
         try {
             val body = response.peekBody(1024 * 1024L).string()
 
             val errorResponse = Gson().fromJson(body, ErrorResponse::class.java)
-
-            Log.e(">>>>TOKEN", "파싱성공? ${errorResponse}")
 
             if (response.code == 401 && errorResponse.errorCode != 3003) {
                 return null
@@ -54,7 +50,6 @@ class AuthAuthenticator @Inject constructor(
                     refreshToken = getRefreshTokenUseCase()
                 )
             ).also { tokenInfo ->
-                Log.e(">>>>TOKEN", "여긴오니? ${tokenInfo}")
                 setAccessTokenUseCase(tokenInfo?.accessToken ?: "")
                 setRefreshTokenUseCase(tokenInfo?.refreshToken ?: "")
             }

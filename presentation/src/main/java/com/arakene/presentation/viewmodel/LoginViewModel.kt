@@ -2,7 +2,6 @@ package com.arakene.presentation.viewmodel
 
 import android.os.Build
 import android.util.Base64
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.DailySyncData
 import com.arakene.domain.requests.DeviceData
@@ -175,9 +174,7 @@ class LoginViewModel @Inject constructor(
                 Base64.decode(payload, Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP)
             val decodedString = String(decoded, charset("UTF-8"))
 
-            val userData = JSONObject(decodedString).also {
-                Log.e(">>>>", "json $it")
-            }
+            val userData = JSONObject(decodedString)
 
             // Google
             val id = userData.optString("sub")
@@ -185,7 +182,6 @@ class LoginViewModel @Inject constructor(
             val image = userData.optString("picture")
 
             Triple(id, name, image)
-                .also { Log.e(">>>>", "Google Info $it") }
         } catch (e: Exception) {
             Triple("", "", "")
         }
@@ -197,14 +193,10 @@ class LoginViewModel @Inject constructor(
                 if (error != null || user == null) {
                     cont.resume(Triple("", "", ""))
                 } else {
-                    Log.e(">>>>", "me? $user")
-
                     val id = user.id.toString()
                     val nickname = user.kakaoAccount?.profile?.nickname ?: ""
                     val imageUrl = user.kakaoAccount?.profile?.profileImageUrl ?: ""
-                    cont.resume(Triple(id, nickname, imageUrl).also {
-                        Log.e(">>>>", "KAKAO Info ${it}")
-                    })
+                    cont.resume(Triple(id, nickname, imageUrl))
                 }
             }
         }

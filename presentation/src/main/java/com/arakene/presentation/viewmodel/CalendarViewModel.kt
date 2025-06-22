@@ -144,14 +144,6 @@ class CalendarViewModel @Inject constructor(
                         )
                     )
                 }
-
-
-                data.value?.let {
-                    it.memberQuotes.forEach { quote ->
-                        logDebug("Quote $quote")
-                    }
-                }
-
             }
         }
     }

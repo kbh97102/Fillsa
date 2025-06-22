@@ -46,10 +46,6 @@ fun CalendarSection(
         )
     }
 
-    LaunchedEffect(today) {
-        logDebug("Today $today")
-    }
-
     Column(
         modifier = modifier
             .aspectRatio(155/120f)
