@@ -91,6 +91,17 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun testLoginMethod() {
+        viewModelScope.launch {
+            setUserNameUseCase("fillsaTest")
+            setImageUriUseCase("https://lh3.googleusercontent.com/a/ACg8ocKKJ-99-oHnsnmyO0JlJtN5I1v1gXsTxIpIG_Xzw_L4_z88ew=s96-c")
+            setAccessTokenUseCase("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzUwMDUzNTA1LCJleHAiOjE3NTc4Mjk1MDV9.FdDwKvCfGHP-GA09UsT0Xd9R1pveTPZuWpNAjJ0zffw")
+            setRefreshTokenUseCase("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzUwMDUzNTA1LCJleHAiOjE3NTc4Mjk1MDV9.FdDwKvCfGHP-GA09UsT0Xd9R1pveTPZuWpNAjJ0zffw")
+            isProcessing.value = true
+            emitEffect(LoginEffect.Move)
+        }
+    }
+
     private fun clickNonMember() = viewModelScope.launch {
         setRefreshTokenUseCase("")
         setAccessTokenUseCase("")
