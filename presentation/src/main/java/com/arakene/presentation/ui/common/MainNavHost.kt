@@ -82,7 +82,7 @@ fun MainNavHost(
                     requestDate = requestDate,
                     navigate = {
                         if (navController.currentDestination?.route?.lowercase()
-                                ?.contains(Screens.Home().routeString) == true
+                                ?.contains(it.routeString) == true
                         ) {
                             return@HomeView
                         }
