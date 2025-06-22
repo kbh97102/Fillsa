@@ -23,6 +23,7 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
@@ -67,13 +68,17 @@ class HomeViewModel @Inject constructor(
     override fun handleAction(action: Action) {
         when (action) {
             is HomeAction.ClickBefore -> {
-                date.value = date.value.minusDays(1)
-                refresh(date.value)
+                val targetDate = date.value.minusDays(1)
+                if (targetDate >= DateCondition.startDay) {
+                    date.value = targetDate
+                    refresh(date.value)
+                }
             }
 
             is HomeAction.ClickNext -> {
-                if (date.value.plusDays(1) <= today) {
-                    date.value = date.value.plusDays(1)
+                val targetDate = date.value.plusDays(1)
+                if (targetDate <= today) {
+                    date.value = targetDate
                     refresh(date.value)
                 }
             }
