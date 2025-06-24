@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.common
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -43,6 +44,10 @@ fun IntroduceView(
 
     val isLastPage by remember(pagerState.currentPage) {
         mutableStateOf(pagerState.currentPage == pagerState.pageCount - 1)
+    }
+
+    BackHandler {
+        navigate(Screens.Home())
     }
 
     Column(
