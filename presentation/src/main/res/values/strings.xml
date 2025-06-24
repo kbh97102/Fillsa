@@ -40,4 +40,5 @@
     <string name="login_after_install_kakao">카카오톡 설치 후 이용해주세요.</string>
     <string name="list_empty">텅 비었어요!</string>
     <string name="list_empty_description">필사하거나 좋아요한 문장이 여기에 보여요 :)</string>
+    <string name="skip">건너뛰기</string>
 </resources>
