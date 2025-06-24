@@ -25,6 +25,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.arakene.presentation.ui.common.TestAdSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
@@ -254,6 +255,8 @@ fun HomeView(
                 .fillMaxWidth()
                 .padding(top = 28.dp)
         )
+
+        TestAdSection()
     }
 
 }
