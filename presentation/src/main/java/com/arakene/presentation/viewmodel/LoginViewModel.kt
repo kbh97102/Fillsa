@@ -108,7 +108,7 @@ class LoginViewModel @Inject constructor(
 
         emitEffect(
             CommonEffect.Move(
-                Screens.Home()
+                Screens.OnBoardingGuide
             )
         )
     }
