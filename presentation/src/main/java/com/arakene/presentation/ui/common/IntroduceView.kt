@@ -1,13 +1,16 @@
 package com.arakene.presentation.ui.common
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
@@ -37,7 +40,11 @@ fun IntroduceView(
 
     val scope = rememberCoroutineScope()
 
-    Column(modifier = modifier) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Color.White)
+    ) {
 
         // Skip
         Row(
@@ -79,8 +86,12 @@ fun IntroduceView(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 15.dp)
                     .padding(bottom = 30.dp)
+                    .background(
+                        color = colorResource(R.color.gray_700),
+                        shape = MaterialTheme.shapes.small
+                    )
+                    .padding(vertical = 15.dp)
                     .noEffectClickable {
                         if (pagerState.currentPage < pagerState.pageCount - 1) {
                             scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
