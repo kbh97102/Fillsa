@@ -25,8 +25,8 @@ fun IndicatorImageSection(
             painter =
                 when (it) {
                     0 -> painterResource(R.drawable.img_introduce_1)
-                    1 -> painterResource(R.drawable.img_introduce_1)
-                    else -> painterResource(R.drawable.img_introduce_1)
+                    1 -> painterResource(R.drawable.img_introduce_2)
+                    else -> painterResource(R.drawable.img_introduce_3)
                 },
             contentDescription = null
         )
