@@ -29,7 +29,8 @@
 
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="${ADS_ID}"/>
+            android:value="ca-app-pub-3940256099942544/9214589741"/> <!-- 테스트 광고 ID 설정, 테스트 시 테스트 광고 ID 사용하지않으면 정지 먹을 가능성 있음 -->
+<!--            android:value="${ADS_ID}"/>-->
 
         <receiver android:name="com.arakene.data.util.AlarmReceiver"
             android:exported="true"
