@@ -21,11 +21,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CommonAction
+import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.noEffectClickable
@@ -34,6 +38,7 @@ import com.arakene.presentation.viewmodel.MyPageViewModel
 @Composable
 fun AlertView(
     modifier: Modifier = Modifier,
+    popBackStack: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
@@ -42,14 +47,30 @@ fun AlertView(
 
     val selected by viewModel.getAlarmUsage.collectAsState(false)
 
+    val isLogged by viewModel.isLogged.collectAsState(false)
+
+    HandleViewEffect(
+        viewModel.effect,
+        LocalLifecycleOwner.current
+    ) {
+        when (it) {
+            CommonEffect.PopBackStack -> {
+                popBackStack()
+            }
+        }
+    }
+
     Column(
         modifier = modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
     ) {
         HeaderSection(
-            stringResource(R.string.alert),
-            onBackPress = {}
+            modifier = Modifier.padding(horizontal = 20.dp),
+            text = stringResource(R.string.alert),
+            onBackPress = {
+                viewModel.handleContract(CommonAction.PopBackStack)
+            }
         )
 
         AlertSwitchSection(
@@ -59,38 +80,40 @@ fun AlertView(
             }
         )
 
-        Row(
-            modifier = Modifier
-                .padding(top = 50.dp)
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.secondary)
-                .padding(horizontal = 20.dp, vertical = 19.dp)
-                .noEffectClickable {
-                    dialogDataHolder.data = DialogData.Builder()
-                        .title(context.getString(R.string.resign_title))
-                        .titleTextSize(20.sp)
-                        .bodyTextSize(16.sp)
-                        .body(context.getString(R.string.resign_body))
-                        .reversed(true)
-                        .okText(context.getString(R.string.cancel))
-                        .cancelText(context.getString(R.string.resign))
-                        .cancelOnClick {
-                            viewModel.handleContract(MyPageAction.Resign)
-                        }
-                        .build()
+        if (isLogged) {
+            Row(
+                modifier = Modifier
+                    .padding(top = 50.dp)
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.secondary)
+                    .padding(horizontal = 20.dp, vertical = 19.dp)
+                    .noEffectClickable {
+                        dialogDataHolder.data = DialogData.Builder()
+                            .title(context.getString(R.string.resign_title))
+                            .titleTextSize(20.sp)
+                            .bodyTextSize(16.sp)
+                            .body(context.getString(R.string.resign_body))
+                            .reversed(true)
+                            .okText(context.getString(R.string.cancel))
+                            .cancelText(context.getString(R.string.resign))
+                            .cancelOnClick {
+                                viewModel.handleContract(MyPageAction.Resign)
+                            }
+                            .build()
 
-                    dialogDataHolder.show = true
-                },
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(
-                stringResource(R.string.resign),
-                style = FillsaTheme.typography.body2,
-                color = colorResource(R.color.gray_700)
-            )
+                        dialogDataHolder.show = true
+                    },
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    stringResource(R.string.resign),
+                    style = FillsaTheme.typography.body2,
+                    color = colorResource(R.color.gray_700)
+                )
 
-            Image(painter = painterResource(R.drawable.icn_sign_out), contentDescription = null)
+                Image(painter = painterResource(R.drawable.icn_sign_out), contentDescription = null)
 
+            }
         }
 
     }

@@ -39,10 +39,6 @@ fun QuoteListView(
         mutableStateOf(false)
     }
 
-    val imageUri by remember {
-        viewModel.imageUri
-    }
-
     val isLogged by viewModel.isLogged.collectAsState(false)
 
     val paging = remember(isLogged, isLike) {
@@ -77,7 +73,9 @@ fun QuoteListView(
             .padding(horizontal = 20.dp)
     ) {
 
-        HomeTopSection()
+        HomeTopSection(
+            navigate = navigate
+        )
 
         /**
          * Ver 2.0에서 도입될 기능
@@ -88,24 +86,28 @@ fun QuoteListView(
 //            modifier = Modifier.padding(top = 20.dp)
 //        )
 
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            IsLikeSection(
-                modifier = Modifier.padding(top = 20.dp),
-                isLike = isLike,
-                setIsLike = {
-                    isLike = it
+        if (paging.itemCount == 0) {
+            QuoteListEmptySection()
+        } else {
+
+            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                IsLikeSection(
+                    modifier = Modifier.padding(top = 20.dp),
+                    isLike = isLike,
+                    setIsLike = {
+                        isLike = it
+                    }
+                )
+            }
+
+            QuoteListSection(
+                modifier = Modifier.padding(top = 10.dp),
+                list = paging,
+                onClick = {
+                    viewModel.handleContract(QuoteListAction.ClickItem(it))
                 }
             )
         }
-
-        QuoteListSection(
-            imageUri = imageUri,
-            modifier = Modifier.padding(top = 10.dp),
-            list = paging,
-            onClick = {
-                viewModel.handleContract(QuoteListAction.ClickItem(it))
-            }
-        )
 
     }
 

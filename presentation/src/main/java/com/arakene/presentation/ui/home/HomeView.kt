@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,16 +38,16 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
+import kotlinx.coroutines.delay
 import java.time.LocalDate
 
 @Composable
 fun HomeView(
-    requestDate: LocalDate,
+    requestDate: LocalDate?,
     navigate: (Screens) -> Unit,
     viewModel: HomeViewModel = rememberBaseViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
@@ -65,7 +66,7 @@ fun HomeView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
-    val date by remember {
+    val date by rememberSaveable {
         viewModel.date
     }
 
@@ -99,12 +100,16 @@ fun HomeView(
         ImageDialogDataHolder()
     }
 
+    /**
+     *
+     */
     LaunchedEffect(requestDate) {
-        viewModel.handleContract(HomeAction.SetDate(requestDate))
-    }
-
-    LaunchedEffect(isLogged) {
-        viewModel.handleContract(HomeAction.Refresh(date))
+        if (requestDate != null) {
+            viewModel.handleContract(HomeEffect.SetDate(requestDate))
+            viewModel.handleContract(HomeEffect.Refresh(requestDate))
+        } else {
+            viewModel.handleContract(HomeEffect.Refresh(date))
+        }
     }
 
     HandleViewEffect(
@@ -123,6 +128,10 @@ fun HomeView(
                 }.run {
                     show = true
                 }
+            }
+
+            is CommonEffect.ShowSnackBar -> {
+                snackbarHostState.showSnackbar(it.message)
             }
 
             is CommonEffect.ShowDialog -> {
@@ -171,7 +180,7 @@ fun HomeView(
             )
         }
 
-        HomeTopSection()
+        HomeTopSection(navigate = navigate)
 
         Row(
             modifier = Modifier.padding(top = 20.dp),
@@ -221,6 +230,7 @@ fun HomeView(
             navigate = {
                 viewModel.handleContract(HomeAction.ClickQuote)
             },
+            date = date,
             modifier = Modifier.padding(top = 20.dp)
         )
 

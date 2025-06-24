@@ -31,7 +31,6 @@ import com.arakene.presentation.viewmodel.LoginViewModel
 import com.arakene.presentation.viewmodel.MyPageViewModel
 import com.arakene.presentation.viewmodel.TypingViewModel
 import java.time.LocalDate
-import java.time.YearMonth
 import kotlin.reflect.typeOf
 
 @Composable
@@ -67,6 +66,14 @@ fun MainNavHost(
             }
         }
 
+        composable<Screens.OnBoardingGuide> {
+            IntroduceView(
+                navigate = {
+                    navController.navigate(it)
+                }
+            )
+        }
+
         composable<Screens.Home> {
             WithBaseErrorHandling<HomeViewModel>(logoutEvent = updatedLogoutEvent) {
 
@@ -76,12 +83,17 @@ fun MainNavHost(
                     if (data.targetMonth != 0 && data.targetYear != 0 && data.targetDay != 0) {
                         LocalDate.of(data.targetYear, data.targetMonth, data.targetDay)
                     } else {
-                        LocalDate.now()
+                        null
                     }
 
                 HomeView(
                     requestDate = requestDate,
                     navigate = {
+                        if (navController.currentDestination?.route?.lowercase()
+                                ?.contains(it.routeString) == true
+                        ) {
+                            return@HomeView
+                        }
                         navController.navigate(it)
                     }
                 )
@@ -111,7 +123,10 @@ fun MainNavHost(
             val data = it.toRoute<Screens.Share>()
             ShareView(
                 quote = data.quote,
-                author = data.author
+                author = data.author,
+                popBackStack = {
+                    navController.popBackStack()
+                }
             )
         }
 
@@ -216,7 +231,11 @@ fun MainNavHost(
 
         composable<MyPageScreens.Alert> {
             WithBaseErrorHandling<MyPageViewModel>(logoutEvent = updatedLogoutEvent) {
-                AlertView()
+                AlertView(
+                    popBackStack = {
+                        navController.popBackStack()
+                    }
+                )
             }
         }
 

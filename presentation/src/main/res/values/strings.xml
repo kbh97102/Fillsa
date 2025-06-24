@@ -38,4 +38,10 @@
     <string name="alarm_description">매일 오전 9시에 새로운 문장 알림을 받을 수 있습니다.</string>
     <string name="login_agreement">로그인 시, 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주됩니다.</string>
     <string name="login_after_install_kakao">카카오톡 설치 후 이용해주세요.</string>
+    <string name="list_empty">텅 비었어요!</string>
+    <string name="list_empty_description">필사하거나 좋아요한 문장이 여기에 보여요 :)</string>
+    <string name="skip">건너뛰기</string>
+    <string name="introduce_title">필사, 이렇게 사용하면 편리해요🖋️</string>
+    <string name="next">다음</string>
+    <string name="start_fillsa">필사 시작하기</string>
 </resources>

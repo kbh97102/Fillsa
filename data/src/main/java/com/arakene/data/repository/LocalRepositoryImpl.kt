@@ -31,6 +31,14 @@ class LocalRepositoryImpl @Inject constructor(
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
 
+    override suspend fun deleteQuote(seq: Int) {
+        dao.deleteQuoteById(seq)
+    }
+
+    override suspend fun clear() {
+        dao.clear()
+    }
+
     override suspend fun findLocalQuoteById(seq: Int): LocalQuoteInfo? {
         return dao.findQuoteById(seq)?.toDomain()
     }

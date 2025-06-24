@@ -14,6 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CalendarAction
 import com.arakene.presentation.util.CommonEffect
@@ -40,7 +41,7 @@ fun CalendarView(
         viewModel.selectedDay
     }
 
-    LaunchedEffect(Unit) { 
+    LaunchedEffect(Unit) {
         viewModel.handleContract(CommonEffect.Refresh)
     }
 
@@ -69,6 +70,10 @@ fun CalendarView(
             .background(MaterialTheme.colorScheme.primary)
             .padding(horizontal = 20.dp)
     ) {
+
+        HomeTopSection(
+            navigate = navigate
+        )
 
         CalendarSection(
             memberQuotes = data?.memberQuotes ?: emptyList(),

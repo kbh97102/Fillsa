@@ -14,9 +14,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
+import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun HomeTopSection(
+    navigate: Navigate,
     modifier: Modifier = Modifier
 ) {
 
@@ -28,9 +32,19 @@ fun HomeTopSection(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Image(painterResource(R.drawable.icn_logo), contentDescription = null)
+        Image(
+            painterResource(R.drawable.icn_logo),
+            contentDescription = null,
+            modifier = Modifier.noEffectClickable {
+                navigate(Screens.Home())
+            })
 
-        Image(painterResource(R.drawable.icn_my_page), contentDescription = null)
+        Image(
+            painterResource(R.drawable.icn_my_page),
+            contentDescription = null,
+            modifier = Modifier.noEffectClickable {
+                navigate(Screens.MyPage)
+            })
     }
 
 }
@@ -39,5 +53,7 @@ fun HomeTopSection(
 @Preview(showBackground = true, widthDp = 400)
 @Composable
 private fun HomeTopSectionPreview() {
-    HomeTopSection()
+    HomeTopSection(
+        navigate = {}
+    )
 }

@@ -15,6 +15,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,6 +34,7 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
@@ -53,8 +55,6 @@ fun ImageDialog(
             }
         }
     )
-
-    val context = LocalContext.current
 
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),

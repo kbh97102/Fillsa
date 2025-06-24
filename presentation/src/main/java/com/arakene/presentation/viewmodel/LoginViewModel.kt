@@ -2,7 +2,6 @@ package com.arakene.presentation.viewmodel
 
 import android.os.Build
 import android.util.Base64
-import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.DailySyncData
 import com.arakene.domain.requests.DeviceData
@@ -16,6 +15,7 @@ import com.arakene.domain.usecase.LoginUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetUserNameUseCase
+import com.arakene.domain.usecase.db.ClearLocalDataUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.presentation.util.Action
@@ -48,7 +48,8 @@ class LoginViewModel @Inject constructor(
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
     private val setImageUriUseCase: SetImageUriUseCase,
     private val setUserNameUseCase: SetUserNameUseCase,
-    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase
+    private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
+    private val clearLocalDataUseCase: ClearLocalDataUseCase
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -69,7 +70,8 @@ class LoginViewModel @Inject constructor(
                     refreshToken = loginAction.refreshToken,
                     expiresIn = loginAction.expiresIn,
                     refreshTokenExpiresIn = loginAction.refreshTokenExpiresIn,
-                    appVersion = loginAction.appVersion
+                    appVersion = loginAction.appVersion,
+                    isOnBoarding = loginAction.isOnboarding
                 )
             }
 
@@ -89,13 +91,24 @@ class LoginViewModel @Inject constructor(
         }
     }
 
+    fun testLoginMethod() {
+        viewModelScope.launch {
+            setUserNameUseCase("fillsaTest")
+            setImageUriUseCase("https://lh3.googleusercontent.com/a/ACg8ocKKJ-99-oHnsnmyO0JlJtN5I1v1gXsTxIpIG_Xzw_L4_z88ew=s96-c")
+            setAccessTokenUseCase("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzUwMDUzNTA1LCJleHAiOjE3NTc4Mjk1MDV9.FdDwKvCfGHP-GA09UsT0Xd9R1pveTPZuWpNAjJ0zffw")
+            setRefreshTokenUseCase("eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiI2IiwiaWF0IjoxNzUwMDUzNTA1LCJleHAiOjE3NTc4Mjk1MDV9.FdDwKvCfGHP-GA09UsT0Xd9R1pveTPZuWpNAjJ0zffw")
+            isProcessing.value = true
+            emitEffect(LoginEffect.Move)
+        }
+    }
+
     private fun clickNonMember() = viewModelScope.launch {
         setRefreshTokenUseCase("")
         setAccessTokenUseCase("")
 
         emitEffect(
             CommonEffect.Move(
-                Screens.Home()
+                Screens.OnBoardingGuide
             )
         )
     }
@@ -118,7 +131,8 @@ class LoginViewModel @Inject constructor(
                 nickName = nickName,
                 profileImageUrl = profileImageUrl,
                 provider = "GOOGLE",
-                appVersion = loginAction.appVersion
+                appVersion = loginAction.appVersion,
+                isOnBoarding = loginAction.isOnboarding
             )
         }
     }
@@ -128,7 +142,8 @@ class LoginViewModel @Inject constructor(
         refreshToken: String?,
         refreshTokenExpiresIn: String?,
         expiresIn: String?,
-        appVersion: String
+        appVersion: String,
+        isOnBoarding: Boolean
     ) {
         viewModelScope.launch {
             val (id, nickName, imageUrl) = getKakaoUserData()
@@ -149,7 +164,8 @@ class LoginViewModel @Inject constructor(
                 nickName = nickName,
                 profileImageUrl = imageUrl,
                 provider = "KAKAO",
-                appVersion = appVersion
+                appVersion = appVersion,
+                isOnBoarding = isOnBoarding
             )
 
         }
@@ -169,9 +185,7 @@ class LoginViewModel @Inject constructor(
                 Base64.decode(payload, Base64.URL_SAFE or Base64.NO_PADDING or Base64.NO_WRAP)
             val decodedString = String(decoded, charset("UTF-8"))
 
-            val userData = JSONObject(decodedString).also {
-                Log.e(">>>>", "json $it")
-            }
+            val userData = JSONObject(decodedString)
 
             // Google
             val id = userData.optString("sub")
@@ -179,7 +193,6 @@ class LoginViewModel @Inject constructor(
             val image = userData.optString("picture")
 
             Triple(id, name, image)
-                .also { Log.e(">>>>", "Google Info $it") }
         } catch (e: Exception) {
             Triple("", "", "")
         }
@@ -191,14 +204,10 @@ class LoginViewModel @Inject constructor(
                 if (error != null || user == null) {
                     cont.resume(Triple("", "", ""))
                 } else {
-                    Log.e(">>>>", "me? $user")
-
                     val id = user.id.toString()
                     val nickname = user.kakaoAccount?.profile?.nickname ?: ""
                     val imageUrl = user.kakaoAccount?.profile?.profileImageUrl ?: ""
-                    cont.resume(Triple(id, nickname, imageUrl).also {
-                        Log.e(">>>>", "KAKAO Info ${it}")
-                    })
+                    cont.resume(Triple(id, nickname, imageUrl))
                 }
             }
         }
@@ -212,7 +221,8 @@ class LoginViewModel @Inject constructor(
         refreshTokenExpiresIn: String? = null,
         expiresIn: String? = null,
         provider: String,
-        appVersion: String
+        appVersion: String,
+        isOnBoarding: Boolean
     ) = viewModelScope.launch {
 
         val fid = suspendCancellableCoroutine<String> { cont ->
@@ -266,7 +276,12 @@ class LoginViewModel @Inject constructor(
             setAccessTokenUseCase(data.accessToken)
             setRefreshTokenUseCase(data.refreshToken)
             isProcessing.value = true
-            emitEffect(LoginEffect.Move)
+            if (isOnBoarding) {
+                emitEffect(CommonEffect.Move(Screens.Home()))
+            } else {
+                emitEffect(CommonEffect.Move(Screens.OnBoardingGuide))
+            }
+            clearLocalDataUseCase()
         }
     }
 

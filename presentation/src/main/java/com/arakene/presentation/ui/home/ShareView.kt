@@ -47,6 +47,7 @@ import kotlinx.coroutines.launch
 fun ShareView(
     quote: String,
     author: String,
+    popBackStack: () -> Unit,
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
 
@@ -70,7 +71,7 @@ fun ShareView(
                 painter = painterResource(R.drawable.icn_arrow),
                 contentDescription = null,
                 modifier = Modifier.noEffectClickable {
-
+                    popBackStack()
                 })
 
         }
@@ -120,7 +121,10 @@ fun ShareView(
                 shareOnClick = {
                     // TODO: 카톡 공유
                     scope.launch {
-                        val uri = saveBitmapToCache(context, graphicLayer.toImageBitmap().asAndroidBitmap())
+                        val uri = saveBitmapToCache(
+                            context,
+                            graphicLayer.toImageBitmap().asAndroidBitmap()
+                        )
 
                         val intent = Intent(Intent.ACTION_SEND).apply {
                             type = "image/png"
@@ -251,6 +255,7 @@ private fun ShareBottomSectionPreview() {
 private fun ShareViewPreview() {
     ShareView(
         quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
-        author = "존 우든"
+        author = "존 우든",
+        popBackStack = {}
     )
 }

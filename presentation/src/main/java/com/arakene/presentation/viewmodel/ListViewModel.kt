@@ -37,8 +37,6 @@ class ListViewModel @Inject constructor(
     private val updateLocalQuoteMemoUseCase: UpdateLocalQuoteMemoUseCase
 ) : BaseViewModel() {
 
-    val imageUri = mutableStateOf("")
-
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     override fun handleAction(action: Action) {

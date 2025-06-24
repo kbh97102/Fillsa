@@ -26,6 +26,8 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.MyPageViewModel
 
 @Composable
@@ -66,7 +68,11 @@ fun MyPageView(
                 .fillMaxWidth()
                 .padding(vertical = 10.dp), horizontalArrangement = Arrangement.Center
         ) {
-            Image(painterResource(R.drawable.icn_logo), contentDescription = null)
+            Image(
+                painterResource(R.drawable.icn_logo), contentDescription = null, modifier = Modifier
+                    .noEffectClickable {
+                        viewModel.handleContract(CommonEffect.Move(Screens.Home()))
+                    })
         }
 
         // Login or UserName
@@ -101,12 +107,13 @@ fun MyPageView(
         )
 
         // Theme
-        MyPageItem(
-            image = painterResource(R.drawable.icn_theme),
-            text = stringResource(R.string.theme),
-            onClick = {},
-            modifier = Modifier.padding(top = 20.dp)
-        )
+        // version 2에서 기능
+//        MyPageItem(
+//            image = painterResource(R.drawable.icn_theme),
+//            text = stringResource(R.string.theme),
+//            onClick = {},
+//            modifier = Modifier.padding(top = 20.dp)
+//        )
 
         // version + logout
         MyPageBottomButtonSection(

@@ -16,6 +16,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.MyPageScreens
@@ -42,6 +43,10 @@ fun NoticeView(
             is CommonEffect.Move -> {
                 navigate(it.screen)
             }
+            
+            is CommonEffect.PopBackStack -> {
+                onBackPress()
+            }
         }
     }
 
@@ -55,7 +60,7 @@ fun NoticeView(
 
         HeaderSection(
             text = stringResource(R.string.notice),
-            onBackPress = onBackPress
+            onBackPress = { viewModel.handleContract(CommonAction.PopBackStack) }
         )
 
         if (data.itemCount == 0) {

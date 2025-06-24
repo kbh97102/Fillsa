@@ -37,13 +37,13 @@ interface FillsaApi {
     suspend fun postUploadImage(
         @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
         @Part image: MultipartBody.Part
-    ): Response<SimpleIntResponse>
+    ): Response<Int>
 
 
     @DELETE(ApiEndPoint.POST_UPLOAD_IMAGE)
     suspend fun deleteUploadImage(
         @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
-    ): Response<SimpleIntResponse>
+    ): Response<Int>
 
     @GET(ApiEndPoint.GET_QUOTE_LIST)
     suspend fun getQuoteList(

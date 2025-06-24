@@ -10,6 +10,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -42,9 +44,15 @@ abstract class BaseViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            _action.onEach {
-                handleAction(it)
-            }.launchIn(this)
+            _action.throttleFirst(250).collectLatest {
+                when (it) {
+                    is CommonAction.PopBackStack -> {
+                        emitEffect(CommonEffect.PopBackStack)
+                    }
+
+                    else -> handleAction(it)
+                }
+            }
         }
     }
 
@@ -78,14 +86,16 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected suspend fun <T> getResponse(response: ApiResult<T>): T? {
+    protected suspend fun <T> getResponse(response: ApiResult<T>, useLoading: Boolean = true): T? {
         isProcessing.value = true
         setLoading(true)
         viewModelScope.launch {
             delay(250)
             // TODO: 검증 필요
             if (isProcessing.value) {
-                setLoading(true)
+                if (useLoading) {
+                    setLoading(true)
+                }
             }
         }
         return when (response) {

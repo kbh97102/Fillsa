@@ -4,6 +4,7 @@ package com.arakene.presentation.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
@@ -22,7 +23,9 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
@@ -66,19 +69,19 @@ class HomeViewModel @Inject constructor(
     override fun handleAction(action: Action) {
         when (action) {
             is HomeAction.ClickBefore -> {
-                date.value = date.value.minusDays(1)
-                refresh(date.value)
-            }
-
-            is HomeAction.ClickNext -> {
-                if (date.value.plusDays(1) <= today) {
-                    date.value = date.value.plusDays(1)
+                val targetDate = date.value.minusDays(1)
+                if (targetDate >= DateCondition.startDay) {
+                    date.value = targetDate
                     refresh(date.value)
                 }
             }
 
-            is HomeAction.Refresh -> {
-                refresh(action.date)
+            is HomeAction.ClickNext -> {
+                val targetDate = date.value.plusDays(1)
+                if (targetDate <= today) {
+                    date.value = targetDate
+                    refresh(date.value)
+                }
             }
 
             is HomeAction.ClickImage -> {
@@ -112,10 +115,6 @@ class HomeViewModel @Inject constructor(
                 deleteBackgroundImage()
             }
 
-            is HomeAction.SetDate -> {
-                date.value = action.date
-            }
-
             else -> {
 
             }
@@ -123,21 +122,62 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    override fun emitEffect(effect: Effect) {
+        when (effect) {
+            is HomeEffect.SetDate -> {
+                date.value = effect.date
+            }
+
+            is HomeEffect.Refresh -> {
+                refresh(effect.date)
+            }
+
+            else -> super.emitEffect(effect)
+        }
+    }
+
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
         viewModelScope.launch {
             backgroundImageUri.value = homeAction.uri
 
             homeAction.file?.let { file ->
-                postUploadImageUseCase(
-                    dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-                    imageFile = file
-                )
+                getResponse(
+                    postUploadImageUseCase(
+                        dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                        imageFile = file
+                    ), useLoading = false
+                )?.let {
+                    emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
+                }
             }
         }
 
     private fun deleteBackgroundImage() = viewModelScope.launch {
-        deleteUploadImageUseCase(currentQuota.dailyQuoteSeq)
-        backgroundImageUri.value = ""
+        emitEffect(
+            CommonEffect.ShowDialog(
+                dialogData = DialogData.Builder()
+                    .title("이미지를 삭제하시겠습니까?")
+                    .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
+                    .titleTextSize(20.sp)
+                    .bodyTextSize(16.sp)
+                    .reversed(true)
+                    .cancelText("삭제하기")
+                    .okText("취소")
+                    .cancelOnClick {
+                        viewModelScope.launch {
+                            getResponse(
+                                deleteUploadImageUseCase(currentQuota.dailyQuoteSeq),
+                                useLoading = false
+                            )?.let {
+                                emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
+                            } ?: let {
+                                logDebug("Fail?")
+                            }
+                            backgroundImageUri.value = ""
+                        }
+                    }
+                    .build()
+            ))
     }
 
     private fun clickImage(action: HomeAction.ClickImage) {

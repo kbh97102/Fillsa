@@ -4,8 +4,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.usecase.common.CheckFirstOpenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
-import com.arakene.domain.usecase.common.GetTokenExpiredUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
+import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
 import com.arakene.domain.usecase.common.SetFirstOpenUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -23,7 +23,7 @@ class SplashViewModel @Inject constructor(
     private val setFirstOpenUseCase: SetFirstOpenUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
-    private val getTokenExpiredUseCase: GetTokenExpiredUseCase
+    private val setAlarmUsageUseCase: SetAlarmUsageUseCase
 ) : BaseViewModel() {
 
     val isLogged = getLoginStatusUseCase()
@@ -37,6 +37,12 @@ class SplashViewModel @Inject constructor(
     fun clearToken() {
         viewModelScope.launch {
             logoutUseCase()
+        }
+    }
+
+    fun setAlarmUsage(usage: Boolean) {
+        viewModelScope.launch {
+            setAlarmUsageUseCase(usage)
         }
     }
 

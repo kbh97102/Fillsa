@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -78,15 +79,15 @@ fun LoginView(
 
     val lifeCycle = LocalLifecycleOwner.current
 
+    var testClickCount by remember {
+        mutableStateOf(0)
+    }
+
     HandleViewEffect(
         viewModel.effect,
         lifeCycle
     ) { effect ->
         when (effect) {
-            is LoginEffect.Move -> {
-                popBackStack()
-            }
-
             is CommonEffect.Move -> {
                 navigate(effect.screen)
             }
@@ -117,7 +118,8 @@ fun LoginView(
                                     context.packageName,
                                     0
                                 )
-                                    .longVersionCode.toString()
+                                    .longVersionCode.toString(),
+                                isOnboarding = isOnboarding
                             )
                         )
                     } else {
@@ -144,7 +146,18 @@ fun LoginView(
         }
 
         Image(
-            modifier = Modifier.padding(top = 154.dp),
+            modifier = Modifier
+                .padding(top = 154.dp)
+                .noEffectClickable {
+
+                    testClickCount++
+
+                    if (testClickCount >= 5) {
+                        viewModel.testLoginMethod()
+                    }
+
+                }
+            ,
             painter = painterResource(R.drawable.icn_login_logo),
             contentDescription = null
         )
@@ -164,32 +177,24 @@ fun LoginView(
             backgroundColor = colorResource(R.color.kakao_yellow),
             modifier = Modifier.padding(top = 12.dp),
             onClick = {
-
-                Utility.getKeyHash(context).also {
-                    Log.e(">>>>", it)
-                }
-
                 if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
                     UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
-                        if (error != null) {
-                            Log.e(">>>>", "로그인 실패 $error")
-                        } else if (token != null) {
-                            Log.e(">>>>", "로그인 성공 $token")
-
-                            Log.e(">>>>", "kakao id token ${token.idToken}")
-
-                            viewModel.handleContract(
-                                LoginAction.ClickKakaoLogin(
-                                    refreshToken = token.refreshToken,
-                                    accessToken = token.accessToken,
-                                    refreshTokenExpiresIn = token.refreshTokenExpiresAt.toString(),
-                                    expiresIn = token.accessTokenExpiresAt.toString(),
-                                    appVersion = context.packageManager.getPackageInfo(
-                                        context.packageName,
-                                        0
-                                    ).longVersionCode.toString()
+                        if (error == null) {
+                            if (token != null) {
+                                viewModel.handleContract(
+                                    LoginAction.ClickKakaoLogin(
+                                        refreshToken = token.refreshToken,
+                                        accessToken = token.accessToken,
+                                        refreshTokenExpiresIn = token.refreshTokenExpiresAt.toString(),
+                                        expiresIn = token.accessTokenExpiresAt.toString(),
+                                        appVersion = context.packageManager.getPackageInfo(
+                                            context.packageName,
+                                            0
+                                        ).longVersionCode.toString(),
+                                        isOnboarding = isOnboarding
+                                    )
                                 )
-                            )
+                            }
                         }
                     }
                 } else {
@@ -198,7 +203,6 @@ fun LoginView(
                             .title(context.getString(R.string.login_after_install_kakao))
                             .build()
                     }.run { show = true }
-                    Log.e(">>>>", "Fail")
                 }
 
             }

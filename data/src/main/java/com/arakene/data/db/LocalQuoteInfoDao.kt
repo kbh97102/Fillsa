@@ -10,7 +10,7 @@ import androidx.room.Update
 @Dao
 interface LocalQuoteInfoDao {
 
-    @Query("SELECT * FROM quoteInfo")
+    @Query("SELECT * FROM quoteInfo ORDER BY date DESC")
     suspend fun getAllQuotes(): List<LocalQuoteInfoEntity>
 
     @Query("SELECT * FROM quoteInfo WHERE id = :seq")
@@ -28,10 +28,10 @@ interface LocalQuoteInfoDao {
     @Update
     fun updateQuote(quote: LocalQuoteInfoEntity)
 
-    @Query("SELECT * FROM quoteInfo ORDER BY id ASC LIMIT 10 OFFSET :offset")
+    @Query("SELECT * FROM quoteInfo ORDER BY date DESC LIMIT 10 OFFSET :offset")
     fun getPagingList(offset: Int): List<LocalQuoteInfoEntity>
 
-    @Query("SELECT * FROM quoteInfo WHERE likeYn = :likeYn ORDER BY id ASC LIMIT 10 OFFSET :offset")
+    @Query("SELECT * FROM quoteInfo WHERE likeYn = :likeYn ORDER BY date DESC LIMIT 10 OFFSET :offset")
     fun getPagingListWithLike(offset: Int, likeYn: String): List<LocalQuoteInfoEntity>
 
     @Query("UPDATE quoteInfo SET memo = :memo WHERE id = :seq")
@@ -42,4 +42,7 @@ interface LocalQuoteInfoDao {
 
     @Query("SELECT * FROM quoteInfo WHERE id = :seq")
     suspend fun getQuote(seq: Int): LocalQuoteInfoEntity?
+
+    @Query("DELETE FROM quoteInfo")
+    suspend fun clear()
 }
