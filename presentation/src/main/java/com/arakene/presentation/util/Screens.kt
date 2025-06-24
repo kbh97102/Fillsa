@@ -21,6 +21,16 @@ sealed interface Screens {
 
     @Serializable
     @Keep
+    data object OnBoardingGuide : Screens {
+        override val routeString: String
+            get() = "OnBoardingGuide"
+        override val needLogin: Boolean
+            get() = false
+    }
+
+
+    @Serializable
+    @Keep
     data class Home(
         val targetMonth: Int = 0,
         val targetYear: Int = 0,

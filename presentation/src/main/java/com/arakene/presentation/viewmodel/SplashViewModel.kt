@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.usecase.common.CheckFirstOpenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
-import com.arakene.domain.usecase.common.GetTokenExpiredUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
 import com.arakene.domain.usecase.common.SetFirstOpenUseCase

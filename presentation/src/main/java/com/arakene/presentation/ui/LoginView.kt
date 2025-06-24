@@ -88,10 +88,6 @@ fun LoginView(
         lifeCycle
     ) { effect ->
         when (effect) {
-            is LoginEffect.Move -> {
-                popBackStack()
-            }
-
             is CommonEffect.Move -> {
                 navigate(effect.screen)
             }
