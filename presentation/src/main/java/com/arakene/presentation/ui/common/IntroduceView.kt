@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.common
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -31,29 +33,53 @@ fun IntroduceView(modifier: Modifier = Modifier) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 15.dp, vertical = 9.dp),
+                .padding(vertical = 9.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Image(painter = painterResource(R.drawable.icn_arrow), contentDescription = null)
+            Image(
+                painter = painterResource(R.drawable.icn_arrow),
+                contentDescription = null,
+                modifier = Modifier.padding(start = 15.dp)
+            )
 
             Text(
                 stringResource(R.string.skip),
                 style = FillsaTheme.typography.body3,
                 color = colorResource(R.color.gray_500),
-                textDecoration = TextDecoration.Underline
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.padding(end = 20.dp)
             )
         }
 
-        // Indicator
-        IntroduceIndicatorSection(
-            currentPage = pagerState.currentPage
-        )
+        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+            // Indicator
+            IntroduceIndicatorSection(
+                currentPage = pagerState.currentPage
+            )
 
-        // Images
-        IndicatorImageSection(pagerState)
+            // Images
+            IndicatorImageSection(
+                modifier = Modifier
+                    .weight(1f),
+                pagerState = pagerState
+            )
 
-        // Button
+            // Button
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 15.dp)
+                    .padding(bottom = 30.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    stringResource(R.string.next),
+                    style = FillsaTheme.typography.buttonMediumBold,
+                    color = Color.White
+                )
+            }
+        }
 
 
     }

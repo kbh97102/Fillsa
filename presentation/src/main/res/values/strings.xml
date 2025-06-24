@@ -42,4 +42,5 @@
     <string name="list_empty_description">필사하거나 좋아요한 문장이 여기에 보여요 :)</string>
     <string name="skip">건너뛰기</string>
     <string name="introduce_title">필사, 이렇게 사용하면 편리해요🖋️</string>
+    <string name="next">다음</string>
 </resources>
