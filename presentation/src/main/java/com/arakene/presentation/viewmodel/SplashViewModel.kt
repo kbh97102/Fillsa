@@ -4,7 +4,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.usecase.common.CheckFirstOpenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
-import com.arakene.domain.usecase.common.GetTokenExpiredUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
 import com.arakene.domain.usecase.common.SetFirstOpenUseCase
@@ -55,7 +54,7 @@ class SplashViewModel @Inject constructor(
             if (checked) {
                 if (firstOpen) {
                     setFirstOpenUseCase()
-                    destination.value = Screens.OnBoardingGuide
+                    destination.value = Screens.Login(isOnBoarding = false)
                 } else {
                     destination.value = Screens.Home()
                 }

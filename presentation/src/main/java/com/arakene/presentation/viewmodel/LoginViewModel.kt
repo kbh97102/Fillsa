@@ -277,9 +277,9 @@ class LoginViewModel @Inject constructor(
             setRefreshTokenUseCase(data.refreshToken)
             isProcessing.value = true
             if (isOnBoarding) {
-                emitEffect(LoginEffect.Move)
-            } else {
                 emitEffect(CommonEffect.Move(Screens.Home()))
+            } else {
+                emitEffect(CommonEffect.Move(Screens.OnBoardingGuide))
             }
             clearLocalDataUseCase()
         }
