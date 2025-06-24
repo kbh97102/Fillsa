@@ -14,6 +14,7 @@ import com.arakene.data.repository.LocalRepositoryImpl
 import com.arakene.data.repository.LoginRepositoryImpl
 import com.arakene.data.repository.TokenRepositoryImpl
 import com.arakene.data.repository.TypingRepositoryImpl
+import com.arakene.data.repository.WidgetRepositoryImpl
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.CalendarRepository
 import com.arakene.domain.repository.CommonRepository
@@ -23,6 +24,7 @@ import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.repository.LoginRepository
 import com.arakene.domain.repository.TokenRepository
 import com.arakene.domain.repository.TypingRepository
+import com.arakene.domain.repository.WidgetRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -36,6 +38,9 @@ class RepositoryModule {
     fun provideLoginRepository(api: FillsaNoTokenApi): LoginRepository {
         return LoginRepositoryImpl(api)
     }
+
+    @Provides
+    fun provideWidgetRepository(api: FillsaNoTokenApi): WidgetRepository = WidgetRepositoryImpl(api)
 
     @Provides
     fun provideLocalRepository(
@@ -55,7 +60,10 @@ class RepositoryModule {
     fun provideListRepository(api: FillsaApi): ListRepository = ListRepositoryImpl(api)
 
     @Provides
-    fun provideCalendarRepository(api: FillsaApi, noTokenApi: FillsaNoTokenApi): CalendarRepository = CalendarRepositoryImpl(api, noTokenApi)
+    fun provideCalendarRepository(
+        api: FillsaApi,
+        noTokenApi: FillsaNoTokenApi
+    ): CalendarRepository = CalendarRepositoryImpl(api, noTokenApi)
 
     @Provides
     fun provideCommonRepository(api: FillsaNoTokenApi, tokenApi: FillsaApi): CommonRepository =

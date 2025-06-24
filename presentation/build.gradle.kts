@@ -29,6 +29,8 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    composeOptions { kotlinCompilerExtensionVersion = "1.5.15" }
+
     apply(from = "../common.gradle")
     buildFeatures {
         compose = true
@@ -78,4 +80,7 @@ dependencies {
 
     implementation(libs.paging.compose)
     implementation(libs.calendar)
+
+    implementation(libs.glance)
+    implementation(libs.glance.material3)
 }
