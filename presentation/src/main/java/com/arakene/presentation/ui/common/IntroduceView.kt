@@ -13,6 +13,9 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,7 +41,9 @@ fun IntroduceView(
 
     val pagerState = rememberPagerState { 3 }
 
-    val scope = rememberCoroutineScope()
+    val isLastPage by remember(pagerState.currentPage) {
+        mutableStateOf(pagerState.currentPage == pagerState.pageCount - 1)
+    }
 
     Column(
         modifier = modifier
@@ -83,35 +88,58 @@ fun IntroduceView(
             )
 
             // Button
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 30.dp)
-                    .background(
-                        color = colorResource(R.color.gray_700),
-                        shape = MaterialTheme.shapes.small
-                    )
-                    .padding(vertical = 15.dp)
-                    .noEffectClickable {
-                        if (pagerState.currentPage < pagerState.pageCount - 1) {
-                            scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
-                        } else {
-                            navigate(Screens.Home())
-                        }
-                    },
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    stringResource(R.string.next),
-                    style = FillsaTheme.typography.buttonMediumBold,
-                    color = Color.White
-                )
-            }
+            OkButton(isLastPage = isLastPage, navigate = navigate, scrollTo = {
+                pagerState.animateScrollToPage(pagerState.currentPage + 1)
+            })
         }
 
 
     }
 
+}
+
+@Composable
+private fun OkButton(
+    isLastPage: Boolean,
+    scrollTo: suspend () -> Unit,
+    navigate: Navigate,
+    modifier: Modifier = Modifier
+) {
+
+    val scope = rememberCoroutineScope()
+
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 30.dp)
+            .background(
+                color = if (isLastPage) {
+                    colorResource(R.color.purple01)
+                } else {
+                    colorResource(R.color.gray_700)
+                },
+                shape = MaterialTheme.shapes.small
+            )
+            .padding(vertical = 15.dp)
+            .noEffectClickable {
+                if (isLastPage) {
+                    navigate(Screens.Home())
+                } else {
+                    scope.launch { scrollTo() }
+                }
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = if (isLastPage) {
+                stringResource(R.string.start_fillsa)
+            } else {
+                stringResource(R.string.next)
+            },
+            style = FillsaTheme.typography.buttonMediumBold,
+            color = Color.White
+        )
+    }
 }
 
 @Preview
