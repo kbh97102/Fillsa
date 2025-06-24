@@ -49,7 +49,7 @@ fun MainNavHost(
         startDestination = startDestination,
     ) {
 
-        composable<Screens.Login>(deepLinks = emptyList()) {
+        composable<Screens.Login> {
 
             val data = it.toRoute<Screens.Login>()
 
@@ -64,6 +64,14 @@ fun MainNavHost(
                     }
                 )
             }
+        }
+
+        composable<Screens.OnBoardingGuide> {
+            IntroduceView(
+                navigate = {
+                    navController.navigate(it)
+                }
+            )
         }
 
         composable<Screens.Home> {

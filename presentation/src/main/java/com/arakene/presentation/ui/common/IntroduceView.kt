@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,13 +22,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.noEffectClickable
+import kotlinx.coroutines.launch
 
 @Composable
-fun IntroduceView(modifier: Modifier = Modifier) {
+fun IntroduceView(
+    navigate: Navigate,
+    modifier: Modifier = Modifier
+) {
 
     val pagerState = rememberPagerState { 3 }
 
-    Column {
+    val scope = rememberCoroutineScope()
+
+    Column(modifier = modifier) {
 
         // Skip
         Row(
@@ -70,7 +80,14 @@ fun IntroduceView(modifier: Modifier = Modifier) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 15.dp)
-                    .padding(bottom = 30.dp),
+                    .padding(bottom = 30.dp)
+                    .noEffectClickable {
+                        if (pagerState.currentPage < pagerState.pageCount - 1) {
+                            scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
+                        } else {
+                            navigate(Screens.Home())
+                        }
+                    },
                 contentAlignment = Alignment.Center
             ) {
                 Text(
@@ -89,5 +106,7 @@ fun IntroduceView(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun Preview() {
-    IntroduceView()
+    IntroduceView(
+        navigate = {}
+    )
 }

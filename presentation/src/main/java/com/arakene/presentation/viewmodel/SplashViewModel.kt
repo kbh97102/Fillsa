@@ -55,7 +55,7 @@ class SplashViewModel @Inject constructor(
             if (checked) {
                 if (firstOpen) {
                     setFirstOpenUseCase()
-                    destination.value = Screens.Login(isOnBoarding = false)
+                    destination.value = Screens.OnBoardingGuide
                 } else {
                     destination.value = Screens.Home()
                 }
