@@ -36,7 +36,7 @@ fun IntroduceIndicatorSection(
 
             repeat(3) {
                 IntroduceIndicatorItem(
-                    isCurrent = it == currentPage
+                    isCurrent = it <= currentPage
                 )
             }
 
