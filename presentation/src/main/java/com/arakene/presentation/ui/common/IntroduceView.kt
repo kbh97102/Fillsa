@@ -62,7 +62,11 @@ fun IntroduceView(
             Image(
                 painter = painterResource(R.drawable.icn_arrow),
                 contentDescription = null,
-                modifier = Modifier.padding(start = 15.dp)
+                modifier = Modifier
+                    .padding(start = 15.dp)
+                    .noEffectClickable {
+                        navigate(Screens.Home())
+                    }
             )
 
             Text(
@@ -70,7 +74,11 @@ fun IntroduceView(
                 style = FillsaTheme.typography.body3,
                 color = colorResource(R.color.gray_500),
                 textDecoration = TextDecoration.Underline,
-                modifier = Modifier.padding(end = 20.dp)
+                modifier = Modifier
+                    .padding(end = 20.dp)
+                    .noEffectClickable {
+                        navigate(Screens.Home())
+                    }
             )
         }
 
