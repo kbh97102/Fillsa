@@ -17,8 +17,8 @@ import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.mypage.AlertView
 import com.arakene.presentation.ui.mypage.MyPageView
 import com.arakene.presentation.ui.mypage.NoticeView
+import com.arakene.presentation.ui.quoteli.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.MemoInsertView
-import com.arakene.presentation.ui.quotelist.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.QuoteListView
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
 import com.arakene.presentation.util.DataKey
