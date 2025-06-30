@@ -60,7 +60,7 @@ fun AlertSwitchSection(
             checked = selected,
             onCheckedChange = setSelected,
             colors = SwitchDefaults.colors(
-                checkedTrackColor = MaterialTheme.colorScheme.tertiary,
+                checkedTrackColor = colorResource(R.color.purple01),
                 uncheckedTrackColor = colorResource(R.color.gray_bd),
                 uncheckedThumbColor = Color.White,
                 checkedThumbColor = Color.White,
