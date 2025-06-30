@@ -3,9 +3,11 @@ package com.arakene.presentation.ui.calendar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
@@ -15,7 +17,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,9 +38,9 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.toKoreanShort
+import com.kizitonwose.calendar.compose.ContentHeightMode
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
 import com.kizitonwose.calendar.core.CalendarDay
@@ -134,8 +135,10 @@ fun CalendarSection(
         HorizontalCalendar(
             modifier = Modifier
                 .wrapContentWidth()
+                .weight(1f)
                 .padding(top = 10.dp, bottom = 8.dp),
             state = state,
+            contentHeightMode = ContentHeightMode.Fill,
             dayContent = { day ->
                 val quoteData by remember(day, memberQuotes) {
                     mutableStateOf(
@@ -152,7 +155,7 @@ fun CalendarSection(
                 }
 
                 val isMonthDate by remember(day) {
-                    mutableStateOf((day.position == DayPosition.MonthDate) && day.date in startDay .. today)
+                    mutableStateOf((day.position == DayPosition.MonthDate) && day.date in startDay..today)
                 }
 
                 Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
@@ -262,11 +265,12 @@ private fun Day(
 
     Column(
         modifier = Modifier
+            .padding(vertical = 4.dp)
+            .fillMaxSize()
             .background(
                 color = if (isSelected) colorResource(R.color.purple01) else Color.Transparent,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(vertical = 4.dp)
             .noEffectClickable(enable = isMonthDate) {
                 onClick(day)
             },
@@ -294,6 +298,7 @@ private fun Day(
                 .padding(top = 3.dp)
                 .padding(horizontal = 5.dp)
                 .heightIn(min = 12.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
             Image(
                 painterResource(R.drawable.icn_note_calendar),
