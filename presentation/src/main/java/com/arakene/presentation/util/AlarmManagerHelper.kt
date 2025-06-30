@@ -1,4 +1,4 @@
-package com.arakene.data.util
+package com.arakene.presentation.util
 
 import android.app.AlarmManager
 import android.app.PendingIntent
@@ -66,27 +66,27 @@ class AlarmManagerHelper @Inject constructor(
                 PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
             )
 
-            val calendar = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 9)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                if (before(Calendar.getInstance())) {
-                    add(Calendar.DAY_OF_MONTH, 1)
-                }
-            }
+//            val calendar = Calendar.getInstance().apply {
+//                set(Calendar.HOUR_OF_DAY, 9)
+//                set(Calendar.MINUTE, 0)
+//                set(Calendar.SECOND, 0)
+//                if (before(Calendar.getInstance())) {
+//                    add(Calendar.DAY_OF_MONTH, 1)
+//                }
+//            }
 
-//            alarmManager.setAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                System.currentTimeMillis() + 61 * 1000L,
-//                pendingIntent
-//            )
-
-            alarmManager.setRepeating(
+            alarmManager.setAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
+                System.currentTimeMillis() + 61 * 1000L,
                 pendingIntent
             )
+
+//            alarmManager.setRepeating(
+//                AlarmManager.RTC_WAKEUP,
+//                calendar.timeInMillis,
+//                AlarmManager.INTERVAL_DAY,
+//                pendingIntent
+//            )
 
         }
     }

@@ -1,13 +1,12 @@
-package com.arakene.data.util
+package com.arakene.presentation.util
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.arakene.data.R
+import com.arakene.presentation.R
 
 class AlarmReceiver : BroadcastReceiver() {
     override fun onReceive(p0: Context?, p1: Intent?) {
@@ -16,7 +15,11 @@ class AlarmReceiver : BroadcastReceiver() {
         val author = p1?.getStringExtra("author")
 
         if (!quote.isNullOrBlank() && !author.isNullOrBlank()) {
-            showNotification(context = p0 ?: return, title = "오늘의 필사 문장", message = "$quote - $author")
+            showNotification(
+                context = p0 ?: return,
+                title = "오늘의 필사 문장",
+                message = "$quote - $author"
+            )
         }
     }
 
@@ -33,7 +36,7 @@ class AlarmReceiver : BroadcastReceiver() {
             notificationManager.createNotificationChannel(channel)
 
             val builder = NotificationCompat.Builder(context, "alarm_channel_id")
-                .setSmallIcon(R.drawable.icn_logo_alert) // 아이콘 지정
+                .setSmallIcon(R.drawable.ic_launcher_foreground) // 아이콘 지정
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
