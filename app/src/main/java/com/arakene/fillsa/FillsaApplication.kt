@@ -1,20 +1,14 @@
 package com.arakene.fillsa
 
-import android.app.AlarmManager
 import android.app.Application
-import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
-import android.icu.util.Calendar
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import com.arakene.data.util.AlarmManagerHelper
-import com.arakene.data.util.AlarmReceiver
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetAlarmUsageUseCase
 import com.arakene.presentation.BuildConfig
-import com.arakene.presentation.util.logDebug
 import com.google.firebase.FirebaseApp
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
