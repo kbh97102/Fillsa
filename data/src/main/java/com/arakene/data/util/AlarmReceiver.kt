@@ -16,7 +16,7 @@ class AlarmReceiver : BroadcastReceiver() {
         val author = p1?.getStringExtra("author")
 
         if (!quote.isNullOrBlank() && !author.isNullOrBlank()) {
-            showNotification(context = p0 ?: return, title = "오늘의 필사", message = "$quote - $author")
+            showNotification(context = p0 ?: return, title = "오늘의 필사 문장", message = "$quote - $author")
         }
     }
 
