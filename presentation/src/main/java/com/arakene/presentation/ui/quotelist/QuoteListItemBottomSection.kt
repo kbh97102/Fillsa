@@ -42,7 +42,7 @@ fun QuoteListItemBottomSection(
                         color = Color.White.copy(alpha = 0.6f),
                         shape = RoundedCornerShape(100.dp)
                     )
-                    .padding(vertical = 1.dp)
+                    .padding(vertical = 3.dp)
                     .weight(1f),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
@@ -71,7 +71,7 @@ fun QuoteListItemBottomSection(
                         color = Color.White.copy(alpha = 0.6f),
                         shape = RoundedCornerShape(100.dp)
                     )
-                    .padding(vertical = 1.dp)
+                    .padding(vertical = 3.dp)
                     .weight(1f),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
