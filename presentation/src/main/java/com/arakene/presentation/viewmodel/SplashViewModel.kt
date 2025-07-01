@@ -52,12 +52,13 @@ class SplashViewModel @Inject constructor(
             val checked = permissionChecked.filter { it }.first()
 
             if (checked) {
-                if (firstOpen) {
-                    setFirstOpenUseCase()
-                    destination.value = Screens.Login(isOnBoarding = false)
-                } else {
-                    destination.value = Screens.Home()
-                }
+//                if (firstOpen) {
+//                    setFirstOpenUseCase()
+//                    destination.value = Screens.Login(isOnBoarding = false)
+//                } else {
+//                    destination.value = Screens.Home()
+//                }
+                destination.value = Screens.OnBoardingGuide
                 ready.value = true
             }
         }
