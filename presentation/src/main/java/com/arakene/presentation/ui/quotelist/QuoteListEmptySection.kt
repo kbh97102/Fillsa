@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,7 +33,7 @@ fun QuoteListEmptySection(
 
         Text(
             stringResource(R.string.list_empty),
-            color = MaterialTheme.colorScheme.tertiary,
+            color = colorResource(R.color.purple01),
             style = FillsaTheme.typography.subtitle1,
             modifier = Modifier.padding(top = 20.dp)
         )
