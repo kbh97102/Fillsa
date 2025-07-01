@@ -30,6 +30,7 @@ import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.resizeImageToMaxSize
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -140,14 +141,19 @@ class HomeViewModel @Inject constructor(
         viewModelScope.launch {
             backgroundImageUri.value = homeAction.uri
 
-            homeAction.file?.let { file ->
-                getResponse(
-                    postUploadImageUseCase(
-                        dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-                        imageFile = file
-                    ), useLoading = false
-                )?.let {
-                    emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
+            homeAction.file?.let {
+                resizeImageToMaxSize(
+                    originalFile = it,
+                    cacheDir = homeAction.cacheDir
+                )?.let { file ->
+                    getResponse(
+                        postUploadImageUseCase(
+                            dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                            imageFile = file
+                        ), useLoading = false
+                    )?.let {
+                        emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
+                    }
                 }
             }
         }

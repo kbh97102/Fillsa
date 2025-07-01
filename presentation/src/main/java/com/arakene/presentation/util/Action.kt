@@ -44,7 +44,7 @@ sealed interface HomeAction : Action {
     data object ClickQuote : HomeAction
     data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
     data class ClickShare(val quote: String, val author: String) : HomeAction
-    data class ClickChangeImage(val file: File?, val uri: String) : HomeAction
+    data class ClickChangeImage(val file: File?, val uri: String, val cacheDir: File) : HomeAction
     data object ClickDeleteImage : HomeAction
 }
 

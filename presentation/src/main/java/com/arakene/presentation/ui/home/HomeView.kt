@@ -163,13 +163,9 @@ fun HomeView(
                     viewModel.handleContract(
                         HomeAction.ClickChangeImage(
                             // TODO: 뷰모델에서 하고싶은데 context가 계속 걸림
-                            uriToCacheFile(context = context, uri = it)?.let { file ->
-                                resizeImageToMaxSize(
-                                    originalFile = file,
-                                    cacheDir = context.cacheDir
-                                )
-                            },
-                            uri = it.toString()
+                            uriToCacheFile(context = context, uri = it),
+                            uri = it.toString(),
+                            cacheDir = context.cacheDir
                         )
                     )
                 },
