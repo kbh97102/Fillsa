@@ -17,8 +17,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.logError
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
 import kotlinx.coroutines.launch
 
@@ -40,15 +44,23 @@ fun SingleLineAdSection(modifier: Modifier = Modifier) {
                     ad = loaded
                 }
             }
+            .withAdListener(object: AdListener(){
+                override fun onAdFailedToLoad(p0: LoadAdError) {
+                    super.onAdFailedToLoad(p0)
+                    logError("Error $p0")
+                }
+            })
             .build()
 
         loader
     }
 
     LaunchedEffect(Unit) {
-        nativeAd.loadAd(
-            AdRequest.Builder().build()
-        )
+        scope.launch {
+            nativeAd.loadAd(
+                AdRequest.Builder().build()
+            )
+        }
     }
 
     DisposableEffect(Unit) {
@@ -58,6 +70,7 @@ fun SingleLineAdSection(modifier: Modifier = Modifier) {
     }
 
     Column(modifier = modifier.fillMaxWidth()) {
+        LaunchedEffect(ad) { logDebug("AD $ad") }
         ad?.headline?.let {
             Text(
                 modifier = Modifier

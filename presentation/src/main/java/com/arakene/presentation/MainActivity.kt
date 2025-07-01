@@ -9,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -29,6 +30,7 @@ import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.MainNavHost
+import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
@@ -36,7 +38,6 @@ import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -116,33 +117,40 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Scaffold(
-                            snackbarHost = {
-                                SnackbarHost(snackbarHostState) {
-                                    SnackbarContent(message = it.visuals.message)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            Scaffold(
+                                modifier = Modifier.weight(1f),
+                                snackbarHost = {
+                                    SnackbarHost(snackbarHostState) {
+                                        SnackbarContent(message = it.visuals.message)
+                                    }
+                                },
+                                bottomBar = {
+                                    if (displayBottomBar) {
+                                        BottomNavigationBar(
+                                            isLogged = isLogged,
+                                            navController = navController
+                                        )
+                                    }
                                 }
-                            },
-                            bottomBar = {
-                                if (displayBottomBar) {
-                                    BottomNavigationBar(
-                                        isLogged = isLogged,
-                                        navController = navController
+                            ) { paddingValues ->
+                                DialogSection(dialogData)
+
+                                if (ready) {
+                                    MainNavHost(
+                                        modifier = Modifier.padding(paddingValues),
+                                        navController = navController,
+                                        startDestination = startDestination,
+                                        logoutEvent = logoutEvent
                                     )
                                 }
                             }
-                        ) { paddingValues ->
-                            DialogSection(dialogData)
 
-                            if (ready) {
-                                MainNavHost(
-                                    modifier = Modifier.padding(paddingValues),
-                                    navController = navController,
-                                    startDestination = startDestination,
-                                    logoutEvent = logoutEvent
-                                )
-                            }
+                            SingleLineAdSection()
                         }
-
                         CircleLoadingSpinner(
                             isLoading = loadingState
                         )
