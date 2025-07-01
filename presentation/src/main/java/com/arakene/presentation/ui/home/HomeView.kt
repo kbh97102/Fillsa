@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.ui.common.TestAdSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
@@ -256,7 +258,11 @@ fun HomeView(
                 .padding(top = 28.dp)
         )
 
-        TestAdSection()
+//        TestAdSection()
+
+        Spacer(Modifier.weight(1f))
+
+        SingleLineAdSection()
     }
 
 }
