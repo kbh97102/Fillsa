@@ -115,6 +115,10 @@ class HomeViewModel @Inject constructor(
                 deleteBackgroundImage()
             }
 
+            is HomeAction.ClickCalendar -> {
+                emitEffect(CommonEffect.Move(Screens.Calendar))
+            }
+
             else -> {
 
             }

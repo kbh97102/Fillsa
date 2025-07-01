@@ -7,7 +7,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,11 +16,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.arakene.presentation.R
-import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 
 @Composable
 fun BottomNavigationBar(
@@ -58,26 +55,24 @@ fun BottomNavigationBar(
                 onClick = {
                     if (currentRoute != routeString) {
 
-                        if (item.first.needLogin && !isLogged) {
-
-                            dialogDataHolder.apply {
-                                data = DialogData.Builder()
-                                    .title("로그인 후 사용하실 수 있습니다.")
-                                    .onClick {
-                                        navController.navigate(Screens.Login())
-                                    }
-                                    .build()
-                            }.run {
-                                show = true
-                            }
-
-                            return@NavigationBarItem
-                        }
+//                        if (item.first.needLogin && !isLogged) {
+//
+//                            dialogDataHolder.apply {
+//                                data = DialogData.Builder()
+//                                    .title("로그인 후 사용하실 수 있습니다.")
+//                                    .onClick {
+//                                        navController.navigate(Screens.Login())
+//                                    }
+//                                    .build()
+//                            }.run {
+//                                show = true
+//                            }
+//
+//                            return@NavigationBarItem
+//                        }
 
                         navController.navigate(item.first) {
-                            popUpTo(navController.graph.startDestinationId) { saveState = true }
-                            launchSingleTop = true
-                            restoreState = true
+                            popUpTo(0) { inclusive = true }
                         }
                     }
                 },

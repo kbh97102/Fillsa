@@ -38,6 +38,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
@@ -190,6 +191,9 @@ fun HomeView(
             CalendarSection(
                 date = date,
                 modifier = Modifier.weight(1f)
+                    .noEffectClickable {
+                        viewModel.handleContract(HomeAction.ClickCalendar)
+                    }
             )
 
             ImageSection(
