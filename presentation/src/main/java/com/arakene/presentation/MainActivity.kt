@@ -16,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +39,7 @@ import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
@@ -111,6 +113,12 @@ class MainActivity : ComponentActivity() {
 
             val isLogged by viewModel.isLogged.collectAsState(false)
 
+            LaunchedEffect(navController) {
+                navController.addOnDestinationChangedListener { _, destination, _ ->
+                    logDebug("Current: ${destination.route}")
+                }
+            }
+
             FillsaTheme {
                 val ready by viewModel.ready.collectAsState()
 
@@ -166,22 +174,22 @@ class MainActivity : ComponentActivity() {
     private fun installSplash() {
         installSplashScreen()
             .apply {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    setOnExitAnimationListener {
-                        lifecycleScope.launch {
-                            delay(1000)
-                            val isReady = viewModel.waitUntilReady()
-
-                            if (isReady) {
-                                it.remove()
-                            }
-                        }
-                    }
-                } else {
-                    setKeepOnScreenCondition {
-                        !viewModel.ready.value
-                    }
-                }
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+//                    setOnExitAnimationListener {
+//                        lifecycleScope.launch {
+//                            delay(1000)
+//                            val isReady = viewModel.waitUntilReady()
+//
+//                            if (isReady) {
+//                                it.remove()
+//                            }
+//                        }
+//                    }
+//                } else {
+//                    setKeepOnScreenCondition {
+//                        !viewModel.ready.value
+//                    }
+//                }
             }
     }
 
