@@ -11,11 +11,15 @@ import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
 import com.arakene.domain.usecase.home.GetImageUriUseCase
 import com.arakene.presentation.util.Action
+import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,7 +33,8 @@ class MyPageViewModel @Inject constructor(
     private val setAlarmUsageUseCase: SetAlarmUsageUseCase,
     private val getAlarmUsageUseCase: GetAlarmUsageUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
-    private val getImageUriUseCase: GetImageUriUseCase
+    private val getImageUriUseCase: GetImageUriUseCase,
+    private val alarmManagerHelper: AlarmManagerHelper
 ) : BaseViewModel() {
 
     val isLogged = getLoginStatusUseCase()
@@ -42,6 +47,18 @@ class MyPageViewModel @Inject constructor(
     val userName = getUserNameUseCase()
 
     val imageUri = getImageUriUseCase()
+
+    init {
+        viewModelScope.launch {
+            getAlarmUsage.distinctUntilChanged().collectLatest {
+                if (it) {
+                    alarmManagerHelper.setAlarm()
+                } else {
+                    alarmManagerHelper.cancelAlarm()
+                }
+            }
+        }
+    }
 
     override fun handleAction(action: Action) {
         when (val myPageAction = action as MyPageAction) {

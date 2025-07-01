@@ -1,4 +1,4 @@
-package com.arakene.data.util
+package com.arakene.presentation.util
 
 import android.app.AlarmManager
 import android.app.PendingIntent
