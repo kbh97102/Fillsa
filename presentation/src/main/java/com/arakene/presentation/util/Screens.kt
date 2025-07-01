@@ -37,7 +37,7 @@ sealed interface Screens {
         val targetDay: Int = 0
     ) : Screens {
         override val routeString: String
-            get() = "home"
+            get() = "Home"
     }
 
     @Serializable
