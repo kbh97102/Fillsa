@@ -5,11 +5,19 @@ import android.content.pm.PackageManager
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.airbnb.lottie.compose.LottieAnimation
@@ -19,8 +27,6 @@ import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.arakene.presentation.R
 import com.arakene.presentation.util.Navigate
-import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 
 @Composable
@@ -100,10 +106,14 @@ fun SplashView(
         }
     }
 
-    LottieAnimation(
-        composition = composition,
-        progress = { lottieState.progress },
-        safeMode = true
-    )
+    Box(modifier = Modifier.fillMaxSize().background(color = Color.White), contentAlignment = Alignment.Center) {
+        LottieAnimation(
+            composition = composition,
+            progress = { lottieState.progress },
+            safeMode = true,
+            modifier = Modifier.size(192.dp)
+        )
+    }
+
 
 }
