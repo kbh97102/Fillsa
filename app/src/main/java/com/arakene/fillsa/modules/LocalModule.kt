@@ -6,7 +6,6 @@ import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import com.arakene.presentation.util.AlarmManagerHelper
-import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,9 +30,8 @@ class LocalModule {
     @Provides
     @Singleton
     fun provideAlarmManagerHelper(
-        @ApplicationContext context: Context,
-        getNotificationMessageUseCase: GetDailyQuoteNoTokenUseCase
+        @ApplicationContext context: Context
     ): AlarmManagerHelper {
-        return AlarmManagerHelper(context, getNotificationMessageUseCase)
+        return AlarmManagerHelper(context)
     }
 }

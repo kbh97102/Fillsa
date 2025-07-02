@@ -224,13 +224,14 @@ fun SimpleCalendarTitle(
         mutableStateOf(currentMonth < YearMonth.now())
     }
 
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
+        modifier = modifier.fillMaxWidth(),
     ) {
         if (displayBeforeButton) {
             CalendarNavigationIcon(
-                modifier = Modifier.rotate(180f),
+                modifier = Modifier
+                    .rotate(180f)
+                    .align(Alignment.CenterStart),
                 painter = painterResource(R.drawable.icn_arror_purple),
                 contentDescription = "Previous",
                 onClick = goToPrevious,
@@ -238,7 +239,7 @@ fun SimpleCalendarTitle(
         }
         Text(
             modifier = Modifier
-                .weight(1f),
+                .align(Alignment.Center),
             text = convertedDate,
             style = FillsaTheme.typography.buttonLargeBold,
             textAlign = TextAlign.Center,
@@ -246,6 +247,7 @@ fun SimpleCalendarTitle(
         )
         if (displayNextButton) {
             CalendarNavigationIcon(
+                modifier = Modifier.align(Alignment.CenterEnd),
                 painter = painterResource(R.drawable.icn_arror_purple),
                 contentDescription = "Next",
                 onClick = goToNext,
