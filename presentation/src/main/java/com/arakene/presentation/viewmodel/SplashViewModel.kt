@@ -11,9 +11,11 @@ import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,6 +37,7 @@ class SplashViewModel @Inject constructor(
     val destination = mutableStateOf<Screens>(Screens.Login(isOnBoarding = false))
 
     var permissionChecked = MutableStateFlow(false)
+    var hasPlayedOnce = MutableStateFlow(false)
 
     fun setAlarm() = alarmManagerHelper.setAlarm()
     fun cancelAlarm() = alarmManagerHelper.cancelAlarm()
@@ -54,21 +57,24 @@ class SplashViewModel @Inject constructor(
     fun checkReady() {
         viewModelScope.launch {
             val firstOpen = checkFirstOpenUseCase().first()
-            val checked = permissionChecked.filter { it }.first()
 
-            if (checked) {
-                if (firstOpen) {
-                    setFirstOpenUseCase()
-                    destination.value = Screens.Login(isOnBoarding = false)
-                } else {
-                    destination.value = Screens.Home()
+            combine(permissionChecked, hasPlayedOnce, ::Pair)
+                .collectLatest {
+                    val (checked, animation) = it
+
+                    if (checked && animation) {
+                        if (firstOpen) {
+                            setFirstOpenUseCase()
+                            destination.value = Screens.Login(isOnBoarding = false)
+                        } else {
+                            destination.value = Screens.Home()
+                        }
+                        ready.value = true
+                    }
                 }
-                ready.value = true
-            }
+
         }
     }
-
-    suspend fun waitUntilReady() = ready.filter { it }.first()
 
     override fun handleAction(action: Action) {
 

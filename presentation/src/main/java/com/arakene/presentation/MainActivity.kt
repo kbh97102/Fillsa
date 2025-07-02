@@ -1,13 +1,9 @@
 package com.arakene.presentation
 
-import android.Manifest
-import android.content.pm.PackageManager
-import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +20,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.arakene.presentation.ui.BottomNavigationBar
@@ -42,9 +37,7 @@ import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -55,33 +48,12 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var alarmManagerHelper: AlarmManagerHelper
 
-    private val permissionLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { result ->
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && result.containsKey(Manifest.permission.POST_NOTIFICATIONS)) {
-            viewModel.setAlarmUsage(result[Manifest.permission.POST_NOTIFICATIONS] == true)
-
-            alarmManagerHelper.setAlarm()
-        } else {
-            alarmManagerHelper.cancelAlarm()
-        }
-
-
-        viewModel.permissionChecked.value = true
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplash()
 
         super.onCreate(savedInstanceState)
 
         enableEdgeToEdge()
-
-        checkPermission()
-
-        viewModel.checkReady()
 
         setContent {
 
@@ -120,12 +92,6 @@ class MainActivity : ComponentActivity() {
             }
 
             FillsaTheme {
-                val ready by viewModel.ready.collectAsState()
-
-                val startDestination by remember {
-                    viewModel.destination
-                }
-
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
                     LocalDialogDataHolder provides dialogData,
@@ -152,14 +118,12 @@ class MainActivity : ComponentActivity() {
                         ) { paddingValues ->
                             DialogSection(dialogData)
 
-                            if (ready) {
-                                MainNavHost(
-                                    modifier = Modifier.padding(paddingValues),
-                                    navController = navController,
-                                    startDestination = startDestination,
-                                    logoutEvent = logoutEvent
-                                )
-                            }
+                            MainNavHost(
+                                modifier = Modifier.padding(paddingValues),
+                                navController = navController,
+                                startDestination = Screens.Splash,
+                                logoutEvent = logoutEvent
+                            )
                         }
 
                         CircleLoadingSpinner(
@@ -173,62 +137,6 @@ class MainActivity : ComponentActivity() {
 
     private fun installSplash() {
         installSplashScreen()
-            .apply {
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-//                    setOnExitAnimationListener {
-//                        lifecycleScope.launch {
-//                            delay(1000)
-//                            val isReady = viewModel.waitUntilReady()
-//
-//                            if (isReady) {
-//                                it.remove()
-//                            }
-//                        }
-//                    }
-//                } else {
-//                    setKeepOnScreenCondition {
-//                        !viewModel.ready.value
-//                    }
-//                }
-            }
-    }
-
-    private fun getImagePermissions(): Array<String> {
-        return when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                arrayOf(
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.POST_NOTIFICATIONS,
-                    Manifest.permission.SCHEDULE_EXACT_ALARM
-                )
-            }
-
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.SCHEDULE_EXACT_ALARM
-                )
-            }
-
-            else -> {
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            }
-        }
-    }
-
-    private fun checkPermission() {
-        val permissions = getImagePermissions()
-        val notGranted = permissions.any {
-            checkSelfPermission(it) == PackageManager.PERMISSION_DENIED
-        }
-
-        if (notGranted) {
-            permissionLauncher.launch(permissions)
-        } else {
-            viewModel.permissionChecked.value = true
-        }
     }
 
     private fun shouldShowBottomBar(route: String?): Boolean {

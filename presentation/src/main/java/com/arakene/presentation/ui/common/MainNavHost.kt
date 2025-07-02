@@ -49,6 +49,14 @@ fun MainNavHost(
         startDestination = startDestination,
     ) {
 
+        composable<Screens.Splash> {
+            SplashView(
+                navigate = {
+                    navController.navigate(it)
+                }
+            )
+        }
+
         composable<Screens.Login> {
 
             val data = it.toRoute<Screens.Login>()
