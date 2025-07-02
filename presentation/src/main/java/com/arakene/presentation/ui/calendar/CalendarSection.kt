@@ -39,7 +39,6 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.ContentHeightMode
@@ -93,7 +92,6 @@ fun CalendarSection(
     }
 
     LaunchedEffect(state.firstVisibleMonth, currentMonth) {
-        logDebug("state ${state.firstVisibleMonth.yearMonth} current $currentMonth")
         if (currentMonth != state.firstVisibleMonth.yearMonth) {
             changeMonth(state.firstVisibleMonth.yearMonth)
             currentMonth = state.firstVisibleMonth.yearMonth
