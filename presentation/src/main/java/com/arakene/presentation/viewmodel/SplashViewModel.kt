@@ -8,6 +8,7 @@ import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
 import com.arakene.domain.usecase.common.SetFirstOpenUseCase
 import com.arakene.presentation.util.Action
+import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,8 @@ class SplashViewModel @Inject constructor(
     private val setFirstOpenUseCase: SetFirstOpenUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
-    private val setAlarmUsageUseCase: SetAlarmUsageUseCase
+    private val setAlarmUsageUseCase: SetAlarmUsageUseCase,
+    private val alarmManagerHelper: AlarmManagerHelper
 ) : BaseViewModel() {
 
     val isLogged = getLoginStatusUseCase()
@@ -33,6 +35,9 @@ class SplashViewModel @Inject constructor(
     val destination = mutableStateOf<Screens>(Screens.Login(isOnBoarding = false))
 
     var permissionChecked = MutableStateFlow(false)
+
+    fun setAlarm() = alarmManagerHelper.setAlarm()
+    fun cancelAlarm() = alarmManagerHelper.cancelAlarm()
 
     fun clearToken() {
         viewModelScope.launch {
