@@ -78,4 +78,6 @@ dependencies {
 
     implementation(libs.paging.compose)
     implementation(libs.calendar)
+
+    implementation(libs.lottie)
 }
