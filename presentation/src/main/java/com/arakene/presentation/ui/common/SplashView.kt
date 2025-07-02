@@ -103,6 +103,7 @@ fun SplashView(
     LottieAnimation(
         composition = composition,
         progress = { lottieState.progress },
+        safeMode = true
     )
 
 }
