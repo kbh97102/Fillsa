@@ -52,7 +52,6 @@ import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.LoginViewModel
-import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationRequest
@@ -94,6 +93,10 @@ fun LoginView(
 
             is CommonEffect.OpenUri -> {
                 uriHandler.openUri(effect.uri)
+            }
+
+            is LoginEffect.Move -> {
+                navigate(Screens.Home())
             }
         }
     }
@@ -156,8 +159,7 @@ fun LoginView(
                         viewModel.testLoginMethod()
                     }
 
-                }
-            ,
+                },
             painter = painterResource(R.drawable.icn_login_logo),
             contentDescription = null
         )

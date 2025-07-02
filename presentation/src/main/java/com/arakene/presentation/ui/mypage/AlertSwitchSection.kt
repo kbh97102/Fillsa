@@ -51,7 +51,8 @@ fun AlertSwitchSection(
             Text(
                 text = stringResource(R.string.alarm_description),
                 style = FillsaTheme.typography.body3,
-                color = colorResource(R.color.gray_700)
+                color = colorResource(R.color.gray_700),
+                modifier = Modifier.padding(top = 8.dp)
             )
         }
 
@@ -59,7 +60,7 @@ fun AlertSwitchSection(
             checked = selected,
             onCheckedChange = setSelected,
             colors = SwitchDefaults.colors(
-                checkedTrackColor = MaterialTheme.colorScheme.tertiary,
+                checkedTrackColor = colorResource(R.color.purple01),
                 uncheckedTrackColor = colorResource(R.color.gray_bd),
                 uncheckedThumbColor = Color.White,
                 checkedThumbColor = Color.White,

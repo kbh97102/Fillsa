@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import com.arakene.presentation.R
 
+
 @Composable
 fun IndicatorImageSection(
     pagerState: PagerState,
@@ -24,9 +25,9 @@ fun IndicatorImageSection(
             modifier = Modifier.fillMaxSize(),
             painter =
                 when (it) {
-                    0 -> painterResource(R.drawable.img_introduce_1)
-                    1 -> painterResource(R.drawable.img_introduce_2)
-                    else -> painterResource(R.drawable.img_introduce_3)
+                    0 -> painterResource(R.drawable.img_guide_1)
+                    1 -> painterResource(R.drawable.img_guide_2)
+                    else -> painterResource(R.drawable.img_guide_3)
                 },
             contentDescription = null
         )

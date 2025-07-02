@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
@@ -30,23 +31,27 @@ import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.MainNavHost
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
+
+    @Inject
+    lateinit var alarmManagerHelper: AlarmManagerHelper
 
     private val permissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -55,6 +60,10 @@ class MainActivity : ComponentActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && result.containsKey(Manifest.permission.POST_NOTIFICATIONS)) {
             viewModel.setAlarmUsage(result[Manifest.permission.POST_NOTIFICATIONS] == true)
+
+            alarmManagerHelper.setAlarm()
+        } else {
+            alarmManagerHelper.cancelAlarm()
         }
 
 
@@ -65,6 +74,8 @@ class MainActivity : ComponentActivity() {
         installSplash()
 
         super.onCreate(savedInstanceState)
+
+        enableEdgeToEdge()
 
         checkPermission()
 

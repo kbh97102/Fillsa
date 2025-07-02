@@ -93,7 +93,7 @@ fun MyPageView(
             onClick = {
                 viewModel.handleContract(CommonEffect.Move(MyPageScreens.Notice))
             },
-            modifier = Modifier.padding(top = 20.dp)
+            modifier = Modifier.padding(top = 12.dp)
         )
 
         // Alert
@@ -103,7 +103,7 @@ fun MyPageView(
             onClick = {
                 viewModel.handleContract(CommonEffect.Move(MyPageScreens.Alert))
             },
-            modifier = Modifier.padding(top = 20.dp)
+            modifier = Modifier.padding(top = 12.dp)
         )
 
         // Theme
