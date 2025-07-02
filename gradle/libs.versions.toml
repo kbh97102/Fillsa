@@ -37,6 +37,7 @@ workRuntimeKtx = "2.10.1"
 androidx-hilt = "1.2.0"
 room = "2.7.1"
 roomRuntimeAndroid = "2.7.1"
+lottie = "6.6.7"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -67,12 +68,13 @@ coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", versi
 paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar" }
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 #hilt
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 hilt-navigation = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation" }
-hilt-work = {group = "androidx.hilt", name = "hilt-work", version.ref = "androidx-hilt"}
-hilt-androidx-compiler = {group = "androidx.hilt", name = "hilt-compiler", version.ref = "androidx-hilt"}
+hilt-work = { group = "androidx.hilt", name = "hilt-work", version.ref = "androidx-hilt" }
+hilt-androidx-compiler = { group = "androidx.hilt", name = "hilt-compiler", version.ref = "androidx-hilt" }
 #network
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
@@ -91,10 +93,10 @@ firebase-installations-ktx = { group = "com.google.firebase", name = "firebase-i
 firebase-common-ktx = { group = "com.google.firebase", name = "firebase-common-ktx", version.ref = "firebaseCommonKtx" }
 androidx-work-runtime-ktx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workRuntimeKtx" }
 #room
-room-runtime = {group = "androidx.room", name = "room-runtime", version.ref = "room"}
-room-compiler = {group = "androidx.room", name = "room-compiler", version.ref = "room"}
-room-ktx = {group = "androidx.room", name = "room-ktx", version.ref = "room"}
-room-paging = {group = "androidx.room", name = "room-paging", version.ref = "room"}
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 
 
 

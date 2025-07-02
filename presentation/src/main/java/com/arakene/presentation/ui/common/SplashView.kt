@@ -5,5 +5,5 @@ import androidx.compose.ui.Modifier
 
 @Composable
 fun SplashView(modifier: Modifier = Modifier) {
-
+    
 }
