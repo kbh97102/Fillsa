@@ -67,6 +67,7 @@ fun QuoteListItem(
             CustomAsyncImage(
                 imagePath = data.imagePath ?: "",
                 modifier = Modifier.fillMaxSize(),
+                useDim = true
             )
 
             Column(
