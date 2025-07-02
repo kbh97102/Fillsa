@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,6 +39,7 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.ContentHeightMode
@@ -66,8 +68,8 @@ fun CalendarSection(
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
     val startMonth = remember {
-        YearMonth.of(2025, 5).apply {
-            atDay(16)
+        YearMonth.of(2025, 6).apply {
+            atDay(10)
         }
     }
     val endMonth = remember { currentMonth }
@@ -88,6 +90,14 @@ fun CalendarSection(
 
     val today = remember {
         LocalDate.now()
+    }
+
+    LaunchedEffect(state.firstVisibleMonth, currentMonth) {
+        logDebug("state ${state.firstVisibleMonth.yearMonth} current $currentMonth")
+        if (currentMonth != state.firstVisibleMonth.yearMonth) {
+            changeMonth(state.firstVisibleMonth.yearMonth)
+            currentMonth = state.firstVisibleMonth.yearMonth
+        }
     }
 
     Column(
