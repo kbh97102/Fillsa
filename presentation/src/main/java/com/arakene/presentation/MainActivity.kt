@@ -186,10 +186,27 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun getImagePermissions(): Array<String> {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.POST_NOTIFICATIONS)
-        } else {
-            arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+        return when {
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
+                arrayOf(
+                    Manifest.permission.READ_MEDIA_IMAGES,
+                    Manifest.permission.POST_NOTIFICATIONS,
+                    Manifest.permission.SCHEDULE_EXACT_ALARM
+                )
+            }
+
+            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.SCHEDULE_EXACT_ALARM
+                )
+            }
+
+            else -> {
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE
+                )
+            }
         }
     }
 

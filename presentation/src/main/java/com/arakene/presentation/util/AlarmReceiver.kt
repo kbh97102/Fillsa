@@ -5,21 +5,44 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.core.app.NotificationCompat
+import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.R
+import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class AlarmReceiver : BroadcastReceiver() {
+    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
+
     override fun onReceive(p0: Context?, p1: Intent?) {
 
-        val quote = p1?.getStringExtra("quote")
-        val author = p1?.getStringExtra("author")
-
-        if (!quote.isNullOrBlank() && !author.isNullOrBlank()) {
-            showNotification(
-                context = p0 ?: return,
-                title = "오늘의 필사 문장",
-                message = "$quote - $author"
+        p0?.let {
+            val entryPoint = EntryPointAccessors.fromApplication(
+                it,
+                AlarmReceiverEntryPoint::class.java
             )
+            val useCase = entryPoint.getQuoteUseCase()
+            val manager = entryPoint.getAlarmManager()
+
+            scope.launch {
+                val time = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
+                val data = useCase(time)
+                if (data is ApiResult.Success) {
+                    showNotification(
+                        it,
+                        "오늘의 필사 문장",
+                        "${data.data.korQuote} - ${data.data.korAuthor}"
+                    )
+                }
+            }
+
+            manager.scheduleExactAlarm(it)
         }
     }
 
@@ -46,6 +69,9 @@ class AlarmReceiver : BroadcastReceiver() {
         }
             .onFailure {
                 it.printStackTrace()
+            }
+            .onSuccess {
+                Log.d(">>>>", "Success")
             }
 
     }
