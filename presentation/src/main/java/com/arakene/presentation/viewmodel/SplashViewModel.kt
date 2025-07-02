@@ -34,7 +34,7 @@ class SplashViewModel @Inject constructor(
 
     var ready = MutableStateFlow(false)
 
-    val destination = mutableStateOf<Screens>(Screens.Login(isOnBoarding = false))
+    var destination: Screens = Screens.Login(isOnBoarding = false)
 
     var permissionChecked = MutableStateFlow(false)
     var hasPlayedOnce = MutableStateFlow(false)
@@ -65,9 +65,9 @@ class SplashViewModel @Inject constructor(
                     if (checked && animation) {
                         if (firstOpen) {
                             setFirstOpenUseCase()
-                            destination.value = Screens.Login(isOnBoarding = false)
+                            destination = Screens.Login(isOnBoarding = false)
                         } else {
-                            destination.value = Screens.Home()
+                            destination = Screens.Home()
                         }
                         ready.value = true
                     }

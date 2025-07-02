@@ -84,14 +84,13 @@ fun SplashView(
         if (notGranted) {
             permissionLauncher.launch(permissions)
         } else {
-            logDebug("permission granted")
             viewModel.permissionChecked.value = true
         }
     }
 
     LaunchedEffect(ready) {
         if (ready) {
-            navigate(Screens.Home())
+            navigate(viewModel.destination)
         }
     }
 
