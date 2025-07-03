@@ -142,6 +142,10 @@ fun TypingQuoteView(
             is CommonEffect.PopBackStack -> {
                 updateBackEvent()
             }
+
+            is CommonEffect.ShowSnackBar -> {
+                snackbarHostState.showSnackbar(it.message)
+            }
         }
     }
 
@@ -193,7 +197,17 @@ fun TypingQuoteView(
             Spacer(Modifier.weight(1f))
 
             TypingQuoteBottomSection(
-                saveOnClick = updateBackEvent,
+                saveOnClick = {
+                    viewModel.handleContract(
+                        TypingAction.Save(
+                            korTyping = korTyping.text,
+                            engTyping = engTyping.text,
+                            data,
+                            localeType,
+                            isLike
+                        )
+                    )
+                },
                 shareOnClick = {
                     viewModel.handleContract(
                         CommonEffect.Move(
