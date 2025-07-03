@@ -193,7 +193,7 @@ fun TypingQuoteView(
             Spacer(Modifier.weight(1f))
 
             TypingQuoteBottomSection(
-                onBackClick = updateBackEvent,
+                saveOnClick = updateBackEvent,
                 shareOnClick = {
                     viewModel.handleContract(
                         CommonEffect.Move(
@@ -250,7 +250,7 @@ fun TypingQuoteView(
 
 @Composable
 private fun TypingQuoteBottomSection(
-    onBackClick: () -> Unit,
+    saveOnClick: () -> Unit,
     shareOnClick: () -> Unit,
     copyOnClick: () -> Unit,
     like: Boolean,
@@ -266,8 +266,15 @@ private fun TypingQuoteBottomSection(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
 
+        InteractionButtonSection(
+            copy = copyOnClick,
+            share = shareOnClick,
+            isLike = like,
+            setIsLike = setLike,
+        )
+
         Button(
-            onClick = onBackClick,
+            onClick = saveOnClick,
             contentPadding = PaddingValues(vertical = 8.dp, horizontal = 12.dp),
             shape = MaterialTheme.shapes.small,
             border = BorderStroke(1.dp, color = colorResource(R.color.gray_700)),
@@ -275,19 +282,12 @@ private fun TypingQuoteBottomSection(
         ) {
 
             Text(
-                stringResource(R.string.out),
+                stringResource(R.string.save),
                 color = colorResource(R.color.gray_700),
                 style = FillsaTheme.typography.body3
             )
 
         }
-
-        InteractionButtonSection(
-            copy = copyOnClick,
-            share = shareOnClick,
-            isLike = like,
-            setIsLike = setLike,
-        )
 
     }
 
