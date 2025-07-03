@@ -42,7 +42,7 @@ fun CommonDialog(
         onDismissRequest = {
             dismiss()
         },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnClickOutside = false)
     ) {
 
         Column(

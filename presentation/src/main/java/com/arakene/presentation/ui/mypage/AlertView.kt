@@ -1,5 +1,12 @@
 package com.arakene.presentation.ui.mypage
 
+import android.app.AlarmManager
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -20,6 +28,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.R
@@ -56,6 +65,46 @@ fun AlertView(
         when (it) {
             CommonEffect.PopBackStack -> {
                 popBackStack()
+            }
+        }
+    }
+
+    val launcher =
+        rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as? AlarmManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                if (alarmManager?.canScheduleExactAlarms() == true) {
+                    // ✅ 권한 허용됨 - 알람 설정 가능
+                    viewModel.checkAlarmState()
+                }
+            }
+        }
+
+    LaunchedEffect(Unit) {
+        runCatching {
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && !alarmManager.canScheduleExactAlarms()) {
+                dialogDataHolder.apply {
+                    data = DialogData.Builder()
+                        .title(context.getString(R.string.alarm_permission_title))
+                        .body(context.getString(R.string.alarm_permisstion_body))
+                        .drawableId(R.drawable.icn_bell_fill)
+                        .titleTextSize(20.sp)
+                        .onClick {
+                            // 시스템 설정으로 이동 유도
+                            val intent =
+                                Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM).apply {
+                                    data = "package:${context.packageName}".toUri()
+                                }
+                            launcher.launch(intent)
+                        }
+                        .cancelOnClick {
+
+                        }
+                        .build()
+                }.show = true
+            } else {
+                viewModel.checkAlarmState()
             }
         }
     }

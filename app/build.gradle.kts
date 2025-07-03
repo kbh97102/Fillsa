@@ -23,8 +23,8 @@ android {
         applicationId = "com.arakene.fillsa"
         minSdk = 28
         targetSdk = 35
-        versionCode = 5
-        versionName = "1.0.8"
+        versionCode = 6
+        versionName = "1.0.9"
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretsFile["KAKAO_KEY"].toString()
 
         manifestPlaceholders["appAuthRedirectScheme"] = "com.arakene.fillsa"

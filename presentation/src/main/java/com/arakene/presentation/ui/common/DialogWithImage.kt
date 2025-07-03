@@ -31,6 +31,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 @Composable
 fun DialogWIthImage(
     title: String,
+    body: String,
     drawableId: Int,
     positiveOnClick: () -> Unit,
     dismiss: () -> Unit,
@@ -45,7 +46,7 @@ fun DialogWIthImage(
         onDismissRequest = {
             dismiss()
         },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnClickOutside = false)
     ) {
 
         Column(
@@ -69,6 +70,18 @@ fun DialogWIthImage(
                     .padding(top = 12.dp),
                 textAlign = TextAlign.Center,
             )
+
+            if (body.isNotEmpty()) {
+                Text(
+                    body,
+                    style = FillsaTheme.typography.body2,
+                    color = colorResource(R.color.gray_700),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 12.dp),
+                    textAlign = TextAlign.Center,
+                )
+            }
 
             Row(
                 modifier = Modifier.padding(top = 24.dp),
@@ -133,7 +146,8 @@ private fun DialogWithImagePreview() {
             negativeText = "취소",
             negativeOnClick = {},
             dismiss = {},
-            drawableId = R.drawable.icn_network_error
+            drawableId = R.drawable.icn_network_error,
+            body = ""
         )
     }
 }

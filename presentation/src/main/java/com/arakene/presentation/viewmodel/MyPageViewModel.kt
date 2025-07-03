@@ -48,17 +48,6 @@ class MyPageViewModel @Inject constructor(
 
     val imageUri = getImageUriUseCase()
 
-    init {
-        viewModelScope.launch {
-            getAlarmUsage.distinctUntilChanged().collectLatest {
-                if (it) {
-                    alarmManagerHelper.setAlarm()
-                } else {
-                    alarmManagerHelper.cancelAlarm()
-                }
-            }
-        }
-    }
 
     override fun handleAction(action: Action) {
         when (val myPageAction = action as MyPageAction) {
@@ -84,6 +73,16 @@ class MyPageViewModel @Inject constructor(
 
             else -> {
 
+            }
+        }
+    }
+
+    fun checkAlarmState() = viewModelScope.launch {
+        getAlarmUsage.distinctUntilChanged().collectLatest {
+            if (it) {
+                alarmManagerHelper.setAlarm()
+            } else {
+                alarmManagerHelper.cancelAlarm()
             }
         }
     }
