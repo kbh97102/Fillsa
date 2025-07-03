@@ -4,7 +4,6 @@ import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberQuotesResponse
 import com.kizitonwose.calendar.core.CalendarDay
 import java.io.File
-import java.time.LocalDate
 import java.time.YearMonth
 
 
@@ -46,7 +45,7 @@ sealed interface HomeAction : Action {
     data class ClickShare(val quote: String, val author: String) : HomeAction
     data class ClickChangeImage(val file: File?, val uri: String) : HomeAction
     data object ClickDeleteImage : HomeAction
-    data object ClickCalendar: HomeAction
+    data object ClickCalendar : HomeAction
 }
 
 sealed interface TypingAction : Action {
@@ -54,6 +53,14 @@ sealed interface TypingAction : Action {
     data class ClickShare(val quote: String, val author: String) : TypingAction
     data class ClickLike(val like: Boolean, val dailyQuoteSeq: Int) : TypingAction
     data class Back(
+        val korTyping: String,
+        val engTyping: String,
+        val dailyQuote: DailyQuoteDto,
+        val localeType: LocaleType,
+        val isLike: Boolean
+    ) : TypingAction
+
+    data class Save(
         val korTyping: String,
         val engTyping: String,
         val dailyQuote: DailyQuoteDto,
@@ -84,7 +91,7 @@ sealed interface CalendarAction : Action {
 
     data object ClickBottomQuote : CalendarAction
 
-    data object ClickCount: CalendarAction
+    data object ClickCount : CalendarAction
 }
 
 sealed interface MyPageAction : Action {

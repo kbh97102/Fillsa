@@ -17,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -66,8 +67,8 @@ fun CalendarSection(
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
     val startMonth = remember {
-        YearMonth.of(2025, 5).apply {
-            atDay(16)
+        YearMonth.of(2025, 6).apply {
+            atDay(10)
         }
     }
     val endMonth = remember { currentMonth }
@@ -88,6 +89,13 @@ fun CalendarSection(
 
     val today = remember {
         LocalDate.now()
+    }
+
+    LaunchedEffect(state.firstVisibleMonth, currentMonth) {
+        if (currentMonth != state.firstVisibleMonth.yearMonth) {
+            changeMonth(state.firstVisibleMonth.yearMonth)
+            currentMonth = state.firstVisibleMonth.yearMonth
+        }
     }
 
     Column(
@@ -224,13 +232,14 @@ fun SimpleCalendarTitle(
         mutableStateOf(currentMonth < YearMonth.now())
     }
 
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
+    Box(
+        modifier = modifier.fillMaxWidth(),
     ) {
         if (displayBeforeButton) {
             CalendarNavigationIcon(
-                modifier = Modifier.rotate(180f),
+                modifier = Modifier
+                    .rotate(180f)
+                    .align(Alignment.CenterStart),
                 painter = painterResource(R.drawable.icn_arror_purple),
                 contentDescription = "Previous",
                 onClick = goToPrevious,
@@ -238,7 +247,7 @@ fun SimpleCalendarTitle(
         }
         Text(
             modifier = Modifier
-                .weight(1f),
+                .align(Alignment.Center),
             text = convertedDate,
             style = FillsaTheme.typography.buttonLargeBold,
             textAlign = TextAlign.Center,
@@ -246,6 +255,7 @@ fun SimpleCalendarTitle(
         )
         if (displayNextButton) {
             CalendarNavigationIcon(
+                modifier = Modifier.align(Alignment.CenterEnd),
                 painter = painterResource(R.drawable.icn_arror_purple),
                 contentDescription = "Next",
                 onClick = goToNext,

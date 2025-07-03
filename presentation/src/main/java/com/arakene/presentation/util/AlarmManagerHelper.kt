@@ -5,23 +5,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.icu.util.Calendar
-import androidx.core.os.bundleOf
-import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
-import com.arakene.domain.util.ApiResult
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class AlarmManagerHelper @Inject constructor(
     private val context: Context,
-    val getNotificationMessageUseCase: GetDailyQuoteNoTokenUseCase
 ) {
-
-    private val scope = CoroutineScope(Dispatchers.IO + SupervisorJob())
 
     private val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
@@ -42,53 +30,46 @@ class AlarmManagerHelper @Inject constructor(
         return checkPendingIntent != null
     }
 
+    fun scheduleExactAlarm(context: Context) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, AlarmReceiver::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val calendar = Calendar.getInstance().apply {
+            timeInMillis = System.currentTimeMillis()
+            set(Calendar.HOUR_OF_DAY, 9)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            if (before(Calendar.getInstance())) {
+                add(Calendar.DAY_OF_YEAR, 1) // 오늘 9시 지났다면 내일로
+            }
+        }
+
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            calendar.timeInMillis,
+            pendingIntent
+        )
+//
+//        alarmManager.setAndAllowWhileIdle(
+//            AlarmManager.RTC_WAKEUP,
+//            System.currentTimeMillis() + 61 * 1000L,
+//            pendingIntent
+//        )
+    }
+
     fun setAlarm() {
 
         if (checkDuplicated()) {
             return
         }
 
-        scope.launch {
-            val time = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
-            val message = getNotificationMessageUseCase(time) as? ApiResult.Success
-
-            intent.putExtras(
-                bundleOf(
-                    "quote" to message?.data?.korQuote,
-                    "author" to message?.data?.korAuthor
-                )
-            )
-
-            val pendingIntent = PendingIntent.getBroadcast(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-            )
-
-            val calendar = Calendar.getInstance().apply {
-                set(Calendar.HOUR_OF_DAY, 9)
-                set(Calendar.MINUTE, 0)
-                set(Calendar.SECOND, 0)
-                if (before(Calendar.getInstance())) {
-                    add(Calendar.DAY_OF_MONTH, 1)
-                }
-            }
-
-//            alarmManager.setAndAllowWhileIdle(
-//                AlarmManager.RTC_WAKEUP,
-//                System.currentTimeMillis() + 61 * 1000L,
-//                pendingIntent
-//            )
-
-            alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP,
-                calendar.timeInMillis,
-                AlarmManager.INTERVAL_DAY,
-                pendingIntent
-            )
-
-        }
+        scheduleExactAlarm(context)
     }
 
     fun cancelAlarm() {
