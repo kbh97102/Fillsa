@@ -242,6 +242,9 @@ fun MainNavHost(
                 AlertView(
                     popBackStack = {
                         navController.popBackStack()
+                    },
+                    navigate = {
+                        navController.navigate(it)
                     }
                 )
             }
