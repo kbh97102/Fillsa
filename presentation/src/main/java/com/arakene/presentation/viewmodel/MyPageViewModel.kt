@@ -101,5 +101,6 @@ class MyPageViewModel @Inject constructor(
     private fun resign() = viewModelScope.launch {
         deleteResignUseCase()
         logoutUseCase()
+        emitEffect(CommonEffect.Move(Screens.Home()))
     }
 }
