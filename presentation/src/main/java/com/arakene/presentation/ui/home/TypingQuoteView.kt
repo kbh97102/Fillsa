@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -111,6 +112,8 @@ fun TypingQuoteView(
 
     val scope = rememberCoroutineScope()
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     val updateBackEvent by rememberUpdatedState({
         viewModel.handleContract(
             TypingAction.Back(
@@ -145,6 +148,10 @@ fun TypingQuoteView(
 
             is CommonEffect.ShowSnackBar -> {
                 snackbarHostState.showSnackbar(it.message)
+            }
+
+            is CommonEffect.HideKeyboard -> {
+                keyboardController?.hide()
             }
         }
     }

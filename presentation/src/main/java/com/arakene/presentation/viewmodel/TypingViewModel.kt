@@ -77,6 +77,7 @@ class TypingViewModel @Inject constructor(
             }
 
             is TypingAction.Save -> {
+                emitEffect(CommonEffect.HideKeyboard)
                 saveTyping(
                     typingAction.korTyping,
                     typingAction.engTyping,
