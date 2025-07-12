@@ -21,7 +21,7 @@ fun CustomAsyncImage(
     useDim: Boolean = false
 ) {
 
-    Box {
+    Box(modifier) {
         AsyncImage(
             model = imagePath,
             contentDescription = null,
