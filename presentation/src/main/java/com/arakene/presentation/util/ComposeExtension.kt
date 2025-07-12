@@ -250,7 +250,7 @@ fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri {
 fun uriToCacheFile(context: Context, uri: Uri): File? {
     return try {
         val inputStream = context.contentResolver.openInputStream(uri)
-        val file = File.createTempFile("temp", null, context.cacheDir)
+        val file = File.createTempFile("temp", ".jpeg", context.cacheDir)
         inputStream?.use { input ->
             file.outputStream().use { output ->
                 input.copyTo(output)
