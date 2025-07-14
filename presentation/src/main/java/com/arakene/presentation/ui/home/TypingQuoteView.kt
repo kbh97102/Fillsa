@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -111,6 +111,8 @@ fun TypingQuoteView(
 
     val scope = rememberCoroutineScope()
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     val updateBackEvent by rememberUpdatedState({
         viewModel.handleContract(
             TypingAction.Back(
@@ -145,6 +147,10 @@ fun TypingQuoteView(
 
             is CommonEffect.ShowSnackBar -> {
                 snackbarHostState.showSnackbar(it.message)
+            }
+
+            is CommonEffect.HideKeyboard -> {
+                keyboardController?.hide()
             }
         }
     }
@@ -274,8 +280,7 @@ private fun TypingQuoteBottomSection(
 
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .imePadding(),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
