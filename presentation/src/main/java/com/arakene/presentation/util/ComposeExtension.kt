@@ -6,6 +6,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.BlurMaskFilter
+import android.graphics.Matrix
+
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -38,6 +40,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.core.content.FileProvider
 import androidx.core.graphics.scale
+import androidx.exifinterface.media.ExifInterface
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
@@ -250,7 +253,7 @@ fun saveBitmapToCache(context: Context, bitmap: Bitmap): Uri {
 fun uriToCacheFile(context: Context, uri: Uri): File? {
     return try {
         val inputStream = context.contentResolver.openInputStream(uri)
-        val file = File.createTempFile("temp", null, context.cacheDir)
+        val file = File.createTempFile("temp", ".jpeg", context.cacheDir)
         inputStream?.use { input ->
             file.outputStream().use { output ->
                 input.copyTo(output)
@@ -294,6 +297,28 @@ private fun calculateResizeRatio(
     return ratio.coerceIn(0.1f, 1f) // 너무 작은 비율을 방지하기 위해 최소 10% 크기로 제한
 }
 
+fun rotateBitmapIfRequired(file: File, bitmap: Bitmap): Bitmap {
+    val exif = ExifInterface(file.absolutePath)
+    val orientation = exif.getAttributeInt(
+        ExifInterface.TAG_ORIENTATION,
+        ExifInterface.ORIENTATION_NORMAL
+    )
+
+    val matrix = Matrix()
+    when (orientation) {
+        ExifInterface.ORIENTATION_ROTATE_90 -> matrix.postRotate(90f)
+        ExifInterface.ORIENTATION_ROTATE_180 -> matrix.postRotate(180f)
+        ExifInterface.ORIENTATION_ROTATE_270 -> matrix.postRotate(270f)
+        else -> return bitmap // 회전 필요 없음
+    }
+
+    return Bitmap.createBitmap(
+        bitmap, 0, 0,
+        bitmap.width, bitmap.height,
+        matrix, true
+    )
+}
+
 fun resizeImageToMaxSize(
     originalFile: File,
     cacheDir: File,
@@ -303,17 +328,19 @@ fun resizeImageToMaxSize(
         // 원본 이미지를 Bitmap으로 디코딩
         val originalBitmap = BitmapFactory.decodeFile(originalFile.absolutePath)
         originalBitmap?.let { bitmap ->
+            val correctedBitmap = rotateBitmapIfRequired(originalFile, bitmap)
+
             // 5MB 이하여서 라사이즈가 필요 없는 경우
-            if (shouldResizeBitmap(bitmap).not()) {
+            if (shouldResizeBitmap(correctedBitmap).not()) {
                 return originalFile
             }
 
             // 원본 이미지의 크기와 해상도를 기반으로 리사이즈 비율 계산
-            val ratio = calculateResizeRatio(bitmap, maxSize)
+            val ratio = calculateResizeRatio(correctedBitmap, maxSize)
 
             // 해상도 비율에 맞춰 리사이즈된 Bitmap 생성
             val resizedBitmap =
-                bitmap.scale((bitmap.width * ratio).toInt(), (bitmap.height * ratio).toInt())
+                correctedBitmap.scale((correctedBitmap.width * ratio).toInt(), (correctedBitmap.height * ratio).toInt())
 
             // 리사이즈된 Bitmap을 임시 파일로 저장
             val name = "background_scaled.jpeg"

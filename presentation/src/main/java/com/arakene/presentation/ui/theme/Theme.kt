@@ -157,6 +157,12 @@ internal val fillsaTypo = FillsaTypo(
         fontWeight = FontWeight.Normal,
         fontFamily = pretendard,
         fontSize = 12.sp,
+    ),
+    quote = TextStyle(
+        fontWeight = FontWeight.Normal,
+        fontFamily = gangwoneduall,
+        fontSize = 16.sp,
+        lineHeight = 24.sp
     )
 )
 
