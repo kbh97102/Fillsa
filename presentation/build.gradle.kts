@@ -50,6 +50,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.googleid)
     implementation(libs.firebase.installations.ktx)
+    implementation(libs.androidx.exifinterface)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -78,6 +79,6 @@ dependencies {
 
     implementation(libs.paging.compose)
     implementation(libs.calendar)
-
     implementation(libs.ads)
+    implementation(libs.lottie)
 }

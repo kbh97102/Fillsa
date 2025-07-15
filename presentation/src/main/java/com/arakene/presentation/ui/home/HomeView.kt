@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
@@ -38,10 +39,13 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
 @Composable
@@ -137,6 +141,18 @@ fun HomeView(
                 dialogDataHolder.data = it.dialogData
                 dialogDataHolder.show = true
             }
+
+            is HomeEffect.ProcessImage -> {
+                val file = withContext(Dispatchers.IO) {
+                    uriToCacheFile(context = context, uri = it.uri.toUri())?.let { file ->
+                        resizeImageToMaxSize(
+                            originalFile = file,
+                            cacheDir = context.cacheDir
+                        )
+                    }
+                }
+                viewModel.uploadImage(file)
+            }
         }
     }
 
@@ -161,13 +177,6 @@ fun HomeView(
                 uploadImage = {
                     viewModel.handleContract(
                         HomeAction.ClickChangeImage(
-                            // TODO: 뷰모델에서 하고싶은데 context가 계속 걸림
-                            uriToCacheFile(context = context, uri = it)?.let { file ->
-                                resizeImageToMaxSize(
-                                    originalFile = file,
-                                    cacheDir = context.cacheDir
-                                )
-                            },
                             uri = it.toString()
                         )
                     )
@@ -188,7 +197,11 @@ fun HomeView(
         ) {
             CalendarSection(
                 date = date,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier
+                    .weight(1f)
+                    .noEffectClickable {
+                        viewModel.handleContract(HomeAction.ClickCalendar)
+                    }
             )
 
             ImageSection(

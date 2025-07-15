@@ -20,6 +20,8 @@ interface LocalRepository {
     suspend fun setName(value: String)
     fun getAlarm(): Flow<Boolean>
     fun getName(): Flow<String>
+    fun isAlarmPermissionRequestedBefore() : Flow<Boolean>
+    suspend fun setAlarmPermissionRequestedBefore(requested: Boolean)
 
     suspend fun getLocalQuotes(): List<LocalQuoteInfo>
     suspend fun addLocalQuote(quote: LocalQuoteInfo)

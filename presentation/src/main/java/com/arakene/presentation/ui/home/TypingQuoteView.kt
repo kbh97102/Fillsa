@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -32,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -111,6 +111,8 @@ fun TypingQuoteView(
 
     val scope = rememberCoroutineScope()
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     val updateBackEvent by rememberUpdatedState({
         viewModel.handleContract(
             TypingAction.Back(
@@ -141,6 +143,14 @@ fun TypingQuoteView(
 
             is CommonEffect.PopBackStack -> {
                 updateBackEvent()
+            }
+
+            is CommonEffect.ShowSnackBar -> {
+                snackbarHostState.showSnackbar(it.message)
+            }
+
+            is CommonEffect.HideKeyboard -> {
+                keyboardController?.hide()
             }
         }
     }
@@ -193,7 +203,17 @@ fun TypingQuoteView(
             Spacer(Modifier.weight(1f))
 
             TypingQuoteBottomSection(
-                onBackClick = updateBackEvent,
+                saveOnClick = {
+                    viewModel.handleContract(
+                        TypingAction.Save(
+                            korTyping = korTyping.text,
+                            engTyping = engTyping.text,
+                            data,
+                            localeType,
+                            isLike
+                        )
+                    )
+                },
                 shareOnClick = {
                     viewModel.handleContract(
                         CommonEffect.Move(
@@ -250,7 +270,7 @@ fun TypingQuoteView(
 
 @Composable
 private fun TypingQuoteBottomSection(
-    onBackClick: () -> Unit,
+    saveOnClick: () -> Unit,
     shareOnClick: () -> Unit,
     copyOnClick: () -> Unit,
     like: Boolean,
@@ -260,27 +280,10 @@ private fun TypingQuoteBottomSection(
 
     Row(
         modifier = modifier
-            .fillMaxWidth()
-            .imePadding(),
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-
-        Button(
-            onClick = onBackClick,
-            contentPadding = PaddingValues(vertical = 8.dp, horizontal = 12.dp),
-            shape = MaterialTheme.shapes.small,
-            border = BorderStroke(1.dp, color = colorResource(R.color.gray_700)),
-            colors = MaterialTheme.colorScheme.defaultButtonColors
-        ) {
-
-            Text(
-                stringResource(R.string.out),
-                color = colorResource(R.color.gray_700),
-                style = FillsaTheme.typography.body3
-            )
-
-        }
 
         InteractionButtonSection(
             copy = copyOnClick,
@@ -288,6 +291,22 @@ private fun TypingQuoteBottomSection(
             isLike = like,
             setIsLike = setLike,
         )
+
+        Button(
+            onClick = saveOnClick,
+            contentPadding = PaddingValues(vertical = 8.dp, horizontal = 12.dp),
+            shape = MaterialTheme.shapes.small,
+            border = BorderStroke(1.dp, color = colorResource(R.color.gray_700)),
+            colors = MaterialTheme.colorScheme.defaultButtonColors
+        ) {
+
+            Text(
+                stringResource(R.string.save),
+                color = colorResource(R.color.gray_700),
+                style = FillsaTheme.typography.body3
+            )
+
+        }
 
     }
 

@@ -36,6 +36,7 @@ fun DialogSection(
             } else {
                 DialogWIthImage(
                     title = dialogData.title,
+                    body = dialogData.body,
                     drawableId = dialogData.drawableId,
                     titleTextSize = dialogData.titleTextSize,
                     positiveText = dialogData.okText,

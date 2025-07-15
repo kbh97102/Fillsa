@@ -20,7 +20,6 @@ import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
-import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingAction
 import com.arakene.presentation.util.TypingEffect
@@ -73,8 +72,18 @@ class TypingViewModel @Inject constructor(
                     typingAction.korTyping,
                     typingAction.engTyping,
                     typingAction.dailyQuote,
-                    typingAction.localeType,
                     likeYn = typingAction.isLike
+                )
+            }
+
+            is TypingAction.Save -> {
+                emitEffect(CommonEffect.HideKeyboard)
+                saveTyping(
+                    typingAction.korTyping,
+                    typingAction.engTyping,
+                    typingAction.dailyQuote,
+                    likeYn = typingAction.isLike,
+                    useSaveSnackBar = true
                 )
             }
 
@@ -119,8 +128,8 @@ class TypingViewModel @Inject constructor(
         korTyping: String,
         engTyping: String,
         dailyQuoteDto: DailyQuoteDto,
-        localeType: LocaleType,
-        likeYn: Boolean
+        likeYn: Boolean,
+        useSaveSnackBar: Boolean = false
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
@@ -166,6 +175,16 @@ class TypingViewModel @Inject constructor(
                         typingEngQuote = engTyping
                     )
                 )
+            }
+
+            if (useSaveSnackBar) {
+                viewModelScope.launch {
+                    emitEffect(
+                        CommonEffect.ShowSnackBar(
+                            message = "저장되었습니다."
+                        )
+                    )
+                }
             }
         }
 

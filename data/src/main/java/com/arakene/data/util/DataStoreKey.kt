@@ -12,4 +12,5 @@ object DataStoreKey {
     val FIRST_OPEN_KEY = booleanPreferencesKey("is_first_open")
     val ALARM_KEY  = booleanPreferencesKey("alarm_key")
     val TOKEN_EXPIRED = stringPreferencesKey("token_expired")
+    val PERMISSION_REQUESTED = booleanPreferencesKey("PERMISSION_REQUESTED")
 }

@@ -1,8 +1,10 @@
 package com.arakene.presentation.ui.calendar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -75,35 +77,47 @@ fun CalendarView(
             navigate = navigate
         )
 
-        CalendarSection(
-            memberQuotes = data?.memberQuotes ?: emptyList(),
-            changeMonth = {
-                viewModel.handleContract(CalendarAction.ChangeMonth(it))
-            },
-            selectDay = {
-                viewModel.handleContract(CalendarAction.SelectDay(it))
-            },
-            selectedDay = selectedDay
-        )
+        BoxWithConstraints(modifier = Modifier.weight(1f)) {
 
-        CalendarCountSection(
-            typingCount = data?.monthlySummary?.typingCount ?: 0,
-            likeCount = data?.monthlySummary?.likeCount ?: 0,
-            modifier = Modifier.padding(top = 15.dp),
-            countOnClick = {
-                viewModel.handleContract(CalendarAction.ClickCount)
+            val calendarHeight = remember {
+                maxHeight * 0.6f
             }
-        )
 
-        CalendarQuoteSection(
-            selectedDayQuote = selectedDayQuote,
-            selectedDay = selectedDay,
-            modifier = Modifier
-                .padding(top = 15.dp, bottom = 30.dp)
-                .noEffectClickable {
-                    viewModel.handleContract(CalendarAction.ClickBottomQuote)
-                }
-        )
+            Column {
+                CalendarSection(
+                    memberQuotes = data?.memberQuotes ?: emptyList(),
+                    changeMonth = {
+                        viewModel.handleContract(CalendarAction.ChangeMonth(it))
+                    },
+                    selectDay = {
+                        viewModel.handleContract(CalendarAction.SelectDay(it))
+                    },
+                    selectedDay = selectedDay,
+                    modifier = Modifier.height(calendarHeight)
+                )
+
+                CalendarCountSection(
+                    typingCount = data?.monthlySummary?.typingCount ?: 0,
+                    likeCount = data?.monthlySummary?.likeCount ?: 0,
+                    modifier = Modifier.padding(top = 15.dp),
+                    countOnClick = {
+                        viewModel.handleContract(CalendarAction.ClickCount)
+                    }
+                )
+
+                CalendarQuoteSection(
+                    selectedDayQuote = selectedDayQuote,
+                    selectedDay = selectedDay,
+                    modifier = Modifier
+                        .padding(top = 15.dp, bottom = 30.dp)
+                        .noEffectClickable {
+                            viewModel.handleContract(CalendarAction.ClickBottomQuote)
+                        }
+                )
+            }
+
+        }
+
 
     }
 

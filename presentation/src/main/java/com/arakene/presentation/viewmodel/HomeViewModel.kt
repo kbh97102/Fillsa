@@ -33,6 +33,7 @@ import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
+import java.io.File
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
@@ -115,6 +116,10 @@ class HomeViewModel @Inject constructor(
                 deleteBackgroundImage()
             }
 
+            is HomeAction.ClickCalendar -> {
+                emitEffect(CommonEffect.Move(Screens.Calendar))
+            }
+
             else -> {
 
             }
@@ -139,18 +144,21 @@ class HomeViewModel @Inject constructor(
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
         viewModelScope.launch {
             backgroundImageUri.value = homeAction.uri
+            emitEffect(HomeEffect.ProcessImage(homeAction.uri))
+        }
 
-            homeAction.file?.let { file ->
-                getResponse(
-                    postUploadImageUseCase(
-                        dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-                        imageFile = file
-                    ), useLoading = false
-                )?.let {
-                    emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
-                }
+    fun uploadImage(file: File?) {
+        viewModelScope.launch {
+            getResponse(
+                postUploadImageUseCase(
+                    dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                    imageFile = file ?: return@launch
+                ), useLoading = false
+            )?.let {
+                emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
             }
         }
+    }
 
     private fun deleteBackgroundImage() = viewModelScope.launch {
         emitEffect(

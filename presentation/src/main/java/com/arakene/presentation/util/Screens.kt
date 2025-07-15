@@ -11,6 +11,7 @@ sealed interface Screens {
     val needLogin: Boolean
         get() = false
 
+    @Keep
     @Serializable
     data class Login(
         val isOnBoarding: Boolean = false
@@ -18,6 +19,16 @@ sealed interface Screens {
         override val routeString: String
             get() = "Login"
     }
+
+    @Serializable
+    @Keep
+    data object Splash : Screens {
+        override val routeString: String
+            get() = "Splash"
+        override val needLogin: Boolean
+            get() = false
+    }
+
 
     @Serializable
     @Keep
@@ -37,7 +48,7 @@ sealed interface Screens {
         val targetDay: Int = 0
     ) : Screens {
         override val routeString: String
-            get() = "home"
+            get() = "Home"
     }
 
     @Serializable

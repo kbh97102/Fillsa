@@ -38,6 +38,8 @@ androidx-hilt = "1.2.0"
 room = "2.7.1"
 roomRuntimeAndroid = "2.7.1"
 ads = "24.4.0"
+lottie = "6.6.7"
+exifinterface = "1.3.6"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -69,6 +71,7 @@ paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "pa
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar" }
 ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "ads" }
+lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 #hilt
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
@@ -97,6 +100,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterface" }
 
 
 
