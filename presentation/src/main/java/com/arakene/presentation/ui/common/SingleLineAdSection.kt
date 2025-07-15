@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
+import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.logError
@@ -38,7 +39,7 @@ fun SingleLineAdSection(modifier: Modifier = Modifier) {
     }
 
     val nativeAd = remember {
-        val loader: AdLoader = AdLoader.Builder(context, "ca-app-pub-3940256099942544/2247696110")
+        val loader: AdLoader = AdLoader.Builder(context,BuildConfig.ad_native_test)
             .forNativeAd { loaded ->
                 scope.launch {
                     ad = loaded
