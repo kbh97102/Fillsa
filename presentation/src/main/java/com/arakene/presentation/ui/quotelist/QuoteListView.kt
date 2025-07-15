@@ -35,19 +35,9 @@ fun QuoteListView(
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
-    var isLike by remember {
-        mutableStateOf(false)
-    }
+    val isLike by viewModel.likeFilter.collectAsState()
 
-    val isLogged by viewModel.isLogged.collectAsState(false)
-
-    val paging = remember(isLogged, isLike) {
-        if (isLogged) {
-            viewModel.getQuotesList(isLike)
-        } else {
-            viewModel.getLocalQuotesList(isLike)
-        }
-    }.collectAsLazyPagingItems()
+    val paging = viewModel.quotesFlow.collectAsLazyPagingItems()
 
     HandlePagingError(paging, refresh = {
         paging.refresh()
@@ -86,19 +76,19 @@ fun QuoteListView(
 //            modifier = Modifier.padding(top = 20.dp)
 //        )
 
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+            IsLikeSection(
+                modifier = Modifier.padding(top = 20.dp),
+                isLike = isLike,
+                setIsLike = {
+                    viewModel.updateLikeFilter(it)
+                }
+            )
+        }
+
         if (paging.itemCount == 0) {
             QuoteListEmptySection()
         } else {
-
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                IsLikeSection(
-                    modifier = Modifier.padding(top = 20.dp),
-                    isLike = isLike,
-                    setIsLike = {
-                        isLike = it
-                    }
-                )
-            }
 
             QuoteListSection(
                 modifier = Modifier.padding(top = 10.dp),
