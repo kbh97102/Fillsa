@@ -37,6 +37,7 @@ workRuntimeKtx = "2.10.1"
 androidx-hilt = "1.2.0"
 room = "2.7.1"
 roomRuntimeAndroid = "2.7.1"
+ads = "24.4.0"
 lottie = "6.6.7"
 exifinterface = "1.3.6"
 
@@ -69,6 +70,7 @@ coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", versi
 paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar" }
+ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "ads" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 #hilt
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }

@@ -28,9 +28,6 @@ class FillsaApplication : Application(), Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
-    @Inject
-    lateinit var getAlarmUsageUseCase: GetAlarmUsageUseCase
-
     override fun onCreate() {
         super.onCreate()
 

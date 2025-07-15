@@ -26,6 +26,7 @@ android {
         versionCode = 6
         versionName = "1.0.9"
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretsFile["KAKAO_KEY"].toString()
+        manifestPlaceholders["ADS_ID"] = secretsFile["ADS_ID"].toString()
 
         manifestPlaceholders["appAuthRedirectScheme"] = "com.arakene.fillsa"
 
@@ -77,4 +78,5 @@ dependencies {
 
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+    implementation(libs.ads)
 }

@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
@@ -28,6 +29,7 @@ import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.MainNavHost
+import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
@@ -87,10 +89,10 @@ class MainActivity : ComponentActivity() {
 
             val isLogged by viewModel.isLogged.collectAsState(false)
 
-            LaunchedEffect(navController) {
-                navController.addOnDestinationChangedListener { _, destination, _ ->
-                    logDebug("Current: ${destination.route}")
-                }
+            val shouldShowAd by viewModel.shouldShowAd.collectAsState()
+
+            LaunchedEffect(currentDestination) {
+                viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
 
             FillsaTheme {
@@ -103,34 +105,43 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Scaffold(
-                            snackbarHost = {
-                                SnackbarHost(snackbarHostState) {
-                                    SnackbarContent(message = it.visuals.message)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            Scaffold(
+                                modifier = Modifier.weight(1f),
+                                snackbarHost = {
+                                    SnackbarHost(snackbarHostState) {
+                                        SnackbarContent(message = it.visuals.message)
+                                    }
+                                },
+                                bottomBar = {
+                                    if (displayBottomBar) {
+                                        BottomNavigationBar(
+                                            isLogged = isLogged,
+                                            navController = navController
+                                        )
+                                    }
                                 }
-                            },
-                            bottomBar = {
-                                if (displayBottomBar) {
-                                    BottomNavigationBar(
-                                        isLogged = isLogged,
-                                        navController = navController
-                                    )
-                                }
+                            ) { paddingValues ->
+                                DialogSection(dialogData)
+
+                                MainNavHost(
+                                    modifier = Modifier
+                                        .padding(paddingValues)
+                                        .consumeWindowInsets(paddingValues)
+                                        .imePadding(),
+                                    navController = navController,
+                                    startDestination = Screens.Splash,
+                                    logoutEvent = logoutEvent
+                                )
                             }
-                        ) { paddingValues ->
-                            DialogSection(dialogData)
 
-                            MainNavHost(
-                                modifier = Modifier
-                                    .padding(paddingValues)
-                                    .consumeWindowInsets(paddingValues)
-                                    .imePadding(),
-                                navController = navController,
-                                startDestination = Screens.Splash,
-                                logoutEvent = logoutEvent
-                            )
+                            if (shouldShowAd) {
+                                SingleLineAdSection()
+                            }
                         }
-
                         CircleLoadingSpinner(
                             isLoading = loadingState
                         )
