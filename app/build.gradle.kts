@@ -24,7 +24,7 @@ android {
         minSdk = 28
         targetSdk = 35
         versionCode = 6
-        versionName = "1.0.9"
+        versionName = "1.0.11"
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretsFile["KAKAO_KEY"].toString()
         manifestPlaceholders["ADS_ID"] = secretsFile["ADS_ID"].toString()
 
