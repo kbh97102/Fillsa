@@ -89,10 +89,10 @@ class MainActivity : ComponentActivity() {
 
             val isLogged by viewModel.isLogged.collectAsState(false)
 
-            LaunchedEffect(navController) {
-                navController.addOnDestinationChangedListener { _, destination, _ ->
-                    logDebug("Current: ${destination.route}")
-                }
+            val shouldShowAd by viewModel.shouldShowAd.collectAsState()
+
+            LaunchedEffect(currentDestination) {
+                viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
 
             FillsaTheme {
@@ -138,10 +138,9 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
 
-                            SingleLineAdSection()
-
-
-
+                            if (shouldShowAd) {
+                                SingleLineAdSection()
+                            }
                         }
                         CircleLoadingSpinner(
                             isLoading = loadingState

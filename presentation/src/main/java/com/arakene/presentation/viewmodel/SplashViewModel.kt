@@ -14,6 +14,8 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
@@ -31,6 +33,9 @@ class SplashViewModel @Inject constructor(
     private val getAlarmPermissionRequestedBeforeUseCase: GetAlarmPermissionRequestedBeforeUseCase,
     private val setAlarmPermissionRequestedBeforeUseCase: SetAlarmPermissionRequestedBeforeUseCase
 ) : BaseViewModel() {
+
+    private val _shouldShowAd = MutableStateFlow(true)
+    val shouldShowAd: StateFlow<Boolean> = _shouldShowAd.asStateFlow()
 
     val isLogged = getLoginStatusUseCase()
 
@@ -81,6 +86,20 @@ class SplashViewModel @Inject constructor(
                     }
                 }
 
+        }
+    }
+
+    fun updateAdVisibilityByRoute(route: String?) {
+        _shouldShowAd.value = when {
+            route?.contains("Home") == true -> true
+            route?.contains("Calendar") == true -> true
+            route?.contains("QuoteList") == true -> true
+            route?.contains("QuoteDetail") == true -> true
+            route?.contains("MyPage") == true -> true
+            route?.contains("Notice") == true -> true
+            route?.contains("NoticeDetail") == true -> true
+            route?.contains("Alert") == true -> true
+            else -> false
         }
     }
 
