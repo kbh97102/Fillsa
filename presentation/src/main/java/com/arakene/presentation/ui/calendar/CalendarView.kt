@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.calendar
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import com.arakene.presentation.viewmodel.CalendarViewModel
 @Composable
 fun CalendarView(
     navigate: Navigate,
+    popBackStack: () -> Unit,
     viewModel: CalendarViewModel = hiltViewModel()
 ) {
 
@@ -54,6 +56,10 @@ fun CalendarView(
     }
 
     val lifecycleOwner = LocalLifecycleOwner.current
+
+    BackHandler {
+        popBackStack()
+    }
 
     HandleViewEffect(
         viewModel.effect,
@@ -126,5 +132,5 @@ fun CalendarView(
 @Composable
 @Preview
 private fun CalendarViewPreview() {
-    FillsaTheme { CalendarView(navigate = {}) }
+    FillsaTheme { CalendarView(navigate = {}, popBackStack = {}) }
 }

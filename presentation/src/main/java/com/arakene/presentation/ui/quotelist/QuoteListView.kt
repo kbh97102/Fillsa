@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.quotelist
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,6 +33,7 @@ fun QuoteListView(
     startDate: String,
     endDate: String,
     navigate: Navigate,
+    popBackStack: () -> Unit,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -44,6 +46,10 @@ fun QuoteListView(
     })
 
     val lifeCycle = LocalLifecycleOwner.current
+
+    BackHandler {
+        popBackStack()
+    }
 
     HandleViewEffect(
         viewModel.effect,

@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.mypage
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -33,6 +34,7 @@ import com.arakene.presentation.viewmodel.MyPageViewModel
 @Composable
 fun MyPageView(
     navigate: Navigate,
+    popBackStack: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
@@ -55,6 +57,10 @@ fun MyPageView(
     val userName by viewModel.userName.collectAsState("")
 
     val imagePath by viewModel.imageUri.collectAsState("")
+
+    BackHandler {
+        popBackStack()
+    }
 
     Column(
         modifier = modifier
@@ -131,7 +137,8 @@ fun MyPageView(
 private fun MyPageViewPreview() {
     FillsaTheme {
         MyPageView(
-            navigate = {}
+            navigate = {},
+            popBackStack = {}
         )
     }
 }

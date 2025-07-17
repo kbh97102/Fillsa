@@ -145,6 +145,11 @@ fun MainNavHost(
                     endDate = "",
                     navigate = {
                         navController.navigate(it)
+                    },
+                    popBackStack = {
+                        navController.navigate(Screens.Home()) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }
@@ -209,6 +214,11 @@ fun MainNavHost(
                 CalendarView(
                     navigate = {
                         navController.navigate(it)
+                    },
+                    popBackStack = {
+                        navController.navigate(Screens.Home()) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }
@@ -219,6 +229,11 @@ fun MainNavHost(
                 MyPageView(
                     navigate = {
                         navController.navigate(it)
+                    },
+                    popBackStack = {
+                        navController.navigate(Screens.Home()) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }
