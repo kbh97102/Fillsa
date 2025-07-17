@@ -155,17 +155,17 @@ fun Modifier.noEffectClickable(enable: Boolean = true, click: () -> Unit) = this
 fun HandleViewEffect(
     effect: Flow<Effect>,
     lifecycleOwner: LifecycleOwner,
-    compositionScope: CoroutineScope = rememberCoroutineScope(),
     effectHandler: suspend (Effect) -> Unit
 ) = LaunchedEffect(effect, lifecycleOwner) {
 
     lifecycleOwner.lifecycleScope.launch {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             effect
-                .onEach {
-                    effectHandler(it)
+                .collect{
+                    launch {
+                        effectHandler(it)
+                    }
                 }
-                .launchIn(compositionScope)
         }
     }
 }
