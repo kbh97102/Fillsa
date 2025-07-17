@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import android.app.Activity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,6 +31,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
@@ -103,9 +105,12 @@ fun HomeView(
         ImageDialogDataHolder()
     }
 
-    /**
-     *
-     */
+    DoubleBackPressHandler(
+        onExit = {
+            (context as? Activity)?.finishAffinity()
+        }
+    )
+
     LaunchedEffect(requestDate) {
         if (requestDate != null) {
             viewModel.handleContract(HomeEffect.SetDate(requestDate))
