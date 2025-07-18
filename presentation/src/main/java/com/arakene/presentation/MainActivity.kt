@@ -26,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -99,6 +100,8 @@ class MainActivity : ComponentActivity() {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
 
+
+
             FillsaTheme {
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
@@ -128,6 +131,7 @@ class MainActivity : ComponentActivity() {
                                         )
                                     }
                                 },
+                                containerColor = Color.White,
                                 contentWindowInsets = if (shouldShowAd){
                                     WindowInsets.statusBars
                                 } else {
