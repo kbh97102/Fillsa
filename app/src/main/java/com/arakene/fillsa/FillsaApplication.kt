@@ -9,6 +9,8 @@ import com.arakene.domain.usecase.common.GetAlarmUsageUseCase
 import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.google.firebase.FirebaseApp
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.common.KakaoSdk
 import dagger.hilt.android.HiltAndroidApp
 import kotlinx.coroutines.CoroutineScope
@@ -30,6 +32,8 @@ class FillsaApplication : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+
+        Firebase.crashlytics.isCrashlyticsCollectionEnabled = true
 
         FirebaseApp.initializeApp(this)
 

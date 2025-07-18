@@ -49,9 +49,11 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LoginAction
 import com.arakene.presentation.util.LoginEffect
+import com.arakene.presentation.util.LoginErrorException
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.LoginViewModel
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.kakao.sdk.user.UserApiClient
 import net.openid.appauth.AuthorizationException
 import net.openid.appauth.AuthorizationRequest
@@ -195,6 +197,16 @@ fun LoginView(
                                         ).longVersionCode.toString(),
                                         isOnboarding = isOnboarding
                                     )
+                                )
+                            } else {
+                                FirebaseCrashlytics.getInstance().recordException(
+                                    LoginErrorException("KAKAO Login Token is Null")
+                                )
+                            }
+                        } else {
+                            error.localizedMessage?.let {
+                                FirebaseCrashlytics.getInstance().recordException(
+                                    LoginErrorException("KAKAO Login $it")
                                 )
                             }
                         }

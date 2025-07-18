@@ -83,4 +83,5 @@ dependencies {
     implementation(libs.calendar)
     implementation(libs.ads)
     implementation(libs.lottie)
+    implementation(libs.firebase.crashlytics)
 }
