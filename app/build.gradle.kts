@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.gms)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 
@@ -23,9 +24,10 @@ android {
         applicationId = "com.arakene.fillsa"
         minSdk = 28
         targetSdk = 35
-        versionCode = 6
-        versionName = "1.0.9"
+        versionCode = 7
+        versionName = "1.0.12"
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretsFile["KAKAO_KEY"].toString()
+        manifestPlaceholders["ADS_ID"] = secretsFile["ADS_ID"].toString()
 
         manifestPlaceholders["appAuthRedirectScheme"] = "com.arakene.fillsa"
 
@@ -77,4 +79,8 @@ dependencies {
 
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+    implementation(libs.ads)
+
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.firebase.analytics)
 }

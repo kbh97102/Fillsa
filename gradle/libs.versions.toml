@@ -37,7 +37,10 @@ workRuntimeKtx = "2.10.1"
 androidx-hilt = "1.2.0"
 room = "2.7.1"
 roomRuntimeAndroid = "2.7.1"
+ads = "24.4.0"
 lottie = "6.6.7"
+exifinterface = "1.3.6"
+firebase-crashlytics-gradle = "3.0.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -63,11 +66,14 @@ datastore = { group = "androidx.datastore", name = "datastore-preferences", vers
 material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 splash = { group = "androidx.core", name = "core-splashscreen", version.ref = "splash" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebase-bom" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
 coil = { group = "io.coil-kt.coil3", name = "coil-compose", version.ref = "coil" }
 coil-network = { group = "io.coil-kt.coil3", name = "coil-network-okhttp", version.ref = "coil" }
 paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "paging" }
 paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paging" }
 calendar = { group = "com.kizitonwose.calendar", name = "compose", version.ref = "calendar" }
+ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "ads" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 #hilt
 hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
@@ -97,6 +103,7 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
+androidx-exifinterface = { group = "androidx.exifinterface", name = "exifinterface", version.ref = "exifinterface" }
 
 
 
@@ -112,3 +119,4 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 kotlinx-serialization-json = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version = "2.1.20-2.0.0" }
 gms = { id = "com.google.gms.google-services", version.ref = "gms" }
+firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-gradle" }

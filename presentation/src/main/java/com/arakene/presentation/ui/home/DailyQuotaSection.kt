@@ -114,13 +114,14 @@ fun DailyQuotaSection(
                     Text(
                         modifier = Modifier.fillMaxWidth(),
                         text = text,
-                        style = FillsaTheme.typography.body2,
+                        style = FillsaTheme.typography.quote,
                         color = colorResource(R.color.gray_700),
                         textAlign = TextAlign.Center
                     )
 
                     AuthorText(
                         author = author,
+                        style = FillsaTheme.typography.quote,
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(top = 12.dp)

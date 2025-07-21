@@ -41,11 +41,13 @@ import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.MyPageAction
+import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.MyPageViewModel
 
 @Composable
 fun AlertView(
+    navigate: Navigate,
     modifier: Modifier = Modifier,
     popBackStack: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
@@ -63,8 +65,12 @@ fun AlertView(
         LocalLifecycleOwner.current
     ) {
         when (it) {
-            CommonEffect.PopBackStack -> {
+            is CommonEffect.PopBackStack -> {
                 popBackStack()
+            }
+
+            is CommonEffect.Move -> {
+                navigate(it.screen)
             }
         }
     }

@@ -6,9 +6,16 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.CompositionLocalProvider
@@ -19,6 +26,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -26,6 +34,7 @@ import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.MainNavHost
+import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
@@ -85,11 +94,13 @@ class MainActivity : ComponentActivity() {
 
             val isLogged by viewModel.isLogged.collectAsState(false)
 
-            LaunchedEffect(navController) {
-                navController.addOnDestinationChangedListener { _, destination, _ ->
-                    logDebug("Current: ${destination.route}")
-                }
+            val shouldShowAd by viewModel.shouldShowAd.collectAsState()
+
+            LaunchedEffect(currentDestination) {
+                viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
+
+
 
             FillsaTheme {
                 CompositionLocalProvider(
@@ -101,31 +112,49 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
-                        Scaffold(
-                            snackbarHost = {
-                                SnackbarHost(snackbarHostState) {
-                                    SnackbarContent(message = it.visuals.message)
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                        ) {
+                            Scaffold(
+                                modifier = Modifier.weight(1f),
+                                snackbarHost = {
+                                    SnackbarHost(snackbarHostState) {
+                                        SnackbarContent(message = it.visuals.message)
+                                    }
+                                },
+                                bottomBar = {
+                                    if (displayBottomBar) {
+                                        BottomNavigationBar(
+                                            isLogged = isLogged,
+                                            navController = navController
+                                        )
+                                    }
+                                },
+                                containerColor = Color.White,
+                                contentWindowInsets = if (shouldShowAd){
+                                    WindowInsets.statusBars
+                                } else {
+                                    ScaffoldDefaults.contentWindowInsets
                                 }
-                            },
-                            bottomBar = {
-                                if (displayBottomBar) {
-                                    BottomNavigationBar(
-                                        isLogged = isLogged,
-                                        navController = navController
-                                    )
-                                }
+                            ) { paddingValues ->
+                                DialogSection(dialogData)
+
+                                MainNavHost(
+                                    modifier = Modifier
+                                        .padding(paddingValues)
+                                        .imePadding(),
+                                    navController = navController,
+                                    startDestination = Screens.Splash,
+                                    logoutEvent = logoutEvent
+                                )
                             }
-                        ) { paddingValues ->
-                            DialogSection(dialogData)
 
-                            MainNavHost(
-                                modifier = Modifier.padding(paddingValues),
-                                navController = navController,
-                                startDestination = Screens.Splash,
-                                logoutEvent = logoutEvent
-                            )
+                            // TODO 7월 21일 운영배포에는 광고 제거
+//                            if (shouldShowAd) {
+//                                SingleLineAdSection()
+//                            }
                         }
-
                         CircleLoadingSpinner(
                             isLoading = loadingState
                         )

@@ -1,6 +1,5 @@
 package com.arakene.presentation.viewmodel
 
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
@@ -16,14 +15,21 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.QuoteFilter
 import com.arakene.presentation.util.QuoteListAction
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,6 +44,36 @@ class ListViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+    private val _likeFilter = MutableStateFlow(false)
+    val likeFilter = _likeFilter.asStateFlow()
+
+    // 로그인 상태를 가져오는 Flow
+    val loginStatus = getLoginStatusUseCase()
+
+    // 필터 상태를 결합한 Flow
+    private val filterState = combine(
+        loginStatus,
+        likeFilter
+    ) { isLogged, isLike ->
+        QuoteFilter(isLogged = isLogged, isLike = isLike)
+    }.distinctUntilChanged()
+
+    // 필터 상태에 따라 적절한 UseCase를 선택하는 Flow
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val quotesFlow = filterState
+        .flatMapLatest { filter ->
+            if (filter.isLogged) {
+                getQuotesList(filter.isLike)
+            } else {
+                getLocalQuotesList(filter.isLike)
+            }
+        }
+        .cachedIn(viewModelScope)
+
+    fun updateLikeFilter(isLike: Boolean) {
+        _likeFilter.value = isLike
+    }
 
     override fun handleAction(action: Action) {
         when (val listAction = action as QuoteListAction) {

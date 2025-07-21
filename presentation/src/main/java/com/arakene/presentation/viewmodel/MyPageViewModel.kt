@@ -16,7 +16,6 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -34,7 +33,7 @@ class MyPageViewModel @Inject constructor(
     private val getAlarmUsageUseCase: GetAlarmUsageUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
     private val getImageUriUseCase: GetImageUriUseCase,
-    private val alarmManagerHelper: AlarmManagerHelper
+    private val alarmManagerHelper: AlarmManagerHelper,
 ) : BaseViewModel() {
 
     val isLogged = getLoginStatusUseCase()
@@ -101,5 +100,7 @@ class MyPageViewModel @Inject constructor(
 
     private fun resign() = viewModelScope.launch {
         deleteResignUseCase()
+        logoutUseCase()
+        emitEffect(CommonEffect.Move(Screens.Home()))
     }
 }

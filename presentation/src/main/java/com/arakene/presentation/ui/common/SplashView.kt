@@ -77,8 +77,9 @@ fun SplashView(
         ActivityResultContracts.RequestMultiplePermissions()
     ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && it.containsKey(Manifest.permission.POST_NOTIFICATIONS)) {
-            viewModel.setAlarmUsage(it[Manifest.permission.POST_NOTIFICATIONS] == true)
-
+            if (!isPermissionRequestedBefore) {
+                viewModel.setAlarmUsage(it[Manifest.permission.POST_NOTIFICATIONS] == true)
+            }
 
             runCatching {
                 val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
