@@ -24,7 +24,7 @@ android {
         applicationId = "com.arakene.fillsa"
         minSdk = 28
         targetSdk = 35
-        versionCode = 6
+        versionCode = 7
         versionName = "1.0.12"
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretsFile["KAKAO_KEY"].toString()
         manifestPlaceholders["ADS_ID"] = secretsFile["ADS_ID"].toString()
