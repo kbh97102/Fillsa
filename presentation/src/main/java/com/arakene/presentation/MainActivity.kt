@@ -150,9 +150,10 @@ class MainActivity : ComponentActivity() {
                                 )
                             }
 
-                            if (shouldShowAd) {
-                                SingleLineAdSection()
-                            }
+                            // TODO 7월 21일 운영배포에는 광고 제거
+//                            if (shouldShowAd) {
+//                                SingleLineAdSection()
+//                            }
                         }
                         CircleLoadingSpinner(
                             isLoading = loadingState
