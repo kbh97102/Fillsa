@@ -27,12 +27,14 @@ import androidx.core.net.toUri
 
 @Composable
 fun UpdateDialog(
-    modifier: Modifier = Modifier
+    onDismiss: () -> Unit
 ) {
     val context = LocalContext.current
 
     Dialog(
-        onDismissRequest = {},
+        onDismissRequest = {
+            onDismiss()
+        },
         properties = DialogProperties(
             dismissOnClickOutside = false,
             usePlatformDefaultWidth = false
@@ -74,6 +76,8 @@ fun UpdateDialog(
                         setPackage(context.packageName)
                     }
                     context.startActivity(playStoreIntent)
+
+                    onDismiss()
                 },
                 modifier = Modifier.fillMaxWidth()
             )
@@ -84,5 +88,7 @@ fun UpdateDialog(
 @Preview
 @Composable
 private fun Preview() {
-    UpdateDialog()
+    UpdateDialog(
+        onDismiss = {}
+    )
 }
