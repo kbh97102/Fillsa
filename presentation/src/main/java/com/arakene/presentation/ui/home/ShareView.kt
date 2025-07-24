@@ -34,6 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LocalSnackbarHost
@@ -99,7 +100,7 @@ fun ShareView(
                     Text(
                         text = quote,
                         color = colorResource(R.color.gray_700),
-                        style = FillsaTheme.typography.body1,
+                        style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
                     )
@@ -107,7 +108,7 @@ fun ShareView(
                     Text(
                         author,
                         color = colorResource(R.color.gray_700),
-                        style = FillsaTheme.typography.body1,
+                        style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
                         textDecoration = TextDecoration.Underline,
                         textAlign = TextAlign.Center,
                         modifier = Modifier

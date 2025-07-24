@@ -38,6 +38,7 @@ class DialogData private constructor() {
         fun titleTextSize(style: TextUnit) = apply { data.titleTextSize = style }
         fun bodyTextSize(style: TextUnit) = apply { data.bodyTextSize = style }
         fun reversed(reversed: Boolean) = apply { data.reversed = reversed }
+        fun drawableId(drawableId: Int) = apply { data.drawableId = drawableId }
 
         fun build(): DialogData = data
 

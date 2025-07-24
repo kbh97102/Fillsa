@@ -16,7 +16,6 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.MyPageAction
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -34,7 +33,7 @@ class MyPageViewModel @Inject constructor(
     private val getAlarmUsageUseCase: GetAlarmUsageUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
     private val getImageUriUseCase: GetImageUriUseCase,
-    private val alarmManagerHelper: AlarmManagerHelper
+    private val alarmManagerHelper: AlarmManagerHelper,
 ) : BaseViewModel() {
 
     val isLogged = getLoginStatusUseCase()
@@ -48,17 +47,6 @@ class MyPageViewModel @Inject constructor(
 
     val imageUri = getImageUriUseCase()
 
-    init {
-        viewModelScope.launch {
-            getAlarmUsage.distinctUntilChanged().collectLatest {
-                if (it) {
-                    alarmManagerHelper.setAlarm()
-                } else {
-                    alarmManagerHelper.cancelAlarm()
-                }
-            }
-        }
-    }
 
     override fun handleAction(action: Action) {
         when (val myPageAction = action as MyPageAction) {
@@ -88,6 +76,16 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
+    fun checkAlarmState() = viewModelScope.launch {
+        getAlarmUsage.distinctUntilChanged().collectLatest {
+            if (it) {
+                alarmManagerHelper.setAlarm()
+            } else {
+                alarmManagerHelper.cancelAlarm()
+            }
+        }
+    }
+
     private fun updateAlarmUsage(usage: Boolean) {
         viewModelScope.launch {
             setAlarmUsageUseCase(usage)
@@ -102,5 +100,7 @@ class MyPageViewModel @Inject constructor(
 
     private fun resign() = viewModelScope.launch {
         deleteResignUseCase()
+        logoutUseCase()
+        emitEffect(CommonEffect.Move(Screens.Home()))
     }
 }

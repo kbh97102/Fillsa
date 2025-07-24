@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui.theme
 
-import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -9,12 +8,16 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.arakene.presentation.R
 
 val pretendard = FontFamily(
     Font(R.font.pretendard_400, FontWeight.Normal, FontStyle.Normal),
     Font(R.font.pretendard_700, FontWeight.Bold, FontStyle.Normal),
+)
+
+val gangwoneduall = FontFamily(
+    Font(R.font.gangwoneduall_otf_light, FontWeight.Normal, FontStyle.Normal),
+    Font(R.font.gangwoneduall_otf_bold, FontWeight.Bold, FontStyle.Normal),
 )
 
 @Immutable
@@ -36,7 +39,8 @@ data class FillsaTypo(
     val buttonSmallBold: TextStyle = TextStyle.Default,
     val buttonSmallNormal: TextStyle = TextStyle.Default,
     val buttonXSmallBold: TextStyle = TextStyle.Default,
-    val buttonXSmallNormal: TextStyle = TextStyle.Default
+    val buttonXSmallNormal: TextStyle = TextStyle.Default,
+    val quote: TextStyle = TextStyle.Default
 )
 
 object FillsaTheme {

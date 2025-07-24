@@ -13,6 +13,7 @@ import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
 import com.arakene.data.util.DataStoreKey.ALARM_KEY
 import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
+import com.arakene.data.util.DataStoreKey.PERMISSION_REQUESTED
 import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
 import com.arakene.data.util.TokenProvider
 import com.arakene.data.util.toDomain
@@ -30,6 +31,18 @@ class LocalRepositoryImpl @Inject constructor(
     private val tokenProvider: TokenProvider,
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
+
+    override fun isAlarmPermissionRequestedBefore(): Flow<Boolean> {
+        return dataStore.data.map {
+            it[PERMISSION_REQUESTED] ?: false
+        }
+    }
+
+    override suspend fun setAlarmPermissionRequestedBefore(requested: Boolean) {
+        dataStore.edit {
+            it[PERMISSION_REQUESTED] = requested
+        }
+    }
 
     override suspend fun deleteQuote(seq: Int) {
         dao.deleteQuoteById(seq)

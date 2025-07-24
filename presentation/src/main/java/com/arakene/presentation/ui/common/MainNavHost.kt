@@ -49,6 +49,14 @@ fun MainNavHost(
         startDestination = startDestination,
     ) {
 
+        composable<Screens.Splash> {
+            SplashView(
+                navigate = {
+                    navController.navigate(it)
+                }
+            )
+        }
+
         composable<Screens.Login> {
 
             val data = it.toRoute<Screens.Login>()
@@ -137,6 +145,11 @@ fun MainNavHost(
                     endDate = "",
                     navigate = {
                         navController.navigate(it)
+                    },
+                    popBackStack = {
+                        navController.navigate(Screens.Home()) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }
@@ -201,6 +214,11 @@ fun MainNavHost(
                 CalendarView(
                     navigate = {
                         navController.navigate(it)
+                    },
+                    popBackStack = {
+                        navController.navigate(Screens.Home()) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }
@@ -211,6 +229,11 @@ fun MainNavHost(
                 MyPageView(
                     navigate = {
                         navController.navigate(it)
+                    },
+                    popBackStack = {
+                        navController.navigate(Screens.Home()) {
+                            popUpTo(0) { inclusive = true }
+                        }
                     }
                 )
             }
@@ -234,6 +257,9 @@ fun MainNavHost(
                 AlertView(
                     popBackStack = {
                         navController.popBackStack()
+                    },
+                    navigate = {
+                        navController.navigate(it)
                     }
                 )
             }

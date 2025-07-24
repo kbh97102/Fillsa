@@ -25,6 +25,8 @@ android {
 
         buildConfigField("String", "kakao_key", secretsFile["KAKAO_KEY"].toString())
         buildConfigField("String", "google_key", secretsFile["GOOGLE_KEY"].toString())
+        buildConfigField("String", "ad_native_prod", secretsFile["AD_MOB_NATIVE_PROD"].toString())
+        buildConfigField("String", "ad_native_test", secretsFile["AD_MOB_NATIVE_TEST"].toString())
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -50,6 +52,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.googleid)
     implementation(libs.firebase.installations.ktx)
+    implementation(libs.androidx.exifinterface)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -78,4 +81,7 @@ dependencies {
 
     implementation(libs.paging.compose)
     implementation(libs.calendar)
+    implementation(libs.ads)
+    implementation(libs.lottie)
+    implementation(libs.firebase.crashlytics)
 }
