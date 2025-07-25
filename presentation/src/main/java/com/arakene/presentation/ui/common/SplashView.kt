@@ -10,6 +10,7 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
@@ -41,6 +43,7 @@ import com.arakene.presentation.viewmodel.SplashViewModel
 @Composable
 fun SplashView(
     navigate: Navigate,
+    darkTheme: Boolean = isSystemInDarkTheme(),
     viewModel: SplashViewModel = hiltViewModel(),
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
@@ -176,9 +179,16 @@ fun SplashView(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White),
+            .background(
+                color = if (darkTheme) {
+                    colorResource(R.color.gray_700)
+                } else {
+                    Color.White
+                }
+            ),
         contentAlignment = Alignment.Center
     ) {
+        // TODO: 다크모드 스플래시 받고 변경하기
         LottieAnimation(
             composition = composition,
             progress = { lottieState.progress },
