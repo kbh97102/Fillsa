@@ -6,6 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -67,6 +68,7 @@ import net.openid.appauth.ResponseTypeValues
 fun LoginView(
     navigate: (Screens) -> Unit,
     popBackStack: () -> Unit,
+    darkMode: Boolean = isSystemInDarkTheme(),
     viewModel: LoginViewModel = hiltViewModel(),
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
     isOnboarding: Boolean = true
@@ -140,7 +142,7 @@ fun LoginView(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(MaterialTheme.colorScheme.background)
             .padding(horizontal = 20.dp)
     ) {
 
@@ -162,7 +164,11 @@ fun LoginView(
                     }
 
                 },
-            painter = painterResource(R.drawable.icn_login_logo),
+            painter = if (darkMode) {
+                painterResource(R.drawable.icn_login_logo_dark)
+            } else {
+                painterResource(R.drawable.icn_login_logo)
+            },
             contentDescription = null
         )
 
@@ -170,7 +176,7 @@ fun LoginView(
         Text(
             stringResource(R.string.login_description),
             style = FillsaTheme.typography.body2,
-            color = colorResource(R.color.gray_700),
+            color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.padding(top = 80.dp),
         )
 
@@ -303,7 +309,8 @@ private fun LoginDescriptionText(
     text: String,
     termsOfUse: () -> Unit,
     privacyPolicy: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
     val underLine = FillsaTheme.typography.subtitle2
 
@@ -365,7 +372,11 @@ private fun LoginDescriptionText(
         style = FillsaTheme.typography.body3,
         modifier = modifier,
         textAlign = TextAlign.Center,
-        color = colorResource(R.color.gray_500)
+        color = if (darkMode) {
+            Color.White
+        } else {
+            colorResource(R.color.gray_500)
+        }
     )
 
 
