@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
@@ -34,6 +36,7 @@ fun QuoteListView(
     endDate: String,
     navigate: Navigate,
     popBackStack: () -> Unit,
+    navController: NavController,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -41,11 +44,23 @@ fun QuoteListView(
 
     val paging = viewModel.quotesFlow.collectAsLazyPagingItems()
 
+
     HandlePagingError(paging, refresh = {
         paging.refresh()
     })
 
     val lifeCycle = LocalLifecycleOwner.current
+
+    LaunchedEffect(navController.currentBackStackEntry) {
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<Boolean>("memo_updated")
+            ?.observe(lifeCycle) { updated ->
+                if (updated == true) {
+                    paging.refresh()
+                }
+            }
+    }
 
     BackHandler {
         popBackStack()
