@@ -184,7 +184,8 @@ fun FillsaTheme(
             secondary = colorResource(R.color.yellow01),
             tertiary = colorResource(R.color.purple02),
             background = colorResource(R.color.gray_700),
-            onPrimary = colorResource(R.color.white)
+            onPrimary = colorResource(R.color.white),
+            onSecondary = colorResource(R.color.white)
         )
 
         else -> lightColorScheme(
@@ -192,7 +193,8 @@ fun FillsaTheme(
             secondary = colorResource(R.color.yellow01),
             tertiary = colorResource(R.color.purple02),
             background = colorResource(R.color.primary),
-            onPrimary = colorResource(R.color.gray_700)
+            onPrimary = colorResource(R.color.gray_700),
+            onSecondary = colorResource(R.color.gray_500)
         )
     }
 

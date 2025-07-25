@@ -310,7 +310,6 @@ private fun LoginDescriptionText(
     termsOfUse: () -> Unit,
     privacyPolicy: () -> Unit,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
 ) {
     val underLine = FillsaTheme.typography.subtitle2
 
@@ -372,11 +371,7 @@ private fun LoginDescriptionText(
         style = FillsaTheme.typography.body3,
         modifier = modifier,
         textAlign = TextAlign.Center,
-        color = if (darkMode) {
-            Color.White
-        } else {
-            colorResource(R.color.gray_500)
-        }
+        color = MaterialTheme.colorScheme.onSecondary
     )
 
 

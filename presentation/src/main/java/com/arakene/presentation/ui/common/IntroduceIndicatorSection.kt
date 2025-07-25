@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.common
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,11 +21,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import okhttp3.internal.wait
 
 @Composable
 fun IntroduceIndicatorSection(
     currentPage: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     Column(modifier = modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
@@ -46,7 +49,11 @@ fun IntroduceIndicatorSection(
             modifier = Modifier.padding(top = 30.dp),
             text = stringResource(R.string.introduce_title),
             style = FillsaTheme.typography.heading4,
-            color = Color.Black
+            color = if (darkMode){
+                Color.White
+            } else {
+                Color.Black
+            }
         )
 
     }
