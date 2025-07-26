@@ -71,11 +71,9 @@ fun UpdateDialog(
             PositiveButton(
                 "앱 업데이트",
                 onClick = {
-                    val playStoreIntent = Intent(Intent.ACTION_VIEW).apply {
-                        data = "market://details?id=${context.packageName}".toUri()
-                        setPackage(context.packageName)
-                    }
-                    context.startActivity(playStoreIntent)
+                    val intent = Intent(Intent.ACTION_VIEW)
+                    intent.data = ("market://details?id=" + context.packageName).toUri()
+                    context.startActivity(intent)
 
                     onDismiss()
                 },
