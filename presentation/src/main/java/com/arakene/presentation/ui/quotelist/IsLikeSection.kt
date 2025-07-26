@@ -3,6 +3,7 @@ package com.arakene.presentation.ui.quotelist
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,7 +36,7 @@ fun IsLikeSection(
         Text(
             stringResource(R.string.like),
             style = FillsaTheme.typography.buttonMediumNormal,
-            color = colorResource(R.color.gray_700),
+            color = MaterialTheme.colorScheme.onPrimary,
             modifier = Modifier.padding(start = 4.dp)
         )
 
