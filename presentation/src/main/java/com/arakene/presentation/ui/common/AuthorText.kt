@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.common
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,7 +20,7 @@ fun AuthorText(
     author: String,
     modifier: Modifier = Modifier,
     style: TextStyle = FillsaTheme.typography.body2,
-    color: Color = colorResource(R.color.gray_700),
+    color: Color = MaterialTheme.colorScheme.onPrimary
 ) {
 
     val uriHandler = LocalUriHandler.current

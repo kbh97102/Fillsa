@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.colorResource
@@ -75,7 +76,7 @@ fun DailyQuotaSection(
                     .shadow(
                         3.dp,
                         shape = MaterialTheme.shapes.medium,
-                        ambientColor = if(darkMode){
+                        ambientColor = if (darkMode) {
                             colorResource(R.color.gray_400)
                         } else {
                             colorResource(R.color.gray_cb).copy(alpha = 0.7f)
@@ -110,7 +111,14 @@ fun DailyQuotaSection(
                 Image(
                     painter = painterResource(R.drawable.img_wise_saying_background),
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    colorFilter = ColorFilter.tint(
+                        if (darkMode) {
+                            colorResource(R.color.gray_500).copy(alpha = 0.5f)
+                        } else {
+                            colorResource(R.color.purple02).copy(alpha = 0.6f)
+                        }
+                    )
                 )
 
                 Column(
