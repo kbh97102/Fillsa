@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
@@ -33,12 +34,18 @@ fun TypingQuoteBodySection(
     write: TextFieldValue,
     localeType: LocaleType,
     setWrite: (TextFieldValue) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     val gray = colorResource(R.color.gray_ca)
     val black = colorResource(R.color.gray_700)
     val red = Color.Red
+    val rightTextColor = if (darkMode) {
+        colorResource(R.color.yellow02)
+    } else {
+        black
+    }
 
     var lastCondition by remember {
         mutableStateOf(true)
@@ -90,7 +97,7 @@ fun TypingQuoteBodySection(
                         val expectedChar = quote[i]
                         val typedChar = write.text[i]
                         val color = when {
-                            typedChar == expectedChar -> black
+                            typedChar == expectedChar -> rightTextColor
                             else -> red
                         }
 

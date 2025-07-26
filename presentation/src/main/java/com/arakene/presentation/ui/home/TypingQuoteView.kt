@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -157,7 +158,7 @@ fun TypingQuoteView(
 
     Column(
         modifier = Modifier
-            .background(Color.White)
+            .background(MaterialTheme.colorScheme.background)
             .noEffectClickable {
                 focusManager.clearFocus()
             }) {
@@ -290,6 +291,7 @@ private fun TypingQuoteBottomSection(
             share = shareOnClick,
             isLike = like,
             setIsLike = setLike,
+            darkModeColor = R.color.white
         )
 
         Button(
@@ -334,7 +336,9 @@ private fun TypingQuoteTopSection(
             contentDescription = null,
             modifier = Modifier.noEffectClickable {
                 onBackClick()
-            })
+            },
+            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+        )
 
         LocaleSwitch(
             selected = locale,

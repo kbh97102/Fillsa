@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,14 +25,16 @@ fun InteractionButtonSection(
     isLike: Boolean,
     setIsLike: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = isSystemInDarkTheme(),
+    darkModeColor: Int = R.color.purple01,
+    lightModeColor: Int = R.color.gray_700
 ) {
 
     val color = remember(darkMode) {
         if (darkMode) {
-            R.color.purple01
+            darkModeColor
         } else {
-            R.color.gray_700
+            lightModeColor
         }
     }
 
@@ -59,7 +59,8 @@ fun InteractionButtonSection(
             modifier = Modifier
                 .padding(horizontal = 40.dp)
                 .noEffectClickable { share() },
-            colorFilter = ColorFilter.tint(color = colorResource(color)))
+            colorFilter = ColorFilter.tint(color = colorResource(color))
+        )
 
         Image(
             painter =
