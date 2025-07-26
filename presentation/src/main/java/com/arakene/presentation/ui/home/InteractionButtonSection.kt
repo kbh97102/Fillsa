@@ -1,14 +1,18 @@
 package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -17,12 +21,22 @@ import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun InteractionButtonSection(
+
     copy: () -> Unit,
     share: () -> Unit,
     isLike: Boolean,
     setIsLike: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
+
+    val color = remember(darkMode) {
+        if (darkMode) {
+            R.color.purple01
+        } else {
+            R.color.gray_700
+        }
+    }
 
     Row(
         modifier = modifier,
@@ -36,7 +50,7 @@ fun InteractionButtonSection(
             modifier = Modifier.noEffectClickable {
                 copy()
             },
-            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onTertiary)
+            colorFilter = ColorFilter.tint(color = colorResource(color))
         )
 
         Image(
@@ -45,8 +59,7 @@ fun InteractionButtonSection(
             modifier = Modifier
                 .padding(horizontal = 40.dp)
                 .noEffectClickable { share() },
-            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onTertiary)
-        )
+            colorFilter = ColorFilter.tint(color = colorResource(color)))
 
         Image(
             painter =
@@ -58,7 +71,7 @@ fun InteractionButtonSection(
             modifier = Modifier.noEffectClickable {
                 setIsLike(!isLike)
             },
-            colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onTertiary)
+            colorFilter = ColorFilter.tint(color = colorResource(color))
         )
 
     }
