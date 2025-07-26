@@ -3,6 +3,7 @@ package com.arakene.presentation.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,7 +47,8 @@ fun DailyQuotaSection(
     before: () -> Unit,
     navigate: () -> Unit,
     date: LocalDate,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     var amount by remember {
@@ -73,7 +75,11 @@ fun DailyQuotaSection(
                     .shadow(
                         3.dp,
                         shape = MaterialTheme.shapes.medium,
-                        ambientColor = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+                        ambientColor = if(darkMode){
+                            colorResource(R.color.gray_400)
+                        } else {
+                            colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+                        }
                     )
                     .background(
                         MaterialTheme.colorScheme.secondary,
@@ -115,7 +121,7 @@ fun DailyQuotaSection(
                         modifier = Modifier.fillMaxWidth(),
                         text = text,
                         style = FillsaTheme.typography.quote,
-                        color = colorResource(R.color.gray_700),
+                        color = MaterialTheme.colorScheme.onPrimary,
                         textAlign = TextAlign.Center
                     )
 
