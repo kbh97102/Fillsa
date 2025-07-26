@@ -17,13 +17,19 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @Composable
 fun DateSelectSection(
-    startDate: String,
-    endDate: String,
-    modifier: Modifier = Modifier
+    startDate: LocalDate,
+    endDate: LocalDate,
+    modifier: Modifier = Modifier,
 ) {
+
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
     Row(
         verticalAlignment = Alignment.CenterVertically, modifier = modifier
@@ -38,7 +44,7 @@ fun DateSelectSection(
         Image(painterResource(R.drawable.icn_calendar), contentDescription = null)
 
         Text(
-            "$startDate - $endDate",
+            "${dateFormatter.format(startDate)} - ${dateFormatter.format(endDate)}",
             style = FillsaTheme.typography.body2,
             color = colorResource(R.color.gray_700),
             modifier = Modifier.padding(start = 10.dp)
@@ -58,8 +64,8 @@ fun DateSelectSection(
 private fun DateSelectSectionPreview() {
     FillsaTheme {
         DateSelectSection(
-            startDate = "2025.01.01",
-            endDate = "2025.02.05"
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(10)
         )
     }
 }

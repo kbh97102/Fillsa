@@ -141,8 +141,6 @@ fun MainNavHost(
         composable<Screens.QuoteList> {
             WithBaseErrorHandling<ListViewModel>(logoutEvent = updatedLogoutEvent) {
                 QuoteListView(
-                    startDate = "",
-                    endDate = "",
                     navigate = {
                         navController.navigate(it)
                     },
