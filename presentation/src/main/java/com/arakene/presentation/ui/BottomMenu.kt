@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -24,7 +25,8 @@ import com.arakene.presentation.util.Screens
 fun BottomNavigationBar(
     isLogged: Boolean,
     navController: NavHostController,
-    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     val items = remember {
@@ -37,15 +39,20 @@ fun BottomNavigationBar(
     }
 
     NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary
+        containerColor = MaterialTheme.colorScheme.background
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute by remember(navBackStackEntry?.destination?.route) {
             mutableStateOf(navBackStackEntry?.destination?.route?.substringBefore("?"))
         }
 
-        val black = colorResource(R.color.gray_700)
-        val purple = colorResource(R.color.purple01)
+        val unSelectedColor = remember {
+            if (darkMode) {
+                R.color.gray_400
+            } else {
+                R.color.gray_700
+            }
+        }
 
         items.forEach { item ->
             val routeString = remember { item.first::class.qualifiedName }
@@ -79,13 +86,13 @@ fun BottomNavigationBar(
                 icon = { Icon(painterResource(item.second), contentDescription = null) },
                 label = { Text(item.first.routeString) },
                 colors = NavigationBarItemColors(
-                    selectedIconColor = purple,
-                    selectedTextColor = purple,
+                    selectedIconColor = MaterialTheme.colorScheme.onTertiary,
+                    selectedTextColor = MaterialTheme.colorScheme.onTertiary,
                     selectedIndicatorColor = Color.Transparent,
-                    unselectedIconColor = black,
-                    unselectedTextColor = black,
-                    disabledIconColor = black,
-                    disabledTextColor = black
+                    unselectedIconColor = colorResource(unSelectedColor),
+                    unselectedTextColor = colorResource(unSelectedColor),
+                    disabledIconColor = colorResource(unSelectedColor),
+                    disabledTextColor = colorResource(unSelectedColor)
                 )
             )
         }
