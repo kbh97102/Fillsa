@@ -1,10 +1,12 @@
 package com.arakene.presentation.ui.calendar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -27,7 +29,8 @@ import java.util.Locale
 fun CalendarQuoteSection(
     selectedDayQuote: String,
     selectedDay: CalendarDay,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
     val day = remember(selectedDay) {
         selectedDay.date.dayOfMonth.toString()
@@ -43,7 +46,10 @@ fun CalendarQuoteSection(
 
     Row(
         modifier = modifier
-            .background(color = Color.White, shape = RoundedCornerShape(10.dp)),
+            .background(
+                color = if (darkMode) colorResource(R.color.gray_600) else Color.White,
+                shape = RoundedCornerShape(10.dp)
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -56,12 +62,12 @@ fun CalendarQuoteSection(
             Text(
                 day,
                 style = FillsaTheme.typography.heading4,
-                color = colorResource(R.color.purple01)
+                color = MaterialTheme.colorScheme.onTertiary
             )
             Text(
                 dayOfWeek,
                 style = FillsaTheme.typography.body4,
-                color = colorResource(R.color.purple01)
+                color = MaterialTheme.colorScheme.onTertiary
             )
         }
 
@@ -74,7 +80,7 @@ fun CalendarQuoteSection(
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             style = FillsaTheme.typography.body3,
-            color = colorResource(R.color.gray_700)
+            color = MaterialTheme.colorScheme.onPrimary
         )
 
     }

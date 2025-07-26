@@ -3,6 +3,7 @@ package com.arakene.presentation.ui.calendar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -62,7 +63,8 @@ fun CalendarSection(
     changeMonth: (YearMonth) -> Unit,
     selectDay: (CalendarDay) -> Unit,
     selectedDay: CalendarDay,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
@@ -102,12 +104,12 @@ fun CalendarSection(
         modifier = modifier
             .padding(top = 20.dp)
             .background(
-                MaterialTheme.colorScheme.secondary,
+                if (darkMode) colorResource(R.color.gray_700) else MaterialTheme.colorScheme.secondary,
                 shape = MaterialTheme.shapes.medium
             )
             .border(
                 1.dp,
-                color = colorResource(R.color.yellow02),
+                color =if (darkMode) colorResource(R.color.gray_600) else colorResource(R.color.yellow02),
                 shape = MaterialTheme.shapes.medium
             )
     ) {
@@ -270,6 +272,7 @@ private fun Day(
     quoteData: MemberQuotesData?,
     isSelected: Boolean = false,
     isMonthDate: Boolean = true,
+    darkMode: Boolean = isSystemInDarkTheme(),
     onClick: (CalendarDay) -> Unit = {},
 ) {
 
@@ -294,10 +297,14 @@ private fun Day(
                 if (isSelected) {
                     Color.White
                 } else {
-                    colorResource(R.color.gray_700)
+                    MaterialTheme.colorScheme.onPrimary
                 }
             } else {
-                colorResource(R.color.gray_400)
+                if (darkMode) {
+                    colorResource(R.color.gray_500)
+                } else {
+                    colorResource(R.color.gray_400)
+                }
             },
             style = FillsaTheme.typography.buttonSmallNormal
         )
