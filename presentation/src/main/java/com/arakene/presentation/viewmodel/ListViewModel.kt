@@ -24,14 +24,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -50,6 +55,22 @@ class ListViewModel @Inject constructor(
 
     // 로그인 상태를 가져오는 Flow
     val loginStatus = getLoginStatusUseCase()
+
+    private val dateRangeFlow = MutableSharedFlow<Pair<LocalDate, LocalDate>>()
+
+    init {
+        setupDateRangeDebounce()
+    }
+
+    private fun setupDateRangeDebounce() {
+        dateRangeFlow
+            .debounce(500) // 500ms 디바운스
+            .distinctUntilChanged() // 같은 값이면 무시
+            .onEach { (startDate, endDate) ->
+//                loadQuotes(startDate, endDate)
+            }
+            .launchIn(viewModelScope)
+    }
 
     // 필터 상태를 결합한 Flow
     private val filterState = combine(
