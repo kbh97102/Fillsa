@@ -20,6 +20,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
+import com.arakene.presentation.ui.common.CalendarDerationSection
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Contract
@@ -27,6 +28,7 @@ import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.ListViewModel
 import java.time.LocalDate
 
@@ -35,7 +37,7 @@ fun QuoteListView(
     navigate: Navigate,
     popBackStack: () -> Unit,
     startDate: LocalDate = LocalDate.now(),
-    endDate: LocalDate = LocalDate.now(),
+    endDate: LocalDate = LocalDate.now().plusDays(7),
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -45,6 +47,10 @@ fun QuoteListView(
 
     var selectedEndDate by remember(endDate) {
         mutableStateOf(endDate)
+    }
+
+    var displayCalendar by remember {
+        mutableStateOf(false)
     }
 
     val isLike by viewModel.likeFilter.collectAsState()
@@ -88,8 +94,28 @@ fun QuoteListView(
                 DateSelectSection(
                     startDate = selectedStartDate,
                     endDate = selectedEndDate,
-                    modifier = Modifier.padding(top = 20.dp)
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .noEffectClickable {
+                            displayCalendar = !displayCalendar
+                        }
                 )
+            }.firstOrNull()?.measure(constraints)
+
+            val calenderSection = subcompose("CalendarSection") {
+                if (displayCalendar) {
+                    CalendarDerationSection(
+                        startDate = selectedStartDate,
+                        endDate = selectedEndDate,
+                        setStartDate = {
+                            selectedStartDate = it
+                        },
+                        setEndDate = {
+                            selectedEndDate = it
+                        },
+                        modifier = Modifier.padding(top = 10.dp)
+                    )
+                }
             }.firstOrNull()?.measure(constraints)
 
             val likeSection = subcompose("LikeSection") {
@@ -123,6 +149,9 @@ fun QuoteListView(
 
             layout(constraints.maxWidth, constraints.maxHeight) {
                 dataSelectionSection?.placeRelative(0, 0)
+
+                calenderSection?.placeRelative(0, likeSectionHeight - 16.dp.roundToPx(), zIndex = 0.1f)
+
                 likeSection?.placeRelative(
                     constraints.maxWidth - likeSection.measuredWidth,
                     likeSectionHeight
