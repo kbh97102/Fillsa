@@ -6,35 +6,34 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.rememberGraphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LocalSnackbarHost
@@ -77,45 +76,30 @@ fun ShareView(
 
         }
 
-        Box(Modifier.weight(1f)) {
-            Box(
+        Column(Modifier.weight(1f).background(colorResource(R.color.gray_700)), horizontalAlignment = Alignment.CenterHorizontally) {
+
+            Text("배경을 선택해주세요.", style = FillsaTheme.typography.heading4, color = Color.White)
+            Text("필사한 문장이 이미지로 저장됩니다.", style = FillsaTheme.typography.body2, color = Color.White)
+
+            HorizontalPager(
+                state = rememberPagerState { 5 },
                 modifier = Modifier
-                    .fillMaxSize()
-                    .drawWithContent {
-                        graphicLayer.record {
-                            this@drawWithContent.drawContent()
-                        }
-                        drawLayer(graphicLayer)
-                    }
+                    .weight(1f)
+                    .padding(vertical = 30.dp),
+                beyondViewportPageCount = 1,
+                pageSpacing = 20.dp,
+                contentPadding = PaddingValues(horizontal = 60.dp)
             ) {
-
-                Image(
-                    painter = painterResource(R.drawable.img_image_background),
-                    contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
+                ShareItem(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(
+                            RoundedCornerShape(30.dp)
+                        ),
+                    graphicLayer = graphicLayer,
+                    author = author,
+                    quote = quote
                 )
-
-                Column(modifier = Modifier.align(Alignment.Center)) {
-                    Text(
-                        text = quote,
-                        color = colorResource(R.color.gray_700),
-                        style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-
-                    Text(
-                        author,
-                        color = colorResource(R.color.gray_700),
-                        style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
-                        textDecoration = TextDecoration.Underline,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp),
-                    )
-                }
             }
 
             ShareBottomSection(
@@ -163,7 +147,6 @@ fun ShareView(
 
                 },
                 modifier = Modifier
-                    .align(Alignment.BottomCenter)
                     .padding(bottom = 50.dp)
             )
         }
