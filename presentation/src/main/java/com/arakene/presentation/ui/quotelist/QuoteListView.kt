@@ -94,6 +94,7 @@ fun QuoteListView(
                 DateSelectSection(
                     startDate = selectedStartDate,
                     endDate = selectedEndDate,
+                    isCalendarDisplayed = displayCalendar,
                     modifier = Modifier
                         .padding(top = 20.dp)
                         .noEffectClickable {
