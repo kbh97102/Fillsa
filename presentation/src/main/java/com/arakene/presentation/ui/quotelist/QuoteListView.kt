@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
-import com.arakene.presentation.ui.common.CalendarDerationSection
+import com.arakene.presentation.ui.common.DurationCalendar
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Contract
@@ -103,19 +103,18 @@ fun QuoteListView(
             }.firstOrNull()?.measure(constraints)
 
             val calenderSection = subcompose("CalendarSection") {
-                if (displayCalendar) {
-                    CalendarDerationSection(
-                        startDate = selectedStartDate,
-                        endDate = selectedEndDate,
-                        setStartDate = {
-                            selectedStartDate = it
-                        },
-                        setEndDate = {
-                            selectedEndDate = it
-                        },
-                        modifier = Modifier.padding(top = 10.dp)
-                    )
-                }
+                DurationCalendarSection(
+                    startDate = selectedStartDate,
+                    endDate = selectedEndDate,
+                    setStartDate = {
+                        selectedStartDate = it
+                    },
+                    setEndDate = {
+                        selectedEndDate = it
+                    },
+                    displayCalendar = displayCalendar,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
             }.firstOrNull()?.measure(constraints)
 
             val likeSection = subcompose("LikeSection") {

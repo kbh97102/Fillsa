@@ -56,7 +56,7 @@ import java.util.Locale
 
 
 @Composable
-fun CalendarDerationSection(
+fun DurationCalendar(
     startDate: LocalDate,
     endDate: LocalDate,
     setStartDate: (LocalDate) -> Unit,
@@ -407,7 +407,7 @@ fun DurationCalendarTitle(
 @Preview
 @Composable
 private fun Preview() {
-    CalendarDerationSection(
+    DurationCalendar(
         startDate = LocalDate.now(),
         endDate = LocalDate.now().plusDays(4),
         setStartDate = {},
