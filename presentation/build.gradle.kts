@@ -84,4 +84,5 @@ dependencies {
     implementation(libs.ads)
     implementation(libs.lottie)
     implementation(libs.firebase.crashlytics)
+    implementation(libs.constraintlayout)
 }

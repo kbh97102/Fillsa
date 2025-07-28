@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.CircleShape
@@ -22,16 +23,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.calendar.CalendarNavigationIcon
 import com.arakene.presentation.ui.calendar.MonthHeader
-import com.arakene.presentation.ui.calendar.SimpleCalendarTitle
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
 import com.kizitonwose.calendar.compose.ContentHeightMode
 import com.kizitonwose.calendar.compose.HorizontalCalendar
@@ -46,6 +52,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import java.util.Locale
 
 
 @Composable
@@ -65,7 +72,6 @@ fun CalendarDerationSection(
     }
     val endMonth = remember { currentMonth }
     val daysOfWeek = remember { daysOfWeek() }
-    val dateFormat = remember { DateTimeFormatter.ofPattern("yyyy-MM-dd") }
 
     val state = rememberCalendarState(
         startMonth = startMonth,
@@ -75,9 +81,6 @@ fun CalendarDerationSection(
 
     val scope = rememberCoroutineScope()
 
-    val startDay = remember {
-        DateCondition.startDay
-    }
 
 
     Column(
@@ -94,7 +97,7 @@ fun CalendarDerationSection(
             )
     ) {
 
-        SimpleCalendarTitle(
+        DurationCalendarTitle(
             modifier = Modifier
                 .padding(top = 8.dp)
                 .padding(horizontal = 16.dp),
@@ -104,7 +107,6 @@ fun CalendarDerationSection(
                     val target = state.firstVisibleMonth.yearMonth.previousMonth
                     if (target >= state.startMonth) {
                         state.animateScrollToMonth(target)
-
                     }
                 }
             },
@@ -326,6 +328,80 @@ private fun Modifier.getRangeBackgroundModifier(
             else -> Modifier
         }
     )
+}
+
+
+@Composable
+fun DurationCalendarTitle(
+    modifier: Modifier,
+    currentMonth: YearMonth,
+    goToPrevious: () -> Unit,
+    goToNext: () -> Unit,
+) {
+
+    val converter = remember {
+        DateTimeFormatter.ofPattern("yyyy. MM", Locale.KOREA)
+    }
+
+    val convertedDate by remember(currentMonth) {
+        mutableStateOf(currentMonth.format(converter))
+    }
+
+    val displayBeforeButton by remember(currentMonth) {
+        mutableStateOf(currentMonth > DateCondition.startMonth)
+    }
+
+    val displayNextButton by remember(currentMonth) {
+        mutableStateOf(currentMonth < YearMonth.now())
+    }
+
+    ConstraintLayout(
+        modifier = modifier.fillMaxWidth(),
+    ) {
+
+        val (left, date, right) = createRefs()
+
+        if (displayBeforeButton) {
+            CalendarNavigationIcon(
+                modifier = Modifier
+                    .constrainAs(left) {
+                        end.linkTo(date.start)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    },
+                painter = painterResource(R.drawable.icn_arrow_black),
+                contentDescription = "Previous",
+                onClick = goToPrevious,
+            )
+        }
+        Text(
+            modifier = Modifier
+                .constrainAs(date) {
+                    start.linkTo(parent.start)
+                    end.linkTo(parent.end)
+                    top.linkTo(parent.top)
+                    bottom.linkTo(parent.bottom)
+                },
+            text = convertedDate,
+            style = FillsaTheme.typography.heading4,
+            textAlign = TextAlign.Center,
+            color = colorResource(R.color.gray_700)
+        )
+        if (displayNextButton) {
+            CalendarNavigationIcon(
+                modifier = Modifier
+                    .constrainAs(right) {
+                        start.linkTo(date.end)
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                    }
+                    .rotate(180f),
+                painter = painterResource(R.drawable.icn_arrow_black),
+                contentDescription = "Next",
+                onClick = goToNext,
+            )
+        }
+    }
 }
 
 @Preview

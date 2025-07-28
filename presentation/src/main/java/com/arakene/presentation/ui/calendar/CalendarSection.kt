@@ -190,7 +190,7 @@ fun CalendarSection(
 
 
 @Composable
-private fun CalendarNavigationIcon(
+fun CalendarNavigationIcon(
     painter: Painter,
     contentDescription: String,
     modifier: Modifier = Modifier,
