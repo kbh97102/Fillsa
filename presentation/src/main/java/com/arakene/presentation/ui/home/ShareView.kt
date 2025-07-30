@@ -189,19 +189,21 @@ private fun ShareBottomSection(
         horizontalArrangement = Arrangement.spacedBy(50.dp)
     ) {
         ShareButton(
-            image = painterResource(R.drawable.icn_download_circle),
+            image = painterResource(R.drawable.icn_save_black),
             text = stringResource(R.string.download),
             onClick = {
                 saveOnClick()
-            }
+            },
+            textColor = colorResource(R.color.gray_700)
         )
 
         ShareButton(
-            image = painterResource(R.drawable.icn_copy_circle),
+            image = painterResource(R.drawable.icn_copy_black),
             text = stringResource(R.string.copy),
             onClick = {
                 copyOnClick()
-            }
+            },
+            textColor = colorResource(R.color.gray_700)
         )
 
         ShareButton(
@@ -209,7 +211,8 @@ private fun ShareBottomSection(
             text = stringResource(R.string.kakao_talk),
             onClick = {
                 shareOnClick()
-            }
+            },
+            textColor = colorResource(R.color.gray_700)
         )
     }
 }
@@ -219,7 +222,8 @@ private fun ShareButton(
     image: Painter,
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textColor: Color = colorResource(R.color.white)
 ) {
     Column(
         modifier = modifier
@@ -237,7 +241,7 @@ private fun ShareButton(
 
         Text(
             text,
-            color = Color.White,
+            color = textColor,
             style = FillsaTheme.typography.body3,
             modifier = Modifier.padding(top = 8.dp)
         )
