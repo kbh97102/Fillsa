@@ -27,23 +27,27 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun ShareItem(
-    graphicLayer: GraphicsLayer,
     quote: String,
     author: String,
-    modifier: Modifier = Modifier
+    graphicLayer: GraphicsLayer?,
+    modifier: Modifier = Modifier,
+    backgroundUri: Int = R.drawable.img_share_background_1,
 ) {
     Box(
-        modifier = modifier
-            .drawWithContent {
+        modifier = if (graphicLayer != null) {
+            modifier.drawWithContent {
                 graphicLayer.record {
                     this@drawWithContent.drawContent()
                 }
                 drawLayer(graphicLayer)
             }
+        } else {
+            modifier
+        }
     ) {
 
         Image(
-            painter = painterResource(R.drawable.img_share_background_1),
+            painter = painterResource(backgroundUri),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop
@@ -80,5 +84,5 @@ private fun Preview() {
         author = "123",
         quote = "QQaslkdfja;lsdkjf;lksdjf"
     )
-    
+
 }

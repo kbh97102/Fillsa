@@ -19,6 +19,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,6 +51,19 @@ fun ShareView(
     popBackStack: () -> Unit,
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
+    val imageList = remember {
+        listOf(
+            R.drawable.img_share_background_1,
+            R.drawable.img_share_background_3,
+            R.drawable.img_share_background_4,
+            R.drawable.img_share_background_5,
+            R.drawable.img_share_background_7,
+            R.drawable.img_share_background_8,
+            R.drawable.img_share_background_10,
+        )
+    }
+
+    val state = rememberPagerState { imageList.size }
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -76,29 +90,36 @@ fun ShareView(
 
         }
 
-        Column(Modifier.weight(1f).background(colorResource(R.color.gray_700)), horizontalAlignment = Alignment.CenterHorizontally) {
+        Column(
+            Modifier
+                .weight(1f)
+                .background(colorResource(R.color.gray_700)),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
 
             Text("배경을 선택해주세요.", style = FillsaTheme.typography.heading4, color = Color.White)
             Text("필사한 문장이 이미지로 저장됩니다.", style = FillsaTheme.typography.body2, color = Color.White)
 
             HorizontalPager(
-                state = rememberPagerState { 5 },
+                state = state,
                 modifier = Modifier
                     .weight(1f)
                     .padding(vertical = 30.dp),
                 beyondViewportPageCount = 1,
                 pageSpacing = 20.dp,
                 contentPadding = PaddingValues(horizontal = 60.dp)
-            ) {
+            ) { page ->
+
                 ShareItem(
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(
                             RoundedCornerShape(30.dp)
                         ),
-                    graphicLayer = graphicLayer,
+                    graphicLayer = graphicLayer.takeIf { page == state.currentPage },
                     author = author,
-                    quote = quote
+                    quote = quote,
+                    backgroundUri = imageList[page]
                 )
             }
 
