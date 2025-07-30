@@ -107,11 +107,15 @@ fun ShareView(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                Text("배경을 선택해주세요.", style = FillsaTheme.typography.heading4, color = Color.White)
                 Text(
-                    "필사한 문장이 이미지로 저장됩니다.",
+                    stringResource(R.string.share_title),
+                    style = FillsaTheme.typography.heading4,
+                    color = colorResource(R.color.gray_700)
+                )
+                Text(
+                    stringResource(R.string.share_subtitle),
                     style = FillsaTheme.typography.body2,
-                    color = Color.White
+                    color = colorResource(R.color.gray_700)
                 )
 
                 HorizontalPager(
