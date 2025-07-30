@@ -6,42 +6,47 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asAndroidBitmap
-import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.rememberGraphicsLayer
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LocalSnackbarHost
+import com.arakene.presentation.util.ShareAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.saveBitmapToCache
 import com.arakene.presentation.util.saveBitmapToGallery
+import com.arakene.presentation.viewmodel.ShareViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,6 +56,23 @@ fun ShareView(
     popBackStack: () -> Unit,
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
+    val viewModel: ShareViewModel = hiltViewModel()
+
+    val uiState by viewModel.uiState.collectAsState()
+
+    val imageList = remember {
+        listOf(
+            R.drawable.img_share_background_1,
+            R.drawable.img_share_background_3,
+            R.drawable.img_share_background_4,
+            R.drawable.img_share_background_5,
+            R.drawable.img_share_background_7,
+            R.drawable.img_share_background_8,
+            R.drawable.img_share_background_10,
+        )
+    }
+
+    val state = rememberPagerState { imageList.size }
 
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -59,112 +81,120 @@ fun ShareView(
     val graphicLayer = rememberGraphicsLayer()
 
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(horizontal = 15.dp, vertical = 9.dp)
-        ) {
-
-            Image(
-                painter = painterResource(R.drawable.icn_arrow),
-                contentDescription = null,
-                modifier = Modifier.noEffectClickable {
-                    popBackStack()
-                })
-
-        }
-
-        Box(Modifier.weight(1f)) {
-            Box(
+            Row(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .drawWithContent {
-                        graphicLayer.record {
-                            this@drawWithContent.drawContent()
-                        }
-                        drawLayer(graphicLayer)
-                    }
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .padding(horizontal = 15.dp, vertical = 9.dp)
             ) {
 
                 Image(
-                    painter = painterResource(R.drawable.img_image_background),
+                    painter = painterResource(R.drawable.icn_arrow),
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
-                )
+                    modifier = Modifier.noEffectClickable {
+                        popBackStack()
+                    })
 
-                Column(modifier = Modifier.align(Alignment.Center)) {
-                    Text(
-                        text = quote,
-                        color = colorResource(R.color.gray_700),
-                        style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth(),
-                    )
-
-                    Text(
-                        author,
-                        color = colorResource(R.color.gray_700),
-                        style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
-                        textDecoration = TextDecoration.Underline,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 20.dp),
-                    )
-                }
             }
 
-            ShareBottomSection(
-                shareOnClick = {
-                    // TODO: 카톡 공유
-                    scope.launch {
-                        val uri = saveBitmapToCache(
-                            context,
-                            graphicLayer.toImageBitmap().asAndroidBitmap()
-                        )
+            Column(
+                Modifier
+                    .weight(1f)
+                    .background(colorResource(R.color.white)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-                        val intent = Intent(Intent.ACTION_SEND).apply {
-                            type = "image/png"
-                            putExtra(Intent.EXTRA_STREAM, uri)
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                Text(
+                    stringResource(R.string.share_title),
+                    style = FillsaTheme.typography.heading4,
+                    color = colorResource(R.color.gray_700)
+                )
+                Text(
+                    stringResource(R.string.share_subtitle),
+                    style = FillsaTheme.typography.body2,
+                    color = colorResource(R.color.gray_700)
+                )
+
+                HorizontalPager(
+                    state = state,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(vertical = 30.dp),
+                    beyondViewportPageCount = 1,
+                    pageSpacing = 20.dp,
+                    contentPadding = PaddingValues(horizontal = 60.dp)
+                ) { page ->
+
+                    ShareItem(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(
+                                RoundedCornerShape(30.dp)
+                            ),
+                        graphicLayer = graphicLayer.takeIf { page == state.currentPage },
+                        author = author,
+                        quote = quote,
+                        backgroundUri = imageList[page]
+                    )
+                }
+
+                ShareBottomSection(
+                    shareOnClick = {
+                        // TODO: 카톡 공유
+                        scope.launch {
+                            val uri = saveBitmapToCache(
+                                context,
+                                graphicLayer.toImageBitmap().asAndroidBitmap()
+                            )
+
+                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                type = "image/png"
+                                putExtra(Intent.EXTRA_STREAM, uri)
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            }
+
+                            context.startActivity(
+                                Intent.createChooser(intent, "이미지 공유")
+                            )
+
                         }
 
-                        context.startActivity(
-                            Intent.createChooser(intent, "이미지 공유")
-                        )
+                    },
+                    copyOnClick = {
+                        copyToClipboard(context, scope, clipBoard, snackbarHostState, quote, author)
+                    },
+                    saveOnClick = {
+                        // TODO: 이미지 저장
 
-                    }
+                        scope.launch {
+                            val bitmap = graphicLayer.toImageBitmap()
+                            val uri = saveBitmapToGallery(
+                                context = context,
+                                bitmap = bitmap.asAndroidBitmap()
+                            )
 
-                },
-                copyOnClick = {
-                    copyToClipboard(context, scope, clipBoard, snackbarHostState, quote, author)
-                },
-                saveOnClick = {
-                    // TODO: 이미지 저장
-
-                    scope.launch {
-                        val bitmap = graphicLayer.toImageBitmap()
-                        val uri = saveBitmapToGallery(
-                            context = context,
-                            bitmap = bitmap.asAndroidBitmap()
-                        )
-
-                        // TODO: 문구 찾아보기
-                        if (uri != null) {
-                            snackbarHostState.showSnackbar("저장 성공")
-                        } else {
-                            snackbarHostState.showSnackbar("저장 실패")
+                            // TODO: 문구 찾아보기
+                            if (uri != null) {
+                                snackbarHostState.showSnackbar("저장 성공")
+                            } else {
+                                snackbarHostState.showSnackbar("저장 실패")
+                            }
                         }
-                    }
 
-                },
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .padding(bottom = 50.dp)
+                    },
+                    modifier = Modifier
+                        .padding(bottom = 50.dp)
+                )
+            }
+        }
+        if (uiState.descriptionShouldVisible) {
+            ShareDescription(
+                modifier = Modifier.noEffectClickable {
+                    viewModel.handleContract(ShareAction.ClickDescription)
+                }
             )
         }
     }
@@ -185,19 +215,21 @@ private fun ShareBottomSection(
         horizontalArrangement = Arrangement.spacedBy(50.dp)
     ) {
         ShareButton(
-            image = painterResource(R.drawable.icn_download_circle),
+            image = painterResource(R.drawable.icn_save_black),
             text = stringResource(R.string.download),
             onClick = {
                 saveOnClick()
-            }
+            },
+            textColor = colorResource(R.color.gray_700)
         )
 
         ShareButton(
-            image = painterResource(R.drawable.icn_copy_circle),
+            image = painterResource(R.drawable.icn_copy_black),
             text = stringResource(R.string.copy),
             onClick = {
                 copyOnClick()
-            }
+            },
+            textColor = colorResource(R.color.gray_700)
         )
 
         ShareButton(
@@ -205,7 +237,8 @@ private fun ShareBottomSection(
             text = stringResource(R.string.kakao_talk),
             onClick = {
                 shareOnClick()
-            }
+            },
+            textColor = colorResource(R.color.gray_700)
         )
     }
 }
@@ -215,7 +248,8 @@ private fun ShareButton(
     image: Painter,
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    textColor: Color = colorResource(R.color.white)
 ) {
     Column(
         modifier = modifier
@@ -233,7 +267,7 @@ private fun ShareButton(
 
         Text(
             text,
-            color = Color.White,
+            color = textColor,
             style = FillsaTheme.typography.body3,
             modifier = Modifier.padding(top = 8.dp)
         )
