@@ -72,104 +72,113 @@ fun ShareView(
     val graphicLayer = rememberGraphicsLayer()
 
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(horizontal = 15.dp, vertical = 9.dp)
-        ) {
-
-            Image(
-                painter = painterResource(R.drawable.icn_arrow),
-                contentDescription = null,
-                modifier = Modifier.noEffectClickable {
-                    popBackStack()
-                })
-
-        }
-
-        Column(
-            Modifier
-                .weight(1f)
-                .background(colorResource(R.color.white)),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-
-            Text("배경을 선택해주세요.", style = FillsaTheme.typography.heading4, color = Color.White)
-            Text("필사한 문장이 이미지로 저장됩니다.", style = FillsaTheme.typography.body2, color = Color.White)
-
-            HorizontalPager(
-                state = state,
+            Row(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(vertical = 30.dp),
-                beyondViewportPageCount = 1,
-                pageSpacing = 20.dp,
-                contentPadding = PaddingValues(horizontal = 60.dp)
-            ) { page ->
+                    .fillMaxWidth()
+                    .background(Color.White)
+                    .padding(horizontal = 15.dp, vertical = 9.dp)
+            ) {
 
-                ShareItem(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(
-                            RoundedCornerShape(30.dp)
-                        ),
-                    graphicLayer = graphicLayer.takeIf { page == state.currentPage },
-                    author = author,
-                    quote = quote,
-                    backgroundUri = imageList[page]
-                )
+                Image(
+                    painter = painterResource(R.drawable.icn_arrow),
+                    contentDescription = null,
+                    modifier = Modifier.noEffectClickable {
+                        popBackStack()
+                    })
+
             }
 
-            ShareBottomSection(
-                shareOnClick = {
-                    // TODO: 카톡 공유
-                    scope.launch {
-                        val uri = saveBitmapToCache(
-                            context,
-                            graphicLayer.toImageBitmap().asAndroidBitmap()
-                        )
+            Column(
+                Modifier
+                    .weight(1f)
+                    .background(colorResource(R.color.white)),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-                        val intent = Intent(Intent.ACTION_SEND).apply {
-                            type = "image/png"
-                            putExtra(Intent.EXTRA_STREAM, uri)
-                            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                Text("배경을 선택해주세요.", style = FillsaTheme.typography.heading4, color = Color.White)
+                Text(
+                    "필사한 문장이 이미지로 저장됩니다.",
+                    style = FillsaTheme.typography.body2,
+                    color = Color.White
+                )
+
+                HorizontalPager(
+                    state = state,
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(vertical = 30.dp),
+                    beyondViewportPageCount = 1,
+                    pageSpacing = 20.dp,
+                    contentPadding = PaddingValues(horizontal = 60.dp)
+                ) { page ->
+
+                    ShareItem(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(
+                                RoundedCornerShape(30.dp)
+                            ),
+                        graphicLayer = graphicLayer.takeIf { page == state.currentPage },
+                        author = author,
+                        quote = quote,
+                        backgroundUri = imageList[page]
+                    )
+                }
+
+                ShareBottomSection(
+                    shareOnClick = {
+                        // TODO: 카톡 공유
+                        scope.launch {
+                            val uri = saveBitmapToCache(
+                                context,
+                                graphicLayer.toImageBitmap().asAndroidBitmap()
+                            )
+
+                            val intent = Intent(Intent.ACTION_SEND).apply {
+                                type = "image/png"
+                                putExtra(Intent.EXTRA_STREAM, uri)
+                                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                            }
+
+                            context.startActivity(
+                                Intent.createChooser(intent, "이미지 공유")
+                            )
+
                         }
 
-                        context.startActivity(
-                            Intent.createChooser(intent, "이미지 공유")
-                        )
+                    },
+                    copyOnClick = {
+                        copyToClipboard(context, scope, clipBoard, snackbarHostState, quote, author)
+                    },
+                    saveOnClick = {
+                        // TODO: 이미지 저장
 
-                    }
+                        scope.launch {
+                            val bitmap = graphicLayer.toImageBitmap()
+                            val uri = saveBitmapToGallery(
+                                context = context,
+                                bitmap = bitmap.asAndroidBitmap()
+                            )
 
-                },
-                copyOnClick = {
-                    copyToClipboard(context, scope, clipBoard, snackbarHostState, quote, author)
-                },
-                saveOnClick = {
-                    // TODO: 이미지 저장
-
-                    scope.launch {
-                        val bitmap = graphicLayer.toImageBitmap()
-                        val uri = saveBitmapToGallery(
-                            context = context,
-                            bitmap = bitmap.asAndroidBitmap()
-                        )
-
-                        // TODO: 문구 찾아보기
-                        if (uri != null) {
-                            snackbarHostState.showSnackbar("저장 성공")
-                        } else {
-                            snackbarHostState.showSnackbar("저장 실패")
+                            // TODO: 문구 찾아보기
+                            if (uri != null) {
+                                snackbarHostState.showSnackbar("저장 성공")
+                            } else {
+                                snackbarHostState.showSnackbar("저장 실패")
+                            }
                         }
-                    }
 
-                },
-                modifier = Modifier
-                    .padding(bottom = 50.dp)
-            )
+                    },
+                    modifier = Modifier
+                        .padding(bottom = 50.dp)
+                )
+            }
+        }
+        if (true) {
+            ShareDescription()
         }
     }
 
