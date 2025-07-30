@@ -53,7 +53,9 @@ fun ShareItem(
             contentScale = ContentScale.Crop
         )
 
-        Column(modifier = Modifier.align(Alignment.Center)) {
+        Column(modifier = Modifier
+            .padding(horizontal = 13.dp)
+            .align(Alignment.Center)) {
             Text(
                 text = quote,
                 color = colorResource(R.color.gray_700),
