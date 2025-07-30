@@ -93,7 +93,7 @@ fun ShareView(
         Column(
             Modifier
                 .weight(1f)
-                .background(colorResource(R.color.gray_700)),
+                .background(colorResource(R.color.white)),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
