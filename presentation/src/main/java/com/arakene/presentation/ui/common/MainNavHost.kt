@@ -150,7 +150,8 @@ fun MainNavHost(
                         navController.navigate(Screens.Home()) {
                             popUpTo(0) { inclusive = true }
                         }
-                    }
+                    },
+                    navController = navController
                 )
             }
         }
@@ -183,6 +184,7 @@ fun MainNavHost(
                         navController.navigate(it)
                     },
                     onBackPress = {
+                        navController.previousBackStackEntry?.savedStateHandle?.set("memo_updated", true)
                         navController.popBackStack()
                     },
                     imagePath = data.imagePath
