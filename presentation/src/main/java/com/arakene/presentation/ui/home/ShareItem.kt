@@ -43,7 +43,7 @@ fun ShareItem(
     ) {
 
         Image(
-            painter = painterResource(R.drawable.img_image_background),
+            painter = painterResource(R.drawable.img_share_background_1),
             contentDescription = null,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop

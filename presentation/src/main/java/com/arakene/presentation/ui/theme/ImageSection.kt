@@ -41,7 +41,7 @@ fun ImageSection(
 
         if (imageUri.isEmpty()) {
             Image(
-                painterResource(R.drawable.img_image_background),
+                painterResource(R.drawable.img_share_background_1),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier.fillMaxSize()
