@@ -5,7 +5,7 @@ import javax.inject.Inject
 
 class GetShareDescriptionVisibleUseCase @Inject constructor(private val localRepository: LocalRepository) {
 
-    operator fun invoke() =
+    suspend operator fun invoke() =
         localRepository.getShareDescriptionVisible()
 
 }

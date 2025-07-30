@@ -39,10 +39,10 @@ class LocalRepositoryImpl @Inject constructor(
         }
     }
 
-    override fun getShareDescriptionVisible(): Flow<Boolean> {
+    override suspend fun getShareDescriptionVisible(): Boolean {
         return dataStore.data.map {
             it[SHARE_DESCRIPTION] ?: true
-        }
+        }.firstOrNull() ?: true
     }
 
     override fun isAlarmPermissionRequestedBefore(): Flow<Boolean> {

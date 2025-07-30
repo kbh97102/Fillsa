@@ -13,7 +13,7 @@ interface LocalRepository {
     suspend fun getRefreshToken(): String
     suspend fun setImageUri(uri: String)
     suspend fun setShareDescriptionVisible(boolean: Boolean)
-    fun getShareDescriptionVisible(): Flow<Boolean>
+    suspend fun getShareDescriptionVisible(): Boolean
     fun getImageUri(): Flow<String>
     fun getLoginStatus(): Flow<Boolean>
     suspend fun isFirstOpen(): Flow<Boolean>

@@ -19,6 +19,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -35,13 +37,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LocalSnackbarHost
+import com.arakene.presentation.util.ShareAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.saveBitmapToCache
 import com.arakene.presentation.util.saveBitmapToGallery
+import com.arakene.presentation.viewmodel.ShareViewModel
 import kotlinx.coroutines.launch
 
 @Composable
@@ -51,6 +56,10 @@ fun ShareView(
     popBackStack: () -> Unit,
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
 ) {
+    val viewModel: ShareViewModel = hiltViewModel()
+
+    val uiState by viewModel.uiState.collectAsState()
+
     val imageList = remember {
         listOf(
             R.drawable.img_share_background_1,
@@ -177,8 +186,12 @@ fun ShareView(
                 )
             }
         }
-        if (true) {
-            ShareDescription()
+        if (uiState.descriptionShouldVisible) {
+            ShareDescription(
+                modifier = Modifier.noEffectClickable {
+                    viewModel.handleContract(ShareAction.ClickDescription)
+                }
+            )
         }
     }
 
