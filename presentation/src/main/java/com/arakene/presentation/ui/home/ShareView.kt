@@ -63,6 +63,7 @@ fun ShareView(
     val imageList = remember {
         listOf(
             R.drawable.img_share_background_1,
+            R.drawable.img_share_background_2,
             R.drawable.img_share_background_3,
             R.drawable.img_share_background_4,
             R.drawable.img_share_background_5,
