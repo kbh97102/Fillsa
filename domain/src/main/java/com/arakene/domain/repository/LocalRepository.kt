@@ -12,6 +12,8 @@ interface LocalRepository {
     suspend fun setRefreshToken(token: String)
     suspend fun getRefreshToken(): String
     suspend fun setImageUri(uri: String)
+    suspend fun setShareDescriptionVisible(boolean: Boolean)
+    fun getShareDescriptionVisible(): Flow<Boolean>
     fun getImageUri(): Flow<String>
     fun getLoginStatus(): Flow<Boolean>
     suspend fun isFirstOpen(): Flow<Boolean>
@@ -20,7 +22,7 @@ interface LocalRepository {
     suspend fun setName(value: String)
     fun getAlarm(): Flow<Boolean>
     fun getName(): Flow<String>
-    fun isAlarmPermissionRequestedBefore() : Flow<Boolean>
+    fun isAlarmPermissionRequestedBefore(): Flow<Boolean>
     suspend fun setAlarmPermissionRequestedBefore(requested: Boolean)
 
     suspend fun getLocalQuotes(): List<LocalQuoteInfo>
