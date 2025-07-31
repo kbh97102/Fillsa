@@ -1,7 +1,11 @@
 package com.arakene.presentation.ui.common
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -30,6 +34,7 @@ import com.arakene.presentation.viewmodel.ListViewModel
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.arakene.presentation.viewmodel.MyPageViewModel
 import com.arakene.presentation.viewmodel.TypingViewModel
+import kotlinx.coroutines.flow.filterNotNull
 import java.time.LocalDate
 import kotlin.reflect.typeOf
 
@@ -160,17 +165,13 @@ fun MainNavHost(
             WithBaseErrorHandling<ListViewModel>(logoutEvent = updatedLogoutEvent) {
                 val data = it.toRoute<Screens.QuoteDetail>()
 
-                val insertedMemoInMemoInsertView =
-                    navController.currentBackStackEntry?.savedStateHandle?.get<String>(
-                        DataKey.INSERTED_MEMO
-                    )
-
-                val memo =
-                    if (insertedMemoInMemoInsertView.isNullOrBlank()) {
-                        data.memo ?: ""
-                    } else {
-                        insertedMemoInMemoInsertView
+                val memo by remember {
+                    derivedStateOf {
+                        navController.currentBackStackEntry?.savedStateHandle?.get<String>(
+                            DataKey.INSERTED_MEMO
+                        ) ?: (data.memo ?: "")
                     }
+                }
 
                 QuoteDetailView(
                     memo = memo,
@@ -184,7 +185,10 @@ fun MainNavHost(
                         navController.navigate(it)
                     },
                     onBackPress = {
-                        navController.previousBackStackEntry?.savedStateHandle?.set("memo_updated", true)
+                        navController.previousBackStackEntry?.savedStateHandle?.set(
+                            "memo_updated",
+                            true
+                        )
                         navController.popBackStack()
                     },
                     imagePath = data.imagePath
