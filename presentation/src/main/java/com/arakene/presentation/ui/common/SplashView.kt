@@ -179,6 +179,8 @@ fun SplashView(
             .background(color = Color.White),
         contentAlignment = Alignment.Center
     ) {
+
+
         LottieAnimation(
             composition = composition,
             progress = { lottieState.progress },

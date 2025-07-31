@@ -5,15 +5,11 @@ import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.network.TokenApi
 import com.arakene.data.util.AuthAuthenticator
 import com.arakene.data.util.TokenInterceptor
-import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
-import com.arakene.domain.usecase.common.SetAccessTokenUseCase
-import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
-import com.arakene.domain.usecase.common.UpdateTokenUseCase
+import com.arakene.data.util.VersionInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Authenticator
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -62,6 +58,7 @@ class ApiModule {
                     .addInterceptor(HttpLoggingInterceptor().apply {
                         level = HttpLoggingInterceptor.Level.BODY
                     })
+                    .addInterceptor(VersionInterceptor())
                     .authenticator(auth)
                     .addInterceptor(tokenInterceptor)
                     .build()
@@ -81,6 +78,7 @@ class ApiModule {
                     .addInterceptor(HttpLoggingInterceptor().apply {
                         level = HttpLoggingInterceptor.Level.BODY
                     })
+                    .addInterceptor(VersionInterceptor())
                     .build()
             )
             .build()

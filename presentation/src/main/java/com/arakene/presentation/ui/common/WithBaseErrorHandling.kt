@@ -1,6 +1,10 @@
 package com.arakene.presentation.ui.common
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -22,11 +26,18 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
+    var displayUpdateDialog by remember {
+        mutableStateOf(false)
+    }
+
     HandleError(
         viewModel.error,
         lifecycleOwner
     ) {
         when (it) {
+            "1007" -> {
+                displayUpdateDialog = true
+            }
             "404" -> {
                 dialogDataHolder.apply {
                     data = DialogData.Builder().buildNetworkError(context, okOnClick = {
@@ -50,6 +61,14 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                 }
             }
         }
+    }
+
+    if (displayUpdateDialog) {
+        UpdateDialog(
+            onDismiss = {
+                displayUpdateDialog = false
+            }
+        )
     }
 
     content()
