@@ -115,6 +115,10 @@ abstract class BaseViewModel : ViewModel() {
                     401 -> {
                         _error.emit("401")
                     }
+
+                    1007 -> {
+                        _error.emit("1007")
+                    }
                 }
                 setLoading(false)
                 null
