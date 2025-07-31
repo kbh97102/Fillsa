@@ -19,7 +19,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -50,6 +53,12 @@ fun MemoInsertView(
 
     val black = colorResource(R.color.gray_700)
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
+    val typingSectionFocusRequester = remember {
+        FocusRequester()
+    }
+
     BackHandler {
         popBackStack(memo)
     }
@@ -76,6 +85,10 @@ fun MemoInsertView(
             .fillMaxSize()
             .background(Color.White)
             .padding(horizontal = 15.dp)
+            .noEffectClickable {
+                typingSectionFocusRequester.requestFocus()
+                keyboardController?.show()
+            }
     ) {
 
         Image(
@@ -89,6 +102,7 @@ fun MemoInsertView(
         Column(modifier = Modifier.padding(horizontal = 5.dp)) {
             CustomTextField(
                 modifier = Modifier
+                    .focusRequester(typingSectionFocusRequester)
                     .padding(top = 20.dp)
                     .weight(1f),
                 value = memo,
@@ -121,6 +135,7 @@ fun MemoInsertView(
                 shape = MaterialTheme.shapes.small,
                 colors = MaterialTheme.colorScheme.defaultButtonColors,
                 onClick = {
+                    keyboardController?.hide()
                     popBackStack(memo)
                 },
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
