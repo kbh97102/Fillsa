@@ -145,7 +145,7 @@ class HomeViewModel @Inject constructor(
     override fun emitEffect(effect: Effect) {
         when (effect) {
             is HomeEffect.SetDate -> {
-//                date.value = effect.date
+                updateDateAndLoadData(effect.date)
             }
 
             is HomeEffect.Refresh -> {
@@ -158,7 +158,7 @@ class HomeViewModel @Inject constructor(
 
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
         viewModelScope.launch {
-//            backgroundImageUri.value = homeAction.uri
+            updateState { it.copy(backgroundImageUrl = homeAction.uri) }
             emitEffect(HomeEffect.ProcessImage(homeAction.uri))
         }
 
