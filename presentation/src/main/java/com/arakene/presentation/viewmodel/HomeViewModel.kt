@@ -1,6 +1,7 @@
 package com.arakene.presentation.viewmodel
 
 
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
@@ -82,7 +83,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickQuote -> {
-//                emitEffect(CommonEffect.Move(Screens.DailyQuote(currentQuota)))
+                emitEffect(CommonEffect.Move(Screens.DailyQuote(_state.value.dailyQuoteDto)))
             }
 
             is HomeAction.ClickShare -> {
@@ -149,43 +150,41 @@ class HomeViewModel @Inject constructor(
 
     fun uploadImage(file: File?) {
         viewModelScope.launch {
-//            getResponse(
-//                postUploadImageUseCase(
-//                    dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-//                    imageFile = file ?: return@launch
-//                ), useLoading = false
-//            )?.let {
-//                emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
-//            }
+            getResponse(
+                postUploadImageUseCase(
+                    dailyQuoteSeq = _state.value.dailyQuoteDto.dailyQuoteSeq,
+                    imageFile = file ?: return@launch
+                ), useLoading = false
+            )?.let {
+                emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
+            }
         }
     }
 
     private fun deleteBackgroundImage() = viewModelScope.launch {
-//        emitEffect(
-//            CommonEffect.ShowDialog(
-//                dialogData = DialogData.Builder()
-//                    .title("이미지를 삭제하시겠습니까?")
-//                    .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
-//                    .titleTextSize(20.sp)
-//                    .bodyTextSize(16.sp)
-//                    .reversed(true)
-//                    .cancelText("삭제하기")
-//                    .okText("취소")
-//                    .cancelOnClick {
-//                        viewModelScope.launch {
-//                            getResponse(
-//                                deleteUploadImageUseCase(currentQuota.dailyQuoteSeq),
-//                                useLoading = false
-//                            )?.let {
-//                                emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
-//                            } ?: let {
-//                                logDebug("Fail?")
-//                            }
-//                            backgroundImageUri.value = ""
-//                        }
-//                    }
-//                    .build()
-//            ))
+        emitEffect(
+            CommonEffect.ShowDialog(
+                dialogData = DialogData.Builder()
+                    .title("이미지를 삭제하시겠습니까?")
+                    .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
+                    .titleTextSize(20.sp)
+                    .bodyTextSize(16.sp)
+                    .reversed(true)
+                    .cancelText("삭제하기")
+                    .okText("취소")
+                    .cancelOnClick {
+                        viewModelScope.launch {
+                            getResponse(
+                                deleteUploadImageUseCase(_state.value.dailyQuoteDto.dailyQuoteSeq),
+                                useLoading = false
+                            )?.let {
+                                emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
+                            }
+                            updateState { it.copy(backgroundImageUrl = "") }
+                        }
+                    }
+                    .build()
+            ))
     }
 
     private fun clickImage(action: HomeAction.ClickImage) {
