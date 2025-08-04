@@ -59,7 +59,7 @@ fun ShareItem(
             Text(
                 text = quote,
                 color = colorResource(R.color.gray_700),
-                style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
+                style = FillsaTheme.typography.quote,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -67,7 +67,7 @@ fun ShareItem(
             Text(
                 author,
                 color = colorResource(R.color.gray_700),
-                style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
+                style = FillsaTheme.typography.quote,
                 textDecoration = TextDecoration.Underline,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
