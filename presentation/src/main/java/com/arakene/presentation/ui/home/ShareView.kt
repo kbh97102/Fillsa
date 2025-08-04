@@ -21,6 +21,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -129,6 +131,15 @@ fun ShareView(
                     contentPadding = PaddingValues(horizontal = 60.dp)
                 ) { page ->
 
+                    val color by remember(page) {
+                        mutableIntStateOf(
+                            when (page) {
+                                1, 6 -> R.color.white
+                                else -> R.color.gray_700
+                            }
+                        )
+                    }
+
                     ShareItem(
                         modifier = Modifier
                             .fillMaxSize()
@@ -138,7 +149,8 @@ fun ShareView(
                         graphicLayer = graphicLayer.takeIf { page == state.currentPage },
                         author = author,
                         quote = quote,
-                        backgroundUri = imageList[page]
+                        backgroundUri = imageList[page],
+                        textColor = colorResource(color)
                     )
                 }
 

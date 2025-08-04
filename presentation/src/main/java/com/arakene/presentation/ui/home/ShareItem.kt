@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.layer.GraphicsLayer
 import androidx.compose.ui.graphics.layer.drawLayer
 import androidx.compose.ui.graphics.rememberGraphicsLayer
@@ -21,7 +22,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 
@@ -32,6 +32,7 @@ fun ShareItem(
     graphicLayer: GraphicsLayer?,
     modifier: Modifier = Modifier,
     backgroundUri: Int = R.drawable.img_share_background_1,
+    textColor: Color = colorResource(R.color.gray_700)
 ) {
     Box(
         modifier = if (graphicLayer != null) {
@@ -53,21 +54,23 @@ fun ShareItem(
             contentScale = ContentScale.Crop
         )
 
-        Column(modifier = Modifier
-            .padding(horizontal = 13.dp)
-            .align(Alignment.Center)) {
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 13.dp)
+                .align(Alignment.Center)
+        ) {
             Text(
                 text = quote,
-                color = colorResource(R.color.gray_700),
-                style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
+                color = textColor,
+                style = FillsaTheme.typography.quote,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
             )
 
             Text(
                 author,
-                color = colorResource(R.color.gray_700),
-                style = FillsaTheme.typography.quote.copy(fontSize = 20.sp),
+                color = textColor,
+                style = FillsaTheme.typography.quote,
                 textDecoration = TextDecoration.Underline,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
