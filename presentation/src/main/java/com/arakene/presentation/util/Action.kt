@@ -46,6 +46,7 @@ sealed interface HomeAction : Action {
     data class ClickChangeImage(val uri: String) : HomeAction
     data object ClickDeleteImage : HomeAction
     data object ClickCalendar : HomeAction
+    data object ClickLocaleType: HomeAction
 }
 
 sealed interface TypingAction : Action {

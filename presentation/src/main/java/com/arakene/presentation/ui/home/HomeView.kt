@@ -12,13 +12,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboard
@@ -27,6 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
@@ -51,6 +50,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
+@Stable
+data class HomeState(
+    val backgroundImageUrl: String = "",
+    val isLogged: Boolean = false,
+    val date: LocalDate = LocalDate.now(),
+    val selectedLocale: LocaleType = LocaleType.KOR,
+    val quote: String = "",
+    val author: String = "",
+    val isLike: Boolean = false,
+    val dailyQuoteDto: DailyQuoteDto = DailyQuoteDto()
+)
+
 @Composable
 fun HomeView(
     requestDate: LocalDate?,
@@ -60,45 +71,33 @@ fun HomeView(
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
 
-    val backgroundImageUrl by remember {
-        viewModel.backgroundImageUri
-    }
-
     val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
 
     val clipboard = LocalClipboard.current
 
-    val isLogged by viewModel.isLogged.collectAsState(false)
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val date by rememberSaveable {
-        viewModel.date
-    }
-
-    var selectedLocale by remember {
-        mutableStateOf(LocaleType.KOR)
-    }
-
-    val quote by remember(viewModel.currentQuota, selectedLocale) {
-        mutableStateOf(
-            if (selectedLocale == LocaleType.KOR) {
-                viewModel.currentQuota.korQuote ?: ""
-            } else {
-                viewModel.currentQuota.engQuote ?: ""
-            }
-        )
-    }
-
-    val author by remember(viewModel.currentQuota, selectedLocale) {
-        mutableStateOf(
-            if (selectedLocale == LocaleType.KOR) {
-                viewModel.currentQuota.korAuthor ?: ""
-            } else {
-                viewModel.currentQuota.engAuthor ?: ""
-            }
-        )
-    }
+//    val quote by remember(viewModel.currentQuota, selectedLocale) {
+//        mutableStateOf(
+//            if (selectedLocale == LocaleType.KOR) {
+//                viewModel.currentQuota.korQuote ?: ""
+//            } else {
+//                viewModel.currentQuota.engQuote ?: ""
+//            }
+//        )
+//    }
+//
+//    val author by remember(viewModel.currentQuota, selectedLocale) {
+//        mutableStateOf(
+//            if (selectedLocale == LocaleType.KOR) {
+//                viewModel.currentQuota.korAuthor ?: ""
+//            } else {
+//                viewModel.currentQuota.engAuthor ?: ""
+//            }
+//        )
+//    }
 
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -118,7 +117,7 @@ fun HomeView(
             viewModel.handleContract(HomeEffect.SetDate(requestDate))
             viewModel.handleContract(HomeEffect.Refresh(requestDate))
         } else {
-            viewModel.handleContract(HomeEffect.Refresh(date))
+            viewModel.handleContract(HomeEffect.Refresh(state.date))
         }
     }
 
@@ -163,10 +162,6 @@ fun HomeView(
         }
     }
 
-    val isLike by remember {
-        viewModel.isLike
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -188,7 +183,7 @@ fun HomeView(
                         )
                     )
                 },
-                backgroundImageUrl = backgroundImageUrl,
+                backgroundImageUrl = state.backgroundImageUrl,
                 deleteOnClick = {
                     viewModel.handleContract(HomeAction.ClickDeleteImage)
                 }
@@ -203,7 +198,7 @@ fun HomeView(
             horizontalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             CalendarSection(
-                date = date,
+                date = state.date,
                 modifier = Modifier
                     .weight(1f)
                     .noEffectClickable {
@@ -212,15 +207,15 @@ fun HomeView(
             )
 
             ImageSection(
-                isLogged = isLogged,
+                isLogged = state.isLogged,
                 modifier = Modifier.weight(1f),
-                imageUri = backgroundImageUrl,
+                imageUri = state.backgroundImageUrl,
                 onClick = {
                     viewModel.handleContract(
                         HomeAction.ClickImage(
-                            isLogged = isLogged,
-                            author = author,
-                            quote = quote
+                            isLogged = state.isLogged,
+                            author = state.author,
+                            quote = state.quote
                         )
                     )
                 }
@@ -229,17 +224,17 @@ fun HomeView(
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
             LocaleSwitch(
-                selected = selectedLocale,
+                selected = state.selectedLocale,
                 setSelected = {
-                    selectedLocale = it
+                    viewModel.handleContract(HomeAction.ClickLocaleType)
                 },
                 modifier = Modifier.padding(top = 20.dp)
             )
         }
 
         DailyQuotaSection(
-            text = quote,
-            author = author,
+            text = state.quote,
+            author = state.author,
             next = {
                 viewModel.handleContract(HomeAction.ClickNext)
             },
@@ -249,23 +244,30 @@ fun HomeView(
             navigate = {
                 viewModel.handleContract(HomeAction.ClickQuote)
             },
-            date = date,
+            date = state.date,
             modifier = Modifier.padding(top = 20.dp)
         )
 
         InteractionButtonSection(
             copy = {
-                copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author)
+                copyToClipboard(
+                    context,
+                    scope,
+                    clipboard,
+                    snackbarHostState,
+                    state.quote,
+                    state.author
+                )
             },
             share = {
                 viewModel.handleContract(
                     HomeAction.ClickShare(
-                        author = author,
-                        quote = quote
+                        author = state.author,
+                        quote = state.quote
                     )
                 )
             },
-            isLike = isLike,
+            isLike = state.isLike,
             setIsLike = {
                 viewModel.handleContract(HomeAction.ClickLike)
             },

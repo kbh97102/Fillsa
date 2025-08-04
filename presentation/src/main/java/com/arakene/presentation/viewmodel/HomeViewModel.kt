@@ -1,13 +1,7 @@
 package com.arakene.presentation.viewmodel
 
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
-import com.arakene.domain.requests.LikeRequest
-import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
@@ -20,6 +14,7 @@ import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostUploadImageUseCase
 import com.arakene.domain.util.YN
+import com.arakene.presentation.ui.home.HomeState
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -28,9 +23,11 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.HomeAction
 import com.arakene.presentation.util.HomeEffect
+import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.io.File
@@ -53,35 +50,24 @@ class HomeViewModel @Inject constructor(
     private val addLocalQuoteUseCase: AddLocalQuoteUseCase
 ) : BaseViewModel() {
 
+    private val _state = MutableStateFlow(HomeState())
+    val state: StateFlow<HomeState> get() = _state
+
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-
-    val isLogged = getLoginStatusUseCase()
-
-    var currentQuota by mutableStateOf(DailyQuoteDto())
-
-    var isLike = mutableStateOf(false)
-
-    val backgroundImageUri = mutableStateOf("")
-
-    val date = mutableStateOf(LocalDate.now())
-
-    private val today = LocalDate.now()
 
     override fun handleAction(action: Action) {
         when (action) {
             is HomeAction.ClickBefore -> {
-                val targetDate = date.value.minusDays(1)
+                val targetDate = _state.value.date.minusDays(1)
                 if (targetDate >= DateCondition.startDay) {
-                    date.value = targetDate
-                    refresh(date.value)
+                    updateDateAndLoadData(targetDate)
                 }
             }
 
             is HomeAction.ClickNext -> {
-                val targetDate = date.value.plusDays(1)
-                if (targetDate <= today) {
-                    date.value = targetDate
-                    refresh(date.value)
+                val targetDate = _state.value.date.minusDays(1)
+                if (targetDate >= DateCondition.startDay) {
+                    updateDateAndLoadData(targetDate)
                 }
             }
 
@@ -90,11 +76,11 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickLike -> {
-                postLike(date.value)
+//                postLike(date.value)
             }
 
             is HomeAction.ClickQuote -> {
-                emitEffect(CommonEffect.Move(Screens.DailyQuote(currentQuota)))
+//                emitEffect(CommonEffect.Move(Screens.DailyQuote(currentQuota)))
             }
 
             is HomeAction.ClickShare -> {
@@ -127,10 +113,22 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    private fun updateState(update: (HomeState) -> HomeState) {
+        _state.value = update(_state.value)
+    }
+
+
+    private fun updateDateAndLoadData(newDate: LocalDate) {
+        updateState {
+            it.copy(date = newDate)
+        }
+        refresh(newDate)
+    }
+
     override fun emitEffect(effect: Effect) {
         when (effect) {
             is HomeEffect.SetDate -> {
-                date.value = effect.date
+//                date.value = effect.date
             }
 
             is HomeEffect.Refresh -> {
@@ -143,49 +141,49 @@ class HomeViewModel @Inject constructor(
 
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
         viewModelScope.launch {
-            backgroundImageUri.value = homeAction.uri
+//            backgroundImageUri.value = homeAction.uri
             emitEffect(HomeEffect.ProcessImage(homeAction.uri))
         }
 
     fun uploadImage(file: File?) {
         viewModelScope.launch {
-            getResponse(
-                postUploadImageUseCase(
-                    dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-                    imageFile = file ?: return@launch
-                ), useLoading = false
-            )?.let {
-                emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
-            }
+//            getResponse(
+//                postUploadImageUseCase(
+//                    dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+//                    imageFile = file ?: return@launch
+//                ), useLoading = false
+//            )?.let {
+//                emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
+//            }
         }
     }
 
     private fun deleteBackgroundImage() = viewModelScope.launch {
-        emitEffect(
-            CommonEffect.ShowDialog(
-                dialogData = DialogData.Builder()
-                    .title("이미지를 삭제하시겠습니까?")
-                    .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
-                    .titleTextSize(20.sp)
-                    .bodyTextSize(16.sp)
-                    .reversed(true)
-                    .cancelText("삭제하기")
-                    .okText("취소")
-                    .cancelOnClick {
-                        viewModelScope.launch {
-                            getResponse(
-                                deleteUploadImageUseCase(currentQuota.dailyQuoteSeq),
-                                useLoading = false
-                            )?.let {
-                                emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
-                            } ?: let {
-                                logDebug("Fail?")
-                            }
-                            backgroundImageUri.value = ""
-                        }
-                    }
-                    .build()
-            ))
+//        emitEffect(
+//            CommonEffect.ShowDialog(
+//                dialogData = DialogData.Builder()
+//                    .title("이미지를 삭제하시겠습니까?")
+//                    .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
+//                    .titleTextSize(20.sp)
+//                    .bodyTextSize(16.sp)
+//                    .reversed(true)
+//                    .cancelText("삭제하기")
+//                    .okText("취소")
+//                    .cancelOnClick {
+//                        viewModelScope.launch {
+//                            getResponse(
+//                                deleteUploadImageUseCase(currentQuota.dailyQuoteSeq),
+//                                useLoading = false
+//                            )?.let {
+//                                emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
+//                            } ?: let {
+//                                logDebug("Fail?")
+//                            }
+//                            backgroundImageUri.value = ""
+//                        }
+//                    }
+//                    .build()
+//            ))
     }
 
     private fun clickImage(action: HomeAction.ClickImage) {
@@ -211,55 +209,55 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun postLike(date: LocalDate) = viewModelScope.launch {
-        isLike.value = !isLike.value
-        val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
-
-        if (isLogged) {
-            getResponse(
-                postLikeUseCase(
-                    LikeRequest(
-                        if (isLike.value) {
-                            YN.Y.type
-                        } else {
-                            YN.N.type
-                        }
-                    ),
-                    dailyQuoteSeq = currentQuota.dailyQuoteSeq
-                )
-            )
-        } else {
-            postLocalLike(date)
-        }
+//        isLike.value = !isLike.value
+//        val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
+//
+//        if (isLogged) {
+//            getResponse(
+//                postLikeUseCase(
+//                    LikeRequest(
+//                        if (isLike.value) {
+//                            YN.Y.type
+//                        } else {
+//                            YN.N.type
+//                        }
+//                    ),
+//                    dailyQuoteSeq = currentQuota.dailyQuoteSeq
+//                )
+//            )
+//        } else {
+//            postLocalLike(date)
+//        }
     }
 
     private suspend fun postLocalLike(date: LocalDate) {
-        findLocalQuoteByIdUseCase(currentQuota.dailyQuoteSeq)?.let {
-            updateLocalQuoteLikeUseCase(
-                likeYN = if (isLike.value) {
-                    YN.Y
-                } else {
-                    YN.N
-                }, seq = currentQuota.dailyQuoteSeq
-            )
-        } ?: addLocalQuote(date)
+//        findLocalQuoteByIdUseCase(currentQuota.dailyQuoteSeq)?.let {
+//            updateLocalQuoteLikeUseCase(
+//                likeYN = if (isLike.value) {
+//                    YN.Y
+//                } else {
+//                    YN.N
+//                }, seq = currentQuota.dailyQuoteSeq
+//            )
+//        } ?: addLocalQuote(date)
     }
 
     private suspend fun addLocalQuote(date: LocalDate) {
-        addLocalQuoteUseCase(
-            LocalQuoteInfo(
-                dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-                korQuote = currentQuota.korQuote ?: "",
-                engQuote = currentQuota.engQuote ?: "",
-                korAuthor = currentQuota.korAuthor ?: "",
-                engAuthor = currentQuota.engAuthor ?: "",
-                korTyping = "",
-                engTyping = "",
-                likeYn = YN.Y.type,
-                memo = "",
-                date = date.format(dateFormat),
-                dayOfWeek = date.dayOfWeek.name
-            )
-        )
+//        addLocalQuoteUseCase(
+//            LocalQuoteInfo(
+//                dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+//                korQuote = currentQuota.korQuote ?: "",
+//                engQuote = currentQuota.engQuote ?: "",
+//                korAuthor = currentQuota.korAuthor ?: "",
+//                engAuthor = currentQuota.engAuthor ?: "",
+//                korTyping = "",
+//                engTyping = "",
+//                likeYn = YN.Y.type,
+//                memo = "",
+//                date = date.format(dateFormat),
+//                dayOfWeek = date.dayOfWeek.name
+//            )
+//        )
     }
 
     private fun refresh(date: LocalDate) = viewModelScope.launch {
@@ -274,10 +272,32 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun getDailyQuote(date: String) = viewModelScope.launch {
-        getResponse(getDailyQuoteUseCase(date))?.let {
-            currentQuota = it
-            isLike.value = it.likeYn == YN.Y.type
-            backgroundImageUri.value = (it.imagePath ?: "")
+        getResponse(getDailyQuoteUseCase(date))?.let { quoteData ->
+            updateState {
+                it.copy(
+                    dailyQuoteDto = quoteData,
+                    isLike = quoteData.likeYn == YN.Y.type,
+                    backgroundImageUrl = quoteData.imagePath ?: "",
+                    author = getAuthor(quoteData),
+                    quote = getQuote(quoteData)
+                )
+            }
+        }
+    }
+
+    private fun getAuthor(data: DailyQuoteDto): String {
+        return if (_state.value.selectedLocale == LocaleType.KOR) {
+            data.korAuthor ?: ""
+        } else {
+            data.engAuthor ?: ""
+        }
+    }
+
+    private fun getQuote(data: DailyQuoteDto): String {
+        return if (_state.value.selectedLocale == LocaleType.KOR) {
+            data.korQuote ?: ""
+        } else {
+            data.engQuote ?: ""
         }
     }
 
@@ -285,35 +305,35 @@ class HomeViewModel @Inject constructor(
         val localList = getLocalQuoteListUseCase()
 
 
-        getResponse(getDailyQuoteNoTokenUseCase(date))?.let {
-            currentQuota = DailyQuoteDto(
+        getResponse(getDailyQuoteNoTokenUseCase(date))?.let { quoteData ->
+            val data = DailyQuoteDto(
                 likeYn = "N",
                 imagePath = "",
-                dailyQuoteSeq = it.dailyQuoteSeq,
-                korQuote = it.korQuote,
-                engQuote = it.engQuote,
-                korAuthor = it.korAuthor,
-                engAuthor = it.engAuthor,
-                authorUrl = it.authorUrl,
+                dailyQuoteSeq = quoteData.dailyQuoteSeq,
+                korQuote = quoteData.korQuote,
+                engQuote = quoteData.engQuote,
+                korAuthor = quoteData.korAuthor,
+                engAuthor = quoteData.engAuthor,
+                authorUrl = quoteData.authorUrl,
             ).apply {
                 quoteDate = date
             }
 
-            localList.find {
-                it.dailyQuoteSeq == currentQuota.dailyQuoteSeq
-            }.also {
-                logDebug("find $it")
+            updateState {
+                it.copy(
+                    dailyQuoteDto = data,
+                    isLike = localList.find { local ->
+                        local.dailyQuoteSeq == quoteData.dailyQuoteSeq
+                    }?.let { find ->
+                        find.likeYn == YN.Y.type
+                    } ?: let {
+                        false
+                    },
+                    backgroundImageUrl = "",
+                    author = getAuthor(data),
+                    quote = getQuote(data)
+                )
             }
-
-            localList.find { local ->
-                local.dailyQuoteSeq == it.dailyQuoteSeq
-            }?.let { find ->
-                isLike.value = find.likeYn == YN.Y.type
-            } ?: let {
-                isLike.value = false
-            }
-
-            backgroundImageUri.value = ""
         }
     }
 
