@@ -31,6 +31,8 @@ import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.io.File
@@ -114,6 +116,18 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+    }
+
+    suspend fun collectLoginStatus() {
+        getLoginStatusUseCase()
+            .distinctUntilChanged()
+            .collectLatest { logged ->
+                updateState {
+                    it.copy(
+                        isLogged = logged
+                    )
+                }
+            }
     }
 
     private fun updateState(update: (HomeState) -> HomeState) {

@@ -23,8 +23,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
@@ -79,30 +81,16 @@ fun HomeView(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-//    val quote by remember(viewModel.currentQuota, selectedLocale) {
-//        mutableStateOf(
-//            if (selectedLocale == LocaleType.KOR) {
-//                viewModel.currentQuota.korQuote ?: ""
-//            } else {
-//                viewModel.currentQuota.engQuote ?: ""
-//            }
-//        )
-//    }
-//
-//    val author by remember(viewModel.currentQuota, selectedLocale) {
-//        mutableStateOf(
-//            if (selectedLocale == LocaleType.KOR) {
-//                viewModel.currentQuota.korAuthor ?: ""
-//            } else {
-//                viewModel.currentQuota.engAuthor ?: ""
-//            }
-//        )
-//    }
-
     val lifecycleOwner = LocalLifecycleOwner.current
 
     val imageDialogDataHolder = remember {
         ImageDialogDataHolder()
+    }
+
+    LaunchedEffect(viewModel) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.collectLoginStatus()
+        }
     }
 
     DoubleBackPressHandler(
