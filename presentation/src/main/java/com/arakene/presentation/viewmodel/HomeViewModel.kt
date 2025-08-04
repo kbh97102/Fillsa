@@ -2,6 +2,8 @@ package com.arakene.presentation.viewmodel
 
 
 import androidx.lifecycle.viewModelScope
+import com.arakene.domain.requests.LikeRequest
+import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
@@ -65,7 +67,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickNext -> {
-                val targetDate = _state.value.date.minusDays(1)
+                val targetDate = _state.value.date.plusDays(1)
                 if (targetDate >= DateCondition.startDay) {
                     updateDateAndLoadData(targetDate)
                 }
@@ -76,7 +78,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickLike -> {
-//                postLike(date.value)
+                postLike(_state.value.date)
             }
 
             is HomeAction.ClickQuote -> {
@@ -209,55 +211,57 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun postLike(date: LocalDate) = viewModelScope.launch {
-//        isLike.value = !isLike.value
-//        val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
-//
-//        if (isLogged) {
-//            getResponse(
-//                postLikeUseCase(
-//                    LikeRequest(
-//                        if (isLike.value) {
-//                            YN.Y.type
-//                        } else {
-//                            YN.N.type
-//                        }
-//                    ),
-//                    dailyQuoteSeq = currentQuota.dailyQuoteSeq
-//                )
-//            )
-//        } else {
-//            postLocalLike(date)
-//        }
+        if (_state.value.isLogged) {
+            getResponse(
+                postLikeUseCase(
+                    LikeRequest(
+                        if (!_state.value.isLike) {
+                            YN.Y.type
+                        } else {
+                            YN.N.type
+                        }
+                    ),
+                    dailyQuoteSeq = _state.value.dailyQuoteDto.dailyQuoteSeq
+                )
+            )?.let {
+                updateState { it.copy(isLike = !_state.value.isLike) }
+            }
+        } else {
+            postLocalLike(date)
+        }
     }
 
     private suspend fun postLocalLike(date: LocalDate) {
-//        findLocalQuoteByIdUseCase(currentQuota.dailyQuoteSeq)?.let {
-//            updateLocalQuoteLikeUseCase(
-//                likeYN = if (isLike.value) {
-//                    YN.Y
-//                } else {
-//                    YN.N
-//                }, seq = currentQuota.dailyQuoteSeq
-//            )
-//        } ?: addLocalQuote(date)
+        findLocalQuoteByIdUseCase(_state.value.dailyQuoteDto.dailyQuoteSeq)?.let {
+            updateLocalQuoteLikeUseCase(
+                likeYN = if (!_state.value.isLike) {
+                    YN.Y
+                } else {
+                    YN.N
+                }, seq = _state.value.dailyQuoteDto.dailyQuoteSeq
+            )
+
+            updateState { it.copy(isLike = !_state.value.isLike) }
+        } ?: addLocalQuote(date)
     }
 
     private suspend fun addLocalQuote(date: LocalDate) {
-//        addLocalQuoteUseCase(
-//            LocalQuoteInfo(
-//                dailyQuoteSeq = currentQuota.dailyQuoteSeq,
-//                korQuote = currentQuota.korQuote ?: "",
-//                engQuote = currentQuota.engQuote ?: "",
-//                korAuthor = currentQuota.korAuthor ?: "",
-//                engAuthor = currentQuota.engAuthor ?: "",
-//                korTyping = "",
-//                engTyping = "",
-//                likeYn = YN.Y.type,
-//                memo = "",
-//                date = date.format(dateFormat),
-//                dayOfWeek = date.dayOfWeek.name
-//            )
-//        )
+        val currentQuota = _state.value.dailyQuoteDto
+        addLocalQuoteUseCase(
+            LocalQuoteInfo(
+                dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                korQuote = currentQuota.korQuote ?: "",
+                engQuote = currentQuota.engQuote ?: "",
+                korAuthor = currentQuota.korAuthor ?: "",
+                engAuthor = currentQuota.engAuthor ?: "",
+                korTyping = "",
+                engTyping = "",
+                likeYn = YN.Y.type,
+                memo = "",
+                date = date.format(dateFormat),
+                dayOfWeek = date.dayOfWeek.name
+            )
+        )
     }
 
     private fun refresh(date: LocalDate) = viewModelScope.launch {
