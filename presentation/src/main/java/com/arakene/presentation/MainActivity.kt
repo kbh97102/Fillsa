@@ -32,7 +32,6 @@ import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.MainNavHost
-import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
@@ -148,9 +147,9 @@ class MainActivity : ComponentActivity() {
                             }
 
                             // TODO 7월 21일 운영배포에는 광고 제거
-                            if (shouldShowAd) {
-                                SingleLineAdSection()
-                            }
+//                            if (shouldShowAd) {
+//                                SingleLineAdSection()
+//                            }
                         }
                         CircleLoadingSpinner(
                             isLoading = loadingState
