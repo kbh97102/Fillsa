@@ -29,9 +29,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-<!--            android:value="${ADS_ID}" />-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${ADS_ID}" />
 
         <receiver
             android:name="com.arakene.presentation.util.AlarmReceiver"
