@@ -18,13 +18,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.arakene.domain.model.AdState
 import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.logError
+import com.arakene.presentation.viewmodel.AdViewModel
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
 import kotlinx.coroutines.launch
@@ -32,58 +37,28 @@ import kotlinx.coroutines.launch
 @Composable
 fun SingleLineAdSection(modifier: Modifier = Modifier) {
 
-    val context = LocalContext.current
 
-    val scope = rememberCoroutineScope()
+    val viewModel: AdViewModel = hiltViewModel()
 
-    var ad: NativeAd? by remember {
-        mutableStateOf(null)
-    }
+    val adState by viewModel.adState.collectAsStateWithLifecycle()
 
-    val nativeAd = remember {
-        val loader: AdLoader = AdLoader.Builder(context, BuildConfig.ad_native_test)
-            .forNativeAd { loaded ->
-                scope.launch {
-                    ad = loaded
+    when(adState){
+        is AdState.Success -> {
+            Column(
+                modifier = modifier
+                    .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primary)
+            ) {
+                (adState as? AdState.Success)?.nativeAd?.headline?.let {
+                    Text(
+                        text = it,
+                        color = colorResource(R.color.gray_700),
+                        textAlign = TextAlign.Center,
+                        style = FillsaTheme.typography.buttonXSmallNormal
+                    )
                 }
             }
-            .withAdListener(object : AdListener() {
-                override fun onAdFailedToLoad(p0: LoadAdError) {
-                    super.onAdFailedToLoad(p0)
-                    logError("Error $p0")
-                }
-            })
-            .build()
-
-        loader
-    }
-
-    LaunchedEffect(Unit) {
-        scope.launch {
-            nativeAd.loadAd(
-                AdRequest.Builder().build()
-            )
         }
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            ad?.destroy()
-        }
-    }
-
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primary)
-    ) {
-        ad?.headline?.let {
-            Text(
-                text = it,
-                color = colorResource(R.color.gray_700),
-                textAlign = TextAlign.Center,
-                style = FillsaTheme.typography.buttonXSmallNormal
-            )
-        }
+        else -> {}
     }
 }

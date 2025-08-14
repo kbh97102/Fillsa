@@ -107,7 +107,7 @@ fun BottomNavigationBar(
             }
         }
 
-        if (displayAd) {
+        if (true) {
             SingleLineAdSection()
         }
     }
