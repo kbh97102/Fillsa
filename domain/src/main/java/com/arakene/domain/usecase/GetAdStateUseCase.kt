@@ -6,6 +6,6 @@ import javax.inject.Inject
 class GetAdStateUseCase @Inject constructor(
     private val repository: AdRepository
 ) {
-    operator fun invoke() = repository.getAdStateFlow()
+    suspend operator fun invoke(useCache: Boolean = true) = repository.loadNativeAd(useCache)
 
 }
