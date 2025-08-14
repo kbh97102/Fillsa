@@ -5,7 +5,6 @@ import com.arakene.domain.model.AdState
 import com.arakene.domain.usecase.GetAdStateUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
-import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -28,7 +27,6 @@ class AdViewModel @Inject constructor(
                 val ad = getAdStateUseCase(useCache = false)
                 if (ad != null) {
                     _adState.value = AdState.Success(ad)
-                    logDebug("여기오긴하지? ${(_adState.value as AdState.Success).nativeAd.headline}")
                 } else {
                     _adState.value = AdState.Error
                 }

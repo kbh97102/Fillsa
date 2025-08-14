@@ -301,8 +301,6 @@ class HomeViewModel @Inject constructor(
 
             localList.find {
                 it.dailyQuoteSeq == currentQuota.dailyQuoteSeq
-            }.also {
-                logDebug("find $it")
             }
 
             localList.find { local ->
