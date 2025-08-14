@@ -15,6 +15,7 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.arakene.domain.model.AdState
 import com.arakene.presentation.R
@@ -23,15 +24,32 @@ import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.AdViewModel
 
 @Composable
-fun SingleLineAdSection(modifier: Modifier = Modifier) {
+fun SingleLineAdSection(
+    modifier: Modifier = Modifier,
+    refresh: Boolean = false,
+) {
 
 
     val viewModel: AdViewModel = hiltViewModel()
 
     val adState by viewModel.adState.collectAsStateWithLifecycle()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(refresh) {
+        if (refresh) {
+            logDebug("Effect refresh ad")
+            viewModel.testMethod()
+        }
+    }
+
+    LifecycleResumeEffect(viewModel) {
+
+        logDebug("Resume refresh ad")
+
         viewModel.testMethod()
+
+        onPauseOrDispose {
+
+        }
     }
 
     when (adState) {

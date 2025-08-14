@@ -108,7 +108,9 @@ fun BottomNavigationBar(
         }
 
         if (displayAd) {
-            SingleLineAdSection()
+            SingleLineAdSection(
+                refresh = displayBottomBar,
+            )
         }
     }
 
