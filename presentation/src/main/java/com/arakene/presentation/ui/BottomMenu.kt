@@ -36,9 +36,6 @@ fun BottomNavigationBar(
     navController: NavHostController,
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
-
-    LaunchedEffect(displayAd) { logDebug("? ${displayAd}") }
-
     val items = remember {
         listOf<Pair<Screens, Int>>(
             Pair(Screens.Home(), R.drawable.icn_bottom_menu_home),

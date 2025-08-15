@@ -41,11 +41,12 @@ fun SingleLineAdSection(
         }
     }
 
-    LifecycleResumeEffect(viewModel) {
+    LifecycleResumeEffect(Unit) {
 
-        logDebug("Resume refresh ad")
-
-        viewModel.testMethod()
+        if (!refresh) {
+            logDebug("Resume refresh ad")
+            viewModel.testMethod()
+        }
 
         onPauseOrDispose {
 

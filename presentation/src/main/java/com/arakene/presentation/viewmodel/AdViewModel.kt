@@ -5,6 +5,7 @@ import com.arakene.domain.model.AdState
 import com.arakene.domain.usecase.GetAdStateUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
+import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,6 +26,7 @@ class AdViewModel @Inject constructor(
             _adState.value = AdState.Loading
             try {
                 val ad = getAdStateUseCase(useCache = false)
+                logDebug("refreshed ad ${ad?.headline}")
                 if (ad != null) {
                     _adState.value = AdState.Success(ad)
                 } else {
