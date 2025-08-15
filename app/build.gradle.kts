@@ -78,7 +78,7 @@ dependencies {
 
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
-//    implementation(libs.ads)
+    implementation(libs.ads)
 
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)

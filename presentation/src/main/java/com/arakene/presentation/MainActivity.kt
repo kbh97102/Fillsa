@@ -121,12 +121,12 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 bottomBar = {
-                                    if (displayBottomBar) {
-                                        BottomNavigationBar(
-                                            isLogged = isLogged,
-                                            navController = navController
-                                        )
-                                    }
+                                    BottomNavigationBar(
+                                        isLogged = isLogged,
+                                        navController = navController,
+                                        displayAd = shouldShowAd,
+                                        displayBottomBar = displayBottomBar
+                                    )
                                 },
                                 containerColor = Color.White,
                                 contentWindowInsets = if (shouldShowAd) {
@@ -145,11 +145,6 @@ class MainActivity : ComponentActivity() {
                                     logoutEvent = logoutEvent
                                 )
                             }
-
-                            // TODO 7월 21일 운영배포에는 광고 제거
-//                            if (shouldShowAd) {
-//                                SingleLineAdSection()
-//                            }
                         }
                         CircleLoadingSpinner(
                             isLoading = loadingState
