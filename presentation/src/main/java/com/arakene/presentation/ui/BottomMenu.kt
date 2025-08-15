@@ -1,5 +1,9 @@
 package com.arakene.presentation.ui
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.navigationBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
@@ -7,26 +11,31 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.logDebug
 
 @Composable
 fun BottomNavigationBar(
     isLogged: Boolean,
+    displayAd: Boolean,
+    displayBottomBar: Boolean,
     navController: NavHostController,
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
-
     val items = remember {
         listOf<Pair<Screens, Int>>(
             Pair(Screens.Home(), R.drawable.icn_bottom_menu_home),
@@ -36,24 +45,27 @@ fun BottomNavigationBar(
         )
     }
 
-    NavigationBar(
-        containerColor = MaterialTheme.colorScheme.primary
-    ) {
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentRoute by remember(navBackStackEntry?.destination?.route) {
-            mutableStateOf(navBackStackEntry?.destination?.route?.substringBefore("?"))
-        }
 
-        val black = colorResource(R.color.gray_700)
-        val purple = colorResource(R.color.purple01)
+    Column(modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)) {
+        if (displayBottomBar) {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.primary,
+            ) {
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val currentRoute by remember(navBackStackEntry?.destination?.route) {
+                    mutableStateOf(navBackStackEntry?.destination?.route?.substringBefore("?"))
+                }
 
-        items.forEach { item ->
-            val routeString = remember { item.first::class.qualifiedName }
+                val black = colorResource(R.color.gray_700)
+                val purple = colorResource(R.color.purple01)
 
-            NavigationBarItem(
-                selected = currentRoute == routeString,
-                onClick = {
-                    if (currentRoute != routeString) {
+                items.forEach { item ->
+                    val routeString = remember { item.first::class.qualifiedName }
+
+                    NavigationBarItem(
+                        selected = currentRoute == routeString,
+                        onClick = {
+                            if (currentRoute != routeString) {
 
 //                        if (item.first.needLogin && !isLogged) {
 //
@@ -71,22 +83,30 @@ fun BottomNavigationBar(
 //                            return@NavigationBarItem
 //                        }
 
-                        navController.navigate(item.first) {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    }
-                },
-                icon = { Icon(painterResource(item.second), contentDescription = null) },
-                label = { Text(item.first.routeString) },
-                colors = NavigationBarItemColors(
-                    selectedIconColor = purple,
-                    selectedTextColor = purple,
-                    selectedIndicatorColor = Color.Transparent,
-                    unselectedIconColor = black,
-                    unselectedTextColor = black,
-                    disabledIconColor = black,
-                    disabledTextColor = black
-                )
+                                navController.navigate(item.first) {
+                                    popUpTo(0) { inclusive = true }
+                                }
+                            }
+                        },
+                        icon = { Icon(painterResource(item.second), contentDescription = null) },
+                        label = { Text(item.first.routeString) },
+                        colors = NavigationBarItemColors(
+                            selectedIconColor = purple,
+                            selectedTextColor = purple,
+                            selectedIndicatorColor = Color.Transparent,
+                            unselectedIconColor = black,
+                            unselectedTextColor = black,
+                            disabledIconColor = black,
+                            disabledTextColor = black
+                        )
+                    )
+                }
+            }
+        }
+
+        if (displayAd) {
+            SingleLineAdSection(
+                refresh = displayBottomBar,
             )
         }
     }

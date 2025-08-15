@@ -100,3 +100,7 @@ sealed interface MyPageAction : Action {
     data object Login : MyPageAction
     data class ClickAlarmUsage(val usage: Boolean) : MyPageAction
 }
+
+sealed interface ShareAction: Action {
+    data object ClickDescription: ShareAction
+}

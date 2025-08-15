@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,10 +18,10 @@ import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
-import com.arakene.presentation.ui.common.DurationCalendar
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Contract
@@ -38,6 +39,7 @@ fun QuoteListView(
     popBackStack: () -> Unit,
     startDate: LocalDate = LocalDate.now(),
     endDate: LocalDate = LocalDate.now().plusDays(7),
+    navController: NavController,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -57,11 +59,23 @@ fun QuoteListView(
 
     val paging = viewModel.quotesFlow.collectAsLazyPagingItems()
 
+
     HandlePagingError(paging, refresh = {
         paging.refresh()
     })
 
     val lifeCycle = LocalLifecycleOwner.current
+
+    LaunchedEffect(navController.currentBackStackEntry) {
+        navController.currentBackStackEntry
+            ?.savedStateHandle
+            ?.getLiveData<Boolean>("memo_updated")
+            ?.observe(lifeCycle) { updated ->
+                if (updated == true) {
+                    paging.refresh()
+                }
+            }
+    }
 
     BackHandler {
         popBackStack()
@@ -150,7 +164,11 @@ fun QuoteListView(
             layout(constraints.maxWidth, constraints.maxHeight) {
                 dataSelectionSection?.placeRelative(0, 0)
 
-                calenderSection?.placeRelative(0, likeSectionHeight - 16.dp.roundToPx(), zIndex = 0.1f)
+                calenderSection?.placeRelative(
+                    0,
+                    likeSectionHeight - 16.dp.roundToPx(),
+                    zIndex = 0.1f
+                )
 
                 likeSection?.placeRelative(
                     constraints.maxWidth - likeSection.measuredWidth,

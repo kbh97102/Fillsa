@@ -158,9 +158,7 @@ fun TypingQuoteView(
     Column(
         modifier = Modifier
             .background(Color.White)
-            .noEffectClickable {
-                focusManager.clearFocus()
-            }) {
+    ) {
         TypingQuoteTopSection(
             locale = localeType,
             setLocale = {
@@ -176,6 +174,7 @@ fun TypingQuoteView(
                 .padding(top = 20.dp)
                 .noEffectClickable {
                     typingSectionFocusRequester.requestFocus()
+                    keyboardController?.show()
                 }
         ) {
             TypingQuoteBodySection(

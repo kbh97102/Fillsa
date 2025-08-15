@@ -8,10 +8,8 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material3.Scaffold
@@ -34,7 +32,6 @@ import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.MainNavHost
-import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
@@ -43,7 +40,6 @@ import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -115,6 +111,7 @@ class MainActivity : ComponentActivity() {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
+                                .imePadding()
                         ) {
                             Scaffold(
                                 modifier = Modifier.weight(1f),
@@ -124,15 +121,15 @@ class MainActivity : ComponentActivity() {
                                     }
                                 },
                                 bottomBar = {
-                                    if (displayBottomBar) {
-                                        BottomNavigationBar(
-                                            isLogged = isLogged,
-                                            navController = navController
-                                        )
-                                    }
+                                    BottomNavigationBar(
+                                        isLogged = isLogged,
+                                        navController = navController,
+                                        displayAd = shouldShowAd,
+                                        displayBottomBar = displayBottomBar
+                                    )
                                 },
                                 containerColor = Color.White,
-                                contentWindowInsets = if (shouldShowAd){
+                                contentWindowInsets = if (shouldShowAd) {
                                     WindowInsets.statusBars
                                 } else {
                                     ScaffoldDefaults.contentWindowInsets
@@ -142,18 +139,12 @@ class MainActivity : ComponentActivity() {
 
                                 MainNavHost(
                                     modifier = Modifier
-                                        .padding(paddingValues)
-                                        .imePadding(),
+                                        .padding(paddingValues),
                                     navController = navController,
                                     startDestination = Screens.Splash,
                                     logoutEvent = logoutEvent
                                 )
                             }
-
-                            // TODO 7월 21일 운영배포에는 광고 제거
-//                            if (shouldShowAd) {
-//                                SingleLineAdSection()
-//                            }
                         }
                         CircleLoadingSpinner(
                             isLoading = loadingState

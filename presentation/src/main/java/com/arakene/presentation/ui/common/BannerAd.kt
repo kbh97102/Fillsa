@@ -9,22 +9,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.compose.LifecycleResumeEffect
-import com.google.android.gms.ads.AdView
+//import com.google.android.gms.ads.AdView
 
 
-@Composable
-fun BannerAd(adView: AdView, modifier: Modifier = Modifier) {
-    // Ad load does not work in preview mode because it requires a network connection.
-    if (LocalInspectionMode.current) {
-        Box { Text(text = "Google Mobile Ads preview banner.", modifier.align(Alignment.Center)) }
-        return
-    }
-
-    AndroidView(modifier = modifier.wrapContentSize(), factory = { adView })
-
-    // Pause and resume the AdView when the lifecycle is paused and resumed.
-    LifecycleResumeEffect(adView) {
-        adView.resume()
-        onPauseOrDispose { adView.pause() }
-    }
-}
+//@Composable
+//fun BannerAd(adView: AdView, modifier: Modifier = Modifier) {
+//    // Ad load does not work in preview mode because it requires a network connection.
+//    if (LocalInspectionMode.current) {
+//        Box { Text(text = "Google Mobile Ads preview banner.", modifier.align(Alignment.Center)) }
+//        return
+//    }
+//
+//    AndroidView(modifier = modifier.wrapContentSize(), factory = { adView })
+//
+//    // Pause and resume the AdView when the lifecycle is paused and resumed.
+//    LifecycleResumeEffect(adView) {
+//        adView.resume()
+//        onPauseOrDispose { adView.pause() }
+//    }
+//}

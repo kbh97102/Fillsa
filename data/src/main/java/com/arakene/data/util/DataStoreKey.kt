@@ -13,4 +13,5 @@ object DataStoreKey {
     val ALARM_KEY  = booleanPreferencesKey("alarm_key")
     val TOKEN_EXPIRED = stringPreferencesKey("token_expired")
     val PERMISSION_REQUESTED = booleanPreferencesKey("PERMISSION_REQUESTED")
+    val SHARE_DESCRIPTION = booleanPreferencesKey("SHARE_DESCRIPTION")
 }
