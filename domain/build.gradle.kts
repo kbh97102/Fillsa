@@ -32,4 +32,5 @@ dependencies {
     implementation(libs.hilt)
 
     implementation(libs.paging)
+    implementation(libs.ads)
 }
