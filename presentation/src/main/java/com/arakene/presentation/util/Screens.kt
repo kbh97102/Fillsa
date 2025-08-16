@@ -3,6 +3,7 @@ package com.arakene.presentation.util
 import androidx.annotation.Keep
 import com.arakene.domain.responses.DailyQuoteDto
 import kotlinx.serialization.Serializable
+import java.time.LocalDate
 
 @Keep
 sealed interface Screens {
@@ -86,7 +87,9 @@ sealed interface Screens {
 
     @Serializable
     @Keep
-    data object QuoteList : Screens {
+    data class QuoteList(
+        val startDate: String = ""
+    ) : Screens {
         override val routeString: String
             get() = "List"
         override val needLogin: Boolean

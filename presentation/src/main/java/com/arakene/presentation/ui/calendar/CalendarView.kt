@@ -19,7 +19,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.ui.theme.FillsaTheme
-import com.arakene.presentation.util.CalendarAction
+import com.arakene.presentation.util.action.CalendarAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate

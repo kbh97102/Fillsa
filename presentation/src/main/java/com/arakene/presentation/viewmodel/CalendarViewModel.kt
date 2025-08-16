@@ -12,11 +12,10 @@ import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
-import com.arakene.presentation.util.CalendarAction
+import com.arakene.presentation.util.action.CalendarAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -78,7 +77,9 @@ class CalendarViewModel @Inject constructor(
             is CalendarAction.ClickCount -> {
                 emitEffect(
                     CommonEffect.Move(
-                        Screens.QuoteList
+                        Screens.QuoteList(
+                            dateFormatter.format(selectedDay.value.date)
+                        )
                     )
                 )
             }

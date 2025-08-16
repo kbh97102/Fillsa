@@ -14,7 +14,7 @@ import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
-import com.arakene.presentation.util.MyPageAction
+import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.collectLatest

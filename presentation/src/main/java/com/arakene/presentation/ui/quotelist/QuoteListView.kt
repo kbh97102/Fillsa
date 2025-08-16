@@ -7,18 +7,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.navigation.NavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
@@ -28,37 +24,20 @@ import com.arakene.presentation.util.Contract
 import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
-import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.action.QuoteListAction
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.ListViewModel
-import java.time.LocalDate
 
 @Composable
 fun QuoteListView(
     navigate: Navigate,
     popBackStack: () -> Unit,
-    startDate: LocalDate = LocalDate.now(),
-    endDate: LocalDate = LocalDate.now().plusDays(7),
-    navController: NavController,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
-    var selectedStartDate by remember(startDate) {
-        mutableStateOf(startDate)
-    }
-
-    var selectedEndDate by remember(endDate) {
-        mutableStateOf(endDate)
-    }
-
-    var displayCalendar by remember {
-        mutableStateOf(false)
-    }
-
-    val isLike by viewModel.likeFilter.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
     val paging = viewModel.quotesFlow.collectAsLazyPagingItems()
-
 
     HandlePagingError(paging, refresh = {
         paging.refresh()
@@ -66,15 +45,9 @@ fun QuoteListView(
 
     val lifeCycle = LocalLifecycleOwner.current
 
-    LaunchedEffect(navController.currentBackStackEntry) {
-        navController.currentBackStackEntry
-            ?.savedStateHandle
-            ?.getLiveData<Boolean>("memo_updated")
-            ?.observe(lifeCycle) { updated ->
-                if (updated == true) {
-                    paging.refresh()
-                }
-            }
+    LifecycleResumeEffect(Unit) {
+        paging.refresh()
+        onPauseOrDispose { }
     }
 
     BackHandler {
@@ -106,28 +79,28 @@ fun QuoteListView(
         SubcomposeLayout { constraints ->
             val dataSelectionSection = subcompose("DataSelectSelection") {
                 DateSelectSection(
-                    startDate = selectedStartDate,
-                    endDate = selectedEndDate,
-                    isCalendarDisplayed = displayCalendar,
+                    startDate = state.startDate,
+                    endDate = state.endDate,
+                    isCalendarDisplayed = state.displayCalendar,
                     modifier = Modifier
                         .padding(top = 20.dp)
                         .noEffectClickable {
-                            displayCalendar = !displayCalendar
+                            viewModel.handleContract(QuoteListAction.ClickDateSection)
                         }
                 )
             }.firstOrNull()?.measure(constraints)
 
             val calenderSection = subcompose("CalendarSection") {
                 DurationCalendarSection(
-                    startDate = selectedStartDate,
-                    endDate = selectedEndDate,
+                    startDate = state.startDate,
+                    endDate = state.endDate,
                     setStartDate = {
-                        selectedStartDate = it
+                        viewModel.handleContract(QuoteListAction.UpdateStartDate(it))
                     },
                     setEndDate = {
-                        selectedEndDate = it
+                        viewModel.handleContract(QuoteListAction.UpdateEndDate(it))
                     },
-                    displayCalendar = displayCalendar,
+                    displayCalendar = state.displayCalendar,
                     modifier = Modifier.padding(top = 10.dp)
                 )
             }.firstOrNull()?.measure(constraints)
@@ -135,9 +108,9 @@ fun QuoteListView(
             val likeSection = subcompose("LikeSection") {
                 IsLikeSection(
                     modifier = Modifier.padding(top = 20.dp),
-                    isLike = isLike,
+                    isLike = state.likeFilter,
                     setIsLike = {
-                        viewModel.updateLikeFilter(it)
+                        viewModel.handleContract(QuoteListAction.UpdateLikeFilter(it))
                     }
                 )
             }.firstOrNull()?.measure(constraints)
