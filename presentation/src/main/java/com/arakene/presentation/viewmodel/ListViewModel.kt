@@ -122,13 +122,13 @@ class ListViewModel @Inject constructor(
 
             is QuoteListAction.UpdateEndDate -> {
                 updateState {
-                    it.copy(endDate = listAction.date, displayCalendar = false)
+                    it.copy(endDate = listAction.date)
                 }
             }
 
             is QuoteListAction.ClickDateSection -> {
                 updateState {
-                    it.copy(displayCalendar = true)
+                    it.copy(displayCalendar = !it.displayCalendar)
                 }
             }
         }
