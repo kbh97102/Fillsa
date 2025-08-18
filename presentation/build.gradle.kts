@@ -41,6 +41,7 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+    implementation(project(":compose-util"))
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -81,7 +82,7 @@ dependencies {
 
     implementation(libs.paging.compose)
     implementation(libs.calendar)
-//    implementation(libs.ads)
+    implementation(libs.ads)
     implementation(libs.lottie)
     implementation(libs.firebase.crashlytics)
 }
