@@ -19,7 +19,11 @@ class AdRepositoryImpl(
     private val cacheManagerImpl: AdCacheManagerImpl
 ) : AdRepository {
 
-    private val id = BuildConfig.ad_native_test
+    private val id = if (BuildConfig.DEBUG) {
+        BuildConfig.ad_native_test
+    } else {
+        BuildConfig.ad_native_prod
+    }
 
     override suspend fun loadNativeAd(useCache: Boolean): NativeAd? {
         if (useCache) {
