@@ -9,6 +9,7 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
+import com.google.android.gms.ads.nativead.NativeAdOptions
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
@@ -18,7 +19,11 @@ class AdRepositoryImpl(
     private val cacheManagerImpl: AdCacheManagerImpl
 ) : AdRepository {
 
-    private val id = BuildConfig.ad_native_test
+    private val id = if (BuildConfig.DEBUG) {
+        BuildConfig.ad_native_test
+    } else {
+        BuildConfig.ad_native_prod
+    }
 
     override suspend fun loadNativeAd(useCache: Boolean): NativeAd? {
         if (useCache) {
@@ -26,7 +31,14 @@ class AdRepositoryImpl(
         }
 
         return suspendCancellableCoroutine { continuation ->
+
+            val nativeAdOptions =
+                NativeAdOptions.Builder()
+                    .setAdChoicesPlacement(NativeAdOptions.ADCHOICES_BOTTOM_RIGHT)
+                    .build()
+
             val adLoader = AdLoader.Builder(context, id)
+                .withNativeAdOptions(nativeAdOptions)
                 .forNativeAd { ad ->
                     cacheManagerImpl.setCachedAd(ad)
                     continuation.resume(ad)

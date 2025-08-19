@@ -19,7 +19,7 @@ class TokenInterceptor @Inject constructor(
 
             Log.d(">>>> Token", "EndPoint ${original.url.encodedPath} query ${original.url.encodedQuery} token $accessToken")
 
-            requestBuilder.addHeader("Authorization", "Bearer $accessToken")
+            requestBuilder.addHeader("Authorization", "Bearer 1.0.0")
         }
 
         return chain.proceed(requestBuilder.build())

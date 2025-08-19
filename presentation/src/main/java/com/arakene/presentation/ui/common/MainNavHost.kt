@@ -155,7 +155,8 @@ fun MainNavHost(
                         navController.navigate(Screens.Home()) {
                             popUpTo(0) { inclusive = true }
                         }
-                    }
+                    },
+                    logoutEvent = logoutEvent,
                 )
             }
         }
