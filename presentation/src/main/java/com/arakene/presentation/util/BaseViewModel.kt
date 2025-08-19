@@ -119,6 +119,10 @@ abstract class BaseViewModel : ViewModel() {
                     1007 -> {
                         _error.emit("1007")
                     }
+
+                    else ->{
+                        _error.emit("default")
+                    }
                 }
                 setLoading(false)
                 null
@@ -130,6 +134,10 @@ abstract class BaseViewModel : ViewModel() {
                 when (response.error) {
                     is HttpException, is UnknownHostException -> {
                         _error.emit("404")
+                    }
+
+                    else ->{
+                        _error.emit("default")
                     }
                 }
                 null

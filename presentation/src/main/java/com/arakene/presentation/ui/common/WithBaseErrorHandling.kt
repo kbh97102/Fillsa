@@ -13,7 +13,6 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleError
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.logDebug
 
 @Composable
 inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
@@ -38,6 +37,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
             "1007" -> {
                 displayUpdateDialog = true
             }
+
             "404" -> {
                 dialogDataHolder.apply {
                     data = DialogData.Builder().buildNetworkError(context, okOnClick = {
@@ -55,6 +55,16 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                         .onClick {
                             logoutEvent()
                         }
+                        .build()
+                }.run {
+                    show = true
+                }
+            }
+
+            else -> {
+                dialogDataHolder.apply {
+                    data = DialogData.Builder()
+                        .title("")
                         .build()
                 }.run {
                     show = true
