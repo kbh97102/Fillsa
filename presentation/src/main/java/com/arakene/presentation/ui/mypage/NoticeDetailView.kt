@@ -19,7 +19,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun NoticeDetailView(
-    onBackPress: () -> Unit,
+    popBackStack: () -> Unit,
     noticeResponse: NoticeResponse,
     modifier: Modifier = Modifier
 ) {
@@ -30,7 +30,7 @@ fun NoticeDetailView(
 
         HeaderSection(
             text = stringResource(R.string.notice),
-            onBackPress = onBackPress
+            onBackPress = popBackStack
         )
 
         Text(

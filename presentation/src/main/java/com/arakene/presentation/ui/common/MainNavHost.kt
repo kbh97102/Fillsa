@@ -18,6 +18,7 @@ import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.mypage.AlertView
 import com.arakene.presentation.ui.mypage.MyPageView
+import com.arakene.presentation.ui.mypage.NoticeDetailView
 import com.arakene.presentation.ui.mypage.NoticeView
 import com.arakene.presentation.ui.quoteli.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.MemoInsertView
@@ -265,6 +266,18 @@ fun MainNavHost(
                     navigate = {
                         navController.navigate(it)
                     }
+                )
+            }
+        }
+
+        composable<MyPageScreens.NoticeDetail> {
+            val data = it.toRoute<MyPageScreens.NoticeDetail>()
+            WithBaseErrorHandling<MyPageViewModel> {
+                NoticeDetailView(
+                    popBackStack = {
+                        navController.popBackStack()
+                    },
+                    noticeResponse = data.noticeResponse
                 )
             }
         }
