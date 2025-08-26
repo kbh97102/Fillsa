@@ -13,19 +13,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.arakene.domain.util.CommonErrorType
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.QuoteListAction
 import com.arakene.presentation.viewmodel.ListViewModel
@@ -36,17 +38,38 @@ fun QuoteListView(
     endDate: String,
     navigate: Navigate,
     popBackStack: () -> Unit,
+    logoutEvent: () -> Unit,
     navController: NavController,
-    viewModel: ListViewModel = hiltViewModel()
+    viewModel: ListViewModel = hiltViewModel(),
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
 ) {
 
     val isLike by viewModel.likeFilter.collectAsState()
 
     val paging = viewModel.quotesFlow.collectAsLazyPagingItems()
 
+    val context = LocalContext.current
 
-    HandlePagingError(paging, refresh = {
-        paging.refresh()
+    HandlePagingError(paging, handleError = {
+        when (it) {
+            CommonErrorType.NETWORK -> {
+                dialogDataHolder.apply {
+                    data = DialogData.Builder()
+                        .buildNetworkError(context, okOnClick = { paging.refresh() })
+                }.show = true
+            }
+
+            CommonErrorType.ACCESS_VERSION -> {
+                dialogDataHolder.apply {
+                    DialogData.Builder()
+                        .title("로그인 시간이 만료되었습니다.\n재로그인해주세요")
+                        .onClick {
+                            logoutEvent()
+                        }
+                        .build()
+                }.show = true
+            }
+        }
     })
 
     val lifeCycle = LocalLifecycleOwner.current

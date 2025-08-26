@@ -19,45 +19,50 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun NoticeDetailView(
-    onBackPress: () -> Unit,
+    popBackStack: () -> Unit,
     noticeResponse: NoticeResponse,
     modifier: Modifier = Modifier
 ) {
 
-    Column(modifier = modifier
-        .fillMaxSize()
-        .background(MaterialTheme.colorScheme.primary)) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.secondary)
+    ) {
 
         HeaderSection(
+            modifier = Modifier.background(MaterialTheme.colorScheme.primary),
             text = stringResource(R.string.notice),
-            onBackPress = onBackPress
+            onBackPress = popBackStack
         )
 
-        Text(
-            noticeResponse.title,
-            style = FillsaTheme.typography.subtitle1,
-            color = colorResource(R.color.gray_700),
-            modifier = Modifier.padding(top = 16.dp)
-        )
+        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+            Text(
+                noticeResponse.title,
+                style = FillsaTheme.typography.subtitle1,
+                color = colorResource(R.color.gray_700),
+                modifier = Modifier.padding(top = 16.dp)
+            )
 
-        Text(
-            noticeResponse.createdAt,
-            style = FillsaTheme.typography.body3,
-            color = colorResource(R.color.gray_400),
-            modifier = Modifier.padding(top = 10.dp)
-        )
+            Text(
+                noticeResponse.createdAt,
+                style = FillsaTheme.typography.body3,
+                color = colorResource(R.color.gray_400),
+                modifier = Modifier.padding(top = 10.dp)
+            )
 
-        HorizontalDivider(
-            color = colorResource(R.color.gray_200),
-            modifier = Modifier.padding(top = 10.dp)
-        )
+            HorizontalDivider(
+                color = colorResource(R.color.gray_200),
+                modifier = Modifier.padding(top = 10.dp)
+            )
 
-        Text(
-            noticeResponse.content,
-            style = FillsaTheme.typography.body3,
-            color = colorResource(R.color.gray_700),
-            modifier = Modifier.padding(top = 20.dp)
-        )
+            Text(
+                noticeResponse.content,
+                style = FillsaTheme.typography.body3,
+                color = colorResource(R.color.gray_700),
+                modifier = Modifier.padding(top = 20.dp)
+            )
+        }
 
     }
 
