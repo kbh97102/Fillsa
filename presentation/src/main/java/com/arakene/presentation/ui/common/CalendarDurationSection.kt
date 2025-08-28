@@ -18,11 +18,13 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -51,6 +53,8 @@ import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.core.nextMonth
 import com.kizitonwose.calendar.core.previousMonth
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
@@ -68,12 +72,17 @@ fun DurationCalendar(
 ) {
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
+
+    val firstVisibleMonth = remember {
+        YearMonth.now()
+    }
+
     val startMonth = remember(startDate) {
         YearMonth.of(2025, 6).apply {
             atDay(10)
         }
     }
-    val endMonth = remember { currentMonth }
+    val endMonth = remember { YearMonth.now() }
     val daysOfWeek = remember { daysOfWeek() }
 
     var tempStartDate by remember(startDate) {
@@ -87,12 +96,18 @@ fun DurationCalendar(
     val state = rememberCalendarState(
         startMonth = startMonth,
         endMonth = endMonth,
-        firstVisibleMonth = currentMonth,
+        firstVisibleMonth = firstVisibleMonth,
     )
 
     val scope = rememberCoroutineScope()
 
-
+    LaunchedEffect(state) {
+        snapshotFlow { state.firstVisibleMonth.yearMonth }
+            .distinctUntilChanged()
+            .collectLatest {
+                currentMonth = it
+            }
+    }
 
     Column(
         modifier = modifier
@@ -126,7 +141,6 @@ fun DurationCalendar(
                     val target = state.firstVisibleMonth.yearMonth.nextMonth
                     if (target <= state.endMonth) {
                         state.animateScrollToMonth(target)
-
                     }
                 }
             },
