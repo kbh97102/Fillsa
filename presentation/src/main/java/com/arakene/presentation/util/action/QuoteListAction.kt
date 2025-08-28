@@ -14,17 +14,14 @@ sealed interface QuoteListAction : Action {
         val savedMemo: String
     ) : QuoteListAction
 
-    data object ClickDateSection: QuoteListAction
+    data object ClickDateSection : QuoteListAction
 
-    data class UpdateStartDate(
-        val date: LocalDate
-    ): QuoteListAction
-
-    data class UpdateEndDate(
-        val date: LocalDate
-    ): QuoteListAction
+    data class SelectDate(
+        val start: LocalDate,
+        val end: LocalDate
+    ) : QuoteListAction
 
     data class UpdateLikeFilter(
         val liked: Boolean
-    ): QuoteListAction
+    ) : QuoteListAction
 }

@@ -19,6 +19,7 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.action.QuoteListAction
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.state.QuoteListState
 import com.arakene.presentation.util.toLocalDate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -114,15 +115,13 @@ class ListViewModel @Inject constructor(
                 }
             }
 
-            is QuoteListAction.UpdateStartDate -> {
+            is QuoteListAction.SelectDate -> {
                 updateState {
-                    it.copy(startDate = listAction.date)
-                }
-            }
-
-            is QuoteListAction.UpdateEndDate -> {
-                updateState {
-                    it.copy(endDate = listAction.date)
+                    it.copy(
+                        startDate = listAction.start,
+                        endDate = listAction.end,
+                        displayCalendar = false
+                    )
                 }
             }
 

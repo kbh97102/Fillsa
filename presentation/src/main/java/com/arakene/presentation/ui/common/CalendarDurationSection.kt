@@ -41,6 +41,8 @@ import com.arakene.presentation.ui.calendar.CalendarNavigationIcon
 import com.arakene.presentation.ui.calendar.MonthHeader
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
+import com.arakene.presentation.util.action.QuoteListAction
+import com.arakene.presentation.util.noEffectClickable
 import com.kizitonwose.calendar.compose.ContentHeightMode
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
@@ -61,19 +63,26 @@ import java.util.Locale
 fun DurationCalendar(
     startDate: LocalDate,
     endDate: LocalDate,
-    setStartDate: (LocalDate) -> Unit,
-    setEndDate: (LocalDate) -> Unit,
+    selectDate: (QuoteListAction.SelectDate) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     var currentMonth by remember { mutableStateOf(YearMonth.now()) }
-    val startMonth = remember {
+    val startMonth = remember(startDate) {
         YearMonth.of(2025, 6).apply {
             atDay(10)
         }
     }
     val endMonth = remember { currentMonth }
     val daysOfWeek = remember { daysOfWeek() }
+
+    var tempStartDate by remember(startDate) {
+        mutableStateOf(startDate)
+    }
+
+    var tempEndDate by remember(endDate) {
+        mutableStateOf(endDate)
+    }
 
     val state = rememberCalendarState(
         startMonth = startMonth,
@@ -132,47 +141,47 @@ fun DurationCalendar(
             dayContent = { day ->
                 DateRangeDay(
                     day = day,
-                    startDate = startDate,
-                    endDate = endDate,
+                    startDate = tempStartDate,
+                    endDate = tempEndDate,
                     onClick = { clickedDay ->
                         if (clickedDay.position == DayPosition.MonthDate) {
                             when {
-                                clickedDay.date == startDate -> {
+                                clickedDay.date == tempStartDate -> {
                                     // 시작일 클릭 시 아무것도 하지 않거나 새로운 범위 시작
                                     return@DateRangeDay
                                 }
 
-                                clickedDay.date == endDate -> {
+                                clickedDay.date == tempEndDate -> {
                                     // 종료일 클릭 시 아무것도 하지 않거나 새로운 범위 시작
                                     return@DateRangeDay
                                 }
 
-                                clickedDay.date.isBefore(startDate) -> {
+                                clickedDay.date.isBefore(tempStartDate) -> {
                                     // 시작일보다 이른 날짜 클릭 시 새로운 시작일로 설정
-                                    setEndDate(startDate)
-                                    setStartDate(clickedDay.date)
+                                    tempEndDate = startDate
+                                    tempStartDate = clickedDay.date
                                 }
 
-                                clickedDay.date.isAfter(endDate) -> {
+                                clickedDay.date.isAfter(tempEndDate) -> {
                                     // 종료일보다 늦은 날짜 클릭 시 새로운 종료일로 설정
-                                    setEndDate(clickedDay.date)
+                                    tempEndDate = clickedDay.date
                                 }
 
-                                clickedDay.date.isAfter(startDate) && clickedDay.date.isBefore(
-                                    endDate
+                                clickedDay.date.isAfter(tempStartDate) && clickedDay.date.isBefore(
+                                    tempEndDate
                                 ) -> {
                                     // 범위 내의 날짜 클릭 시 새로운 범위 설정
                                     val diffFromStart =
-                                        ChronoUnit.DAYS.between(startDate, clickedDay.date)
+                                        ChronoUnit.DAYS.between(tempStartDate, clickedDay.date)
                                     val diffFromEnd =
-                                        ChronoUnit.DAYS.between(clickedDay.date, endDate)
+                                        ChronoUnit.DAYS.between(clickedDay.date, tempEndDate)
 
                                     if (diffFromStart <= diffFromEnd) {
                                         // 시작일에 더 가까우면 새로운 시작일로 설정
-                                        setStartDate(clickedDay.date)
+                                        tempStartDate = clickedDay.date
                                     } else {
                                         // 종료일에 더 가까우면 새로운 종료일로 설정
-                                        setEndDate(clickedDay.date)
+                                        tempEndDate = clickedDay.date
                                     }
                                 }
                             }
@@ -199,7 +208,15 @@ fun DurationCalendar(
                     color = colorResource(R.color.purple_5e),
                     shape = MaterialTheme.shapes.small
                 )
-                .padding(vertical = 15.dp, horizontal = 22.dp),
+                .padding(vertical = 15.dp, horizontal = 22.dp)
+                .noEffectClickable {
+                    selectDate(
+                        QuoteListAction.SelectDate(
+                            start = tempStartDate,
+                            end = tempEndDate
+                        )
+                    )
+                },
             contentAlignment = Alignment.Center
         ) {
             Text("확인", style = FillsaTheme.typography.buttonMediumBold, color = Color.White)
@@ -429,7 +446,6 @@ private fun Preview() {
     DurationCalendar(
         startDate = LocalDate.now(),
         endDate = LocalDate.now().plusDays(4),
-        setStartDate = {},
-        setEndDate = {}
+        selectDate = {}
     )
 }

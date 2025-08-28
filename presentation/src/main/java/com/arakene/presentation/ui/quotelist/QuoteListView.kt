@@ -121,12 +121,7 @@ fun QuoteListView(
                 DurationCalendarSection(
                     startDate = state.startDate,
                     endDate = state.endDate,
-                    setStartDate = {
-                        viewModel.handleContract(QuoteListAction.UpdateStartDate(it))
-                    },
-                    setEndDate = {
-                        viewModel.handleContract(QuoteListAction.UpdateEndDate(it))
-                    },
+                    selectDate = viewModel::handleContract,
                     displayCalendar = state.displayCalendar,
                     modifier = Modifier.padding(top = 10.dp)
                 )
