@@ -19,7 +19,6 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.action.QuoteListAction
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.state.QuoteListState
 import com.arakene.presentation.util.toLocalDate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,11 +28,13 @@ import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 @HiltViewModel
@@ -45,6 +46,8 @@ class ListViewModel @Inject constructor(
     private val updateLocalQuoteMemoUseCase: UpdateLocalQuoteMemoUseCase,
     private val savedStateHandle: SavedStateHandle
 ) : BaseViewModel() {
+
+    private val dateFormatterWithDay = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     private val startDay =
         savedStateHandle.get<String>("startDate")?.toLocalDate() ?: LocalDate.now()
@@ -61,16 +64,34 @@ class ListViewModel @Inject constructor(
 
     val state get() = _state.asStateFlow()
 
-    val quotesFlow = snapshotFlow { state.value.likeFilter }
-        .flatMapLatest {
-            getQuotesListUseCase(
-                if (it) {
-                    YN.Y.type
-                } else {
-                    YN.N.type
-                }
-            )
-        }.cachedIn(viewModelScope)
+    private val endDateFlow = snapshotFlow {
+        state.value.endDate
+    }
+
+    private val startDateFlow = snapshotFlow {
+        state.value.startDate
+    }
+
+    private val likeFlow = snapshotFlow { state.value.likeFilter }
+
+    val quoteListFlow = combine(
+        endDateFlow,
+        startDateFlow,
+        likeFlow
+    ){ start, end, like ->
+        Triple(start, end, like)
+    }.flatMapLatest {
+        val (startDate, endDate, likeFilter) = it
+        getQuotesListUseCase(
+            likeYn = if (likeFilter) {
+                YN.Y.type
+            } else {
+                YN.N.type
+            },
+            startDate = dateFormatterWithDay.format(startDate),
+            endDate = dateFormatterWithDay.format(endDate)
+        )
+    }.cachedIn(viewModelScope)
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
@@ -131,16 +152,6 @@ class ListViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    fun getQuotesList(likeYn: Boolean): Flow<PagingData<MemberQuotesResponse>> {
-        return getQuotesListUseCase(
-            if (likeYn) {
-                YN.Y.type
-            } else {
-                YN.N.type
-            }
-        ).cachedIn(viewModelScope)
     }
 
     fun getLocalQuotesList(likeYn: Boolean) = getLocalQuotePagingUseCase(

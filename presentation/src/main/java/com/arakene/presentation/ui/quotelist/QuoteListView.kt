@@ -44,7 +44,7 @@ fun QuoteListView(
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val paging = viewModel.quotesFlow.collectAsLazyPagingItems()
+    val paging = viewModel.quoteListFlow.collectAsLazyPagingItems()
 
     val context = LocalContext.current
 
