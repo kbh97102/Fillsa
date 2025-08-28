@@ -13,7 +13,7 @@ sealed interface MyPageScreens: Screens {
 
     @Serializable
     data class NoticeDetail(
-        val noticeResponse: NoticeResponse
+        val noticeResponse: NoticeResponse = NoticeResponse()
     ): MyPageScreens {
         override val routeString: String
             get() = "NoticeDetail"
