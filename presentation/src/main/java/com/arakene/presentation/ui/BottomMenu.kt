@@ -11,7 +11,6 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,7 +25,6 @@ import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.logDebug
 
 @Composable
 fun BottomNavigationBar(
@@ -44,17 +42,17 @@ fun BottomNavigationBar(
             Pair(Screens.MyPage, R.drawable.icn_bottom_menu_my_page),
         )
     }
-
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute by remember(navBackStackEntry?.destination?.route) {
+        mutableStateOf(navBackStackEntry?.destination?.route?.substringBefore("?"))
+    }
 
     Column(modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)) {
         if (displayBottomBar) {
             NavigationBar(
                 containerColor = MaterialTheme.colorScheme.primary,
             ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
-                val currentRoute by remember(navBackStackEntry?.destination?.route) {
-                    mutableStateOf(navBackStackEntry?.destination?.route?.substringBefore("?"))
-                }
+
 
                 val black = colorResource(R.color.gray_700)
                 val purple = colorResource(R.color.purple01)
@@ -106,6 +104,7 @@ fun BottomNavigationBar(
 
         if (displayAd) {
             SingleLineAdSection(
+                currentRoute = currentRoute ?: "",
                 refresh = displayBottomBar,
             )
         }
