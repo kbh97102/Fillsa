@@ -105,6 +105,9 @@ class ListViewModel @Inject constructor(
     override fun handleAction(action: Action) {
         when (val listAction = action as QuoteListAction) {
             is QuoteListAction.ClickItem -> {
+
+                updateState { it.copy(displayCalendar = false) }
+
                 val data = listAction.memberQuotesResponse
                 emitEffect(
                     CommonEffect.Move(
@@ -152,6 +155,12 @@ class ListViewModel @Inject constructor(
             is QuoteListAction.ClickDateSection -> {
                 updateState {
                     it.copy(displayCalendar = !it.displayCalendar)
+                }
+            }
+
+            is QuoteListAction.ClickOutside -> {
+                updateState {
+                    it.copy(displayCalendar = false)
                 }
             }
         }

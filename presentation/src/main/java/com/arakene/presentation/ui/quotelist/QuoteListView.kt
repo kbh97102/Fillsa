@@ -97,6 +97,9 @@ fun QuoteListView(
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.primary)
             .padding(horizontal = 20.dp)
+            .noEffectClickable {
+                viewModel.handleContract(QuoteListAction.ClickOutside)
+            }
     ) {
 
         HomeTopSection(

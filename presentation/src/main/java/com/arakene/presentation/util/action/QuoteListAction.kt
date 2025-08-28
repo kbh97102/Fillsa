@@ -15,6 +15,7 @@ sealed interface QuoteListAction : Action {
     ) : QuoteListAction
 
     data object ClickDateSection : QuoteListAction
+    data object ClickOutside : QuoteListAction
 
     data class SelectDate(
         val start: LocalDate,
