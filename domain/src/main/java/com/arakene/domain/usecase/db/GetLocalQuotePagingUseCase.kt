@@ -8,6 +8,10 @@ class GetLocalQuotePagingUseCase @Inject constructor(
     private val localRepository: LocalRepository
 ) {
 
-    operator fun invoke(likeYN: YN) = localRepository.getLocalQuotesPaging(likeYN)
+    operator fun invoke(
+        likeYN: YN,
+        startDate: String,
+        endDate: String
+    ) = localRepository.getLocalQuotesPaging(likeYN, startDate = startDate, endDate = endDate)
 
 }

@@ -3,7 +3,6 @@ package com.arakene.presentation.viewmodel
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import androidx.paging.map
 import com.arakene.domain.requests.MemoRequest
@@ -19,13 +18,13 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.action.QuoteListAction
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.state.QuoteListState
 import com.arakene.presentation.util.toLocalDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.combine
@@ -64,33 +63,37 @@ class ListViewModel @Inject constructor(
 
     val state get() = _state.asStateFlow()
 
-    private val endDateFlow = snapshotFlow {
-        state.value.endDate
-    }
+    private val loginFlow = getLoginStatusUseCase()
 
-    private val startDateFlow = snapshotFlow {
-        state.value.startDate
+    private val dateFlow = state.map {
+        Triple(it.startDate, it.endDate, it.likeFilter)
     }
-
-    private val likeFlow = snapshotFlow { state.value.likeFilter }
 
     val quoteListFlow = combine(
-        endDateFlow,
-        startDateFlow,
-        likeFlow
-    ){ start, end, like ->
-        Triple(start, end, like)
+        dateFlow,
+        loginFlow
+    ) { stateData, login ->
+        Pair(stateData, login)
     }.flatMapLatest {
-        val (startDate, endDate, likeFilter) = it
-        getQuotesListUseCase(
-            likeYn = if (likeFilter) {
-                YN.Y.type
-            } else {
-                YN.N.type
-            },
-            startDate = dateFormatterWithDay.format(startDate),
-            endDate = dateFormatterWithDay.format(endDate)
-        )
+        val (startDate, endDate, likeFilter) = it.first
+        val login = it.second
+
+        val start = dateFormatterWithDay.format(startDate)
+        val end = dateFormatterWithDay.format(endDate)
+
+        if (login) {
+            getQuotesListUseCase(
+                likeYn = if (likeFilter) {
+                    YN.Y.type
+                } else {
+                    YN.N.type
+                },
+                startDate = start,
+                endDate = end
+            )
+        } else {
+            getLocalQuotesList(likeFilter, startDate = start, endDate = end)
+        }
     }.cachedIn(viewModelScope)
 
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -154,36 +157,38 @@ class ListViewModel @Inject constructor(
         }
     }
 
-    fun getLocalQuotesList(likeYn: Boolean) = getLocalQuotePagingUseCase(
-        if (likeYn) {
-            YN.Y
-        } else {
-            YN.N
-        }
-    )
-        .map { pagingData ->
-            pagingData.map {
-                MemberQuotesResponse(
-                    memberQuoteSeq = it.dailyQuoteSeq,
-                    quoteDate = it.date,
-                    quoteDayOfWeek = it.dayOfWeek,
-                    korQuote = it.korQuote,
-                    engQuote = it.engQuote,
-                    korAuthor = it.korAuthor,
-                    engAuthor = it.engAuthor,
-                    authorUrl = "",
-                    memo = it.memo,
-                    memoYnString = if (it.memo.isEmpty()) {
-                        YN.N.type
-                    } else {
-                        YN.Y.type
-                    },
-                    imagePath = "",
-                    likeYnString = it.likeYn,
-                )
+    private fun getLocalQuotesList(likeYn: Boolean, startDate: String, endDate: String) =
+        getLocalQuotePagingUseCase(
+            if (likeYn) {
+                YN.Y
+            } else {
+                YN.N
+            },
+            startDate = startDate,
+            endDate = endDate
+        )
+            .map { pagingData ->
+                pagingData.map {
+                    MemberQuotesResponse(
+                        memberQuoteSeq = it.dailyQuoteSeq,
+                        quoteDate = it.date,
+                        quoteDayOfWeek = it.dayOfWeek,
+                        korQuote = it.korQuote,
+                        engQuote = it.engQuote,
+                        korAuthor = it.korAuthor,
+                        engAuthor = it.engAuthor,
+                        authorUrl = "",
+                        memo = it.memo,
+                        memoYnString = if (it.memo.isEmpty()) {
+                            YN.N.type
+                        } else {
+                            YN.Y.type
+                        },
+                        imagePath = "",
+                        likeYnString = it.likeYn,
+                    )
+                }
             }
-        }
-        .cachedIn(viewModelScope)
 
 
     val isLogged = getLoginStatusUseCase()

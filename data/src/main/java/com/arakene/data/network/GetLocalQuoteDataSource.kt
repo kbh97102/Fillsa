@@ -1,6 +1,5 @@
 package com.arakene.data.network
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.arakene.data.db.LocalQuoteInfoDao
@@ -11,7 +10,9 @@ import kotlinx.coroutines.withContext
 
 class GetLocalQuoteDataSource(
     private val dao: LocalQuoteInfoDao,
-    private val likeYn: String
+    private val likeYn: String,
+    private val startDate: String,
+    private val endDate: String
 ) : PagingSource<Int, LocalQuoteInfoEntity>() {
 
     override fun getRefreshKey(state: PagingState<Int, LocalQuoteInfoEntity>): Int? {
@@ -28,16 +29,18 @@ class GetLocalQuoteDataSource(
                 if (likeYn == YN.Y.type) {
                     dao.getPagingListWithLike(
                         offset = page * 10,
-                        likeYn
+                        likeYn = likeYn,
+                        startDate = startDate,
+                        endDate = endDate
                     )
                 } else {
                     dao.getPagingList(
-                        offset = page * 10
+                        offset = page * 10,
+                        startDate = startDate,
+                        endDate = endDate
                     )
                 }
             }
-
-            Log.d(">>>>", "Paging Source page $page ${response}")
 
             LoadResult.Page(
                 data = response,
