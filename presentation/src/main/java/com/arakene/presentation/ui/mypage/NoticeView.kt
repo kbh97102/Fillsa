@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -43,7 +44,7 @@ fun NoticeView(
             is CommonEffect.Move -> {
                 navigate(it.screen)
             }
-            
+
             is CommonEffect.PopBackStack -> {
                 onBackPress()
             }
@@ -54,30 +55,33 @@ fun NoticeView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
-            .padding(horizontal = 20.dp)
+            .background(MaterialTheme.colorScheme.secondary)
     ) {
 
         HeaderSection(
+            modifier = Modifier.background(MaterialTheme.colorScheme.primary),
             text = stringResource(R.string.notice),
             onBackPress = { viewModel.handleContract(CommonAction.PopBackStack) }
         )
 
-        if (data.itemCount == 0) {
-            EmptyNoticeSection()
-        } else {
-            NoticeListSection(
-                data,
-                onClick = {
-                    viewModel.handleContract(
-                        CommonEffect.Move(
-                            MyPageScreens.NoticeDetail(
-                                it
+        Box(modifier = Modifier.padding(horizontal = 20.dp)) {
+            if (data.itemCount == 0) {
+                EmptyNoticeSection()
+            } else {
+                NoticeListSection(
+                    modifier = Modifier.padding(top = 16.dp),
+                    data = data,
+                    onClick = {
+                        viewModel.handleContract(
+                            CommonEffect.Move(
+                                MyPageScreens.NoticeDetail(
+                                    it
+                                )
                             )
                         )
-                    )
-                }
-            )
+                    }
+                )
+            }
         }
 
     }

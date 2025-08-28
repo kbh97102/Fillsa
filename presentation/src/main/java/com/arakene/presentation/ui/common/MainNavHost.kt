@@ -11,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.NoticeResponse
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.calendar.CalendarView
 import com.arakene.presentation.ui.home.HomeView
@@ -18,6 +19,7 @@ import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.mypage.AlertView
 import com.arakene.presentation.ui.mypage.MyPageView
+import com.arakene.presentation.ui.mypage.NoticeDetailView
 import com.arakene.presentation.ui.mypage.NoticeView
 import com.arakene.presentation.ui.quoteli.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.MemoInsertView
@@ -25,6 +27,7 @@ import com.arakene.presentation.ui.quotelist.QuoteListView
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
 import com.arakene.presentation.util.DataKey
 import com.arakene.presentation.util.MyPageScreens
+import com.arakene.presentation.util.NoticeResponseTypeMap
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.viewmodel.CalendarViewModel
 import com.arakene.presentation.viewmodel.HomeViewModel
@@ -267,6 +270,21 @@ fun MainNavHost(
                     navigate = {
                         navController.navigate(it)
                     }
+                )
+            }
+        }
+
+        composable<MyPageScreens.NoticeDetail>(
+            typeMap =
+                mapOf(typeOf<NoticeResponse>() to NoticeResponseTypeMap)
+        ) {
+            val data = it.toRoute<MyPageScreens.NoticeDetail>()
+            WithBaseErrorHandling<MyPageViewModel> {
+                NoticeDetailView(
+                    popBackStack = {
+                        navController.popBackStack()
+                    },
+                    noticeResponse = data.noticeResponse
                 )
             }
         }
