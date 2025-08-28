@@ -37,7 +37,7 @@ fun BottomNavigationBar(
     val items = remember {
         listOf<Pair<Screens, Int>>(
             Pair(Screens.Home(), R.drawable.icn_bottom_menu_home),
-            Pair(Screens.QuoteList, R.drawable.icn_bottom_menu_list),
+            Pair(Screens.QuoteList(), R.drawable.icn_bottom_menu_list),
             Pair(Screens.Calendar, R.drawable.icn_bottom_menu_calendar),
             Pair(Screens.MyPage, R.drawable.icn_bottom_menu_my_page),
         )

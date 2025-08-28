@@ -2,51 +2,49 @@ package com.arakene.presentation.ui.quotelist
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.navigation.NavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.domain.util.CommonErrorType
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.Contract
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Navigate
-import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.action.QuoteListAction
+import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable
 fun QuoteListView(
-    startDate: String,
-    endDate: String,
     navigate: Navigate,
     popBackStack: () -> Unit,
     logoutEvent: () -> Unit,
-    navController: NavController,
     viewModel: ListViewModel = hiltViewModel(),
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
 ) {
 
-    val isLike by viewModel.likeFilter.collectAsState()
+    val state by viewModel.state.collectAsStateWithLifecycle()
 
-    val paging = viewModel.quotesFlow.collectAsLazyPagingItems()
+    val paging = viewModel.quoteListFlow.collectAsLazyPagingItems()
 
     val context = LocalContext.current
 
@@ -74,15 +72,9 @@ fun QuoteListView(
 
     val lifeCycle = LocalLifecycleOwner.current
 
-    LaunchedEffect(navController.currentBackStackEntry) {
-        navController.currentBackStackEntry
-            ?.savedStateHandle
-            ?.getLiveData<Boolean>("memo_updated")
-            ?.observe(lifeCycle) { updated ->
-                if (updated == true) {
-                    paging.refresh()
-                }
-            }
+    LifecycleResumeEffect(Unit) {
+        paging.refresh()
+        onPauseOrDispose { }
     }
 
     BackHandler {
@@ -111,39 +103,97 @@ fun QuoteListView(
             navigate = navigate
         )
 
-        /**
-         * Ver 2.0에서 도입될 기능
-         */
-//        DateSelectSection(
-//            startDate = startDate,
-//            endDate = endDate,
-//            modifier = Modifier.padding(top = 20.dp)
-//        )
+        SubcomposeLayout { constraints ->
+            val dataSelectionSection = subcompose("DataSelectSelection") {
+                DateSelectSection(
+                    startDate = state.startDate,
+                    endDate = state.endDate,
+                    isCalendarDisplayed = state.displayCalendar,
+                    modifier = Modifier
+                        .padding(top = 20.dp)
+                        .noEffectClickable {
+                            viewModel.handleContract(QuoteListAction.ClickDateSection)
+                        }
+                )
+            }.firstOrNull()?.measure(constraints)
 
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            IsLikeSection(
-                modifier = Modifier.padding(top = 20.dp),
-                isLike = isLike,
-                setIsLike = {
-                    viewModel.updateLikeFilter(it)
-                }
-            )
-        }
+            val calenderSection = subcompose("CalendarSection") {
+                DurationCalendarSection(
+                    startDate = state.startDate,
+                    endDate = state.endDate,
+                    selectDate = viewModel::handleContract,
+                    displayCalendar = state.displayCalendar,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+            }.firstOrNull()?.measure(constraints)
 
-        if (paging.itemCount == 0) {
-            QuoteListEmptySection()
-        } else {
+            val likeSection = subcompose("LikeSection") {
+                IsLikeSection(
+                    modifier = Modifier.padding(top = 20.dp),
+                    isLike = state.likeFilter,
+                    setIsLike = {
+                        viewModel.handleContract(QuoteListAction.UpdateLikeFilter(it))
+                    }
+                )
+            }.firstOrNull()?.measure(constraints)
 
-            QuoteListSection(
-                modifier = Modifier.padding(top = 10.dp),
-                list = paging,
-                onClick = {
-                    viewModel.handleContract(QuoteListAction.ClickItem(it))
-                }
-            )
+            val likeSectionHeight = dataSelectionSection?.height ?: 0
+            val listSectionHeight = likeSectionHeight + (likeSection?.height ?: 0)
+            val ListSectionHeightConstraint = constraints.maxHeight - listSectionHeight
+
+            val listSection = subcompose("ListSection") {
+                QuoteListSection(
+                    paging,
+                    handleContract = {
+                        viewModel.handleContract(it)
+                    }
+                )
+            }.firstOrNull()
+                ?.measure(
+                    constraints.copy(
+                        maxHeight = ListSectionHeightConstraint,
+                        minHeight = ListSectionHeightConstraint
+                    )
+                )
+
+            layout(constraints.maxWidth, constraints.maxHeight) {
+                dataSelectionSection?.placeRelative(0, 0)
+
+                calenderSection?.placeRelative(
+                    0,
+                    likeSectionHeight - 16.dp.roundToPx(),
+                    zIndex = 0.1f
+                )
+
+                likeSection?.placeRelative(
+                    constraints.maxWidth - likeSection.measuredWidth,
+                    likeSectionHeight
+                )
+                listSection?.placeRelative(0, listSectionHeight)
+            }
         }
 
     }
+}
 
+@Composable
+private fun QuoteListSection(
+    paging: LazyPagingItems<MemberQuotesResponse>,
+    handleContract: (Contract) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    if (paging.itemCount == 0) {
+        QuoteListEmptySection(
+            modifier = modifier
+        )
+    } else {
 
+        QuoteListSection(
+            modifier = modifier.padding(top = 10.dp),
+            list = paging,
+            onClick = {
+                handleContract(QuoteListAction.ClickItem(it))
+            }
+        )
+    }
 }

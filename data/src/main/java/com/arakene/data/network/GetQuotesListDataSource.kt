@@ -8,7 +8,9 @@ import com.arakene.domain.util.AccessVersionException
 
 class GetQuotesListDataSource(
     private val api: FillsaApi,
-    private val likeYn: String
+    private val likeYn: String,
+    private val startDate: String,
+    private val endDate: String
 ) : PagingSource<Int, MemberQuotesResponse>() {
 
     override fun getRefreshKey(state: PagingState<Int, MemberQuotesResponse>): Int? {
@@ -19,12 +21,14 @@ class GetQuotesListDataSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MemberQuotesResponse> {
         val page = params.key ?: 0
-        Log.e(">>>>", "여기안오니? 11")
+
         return try {
             val response = api.getQuoteList(
                 page = page,
                 size = 30,
-                likeYn = likeYn
+                likeYn = likeYn,
+                startDate = startDate,
+                endDate = endDate
             )
 
             if (response.isSuccessful) {
@@ -33,8 +37,6 @@ class GetQuotesListDataSource(
                 val currentPage = response.body()?.currentPage ?: 0
 
                 val isLast = data.isEmpty() || totalPage - currentPage == 1
-
-                Log.e(">>>>", "response Code ${response.code()}")
 
                 LoadResult.Page(
                     data = data,
@@ -45,7 +47,6 @@ class GetQuotesListDataSource(
                 LoadResult.Error(AccessVersionException())
             }
         } catch (e: Exception) {
-            Log.e(">>>>", "여기안오니? 22 $e")
             e.printStackTrace()
             LoadResult.Error(e)
         }

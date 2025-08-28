@@ -40,7 +40,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.MyPageAction
+import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.MyPageViewModel

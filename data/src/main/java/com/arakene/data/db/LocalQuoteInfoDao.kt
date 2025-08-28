@@ -28,11 +28,11 @@ interface LocalQuoteInfoDao {
     @Update
     fun updateQuote(quote: LocalQuoteInfoEntity)
 
-    @Query("SELECT * FROM quoteInfo ORDER BY date DESC LIMIT 10 OFFSET :offset")
-    fun getPagingList(offset: Int): List<LocalQuoteInfoEntity>
+    @Query("SELECT * FROM quoteInfo WHERE date BETWEEN :startDate AND :endDate ORDER BY date DESC LIMIT 10 OFFSET :offset")
+    fun getPagingList(offset: Int, startDate: String, endDate: String): List<LocalQuoteInfoEntity>
 
-    @Query("SELECT * FROM quoteInfo WHERE likeYn = :likeYn ORDER BY date DESC LIMIT 10 OFFSET :offset")
-    fun getPagingListWithLike(offset: Int, likeYn: String): List<LocalQuoteInfoEntity>
+    @Query("SELECT * FROM quoteInfo WHERE (likeYn = :likeYn AND date BETWEEN :startDate AND :endDate) ORDER BY date DESC LIMIT 10 OFFSET :offset")
+    fun getPagingListWithLike(offset: Int, likeYn: String, startDate: String, endDate: String): List<LocalQuoteInfoEntity>
 
     @Query("UPDATE quoteInfo SET memo = :memo WHERE id = :seq")
     suspend fun updateMemo(memo: String, seq: Int)

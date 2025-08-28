@@ -7,7 +7,6 @@ import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.GetQuotesListDataSource
 import com.arakene.data.util.safeApi
 import com.arakene.domain.repository.ListRepository
-import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.MemoRequest
 import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.domain.responses.SimpleIntResponse
@@ -29,14 +28,23 @@ class ListRepositoryImpl @Inject constructor(
     }
 
     override fun getQuotesList(
-        likeYn: String
+        likeYn: String,
+        startDate: String,
+        endDate: String
     ): Flow<PagingData<MemberQuotesResponse>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 30,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { GetQuotesListDataSource(api, likeYn) }
+            pagingSourceFactory = {
+                GetQuotesListDataSource(
+                    api,
+                    likeYn,
+                    startDate = startDate,
+                    endDate = endDate
+                )
+            }
         ).flow
     }
 

@@ -49,7 +49,9 @@ interface FillsaApi {
     suspend fun getQuoteList(
         @Query("size") size: Int,
         @Query("page") page: Int,
-        @Query("likeYn") likeYn: String
+        @Query("likeYn") likeYn: String,
+        @Query("startDate") startDate: String,
+        @Query("endDate") endDate: String
     ): Response<PageResponseMemberQuotesResponse>
 
     @POST(ApiEndPoint.POST_SAVE_MEMO)
