@@ -191,11 +191,9 @@ fun DurationCalendar(
                                     val diffFromEnd =
                                         ChronoUnit.DAYS.between(clickedDay.date, tempEndDate)
 
-                                    if (diffFromStart <= diffFromEnd) {
-                                        // 시작일에 더 가까우면 새로운 시작일로 설정
+                                    if (diffFromStart > diffFromEnd) {
                                         tempStartDate = clickedDay.date
                                     } else {
-                                        // 종료일에 더 가까우면 새로운 종료일로 설정
                                         tempEndDate = clickedDay.date
                                     }
                                 }
