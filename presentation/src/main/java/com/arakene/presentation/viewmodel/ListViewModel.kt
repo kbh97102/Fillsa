@@ -1,6 +1,5 @@
 package com.arakene.presentation.viewmodel
 
-import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -18,7 +17,6 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.action.QuoteListAction
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.state.QuoteListState
 import com.arakene.presentation.util.toLocalDate
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,11 +46,14 @@ class ListViewModel @Inject constructor(
 
     private val dateFormatterWithDay = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+    private val defaultStartDate = LocalDate.now().withDayOfMonth(1).withMonth(6)
+
     private val startDay =
-        savedStateHandle.get<String>("startDate")?.toLocalDate() ?: LocalDate.now()
+        (savedStateHandle.get<String>("startDate")?.toLocalDate(defaultStartDate)
+            ?: defaultStartDate)
 
     private val endDay =
-        savedStateHandle.get<String>("endDate")?.toLocalDate() ?: startDay.plusDays(7)
+        savedStateHandle.get<String>("endDate")?.toLocalDate() ?: LocalDate.now()
 
     private val _state = MutableStateFlow(
         QuoteListState(
