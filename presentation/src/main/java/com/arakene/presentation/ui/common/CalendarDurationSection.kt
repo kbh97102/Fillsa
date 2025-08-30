@@ -42,6 +42,7 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.calendar.CalendarNavigationIcon
 import com.arakene.presentation.ui.calendar.MonthHeader
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.CalendarClicked
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.action.QuoteListAction
 import com.arakene.presentation.util.logDebug
@@ -76,6 +77,10 @@ fun DurationCalendar(
 
     val firstVisibleMonth = remember {
         YearMonth.now()
+    }
+
+    var lastClick = remember {
+        CalendarClicked.END
     }
 
     val startMonth = remember(startDate) {
@@ -173,28 +178,26 @@ fun DurationCalendar(
 
                                 clickedDay.date.isBefore(tempStartDate) -> {
                                     // 시작일보다 이른 날짜 클릭 시 새로운 시작일로 설정
-                                    tempEndDate = startDate
+                                    tempEndDate = tempStartDate
                                     tempStartDate = clickedDay.date
+                                    lastClick = CalendarClicked.START
                                 }
 
                                 clickedDay.date.isAfter(tempEndDate) -> {
                                     // 종료일보다 늦은 날짜 클릭 시 새로운 종료일로 설정
                                     tempEndDate = clickedDay.date
+                                    lastClick = CalendarClicked.END
                                 }
 
                                 clickedDay.date.isAfter(tempStartDate) && clickedDay.date.isBefore(
                                     tempEndDate
                                 ) -> {
-                                    // 범위 내의 날짜 클릭 시 새로운 범위 설정
-                                    val diffFromStart =
-                                        ChronoUnit.DAYS.between(tempStartDate, clickedDay.date)
-                                    val diffFromEnd =
-                                        ChronoUnit.DAYS.between(clickedDay.date, tempEndDate)
-
-                                    if (diffFromStart > diffFromEnd) {
-                                        tempStartDate = clickedDay.date
-                                    } else {
+                                    if (lastClick == CalendarClicked.START) {
                                         tempEndDate = clickedDay.date
+                                        lastClick = CalendarClicked.END
+                                    } else {
+                                        tempStartDate = clickedDay.date
+                                        lastClick = CalendarClicked.START
                                     }
                                 }
                             }
