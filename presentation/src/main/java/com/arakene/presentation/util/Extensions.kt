@@ -14,7 +14,7 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
 
-fun String.toLocalDate(): LocalDate {
+fun String.toLocalDate(defaultValue: LocalDate = LocalDate.now()): LocalDate {
     // 날짜 파싱을 위한 포맷터
     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
@@ -22,7 +22,7 @@ fun String.toLocalDate(): LocalDate {
         // 문자열을 LocalDate로 파싱
         LocalDate.parse(this, formatter)
     } catch (e: DateTimeParseException) {
-        LocalDate.now()
+        defaultValue
     }
 }
 

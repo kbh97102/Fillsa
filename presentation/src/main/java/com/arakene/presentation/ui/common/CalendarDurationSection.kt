@@ -44,6 +44,7 @@ import com.arakene.presentation.ui.calendar.MonthHeader
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.action.QuoteListAction
+import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.kizitonwose.calendar.compose.ContentHeightMode
 import com.kizitonwose.calendar.compose.HorizontalCalendar

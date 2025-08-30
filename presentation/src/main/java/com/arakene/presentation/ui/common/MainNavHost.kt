@@ -144,11 +144,6 @@ fun MainNavHost(
         }
 
         composable<Screens.QuoteList> {
-
-            val data = it.toRoute<Screens.QuoteList>()
-
-            data.startDate
-
             WithBaseErrorHandling<ListViewModel>(logoutEvent = updatedLogoutEvent) {
                 QuoteListView(
                     navigate = {
