@@ -46,9 +46,11 @@ class ListViewModel @Inject constructor(
 
     private val dateFormatterWithDay = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+    private val defaultStartDate = LocalDate.now().withDayOfMonth(1).withMonth(6)
+
     private val startDay =
-        (savedStateHandle.get<String>("startDate")?.toLocalDate(LocalDate.now().withDayOfMonth(1))
-            ?: LocalDate.now().withDayOfMonth(1))
+        (savedStateHandle.get<String>("startDate")?.toLocalDate(defaultStartDate)
+            ?: defaultStartDate)
 
     private val endDay =
         savedStateHandle.get<String>("endDate")?.toLocalDate() ?: LocalDate.now()
