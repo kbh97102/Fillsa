@@ -7,7 +7,11 @@ class GetQuotesListUseCase @Inject constructor(
     private val listRepository: ListRepository
 ) {
 
-    operator fun invoke(likeYn: String) =
-        listRepository.getQuotesList(likeYn)
+    operator fun invoke(
+        likeYn: String,
+        startDate: String,
+        endDate: String
+    ) =
+        listRepository.getQuotesList(likeYn, startDate = startDate, endDate = endDate)
 
 }

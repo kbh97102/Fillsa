@@ -49,6 +49,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import com.arakene.domain.util.AccessVersionException
+import com.arakene.domain.util.CommonErrorType
 import com.arakene.presentation.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -75,8 +77,7 @@ val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
 @Composable
 fun HandlePagingError(
     paging: LazyPagingItems<*>,
-    refresh: () -> Unit = {},
-    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
+    handleError: (CommonErrorType) -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
 
@@ -91,13 +92,18 @@ fun HandlePagingError(
                         when (val loadState = it) {
                             is LoadState.Error -> {
                                 val error = loadState.error
+
+                                logDebug("Error Inside $error")
+
                                 // error.localizedMessage 또는 타입 분기 가능
-                                if (error is UnknownHostException) {
-                                    logDebug("UnknownHostException")
-                                    dialogDataHolder.apply {
-                                        data = DialogData.Builder()
-                                            .buildNetworkError(context, okOnClick = refresh)
-                                    }.show = true
+                                when (error) {
+                                    is UnknownHostException -> {
+                                        handleError(CommonErrorType.NETWORK)
+                                    }
+
+                                    is AccessVersionException -> {
+                                        handleError(CommonErrorType.ACCESS_VERSION)
+                                    }
                                 }
                             }
 
@@ -161,7 +167,7 @@ fun HandleViewEffect(
     lifecycleOwner.lifecycleScope.launch {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
             effect
-                .collect{
+                .collect {
                     launch {
                         effectHandler(it)
                     }
@@ -340,7 +346,10 @@ fun resizeImageToMaxSize(
 
             // 해상도 비율에 맞춰 리사이즈된 Bitmap 생성
             val resizedBitmap =
-                correctedBitmap.scale((correctedBitmap.width * ratio).toInt(), (correctedBitmap.height * ratio).toInt())
+                correctedBitmap.scale(
+                    (correctedBitmap.width * ratio).toInt(),
+                    (correctedBitmap.height * ratio).toInt()
+                )
 
             // 리사이즈된 Bitmap을 임시 파일로 저장
             val name = "background_scaled.jpeg"

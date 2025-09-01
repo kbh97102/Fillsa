@@ -23,7 +23,12 @@ suspend fun <T> safeApi(execute: suspend () -> Response<T>): ApiResult<T> {
                     val parsedError = result.errorBody()?.charStream()?.let {
                         Gson().fromJson(it, ErrorResponse::class.java)
                     }
-                    return ApiResult.Fail(error = parsedError)
+                    return ApiResult.Fail(error = parsedError ?: ErrorResponse(
+                        timestamp = "",
+                        httpStatus = 499,
+                        errorCode = -1,
+                        message = "Error"
+                    ))
                 }
             }
         }

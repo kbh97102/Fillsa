@@ -47,7 +47,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.LoginAction
+import com.arakene.presentation.util.action.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.LoginErrorException
 import com.arakene.presentation.util.Screens

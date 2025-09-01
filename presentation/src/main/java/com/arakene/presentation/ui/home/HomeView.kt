@@ -33,7 +33,7 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
-import com.arakene.presentation.util.HomeAction
+import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.ImageDialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder

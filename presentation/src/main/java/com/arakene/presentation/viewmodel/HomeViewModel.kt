@@ -26,7 +26,7 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.Effect
-import com.arakene.presentation.util.HomeAction
+import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.logDebug

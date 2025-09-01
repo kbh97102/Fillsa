@@ -18,4 +18,6 @@ data class NoticeResponse(
 
     @SerializedName("createdAt")
     val createdAt: String
-)
+){
+    constructor() : this(0, "", "", "")
+}

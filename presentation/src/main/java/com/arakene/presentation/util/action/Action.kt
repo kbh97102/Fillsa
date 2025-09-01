@@ -1,9 +1,10 @@
-package com.arakene.presentation.util
+package com.arakene.presentation.util.action
 
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberQuotesResponse
+import com.arakene.presentation.util.Action
+import com.arakene.presentation.util.LocaleType
 import com.kizitonwose.calendar.core.CalendarDay
-import java.io.File
 import java.time.YearMonth
 
 
@@ -69,16 +70,7 @@ sealed interface TypingAction : Action {
     ) : TypingAction
 }
 
-sealed interface QuoteListAction : Action {
-    data class ClickItem(
-        val memberQuotesResponse: MemberQuotesResponse
-    ) : QuoteListAction
 
-    data class ClickMemo(
-        val memberQuoteSeq: String,
-        val savedMemo: String
-    ) : QuoteListAction
-}
 
 sealed interface CalendarAction : Action {
     data class ChangeMonth(

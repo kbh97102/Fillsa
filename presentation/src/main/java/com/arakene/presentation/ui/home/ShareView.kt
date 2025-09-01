@@ -22,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -43,7 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.LocalSnackbarHost
-import com.arakene.presentation.util.ShareAction
+import com.arakene.presentation.util.action.ShareAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.saveBitmapToCache

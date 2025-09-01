@@ -21,7 +21,7 @@ import com.arakene.domain.usecase.home.SetImageUriUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
-import com.arakene.presentation.util.LoginAction
+import com.arakene.presentation.util.action.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.Screens
 import com.google.firebase.installations.FirebaseInstallations

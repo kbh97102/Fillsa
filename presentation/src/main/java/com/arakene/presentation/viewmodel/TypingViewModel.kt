@@ -21,7 +21,7 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.TypingAction
+import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.getDayOfWeekEnglish
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -51,7 +51,7 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.TypingAction
+import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable

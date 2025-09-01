@@ -5,7 +5,7 @@ import com.arakene.domain.usecase.home.GetShareDescriptionVisibleUseCase
 import com.arakene.domain.usecase.home.SetShareDescriptionVisibleUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
-import com.arakene.presentation.util.ShareAction
+import com.arakene.presentation.util.action.ShareAction
 import com.arakene.presentation.util.state.ShareState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

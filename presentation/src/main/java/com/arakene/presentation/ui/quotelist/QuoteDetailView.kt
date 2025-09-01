@@ -24,7 +24,7 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Navigate
-import com.arakene.presentation.util.QuoteListAction
+import com.arakene.presentation.util.action.QuoteListAction
 import com.arakene.presentation.viewmodel.ListViewModel
 
 @Composable

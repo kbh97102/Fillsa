@@ -1,12 +1,16 @@
 package com.arakene.data.network
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.arakene.domain.responses.MemberQuotesResponse
+import com.arakene.domain.util.AccessVersionException
 
 class GetQuotesListDataSource(
     private val api: FillsaApi,
-    private val likeYn: String
+    private val likeYn: String,
+    private val startDate: String,
+    private val endDate: String
 ) : PagingSource<Int, MemberQuotesResponse>() {
 
     override fun getRefreshKey(state: PagingState<Int, MemberQuotesResponse>): Int? {
@@ -17,24 +21,31 @@ class GetQuotesListDataSource(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MemberQuotesResponse> {
         val page = params.key ?: 0
+
         return try {
             val response = api.getQuoteList(
                 page = page,
                 size = 30,
-                likeYn = likeYn
+                likeYn = likeYn,
+                startDate = startDate,
+                endDate = endDate
             )
 
-            val data = response.body()?.content.orEmpty()
-            val totalPage = response.body()?.totalPages ?: 0
-            val currentPage = response.body()?.currentPage ?: 0
+            if (response.isSuccessful) {
+                val data = response.body()?.content.orEmpty()
+                val totalPage = response.body()?.totalPages ?: 0
+                val currentPage = response.body()?.currentPage ?: 0
 
-            val isLast = data.isEmpty() || totalPage - currentPage == 1
+                val isLast = data.isEmpty() || totalPage - currentPage == 1
 
-            LoadResult.Page(
-                data = data,
-                prevKey = if (page == 0) null else page - 1,
-                nextKey = if (isLast) null else page + 1
-            )
+                LoadResult.Page(
+                    data = data,
+                    prevKey = if (page == 0) null else page - 1,
+                    nextKey = if (isLast) null else page + 1
+                )
+            } else {
+                LoadResult.Error(AccessVersionException())
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             LoadResult.Error(e)

@@ -13,7 +13,6 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleError
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.logDebug
 
 @Composable
 inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
@@ -38,6 +37,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
             "1007" -> {
                 displayUpdateDialog = true
             }
+
             "404" -> {
                 dialogDataHolder.apply {
                     data = DialogData.Builder().buildNetworkError(context, okOnClick = {
@@ -55,6 +55,16 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                         .onClick {
                             logoutEvent()
                         }
+                        .build()
+                }.run {
+                    show = true
+                }
+            }
+
+            else -> {
+                dialogDataHolder.apply {
+                    data = DialogData.Builder()
+                        .title("에러가 발생했습니다. 업데이트 이후에도 반복되면 문의해주세요.")
                         .build()
                 }.run {
                     show = true
