@@ -64,7 +64,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
             else -> {
                 dialogDataHolder.apply {
                     data = DialogData.Builder()
-                        .title("")
+                        .title("에러가 발생했습니다. 업데이트 이후에도 반복되면 문의해주세요.")
                         .build()
                 }.run {
                     show = true
