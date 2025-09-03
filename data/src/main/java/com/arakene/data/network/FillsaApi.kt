@@ -5,6 +5,7 @@ import com.arakene.domain.requests.MemoRequest
 import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberMonthlyQuoteResponse
+import com.arakene.domain.responses.MemberQuoteImageResponse
 import com.arakene.domain.responses.MemberTypingQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
 import com.arakene.domain.responses.SimpleIntResponse
@@ -37,7 +38,7 @@ interface FillsaApi {
     suspend fun postUploadImage(
         @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
         @Part image: MultipartBody.Part
-    ): Response<Int>
+    ): Response<MemberQuoteImageResponse>
 
 
     @DELETE(ApiEndPoint.POST_UPLOAD_IMAGE)

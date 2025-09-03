@@ -7,6 +7,7 @@ import com.arakene.domain.repository.HomeRepository
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.MemberQuoteImageResponse
 import com.arakene.domain.responses.SimpleIntResponse
 import com.arakene.domain.util.ApiResult
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -44,7 +45,7 @@ class HomeRepositoryImpl @Inject constructor(
     override suspend fun postUploadImage(
         imageFile: File,
         dailyQuoteSeq: Int
-    ): ApiResult<Int> {
+    ): ApiResult<MemberQuoteImageResponse> {
         return safeApi {
             api.postUploadImage(
                 dailyQuoteSeq = dailyQuoteSeq,
