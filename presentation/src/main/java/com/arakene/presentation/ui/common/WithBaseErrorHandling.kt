@@ -33,12 +33,12 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
         viewModel.error,
         lifecycleOwner
     ) {
-        when (it) {
-            "1007" -> {
+        when (it.errorCode) {
+            1007 -> {
                 displayUpdateDialog = true
             }
 
-            "404" -> {
+            404 -> {
                 dialogDataHolder.apply {
                     data = DialogData.Builder().buildNetworkError(context, okOnClick = {
                         viewModel.lastContract?.let { it1 -> viewModel.handleContract(it1) }
@@ -48,7 +48,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                 }
             }
 
-            "401", "403" -> {
+            401, 403 -> {
                 dialogDataHolder.apply {
                     data = DialogData.Builder()
                         .title("로그인 시간이 만료되었습니다.\n재로그인해주세요")
@@ -60,11 +60,21 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                     show = true
                 }
             }
+            // Server Custom Error Message Handling
+            1999 -> {
+                dialogDataHolder.apply {
+                    data = DialogData.Builder()
+                        .title(it.message.ifEmpty { "요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요." })
+                        .build()
+                }.run {
+                    show = true
+                }
+            }
 
             else -> {
                 dialogDataHolder.apply {
                     data = DialogData.Builder()
-                        .title("에러가 발생했습니다. 업데이트 이후에도 반복되면 문의해주세요.")
+                        .title("요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.")
                         .build()
                 }.run {
                     show = true

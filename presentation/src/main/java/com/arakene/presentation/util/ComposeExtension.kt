@@ -49,6 +49,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.util.AccessVersionException
 import com.arakene.domain.util.CommonErrorType
 import com.arakene.presentation.R
@@ -178,10 +179,10 @@ fun HandleViewEffect(
 
 @Composable
 fun HandleError(
-    effect: Flow<String>,
+    effect: Flow<ErrorResponse>,
     lifecycleOwner: LifecycleOwner,
     compositionScope: CoroutineScope = rememberCoroutineScope(),
-    effectHandler: suspend (String) -> Unit
+    effectHandler: suspend (ErrorResponse) -> Unit
 ) = LaunchedEffect(effect, lifecycleOwner) {
 
     lifecycleOwner.lifecycleScope.launch {
