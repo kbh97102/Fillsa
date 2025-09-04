@@ -14,6 +14,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleError
 import com.arakene.presentation.util.LocalDialogDataHolder
+import kotlin.system.exitProcess
 
 @Composable
 inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
@@ -22,7 +23,6 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
     crossinline logoutEvent: () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
-
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
 
@@ -68,9 +68,17 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
 
                     404 -> {
                         dialogDataHolder.apply {
-                            data = DialogData.Builder().buildNetworkError(context, okOnClick = {
-                                viewModel.lastContract?.let { it1 -> viewModel.handleContract(it1) }
-                            })
+                            data = DialogData.Builder().buildNetworkError(
+                                context, okOnClick = {
+                                    viewModel.lastContract?.let { it1 ->
+                                        viewModel.handleContract(
+                                            it1
+                                        )
+                                    }
+                                },
+                                cancelOnClick = {
+                                    exitProcess(0)
+                                })
                         }.run {
                             show = true
                         }
@@ -90,9 +98,14 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
 
             is CommonError.NetworkError -> {
                 dialogDataHolder.apply {
-                    data = DialogData.Builder().buildNetworkError(context, okOnClick = {
-                        viewModel.lastContract?.let { it1 -> viewModel.handleContract(it1) }
-                    })
+                    data = DialogData.Builder().buildNetworkError(
+                        context, okOnClick = {
+                            viewModel.lastContract?.let { it1 -> viewModel.handleContract(it1) }
+                        },
+                        cancelOnClick = {
+                            exitProcess(0)
+                        }
+                    )
                 }.run {
                     show = true
                 }

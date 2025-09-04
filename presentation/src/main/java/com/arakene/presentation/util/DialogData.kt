@@ -44,7 +44,8 @@ class DialogData private constructor() {
 
         fun buildNetworkError(
             context: Context,
-            okOnClick: () -> Unit
+            okOnClick: () -> Unit,
+            cancelOnClick: () -> Unit,
         ): DialogData {
 
             data.apply {
@@ -53,6 +54,7 @@ class DialogData private constructor() {
                 cancelText = context.getString(R.string.finish)
                 okText = context.getString(R.string.retry)
                 onClick = okOnClick
+                this.cancelOnClick = cancelOnClick
             }
 
             return data
