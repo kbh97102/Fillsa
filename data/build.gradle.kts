@@ -47,8 +47,8 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.work)
     implementation(libs.hilt.work)
-    kapt(libs.hilt.androidx.compiler)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.androidx.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.datastore)
 
