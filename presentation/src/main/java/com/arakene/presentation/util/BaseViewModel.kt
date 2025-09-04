@@ -65,7 +65,14 @@ abstract class BaseViewModel : ViewModel() {
             }
 
             is Effect -> {
-                emitEffect(contract)
+                if (contract is CommonEffect.EmitError) {
+                    viewModelScope.launch {
+                        _error.emit(contract.commonError)
+                    }
+                }
+                else {
+                    emitEffect(contract)
+                }
             }
 
             else -> {}

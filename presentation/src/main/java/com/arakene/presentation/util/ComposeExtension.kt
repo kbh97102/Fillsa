@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.BlurMaskFilter
 import android.graphics.Matrix
-
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
@@ -34,7 +33,6 @@ import androidx.compose.ui.graphics.drawOutline
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.Clipboard
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -49,10 +47,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import com.arakene.domain.responses.ErrorResponse
-import com.arakene.domain.util.AccessVersionException
 import com.arakene.domain.util.CommonError
-import com.arakene.domain.util.CommonErrorType
+import com.arakene.domain.util.CommonErrorWrappedException
 import com.arakene.presentation.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
@@ -64,7 +60,6 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.OutputStream
-import java.net.UnknownHostException
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -79,38 +74,21 @@ val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
 @Composable
 fun HandlePagingError(
     paging: LazyPagingItems<*>,
-    handleError: (CommonErrorType) -> Unit,
+    emitError: (CommonError) -> Unit,
     lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 ) {
-
-    val context = LocalContext.current
-
     LaunchedEffect(lifecycleOwner, paging) {
-
         lifecycleOwner.lifecycleScope.launch {
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 snapshotFlow { paging.loadState.refresh }
                     .collectLatest {
-                        when (val loadState = it) {
-                            is LoadState.Error -> {
-                                val error = loadState.error
+                        if (it is LoadState.Error) {
+                            val error = it.error
 
-                                logDebug("Error Inside $error")
-
-                                // error.localizedMessage 또는 타입 분기 가능
-                                when (error) {
-                                    is UnknownHostException -> {
-                                        handleError(CommonErrorType.NETWORK)
-                                    }
-
-                                    is AccessVersionException -> {
-                                        handleError(CommonErrorType.ACCESS_VERSION)
-                                    }
-                                }
-                            }
-
-                            else -> {
-
+                            if (error is CommonErrorWrappedException) {
+                                emitError(error.commonError)
+                            } else {
+                                emitError(CommonError.ApiException(error))
                             }
                         }
                     }
