@@ -6,6 +6,7 @@ import com.arakene.domain.util.CommonError
 import com.google.gson.Gson
 import retrofit2.HttpException
 import retrofit2.Response
+import java.net.UnknownHostException
 
 
 suspend fun <T> safeApi(execute: suspend () -> Response<T>): ApiResult<T> {
@@ -35,6 +36,8 @@ suspend fun <T> safeApi(execute: suspend () -> Response<T>): ApiResult<T> {
             }
         }
     } catch (e: HttpException) {
+        ApiResult.Fail(CommonError.NetworkError)
+    } catch (e: UnknownHostException) {
         ApiResult.Fail(CommonError.NetworkError)
     } catch (e: Exception) {
         ApiResult.Fail(CommonError.ApiException(e))
