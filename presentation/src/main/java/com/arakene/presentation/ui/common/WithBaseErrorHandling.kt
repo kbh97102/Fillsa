@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.arakene.domain.util.CommonError
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
@@ -33,39 +34,65 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
         viewModel.error,
         lifecycleOwner
     ) {
-        when (it.errorCode) {
-            1007 -> {
-                displayUpdateDialog = true
+        when (it) {
+            is CommonError.ApiFail -> {
+                when (it.errorResponse.errorCode) {
+
+                    1007 -> {
+                        displayUpdateDialog = true
+                    }
+
+                    // 서버 커스텀 에러 코드
+                    1999 -> {
+                        dialogDataHolder.apply {
+                            data = DialogData.Builder()
+                                .title(it.errorResponse.message.ifEmpty { "요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요." })
+                                .build()
+                        }.run {
+                            show = true
+                        }
+                    }
+
+                    401, 403 -> {
+                        dialogDataHolder.apply {
+                            data = DialogData.Builder()
+                                .title("로그인 시간이 만료되었습니다.\n재로그인해주세요")
+                                .onClick {
+                                    logoutEvent()
+                                }
+                                .build()
+                        }.run {
+                            show = true
+                        }
+                    }
+
+                    404 -> {
+                        dialogDataHolder.apply {
+                            data = DialogData.Builder().buildNetworkError(context, okOnClick = {
+                                viewModel.lastContract?.let { it1 -> viewModel.handleContract(it1) }
+                            })
+                        }.run {
+                            show = true
+                        }
+                    }
+
+                    else -> {
+                        dialogDataHolder.apply {
+                            data = DialogData.Builder()
+                                .title("요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.")
+                                .build()
+                        }.run {
+                            show = true
+                        }
+                    }
+                }
             }
 
-            404 -> {
+            is CommonError.NetworkError -> {
                 dialogDataHolder.apply {
                     data = DialogData.Builder().buildNetworkError(context, okOnClick = {
                         viewModel.lastContract?.let { it1 -> viewModel.handleContract(it1) }
                     })
-                }.run {
-                    show = true
-                }
-            }
-
-            401, 403 -> {
-                dialogDataHolder.apply {
-                    data = DialogData.Builder()
-                        .title("로그인 시간이 만료되었습니다.\n재로그인해주세요")
-                        .onClick {
-                            logoutEvent()
-                        }
-                        .build()
-                }.run {
-                    show = true
-                }
-            }
-            // Server Custom Error Message Handling
-            1999 -> {
-                dialogDataHolder.apply {
-                    data = DialogData.Builder()
-                        .title(it.message.ifEmpty { "요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요." })
-                        .build()
                 }.run {
                     show = true
                 }

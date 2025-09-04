@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.util.ApiResult
+import com.arakene.domain.util.CommonError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -28,7 +29,7 @@ abstract class BaseViewModel : ViewModel() {
     private val _effect: Channel<Effect> = Channel()
     val effect = _effect.receiveAsFlow()
 
-    private val _error: MutableSharedFlow<ErrorResponse> = MutableSharedFlow()
+    private val _error: MutableSharedFlow<CommonError> = MutableSharedFlow()
     val error = _error.asSharedFlow()
 
     val isProcessing = mutableStateOf(false)
@@ -105,30 +106,8 @@ abstract class BaseViewModel : ViewModel() {
 
             is ApiResult.Fail -> {
                 isProcessing.value = false
-
-                response.error?.let {
-                    _error.emit(it)
-                } ?: run {
-                    _error.emit(
-                        ErrorResponse.defaultError()
-                    )
-                }
                 setLoading(false)
-                null
-            }
-
-            is ApiResult.Error -> {
-                isProcessing.value = false
-                setLoading(false)
-                when (response.error) {
-                    is HttpException, is UnknownHostException -> {
-                        _error.emit(ErrorResponse.httpException())
-                    }
-
-                    else -> {
-                        _error.emit(ErrorResponse.defaultError())
-                    }
-                }
+                _error.emit(response.error)
                 null
             }
         }

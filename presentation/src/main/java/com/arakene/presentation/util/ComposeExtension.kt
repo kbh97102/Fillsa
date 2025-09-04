@@ -51,6 +51,7 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.util.AccessVersionException
+import com.arakene.domain.util.CommonError
 import com.arakene.domain.util.CommonErrorType
 import com.arakene.presentation.R
 import kotlinx.coroutines.CoroutineScope
@@ -179,10 +180,10 @@ fun HandleViewEffect(
 
 @Composable
 fun HandleError(
-    effect: Flow<ErrorResponse>,
+    effect: Flow<CommonError>,
     lifecycleOwner: LifecycleOwner,
     compositionScope: CoroutineScope = rememberCoroutineScope(),
-    effectHandler: suspend (ErrorResponse) -> Unit
+    effectHandler: suspend (CommonError) -> Unit
 ) = LaunchedEffect(effect, lifecycleOwner) {
 
     lifecycleOwner.lifecycleScope.launch {

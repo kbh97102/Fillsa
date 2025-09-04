@@ -3,8 +3,10 @@ package com.arakene.data.network
 import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.domain.util.AccessVersionException
+import com.google.gson.Gson
 
 class GetQuotesListDataSource(
     private val api: FillsaApi,
@@ -44,6 +46,15 @@ class GetQuotesListDataSource(
                     nextKey = if (isLast) null else page + 1
                 )
             } else {
+                runCatching {
+                    response.errorBody()?.charStream()?.let {
+                        Gson().fromJson(it, ErrorResponse::class.java)
+                    }
+                }.onSuccess {
+
+                }.onFailure {
+
+                }
                 LoadResult.Error(AccessVersionException())
             }
         } catch (e: Exception) {
