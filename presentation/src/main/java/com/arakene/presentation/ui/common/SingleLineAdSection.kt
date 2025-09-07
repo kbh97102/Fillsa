@@ -36,7 +36,9 @@ import com.arakene.domain.model.AdState
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.MyPageScreens
+import com.arakene.presentation.util.logError
 import com.arakene.presentation.viewmodel.AdViewModel
+import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAd
 
 @Composable
@@ -45,6 +47,14 @@ fun SingleLineAdSection(
     modifier: Modifier = Modifier,
     refresh: Boolean = false,
 ) {
+
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        AdRequest.Builder().build().run {
+            logError("In Adsection ${isTestDevice(context)}")
+        }
+    }
 
     val viewModel: AdViewModel = hiltViewModel()
 
@@ -93,14 +103,11 @@ fun SingleLineAdSection(
                 colorScheme = modifiedColorScheme
             ) {
 
-                TestNativeAd(ads, modifier = Modifier.fillMaxWidth())
-//                NativeAdView(
-//                    modifier = modifier
-//                        .background(color = MaterialTheme.colorScheme.primary)
-//                        .padding(horizontal = 10.dp)
-//                ) {
-//
-//                }
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    TestNativeAd(ads, modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp))
+                }
             }
 
 
@@ -155,16 +162,13 @@ fun TestNativeAd(nativeAd: NativeAd, modifier: Modifier = Modifier) {
 @Composable
 fun TestNativeAdContent(ads: NativeAd, modifier: Modifier = Modifier) {
     Row(
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        // Display the ad attribution.
-//        NativeAdAttribution(
-//            modifier = Modifier.weight(0.2f)
-//        )
-        // Add remaining assets such as the image and media view.
+
+        AdAttributeIcon()
 
         Row(
-            modifier = Modifier.weight(0.6f),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -175,7 +179,7 @@ fun TestNativeAdContent(ads: NativeAd, modifier: Modifier = Modifier) {
                     Image(
                         bitmap = bitmap.asImageBitmap(),
                         "ad icon",
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(32.dp)
                     )
                 }
             }

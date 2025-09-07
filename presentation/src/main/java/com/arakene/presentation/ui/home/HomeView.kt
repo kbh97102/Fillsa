@@ -42,11 +42,13 @@ import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.logError
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
+import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -207,7 +209,10 @@ fun HomeView(
                 modifier = Modifier
                     .weight(1f)
                     .noEffectClickable {
-                        viewModel.handleContract(HomeAction.ClickCalendar)
+                        MobileAds.openAdInspector(context) {
+                            logError("AdInspector ${it?.message}")
+                        }
+//                        viewModel.handleContract(HomeAction.ClickCalendar)
                     }
             )
 

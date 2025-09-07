@@ -96,8 +96,6 @@ class MainActivity : ComponentActivity() {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
 
-
-
             FillsaTheme {
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,

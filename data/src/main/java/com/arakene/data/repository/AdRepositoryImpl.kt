@@ -49,7 +49,10 @@ class AdRepositoryImpl(
                     }
                 })
                 .build()
-            adLoader.loadAd(AdRequest.Builder().build())
+
+            val requester = AdRequest.Builder().build()
+
+            adLoader.loadAd(requester)
 
             continuation.invokeOnCancellation {
                 // 필요시 cleanup 로직 추가
