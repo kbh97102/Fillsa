@@ -3,13 +3,14 @@ package com.arakene.presentation.ui.common
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material3.Icon
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,12 +36,8 @@ import com.arakene.domain.model.AdState
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.MyPageScreens
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.viewmodel.AdViewModel
 import com.google.android.gms.ads.nativead.NativeAd
-import com.google.android.gms.compose_util.NativeAdAttribution
-import com.google.android.gms.compose_util.NativeAdHeadlineView
-import com.google.android.gms.compose_util.NativeAdIconView
 
 @Composable
 fun SingleLineAdSection(
@@ -95,16 +92,6 @@ fun SingleLineAdSection(
             MaterialTheme(
                 colorScheme = modifiedColorScheme
             ) {
-                LaunchedEffect(ads) {
-                    logDebug(
-                        """
-                        extra ${ads.extras} 
-                        adChoiceInfo ${ads.adChoicesInfo}
-                        callTo Action ${ads.callToAction}
-                        store ${ads.store}
-                    """.trimIndent()
-                    )
-                }
 
                 TestNativeAd(ads, modifier = Modifier.fillMaxWidth())
 //                NativeAdView(
@@ -122,7 +109,6 @@ fun SingleLineAdSection(
         else -> {}
     }
 }
-
 
 @Composable
 fun TestNativeAd(nativeAd: NativeAd, modifier: Modifier = Modifier) {
@@ -184,7 +170,6 @@ fun TestNativeAdContent(ads: NativeAd, modifier: Modifier = Modifier) {
         ) {
 
 
-
             ads.icon?.let { icon ->
                 icon.drawable?.toBitmap()?.let { bitmap ->
                     Image(
@@ -205,5 +190,16 @@ fun TestNativeAdContent(ads: NativeAd, modifier: Modifier = Modifier) {
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun AdAttributeIcon(modifier: Modifier = Modifier) {
+    Box(
+        modifier
+            .background(colorResource(R.color.gray_700), shape = RoundedCornerShape(100))
+            .padding(horizontal = 6.dp)
+    ) {
+        Text("AD", style = FillsaTheme.typography.body4, color = Color.White)
     }
 }
