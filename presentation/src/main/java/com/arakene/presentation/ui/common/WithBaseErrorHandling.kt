@@ -43,6 +43,20 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                             data = DialogData.Builder()
                                 .singleButton(true)
                                 .title("일시적인 오류가 발생했어요.\n잠시 후 다시 시도해 주세요.")
+                                .okText("확인")
+                                .build()
+                        }.run {
+                            show = true
+                        }
+                    }
+
+                    1010 -> {
+                        dialogDataHolder.apply {
+                            data = DialogData.Builder()
+                                .singleButton(true)
+                                .title("현재 서비스 점검 중입니다.\n잠시 후 다시 이용해 주세요.")
+                                .okText("확인")
+                                .onClick { exitProcess(0) }
                                 .build()
                         }.run {
                             show = true
