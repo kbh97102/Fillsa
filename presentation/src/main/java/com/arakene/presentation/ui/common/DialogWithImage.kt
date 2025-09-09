@@ -16,13 +16,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.getStyle
 
 
 @Composable
@@ -36,7 +36,7 @@ fun DialogWIthImage(
     negativeText: String = "취소",
     negativeOnClick: () -> Unit = {},
     reversed: Boolean = false,
-    titleTextSize: TextUnit = 16.sp,
+    titleTextStyle: TypographyEnum = TypographyEnum.Subtitle1,
     singleButton: Boolean = false
 ) {
 
@@ -68,7 +68,7 @@ fun DialogWIthImage(
 
             Text(
                 title,
-                style = FillsaTheme.typography.subtitle1.copy(fontSize = titleTextSize),
+                style = FillsaTheme.typography.getStyle(titleTextStyle),
                 color = colorResource(R.color.gray_700),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -92,7 +92,8 @@ fun DialogWIthImage(
                 DialogSingleButton(
                     modifier = Modifier.padding(top = 44.dp),
                     buttonText = positiveText,
-                    onClick = positiveOnClick
+                    onClick = positiveOnClick,
+                    dismiss = dismiss,
                 )
             } else {
                 DialogTwoButton(

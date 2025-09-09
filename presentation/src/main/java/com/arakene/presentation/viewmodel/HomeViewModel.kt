@@ -30,6 +30,7 @@ import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.TypographyEnum
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
@@ -176,8 +177,8 @@ class HomeViewModel @Inject constructor(
                 dialogData = DialogData.Builder()
                     .title("이미지를 삭제하시겠습니까?")
                     .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
-                    .titleTextSize(20.sp)
-                    .bodyTextSize(16.sp)
+                    .titleTextStyle(TypographyEnum.Heading4)
+                    .bodyTextStyle(TypographyEnum.Body2)
                     .reversed(true)
                     .cancelText("삭제하기")
                     .okText("취소")

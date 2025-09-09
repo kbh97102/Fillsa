@@ -16,13 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.getStyle
 
 @Composable
 fun CommonDialog(
@@ -34,8 +34,8 @@ fun CommonDialog(
     negativeOnClick: () -> Unit = {},
     reversed: Boolean = false,
     body: String = "",
-    titleTextSize: TextUnit = 16.sp,
-    bodyTextSize: TextUnit = 16.sp,
+    titleTextStyle: TypographyEnum = TypographyEnum.Heading4,
+    bodyTextStyle: TypographyEnum = TypographyEnum.Body2,
     singleButton: Boolean = false
 ) {
 
@@ -60,7 +60,7 @@ fun CommonDialog(
 
             Text(
                 title,
-                style = FillsaTheme.typography.subtitle1.copy(fontSize = titleTextSize),
+                style = FillsaTheme.typography.getStyle(titleTextStyle),
                 color = colorResource(R.color.gray_700),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -71,7 +71,7 @@ fun CommonDialog(
             if (body.isNotEmpty()) {
                 Text(
                     body,
-                    style = FillsaTheme.typography.body2.copy(fontSize = bodyTextSize),
+                    style = FillsaTheme.typography.getStyle(bodyTextStyle),
                     color = colorResource(R.color.gray_700),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -84,7 +84,8 @@ fun CommonDialog(
                 DialogSingleButton(
                     modifier = Modifier.padding(top = 44.dp),
                     buttonText = positiveText,
-                    onClick = positiveOnClick
+                    onClick = positiveOnClick,
+                    dismiss = dismiss
                 )
             } else {
                 DialogTwoButton(
@@ -105,11 +106,15 @@ fun CommonDialog(
 fun DialogSingleButton(
     buttonText: String,
     onClick: () -> Unit,
+    dismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     PositiveButton(
         text = buttonText,
-        onClick = onClick,
+        onClick = {
+            onClick()
+            dismiss()
+        },
         modifier = modifier.fillMaxWidth()
     )
 }

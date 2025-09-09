@@ -6,14 +6,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.domain.util.CommonError
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleError
 import com.arakene.presentation.util.LocalDialogDataHolder
+import com.arakene.presentation.util.TypographyEnum
 import kotlin.system.exitProcess
 
 @Composable
@@ -42,7 +45,10 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                         dialogDataHolder.apply {
                             data = DialogData.Builder()
                                 .singleButton(true)
-                                .title("일시적인 오류가 발생했어요.\n잠시 후 다시 시도해 주세요.")
+                                .title("일시적인 오류가 발생했어요.")
+                                .titleTextStyle(TypographyEnum.Heading4)
+                                .body("잠시 후 다시 시도해 주세요.")
+                                .bodyTextStyle(TypographyEnum.Body2)
                                 .okText("확인")
                                 .build()
                         }.run {
