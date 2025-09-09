@@ -45,6 +45,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.util.CommonError
@@ -179,6 +181,9 @@ fun HandleError(
 val LocalSnackbarHost = compositionLocalOf { SnackbarHostState() }
 
 val LocalDialogDataHolder = compositionLocalOf { DialogDataHolder() }
+
+
+val LocalMoveHolder = compositionLocalOf<NavHostController?> { null }
 
 
 fun copyToClipboard(
