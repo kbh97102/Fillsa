@@ -35,14 +35,18 @@ fun CommonDialog(
     reversed: Boolean = false,
     body: String = "",
     titleTextSize: TextUnit = 16.sp,
-    bodyTextSize: TextUnit = 16.sp
+    bodyTextSize: TextUnit = 16.sp,
+    singleButton: Boolean = false
 ) {
 
     Dialog(
         onDismissRequest = {
             dismiss()
         },
-        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnClickOutside = false)
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            dismissOnClickOutside = false
+        )
     ) {
 
         Column(
@@ -76,56 +80,96 @@ fun CommonDialog(
                 )
             }
 
-            Row(
-                modifier = Modifier.padding(top = 44.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                // TODO: 이거 리스트로 관리하는 방법도 있긴한데 그건 weight에서 문제가 생김 , 다른방법 없나?
-                if (!reversed) {
-                    NegativeButton(
-                        modifier = Modifier.weight(1f),
-                        text = negativeText,
-                        onClick = {
-                            negativeOnClick()
-                            dismiss()
-                        }
-                    )
-
-                    PositiveButton(
-                        modifier = Modifier.weight(1f),
-                        text = positiveText,
-                        onClick = {
-                            positiveOnClick()
-                            dismiss()
-                        }
-                    )
-                } else {
-                    PositiveButton(
-                        modifier = Modifier.weight(1f),
-                        text = negativeText,
-                        onClick = {
-                            negativeOnClick()
-                            dismiss()
-                        }
-                    )
-
-                    NegativeButton(
-                        modifier = Modifier.weight(1f),
-                        text = positiveText,
-                        onClick = {
-                            positiveOnClick()
-                            dismiss()
-                        }
-                    )
-                }
-
+            if (singleButton) {
+                DialogSingleButton(
+                    modifier = Modifier.padding(top = 44.dp),
+                    buttonText = positiveText,
+                    onClick = positiveOnClick
+                )
+            } else {
+                DialogTwoButton(
+                    reversed,
+                    negativeOnClick = negativeOnClick,
+                    positiveOnClick = positiveOnClick,
+                    dismiss = dismiss,
+                    negativeText = negativeText,
+                    positiveText = positiveText,
+                    modifier = Modifier.padding(top = 44.dp)
+                )
             }
+        }
+    }
+}
 
+@Composable
+fun DialogSingleButton(
+    buttonText: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    PositiveButton(
+        text = buttonText,
+        onClick = onClick,
+        modifier = modifier
+    )
+}
+
+@Composable
+fun DialogTwoButton(
+    reversed: Boolean,
+    negativeOnClick: () -> Unit,
+    positiveOnClick: () -> Unit,
+    dismiss: () -> Unit,
+    negativeText: String,
+    positiveText: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        // TODO: 이거 리스트로 관리하는 방법도 있긴한데 그건 weight에서 문제가 생김 , 다른방법 없나?
+        if (!reversed) {
+            NegativeButton(
+                modifier = Modifier.weight(1f),
+                text = negativeText,
+                onClick = {
+                    negativeOnClick()
+                    dismiss()
+                }
+            )
+
+            PositiveButton(
+                modifier = Modifier.weight(1f),
+                text = positiveText,
+                onClick = {
+                    positiveOnClick()
+                    dismiss()
+                }
+            )
+        } else {
+            PositiveButton(
+                modifier = Modifier.weight(1f),
+                text = negativeText,
+                onClick = {
+                    negativeOnClick()
+                    dismiss()
+                }
+            )
+
+            NegativeButton(
+                modifier = Modifier.weight(1f),
+                text = positiveText,
+                onClick = {
+                    positiveOnClick()
+                    dismiss()
+                }
+            )
         }
 
-
     }
+
 }
 
 @Composable
