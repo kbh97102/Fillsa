@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,10 +25,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.arakene.presentation.ui.common.PositiveButton
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
@@ -42,11 +46,13 @@ import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.logError
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
+import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -195,6 +201,26 @@ fun HomeView(
             )
         }
 
+        Column {
+            val (errorCode, onValueChange) = remember {
+                mutableStateOf("")
+            }
+
+            TextField(
+                value = errorCode,
+                onValueChange = onValueChange,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+            )
+
+            PositiveButton(
+                text = "에러코드 테스트",
+                onClick = {
+                    viewModel.testErrorCode(errorCode.toIntOrNull() ?: -1)
+                    onValueChange("")
+                }
+            )
+        }
+
         HomeTopSection(navigate = navigate)
 
         Row(
@@ -207,7 +233,10 @@ fun HomeView(
                 modifier = Modifier
                     .weight(1f)
                     .noEffectClickable {
-                        viewModel.handleContract(HomeAction.ClickCalendar)
+                        MobileAds.openAdInspector(context) {
+                            logError("AdInspector ${it?.message}")
+                        }
+//                        viewModel.handleContract(HomeAction.ClickCalendar)
                     }
             )
 

@@ -8,6 +8,8 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import com.arakene.presentation.ui.theme.FillsaTypo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
 import java.time.LocalDate
@@ -55,5 +57,30 @@ fun DoubleBackPressHandler(
             backPressedTime = currentTime
             Toast.makeText(context, exitMessage, Toast.LENGTH_SHORT).show()
         }
+    }
+}
+
+@Composable
+fun FillsaTypo.getStyle(style: TypographyEnum): TextStyle {
+    return when (style) {
+        TypographyEnum.Heading1 -> heading1
+        TypographyEnum.Heading2 -> heading2
+        TypographyEnum.Heading3 -> heading3
+        TypographyEnum.Heading4 -> heading4
+        TypographyEnum.Subtitle1 -> subtitle1
+        TypographyEnum.Subtitle2 -> subtitle2
+        TypographyEnum.Body1 -> body1
+        TypographyEnum.Body2 -> body2
+        TypographyEnum.Body3 -> body3
+        TypographyEnum.Body4 -> body4
+        TypographyEnum.ButtonLargeBold -> buttonLargeBold
+        TypographyEnum.ButtonLargeNormal -> buttonLargeNormal
+        TypographyEnum.ButtonMediumBold -> buttonMediumBold
+        TypographyEnum.ButtonMediumNormal -> buttonMediumNormal
+        TypographyEnum.ButtonSmallBold -> buttonSmallBold
+        TypographyEnum.ButtonSmallNormal -> buttonSmallNormal
+        TypographyEnum.ButtonXSmallBold -> buttonXSmallBold
+        TypographyEnum.ButtonXSmallNormal -> buttonXSmallNormal
+        TypographyEnum.Quote -> quote
     }
 }

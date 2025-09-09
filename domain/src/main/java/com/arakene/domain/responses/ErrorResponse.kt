@@ -21,5 +21,19 @@ data class ErrorResponse(
             errorCode = 403,
             message = ""
         )
+
+        fun defaultError() =  ErrorResponse(
+            timestamp = "",
+            httpStatus = 499,
+            errorCode = -1,
+            message = "Error"
+        )
+
+        fun httpException() =  ErrorResponse(
+            timestamp = "",
+            httpStatus = 404,
+            errorCode = 404,
+            message = "Network Error"
+        )
     }
 }

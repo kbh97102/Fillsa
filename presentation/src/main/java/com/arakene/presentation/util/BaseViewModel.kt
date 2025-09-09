@@ -3,7 +3,9 @@ package com.arakene.presentation.util
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.util.ApiResult
+import com.arakene.domain.util.CommonError
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -11,9 +13,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
@@ -30,7 +29,7 @@ abstract class BaseViewModel : ViewModel() {
     private val _effect: Channel<Effect> = Channel()
     val effect = _effect.receiveAsFlow()
 
-    private val _error: MutableSharedFlow<String> = MutableSharedFlow()
+    private val _error: MutableSharedFlow<CommonError> = MutableSharedFlow()
     val error = _error.asSharedFlow()
 
     val isProcessing = mutableStateOf(false)
@@ -66,7 +65,14 @@ abstract class BaseViewModel : ViewModel() {
             }
 
             is Effect -> {
-                emitEffect(contract)
+                if (contract is CommonEffect.EmitError) {
+                    viewModelScope.launch {
+                        _error.emit(contract.commonError)
+                    }
+                }
+                else {
+                    emitEffect(contract)
+                }
             }
 
             else -> {}
@@ -107,39 +113,8 @@ abstract class BaseViewModel : ViewModel() {
 
             is ApiResult.Fail -> {
                 isProcessing.value = false
-                when (response.error?.errorCode) {
-                    403 -> {
-                        _error.emit("403")
-                    }
-
-                    401 -> {
-                        _error.emit("401")
-                    }
-
-                    1007 -> {
-                        _error.emit("1007")
-                    }
-
-                    else ->{
-                        _error.emit("default")
-                    }
-                }
                 setLoading(false)
-                null
-            }
-
-            is ApiResult.Error -> {
-                isProcessing.value = false
-                setLoading(false)
-                when (response.error) {
-                    is HttpException, is UnknownHostException -> {
-                        _error.emit("404")
-                    }
-
-                    else ->{
-                        _error.emit("default")
-                    }
-                }
+                _error.emit(response.error)
                 null
             }
         }

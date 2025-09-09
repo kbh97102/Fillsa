@@ -154,7 +154,6 @@ fun MainNavHost(
                             popUpTo(0) { inclusive = true }
                         }
                     },
-                    logoutEvent = logoutEvent,
                 )
             }
         }

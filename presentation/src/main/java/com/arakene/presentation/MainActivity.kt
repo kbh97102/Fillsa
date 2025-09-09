@@ -37,6 +37,7 @@ import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalLoadingState
+import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
@@ -96,13 +97,12 @@ class MainActivity : ComponentActivity() {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
 
-
-
             FillsaTheme {
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
                     LocalDialogDataHolder provides dialogData,
-                    LocalLoadingState provides globalLoadingState
+                    LocalLoadingState provides globalLoadingState,
+                    LocalMoveHolder provides navController
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
