@@ -1,10 +1,13 @@
 package com.arakene.data.network
 
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
+import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.responses.MemberQuotesResponse
-import com.arakene.domain.util.AccessVersionException
+import com.arakene.domain.util.CommonError
+import com.arakene.domain.util.CommonErrorWrappedException
+import com.google.gson.Gson
+import java.net.UnknownHostException
 
 class GetQuotesListDataSource(
     private val api: FillsaApi,
@@ -44,11 +47,28 @@ class GetQuotesListDataSource(
                     nextKey = if (isLast) null else page + 1
                 )
             } else {
-                LoadResult.Error(AccessVersionException())
+                val errorResponse: ErrorResponse? = runCatching {
+                    response.errorBody()?.charStream()?.let {
+                        Gson().fromJson(it, ErrorResponse::class.java)
+                    }
+                }.getOrNull()
+
+                val commonError = when (response.code()) {
+                    401, 403 -> {
+                        CommonError.TokenExpiredError(ErrorResponse.getTokenExpired())
+                    }
+
+                    else -> {
+                        CommonError.ApiFail(errorResponse ?: ErrorResponse.defaultError())
+                    }
+                }
+                LoadResult.Error(CommonErrorWrappedException(commonError))
             }
+        } catch (e: UnknownHostException) {
+            LoadResult.Error(CommonErrorWrappedException(CommonError.NetworkError))
         } catch (e: Exception) {
             e.printStackTrace()
-            LoadResult.Error(e)
+            LoadResult.Error(CommonErrorWrappedException(CommonError.ApiException(e)))
         }
     }
 }

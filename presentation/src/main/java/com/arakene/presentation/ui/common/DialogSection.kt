@@ -22,8 +22,8 @@ fun DialogSection(
                 CommonDialog(
                     title = dialogData.title,
                     body = dialogData.body,
-                    titleTextSize = dialogData.titleTextSize,
-                    bodyTextSize = dialogData.bodyTextSize,
+                    titleTextStyle = dialogData.titleTextStyle,
+                    bodyTextStyle = dialogData.bodyTextStyle,
                     positiveText = dialogData.okText,
                     negativeText = dialogData.cancelText,
                     positiveOnClick = dialogData.onClick ?: {},
@@ -31,14 +31,15 @@ fun DialogSection(
                     dismiss = {
                         dialogDataHolder.show = false
                     },
-                    reversed = dialogData.reversed
+                    reversed = dialogData.reversed,
+                    singleButton = dialogData.singleButton
                 )
             } else {
                 DialogWIthImage(
                     title = dialogData.title,
                     body = dialogData.body,
                     drawableId = dialogData.drawableId,
-                    titleTextSize = dialogData.titleTextSize,
+                    titleTextStyle = dialogData.titleTextStyle,
                     positiveText = dialogData.okText,
                     negativeText = dialogData.cancelText,
                     positiveOnClick = dialogData.onClick ?: {},
@@ -46,7 +47,8 @@ fun DialogSection(
                     dismiss = {
                         dialogDataHolder.show = false
                     },
-                    reversed = dialogData.reversed
+                    reversed = dialogData.reversed,
+                    singleButton = dialogData.singleButton
                 )
             }
         }
