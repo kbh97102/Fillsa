@@ -110,7 +110,7 @@ fun DialogSingleButton(
     PositiveButton(
         text = buttonText,
         onClick = onClick,
-        modifier = modifier
+        modifier = modifier.fillMaxWidth()
     )
 }
 
