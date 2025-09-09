@@ -143,7 +143,6 @@ class HomeViewModel @Inject constructor(
 
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
         viewModelScope.launch {
-            backgroundImageUri.value = homeAction.uri
             emitEffect(HomeEffect.ProcessImage(homeAction.uri))
         }
 
@@ -155,6 +154,7 @@ class HomeViewModel @Inject constructor(
                     imageFile = file ?: return@launch
                 ), useLoading = false
             )?.let {
+                backgroundImageUri.value = it.imagePath
                 emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
             }
         }
