@@ -38,6 +38,17 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
             is CommonError.ApiFail -> {
                 when (it.errorResponse.errorCode) {
 
+                    1005, 1006 -> {
+                        dialogDataHolder.apply {
+                            data = DialogData.Builder()
+                                .singleButton(true)
+                                .title("일시적인 오류가 발생했어요.\n잠시 후 다시 시도해 주세요.")
+                                .build()
+                        }.run {
+                            show = true
+                        }
+                    }
+
                     1007 -> {
                         displayUpdateDialog = true
                     }

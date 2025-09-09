@@ -22,6 +22,7 @@ class DialogData private constructor() {
     var bodyTextSize: TextUnit = 16.sp
     var reversed = false
     var drawableId = -1
+    var singleButton = false
 
 
     class Builder {
@@ -39,6 +40,7 @@ class DialogData private constructor() {
         fun bodyTextSize(style: TextUnit) = apply { data.bodyTextSize = style }
         fun reversed(reversed: Boolean) = apply { data.reversed = reversed }
         fun drawableId(drawableId: Int) = apply { data.drawableId = drawableId }
+        fun singleButton(isSingleButton: Boolean) = apply { data.singleButton = isSingleButton }
 
         fun build(): DialogData = data
 
