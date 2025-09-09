@@ -39,7 +39,7 @@ import com.google.android.gms.ads.nativead.NativeAdView
 /**
  * A CompositionLocal that can provide a `NativeAdView` to ad attributes such as `NativeHeadline`.
  */
-internal val LocalNativeAdView = staticCompositionLocalOf<NativeAdView?> { null }
+val LocalNativeAdView = staticCompositionLocalOf<NativeAdView?> { null }
 
 /**
  * This is the Compose wrapper for a NativeAdView.

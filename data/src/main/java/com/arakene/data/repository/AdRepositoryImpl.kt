@@ -34,7 +34,7 @@ class AdRepositoryImpl(
 
             val nativeAdOptions =
                 NativeAdOptions.Builder()
-                    .setAdChoicesPlacement(NativeAdOptions.ADCHOICES_BOTTOM_RIGHT)
+                    .setAdChoicesPlacement(NativeAdOptions.ADCHOICES_TOP_RIGHT)
                     .build()
 
             val adLoader = AdLoader.Builder(context, id)
