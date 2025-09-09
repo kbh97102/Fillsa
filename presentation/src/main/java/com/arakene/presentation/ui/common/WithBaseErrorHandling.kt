@@ -71,6 +71,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                     1999 -> {
                         dialogDataHolder.apply {
                             data = DialogData.Builder()
+                                .singleButton(true)
                                 .title(it.errorResponse.message.ifEmpty { "요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요." })
                                 .build()
                         }.run {
@@ -112,6 +113,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                     else -> {
                         dialogDataHolder.apply {
                             data = DialogData.Builder()
+                                .singleButton(true)
                                 .title("요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.")
                                 .build()
                         }.run {
