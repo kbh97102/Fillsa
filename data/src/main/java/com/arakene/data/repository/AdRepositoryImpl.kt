@@ -34,7 +34,7 @@ class AdRepositoryImpl(
 
             val nativeAdOptions =
                 NativeAdOptions.Builder()
-                    .setAdChoicesPlacement(NativeAdOptions.ADCHOICES_BOTTOM_RIGHT)
+                    .setAdChoicesPlacement(NativeAdOptions.ADCHOICES_TOP_RIGHT)
                     .build()
 
             val adLoader = AdLoader.Builder(context, id)
@@ -49,7 +49,10 @@ class AdRepositoryImpl(
                     }
                 })
                 .build()
-            adLoader.loadAd(AdRequest.Builder().build())
+
+            val requester = AdRequest.Builder().build()
+
+            adLoader.loadAd(requester)
 
             continuation.invokeOnCancellation {
                 // 필요시 cleanup 로직 추가
