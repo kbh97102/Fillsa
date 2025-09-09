@@ -1,5 +1,6 @@
 package com.arakene.data.util
 
+import android.util.Log
 import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.CommonError
@@ -29,6 +30,8 @@ suspend fun <T> safeApi(execute: suspend () -> Response<T>): ApiResult<T> {
                     val parsedError = result.errorBody()?.charStream()?.let {
                         Gson().fromJson(it, ErrorResponse::class.java)
                     }
+
+                    Log.e("TEST", "$parsedError")
                     return ApiResult.Fail(
                         CommonError.ApiFail(parsedError ?: ErrorResponse.defaultError())
                     )

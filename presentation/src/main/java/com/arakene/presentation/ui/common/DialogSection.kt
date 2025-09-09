@@ -31,7 +31,8 @@ fun DialogSection(
                     dismiss = {
                         dialogDataHolder.show = false
                     },
-                    reversed = dialogData.reversed
+                    reversed = dialogData.reversed,
+                    singleButton = dialogData.singleButton
                 )
             } else {
                 DialogWIthImage(
@@ -46,7 +47,8 @@ fun DialogSection(
                     dismiss = {
                         dialogDataHolder.show = false
                     },
-                    reversed = dialogData.reversed
+                    reversed = dialogData.reversed,
+                    singleButton = dialogData.singleButton
                 )
             }
         }

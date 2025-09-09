@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.usecase.TestErrorCodeUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.FindLocalQuoteByIdUseCase
@@ -50,7 +51,8 @@ class HomeViewModel @Inject constructor(
     private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
     private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
     private val findLocalQuoteByIdUseCase: FindLocalQuoteByIdUseCase,
-    private val addLocalQuoteUseCase: AddLocalQuoteUseCase
+    private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
+    private val testErrorCodeUseCase: TestErrorCodeUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -125,6 +127,14 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+    }
+
+    fun testErrorCode(code: Int){
+        viewModelScope.launch {
+            getResponse(
+                testErrorCodeUseCase(code)
+            )
+        }
     }
 
     override fun emitEffect(effect: Effect) {

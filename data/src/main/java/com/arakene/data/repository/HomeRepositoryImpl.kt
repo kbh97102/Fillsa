@@ -20,6 +20,12 @@ class HomeRepositoryImpl @Inject constructor(
     private val api: FillsaApi
 ) : HomeRepository {
 
+    override suspend fun testErrorCode(code: Int): ApiResult<Unit> {
+        return safeApi {
+            nonTokenApi.testErrorCode(code)
+        }
+    }
+
     override suspend fun postLike(
         likeRequest: LikeRequest,
         dailyQuoteSeq: Int
