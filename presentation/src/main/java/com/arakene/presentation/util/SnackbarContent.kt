@@ -11,6 +11,10 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,6 +31,10 @@ fun SnackbarContent(
     message: String,
     displayIcon: Boolean = true
 ) {
+
+    var multipleLine by remember {
+        mutableStateOf(false)
+    }
 
     Row(
         modifier = Modifier
@@ -53,9 +61,16 @@ fun SnackbarContent(
 
         Text(
             message,
-            style = FillsaTheme.typography.body2,
+            style = if (multipleLine) {
+                FillsaTheme.typography.body3
+            } else {
+                FillsaTheme.typography.body2
+            },
             color = Color.White,
-            modifier = Modifier.padding(start = 8.dp)
+            modifier = Modifier.padding(start = 8.dp),
+            onTextLayout = {
+                multipleLine = it.lineCount > 1
+            }
         )
 
     }
@@ -68,5 +83,13 @@ fun SnackbarContent(
 private fun SnackbarContentPreview() {
     SnackbarContent(
         message = "복사"
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TwoLinePreview() {
+    SnackbarContent(
+        message = "veryLongTextveryLongTextveryLongTextveryLongTextveryLongTextveryLongText"
     )
 }
