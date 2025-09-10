@@ -52,44 +52,46 @@ fun BottomNavigationBar(
 
 
     Column(modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)) {
-        NavigationBar(
-            containerColor = MaterialTheme.colorScheme.background
-        ) {
-            val unSelectedColor = remember {
-                if (darkMode) {
-                    R.color.gray_400
-                } else {
-                    R.color.gray_700
+        if (displayBottomBar) {
+            NavigationBar(
+                containerColor = MaterialTheme.colorScheme.background
+            ) {
+                val unSelectedColor = remember {
+                    if (darkMode) {
+                        R.color.gray_400
+                    } else {
+                        R.color.gray_700
+                    }
                 }
-            }
 
-            colorResource(R.color.gray_700)
-            colorResource(R.color.purple01)
+                colorResource(R.color.gray_700)
+                colorResource(R.color.purple01)
 
-            items.forEach { item ->
-                val routeString = remember { item.first::class.qualifiedName }
+                items.forEach { item ->
+                    val routeString = remember { item.first::class.qualifiedName }
 
-                NavigationBarItem(
-                    selected = currentRoute == routeString,
-                    onClick = {
-                        if (currentRoute != routeString) {
-                            navController.navigate(item.first) {
-                                popUpTo(0) { inclusive = true }
+                    NavigationBarItem(
+                        selected = currentRoute == routeString,
+                        onClick = {
+                            if (currentRoute != routeString) {
+                                navController.navigate(item.first) {
+                                    popUpTo(0) { inclusive = true }
+                                }
                             }
-                        }
-                    },
-                    icon = { Icon(painterResource(item.second), contentDescription = null) },
-                    label = { Text(item.first.routeString) },
-                    colors = NavigationBarItemColors(
-                        selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                        selectedTextColor = MaterialTheme.colorScheme.onTertiary,
-                        selectedIndicatorColor = Color.Transparent,
-                        unselectedIconColor = colorResource(unSelectedColor),
-                        unselectedTextColor = colorResource(unSelectedColor),
-                        disabledIconColor = colorResource(unSelectedColor),
-                        disabledTextColor = colorResource(unSelectedColor)
+                        },
+                        icon = { Icon(painterResource(item.second), contentDescription = null) },
+                        label = { Text(item.first.routeString) },
+                        colors = NavigationBarItemColors(
+                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
+                            selectedTextColor = MaterialTheme.colorScheme.onTertiary,
+                            selectedIndicatorColor = Color.Transparent,
+                            unselectedIconColor = colorResource(unSelectedColor),
+                            unselectedTextColor = colorResource(unSelectedColor),
+                            disabledIconColor = colorResource(unSelectedColor),
+                            disabledTextColor = colorResource(unSelectedColor)
+                        )
                     )
-                )
+                }
             }
         }
         if (displayAd) {
