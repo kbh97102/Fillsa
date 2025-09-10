@@ -27,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
@@ -52,8 +51,8 @@ import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.TypingAction
 import com.arakene.presentation.util.TypingEffect
+import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
@@ -177,6 +176,7 @@ fun TypingQuoteView(
                 .padding(top = 20.dp)
                 .noEffectClickable {
                     typingSectionFocusRequester.requestFocus()
+                    keyboardController?.show()
                 }
         ) {
             TypingQuoteBodySection(

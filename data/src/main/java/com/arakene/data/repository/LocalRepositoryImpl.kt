@@ -15,6 +15,7 @@ import com.arakene.data.util.DataStoreKey.ALARM_KEY
 import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
 import com.arakene.data.util.DataStoreKey.PERMISSION_REQUESTED
 import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
+import com.arakene.data.util.DataStoreKey.SHARE_DESCRIPTION
 import com.arakene.data.util.TokenProvider
 import com.arakene.data.util.toDomain
 import com.arakene.data.util.toEntity
@@ -31,6 +32,18 @@ class LocalRepositoryImpl @Inject constructor(
     private val tokenProvider: TokenProvider,
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
+
+    override suspend fun setShareDescriptionVisible(boolean: Boolean) {
+        dataStore.edit {
+            it[SHARE_DESCRIPTION] = boolean
+        }
+    }
+
+    override suspend fun getShareDescriptionVisible(): Boolean {
+        return dataStore.data.map {
+            it[SHARE_DESCRIPTION] ?: true
+        }.firstOrNull() ?: true
+    }
 
     override fun isAlarmPermissionRequestedBefore(): Flow<Boolean> {
         return dataStore.data.map {
@@ -88,13 +101,24 @@ class LocalRepositoryImpl @Inject constructor(
         dao.updateMemo(memo, seq)
     }
 
-    override fun getLocalQuotesPaging(likeYN: YN): Flow<PagingData<LocalQuoteInfo>> {
+    override fun getLocalQuotesPaging(
+        likeYN: YN,
+        startDate: String,
+        endDate: String
+    ): Flow<PagingData<LocalQuoteInfo>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { GetLocalQuoteDataSource(dao, likeYn = likeYN.type) }
+            pagingSourceFactory = {
+                GetLocalQuoteDataSource(
+                    dao,
+                    likeYn = likeYN.type,
+                    startDate = startDate,
+                    endDate = endDate
+                )
+            }
         ).flow.map { pagingData ->
             pagingData.map { it.toDomain() }
         }

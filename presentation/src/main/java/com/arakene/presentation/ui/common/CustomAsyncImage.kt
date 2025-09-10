@@ -16,7 +16,7 @@ import com.arakene.presentation.R
 fun CustomAsyncImage(
     imagePath: String,
     modifier: Modifier = Modifier,
-    error: Painter? = painterResource(R.drawable.img_image_background),
+    error: Painter? = painterResource(R.drawable.img_share_background_1),
     contentScale: ContentScale = ContentScale.Crop,
     useDim: Boolean = false
 ) {

@@ -1,8 +1,16 @@
+import java.util.Properties
+import kotlin.apply
+import kotlin.toString
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
     alias(libs.plugins.ksp)
+}
+
+val secretsFile = Properties().apply {
+    load(rootProject.file("secrets.properties").inputStream())
 }
 
 android {
@@ -14,6 +22,9 @@ android {
         targetSdk = 35
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField("String", "ad_native_prod", secretsFile["AD_MOB_NATIVE_PROD"].toString())
+        buildConfigField("String", "ad_native_test", secretsFile["AD_MOB_NATIVE_TEST"].toString())
     }
     apply(from = "../common.gradle")
 }
@@ -36,8 +47,8 @@ dependencies {
     implementation(libs.hilt)
     kapt(libs.hilt.work)
     implementation(libs.hilt.work)
-    kapt(libs.hilt.androidx.compiler)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.androidx.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.datastore)
 
@@ -47,5 +58,7 @@ dependencies {
     implementation(libs.room.paging)
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)
+
+    implementation(libs.ads)
 
 }

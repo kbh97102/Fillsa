@@ -1,7 +1,9 @@
 package com.arakene.presentation.ui.common
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
@@ -9,6 +11,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.toRoute
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.NoticeResponse
 import com.arakene.presentation.ui.LoginView
 import com.arakene.presentation.ui.calendar.CalendarView
 import com.arakene.presentation.ui.home.HomeView
@@ -16,6 +19,7 @@ import com.arakene.presentation.ui.home.ShareView
 import com.arakene.presentation.ui.home.TypingQuoteView
 import com.arakene.presentation.ui.mypage.AlertView
 import com.arakene.presentation.ui.mypage.MyPageView
+import com.arakene.presentation.ui.mypage.NoticeDetailView
 import com.arakene.presentation.ui.mypage.NoticeView
 import com.arakene.presentation.ui.quoteli.QuoteDetailView
 import com.arakene.presentation.ui.quotelist.MemoInsertView
@@ -23,6 +27,7 @@ import com.arakene.presentation.ui.quotelist.QuoteListView
 import com.arakene.presentation.util.DailyQuoteDtoTypeMap
 import com.arakene.presentation.util.DataKey
 import com.arakene.presentation.util.MyPageScreens
+import com.arakene.presentation.util.NoticeResponseTypeMap
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.viewmodel.CalendarViewModel
 import com.arakene.presentation.viewmodel.HomeViewModel
@@ -141,8 +146,6 @@ fun MainNavHost(
         composable<Screens.QuoteList> {
             WithBaseErrorHandling<ListViewModel>(logoutEvent = updatedLogoutEvent) {
                 QuoteListView(
-                    startDate = "",
-                    endDate = "",
                     navigate = {
                         navController.navigate(it)
                     },
@@ -150,7 +153,7 @@ fun MainNavHost(
                         navController.navigate(Screens.Home()) {
                             popUpTo(0) { inclusive = true }
                         }
-                    }
+                    },
                 )
             }
         }
@@ -159,17 +162,13 @@ fun MainNavHost(
             WithBaseErrorHandling<ListViewModel>(logoutEvent = updatedLogoutEvent) {
                 val data = it.toRoute<Screens.QuoteDetail>()
 
-                val insertedMemoInMemoInsertView =
-                    navController.currentBackStackEntry?.savedStateHandle?.get<String>(
-                        DataKey.INSERTED_MEMO
-                    )
-
-                val memo =
-                    if (insertedMemoInMemoInsertView.isNullOrBlank()) {
-                        data.memo ?: ""
-                    } else {
-                        insertedMemoInMemoInsertView
+                val memo by remember {
+                    derivedStateOf {
+                        navController.currentBackStackEntry?.savedStateHandle?.get<String>(
+                            DataKey.INSERTED_MEMO
+                        ) ?: (data.memo ?: "")
                     }
+                }
 
                 QuoteDetailView(
                     memo = memo,
@@ -183,6 +182,10 @@ fun MainNavHost(
                         navController.navigate(it)
                     },
                     onBackPress = {
+                        navController.previousBackStackEntry?.savedStateHandle?.set(
+                            "memo_updated",
+                            true
+                        )
                         navController.popBackStack()
                     },
                     imagePath = data.imagePath
@@ -261,6 +264,21 @@ fun MainNavHost(
                     navigate = {
                         navController.navigate(it)
                     }
+                )
+            }
+        }
+
+        composable<MyPageScreens.NoticeDetail>(
+            typeMap =
+                mapOf(typeOf<NoticeResponse>() to NoticeResponseTypeMap)
+        ) {
+            val data = it.toRoute<MyPageScreens.NoticeDetail>()
+            WithBaseErrorHandling<MyPageViewModel> {
+                NoticeDetailView(
+                    popBackStack = {
+                        navController.popBackStack()
+                    },
+                    noticeResponse = data.noticeResponse
                 )
             }
         }

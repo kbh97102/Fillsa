@@ -11,19 +11,26 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 @Composable
 fun DateSelectSection(
-    startDate: String,
-    endDate: String,
-    modifier: Modifier = Modifier
+    startDate: LocalDate,
+    endDate: LocalDate,
+    isCalendarDisplayed: Boolean,
+    modifier: Modifier = Modifier,
 ) {
+
+    val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
 
     Row(
         verticalAlignment = Alignment.CenterVertically, modifier = modifier
@@ -35,10 +42,20 @@ fun DateSelectSection(
             .padding(horizontal = 16.dp, vertical = 8.dp)
     ) {
 
-        Image(painterResource(R.drawable.icn_calendar), contentDescription = null)
+        Image(
+            painterResource(R.drawable.icn_calendar),
+            contentDescription = null,
+            colorFilter = ColorFilter.tint(
+                if (isCalendarDisplayed) {
+                    colorResource(R.color.purple01)
+                } else {
+                    colorResource(R.color.gray_700)
+                }
+            )
+        )
 
         Text(
-            "$startDate - $endDate",
+            "${dateFormatter.format(startDate)} - ${dateFormatter.format(endDate)}",
             style = FillsaTheme.typography.body2,
             color = colorResource(R.color.gray_700),
             modifier = Modifier.padding(start = 10.dp)
@@ -46,7 +63,13 @@ fun DateSelectSection(
 
         Spacer(Modifier.weight(1f))
 
-        Image(painterResource(R.drawable.icn_arrow_down_black), contentDescription = null)
+        Image(
+            painterResource(R.drawable.icn_arrow_down_black),
+            contentDescription = null,
+            modifier = Modifier.rotate(
+                if (isCalendarDisplayed) 180f else 0f
+            )
+        )
 
     }
 
@@ -58,8 +81,21 @@ fun DateSelectSection(
 private fun DateSelectSectionPreview() {
     FillsaTheme {
         DateSelectSection(
-            startDate = "2025.01.01",
-            endDate = "2025.02.05"
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(10),
+            isCalendarDisplayed = false
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun Preview() {
+    FillsaTheme {
+        DateSelectSection(
+            startDate = LocalDate.now(),
+            endDate = LocalDate.now().plusDays(10),
+            isCalendarDisplayed = true
         )
     }
 }

@@ -192,7 +192,7 @@ fun CalendarSection(
 
 
 @Composable
-private fun CalendarNavigationIcon(
+fun CalendarNavigationIcon(
     painter: Painter,
     contentDescription: String,
     modifier: Modifier = Modifier,
@@ -267,7 +267,7 @@ fun SimpleCalendarTitle(
 }
 
 @Composable
-private fun Day(
+fun Day(
     day: CalendarDay,
     quoteData: MemberQuotesData?,
     isSelected: Boolean = false,
@@ -345,7 +345,7 @@ private fun Day(
 }
 
 @Composable
-private fun MonthHeader(
+fun MonthHeader(
     modifier: Modifier = Modifier,
     daysOfWeek: List<DayOfWeek> = emptyList(),
 ) {

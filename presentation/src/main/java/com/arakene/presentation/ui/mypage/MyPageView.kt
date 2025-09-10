@@ -24,7 +24,7 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
-import com.arakene.presentation.util.MyPageAction
+import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens

@@ -40,8 +40,9 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.MyPageAction
+import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.TypographyEnum
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.MyPageViewModel
 
@@ -95,7 +96,7 @@ fun AlertView(
                         .title(context.getString(R.string.alarm_permission_title))
                         .body(context.getString(R.string.alarm_permisstion_body))
                         .drawableId(R.drawable.icn_bell_fill)
-                        .titleTextSize(20.sp)
+                        .titleTextStyle(TypographyEnum.Heading4)
                         .onClick {
                             // 시스템 설정으로 이동 유도
                             val intent =
@@ -145,8 +146,8 @@ fun AlertView(
                     .noEffectClickable {
                         dialogDataHolder.data = DialogData.Builder()
                             .title(context.getString(R.string.resign_title))
-                            .titleTextSize(20.sp)
-                            .bodyTextSize(16.sp)
+                            .titleTextStyle(TypographyEnum.Heading4)
+                            .bodyTextStyle(TypographyEnum.Body2)
                             .body(context.getString(R.string.resign_body))
                             .reversed(true)
                             .okText(context.getString(R.string.cancel))

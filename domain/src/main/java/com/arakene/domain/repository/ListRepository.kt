@@ -12,6 +12,8 @@ interface ListRepository {
 
     fun getQuotesList(
         likeYn: String,
+        startDate: String,
+        endDate: String
     ): Flow<PagingData<MemberQuotesResponse>>
 
     suspend fun postSaveMemo(

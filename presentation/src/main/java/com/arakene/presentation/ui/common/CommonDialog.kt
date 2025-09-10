@@ -16,13 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.getStyle
 
 @Composable
 fun CommonDialog(
@@ -34,15 +34,19 @@ fun CommonDialog(
     negativeOnClick: () -> Unit = {},
     reversed: Boolean = false,
     body: String = "",
-    titleTextSize: TextUnit = 16.sp,
-    bodyTextSize: TextUnit = 16.sp
+    titleTextStyle: TypographyEnum = TypographyEnum.Heading4,
+    bodyTextStyle: TypographyEnum = TypographyEnum.Body2,
+    singleButton: Boolean = false
 ) {
 
     Dialog(
         onDismissRequest = {
             dismiss()
         },
-        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnClickOutside = false)
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            dismissOnClickOutside = false
+        )
     ) {
 
         Column(
@@ -56,7 +60,7 @@ fun CommonDialog(
 
             Text(
                 title,
-                style = FillsaTheme.typography.subtitle1.copy(fontSize = titleTextSize),
+                style = FillsaTheme.typography.getStyle(titleTextStyle),
                 color = colorResource(R.color.gray_700),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -67,7 +71,7 @@ fun CommonDialog(
             if (body.isNotEmpty()) {
                 Text(
                     body,
-                    style = FillsaTheme.typography.body2.copy(fontSize = bodyTextSize),
+                    style = FillsaTheme.typography.getStyle(bodyTextStyle),
                     color = colorResource(R.color.gray_700),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -76,56 +80,101 @@ fun CommonDialog(
                 )
             }
 
-            Row(
-                modifier = Modifier.padding(top = 44.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                // TODO: 이거 리스트로 관리하는 방법도 있긴한데 그건 weight에서 문제가 생김 , 다른방법 없나?
-                if (!reversed) {
-                    NegativeButton(
-                        modifier = Modifier.weight(1f),
-                        text = negativeText,
-                        onClick = {
-                            negativeOnClick()
-                            dismiss()
-                        }
-                    )
-
-                    PositiveButton(
-                        modifier = Modifier.weight(1f),
-                        text = positiveText,
-                        onClick = {
-                            positiveOnClick()
-                            dismiss()
-                        }
-                    )
-                } else {
-                    PositiveButton(
-                        modifier = Modifier.weight(1f),
-                        text = negativeText,
-                        onClick = {
-                            negativeOnClick()
-                            dismiss()
-                        }
-                    )
-
-                    NegativeButton(
-                        modifier = Modifier.weight(1f),
-                        text = positiveText,
-                        onClick = {
-                            positiveOnClick()
-                            dismiss()
-                        }
-                    )
-                }
-
+            if (singleButton) {
+                DialogSingleButton(
+                    modifier = Modifier.padding(top = 44.dp),
+                    buttonText = positiveText,
+                    onClick = positiveOnClick,
+                    dismiss = dismiss
+                )
+            } else {
+                DialogTwoButton(
+                    reversed,
+                    negativeOnClick = negativeOnClick,
+                    positiveOnClick = positiveOnClick,
+                    dismiss = dismiss,
+                    negativeText = negativeText,
+                    positiveText = positiveText,
+                    modifier = Modifier.padding(top = 44.dp)
+                )
             }
+        }
+    }
+}
 
+@Composable
+fun DialogSingleButton(
+    buttonText: String,
+    onClick: () -> Unit,
+    dismiss: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    PositiveButton(
+        text = buttonText,
+        onClick = {
+            onClick()
+            dismiss()
+        },
+        modifier = modifier.fillMaxWidth()
+    )
+}
+
+@Composable
+fun DialogTwoButton(
+    reversed: Boolean,
+    negativeOnClick: () -> Unit,
+    positiveOnClick: () -> Unit,
+    dismiss: () -> Unit,
+    negativeText: String,
+    positiveText: String,
+    modifier: Modifier = Modifier
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(12.dp),
+    ) {
+        // TODO: 이거 리스트로 관리하는 방법도 있긴한데 그건 weight에서 문제가 생김 , 다른방법 없나?
+        if (!reversed) {
+            NegativeButton(
+                modifier = Modifier.weight(1f),
+                text = negativeText,
+                onClick = {
+                    negativeOnClick()
+                    dismiss()
+                }
+            )
+
+            PositiveButton(
+                modifier = Modifier.weight(1f),
+                text = positiveText,
+                onClick = {
+                    positiveOnClick()
+                    dismiss()
+                }
+            )
+        } else {
+            PositiveButton(
+                modifier = Modifier.weight(1f),
+                text = negativeText,
+                onClick = {
+                    negativeOnClick()
+                    dismiss()
+                }
+            )
+
+            NegativeButton(
+                modifier = Modifier.weight(1f),
+                text = positiveText,
+                onClick = {
+                    positiveOnClick()
+                    dismiss()
+                }
+            )
         }
 
-
     }
+
 }
 
 @Composable

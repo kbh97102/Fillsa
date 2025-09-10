@@ -77,7 +77,7 @@ fun ImageDialog(
 
             if (backgroundImageUrl.isEmpty()) {
                 Image(
-                    painterResource(R.drawable.img_image_background),
+                    painterResource(R.drawable.img_share_background_1),
                     contentDescription = null,
                     modifier = Modifier.matchParentSize(),
                     contentScale = ContentScale.Crop
