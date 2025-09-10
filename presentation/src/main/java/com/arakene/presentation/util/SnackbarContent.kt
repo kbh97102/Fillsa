@@ -4,11 +4,14 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarVisuals
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,9 +31,20 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun SnackbarContent(
-    message: String,
-    displayIcon: Boolean = true
+    snackBarData: SnackbarVisuals
 ) {
+
+    val message by remember(snackBarData) {
+        mutableStateOf(
+            (snackBarData as? CustomSnackbarVisuals)?.message ?: snackBarData.message
+        )
+    }
+
+    val displayIcon by remember(snackBarData) {
+        mutableStateOf(
+            (snackBarData as? CustomSnackbarVisuals)?.displayIcon ?: true
+        )
+    }
 
     var multipleLine by remember {
         mutableStateOf(false)
@@ -57,6 +71,8 @@ fun SnackbarContent(
             ) {
                 Image(painter = painterResource(R.drawable.icn_check), contentDescription = null)
             }
+
+            Spacer(Modifier.width(8.dp))
         }
 
         Text(
@@ -67,7 +83,6 @@ fun SnackbarContent(
                 FillsaTheme.typography.body2
             },
             color = Color.White,
-            modifier = Modifier.padding(start = 8.dp),
             onTextLayout = {
                 multipleLine = it.lineCount > 1
             }
@@ -82,7 +97,7 @@ fun SnackbarContent(
 @Composable
 private fun SnackbarContentPreview() {
     SnackbarContent(
-        message = "복사"
+        snackBarData = CustomSnackbarVisuals(message = "test")
     )
 }
 
@@ -90,6 +105,6 @@ private fun SnackbarContentPreview() {
 @Composable
 private fun TwoLinePreview() {
     SnackbarContent(
-        message = "veryLongTextveryLongTextveryLongTextveryLongTextveryLongTextveryLongText"
+        snackBarData = CustomSnackbarVisuals("veryLongTextveryLongTextveryLongTextveryLongTextveryLongTextveryLongText")
     )
 }

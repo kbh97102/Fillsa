@@ -2,6 +2,8 @@ package com.arakene.presentation.util
 
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
@@ -15,6 +17,25 @@ import kotlinx.coroutines.flow.channelFlow
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.format.DateTimeParseException
+
+suspend fun SnackbarHostState.showCustomSnackbar(
+    message: String,
+    actionLabel: String? = null,
+    withDismissAction: Boolean = false,
+    duration: SnackbarDuration = SnackbarDuration.Short,
+    displayIcon: Boolean = true
+) {
+    this.showSnackbar(
+        CustomSnackbarVisuals(
+            message = message,
+            actionLabel = actionLabel,
+            withDismissAction = withDismissAction,
+            duration = duration,
+            displayIcon = displayIcon
+        )
+    )
+}
+
 
 fun String.toLocalDate(defaultValue: LocalDate = LocalDate.now()): LocalDate {
     // 날짜 파싱을 위한 포맷터
