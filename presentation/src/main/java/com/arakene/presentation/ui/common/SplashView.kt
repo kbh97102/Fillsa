@@ -51,7 +51,7 @@ fun SplashView(
 
     val ready by viewModel.ready.collectAsState()
 
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_splash))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(if (darkTheme) R.raw.lottie_splash_dark else R.raw.lottie_splash))
     val lottieState = animateLottieCompositionAsState(
         composition,
         iterations = LottieConstants.IterateForever
