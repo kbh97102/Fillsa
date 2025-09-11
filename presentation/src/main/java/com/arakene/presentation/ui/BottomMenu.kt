@@ -56,12 +56,10 @@ fun BottomNavigationBar(
             NavigationBar(
                 containerColor = FillsaTheme.colorScheme.background
             ) {
-                val unSelectedColor = remember {
-                    if (darkMode) {
-                        R.color.gray_400
-                    } else {
-                        R.color.gray_700
-                    }
+                val unSelectedColor = if (darkMode) {
+                    R.color.gray_400
+                } else {
+                    R.color.gray_700
                 }
 
                 val selectedColor = if (darkMode) {
