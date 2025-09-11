@@ -5,12 +5,10 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.SubcomposeLayout
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -20,13 +18,11 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.presentation.ui.home.HomeTopSection
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Contract
-import com.arakene.presentation.util.DialogData
-import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
-import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.action.QuoteListAction
 import com.arakene.presentation.util.noEffectClickable
@@ -75,7 +71,7 @@ fun QuoteListView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(FillsaTheme.colorScheme.background)
             .padding(horizontal = 20.dp)
             .noEffectClickable {
                 viewModel.handleContract(QuoteListAction.ClickOutside)

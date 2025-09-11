@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.quotelist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,6 +29,7 @@ fun DateSelectSection(
     endDate: LocalDate,
     isCalendarDisplayed: Boolean,
     modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
@@ -36,7 +38,11 @@ fun DateSelectSection(
         verticalAlignment = Alignment.CenterVertically, modifier = modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.secondary,
+                color = if (darkMode) {
+                    colorResource(R.color.gray_600)
+                } else {
+                    colorResource(R.color.yellow01)
+                },
                 shape = MaterialTheme.shapes.small
             )
             .padding(horizontal = 16.dp, vertical = 8.dp)
@@ -47,9 +53,17 @@ fun DateSelectSection(
             contentDescription = null,
             colorFilter = ColorFilter.tint(
                 if (isCalendarDisplayed) {
-                    colorResource(R.color.purple01)
+                    if (darkMode) {
+                        colorResource(R.color.white)
+                    } else {
+                        colorResource(R.color.purple01)
+                    }
                 } else {
-                    colorResource(R.color.gray_700)
+                    if (darkMode) {
+                        colorResource(R.color.white)
+                    } else {
+                        colorResource(R.color.gray_700)
+                    }
                 }
             )
         )
@@ -57,7 +71,7 @@ fun DateSelectSection(
         Text(
             "${dateFormatter.format(startDate)} - ${dateFormatter.format(endDate)}",
             style = FillsaTheme.typography.body2,
-            color = colorResource(R.color.gray_700),
+            color = FillsaTheme.colorScheme.onBackground1,
             modifier = Modifier.padding(start = 10.dp)
         )
 
@@ -68,7 +82,8 @@ fun DateSelectSection(
             contentDescription = null,
             modifier = Modifier.rotate(
                 if (isCalendarDisplayed) 180f else 0f
-            )
+            ),
+            colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
         )
 
     }
