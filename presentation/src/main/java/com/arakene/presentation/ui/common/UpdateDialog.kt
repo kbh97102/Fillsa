@@ -45,7 +45,7 @@ fun UpdateDialog(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .clip(MaterialTheme.shapes.small)
-                .background(Color.White)
+                .background(FillsaTheme.colorScheme.backgroundContainer)
                 .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -59,13 +59,15 @@ fun UpdateDialog(
                 "필사 앱 업데이트 안내",
                 textAlign = TextAlign.Center,
                 style = FillsaTheme.typography.heading4,
-                modifier = Modifier.padding(bottom = 12.dp)
+                modifier = Modifier.padding(bottom = 12.dp),
+                color = FillsaTheme.colorScheme.onBackground1
             )
             Text(
                 "최적의 사용 환경을 위해 최신 버전의 앱으로 업데이트 해주세요.",
                 textAlign = TextAlign.Center,
                 style = FillsaTheme.typography.body2,
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier.padding(bottom = 24.dp),
+                color = FillsaTheme.colorScheme.onBackground1
             )
 
             PositiveButton(
