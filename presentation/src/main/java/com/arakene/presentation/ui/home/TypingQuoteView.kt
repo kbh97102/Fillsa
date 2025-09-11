@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -157,7 +158,7 @@ fun TypingQuoteView(
 
     Column(
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.background)
+            .background(FillsaTheme.colorScheme.background)
             .noEffectClickable {
                 focusManager.clearFocus()
             }) {
@@ -297,7 +298,7 @@ private fun TypingQuoteBottomSection(
         Button(
             onClick = saveOnClick,
             contentPadding = PaddingValues(vertical = 8.dp, horizontal = 12.dp),
-            shape = MaterialTheme.shapes.small,
+            shape = RoundedCornerShape(8.dp),
             border = BorderStroke(1.dp, color = colorResource(R.color.gray_700)),
             colors = MaterialTheme.colorScheme.defaultButtonColors
         ) {
@@ -337,7 +338,7 @@ private fun TypingQuoteTopSection(
             modifier = Modifier.noEffectClickable {
                 onBackClick()
             },
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+            colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
         )
 
         LocaleSwitch(
