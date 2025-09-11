@@ -2,6 +2,8 @@ package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,7 +37,8 @@ fun MyPageLoginSection(
     userName: String,
     imagePath: String,
     loginEvent: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     if (isLogged) {
@@ -48,11 +51,21 @@ fun MyPageLoginSection(
                     spread = (-3).dp,
                     color = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
                 )
+                .border(
+                    1.dp, color = if (darkMode) {
+                        colorResource(R.color.gray_500)
+                    } else {
+                        colorResource(R.color.purple02)
+                    }, shape = MaterialTheme.shapes.medium
+                )
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Color.White, shape = MaterialTheme.shapes.medium)
+                    .background(
+                        color = FillsaTheme.colorScheme.backgroundContainer,
+                        shape = MaterialTheme.shapes.medium
+                    )
                     .padding(horizontal = 20.dp, vertical = 15.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -67,7 +80,7 @@ fun MyPageLoginSection(
                 Text(
                     userName,
                     style = FillsaTheme.typography.subtitle1,
-                    color = colorResource(R.color.gray_700),
+                    color = FillsaTheme.colorScheme.onBackground1,
                     maxLines = 1,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )

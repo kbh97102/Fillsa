@@ -65,7 +65,7 @@ fun MyPageView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(FillsaTheme.colorScheme.background)
             .padding(horizontal = 20.dp)
     ) {
         // LOGO

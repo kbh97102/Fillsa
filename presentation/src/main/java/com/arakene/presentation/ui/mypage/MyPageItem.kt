@@ -3,6 +3,7 @@ package com.arakene.presentation.ui.mypage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,7 +15,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.colorResource
@@ -31,15 +31,25 @@ fun MyPageItem(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    useArrow: Boolean = true
+    useArrow: Boolean = true,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     Row(
         modifier = modifier
             .noEffectClickable { onClick() }
             .fillMaxWidth()
-            .background(Color.White, shape = MaterialTheme.shapes.medium)
-            .border(1.dp, color = colorResource(R.color.purple02), shape = MaterialTheme.shapes.medium)
+            .background(
+                FillsaTheme.colorScheme.backgroundContainer,
+                shape = MaterialTheme.shapes.medium
+            )
+            .border(
+                1.dp, color = if (darkMode) {
+                    colorResource(R.color.gray_500)
+                } else {
+                    colorResource(R.color.purple02)
+                }, shape = MaterialTheme.shapes.medium
+            )
             .padding(vertical = 18.dp, horizontal = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -51,7 +61,7 @@ fun MyPageItem(
         Text(
             text = text,
             style = FillsaTheme.typography.subtitle1,
-            color = colorResource(R.color.gray_700),
+            color = FillsaTheme.colorScheme.onBackground1,
             modifier = Modifier.padding(start = 8.dp)
         )
 
@@ -62,7 +72,7 @@ fun MyPageItem(
                 painter = painterResource(R.drawable.icn_arrow),
                 contentDescription = null,
                 colorFilter = ColorFilter.tint(
-                    colorResource(R.color.gray_700)
+                    FillsaTheme.colorScheme.onBackground1
                 ),
                 modifier = Modifier
                     .size(24.dp)
