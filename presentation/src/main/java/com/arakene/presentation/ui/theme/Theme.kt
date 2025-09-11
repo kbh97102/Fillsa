@@ -4,7 +4,6 @@ import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
@@ -172,16 +171,16 @@ fun FillsaTheme(
             onToastMessage2 = colorResource(R.color.green_1a),
             backgroundDim = colorResource(R.color.gray_700).copy(alpha = 0.8f),
             // common
-            secondaryContainer = colorResource(R.color.primary),
-            onSecondaryContainer1 = colorResource(R.color.primary),
-            onSecondaryContainer2 = colorResource(R.color.primary),
-            tertiaryContainer = colorResource(R.color.primary),
-            onTertiaryContainer = colorResource(R.color.primary),
-            tertiaryOutline1 = colorResource(R.color.primary),
-            tertiaryOutline2 = colorResource(R.color.primary),
-            tertiary = colorResource(R.color.primary),
-            onTertiary1 = colorResource(R.color.primary),
-            onTertiary2 = colorResource(R.color.primary),
+            secondaryContainer = colorResource(R.color.purple02),
+            onSecondaryContainer1 = colorResource(R.color.gray_700),
+            onSecondaryContainer2 = colorResource(R.color.purple01),
+            tertiaryContainer = colorResource(R.color.white),
+            onTertiaryContainer = colorResource(R.color.purple01),
+            tertiaryOutline1 = colorResource(R.color.purple02),
+            tertiaryOutline2 = colorResource(R.color.purple01),
+            tertiary = colorResource(R.color.yellow02),
+            onTertiary1 = colorResource(R.color.white),
+            onTertiary2 = colorResource(R.color.purple01),
         )
 
         else -> FillsaColorScheme(
@@ -198,16 +197,16 @@ fun FillsaTheme(
             onToastMessage2 = colorResource(R.color.green_1a),
             backgroundDim = colorResource(R.color.gray_700).copy(alpha = 0.8f),
             // common
-            secondaryContainer = colorResource(R.color.primary),
-            onSecondaryContainer1 = colorResource(R.color.primary),
-            onSecondaryContainer2 = colorResource(R.color.primary),
-            tertiaryContainer = colorResource(R.color.primary),
-            onTertiaryContainer = colorResource(R.color.primary),
-            tertiaryOutline1 = colorResource(R.color.primary),
-            tertiaryOutline2 = colorResource(R.color.primary),
-            tertiary = colorResource(R.color.primary),
-            onTertiary1 = colorResource(R.color.primary),
-            onTertiary2 = colorResource(R.color.primary),
+            secondaryContainer = colorResource(R.color.purple02),
+            onSecondaryContainer1 = colorResource(R.color.gray_700),
+            onSecondaryContainer2 = colorResource(R.color.purple01),
+            tertiaryContainer = colorResource(R.color.white),
+            onTertiaryContainer = colorResource(R.color.purple01),
+            tertiaryOutline1 = colorResource(R.color.purple02),
+            tertiaryOutline2 = colorResource(R.color.purple01),
+            tertiary = colorResource(R.color.yellow02),
+            onTertiary1 = colorResource(R.color.white),
+            onTertiary2 = colorResource(R.color.purple01),
         )
     }
 
