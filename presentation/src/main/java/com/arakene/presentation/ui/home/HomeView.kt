@@ -114,7 +114,6 @@ fun HomeView(
 
     DoubleBackPressHandler(
         onExit = {
-            logDebug("in??")
             (context as? Activity)?.finishAffinity()
         }
     )

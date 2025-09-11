@@ -23,6 +23,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalUriHandler
@@ -296,6 +297,7 @@ private fun LoginOnBoardingTopSection(
         horizontalArrangement = Arrangement.End
     ) {
         Image(
+            colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1),
             painter = painterResource(R.drawable.icn_exit),
             contentDescription = null,
             modifier = Modifier.noEffectClickable {
@@ -389,23 +391,24 @@ private fun LoginButton(
     Row(
         modifier = modifier
             .background(
-                color = backgroundColor, shape = RoundedCornerShape(8.dp))
-                    .fillMaxWidth()
-                    .padding(vertical = 10.dp)
-                    .clickable {
-                        onClick()
-                    }, verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Image(painter = icon, contentDescription = null)
+                color = backgroundColor, shape = RoundedCornerShape(8.dp)
+            )
+            .fillMaxWidth()
+            .padding(vertical = 10.dp)
+            .clickable {
+                onClick()
+            }, verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Image(painter = icon, contentDescription = null)
 
-                Text(
-                    text = text,
-                    modifier = Modifier.padding(start = 8.dp),
-                    color = colorResource(R.color.login_black),
-                    style = FillsaTheme.typography.subtitle2,
-                )
-            }
+        Text(
+            text = text,
+            modifier = Modifier.padding(start = 8.dp),
+            color = colorResource(R.color.login_black),
+            style = FillsaTheme.typography.subtitle2,
+        )
+    }
 
 }
 
