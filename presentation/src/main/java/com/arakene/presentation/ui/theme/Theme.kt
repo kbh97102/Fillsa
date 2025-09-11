@@ -158,15 +158,15 @@ fun FillsaTheme(
 //        }
 
         darkTheme -> FillsaColorScheme(
-            background = colorResource(R.color.primary),
-            onBackground1 = colorResource(R.color.gray_700),
+            background = colorResource(R.color.gray_700),
+            onBackground1 = colorResource(R.color.white),
             onBackground2 = colorResource(R.color.purple01),
-            backgroundContainer = colorResource(R.color.white),
-            primaryContainer = colorResource(R.color.purple01),
+            backgroundContainer = colorResource(R.color.gray_600),
+            primaryContainer = colorResource(R.color.gray_600),
             onPrimaryContainer = colorResource(R.color.white),
-            outline = colorResource(R.color.purple01),
+            outline = colorResource(R.color.gray_500),
             outlineVariant = colorResource(R.color.gray_200),
-            toastMessageBackground = colorResource(R.color.gray_700),
+            toastMessageBackground = colorResource(R.color.gray_500),
             onToastMessage1 = colorResource(R.color.white),
             onToastMessage2 = colorResource(R.color.green_1a),
             backgroundDim = colorResource(R.color.gray_700).copy(alpha = 0.8f),
@@ -184,15 +184,15 @@ fun FillsaTheme(
         )
 
         else -> FillsaColorScheme(
-            background = colorResource(R.color.gray_700),
-            onBackground1 = colorResource(R.color.white),
+            background = colorResource(R.color.primary),
+            onBackground1 = colorResource(R.color.gray_700),
             onBackground2 = colorResource(R.color.purple01),
-            backgroundContainer = colorResource(R.color.gray_600),
-            primaryContainer = colorResource(R.color.gray_600),
+            backgroundContainer = colorResource(R.color.white),
+            primaryContainer = colorResource(R.color.purple01),
             onPrimaryContainer = colorResource(R.color.white),
-            outline = colorResource(R.color.gray_500),
+            outline = colorResource(R.color.purple01),
             outlineVariant = colorResource(R.color.gray_200),
-            toastMessageBackground = colorResource(R.color.gray_500),
+            toastMessageBackground = colorResource(R.color.gray_700),
             onToastMessage1 = colorResource(R.color.white),
             onToastMessage2 = colorResource(R.color.green_1a),
             backgroundDim = colorResource(R.color.gray_700).copy(alpha = 0.8f),

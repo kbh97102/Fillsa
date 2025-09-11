@@ -34,6 +34,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
@@ -181,11 +182,7 @@ fun SplashView(
         modifier = Modifier
             .fillMaxSize()
             .background(
-                color = if (darkTheme) {
-                    colorResource(R.color.gray_700)
-                } else {
-                    Color.White
-                }
+                color = FillsaTheme.colorScheme.background
             ),
         contentAlignment = Alignment.Center
     ) {
