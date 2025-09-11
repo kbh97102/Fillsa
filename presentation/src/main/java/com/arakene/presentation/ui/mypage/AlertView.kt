@@ -22,12 +22,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -40,9 +39,9 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.MyPageViewModel
 
@@ -119,7 +118,7 @@ fun AlertView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(FillsaTheme.colorScheme.background)
     ) {
         HeaderSection(
             modifier = Modifier.padding(horizontal = 20.dp),
@@ -164,10 +163,16 @@ fun AlertView(
                 Text(
                     stringResource(R.string.resign),
                     style = FillsaTheme.typography.body2,
-                    color = colorResource(R.color.gray_700)
+                    color = FillsaTheme.colorScheme.onBackground1
                 )
 
-                Image(painter = painterResource(R.drawable.icn_sign_out), contentDescription = null)
+                Image(
+                    painter = painterResource(R.drawable.icn_sign_out),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(
+                        FillsaTheme.colorScheme.onBackground1
+                    )
+                )
 
             }
         }
