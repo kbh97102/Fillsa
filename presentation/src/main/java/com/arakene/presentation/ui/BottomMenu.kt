@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
@@ -23,6 +22,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.SingleLineAdSection
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Screens
@@ -54,7 +54,7 @@ fun BottomNavigationBar(
     Column(modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)) {
         if (displayBottomBar) {
             NavigationBar(
-                containerColor = MaterialTheme.colorScheme.background
+                containerColor = FillsaTheme.colorScheme.background
             ) {
                 val unSelectedColor = remember {
                     if (darkMode) {
@@ -64,8 +64,12 @@ fun BottomNavigationBar(
                     }
                 }
 
-                colorResource(R.color.gray_700)
-                colorResource(R.color.purple01)
+                val selectedColor = if (darkMode){
+                    colorResource(R.color.white)
+                } else {
+                    colorResource(R.color.purple01)
+                }
+
 
                 items.forEach { item ->
                     val routeString = remember { item.first::class.qualifiedName }
@@ -82,8 +86,8 @@ fun BottomNavigationBar(
                         icon = { Icon(painterResource(item.second), contentDescription = null) },
                         label = { Text(item.first.routeString) },
                         colors = NavigationBarItemColors(
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary,
+                            selectedIconColor = selectedColor,
+                            selectedTextColor = selectedColor,
                             selectedIndicatorColor = Color.Transparent,
                             unselectedIconColor = colorResource(unSelectedColor),
                             unselectedTextColor = colorResource(unSelectedColor),
