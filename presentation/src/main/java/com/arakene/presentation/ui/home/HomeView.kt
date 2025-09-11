@@ -37,22 +37,20 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
-import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.ImageDialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.logDebug
-import com.arakene.presentation.util.logError
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
-import com.google.android.gms.ads.MobileAds
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
@@ -201,26 +199,6 @@ fun HomeView(
             )
         }
 
-        Column {
-            val (errorCode, onValueChange) = remember {
-                mutableStateOf("")
-            }
-
-            TextField(
-                value = errorCode,
-                onValueChange = onValueChange,
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-            )
-
-            PositiveButton(
-                text = "에러코드 테스트",
-                onClick = {
-                    viewModel.testErrorCode(errorCode.toIntOrNull() ?: -1)
-                    onValueChange("")
-                }
-            )
-        }
-
         HomeTopSection(navigate = navigate)
 
         Row(
@@ -233,10 +211,7 @@ fun HomeView(
                 modifier = Modifier
                     .weight(1f)
                     .noEffectClickable {
-                        MobileAds.openAdInspector(context) {
-                            logError("AdInspector ${it?.message}")
-                        }
-//                        viewModel.handleContract(HomeAction.ClickCalendar)
+                        viewModel.handleContract(HomeAction.ClickCalendar)
                     }
             )
 
