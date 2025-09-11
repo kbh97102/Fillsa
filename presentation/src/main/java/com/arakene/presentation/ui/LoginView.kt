@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,10 +48,10 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.action.LoginAction
 import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.LoginErrorException
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.action.LoginAction
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.LoginViewModel
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -142,7 +142,7 @@ fun LoginView(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(FillsaTheme.colorScheme.background)
             .padding(horizontal = 20.dp)
     ) {
 
@@ -176,7 +176,7 @@ fun LoginView(
         Text(
             stringResource(R.string.login_description),
             style = FillsaTheme.typography.body2,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = FillsaTheme.colorScheme.onBackground1,
             modifier = Modifier.padding(top = 80.dp),
         )
 
@@ -371,7 +371,7 @@ private fun LoginDescriptionText(
         style = FillsaTheme.typography.body3,
         modifier = modifier,
         textAlign = TextAlign.Center,
-        color = MaterialTheme.colorScheme.onSecondary
+        color = FillsaTheme.colorScheme.onBackground1
     )
 
 
@@ -388,23 +388,24 @@ private fun LoginButton(
 
     Row(
         modifier = modifier
-            .background(color = backgroundColor, shape = MaterialTheme.shapes.small)
-            .fillMaxWidth()
-            .padding(vertical = 10.dp)
-            .clickable {
-                onClick()
-            }, verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.Center
-    ) {
-        Image(painter = icon, contentDescription = null)
+            .background(
+                color = backgroundColor, shape = RoundedCornerShape(8.dp))
+                    .fillMaxWidth()
+                    .padding(vertical = 10.dp)
+                    .clickable {
+                        onClick()
+                    }, verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Image(painter = icon, contentDescription = null)
 
-        Text(
-            text = text,
-            modifier = Modifier.padding(start = 8.dp),
-            color = colorResource(R.color.login_black),
-            style = FillsaTheme.typography.subtitle2,
-        )
-    }
+                Text(
+                    text = text,
+                    modifier = Modifier.padding(start = 8.dp),
+                    color = colorResource(R.color.login_black),
+                    style = FillsaTheme.typography.subtitle2,
+                )
+            }
 
 }
 
