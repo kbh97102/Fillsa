@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.drawscope.Fill
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,11 +57,11 @@ fun NoticeView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondary)
+            .background(colorResource(R.color.gray_600))
     ) {
 
         HeaderSection(
-            modifier = Modifier.background(MaterialTheme.colorScheme.primary),
+            modifier = Modifier.background(FillsaTheme.colorScheme.background),
             text = stringResource(R.string.notice),
             onBackPress = { viewModel.handleContract(CommonAction.PopBackStack) }
         )

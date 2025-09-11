@@ -1,11 +1,11 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,17 +21,18 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 fun NoticeDetailView(
     popBackStack: () -> Unit,
     noticeResponse: NoticeResponse,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondary)
+            .background(colorResource(R.color.gray_600))
     ) {
 
         HeaderSection(
-            modifier = Modifier.background(MaterialTheme.colorScheme.primary),
+            modifier = Modifier.background(FillsaTheme.colorScheme.background),
             text = stringResource(R.string.notice),
             onBackPress = popBackStack
         )
@@ -40,14 +41,18 @@ fun NoticeDetailView(
             Text(
                 noticeResponse.title,
                 style = FillsaTheme.typography.subtitle1,
-                color = colorResource(R.color.gray_700),
+                color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier.padding(top = 16.dp)
             )
 
             Text(
                 noticeResponse.createdAt,
                 style = FillsaTheme.typography.body3,
-                color = colorResource(R.color.gray_400),
+                color = if (darkMode) {
+                    colorResource(R.color.gray_200)
+                } else {
+                    colorResource(R.color.gray_400)
+                },
                 modifier = Modifier.padding(top = 10.dp)
             )
 
@@ -59,7 +64,7 @@ fun NoticeDetailView(
             Text(
                 noticeResponse.content,
                 style = FillsaTheme.typography.body3,
-                color = colorResource(R.color.gray_700),
+                color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier.padding(top = 20.dp)
             )
         }

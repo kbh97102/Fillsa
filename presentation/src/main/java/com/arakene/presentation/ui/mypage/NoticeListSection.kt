@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.mypage
 
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,20 +42,25 @@ fun NoticeListSection(
 @Composable
 fun NoticeItem(
     noticeResponse: NoticeResponse,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = isSystemInDarkTheme()
 ) {
 
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(
             noticeResponse.createdAt,
             style = FillsaTheme.typography.body3,
-            color = colorResource(R.color.gray_400)
+            color = if (darkMode){
+                colorResource(R.color.gray_200)
+            } else {
+                colorResource(R.color.gray_400)
+            }
         )
 
         Text(
             noticeResponse.title,
             style = FillsaTheme.typography.body3,
-            color = colorResource(R.color.gray_700),
+            color = FillsaTheme.colorScheme.onBackground1,
         )
 
         HorizontalDivider(color = colorResource(R.color.gray_200))
