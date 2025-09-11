@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,6 +18,7 @@ import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.quotelist.QuoteDetailContentSection
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
@@ -94,7 +94,7 @@ fun QuoteDetailView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(FillsaTheme.colorScheme.background)
             .padding(horizontal = 20.dp)
     ) {
 
