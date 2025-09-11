@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
@@ -11,7 +12,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -75,7 +76,7 @@ fun DailyQuotaSection(
                     .aspectRatio(320f / 250f)
                     .shadow(
                         3.dp,
-                        shape = MaterialTheme.shapes.medium,
+                        shape = RoundedCornerShape(12.dp),
                         ambientColor = if (darkMode) {
                             colorResource(R.color.gray_400)
                         } else {
@@ -83,8 +84,10 @@ fun DailyQuotaSection(
                         }
                     )
                     .background(
-                        MaterialTheme.colorScheme.secondary,
-                        shape = MaterialTheme.shapes.medium
+                        color = if (darkMode) colorResource(R.color.gray_500).copy(alpha = 0.5f) else colorResource(
+                            R.color.yellow01
+                        ),
+                        shape = RoundedCornerShape(12.dp)
                     )
                     .noEffectClickable {
                         navigate()
@@ -129,7 +132,7 @@ fun DailyQuotaSection(
                         modifier = Modifier.fillMaxWidth(),
                         text = text,
                         style = FillsaTheme.typography.quote,
-                        color = MaterialTheme.colorScheme.onPrimary,
+                        color = FillsaTheme.colorScheme.onBackground1,
                         textAlign = TextAlign.Center
                     )
 
@@ -192,6 +195,23 @@ fun DailyQuotaSection(
 @Preview(widthDp = 500, heightDp = 500, showBackground = true)
 @Composable
 private fun WiseSayingSectionPreview() {
+    FillsaTheme {
+        DailyQuotaSection(
+            text = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+            author = "jone wooden",
+            next = {},
+            before = {},
+            navigate = {},
+            date = LocalDate.now(),
+            modifier = Modifier.padding(50.dp)
+        )
+    }
+}
+
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun DarkPreview() {
     FillsaTheme {
         DailyQuotaSection(
             text = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
