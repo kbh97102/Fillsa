@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.navigationBars
@@ -24,6 +23,7 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.SingleLineAdSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Screens
 
@@ -34,7 +34,7 @@ fun BottomNavigationBar(
     displayBottomBar: Boolean,
     navController: NavHostController,
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
     val items = remember {
         listOf<Pair<Screens, Int>>(
@@ -64,7 +64,7 @@ fun BottomNavigationBar(
                     }
                 }
 
-                val selectedColor = if (darkMode){
+                val selectedColor = if (darkMode) {
                     colorResource(R.color.white)
                 } else {
                     colorResource(R.color.purple01)

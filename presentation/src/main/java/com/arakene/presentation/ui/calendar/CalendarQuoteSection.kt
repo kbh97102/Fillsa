@@ -1,7 +1,7 @@
 package com.arakene.presentation.ui.calendar
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -30,7 +30,7 @@ fun CalendarQuoteSection(
     selectedDayQuote: String,
     selectedDay: CalendarDay,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
     val day = remember(selectedDay) {
         selectedDay.date.dayOfMonth.toString()
@@ -89,7 +89,7 @@ fun CalendarQuoteSection(
 @Preview
 @Composable
 private fun CalendarQuoteSectionPreview() {
-    FillsaTheme {
+    FillsaTheme(darkTheme = false) {
         CalendarQuoteSection(
             selectedDayQuote = "",
             CalendarDay(LocalDate.now(), DayPosition.InDate)

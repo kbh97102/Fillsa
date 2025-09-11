@@ -3,7 +3,7 @@ package com.arakene.presentation.ui.mypage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -38,7 +38,7 @@ fun MyPageLoginSection(
     imagePath: String,
     loginEvent: () -> Unit,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     if (isLogged) {

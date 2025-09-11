@@ -2,7 +2,7 @@ package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.BasicTextField
@@ -35,7 +35,7 @@ fun TypingQuoteBodySection(
     localeType: LocaleType,
     setWrite: (TextFieldValue) -> Unit,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val gray = colorResource(R.color.gray_ca)

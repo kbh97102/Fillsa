@@ -35,12 +35,14 @@ import com.arakene.presentation.ui.common.MainNavHost
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
+import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,6 +52,8 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
+
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     @Inject
     lateinit var alarmManagerHelper: AlarmManagerHelper
@@ -62,6 +66,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+
+            val darkMode by mainActivityViewModel.getIsDarkMode().collectAsState(false)
 
             val snackbarHostState = remember { SnackbarHostState() }
 
@@ -97,12 +103,13 @@ class MainActivity : ComponentActivity() {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
 
-            FillsaTheme {
+            FillsaTheme(darkTheme = darkMode) {
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
                     LocalDialogDataHolder provides dialogData,
                     LocalLoadingState provides globalLoadingState,
-                    LocalMoveHolder provides navController
+                    LocalMoveHolder provides navController,
+                    IsDarkMode provides darkMode
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),

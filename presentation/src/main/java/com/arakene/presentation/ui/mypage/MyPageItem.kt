@@ -3,7 +3,7 @@ package com.arakene.presentation.ui.mypage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,7 +32,7 @@ fun MyPageItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     useArrow: Boolean = true,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     Row(

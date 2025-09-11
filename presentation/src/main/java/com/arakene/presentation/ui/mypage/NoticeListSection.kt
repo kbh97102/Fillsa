@@ -1,6 +1,6 @@
 package com.arakene.presentation.ui.mypage
 
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -43,7 +43,7 @@ fun NoticeListSection(
 fun NoticeItem(
     noticeResponse: NoticeResponse,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     Column(modifier = modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {

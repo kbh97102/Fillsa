@@ -6,7 +6,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -69,7 +69,7 @@ import net.openid.appauth.ResponseTypeValues
 fun LoginView(
     navigate: (Screens) -> Unit,
     popBackStack: () -> Unit,
-    darkMode: Boolean = isSystemInDarkTheme(),
+    darkMode: Boolean = IsDarkMode.current,
     viewModel: LoginViewModel = hiltViewModel(),
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
     isOnboarding: Boolean = true

@@ -1,7 +1,7 @@
 package com.arakene.presentation.ui.quotelist
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,7 +22,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 @Composable
 fun QuoteListEmptySection(
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     Column(

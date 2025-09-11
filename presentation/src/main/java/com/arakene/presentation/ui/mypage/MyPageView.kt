@@ -13,6 +13,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -112,14 +115,33 @@ fun MyPageView(
             modifier = Modifier.padding(top = 12.dp)
         )
 
+        var test by remember {
+            mutableStateOf(false)
+        }
+
         // Theme
         // version 2에서 기능
         MyPageItem(
             image = painterResource(R.drawable.icn_theme),
             text = stringResource(R.string.theme),
-            onClick = {},
+            onClick = {
+
+                test = true
+
+            },
             modifier = Modifier.padding(top = 12.dp)
         )
+
+        if (test) {
+            ThemeDialog(
+                dismiss = {
+                    test = false
+                },
+                changeThemeToDarkMode = {
+                    viewModel.testMethod(it)
+                }
+            )
+        }
 
         // version + logout
         MyPageBottomButtonSection(

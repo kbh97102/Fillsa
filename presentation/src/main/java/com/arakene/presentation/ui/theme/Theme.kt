@@ -1,6 +1,6 @@
 package com.arakene.presentation.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -146,17 +146,12 @@ internal val fillsaTypo = FillsaTypo(
 
 @Composable
 fun FillsaTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-//            val context = LocalContext.current
-//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-//        }
-
         darkTheme -> FillsaColorScheme(
             background = colorResource(R.color.gray_700),
             onBackground1 = colorResource(R.color.white),

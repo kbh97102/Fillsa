@@ -1,7 +1,7 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,7 +30,7 @@ fun AlertSwitchSection(
     selected: Boolean,
     setSelected: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     Row(

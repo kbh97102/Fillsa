@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
@@ -182,8 +183,9 @@ val LocalSnackbarHost = compositionLocalOf { SnackbarHostState() }
 
 val LocalDialogDataHolder = compositionLocalOf { DialogDataHolder() }
 
-
 val LocalMoveHolder = compositionLocalOf<NavHostController?> { null }
+
+val IsDarkMode = staticCompositionLocalOf { false }
 
 
 fun copyToClipboard(

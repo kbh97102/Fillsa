@@ -2,7 +2,7 @@ package com.arakene.presentation.ui.quotelist
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,7 +29,7 @@ fun DateSelectSection(
     endDate: LocalDate,
     isCalendarDisplayed: Boolean,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val dateFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")

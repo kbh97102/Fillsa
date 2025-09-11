@@ -10,7 +10,7 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -49,7 +49,7 @@ import com.arakene.presentation.viewmodel.SplashViewModel
 @Composable
 fun SplashView(
     navigate: Navigate,
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = IsDarkMode.current,
     viewModel: SplashViewModel = hiltViewModel(),
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {

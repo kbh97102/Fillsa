@@ -1,7 +1,7 @@
 package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -25,7 +25,7 @@ fun InteractionButtonSection(
     isLike: Boolean,
     setIsLike: (Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme(),
+    darkMode: Boolean = IsDarkMode.current,
     darkModeColor: Int = R.color.purple01,
     lightModeColor: Int = R.color.gray_700
 ) {

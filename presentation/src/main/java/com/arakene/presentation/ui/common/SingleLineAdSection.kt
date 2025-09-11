@@ -4,7 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -53,14 +53,14 @@ fun SingleLineAdSection(
     currentRoute: String,
     modifier: Modifier = Modifier,
     refresh: Boolean = false,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val viewModel: AdViewModel = hiltViewModel()
 
     val adState by viewModel.adState.collectAsStateWithLifecycle()
 
-    val backgroundColor by remember(currentRoute) {
+    val backgroundColor by remember(currentRoute, darkMode) {
         mutableIntStateOf(
             when {
                 currentRoute.contains(MyPageScreens.Notice.routeString) || currentRoute.contains(
@@ -214,7 +214,7 @@ fun CustomNativeAdView(
 @Composable
 private fun AdAttributeIcon(
     modifier: Modifier = Modifier,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
     Box(
         modifier

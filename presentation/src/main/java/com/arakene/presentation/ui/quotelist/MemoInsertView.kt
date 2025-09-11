@@ -4,7 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -46,7 +46,7 @@ fun MemoInsertView(
     savedMemo: String,
     memberQuoteSeq: String,
     popBackStack: (String) -> Unit,
-    darkMode: Boolean = isSystemInDarkTheme(),
+    darkMode: Boolean = IsDarkMode.current,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
