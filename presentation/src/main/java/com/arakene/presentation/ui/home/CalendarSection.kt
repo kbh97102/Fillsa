@@ -82,7 +82,7 @@ private fun CalendarTop(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = FillsaTheme.colorScheme.tertiary,
+                color = FillsaTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
             )
             .padding(12.dp), verticalAlignment = Alignment.CenterVertically,
@@ -138,7 +138,9 @@ private fun CalendarBottom(
 @Preview(widthDp = 150)
 @Composable
 private fun CalendarSectionPreview() {
-    CalendarSection(
-        date = LocalDate.now()
-    )
+    FillsaTheme{
+        CalendarSection(
+            date = LocalDate.now()
+        )
+    }
 }
