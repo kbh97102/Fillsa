@@ -55,7 +55,7 @@ fun IntroduceView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(FillsaTheme.colorScheme.background)
     ) {
 
         // Skip
@@ -74,13 +74,13 @@ fun IntroduceView(
                     .noEffectClickable {
                         navigate(Screens.Home())
                     },
-                colorFilter = ColorFilter.tint(color = MaterialTheme.colorScheme.onPrimary)
+                colorFilter = ColorFilter.tint(color = FillsaTheme.colorScheme.onBackground1)
             )
 
             Text(
                 stringResource(R.string.skip),
                 style = FillsaTheme.typography.body3,
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = FillsaTheme.colorScheme.onBackground1,
                 textDecoration = TextDecoration.Underline,
                 modifier = Modifier
                     .padding(end = 20.dp)
