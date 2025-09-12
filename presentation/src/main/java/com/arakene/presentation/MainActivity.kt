@@ -135,7 +135,7 @@ class MainActivity : ComponentActivity() {
                                         displayBottomBar = displayBottomBar
                                     )
                                 },
-                                containerColor = Color.White,
+                                containerColor = FillsaTheme.colorScheme.background,
                                 contentWindowInsets = if (shouldShowAd) {
                                     WindowInsets.statusBars
                                 } else {
