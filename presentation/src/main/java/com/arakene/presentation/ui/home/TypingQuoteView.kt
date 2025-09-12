@@ -4,7 +4,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -50,6 +49,7 @@ import com.arakene.presentation.ui.theme.defaultButtonColors
 import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
@@ -66,7 +66,7 @@ fun TypingQuoteView(
     backOnClick: () -> Unit,
     viewModel: TypingViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
-    darkMode: Boolean = isSystemInDarkTheme()
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val focusManager = LocalFocusManager.current

@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -24,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -38,6 +38,7 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.TypographyEnum
@@ -51,7 +52,8 @@ fun AlertView(
     modifier: Modifier = Modifier,
     popBackStack: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
-    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val context = LocalContext.current
@@ -140,7 +142,13 @@ fun AlertView(
                 modifier = Modifier
                     .padding(top = 50.dp)
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.secondary)
+                    .background(
+                        if (darkMode) {
+                            colorResource(R.color.gray_600)
+                        } else {
+                            colorResource(R.color.yellow01)
+                        }
+                    )
                     .padding(horizontal = 20.dp, vertical = 19.dp)
                     .noEffectClickable {
                         dialogDataHolder.data = DialogData.Builder()

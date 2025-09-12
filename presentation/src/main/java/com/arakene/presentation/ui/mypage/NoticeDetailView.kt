@@ -1,7 +1,6 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -30,7 +29,7 @@ fun NoticeDetailView(
         modifier = modifier
             .fillMaxSize()
             .background(
-                if (isSystemInDarkTheme()) {
+                if (darkMode) {
                     colorResource(R.color.gray_600)
                 } else {
                     colorResource(R.color.yellow01)

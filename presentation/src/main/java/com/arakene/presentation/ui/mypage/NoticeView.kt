@@ -1,7 +1,6 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -21,6 +20,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.viewmodel.MyPageViewModel
@@ -30,6 +30,7 @@ fun NoticeView(
     onBackPress: () -> Unit,
     navigate: Navigate,
     modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
 
@@ -57,7 +58,7 @@ fun NoticeView(
         modifier = modifier
             .fillMaxSize()
             .background(
-                if (isSystemInDarkTheme()) {
+                if (darkMode) {
                     colorResource(R.color.gray_600)
                 } else {
                     colorResource(R.color.yellow01)
