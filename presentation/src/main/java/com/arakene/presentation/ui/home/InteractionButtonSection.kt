@@ -1,7 +1,6 @@
 package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.Image
-import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -15,6 +14,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
@@ -62,19 +62,18 @@ fun InteractionButtonSection(
             colorFilter = ColorFilter.tint(color = colorResource(color))
         )
 
-        Image(
-            painter =
-                if (isLike) {
-                    painterResource(R.drawable.icn_fill_heart)
-                } else {
-                    painterResource(R.drawable.icn_empty_heart)
-                }, contentDescription = null,
-            modifier = Modifier.noEffectClickable {
-                setIsLike(!isLike)
-            },
-            colorFilter = ColorFilter.tint(color = colorResource(color))
-        )
-
+        if (isLike) {
+            Image(painterResource(R.drawable.icn_fill_heart), contentDescription = null)
+        } else {
+            Image(
+                painter =
+                    painterResource(R.drawable.icn_empty_heart), contentDescription = null,
+                modifier = Modifier.noEffectClickable {
+                    setIsLike(!isLike)
+                },
+                colorFilter = ColorFilter.tint(color = colorResource(color))
+            )
+        }
     }
 
 }
