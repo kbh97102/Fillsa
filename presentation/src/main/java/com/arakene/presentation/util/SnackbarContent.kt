@@ -14,8 +14,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,7 +31,7 @@ fun SnackbarContent(
             .fillMaxWidth()
             .padding(horizontal = 20.dp)
             .background(
-                color = colorResource(R.color.gray_700),
+                color = FillsaTheme.colorScheme.toastMessageBackground,
                 shape = MaterialTheme.shapes.small
             )
             .padding(horizontal = 12.dp, vertical = 13.dp),
@@ -44,7 +42,7 @@ fun SnackbarContent(
                 modifier = Modifier
                     .size(24.dp)
                     .clip(CircleShape)
-                    .background(colorResource(R.color.green_1a)),
+                    .background(FillsaTheme.colorScheme.onToastMessage2),
                 contentAlignment = Alignment.Center
             ) {
                 Image(painter = painterResource(R.drawable.icn_check), contentDescription = null)
@@ -54,7 +52,7 @@ fun SnackbarContent(
         Text(
             message,
             style = FillsaTheme.typography.body2,
-            color = Color.White,
+            color = FillsaTheme.colorScheme.onToastMessage1,
             modifier = Modifier.padding(start = 8.dp)
         )
 
