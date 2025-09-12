@@ -3,12 +3,10 @@ package com.arakene.presentation.ui.quotelist
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +25,7 @@ fun IsLikeSection(
 
     Row(
         modifier = modifier
-        .noEffectClickable { setIsLike(!isLike) },
+            .noEffectClickable { setIsLike(!isLike) },
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -36,7 +34,7 @@ fun IsLikeSection(
         Text(
             stringResource(R.string.like),
             style = FillsaTheme.typography.buttonMediumNormal,
-            color = MaterialTheme.colorScheme.onPrimary,
+            color = FillsaTheme.colorScheme.onBackground1,
             modifier = Modifier.padding(start = 4.dp)
         )
 
