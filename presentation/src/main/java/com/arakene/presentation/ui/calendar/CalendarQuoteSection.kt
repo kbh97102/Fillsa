@@ -1,12 +1,10 @@
 package com.arakene.presentation.ui.calendar
 
 import androidx.compose.foundation.background
-import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -19,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import java.time.LocalDate
@@ -62,12 +61,12 @@ fun CalendarQuoteSection(
             Text(
                 day,
                 style = FillsaTheme.typography.heading4,
-                color = MaterialTheme.colorScheme.onTertiary
+                color = if (darkMode) colorResource(R.color.white) else colorResource(R.color.purple01),
             )
             Text(
                 dayOfWeek,
                 style = FillsaTheme.typography.body4,
-                color = MaterialTheme.colorScheme.onTertiary
+                color = if (darkMode) colorResource(R.color.white) else colorResource(R.color.purple01),
             )
         }
 
@@ -80,7 +79,7 @@ fun CalendarQuoteSection(
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             style = FillsaTheme.typography.body3,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = FillsaTheme.colorScheme.onBackground1
         )
 
     }

@@ -42,7 +42,7 @@ fun CalendarCountSection(
             Text(
                 typingCount.toString(),
                 style = FillsaTheme.typography.body3,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier.padding(start = 4.dp)
             )
 
@@ -57,7 +57,7 @@ fun CalendarCountSection(
             Text(
                 likeCount.toString(),
                 style = FillsaTheme.typography.body3,
-                color = MaterialTheme.colorScheme.onPrimary,
+                color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier.padding(start = 4.dp)
             )
         }

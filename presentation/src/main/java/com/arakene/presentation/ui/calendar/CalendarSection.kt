@@ -104,12 +104,12 @@ fun CalendarSection(
         modifier = modifier
             .padding(top = 20.dp)
             .background(
-                if (darkMode) colorResource(R.color.gray_700) else MaterialTheme.colorScheme.secondary,
+                if (darkMode) colorResource(R.color.gray_700) else colorResource(R.color.yellow01),
                 shape = MaterialTheme.shapes.medium
             )
             .border(
                 1.dp,
-                color =if (darkMode) colorResource(R.color.gray_600) else colorResource(R.color.yellow02),
+                color = if (darkMode) colorResource(R.color.gray_600) else colorResource(R.color.yellow02),
                 shape = MaterialTheme.shapes.medium
             )
     ) {
@@ -297,7 +297,7 @@ fun Day(
                 if (isSelected) {
                     Color.White
                 } else {
-                    MaterialTheme.colorScheme.onPrimary
+                    FillsaTheme.colorScheme.onBackground1
                 }
             } else {
                 if (darkMode) {
