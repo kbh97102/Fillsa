@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.quotelist
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
@@ -31,7 +32,7 @@ fun MemoQuoteSection(
             .background(color = Color.White, shape = MaterialTheme.shapes.medium)
             .border(
                 1.dp,
-                color = MaterialTheme.colorScheme.tertiary,
+                color = colorResource(R.color.purple02),
                 shape = MaterialTheme.shapes.medium
             )
             .padding(horizontal = 10.dp, vertical = 20.dp)
@@ -58,6 +59,15 @@ fun MemoQuoteSection(
 @Composable
 @Preview
 private fun MemoQuoteSectionPreview() {
+    MemoQuoteSection(
+        author = "존 우든",
+        quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+    )
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun Dark() {
     MemoQuoteSection(
         author = "존 우든",
         quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
