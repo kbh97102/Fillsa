@@ -39,7 +39,7 @@ fun QuoteListEmptySection(
             color = if (darkMode){
                 Color.White
             } else {
-                FillsaTheme.colorScheme.secondaryContainer
+                FillsaTheme.colorScheme.onSecondaryContainer2
             },
             style = FillsaTheme.typography.subtitle1,
             modifier = Modifier.padding(top = 20.dp)
