@@ -1,7 +1,7 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.background
-import com.arakene.presentation.util.IsDarkMode
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -16,6 +16,7 @@ import com.arakene.domain.responses.NoticeResponse
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 
 @Composable
 fun NoticeDetailView(
@@ -28,7 +29,13 @@ fun NoticeDetailView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(colorResource(R.color.gray_600))
+            .background(
+                if (isSystemInDarkTheme()) {
+                    colorResource(R.color.gray_600)
+                } else {
+                    colorResource(R.color.yellow01)
+                }
+            )
     ) {
 
         HeaderSection(
