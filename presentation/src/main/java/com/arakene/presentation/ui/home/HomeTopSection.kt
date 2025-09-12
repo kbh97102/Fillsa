@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.noEffectClickable
@@ -53,7 +54,7 @@ fun HomeTopSection(
             modifier = Modifier.noEffectClickable {
                 navigate(Screens.MyPage)
             },
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimary)
+            colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
         )
     }
 
