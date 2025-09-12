@@ -3,7 +3,6 @@ package com.arakene.presentation.ui.mypage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.dropShadow
 import com.arakene.presentation.util.noEffectClickable
 
@@ -41,16 +41,21 @@ fun MyPageLoginSection(
     darkMode: Boolean = IsDarkMode.current
 ) {
 
-    if (isLogged) {
+    val shadowModifier = if (darkMode) {
+        Modifier
+    } else {
+        Modifier.dropShadow(
+            shape = MaterialTheme.shapes.medium,
+            blur = 16.dp,
+            spread = (-3).dp,
+            color = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+        )
+    }
 
+    if (isLogged) {
         Row(
             modifier = modifier
-                .dropShadow(
-                    shape = MaterialTheme.shapes.medium,
-                    blur = 16.dp,
-                    spread = (-3).dp,
-                    color = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
-                )
+                .then(shadowModifier)
                 .border(
                     1.dp, color = if (darkMode) {
                         colorResource(R.color.gray_500)
@@ -96,12 +101,7 @@ fun MyPageLoginSection(
                 .noEffectClickable {
                     loginEvent()
                 }
-                .dropShadow(
-                    shape = MaterialTheme.shapes.medium,
-                    blur = 16.dp,
-                    spread = (-3).dp,
-                    color = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
-                ), horizontalAlignment = Alignment.CenterHorizontally
+                .then(shadowModifier), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Row(
