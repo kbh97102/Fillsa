@@ -15,7 +15,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlin.coroutines.resume
 
 class AdRepositoryImpl(
-    @ApplicationContext private val context: Context,
+    @get:ApplicationContext private val context: Context,
     private val cacheManagerImpl: AdCacheManagerImpl
 ) : AdRepository {
 
