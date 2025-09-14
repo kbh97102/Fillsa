@@ -36,6 +36,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Navigate
+import com.arakene.presentation.util.TypographyEnum
 import com.arakene.presentation.viewmodel.SplashViewModel
 
 @Composable
@@ -97,7 +98,7 @@ fun SplashView(
                             .title(context.getString(R.string.alarm_permission_title))
                             .body(context.getString(R.string.alarm_permisstion_body))
                             .drawableId(R.drawable.icn_bell_fill)
-                            .titleTextSize(20.sp)
+                            .titleTextStyle(TypographyEnum.Heading4)
                             .onClick {
                                 // 시스템 설정으로 이동 유도
                                 val intent =

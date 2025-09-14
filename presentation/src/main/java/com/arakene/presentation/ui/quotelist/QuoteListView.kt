@@ -19,7 +19,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
-import com.arakene.domain.util.CommonErrorType
 import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Contract
@@ -37,38 +36,19 @@ import com.arakene.presentation.viewmodel.ListViewModel
 fun QuoteListView(
     navigate: Navigate,
     popBackStack: () -> Unit,
-    logoutEvent: () -> Unit,
     viewModel: ListViewModel = hiltViewModel(),
-    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
 ) {
 
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val paging = viewModel.quoteListFlow.collectAsLazyPagingItems()
 
-    val context = LocalContext.current
-
-    HandlePagingError(paging, handleError = {
-        when (it) {
-            CommonErrorType.NETWORK -> {
-                dialogDataHolder.apply {
-                    data = DialogData.Builder()
-                        .buildNetworkError(context, okOnClick = { paging.refresh() })
-                }.show = true
-            }
-
-            CommonErrorType.ACCESS_VERSION -> {
-                dialogDataHolder.apply {
-                    DialogData.Builder()
-                        .title("로그인 시간이 만료되었습니다.\n재로그인해주세요")
-                        .onClick {
-                            logoutEvent()
-                        }
-                        .build()
-                }.show = true
-            }
+    HandlePagingError(
+        paging = paging,
+        emitError = {
+            viewModel.handleContract(CommonEffect.EmitError(it))
         }
-    })
+    )
 
     val lifeCycle = LocalLifecycleOwner.current
 

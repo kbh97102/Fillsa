@@ -29,6 +29,10 @@ fun ImageSection(
     modifier: Modifier = Modifier
 ) {
 
+    LaunchedEffect(imageUri) {
+        logDebug("image? $imageUri")
+    }
+
     Box(
         modifier = modifier
             .aspectRatio(155 / 120f)

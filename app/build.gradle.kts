@@ -65,9 +65,9 @@ dependencies {
     implementation(libs.kakao.login)
 
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     kapt(libs.hilt.work)
-    kapt(libs.hilt.androidx.compiler)
+    ksp(libs.hilt.androidx.compiler)
     implementation(libs.hilt.work)
 
     implementation(libs.retrofit)

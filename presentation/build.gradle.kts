@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt.plugin)
     alias(libs.plugins.kotlinx.serialization.json)
     alias(libs.plugins.gms)
+    alias(libs.plugins.ksp)
 }
 
 val secretsFile = Properties().apply {
@@ -35,6 +36,7 @@ android {
     buildFeatures {
         compose = true
         buildConfig = true
+        viewBinding = true
     }
 }
 
@@ -70,7 +72,7 @@ dependencies {
     implementation(libs.authtest)
 
     implementation(libs.hilt)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation)
     runtimeOnly(libs.material3)
     implementation(libs.compose.navigation)
