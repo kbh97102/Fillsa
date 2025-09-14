@@ -8,6 +8,8 @@ import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetAlarmUsageUseCase
 import com.arakene.presentation.BuildConfig
 import com.arakene.presentation.util.AlarmManagerHelper
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
 import com.google.firebase.FirebaseApp
 import com.google.firebase.crashlytics.ktx.crashlytics
 import com.google.firebase.ktx.Firebase
@@ -32,6 +34,8 @@ class FillsaApplication : Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+
+        MobileAds.initialize(this)
 
         Firebase.crashlytics.isCrashlyticsCollectionEnabled = true
 

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.usecase.TestErrorCodeUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.FindLocalQuoteByIdUseCase
@@ -29,6 +30,7 @@ import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.TypographyEnum
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
@@ -50,7 +52,8 @@ class HomeViewModel @Inject constructor(
     private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
     private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
     private val findLocalQuoteByIdUseCase: FindLocalQuoteByIdUseCase,
-    private val addLocalQuoteUseCase: AddLocalQuoteUseCase
+    private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
+    private val testErrorCodeUseCase: TestErrorCodeUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -127,6 +130,14 @@ class HomeViewModel @Inject constructor(
 
     }
 
+    fun testErrorCode(code: Int){
+        viewModelScope.launch {
+            getResponse(
+                testErrorCodeUseCase(code)
+            )
+        }
+    }
+
     override fun emitEffect(effect: Effect) {
         when (effect) {
             is HomeEffect.SetDate -> {
@@ -143,7 +154,6 @@ class HomeViewModel @Inject constructor(
 
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
         viewModelScope.launch {
-            backgroundImageUri.value = homeAction.uri
             emitEffect(HomeEffect.ProcessImage(homeAction.uri))
         }
 
@@ -155,6 +165,7 @@ class HomeViewModel @Inject constructor(
                     imageFile = file ?: return@launch
                 ), useLoading = false
             )?.let {
+                backgroundImageUri.value = it.imagePath
                 emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
             }
         }
@@ -166,8 +177,8 @@ class HomeViewModel @Inject constructor(
                 dialogData = DialogData.Builder()
                     .title("이미지를 삭제하시겠습니까?")
                     .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
-                    .titleTextSize(20.sp)
-                    .bodyTextSize(16.sp)
+                    .titleTextStyle(TypographyEnum.Heading4)
+                    .bodyTextStyle(TypographyEnum.Body2)
                     .reversed(true)
                     .cancelText("삭제하기")
                     .okText("취소")

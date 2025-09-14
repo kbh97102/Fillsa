@@ -1,11 +1,8 @@
 package com.arakene.presentation.ui.common
 
-import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -19,13 +16,13 @@ import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.getStyle
 
 
 @Composable
@@ -39,14 +36,18 @@ fun DialogWIthImage(
     negativeText: String = "취소",
     negativeOnClick: () -> Unit = {},
     reversed: Boolean = false,
-    titleTextSize: TextUnit = 16.sp,
+    titleTextStyle: TypographyEnum = TypographyEnum.Subtitle1,
+    singleButton: Boolean = false
 ) {
 
     Dialog(
         onDismissRequest = {
             dismiss()
         },
-        properties = DialogProperties(usePlatformDefaultWidth = false, dismissOnClickOutside = false)
+        properties = DialogProperties(
+            usePlatformDefaultWidth = false,
+            dismissOnClickOutside = false
+        )
     ) {
 
         Column(
@@ -59,11 +60,15 @@ fun DialogWIthImage(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
-            Image(painter = painterResource(drawableId), contentDescription = null, modifier = Modifier.padding(vertical = 10.dp))
+            Image(
+                painter = painterResource(drawableId),
+                contentDescription = null,
+                modifier = Modifier.padding(vertical = 10.dp)
+            )
 
             Text(
                 title,
-                style = FillsaTheme.typography.subtitle1.copy(fontSize = titleTextSize),
+                style = FillsaTheme.typography.getStyle(titleTextStyle),
                 color = colorResource(R.color.gray_700),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -83,50 +88,23 @@ fun DialogWIthImage(
                 )
             }
 
-            Row(
-                modifier = Modifier.padding(top = 24.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                // TODO: 이거 리스트로 관리하는 방법도 있긴한데 그건 weight에서 문제가 생김 , 다른방법 없나?
-                if (!reversed) {
-                    NegativeButton(
-                        modifier = Modifier.weight(1f),
-                        text = negativeText,
-                        onClick = {
-                            negativeOnClick()
-                            dismiss()
-                        }
-                    )
-
-                    PositiveButton(
-                        modifier = Modifier.weight(1f),
-                        text = positiveText,
-                        onClick = {
-                            positiveOnClick()
-                            dismiss()
-                        }
-                    )
-                } else {
-                    PositiveButton(
-                        modifier = Modifier.weight(1f),
-                        text = negativeText,
-                        onClick = {
-                            negativeOnClick()
-                            dismiss()
-                        }
-                    )
-
-                    NegativeButton(
-                        modifier = Modifier.weight(1f),
-                        text = positiveText,
-                        onClick = {
-                            positiveOnClick()
-                            dismiss()
-                        }
-                    )
-                }
-
+            if (singleButton) {
+                DialogSingleButton(
+                    modifier = Modifier.padding(top = 44.dp),
+                    buttonText = positiveText,
+                    onClick = positiveOnClick,
+                    dismiss = dismiss,
+                )
+            } else {
+                DialogTwoButton(
+                    reversed,
+                    negativeOnClick = negativeOnClick,
+                    positiveOnClick = positiveOnClick,
+                    dismiss = dismiss,
+                    negativeText = negativeText,
+                    positiveText = positiveText,
+                    modifier = Modifier.padding(top = 44.dp)
+                )
             }
 
         }
