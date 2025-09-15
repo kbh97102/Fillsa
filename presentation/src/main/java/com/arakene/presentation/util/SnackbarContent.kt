@@ -21,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -75,21 +76,16 @@ fun SnackbarContent(
 
         Text(
             message,
-<<<<<<< HEAD
-            style = FillsaTheme.typography.body2,
             color = FillsaTheme.colorScheme.onToastMessage1,
-            modifier = Modifier.padding(start = 8.dp)
-=======
+            modifier = Modifier.padding(start = 8.dp),
             style = if (multipleLine) {
                 FillsaTheme.typography.body3
             } else {
                 FillsaTheme.typography.body2
             },
-            color = Color.White,
             onTextLayout = {
                 multipleLine = it.lineCount > 1
             }
->>>>>>> 09766da6bde544d2e5e1020a738f7290134ecf67
         )
 
     }
