@@ -3,7 +3,6 @@ package com.arakene.presentation.ui.common
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -31,6 +30,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.noEffectClickable
@@ -39,7 +39,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun IntroduceView(
     navigate: Navigate,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val pagerState = rememberPagerState { 3 }
@@ -55,7 +56,7 @@ fun IntroduceView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(FillsaTheme.colorScheme.background)
+            .background(if (darkMode) colorResource(R.color.gray_700) else Color.White)
     ) {
 
         // Skip
