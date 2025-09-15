@@ -4,13 +4,20 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarVisuals
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,9 +29,24 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun SnackbarContent(
-    message: String,
-    displayIcon: Boolean = true
+    snackBarData: SnackbarVisuals
 ) {
+
+    val message by remember(snackBarData) {
+        mutableStateOf(
+            (snackBarData as? CustomSnackbarVisuals)?.message ?: snackBarData.message
+        )
+    }
+
+    val displayIcon by remember(snackBarData) {
+        mutableStateOf(
+            (snackBarData as? CustomSnackbarVisuals)?.displayIcon ?: true
+        )
+    }
+
+    var multipleLine by remember {
+        mutableStateOf(false)
+    }
 
     Row(
         modifier = Modifier
@@ -47,13 +69,27 @@ fun SnackbarContent(
             ) {
                 Image(painter = painterResource(R.drawable.icn_check), contentDescription = null)
             }
+
+            Spacer(Modifier.width(8.dp))
         }
 
         Text(
             message,
+<<<<<<< HEAD
             style = FillsaTheme.typography.body2,
             color = FillsaTheme.colorScheme.onToastMessage1,
             modifier = Modifier.padding(start = 8.dp)
+=======
+            style = if (multipleLine) {
+                FillsaTheme.typography.body3
+            } else {
+                FillsaTheme.typography.body2
+            },
+            color = Color.White,
+            onTextLayout = {
+                multipleLine = it.lineCount > 1
+            }
+>>>>>>> 09766da6bde544d2e5e1020a738f7290134ecf67
         )
 
     }
@@ -65,6 +101,14 @@ fun SnackbarContent(
 @Composable
 private fun SnackbarContentPreview() {
     SnackbarContent(
-        message = "복사"
+        snackBarData = CustomSnackbarVisuals(message = "test")
+    )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TwoLinePreview() {
+    SnackbarContent(
+        snackBarData = CustomSnackbarVisuals("veryLongTextveryLongTextveryLongTextveryLongTextveryLongTextveryLongText")
     )
 }

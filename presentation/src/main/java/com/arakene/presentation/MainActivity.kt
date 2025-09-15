@@ -124,7 +124,9 @@ class MainActivity : ComponentActivity() {
                                 modifier = Modifier.weight(1f),
                                 snackbarHost = {
                                     SnackbarHost(snackbarHostState) {
-                                        SnackbarContent(message = it.visuals.message)
+                                        SnackbarContent(
+                                            snackBarData = it.visuals
+                                        )
                                     }
                                 },
                                 bottomBar = {

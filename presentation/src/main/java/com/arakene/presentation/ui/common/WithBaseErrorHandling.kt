@@ -23,6 +23,7 @@ import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.showCustomSnackbar
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
 
@@ -69,7 +70,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
 
                     1002 -> {
                         scope.launch {
-                            snackBar.showSnackbar("탈퇴 처리된 계정이에요.")
+                            snackBar.showCustomSnackbar("탈퇴 처리된 계정이에요.", displayIcon = false)
                         }
                         moveScreen?.navigate(Screens.Login())
                     }
@@ -135,14 +136,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                     }
 
                     else -> {
-                        dialogDataHolder.apply {
-                            data = DialogData.Builder()
-                                .singleButton(true)
-                                .title("요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.")
-                                .build()
-                        }.run {
-                            show = true
-                        }
+                        snackBar.showCustomSnackbar("요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요.", displayIcon = false)
                     }
                 }
             }

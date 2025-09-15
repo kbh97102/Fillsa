@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -31,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.min
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.graphics.drawable.toBitmap
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -126,27 +128,13 @@ fun SingleLineAdSection(
 
 @Composable
 fun SingleLineAdContent(nativeAd: NativeAd, modifier: Modifier = Modifier) {
-    CustomNativeAdView(modifier = modifier.fillMaxWidth(), nativeAd = nativeAd) {
+    CustomNativeAdView(modifier = modifier.fillMaxWidth().heightIn(min = 32.dp), nativeAd = nativeAd) {
 
         Row(
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
             AdAttributeIcon()
-
-
-            nativeAd.icon?.let { icon ->
-                Spacer(Modifier.width(6.dp))
-                NativeAdIconView {
-                    icon.drawable?.toBitmap()?.let { bitmap ->
-                        Image(
-                            bitmap = bitmap.asImageBitmap(),
-                            "ad icon",
-                            modifier = Modifier.size(32.dp)
-                        )
-                    }
-                }
-            }
 
             nativeAd.headline?.let {
                 Spacer(Modifier.width(6.dp))
