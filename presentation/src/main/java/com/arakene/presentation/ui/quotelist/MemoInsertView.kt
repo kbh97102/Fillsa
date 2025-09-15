@@ -4,6 +4,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -44,6 +46,7 @@ fun MemoInsertView(
     savedMemo: String,
     memberQuoteSeq: String,
     popBackStack: (String) -> Unit,
+    darkMode: Boolean = IsDarkMode.current,
     viewModel: ListViewModel = hiltViewModel()
 ) {
 
@@ -83,7 +86,13 @@ fun MemoInsertView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(
+                if (darkMode) {
+                    colorResource(R.color.gray_700)
+                } else {
+                    Color.White
+                }
+            )
             .padding(horizontal = 15.dp)
             .noEffectClickable {
                 typingSectionFocusRequester.requestFocus()
@@ -96,7 +105,8 @@ fun MemoInsertView(
             contentDescription = null,
             modifier = Modifier
                 .padding(vertical = 9.dp)
-                .noEffectClickable { viewModel.handleContract(CommonAction.PopBackStack) }
+                .noEffectClickable { viewModel.handleContract(CommonAction.PopBackStack) },
+            colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
         )
 
         Column(modifier = Modifier.padding(horizontal = 5.dp)) {
@@ -109,24 +119,32 @@ fun MemoInsertView(
                 onValueChange = {
                     memo = it
                 },
-                textStyle = FillsaTheme.typography.body1,
+                textStyle = FillsaTheme.typography.body1
+                    .copy(
+                        color = FillsaTheme.colorScheme.onBackground1
+                    ),
                 colors = TextFieldDefaults.colors(
                     unfocusedPlaceholderColor = Color.Transparent,
                     focusedPlaceholderColor = Color.Transparent,
                     focusedContainerColor = Color.Transparent,
                     unfocusedContainerColor = Color.Transparent,
-                    focusedTextColor = black,
-                    unfocusedTextColor = black,
+                    focusedTextColor = Color.Transparent,
+                    unfocusedTextColor = Color.Transparent,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 placeholder = {
                     Text(
                         stringResource(R.string.insert_memo),
-                        style = FillsaTheme.typography.body1,
-                        color = colorResource(R.color.gray_ba)
+                        style = FillsaTheme.typography.body1.copy(
+                            color = if (darkMode) {
+                                colorResource(R.color.gray_400)
+                            } else {
+                                colorResource(R.color.gray_ba)
+                            }
+                        ),
                     )
-                }
+                },
             )
 
             Button(

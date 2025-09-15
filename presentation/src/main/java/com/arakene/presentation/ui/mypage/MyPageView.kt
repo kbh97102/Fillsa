@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -24,10 +26,11 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
-import com.arakene.presentation.util.action.MyPageAction
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.MyPageViewModel
 
@@ -36,6 +39,7 @@ fun MyPageView(
     navigate: Navigate,
     popBackStack: () -> Unit,
     modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
 
@@ -65,7 +69,7 @@ fun MyPageView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(FillsaTheme.colorScheme.background)
             .padding(horizontal = 20.dp)
     ) {
         // LOGO
@@ -75,7 +79,13 @@ fun MyPageView(
                 .padding(vertical = 10.dp), horizontalArrangement = Arrangement.Center
         ) {
             Image(
-                painterResource(R.drawable.icn_logo), contentDescription = null, modifier = Modifier
+                if (darkMode) {
+                    painterResource(R.drawable.icn_logo_dark)
+                } else {
+                    painterResource(R.drawable.icn_logo)
+                },
+                contentDescription = null,
+                modifier = Modifier
                     .noEffectClickable {
                         viewModel.handleContract(CommonEffect.Move(Screens.Home()))
                     })
@@ -112,14 +122,33 @@ fun MyPageView(
             modifier = Modifier.padding(top = 12.dp)
         )
 
+        var test by remember {
+            mutableStateOf(false)
+        }
+
         // Theme
         // version 2에서 기능
-//        MyPageItem(
-//            image = painterResource(R.drawable.icn_theme),
-//            text = stringResource(R.string.theme),
-//            onClick = {},
-//            modifier = Modifier.padding(top = 20.dp)
-//        )
+        MyPageItem(
+            image = painterResource(R.drawable.icn_theme),
+            text = stringResource(R.string.theme),
+            onClick = {
+
+                test = true
+
+            },
+            modifier = Modifier.padding(top = 12.dp)
+        )
+
+        if (test) {
+            ThemeDialog(
+                dismiss = {
+                    test = false
+                },
+                changeThemeToDarkMode = {
+                    viewModel.testMethod(it)
+                }
+            )
+        }
 
         // version + logout
         MyPageBottomButtonSection(

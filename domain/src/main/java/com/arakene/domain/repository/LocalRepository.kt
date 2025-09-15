@@ -47,4 +47,7 @@ interface LocalRepository {
     suspend fun clear()
 
     suspend fun deleteQuote(seq: Int)
+
+    suspend fun setIsDarkMode(isDarkMode: Boolean)
+    fun getIsDarkMode(): Flow<Boolean>
 }

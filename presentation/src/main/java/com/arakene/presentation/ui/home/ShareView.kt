@@ -28,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.rememberGraphicsLayer
@@ -41,9 +42,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.action.ShareAction
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.getBackgroundColor
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.saveBitmapToCache
 import com.arakene.presentation.util.saveBitmapToGallery
@@ -55,7 +58,8 @@ fun ShareView(
     quote: String,
     author: String,
     popBackStack: () -> Unit,
-    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
+    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
+    darkMode: Boolean = IsDarkMode.current
 ) {
     val viewModel: ShareViewModel = hiltViewModel()
 
@@ -89,7 +93,7 @@ fun ShareView(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Color.White)
+                    .background(getBackgroundColor())
                     .padding(horizontal = 15.dp, vertical = 9.dp)
             ) {
 
@@ -98,26 +102,29 @@ fun ShareView(
                     contentDescription = null,
                     modifier = Modifier.noEffectClickable {
                         popBackStack()
-                    })
+                    },
+                    colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
+
+                )
 
             }
 
             Column(
                 Modifier
                     .weight(1f)
-                    .background(colorResource(R.color.white)),
+                    .background(getBackgroundColor()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
                 Text(
                     stringResource(R.string.share_title),
                     style = FillsaTheme.typography.heading4,
-                    color = colorResource(R.color.gray_700)
+                    color = FillsaTheme.colorScheme.onBackground1
                 )
                 Text(
                     stringResource(R.string.share_subtitle),
                     style = FillsaTheme.typography.body2,
-                    color = colorResource(R.color.gray_700)
+                    color = FillsaTheme.colorScheme.onBackground1
                 )
 
                 HorizontalPager(
@@ -218,7 +225,8 @@ private fun ShareBottomSection(
     saveOnClick: () -> Unit,
     copyOnClick: () -> Unit,
     shareOnClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     Row(
@@ -227,21 +235,33 @@ private fun ShareBottomSection(
         horizontalArrangement = Arrangement.spacedBy(50.dp)
     ) {
         ShareButton(
-            image = painterResource(R.drawable.icn_save_black),
+            image = painterResource(
+                if (darkMode) {
+                    R.drawable.icn_savel_dark
+                } else {
+                    R.drawable.icn_save_black
+                }
+            ),
             text = stringResource(R.string.download),
             onClick = {
                 saveOnClick()
             },
-            textColor = colorResource(R.color.gray_700)
+            textColor = FillsaTheme.colorScheme.onBackground1
         )
 
         ShareButton(
-            image = painterResource(R.drawable.icn_copy_black),
+            image = painterResource(
+                if (darkMode) {
+                    R.drawable.icn_copy_dark
+                } else {
+                    R.drawable.icn_copy_black
+                }
+            ),
             text = stringResource(R.string.copy),
             onClick = {
                 copyOnClick()
             },
-            textColor = colorResource(R.color.gray_700)
+            textColor = FillsaTheme.colorScheme.onBackground1
         )
 
         ShareButton(
@@ -250,7 +270,7 @@ private fun ShareBottomSection(
             onClick = {
                 shareOnClick()
             },
-            textColor = colorResource(R.color.gray_700)
+            textColor = FillsaTheme.colorScheme.onBackground1
         )
     }
 }
@@ -274,7 +294,9 @@ private fun ShareButton(
             contentAlignment = Alignment.Center
         ) {
 
-            Image(painter = image, contentDescription = null)
+            Image(
+                painter = image, contentDescription = null
+            )
         }
 
         Text(

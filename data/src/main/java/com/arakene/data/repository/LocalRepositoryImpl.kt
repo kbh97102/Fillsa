@@ -13,6 +13,7 @@ import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
 import com.arakene.data.util.DataStoreKey.ALARM_KEY
 import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
+import com.arakene.data.util.DataStoreKey.IS_DARK_MODE
 import com.arakene.data.util.DataStoreKey.PERMISSION_REQUESTED
 import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
 import com.arakene.data.util.DataStoreKey.SHARE_DESCRIPTION
@@ -32,6 +33,18 @@ class LocalRepositoryImpl @Inject constructor(
     private val tokenProvider: TokenProvider,
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
+
+    override suspend fun setIsDarkMode(isDarkMode: Boolean) {
+        dataStore.edit {
+            it[IS_DARK_MODE] = isDarkMode
+        }
+    }
+
+    override fun getIsDarkMode(): Flow<Boolean> {
+        return dataStore.data.map {
+            it[IS_DARK_MODE] ?: false
+        }
+    }
 
     override suspend fun setShareDescriptionVisible(boolean: Boolean) {
         dataStore.edit {

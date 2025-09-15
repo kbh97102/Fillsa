@@ -10,7 +10,9 @@ import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.TextStyle
+import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTypo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.channelFlow
@@ -36,6 +38,8 @@ suspend fun SnackbarHostState.showCustomSnackbar(
     )
 }
 
+@Composable
+fun getBackgroundColor(darkMode: Boolean = IsDarkMode.current) = if (darkMode) colorResource(R.color.gray_700) else colorResource(R.color.white)
 
 fun String.toLocalDate(defaultValue: LocalDate = LocalDate.now()): LocalDate {
     // 날짜 파싱을 위한 포맷터

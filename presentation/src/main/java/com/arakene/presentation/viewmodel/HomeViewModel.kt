@@ -206,6 +206,7 @@ class HomeViewModel @Inject constructor(
                     // TODO: 이 구조가 과연 좋은거일까? , onClick의 시점, textStyle도 지정하고싶긴한데 viewModel에서 composable함수 참조 해야함
                     DialogData.Builder()
                         .title("로그인 후 사용하실 수 있습니다.")
+                        .okText("로그인 하기")
                         .onClick {
                             emitEffect(CommonEffect.Move(Screens.Login(isOnBoarding = true)))
                         }

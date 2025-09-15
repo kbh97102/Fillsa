@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.dropShadow
 import com.arakene.presentation.util.noEffectClickable
 
@@ -35,24 +37,40 @@ fun MyPageLoginSection(
     userName: String,
     imagePath: String,
     loginEvent: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
-    if (isLogged) {
+    val shadowModifier = if (darkMode) {
+        Modifier
+    } else {
+        Modifier.dropShadow(
+            shape = MaterialTheme.shapes.medium,
+            blur = 16.dp,
+            spread = (-3).dp,
+            color = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+        )
+    }
 
+    if (isLogged) {
         Row(
             modifier = modifier
-                .dropShadow(
-                    shape = MaterialTheme.shapes.medium,
-                    blur = 16.dp,
-                    spread = (-3).dp,
-                    color = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+                .then(shadowModifier)
+                .border(
+                    1.dp, color = if (darkMode) {
+                        colorResource(R.color.gray_500)
+                    } else {
+                        colorResource(R.color.purple02)
+                    }, shape = MaterialTheme.shapes.medium
                 )
         ) {
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(color = Color.White, shape = MaterialTheme.shapes.medium)
+                    .background(
+                        color = FillsaTheme.colorScheme.backgroundContainer,
+                        shape = MaterialTheme.shapes.medium
+                    )
                     .padding(horizontal = 20.dp, vertical = 15.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -67,7 +85,7 @@ fun MyPageLoginSection(
                 Text(
                     userName,
                     style = FillsaTheme.typography.subtitle1,
-                    color = colorResource(R.color.gray_700),
+                    color = FillsaTheme.colorScheme.onBackground1,
                     maxLines = 1,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
@@ -83,12 +101,7 @@ fun MyPageLoginSection(
                 .noEffectClickable {
                     loginEvent()
                 }
-                .dropShadow(
-                    shape = MaterialTheme.shapes.medium,
-                    blur = 16.dp,
-                    spread = (-3).dp,
-                    color = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
-                ), horizontalAlignment = Alignment.CenterHorizontally
+                .then(shadowModifier), horizontalAlignment = Alignment.CenterHorizontally
         ) {
 
             Row(

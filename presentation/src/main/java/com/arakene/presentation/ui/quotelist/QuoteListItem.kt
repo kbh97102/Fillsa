@@ -134,7 +134,7 @@ private fun QuoteListItemHeader(data: MemberQuotesResponse) {
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.tertiary,
+                color = FillsaTheme.colorScheme.secondaryContainer,
             )
             .padding(vertical = 12.dp, horizontal = 27.dp),
         horizontalArrangement = Arrangement.Center
