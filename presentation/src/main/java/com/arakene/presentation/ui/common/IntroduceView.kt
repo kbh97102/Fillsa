@@ -33,6 +33,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.getBackgroundColor
 import com.arakene.presentation.util.noEffectClickable
 import kotlinx.coroutines.launch
 
@@ -40,7 +41,6 @@ import kotlinx.coroutines.launch
 fun IntroduceView(
     navigate: Navigate,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val pagerState = rememberPagerState { 3 }
@@ -56,7 +56,7 @@ fun IntroduceView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(if (darkMode) colorResource(R.color.gray_700) else Color.White)
+            .background(getBackgroundColor())
     ) {
 
         // Skip

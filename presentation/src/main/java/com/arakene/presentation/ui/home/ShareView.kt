@@ -3,7 +3,6 @@ package com.arakene.presentation.ui.home
 import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -43,9 +42,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.action.ShareAction
 import com.arakene.presentation.util.copyToClipboard
+import com.arakene.presentation.util.getBackgroundColor
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.saveBitmapToCache
 import com.arakene.presentation.util.saveBitmapToGallery
@@ -57,7 +58,8 @@ fun ShareView(
     quote: String,
     author: String,
     popBackStack: () -> Unit,
-    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
+    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
+    darkMode: Boolean = IsDarkMode.current
 ) {
     val viewModel: ShareViewModel = hiltViewModel()
 
@@ -91,7 +93,7 @@ fun ShareView(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(FillsaTheme.colorScheme.background)
+                    .background(getBackgroundColor())
                     .padding(horizontal = 15.dp, vertical = 9.dp)
             ) {
 
@@ -110,7 +112,7 @@ fun ShareView(
             Column(
                 Modifier
                     .weight(1f)
-                    .background(FillsaTheme.colorScheme.background),
+                    .background(getBackgroundColor()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
