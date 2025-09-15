@@ -5,9 +5,9 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -20,6 +20,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.MyPageScreens
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.viewmodel.MyPageViewModel
@@ -29,6 +30,7 @@ fun NoticeView(
     onBackPress: () -> Unit,
     navigate: Navigate,
     modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
 
@@ -55,11 +57,17 @@ fun NoticeView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.secondary)
+            .background(
+                if (darkMode) {
+                    colorResource(R.color.gray_600)
+                } else {
+                    colorResource(R.color.yellow01)
+                }
+            )
     ) {
 
         HeaderSection(
-            modifier = Modifier.background(MaterialTheme.colorScheme.primary),
+            modifier = Modifier.background(FillsaTheme.colorScheme.background),
             text = stringResource(R.string.notice),
             onBackPress = { viewModel.handleContract(CommonAction.PopBackStack) }
         )

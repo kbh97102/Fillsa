@@ -4,6 +4,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -28,10 +29,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.viewinterop.AndroidView
@@ -56,21 +55,22 @@ fun SingleLineAdSection(
     currentRoute: String,
     modifier: Modifier = Modifier,
     refresh: Boolean = false,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val viewModel: AdViewModel = hiltViewModel()
 
     val adState by viewModel.adState.collectAsStateWithLifecycle()
 
-    val backgroundColor by remember(currentRoute) {
+    val backgroundColor by remember(currentRoute, darkMode) {
         mutableIntStateOf(
             when {
                 currentRoute.contains(MyPageScreens.Notice.routeString) || currentRoute.contains(
                     MyPageScreens.NoticeDetail().routeString
                 )
-                    -> R.color.yellow01
+                    -> if (darkMode) R.color.gray_600 else R.color.yellow01
 
-                else -> R.color.primary
+                else -> if (darkMode) R.color.gray_700 else R.color.primary
             }
         )
     }
@@ -142,7 +142,7 @@ fun SingleLineAdContent(nativeAd: NativeAd, modifier: Modifier = Modifier) {
                     Text(
                         modifier = Modifier,
                         text = it,
-                        color = Color.Black,
+                        color = FillsaTheme.colorScheme.onBackground1,
                         textAlign = TextAlign.Center,
                         style = FillsaTheme.typography.buttonXSmallNormal
                     )
@@ -200,10 +200,16 @@ fun CustomNativeAdView(
 }
 
 @Composable
-private fun AdAttributeIcon(modifier: Modifier = Modifier) {
+private fun AdAttributeIcon(
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
+) {
     Box(
         modifier
-            .background(colorResource(R.color.gray_700), shape = RoundedCornerShape(100))
+            .background(
+                colorResource(if (darkMode) R.color.purple01 else R.color.gray_700),
+                shape = RoundedCornerShape(100)
+            )
             .padding(horizontal = 6.dp)
     ) {
         Text("AD", style = FillsaTheme.typography.body4, color = Color.White)

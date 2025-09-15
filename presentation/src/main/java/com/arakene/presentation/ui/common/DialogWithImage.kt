@@ -55,7 +55,7 @@ fun DialogWIthImage(
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
                 .clip(MaterialTheme.shapes.small)
-                .background(Color.White)
+                .background(FillsaTheme.colorScheme.backgroundContainer)
                 .padding(12.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -69,7 +69,7 @@ fun DialogWIthImage(
             Text(
                 title,
                 style = FillsaTheme.typography.getStyle(titleTextStyle),
-                color = colorResource(R.color.gray_700),
+                color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp),
@@ -80,7 +80,7 @@ fun DialogWIthImage(
                 Text(
                     body,
                     style = FillsaTheme.typography.body2,
-                    color = colorResource(R.color.gray_700),
+                    color = FillsaTheme.colorScheme.onBackground1,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 12.dp),

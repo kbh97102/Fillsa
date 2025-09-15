@@ -45,13 +45,13 @@ fun MyPageBottomButtonSection(
             Text(
                 stringResource(R.string.version),
                 style = FillsaTheme.typography.subtitle1,
-                color = colorResource(R.color.gray_700)
+                color = FillsaTheme.colorScheme.onBackground1
             )
 
             Text(
                 version,
                 style = FillsaTheme.typography.body2,
-                color = colorResource(R.color.gray_700)
+                color = FillsaTheme.colorScheme.onBackground1
             )
         }
 
@@ -59,7 +59,7 @@ fun MyPageBottomButtonSection(
             Text(
                 stringResource(R.string.logout),
                 style = FillsaTheme.typography.subtitle1,
-                color = colorResource(R.color.gray_700),
+                color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier
                     .padding(top = 13.dp)
                     .noEffectClickable { logout() }

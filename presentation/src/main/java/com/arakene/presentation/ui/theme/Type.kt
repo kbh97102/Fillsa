@@ -9,6 +9,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.arakene.presentation.R
+import com.arakene.presentation.util.FillsaColorScheme
 
 val pretendard = FontFamily(
     Font(R.font.pretendard_400, FontWeight.Normal, FontStyle.Normal),
@@ -47,8 +48,16 @@ object FillsaTheme {
     val typography: FillsaTypo
         @Composable
         get() = LocalFillsaTypo.current
+
+    val colorScheme: FillsaColorScheme
+        @Composable
+        get() = LocalFillsaColorScheme.current
 }
 
 val LocalFillsaTypo = staticCompositionLocalOf {
     FillsaTypo()
+}
+
+val LocalFillsaColorScheme = staticCompositionLocalOf {
+    FillsaColorScheme()
 }

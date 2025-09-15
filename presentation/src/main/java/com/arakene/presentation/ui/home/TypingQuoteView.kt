@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
@@ -27,7 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
@@ -48,11 +49,12 @@ import com.arakene.presentation.ui.theme.defaultButtonColors
 import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.TypingEffect
+import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
@@ -63,7 +65,8 @@ fun TypingQuoteView(
     navigate: (Screens) -> Unit,
     backOnClick: () -> Unit,
     viewModel: TypingViewModel = hiltViewModel(),
-    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current
+    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -157,8 +160,16 @@ fun TypingQuoteView(
 
     Column(
         modifier = Modifier
-            .background(Color.White)
-    ) {
+            .background(
+                if (darkMode) {
+                    colorResource(R.color.gray_700)
+                } else {
+                    colorResource(R.color.white)
+                }
+            )
+            .noEffectClickable {
+                focusManager.clearFocus()
+            }) {
         TypingQuoteTopSection(
             locale = localeType,
             setLocale = {
@@ -289,12 +300,13 @@ private fun TypingQuoteBottomSection(
             share = shareOnClick,
             isLike = like,
             setIsLike = setLike,
+            darkModeColor = R.color.white
         )
 
         Button(
             onClick = saveOnClick,
             contentPadding = PaddingValues(vertical = 8.dp, horizontal = 12.dp),
-            shape = MaterialTheme.shapes.small,
+            shape = RoundedCornerShape(8.dp),
             border = BorderStroke(1.dp, color = colorResource(R.color.gray_700)),
             colors = MaterialTheme.colorScheme.defaultButtonColors
         ) {
@@ -333,7 +345,9 @@ private fun TypingQuoteTopSection(
             contentDescription = null,
             modifier = Modifier.noEffectClickable {
                 onBackClick()
-            })
+            },
+            colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
+        )
 
         LocaleSwitch(
             selected = locale,

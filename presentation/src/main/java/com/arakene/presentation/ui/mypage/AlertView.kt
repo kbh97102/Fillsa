@@ -15,19 +15,18 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -39,10 +38,11 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.MyPageViewModel
 
@@ -52,7 +52,8 @@ fun AlertView(
     modifier: Modifier = Modifier,
     popBackStack: () -> Unit,
     viewModel: MyPageViewModel = hiltViewModel(),
-    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val context = LocalContext.current
@@ -119,7 +120,7 @@ fun AlertView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(FillsaTheme.colorScheme.background)
     ) {
         HeaderSection(
             modifier = Modifier.padding(horizontal = 20.dp),
@@ -141,7 +142,13 @@ fun AlertView(
                 modifier = Modifier
                     .padding(top = 50.dp)
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.secondary)
+                    .background(
+                        if (darkMode) {
+                            colorResource(R.color.gray_600)
+                        } else {
+                            colorResource(R.color.yellow01)
+                        }
+                    )
                     .padding(horizontal = 20.dp, vertical = 19.dp)
                     .noEffectClickable {
                         dialogDataHolder.data = DialogData.Builder()
@@ -164,10 +171,16 @@ fun AlertView(
                 Text(
                     stringResource(R.string.resign),
                     style = FillsaTheme.typography.body2,
-                    color = colorResource(R.color.gray_700)
+                    color = FillsaTheme.colorScheme.onBackground1
                 )
 
-                Image(painter = painterResource(R.drawable.icn_sign_out), contentDescription = null)
+                Image(
+                    painter = painterResource(R.drawable.icn_sign_out),
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(
+                        FillsaTheme.colorScheme.onBackground1
+                    )
+                )
 
             }
         }
