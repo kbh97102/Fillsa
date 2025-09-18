@@ -24,7 +24,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -137,7 +137,10 @@ class MainActivity : ComponentActivity() {
                                         displayBottomBar = displayBottomBar
                                     )
                                 },
-                                containerColor = FillsaTheme.colorScheme.background,
+                                containerColor = if (darkMode) colorResource(R.color.gray_700) else if (currentDestination?.destination?.route?.contains(
+                                        "Splash"
+                                    ) == true
+                                ) colorResource(R.color.white) else colorResource(R.color.primary),
                                 contentWindowInsets = if (shouldShowAd) {
                                     WindowInsets.statusBars
                                 } else {
