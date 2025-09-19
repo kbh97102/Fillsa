@@ -63,7 +63,7 @@ fun MyPageView(
 
     val imagePath by viewModel.imageUri.collectAsState("")
 
-    val currentDarkModeType by viewModel.currentDarkModeType.collectAsState(DarkModeType.LIGHT)
+    val currentDarkModeType by viewModel.currentDarkModeType.collectAsState(DarkModeType.SYSTEM)
 
     BackHandler {
         popBackStack()

@@ -45,7 +45,7 @@ class LocalRepositoryImpl @Inject constructor(
         return dataStore.data.map {
             it[DARK_MODE_TYPE]?.let { local ->
                 DarkModeType.valueOf(local)
-            } ?: DarkModeType.LIGHT
+            } ?: DarkModeType.SYSTEM
         }
     }
 

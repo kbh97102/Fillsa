@@ -69,7 +69,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            val darkModeType by mainActivityViewModel.getDarkModeType().collectAsState(DarkModeType.LIGHT)
+            val darkModeType by mainActivityViewModel.getDarkModeType().collectAsState(DarkModeType.SYSTEM)
 
             val systemDarkMode = isSystemInDarkTheme()
 
