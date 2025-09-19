@@ -14,5 +14,5 @@ object DataStoreKey {
     val TOKEN_EXPIRED = stringPreferencesKey("token_expired")
     val PERMISSION_REQUESTED = booleanPreferencesKey("PERMISSION_REQUESTED")
     val SHARE_DESCRIPTION = booleanPreferencesKey("SHARE_DESCRIPTION")
-    val IS_DARK_MODE = booleanPreferencesKey("IS_DARK_MODE")
+    val DARK_MODE_TYPE = stringPreferencesKey("DARK_MODE_TYPE")
 }
