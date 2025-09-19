@@ -13,7 +13,7 @@ import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
 import com.arakene.data.util.DataStoreKey.ALARM_KEY
 import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
-import com.arakene.data.util.DataStoreKey.IS_DARK_MODE
+import com.arakene.data.util.DataStoreKey.DARK_MODE_TYPE
 import com.arakene.data.util.DataStoreKey.PERMISSION_REQUESTED
 import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
 import com.arakene.data.util.DataStoreKey.SHARE_DESCRIPTION
@@ -22,6 +22,7 @@ import com.arakene.data.util.toDomain
 import com.arakene.data.util.toEntity
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
@@ -34,15 +35,17 @@ class LocalRepositoryImpl @Inject constructor(
     private val dao: LocalQuoteInfoDao
 ) : LocalRepository {
 
-    override suspend fun setIsDarkMode(isDarkMode: Boolean) {
+    override suspend fun setDarkModeType(darkMode: DarkModeType) {
         dataStore.edit {
-            it[IS_DARK_MODE] = isDarkMode
+            it[DARK_MODE_TYPE] = darkMode.name
         }
     }
 
-    override fun getIsDarkMode(): Flow<Boolean> {
+    override fun getDarkModeType(): Flow<DarkModeType> {
         return dataStore.data.map {
-            it[IS_DARK_MODE] ?: false
+            it[DARK_MODE_TYPE]?.let { local ->
+                DarkModeType.valueOf(local)
+            } ?: DarkModeType.LIGHT
         }
     }
 

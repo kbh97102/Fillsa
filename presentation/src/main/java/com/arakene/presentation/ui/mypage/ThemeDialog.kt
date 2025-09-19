@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui.mypage
 
-import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,20 +27,20 @@ import androidx.compose.ui.window.DialogProperties
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.PositiveButton
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.domain.util.DarkModeType
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun ThemeDialog(
     dismiss: () -> Unit,
-    changeThemeToDarkMode: (Boolean) -> Unit,
+    currentDarkModeType: DarkModeType,
+    changeThemeToDarkMode: (DarkModeType) -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
-    val darkMode = IsDarkMode.current
-
-    var darkModeState by remember {
-        mutableStateOf(darkMode)
+    var localDarkModeType by remember(currentDarkModeType) {
+        mutableStateOf(currentDarkModeType)
     }
 
     Dialog(
@@ -65,9 +64,9 @@ fun ThemeDialog(
         ) {
             ThemeItem(
                 "라이트",
-                darkModeState == false,
+                localDarkModeType == DarkModeType.LIGHT,
                 setSelected = {
-                    darkModeState = false
+                    localDarkModeType = DarkModeType.LIGHT
                 },
                 modifier = Modifier
             )
@@ -76,10 +75,20 @@ fun ThemeDialog(
 
             ThemeItem(
                 "다크",
-                darkModeState == true,
+                localDarkModeType == DarkModeType.DARK,
                 setSelected = {
-                    darkModeState = true
-                }
+                    localDarkModeType = DarkModeType.DARK
+                },
+            )
+
+            Spacer(Modifier.height(15.dp))
+
+            ThemeItem(
+                "시스템",
+                localDarkModeType == DarkModeType.SYSTEM,
+                setSelected = {
+                    localDarkModeType = DarkModeType.SYSTEM
+                },
             )
 
             Spacer(Modifier.height(24.dp))
@@ -88,7 +97,7 @@ fun ThemeDialog(
                 modifier = Modifier.fillMaxWidth(),
                 text = stringResource(R.string.ok),
                 onClick = {
-                    changeThemeToDarkMode(darkModeState)
+                    changeThemeToDarkMode(localDarkModeType)
                     dismiss()
                 }
             )

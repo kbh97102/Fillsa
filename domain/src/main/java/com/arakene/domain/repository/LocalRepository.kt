@@ -2,6 +2,7 @@ package com.arakene.domain.repository
 
 import androidx.paging.PagingData
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 
@@ -48,6 +49,6 @@ interface LocalRepository {
 
     suspend fun deleteQuote(seq: Int)
 
-    suspend fun setIsDarkMode(isDarkMode: Boolean)
-    fun getIsDarkMode(): Flow<Boolean>
+    suspend fun setDarkModeType(darkMode: DarkModeType)
+    fun getDarkModeType(): Flow<DarkModeType>
 }

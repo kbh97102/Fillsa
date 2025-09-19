@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import com.arakene.domain.util.DarkModeType
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
@@ -61,6 +62,8 @@ fun MyPageView(
     val userName by viewModel.userName.collectAsState("")
 
     val imagePath by viewModel.imageUri.collectAsState("")
+
+    val currentDarkModeType by viewModel.currentDarkModeType.collectAsState(DarkModeType.LIGHT)
 
     BackHandler {
         popBackStack()
@@ -122,7 +125,7 @@ fun MyPageView(
             modifier = Modifier.padding(top = 12.dp)
         )
 
-        var test by remember {
+        var displayThemeDialog by remember {
             mutableStateOf(false)
         }
 
@@ -132,21 +135,20 @@ fun MyPageView(
             image = painterResource(R.drawable.icn_theme),
             text = stringResource(R.string.theme),
             onClick = {
-
-                test = true
-
+                displayThemeDialog = true
             },
             modifier = Modifier.padding(top = 12.dp)
         )
 
-        if (test) {
+        if (displayThemeDialog) {
             ThemeDialog(
                 dismiss = {
-                    test = false
+                    displayThemeDialog = false
                 },
                 changeThemeToDarkMode = {
-                    viewModel.testMethod(it)
-                }
+                    viewModel.setDarkModeType(it)
+                },
+                currentDarkModeType = currentDarkModeType
             )
         }
 
