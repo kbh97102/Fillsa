@@ -1,8 +1,10 @@
 package com.arakene.presentation.ui.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectDragGestures
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,7 +12,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.res.colorResource
@@ -46,7 +49,8 @@ fun DailyQuotaSection(
     before: () -> Unit,
     navigate: () -> Unit,
     date: LocalDate,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     var amount by remember {
@@ -72,12 +76,18 @@ fun DailyQuotaSection(
                     .aspectRatio(320f / 250f)
                     .shadow(
                         3.dp,
-                        shape = MaterialTheme.shapes.medium,
-                        ambientColor = colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+                        shape = RoundedCornerShape(12.dp),
+                        ambientColor = if (darkMode) {
+                            colorResource(R.color.gray_400)
+                        } else {
+                            colorResource(R.color.gray_cb).copy(alpha = 0.7f)
+                        }
                     )
                     .background(
-                        MaterialTheme.colorScheme.secondary,
-                        shape = MaterialTheme.shapes.medium
+                        color = if (darkMode) colorResource(R.color.gray_500).copy(alpha = 0.5f) else colorResource(
+                            R.color.yellow01
+                        ),
+                        shape = RoundedCornerShape(12.dp)
                     )
                     .noEffectClickable {
                         navigate()
@@ -104,7 +114,14 @@ fun DailyQuotaSection(
                 Image(
                     painter = painterResource(R.drawable.img_wise_saying_background),
                     contentDescription = null,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier.fillMaxSize(),
+                    colorFilter = ColorFilter.tint(
+                        if (darkMode) {
+                            colorResource(R.color.gray_500).copy(alpha = 0.5f)
+                        } else {
+                            colorResource(R.color.purple02).copy(alpha = 0.6f)
+                        }
+                    )
                 )
 
                 Column(
@@ -115,7 +132,7 @@ fun DailyQuotaSection(
                         modifier = Modifier.fillMaxWidth(),
                         text = text,
                         style = FillsaTheme.typography.quote,
-                        color = colorResource(R.color.gray_700),
+                        color = FillsaTheme.colorScheme.onBackground1,
                         textAlign = TextAlign.Center
                     )
 
@@ -178,6 +195,23 @@ fun DailyQuotaSection(
 @Preview(widthDp = 500, heightDp = 500, showBackground = true)
 @Composable
 private fun WiseSayingSectionPreview() {
+    FillsaTheme {
+        DailyQuotaSection(
+            text = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+            author = "jone wooden",
+            next = {},
+            before = {},
+            navigate = {},
+            date = LocalDate.now(),
+            modifier = Modifier.padding(50.dp)
+        )
+    }
+}
+
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun DarkPreview() {
     FillsaTheme {
         DailyQuotaSection(
             text = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",

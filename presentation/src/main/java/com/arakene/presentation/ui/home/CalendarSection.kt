@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
+
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -52,8 +52,8 @@ fun CalendarSection(
             .background(Color.Transparent)
             .border(
                 width = 1.dp,
-                shape = MaterialTheme.shapes.medium,
-                color = MaterialTheme.colorScheme.tertiary
+                shape = RoundedCornerShape(12.dp),
+                color = FillsaTheme.colorScheme.secondaryContainer
             )
     ) {
 
@@ -82,7 +82,7 @@ private fun CalendarTop(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.tertiary,
+                color = FillsaTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)
             )
             .padding(12.dp), verticalAlignment = Alignment.CenterVertically,
@@ -138,7 +138,9 @@ private fun CalendarBottom(
 @Preview(widthDp = 150)
 @Composable
 private fun CalendarSectionPreview() {
-    CalendarSection(
-        date = LocalDate.now()
-    )
+    FillsaTheme{
+        CalendarSection(
+            date = LocalDate.now()
+        )
+    }
 }

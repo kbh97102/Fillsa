@@ -5,11 +5,14 @@ import androidx.paging.cachedIn
 import com.arakene.domain.usecase.GetNoticeUseCase
 import com.arakene.domain.usecase.common.DeleteResignUseCase
 import com.arakene.domain.usecase.common.GetAlarmUsageUseCase
+import com.arakene.domain.usecase.common.GetDarkModeTypeUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetUserNameUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
+import com.arakene.domain.usecase.common.SetDarkModeTypeUseCase
 import com.arakene.domain.usecase.home.GetImageUriUseCase
+import com.arakene.domain.util.DarkModeType
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.BaseViewModel
@@ -34,6 +37,8 @@ class MyPageViewModel @Inject constructor(
     private val getUserNameUseCase: GetUserNameUseCase,
     private val getImageUriUseCase: GetImageUriUseCase,
     private val alarmManagerHelper: AlarmManagerHelper,
+    private val setDarkModeTypeUseCase: SetDarkModeTypeUseCase,
+    private val getDarkModeTypeUseCase: GetDarkModeTypeUseCase
 ) : BaseViewModel() {
 
     val isLogged = getLoginStatusUseCase()
@@ -47,6 +52,11 @@ class MyPageViewModel @Inject constructor(
 
     val imageUri = getImageUriUseCase()
 
+    val currentDarkModeType = getDarkModeTypeUseCase()
+
+    fun setDarkModeType(darkModeType: DarkModeType) = viewModelScope.launch {
+        setDarkModeTypeUseCase(darkModeType)
+    }
 
     override fun handleAction(action: Action) {
         when (val myPageAction = action as MyPageAction) {

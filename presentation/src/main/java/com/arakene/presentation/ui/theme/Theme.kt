@@ -1,11 +1,9 @@
 package com.arakene.presentation.ui.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
@@ -14,28 +12,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.arakene.presentation.R
+import com.arakene.presentation.util.FillsaColorScheme
 
-private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
-    secondary = PurpleGrey80,
-    tertiary = Pink80
-)
-
-private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
-    secondary = PurpleGrey40,
-    tertiary = Pink40
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
-)
 
 val ColorScheme.defaultButtonColors: ButtonColors
     get() {
@@ -168,35 +146,70 @@ internal val fillsaTypo = FillsaTypo(
 
 @Composable
 fun FillsaTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false,
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
     val colorScheme = when {
-//        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-//            val context = LocalContext.current
-//            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-//        }
-
-        darkTheme -> darkColorScheme(
-            primary = colorResource(R.color.primary),
-            secondary = colorResource(R.color.yellow01),
-            tertiary = colorResource(R.color.purple02)
+        darkTheme -> FillsaColorScheme(
+            background = colorResource(R.color.gray_700),
+            onBackground1 = colorResource(R.color.white),
+            onBackground2 = colorResource(R.color.purple01),
+            backgroundContainer = colorResource(R.color.gray_600),
+            primaryContainer = colorResource(R.color.gray_600),
+            onPrimaryContainer = colorResource(R.color.white),
+            outline = colorResource(R.color.gray_500),
+            outlineVariant = colorResource(R.color.gray_200),
+            toastMessageBackground = colorResource(R.color.gray_500),
+            onToastMessage1 = colorResource(R.color.white),
+            onToastMessage2 = colorResource(R.color.green_1a),
+            backgroundDim = colorResource(R.color.gray_700).copy(alpha = 0.8f),
+            // common
+            secondaryContainer = colorResource(R.color.purple02),
+            onSecondaryContainer1 = colorResource(R.color.gray_700),
+            onSecondaryContainer2 = colorResource(R.color.purple01),
+            tertiaryContainer = colorResource(R.color.white),
+            onTertiaryContainer = colorResource(R.color.purple01),
+            tertiaryOutline1 = colorResource(R.color.purple02),
+            tertiaryOutline2 = colorResource(R.color.purple01),
+            tertiary = colorResource(R.color.yellow02),
+            onTertiary1 = colorResource(R.color.white),
+            onTertiary2 = colorResource(R.color.purple01),
         )
 
-        else -> lightColorScheme(
-            primary = colorResource(R.color.primary),
-            secondary = colorResource(R.color.yellow01),
-            tertiary = colorResource(R.color.purple02)
+        else -> FillsaColorScheme(
+            background = colorResource(R.color.primary),
+            onBackground1 = colorResource(R.color.gray_700),
+            onBackground2 = colorResource(R.color.purple01),
+            backgroundContainer = colorResource(R.color.white),
+            primaryContainer = colorResource(R.color.purple01),
+            onPrimaryContainer = colorResource(R.color.white),
+            outline = colorResource(R.color.purple01),
+            outlineVariant = colorResource(R.color.gray_200),
+            toastMessageBackground = colorResource(R.color.gray_700),
+            onToastMessage1 = colorResource(R.color.white),
+            onToastMessage2 = colorResource(R.color.green_1a),
+            backgroundDim = colorResource(R.color.gray_700).copy(alpha = 0.8f),
+            // common
+            secondaryContainer = colorResource(R.color.purple02),
+            onSecondaryContainer1 = colorResource(R.color.gray_700),
+            onSecondaryContainer2 = colorResource(R.color.purple01),
+            tertiaryContainer = colorResource(R.color.white),
+            onTertiaryContainer = colorResource(R.color.purple01),
+            tertiaryOutline1 = colorResource(R.color.purple02),
+            tertiaryOutline2 = colorResource(R.color.purple01),
+            tertiary = colorResource(R.color.yellow02),
+            onTertiary1 = colorResource(R.color.white),
+            onTertiary2 = colorResource(R.color.purple01),
         )
     }
 
     CompositionLocalProvider(
-        LocalFillsaTypo provides fillsaTypo
+        LocalFillsaTypo provides fillsaTypo,
+        LocalFillsaColorScheme provides colorScheme
     ) {
         MaterialTheme(
-            colorScheme = colorScheme,
             content = content
         )
     }

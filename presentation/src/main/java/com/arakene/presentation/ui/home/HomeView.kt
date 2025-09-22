@@ -8,10 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -25,12 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import com.arakene.presentation.ui.common.PositiveButton
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
@@ -45,7 +40,6 @@ import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.copyToClipboard
-import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.rememberBaseViewModel
 import com.arakene.presentation.util.resizeImageToMaxSize
@@ -112,7 +106,6 @@ fun HomeView(
 
     DoubleBackPressHandler(
         onExit = {
-            logDebug("in??")
             (context as? Activity)?.finishAffinity()
         }
     )
@@ -174,7 +167,7 @@ fun HomeView(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.primary)
+            .background(FillsaTheme.colorScheme.background)
             .padding(horizontal = 20.dp)
     ) {
 

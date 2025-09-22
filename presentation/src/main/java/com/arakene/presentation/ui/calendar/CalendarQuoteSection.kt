@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import java.time.LocalDate
@@ -27,7 +28,8 @@ import java.util.Locale
 fun CalendarQuoteSection(
     selectedDayQuote: String,
     selectedDay: CalendarDay,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
 ) {
     val day = remember(selectedDay) {
         selectedDay.date.dayOfMonth.toString()
@@ -43,7 +45,10 @@ fun CalendarQuoteSection(
 
     Row(
         modifier = modifier
-            .background(color = Color.White, shape = RoundedCornerShape(10.dp)),
+            .background(
+                color = if (darkMode) colorResource(R.color.gray_600) else Color.White,
+                shape = RoundedCornerShape(10.dp)
+            ),
         verticalAlignment = Alignment.CenterVertically
     ) {
 
@@ -56,12 +61,12 @@ fun CalendarQuoteSection(
             Text(
                 day,
                 style = FillsaTheme.typography.heading4,
-                color = colorResource(R.color.purple01)
+                color = if (darkMode) colorResource(R.color.white) else colorResource(R.color.purple01),
             )
             Text(
                 dayOfWeek,
                 style = FillsaTheme.typography.body4,
-                color = colorResource(R.color.purple01)
+                color = if (darkMode) colorResource(R.color.white) else colorResource(R.color.purple01),
             )
         }
 
@@ -74,7 +79,7 @@ fun CalendarQuoteSection(
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             style = FillsaTheme.typography.body3,
-            color = colorResource(R.color.gray_700)
+            color = FillsaTheme.colorScheme.onBackground1
         )
 
     }
@@ -83,7 +88,7 @@ fun CalendarQuoteSection(
 @Preview
 @Composable
 private fun CalendarQuoteSectionPreview() {
-    FillsaTheme {
+    FillsaTheme(darkTheme = false) {
         CalendarQuoteSection(
             selectedDayQuote = "",
             CalendarDay(LocalDate.now(), DayPosition.InDate)
