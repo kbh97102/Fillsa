@@ -1,15 +1,17 @@
 package com.arakene.presentation.ui.quotelist
 
 import androidx.compose.foundation.Image
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,7 +21,8 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
 fun QuoteListEmptySection(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     Column(
@@ -33,13 +36,17 @@ fun QuoteListEmptySection(
 
         Text(
             stringResource(R.string.list_empty),
-            color = colorResource(R.color.purple01),
+            color = if (darkMode){
+                Color.White
+            } else {
+                FillsaTheme.colorScheme.onSecondaryContainer2
+            },
             style = FillsaTheme.typography.subtitle1,
             modifier = Modifier.padding(top = 20.dp)
         )
         Text(
             stringResource(R.string.list_empty_description),
-            color = colorResource(R.color.gray_700),
+            color = FillsaTheme.colorScheme.onBackground1,
             style = FillsaTheme.typography.body2,
             modifier = Modifier.padding(top = 8.dp)
         )

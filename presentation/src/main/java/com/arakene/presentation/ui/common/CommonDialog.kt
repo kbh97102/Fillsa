@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -53,15 +53,15 @@ fun CommonDialog(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 20.dp)
-                .clip(MaterialTheme.shapes.small)
-                .background(Color.White)
+                .clip(RoundedCornerShape(8.dp))
+                .background(FillsaTheme.colorScheme.backgroundContainer)
                 .padding(12.dp)
         ) {
 
             Text(
                 title,
                 style = FillsaTheme.typography.getStyle(titleTextStyle),
-                color = colorResource(R.color.gray_700),
+                color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 52.dp),
@@ -72,7 +72,7 @@ fun CommonDialog(
                 Text(
                     body,
                     style = FillsaTheme.typography.getStyle(bodyTextStyle),
-                    color = colorResource(R.color.gray_700),
+                    color = FillsaTheme.colorScheme.onBackground1,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 2.dp),

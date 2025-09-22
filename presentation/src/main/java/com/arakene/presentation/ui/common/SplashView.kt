@@ -10,9 +10,14 @@ import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,8 +26,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,6 +38,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
@@ -42,13 +49,14 @@ import com.arakene.presentation.viewmodel.SplashViewModel
 @Composable
 fun SplashView(
     navigate: Navigate,
+    darkTheme: Boolean = IsDarkMode.current,
     viewModel: SplashViewModel = hiltViewModel(),
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
 
     val ready by viewModel.ready.collectAsState()
 
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.lottie_splash))
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(if (darkTheme) R.raw.lottie_splash_dark else R.raw.lottie_splash))
     val lottieState = animateLottieCompositionAsState(
         composition,
         iterations = LottieConstants.IterateForever
@@ -177,17 +185,33 @@ fun SplashView(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(color = Color.White),
+            .background(
+                color = if (darkTheme) {
+                    colorResource(R.color.gray_700)
+                } else {
+                    Color.White
+                }
+            ),
         contentAlignment = Alignment.Center
     ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
+            Text(
+                stringResource(R.string.splash_logo_text), style = FillsaTheme.typography.quote,
+                color = if (darkTheme) {
+                    colorResource(R.color.yellow01)
+                } else {
+                    colorResource(R.color.gray_700)
+                }
+            )
 
-        LottieAnimation(
-            composition = composition,
-            progress = { lottieState.progress },
-            safeMode = true,
-            modifier = Modifier.size(192.dp)
-        )
+            LottieAnimation(
+                composition = composition,
+                progress = { lottieState.progress },
+                safeMode = true,
+                modifier = Modifier.size(192.dp)
+            )
+        }
     }
 
 

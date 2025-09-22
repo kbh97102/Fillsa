@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.background
+import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,13 +29,20 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 fun AlertSwitchSection(
     selected: Boolean,
     setSelected: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     Row(
         verticalAlignment = Alignment.CenterVertically, modifier = modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.secondary)
+            .background(
+                if (darkMode){
+                    colorResource(R.color.gray_600)
+                } else {
+                    colorResource(R.color.yellow01)
+                }
+            )
             .padding(horizontal = 20.dp)
     ) {
 
@@ -46,12 +54,12 @@ fun AlertSwitchSection(
             Text(
                 text = stringResource(R.string.alarm_title),
                 style = FillsaTheme.typography.subtitle1,
-                color = colorResource(R.color.gray_700)
+                color = FillsaTheme.colorScheme.onBackground1
             )
             Text(
                 text = stringResource(R.string.alarm_description),
                 style = FillsaTheme.typography.body3,
-                color = colorResource(R.color.gray_700),
+                color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }

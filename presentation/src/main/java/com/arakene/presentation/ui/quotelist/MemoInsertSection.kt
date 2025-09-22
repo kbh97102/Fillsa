@@ -49,7 +49,7 @@ fun MemoInsertSection(
                 .background(color = Color.White, shape = MaterialTheme.shapes.medium)
                 .border(
                     1.dp,
-                    color = MaterialTheme.colorScheme.tertiary,
+                    color = colorResource(R.color.purple02),
                     shape = MaterialTheme.shapes.medium
                 )
                 .padding(10.dp)

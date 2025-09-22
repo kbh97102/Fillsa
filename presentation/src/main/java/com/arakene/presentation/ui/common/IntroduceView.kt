@@ -21,6 +21,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,15 +30,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.getBackgroundColor
 import com.arakene.presentation.util.noEffectClickable
 import kotlinx.coroutines.launch
 
 @Composable
 fun IntroduceView(
     navigate: Navigate,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
 
     val pagerState = rememberPagerState { 3 }
@@ -53,7 +56,7 @@ fun IntroduceView(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Color.White)
+            .background(getBackgroundColor())
     ) {
 
         // Skip
@@ -71,13 +74,14 @@ fun IntroduceView(
                     .padding(start = 15.dp)
                     .noEffectClickable {
                         navigate(Screens.Home())
-                    }
+                    },
+                colorFilter = ColorFilter.tint(color = FillsaTheme.colorScheme.onBackground1)
             )
 
             Text(
                 stringResource(R.string.skip),
                 style = FillsaTheme.typography.body3,
-                color = colorResource(R.color.gray_500),
+                color = FillsaTheme.colorScheme.onBackground1,
                 textDecoration = TextDecoration.Underline,
                 modifier = Modifier
                     .padding(end = 20.dp)
@@ -116,7 +120,8 @@ private fun OkButton(
     isLastPage: Boolean,
     scrollTo: suspend () -> Unit,
     navigate: Navigate,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
 ) {
 
     val scope = rememberCoroutineScope()
@@ -126,10 +131,18 @@ private fun OkButton(
             .fillMaxWidth()
             .padding(bottom = 30.dp)
             .background(
-                color = if (isLastPage) {
-                    colorResource(R.color.purple01)
-                } else {
-                    colorResource(R.color.gray_700)
+                color = when (darkMode) {
+                    true -> if (isLastPage) {
+                        colorResource(R.color.purple01)
+                    } else {
+                        colorResource(R.color.purple02)
+                    }
+
+                    else -> if (isLastPage) {
+                        colorResource(R.color.purple01)
+                    } else {
+                        colorResource(R.color.gray_700)
+                    }
                 },
                 shape = MaterialTheme.shapes.small
             )
@@ -150,7 +163,10 @@ private fun OkButton(
                 stringResource(R.string.next)
             },
             style = FillsaTheme.typography.buttonMediumBold,
-            color = Color.White
+            color = when (darkMode) {
+                true -> if (isLastPage) Color.White else colorResource(R.color.gray_700)
+                else -> Color.White
+            }
         )
     }
 }

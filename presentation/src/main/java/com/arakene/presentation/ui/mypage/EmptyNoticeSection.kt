@@ -1,6 +1,7 @@
 package com.arakene.presentation.ui.mypage
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,8 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 fun EmptyNoticeSection(modifier: Modifier = Modifier) {
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize()
+            .background(FillsaTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
@@ -31,7 +33,7 @@ fun EmptyNoticeSection(modifier: Modifier = Modifier) {
         Text(
             stringResource(R.string.empty_notice),
             style = FillsaTheme.typography.heading4,
-            color = colorResource(R.color.gray_700),
+            color = FillsaTheme.colorScheme.onBackground1,
             modifier = Modifier.padding(top = 20.dp)
         )
 

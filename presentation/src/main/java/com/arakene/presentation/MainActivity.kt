@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
@@ -24,10 +25,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.colorResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.arakene.domain.util.DarkModeType
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
@@ -35,12 +37,14 @@ import com.arakene.presentation.ui.common.MainNavHost
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
+import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,6 +54,8 @@ import javax.inject.Inject
 class MainActivity : ComponentActivity() {
 
     private val viewModel: SplashViewModel by viewModels()
+
+    private val mainActivityViewModel: MainActivityViewModel by viewModels()
 
     @Inject
     lateinit var alarmManagerHelper: AlarmManagerHelper
@@ -62,6 +68,21 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
+
+            val darkModeType by mainActivityViewModel.getDarkModeType().collectAsState(DarkModeType.SYSTEM)
+
+            val systemDarkMode = isSystemInDarkTheme()
+
+            val isDarkMode by remember(darkModeType) {
+                mutableStateOf(
+                    when(darkModeType) {
+                        DarkModeType.DARK -> true
+                        DarkModeType.LIGHT -> false
+                        DarkModeType.SYSTEM -> systemDarkMode
+                    }
+                )
+            }
+
 
             val snackbarHostState = remember { SnackbarHostState() }
 
@@ -97,12 +118,13 @@ class MainActivity : ComponentActivity() {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
 
-            FillsaTheme {
+            FillsaTheme(darkTheme = isDarkMode) {
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
                     LocalDialogDataHolder provides dialogData,
                     LocalLoadingState provides globalLoadingState,
-                    LocalMoveHolder provides navController
+                    LocalMoveHolder provides navController,
+                    IsDarkMode provides isDarkMode
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),
@@ -130,7 +152,10 @@ class MainActivity : ComponentActivity() {
                                         displayBottomBar = displayBottomBar
                                     )
                                 },
-                                containerColor = Color.White,
+                                containerColor = if (isDarkMode) colorResource(R.color.gray_700) else if (currentDestination?.destination?.route?.contains(
+                                        "Splash"
+                                    ) == true
+                                ) colorResource(R.color.white) else colorResource(R.color.primary),
                                 contentWindowInsets = if (shouldShowAd) {
                                     WindowInsets.statusBars
                                 } else {
