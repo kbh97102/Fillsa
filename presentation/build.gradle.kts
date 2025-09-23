@@ -57,6 +57,8 @@ dependencies {
     implementation(libs.firebase.installations.ktx)
     implementation(libs.androidx.exifinterface)
     implementation(libs.androidx.glance.appwidget)
+    implementation(libs.androidx.hilt.common)
+    implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

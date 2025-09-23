@@ -8,6 +8,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.arakene.data.db.LocalQuoteInfoDao
+import com.arakene.data.db.WidgetQuoteInfoDao
 import com.arakene.data.network.GetLocalQuoteDataSource
 import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
@@ -19,21 +20,41 @@ import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
 import com.arakene.data.util.DataStoreKey.SHARE_DESCRIPTION
 import com.arakene.data.util.TokenProvider
 import com.arakene.data.util.toDomain
+import com.arakene.data.util.toDto
 import com.arakene.data.util.toEntity
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val tokenProvider: TokenProvider,
-    private val dao: LocalQuoteInfoDao
+    private val dao: LocalQuoteInfoDao,
+    private val widgetDao: WidgetQuoteInfoDao
 ) : LocalRepository {
+
+    override fun getLocalQuoteForWidget(): Flow<DailyQuoteDto> {
+
+        val today = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
+
+        return widgetDao.get(today)
+            .map {
+                it.toDto()
+            }
+    }
+
+    override suspend fun setLocalQuoteForWidget(data: DailyQuoteDto) {
+        val today = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
+        widgetDao.insert(data.toEntity(today))
+    }
 
     override suspend fun setDarkModeType(darkMode: DarkModeType) {
         dataStore.edit {

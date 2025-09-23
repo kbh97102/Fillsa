@@ -1,4 +1,4 @@
-package com.arakene.presentation.widget
+package com.arakene.fillsa
 
 import android.content.Context
 import android.util.Log
@@ -9,19 +9,17 @@ import androidx.glance.GlanceId
 import androidx.glance.GlanceTheme
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
-import androidx.glance.currentState
 import androidx.glance.text.Text
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
-import com.arakene.presentation.ui.theme.FillsaTheme
-import com.arakene.presentation.util.FillsaColorScheme
+import com.arakene.domain.util.CommonError
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 
 // GlanceAppWidget UI
 class MyWidget : GlanceAppWidget() {
@@ -35,6 +33,8 @@ class MyWidget : GlanceAppWidget() {
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
 
+        // TODO: 테이터/와이파이 미연결 후 다시 안결된 경우 데이터 재호출 필요
+
         val appContext = context.applicationContext ?: throw IllegalStateException()
         val statisticsEntryPoint =
             EntryPointAccessors.fromApplication(
@@ -43,11 +43,30 @@ class MyWidget : GlanceAppWidget() {
             )
         val testUseCase = statisticsEntryPoint.getDailyUseCase()
 
+        // TODO: 에러 핸들링이 필요한가? 리트라이정도는 해야하나
+        val errorHandler = CoroutineExceptionHandler { context, throwable ->
+
+        }
+
         val test = withContext(Dispatchers.IO){
             testUseCase("2025-09-16")
         }
 
         val testState = mutableStateOf("")
+
+        when(test){
+            is ApiResult.Fail -> {
+               if (test.error is CommonError.ApiFail){
+                   /*
+                   TODO:
+                       - 재시도 패턴(보통 자정에 데이터 업데이트 실패를 고려하여)
+                            - 오전 6시
+                            - 오후 12시
+                    */
+               }
+            }
+            else -> {}
+        }
 
         if (test is ApiResult.Success){
             Log.e("WIDGET", "widget ${test}")

@@ -2,11 +2,15 @@ package com.arakene.domain.repository
 
 import androidx.paging.PagingData
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 
 interface LocalRepository {
+
+    fun getLocalQuoteForWidget(): Flow<DailyQuoteDto>
+    suspend fun setLocalQuoteForWidget(data: DailyQuoteDto)
 
     suspend fun setAccessToken(token: String)
     suspend fun getAccessToken(): String

@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.room.PrimaryKey
 import com.arakene.data.db.LocalQuoteInfoDao
+import com.arakene.data.db.WidgetQuoteInfoDao
 import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.network.TokenApi
@@ -48,9 +49,10 @@ class RepositoryModule {
     fun provideLocalRepository(
         dataStore: DataStore<Preferences>,
         tokenProvider: TokenProvider,
-        dao: LocalQuoteInfoDao
+        dao: LocalQuoteInfoDao,
+        widgetDao: WidgetQuoteInfoDao
     ): LocalRepository {
-        return LocalRepositoryImpl(dataStore, tokenProvider, dao)
+        return LocalRepositoryImpl(dataStore, tokenProvider, dao, widgetDao)
     }
 
     @Provides
