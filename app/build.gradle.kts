@@ -38,6 +38,15 @@ android {
     buildFeatures {
         compose = true
     }
+
+    packaging {
+        resources {
+            resources {
+                excludes += "META-INF/LICENSE.md"
+                excludes += "META-INF/LICENSE-notice.md"
+            }
+        }
+    }
 }
 
 dependencies {
@@ -83,4 +92,8 @@ dependencies {
 
     implementation(libs.firebase.crashlytics)
     implementation(libs.firebase.analytics)
+
+    androidTestImplementation(libs.mockk.android)
+    androidTestImplementation(libs.work.testing)
+    kaptTest(libs.hilt.compiler)
 }
