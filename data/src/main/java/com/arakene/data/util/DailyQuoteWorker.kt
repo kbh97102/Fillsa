@@ -1,16 +1,28 @@
 package com.arakene.data.util
 
 import android.content.Context
+import android.util.Log
 import androidx.hilt.work.HiltWorker
+import androidx.work.Constraints
 import androidx.work.CoroutineWorker
+import androidx.work.ExistingWorkPolicy
+import androidx.work.NetworkType
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import androidx.work.WorkerParameters
+import androidx.work.workDataOf
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
 import com.arakene.domain.util.ApiResult
+import com.arakene.domain.util.CommonError
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import retrofit2.HttpException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.concurrent.TimeUnit
+import kotlin.math.min
 
 @HiltWorker
 class DailyQuoteWorker @AssistedInject constructor(
@@ -21,25 +33,83 @@ class DailyQuoteWorker @AssistedInject constructor(
 
 ) : CoroutineWorker(appContext, workerParams) {
 
-    val parser = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+    companion object {
+        const val KEY_RETRY_COUNT = "KEY_RETRY_COUNT"
+        const val RETRY_COUNT = 2
+    }
+
+    private val parser = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
     override suspend fun doWork(): Result {
+        val currentRetryCount = inputData.getInt(KEY_RETRY_COUNT, 0)
+
+        if (currentRetryCount >= RETRY_COUNT) {
+            Log.e("WIDGET", "Max retry attempts reached")
+            return Result.failure()
+        }
+
         return try {
             val response = getDailyQuoteUseCase(parser.format(LocalDate.now())) // UseCase 실행
 
             when (response) {
                 is ApiResult.Success -> {
-                   setLocalQuoteForWidgetUseCase(response.data)
+                    setLocalQuoteForWidgetUseCase(response.data)
+                    Result.success()
                 }
-                else -> {
+
+                is ApiResult.Fail -> {
                     // TODO: 에러처리
+                    if (response.error is CommonError.ApiFail) {
+                        scheduleNextRetry(currentRetryCount + 1)
+                        Result.success()
+                    } else {
+                        Result.failure()
+                    }
                 }
             }
-
-            Result.success()
-        } catch (e: Exception) {
-            // API 응답값이 200이 아닌 경우에 대한 재시도 정책
+        }
+        catch (e: Exception) {
             Result.retry()
         }
+    }
+
+    private fun scheduleNextRetry(nextAttemptCount: Int) {
+        val now = System.currentTimeMillis()
+        val calendar = Calendar.getInstance().apply { timeInMillis = now }
+
+        val next6am = (calendar.clone() as Calendar).apply {
+            set(Calendar.HOUR_OF_DAY, 6)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            if (timeInMillis <= now) {
+                add(Calendar.DAY_OF_YEAR, 1)
+            }
+        }.timeInMillis
+
+        val next12pm = (calendar.clone() as Calendar).apply {
+            set(Calendar.HOUR_OF_DAY, 12)
+            set(Calendar.MINUTE, 0)
+            set(Calendar.SECOND, 0)
+            if (timeInMillis <= now) {
+                add(Calendar.DAY_OF_YEAR, 1)
+            }
+        }.timeInMillis
+
+        val delay = min(next6am - now, next12pm - now)
+
+        val inputData = workDataOf(KEY_RETRY_COUNT to nextAttemptCount)
+
+        val workRequest = OneTimeWorkRequest.Builder(DailyQuoteWorker::class.java)
+            .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+            .setInputData(inputData)
+            .setConstraints(Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+            .addTag("WIDGET")
+            .build()
+
+        WorkManager.getInstance(applicationContext).enqueueUniqueWork(
+            "FILLSA_WIDGET_RETRY",
+            ExistingWorkPolicy.REPLACE,
+            workRequest
+        )
     }
 }
