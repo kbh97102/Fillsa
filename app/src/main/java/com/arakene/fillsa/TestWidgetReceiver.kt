@@ -7,7 +7,8 @@ import android.content.Intent
 import android.util.Log
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
-import com.arakene.data.util.MyAlarmReceiver
+import androidx.glance.appwidget.updateAll
+import com.arakene.fillsa.MyAlarmReceiver
 import java.util.Calendar
 
 class TestWidgetReceiver : GlanceAppWidgetReceiver() {
@@ -35,10 +36,6 @@ class TestWidgetReceiver : GlanceAppWidgetReceiver() {
             set(Calendar.HOUR_OF_DAY, 6)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
-            // 이미 시간이 지났으면 다음 날로 설정
-            if (System.currentTimeMillis() > timeInMillis) {
-                add(Calendar.DAY_OF_YEAR, 1)
-            }
         }
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
@@ -58,11 +55,10 @@ class TestWidgetReceiver : GlanceAppWidgetReceiver() {
             set(Calendar.HOUR_OF_DAY, 0)
             set(Calendar.MINUTE, 0)
             set(Calendar.SECOND, 0)
-            // 이미 시간이 지났으면 다음 날로 설정
-            if (System.currentTimeMillis() > timeInMillis) {
-                add(Calendar.DAY_OF_YEAR, 1)
-            }
         }
+
+        // TODO 10월 6일 기준 진짜 자체는 단순함 속에 있다.
+
         alarmManager.setRepeating(
             AlarmManager.RTC_WAKEUP,
             midnightCalendar.timeInMillis,

@@ -22,8 +22,10 @@ import com.arakene.data.util.TokenProvider
 import com.arakene.data.util.toDomain
 import com.arakene.data.util.toDto
 import com.arakene.data.util.toEntity
+import com.arakene.data.util.toWidgetQuoteInfoEntity
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.util.YN
@@ -41,19 +43,19 @@ class LocalRepositoryImpl @Inject constructor(
     private val widgetDao: WidgetQuoteInfoDao
 ) : LocalRepository {
 
-    override fun getLocalQuoteForWidget(): Flow<DailyQuoteDto> {
+    override fun getLocalQuoteForWidget(): Flow<DailyQuoteDto?> {
 
         val today = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
 
         return widgetDao.get(today)
             .map {
-                it.toDto()
+                it?.toDto()
             }
     }
 
-    override suspend fun setLocalQuoteForWidget(data: DailyQuoteDto) {
+    override suspend fun setLocalQuoteForWidget(data: DailyQuotaNoToken) {
         val today = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
-        widgetDao.insert(data.toEntity(today))
+        widgetDao.insert(data.toWidgetQuoteInfoEntity(today))
     }
 
     override suspend fun setDarkModeType(darkMode: DarkModeType) {

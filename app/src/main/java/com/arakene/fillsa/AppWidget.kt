@@ -2,23 +2,25 @@ package com.arakene.fillsa
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.glance.GlanceId
 import androidx.glance.GlanceTheme
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.text.Text
-import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
-import com.arakene.domain.util.ApiResult
-import com.arakene.domain.util.CommonError
+import com.arakene.domain.usecase.db.GetLocalQuoteForWidgetUseCase
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
-import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withContext
 
 // GlanceAppWidget UI
@@ -28,7 +30,7 @@ class MyWidget : GlanceAppWidget() {
     @EntryPoint
     @InstallIn(SingletonComponent::class)
     interface StatisticsProviderEntryPoint {
-        fun getDailyUseCase(): GetDailyQuoteNoTokenUseCase
+        fun getDailyUseCase(): GetLocalQuoteForWidgetUseCase
     }
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -43,44 +45,14 @@ class MyWidget : GlanceAppWidget() {
             )
         val testUseCase = statisticsEntryPoint.getDailyUseCase()
 
-        // TODO: 에러 핸들링이 필요한가? 리트라이정도는 해야하나
-        val errorHandler = CoroutineExceptionHandler { context, throwable ->
-
-        }
-
-        val test = withContext(Dispatchers.IO){
-            testUseCase("2025-09-16")
-        }
-
-        val testState = mutableStateOf("")
-
-        when(test){
-            is ApiResult.Fail -> {
-               if (test.error is CommonError.ApiFail){
-                   /*
-                   TODO:
-                       - 재시도 패턴(보통 자정에 데이터 업데이트 실패를 고려하여)
-                            - 오전 6시
-                            - 오후 12시
-                    */
-               }
-            }
-            else -> {}
-        }
-
-        if (test is ApiResult.Success){
-            Log.e("WIDGET", "widget ${test}")
-            testState.value = test.data.korQuote ?: ""
-        } else {
-            Log.e("WIDGET", "Api Call Fail")
+        val test = withContext(Dispatchers.IO) {
+            testUseCase()
         }
 
         provideContent {
-            val testRemember by remember {
-                testState
-            }
-            GlanceTheme(){
-//                currentState()
+            val testRemember by test.collectAsState(null)
+
+            GlanceTheme {
                 Text("test ${testRemember}")
             }
         }

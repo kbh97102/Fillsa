@@ -1,4 +1,4 @@
-package com.arakene.data.util
+package com.arakene.fillsa
 
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -17,7 +17,7 @@ class MyAlarmReceiver : BroadcastReceiver() {
                 Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build()
             )
             .build()
-        WorkManager.getInstance(context).enqueueUniqueWork(
+        WorkManager.Companion.getInstance(context).enqueueUniqueWork(
             "DailyQuoteUpdate",
             ExistingWorkPolicy.REPLACE,
             dailyQuoteRequest

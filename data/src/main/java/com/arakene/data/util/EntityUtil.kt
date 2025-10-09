@@ -3,7 +3,9 @@ package com.arakene.data.util
 import com.arakene.data.db.LocalQuoteInfoEntity
 import com.arakene.data.db.WidgetQuoteInfoEntity
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.util.YN
 
 fun LocalQuoteInfoEntity.toDomain() = LocalQuoteInfo(
     dailyQuoteSeq,
@@ -52,4 +54,31 @@ fun WidgetQuoteInfoEntity.toDto(): DailyQuoteDto {
     ).apply {
         quoteDate = this@toDto.date
     }
+}
+
+
+fun DailyQuotaNoToken.toWidgetQuoteInfoEntity(date: String): WidgetQuoteInfoEntity {
+    return WidgetQuoteInfoEntity(
+        dailyQuoteSeq = this.dailyQuoteSeq,
+        likeYn = YN.N.name,
+        imagePath = "",
+        korQuote = this.korQuote,
+        engQuote = this.engQuote,
+        korAuthor = this.korAuthor,
+        engAuthor = this.engAuthor,
+        authorUrl = this.authorUrl,
+        date = date
+    )
+}
+
+
+fun WidgetQuoteInfoEntity.toDailyQuotaNoToken(): DailyQuotaNoToken {
+    return DailyQuotaNoToken(
+        dailyQuoteSeq = this.dailyQuoteSeq,
+        korQuote = this.korQuote,
+        engQuote = this.engQuote,
+        korAuthor = this.korAuthor,
+        engAuthor = this.engAuthor,
+        authorUrl = this.authorUrl
+    )
 }

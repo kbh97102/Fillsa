@@ -12,5 +12,5 @@ interface WidgetQuoteInfoDao {
     suspend fun insert(data: WidgetQuoteInfoEntity)
 
     @Query("SELECT * FROM widget_quote_info WHERE date = :date")
-    fun get(date: String): Flow<WidgetQuoteInfoEntity>
+    fun get(date: String): Flow<WidgetQuoteInfoEntity?>
 }

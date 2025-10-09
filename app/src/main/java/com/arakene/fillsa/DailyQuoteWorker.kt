@@ -1,7 +1,8 @@
-package com.arakene.data.util
+package com.arakene.fillsa
 
 import android.content.Context
 import android.util.Log
+import androidx.glance.appwidget.updateAll
 import androidx.hilt.work.HiltWorker
 import androidx.work.Constraints
 import androidx.work.CoroutineWorker
@@ -12,12 +13,11 @@ import androidx.work.WorkManager
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
-import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
+import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.CommonError
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import retrofit2.HttpException
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.Calendar
@@ -28,7 +28,7 @@ import kotlin.math.min
 class DailyQuoteWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
-    private val getDailyQuoteUseCase: GetDailyQuoteUseCase, // UseCase 주입
+    private val getDailyQuoteUseCase: GetDailyQuoteNoTokenUseCase, // UseCase 주입
     private val setLocalQuoteForWidgetUseCase: SetLocalQuoteForWidgetUseCase
 
 ) : CoroutineWorker(appContext, workerParams) {
@@ -51,13 +51,19 @@ class DailyQuoteWorker @AssistedInject constructor(
         return try {
             val response = getDailyQuoteUseCase(parser.format(LocalDate.now())) // UseCase 실행
 
+
             when (response) {
                 is ApiResult.Success -> {
                     setLocalQuoteForWidgetUseCase(response.data)
+                    Log.e("WIDGET>", "Worker Success ${response.data}")
+
+                    MyWidget().updateAll(applicationContext)
+
                     Result.success()
                 }
 
                 is ApiResult.Fail -> {
+                    Log.e("WIDGET", "Worker FAIL ${response.error}")
                     // TODO: 에러처리
                     if (response.error is CommonError.ApiFail) {
                         scheduleNextRetry(currentRetryCount + 1)
@@ -106,7 +112,7 @@ class DailyQuoteWorker @AssistedInject constructor(
             .addTag("WIDGET")
             .build()
 
-        WorkManager.getInstance(applicationContext).enqueueUniqueWork(
+        WorkManager.Companion.getInstance(applicationContext).enqueueUniqueWork(
             "FILLSA_WIDGET_RETRY",
             ExistingWorkPolicy.REPLACE,
             workRequest
