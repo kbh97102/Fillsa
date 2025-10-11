@@ -46,16 +46,6 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${ADS_ID}" />
 
-        <receiver android:name=".MyAlarmReceiver"
-            android:enabled="true"
-            android:exported="false">
-
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-
-        </receiver>
-
         <receiver
             android:name="com.arakene.presentation.util.AlarmReceiver"
             android:exported="true"

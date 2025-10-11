@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import com.arakene.fillsa.MyAlarmReceiver
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetAlarmUsageUseCase
