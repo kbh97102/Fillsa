@@ -2,17 +2,21 @@ package com.arakene.fillsa
 
 import android.content.Context
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
+import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
+import androidx.glance.background
 import androidx.glance.color.ColorProvider
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
@@ -58,7 +62,7 @@ class MyWidget : GlanceAppWidget() {
         provideContent {
             val dailyQuote by dailyQuoteInfo.collectAsState(null)
             GlanceTheme {
-                Column {
+                Column(modifier = GlanceModifier.background(R.color.primary)) {
                     // header
                     Row(verticalAlignment = androidx.glance.layout.Alignment.Vertical.CenterVertically) {
                         Image(
