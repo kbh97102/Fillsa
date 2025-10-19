@@ -1,13 +1,10 @@
 package com.arakene.fillsa
 
 import android.content.Context
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
@@ -18,8 +15,12 @@ import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
+import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
+import androidx.glance.layout.fillMaxSize
+import androidx.glance.layout.fillMaxWidth
+import androidx.glance.layout.padding
 import androidx.glance.text.Text
 import com.arakene.domain.usecase.db.GetLocalQuoteForWidgetUseCase
 import com.arakene.presentation.R
@@ -62,9 +63,12 @@ class MyWidget : GlanceAppWidget() {
         provideContent {
             val dailyQuote by dailyQuoteInfo.collectAsState(null)
             GlanceTheme {
-                Column(modifier = GlanceModifier.background(R.color.primary)) {
+                Column(
+                    modifier = GlanceModifier.fillMaxSize().background(R.color.primary)
+                        .padding(4.dp),
+                ) {
                     // header
-                    Row(verticalAlignment = androidx.glance.layout.Alignment.Vertical.CenterVertically) {
+                    Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
                         Image(
                             ImageProvider(R.drawable.icn_logo),
                             contentDescription = null
@@ -81,27 +85,36 @@ class MyWidget : GlanceAppWidget() {
                             )
                         )
                     }
-                    // 연속 로그인
-                    // 명언
-                    Text(
-                        dailyQuote?.korQuote ?: "",
-                        style = androidx.glance.text.TextStyle(
-                            fontWeight = androidx.glance.text.FontWeight.Bold,
-                            fontSize = 12.sp,
-                            color = ColorProvider(
-                                day = Color(context.getColor(R.color.purple01)),
-                                night = Color.Cyan
+
+                    Column(
+                        modifier = GlanceModifier
+                            .defaultWeight()
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        // 연속 로그인
+                        // 명언
+                        Text(
+                            dailyQuote?.korQuote ?: "",
+                            style = androidx.glance.text.TextStyle(
+                                fontWeight = androidx.glance.text.FontWeight.Bold,
+                                fontSize = 12.sp,
+                                color = ColorProvider(
+                                    day = Color(context.getColor(R.color.purple01)),
+                                    night = Color.Cyan
+                                ),
                             ),
-                        ),
-                    )
-                    // 저자
-                    Text(
-                        dailyQuote?.korAuthor ?: "",
-                        style = androidx.glance.text.TextStyle(
-                            fontWeight = androidx.glance.text.FontWeight.Bold,
-                            fontSize = 10.sp,
-                        ),
-                    )
+                        )
+                        // 저자
+                        Text(
+                            dailyQuote?.korAuthor ?: "",
+                            style = androidx.glance.text.TextStyle(
+                                fontWeight = androidx.glance.text.FontWeight.Bold,
+                                fontSize = 10.sp,
+                            ),
+                        )
+                    }
                 }
             }
         }
