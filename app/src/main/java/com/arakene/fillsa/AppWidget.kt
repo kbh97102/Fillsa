@@ -77,7 +77,7 @@ class MyWidget : GlanceAppWidget() {
                         Text(
                             "오늘의 문장", style = androidx.glance.text.TextStyle(
                                 fontWeight = androidx.glance.text.FontWeight.Bold,
-                                fontSize = 6.sp,
+                                fontSize = 18.sp,
                                 color = ColorProvider(
                                     day = Color(context.getColor(R.color.gray_700)),
                                     night = Color.Cyan
@@ -96,13 +96,14 @@ class MyWidget : GlanceAppWidget() {
                         // 연속 로그인
                         // 명언
                         Text(
-                            dailyQuote?.korQuote ?: "",
+                            modifier = GlanceModifier.fillMaxWidth(),
+                            text = dailyQuote?.korQuote ?: "",
                             style = androidx.glance.text.TextStyle(
                                 fontWeight = androidx.glance.text.FontWeight.Bold,
-                                fontSize = 12.sp,
+                                fontSize = 18.sp,
                                 color = ColorProvider(
                                     day = Color(context.getColor(R.color.purple01)),
-                                    night = Color.Cyan
+                                    night = Color(context.getColor(R.color.purple01)),
                                 ),
                             ),
                         )
@@ -111,7 +112,7 @@ class MyWidget : GlanceAppWidget() {
                             dailyQuote?.korAuthor ?: "",
                             style = androidx.glance.text.TextStyle(
                                 fontWeight = androidx.glance.text.FontWeight.Bold,
-                                fontSize = 10.sp,
+                                fontSize = 18.sp,
                             ),
                         )
                     }
