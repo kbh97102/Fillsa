@@ -22,6 +22,7 @@ import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
 import androidx.glance.text.Text
+import androidx.glance.text.TextAlign
 import com.arakene.domain.usecase.db.GetLocalQuoteForWidgetUseCase
 import com.arakene.presentation.R
 import dagger.hilt.EntryPoint
@@ -76,11 +77,11 @@ class MyWidget : GlanceAppWidget() {
 
                         Text(
                             "오늘의 문장", style = androidx.glance.text.TextStyle(
-                                fontWeight = androidx.glance.text.FontWeight.Bold,
+                                fontWeight = androidx.glance.text.FontWeight.Normal,
                                 fontSize = 18.sp,
                                 color = ColorProvider(
                                     day = Color(context.getColor(R.color.gray_700)),
-                                    night = Color.Cyan
+                                    night = Color(context.getColor(R.color.gray_700))
                                 ),
                             )
                         )
@@ -99,19 +100,20 @@ class MyWidget : GlanceAppWidget() {
                             modifier = GlanceModifier.fillMaxWidth(),
                             text = dailyQuote?.korQuote ?: "",
                             style = androidx.glance.text.TextStyle(
-                                fontWeight = androidx.glance.text.FontWeight.Bold,
+                                fontWeight = androidx.glance.text.FontWeight.Normal,
                                 fontSize = 18.sp,
                                 color = ColorProvider(
                                     day = Color(context.getColor(R.color.purple01)),
                                     night = Color(context.getColor(R.color.purple01)),
                                 ),
+                                textAlign = TextAlign.Center,
                             ),
                         )
                         // 저자
                         Text(
                             dailyQuote?.korAuthor ?: "",
                             style = androidx.glance.text.TextStyle(
-                                fontWeight = androidx.glance.text.FontWeight.Bold,
+                                fontWeight = androidx.glance.text.FontWeight.Normal,
                                 fontSize = 18.sp,
                             ),
                         )
