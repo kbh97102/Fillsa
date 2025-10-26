@@ -42,6 +42,8 @@ class MyWidget : GlanceAppWidget() {
         fun getDailyUseCase(): GetLocalQuoteForWidgetUseCase
     }
 
+    // TODO: 데이터 관리 방법에 더 간단한 방법이 있는걸로 파악됨 https://proandroiddev.com/widgets-with-glance-beyond-string-states-2dcc4db2f76c 참고
+
     override suspend fun provideGlance(context: Context, id: GlanceId) {
 
         // TODO: 테이터/와이파이 미연결 후 다시 안결된 경우 데이터 재호출 필요
