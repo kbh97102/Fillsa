@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.mypage
 
+import android.view.MenuItem
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,8 +20,12 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
@@ -109,11 +114,13 @@ fun ThemeDialog(
 
 
 @Composable
-private fun ThemeItem(
+fun ThemeItem(
     text: String,
     selected: Boolean,
     setSelected: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    selectedImage: Painter = painterResource(R.drawable.icn_radio_selected),
+    notSelectedImage: Painter = painterResource(R.drawable.icn_radio_unselected)
 ) {
 
     Row(
@@ -132,9 +139,9 @@ private fun ThemeItem(
         )
 
         if (selected) {
-            Image(painterResource(R.drawable.icn_radio_selected), contentDescription = null)
+            Image(selectedImage, contentDescription = null)
         } else {
-            Image(painterResource(R.drawable.icn_radio_unselected), contentDescription = null)
+            Image(notSelectedImage, contentDescription = null)
         }
     }
 
