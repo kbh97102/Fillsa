@@ -9,6 +9,7 @@
     android:description="@string/alarm_description"
     android:initialLayout="@layout/layout_test_widget_initial"
     android:resizeMode="horizontal|vertical"
+    android:configure="com.arakene.fillsa.WidgetTestConfiguration"
     android:previewLayout="@layout/layout_test_widget_preview"
     android:widgetCategory="home_screen"
     android:widgetFeatures="reconfigurable|configuration_optional">

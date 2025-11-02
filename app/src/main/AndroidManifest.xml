@@ -108,6 +108,13 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".WidgetTestConfiguration"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
+            </intent-filter>
+        </activity>
+
     </application>
 
 </manifest>

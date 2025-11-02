@@ -65,6 +65,8 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
+        mainActivityViewModel.initWidgetData()
+
         enableEdgeToEdge()
 
         setContent {
