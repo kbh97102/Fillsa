@@ -1,7 +1,6 @@
-package com.arakene.fillsa
+package com.arakene.fillsa.widget.ui
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -12,13 +11,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.edit
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
-import androidx.glance.LocalContext
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
@@ -29,9 +26,13 @@ import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
+import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
+import androidx.glance.text.TextStyle
 import com.arakene.domain.usecase.db.GetLocalQuoteForWidgetUseCase
+import com.arakene.fillsa.widget.WidgetPrefsKey
+import com.arakene.fillsa.widget.dataStore
 import com.arakene.presentation.R
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -106,8 +107,8 @@ class MyWidget : GlanceAppWidget() {
                         )
 
                         Text(
-                            "오늘의 문장", style = androidx.glance.text.TextStyle(
-                                fontWeight = androidx.glance.text.FontWeight.Normal,
+                            "오늘의 문장", style = TextStyle(
+                                fontWeight = FontWeight.Normal,
                                 fontSize = 18.sp,
                                 color = ColorProvider(
                                     day = Color(context.getColor(R.color.gray_700)),
@@ -129,8 +130,8 @@ class MyWidget : GlanceAppWidget() {
                         Text(
                             modifier = GlanceModifier.fillMaxWidth(),
                             text = dailyQuote?.korQuote ?: "",
-                            style = androidx.glance.text.TextStyle(
-                                fontWeight = androidx.glance.text.FontWeight.Normal,
+                            style = TextStyle(
+                                fontWeight = FontWeight.Normal,
                                 fontSize = 18.sp,
                                 color = ColorProvider(
                                     day = Color(context.getColor(R.color.purple01)),
@@ -142,8 +143,8 @@ class MyWidget : GlanceAppWidget() {
                         // 저자
                         Text(
                             dailyQuote?.korAuthor ?: "",
-                            style = androidx.glance.text.TextStyle(
-                                fontWeight = androidx.glance.text.FontWeight.Normal,
+                            style = TextStyle(
+                                fontWeight = FontWeight.Normal,
                                 fontSize = 18.sp,
                             ),
                         )

@@ -1,4 +1,4 @@
-package com.arakene.fillsa
+package com.arakene.fillsa.widget
 
 import android.content.Context
 import android.util.Log
@@ -16,6 +16,7 @@ import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.CommonError
+import com.arakene.fillsa.widget.ui.MyWidget
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.time.LocalDate

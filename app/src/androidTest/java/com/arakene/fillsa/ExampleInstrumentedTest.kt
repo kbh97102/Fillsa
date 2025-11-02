@@ -12,7 +12,7 @@ import androidx.work.WorkManager
 import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import androidx.work.testing.WorkManagerTestInitHelper
-import com.arakene.fillsa.DailyQuoteWorker
+import com.arakene.fillsa.widget.DailyQuoteWorker
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase

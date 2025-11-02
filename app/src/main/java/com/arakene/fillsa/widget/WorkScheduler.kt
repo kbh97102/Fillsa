@@ -1,4 +1,4 @@
-package com.arakene.fillsa
+package com.arakene.fillsa.widget
 
 import android.content.Context
 import androidx.work.ExistingPeriodicWorkPolicy
