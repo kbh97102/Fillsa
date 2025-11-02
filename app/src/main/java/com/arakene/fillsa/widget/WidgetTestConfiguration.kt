@@ -9,6 +9,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import com.arakene.fillsa.widget.ui.MyWidget
 import com.arakene.fillsa.widget.ui.MyWidgetConfigScreen
+import com.arakene.presentation.ui.theme.FillsaTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -32,9 +33,11 @@ class WidgetTestConfiguration : ComponentActivity() {
         }
 
         setContent {
-            MyWidgetConfigScreen(
+            FillsaTheme {
+                MyWidgetConfigScreen(
 
-            )
+                )
+            }
         }
     }
 

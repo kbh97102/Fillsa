@@ -7,15 +7,24 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
@@ -27,6 +36,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.noEffectClickable
 
 
 @Composable
@@ -34,7 +44,48 @@ fun MyWidgetConfigScreen(
 
 ) {
 
-    Column(modifier = Modifier.fillMaxSize()) {
+    var languageVisible by remember { mutableStateOf(false) }
+    var fontSizeVisible by remember { mutableStateOf(false) }
+
+    val languageOptions = listOf("한국어", "영어")
+    val fontSizeOptions = listOf("작게", "중간", "크게")
+
+    var selectedLanguage by remember {
+        mutableStateOf("한국어")
+    }
+
+    var selectedFontSize by remember {
+        mutableStateOf("중간")
+    }
+
+    WidgetConfigDialog(
+        items = languageOptions,
+        selected = selectedLanguage,
+        setSelected = {
+            selectedLanguage = it
+        },
+        visible = languageVisible,
+        dismiss = {
+            languageVisible = false
+        }
+    )
+
+    WidgetConfigDialog(
+        items = fontSizeOptions,
+        selected = selectedFontSize,
+        setSelected = {
+            selectedFontSize = it
+        },
+        visible = fontSizeVisible,
+        dismiss = {
+            fontSizeVisible = false
+        }
+    )
+
+
+    Column(modifier = Modifier.fillMaxSize()
+        .systemBarsPadding()
+        .background(Color.White)) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -51,7 +102,8 @@ fun MyWidgetConfigScreen(
 
             Text(
                 stringResource(com.arakene.fillsa.R.string.widget),
-                style = FillsaTheme.typography.buttonLargeBold
+                style = FillsaTheme.typography.buttonLargeBold,
+                color = Color.Black
             )
         }
 
@@ -105,7 +157,10 @@ fun MyWidgetConfigScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 13.dp),
+                .padding(horizontal = 20.dp, vertical = 13.dp)
+                .noEffectClickable {
+                    languageVisible = true
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -130,7 +185,10 @@ fun MyWidgetConfigScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 13.dp),
+                .padding(horizontal = 20.dp, vertical = 13.dp)
+                .noEffectClickable {
+                    fontSizeVisible = true
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -182,7 +240,7 @@ fun MyWidgetConfigScreen(
 
 }
 
-@Preview(showBackground = true)
+@Preview
 @Composable
 private fun ConfigPreview() {
     FillsaTheme {

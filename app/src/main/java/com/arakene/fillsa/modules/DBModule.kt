@@ -23,6 +23,7 @@ class DBModule {
     fun provideDatabase(@ApplicationContext context: Context): QuoteDatabase =
         Room.databaseBuilder(context = context, QuoteDatabase::class.java, "dbName")
             .addMigrations(MIGRATION_1_2)
+            .addMigrations(MIGRATION_2_3)
             .build()
 
     @Singleton
@@ -53,6 +54,41 @@ class DBModule {
             )
             """.trimIndent()
             )
+        }
+    }
+
+    val MIGRATION_2_3 = object : Migration(2, 3) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            // 1. 임시 테이블 생성
+            database.execSQL("""
+            CREATE TABLE widget_quote_info_new (
+                id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                dailyQuoteSeq INTEGER NOT NULL,
+                likeYn TEXT NOT NULL,
+                imagePath TEXT,
+                korQuote TEXT,
+                engQuote TEXT,
+                korAuthor TEXT,
+                engAuthor TEXT,
+                authorUrl TEXT,
+                date TEXT NOT NULL
+            )
+        """)
+
+            // 2. 기존 데이터 복사 (기존 'id' 컬럼을 'dailyQuoteSeq'로 복사)
+            database.execSQL("""
+            INSERT INTO widget_quote_info_new 
+            (dailyQuoteSeq, likeYn, imagePath, korQuote, engQuote, korAuthor, engAuthor, authorUrl, date)
+            SELECT id, likeYn, imagePath, korQuote, engQuote, korAuthor, engAuthor, authorUrl, date
+            FROM widget_quote_info
+        """)
+
+            // 3. 기존 테이블 삭제
+            database.execSQL("DROP TABLE widget_quote_info")
+
+            // 4. 새 테이블 이름 변경
+            database.execSQL("ALTER TABLE widget_quote_info_new RENAME TO widget_quote_info")
+
         }
     }
 }

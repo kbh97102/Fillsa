@@ -7,8 +7,6 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "widget_quote_info")
 data class WidgetQuoteInfoEntity(
 
-    @PrimaryKey
-    @ColumnInfo(name = "id")
     val dailyQuoteSeq: Int,
 
     val likeYn: String,
@@ -25,5 +23,10 @@ data class WidgetQuoteInfoEntity(
 
     val authorUrl: String?,
 
-    val date: String
+    val date: String,
+
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    val id: Int = 0,
+
 )
