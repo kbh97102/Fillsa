@@ -3,27 +3,23 @@ package com.arakene.fillsa.widget.ui
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,15 +30,39 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import com.arakene.fillsa.widget.WidgetPrefsKey
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.PositiveButton
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.noEffectClickable
+import kotlinx.coroutines.launch
 
 
 @Composable
 fun MyWidgetConfigScreen(
-
+    onClick: () -> Unit,
+    dataStore: DataStore<Preferences>
 ) {
+
+    val scope = rememberCoroutineScope()
+
+    val data by dataStore.data.collectAsState(null)
+
+    val widgetFontSize by remember(data) {
+        mutableStateOf(
+            data?.get(WidgetPrefsKey.FONT_SIZE_KEY) ?: "중간"
+        )
+    }
+
+    val widgetLanguage by remember(data) {
+        mutableStateOf(
+            data?.get(WidgetPrefsKey.LANGUAGE_KEY) ?: "중간"
+        )
+    }
+
 
     var languageVisible by remember { mutableStateOf(false) }
     var fontSizeVisible by remember { mutableStateOf(false) }
@@ -50,12 +70,12 @@ fun MyWidgetConfigScreen(
     val languageOptions = listOf("한국어", "영어")
     val fontSizeOptions = listOf("작게", "중간", "크게")
 
-    var selectedLanguage by remember {
-        mutableStateOf("한국어")
+    var selectedLanguage by remember(widgetLanguage) {
+        mutableStateOf(widgetLanguage)
     }
 
-    var selectedFontSize by remember {
-        mutableStateOf("중간")
+    var selectedFontSize by remember(widgetFontSize) {
+        mutableStateOf(widgetFontSize)
     }
 
     WidgetConfigDialog(
@@ -83,9 +103,12 @@ fun MyWidgetConfigScreen(
     )
 
 
-    Column(modifier = Modifier.fillMaxSize()
-        .systemBarsPadding()
-        .background(Color.White)) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding()
+            .background(Color.White)
+    ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -102,12 +125,11 @@ fun MyWidgetConfigScreen(
 
             Text(
                 stringResource(com.arakene.fillsa.R.string.widget),
-                style = FillsaTheme.typography.buttonLargeBold,
                 color = Color.Black
             )
         }
 
-        HorizontalDivider(color = FillsaTheme.colorScheme.outlineVariant)
+        HorizontalDivider()
 
         Row(
             modifier = Modifier
@@ -119,7 +141,6 @@ fun MyWidgetConfigScreen(
 
             Text(
                 stringResource(com.arakene.fillsa.R.string.widget_example_view),
-                style = FillsaTheme.typography.body2,
                 color = colorResource(
                     R.color.gray_700
                 )
@@ -128,7 +149,7 @@ fun MyWidgetConfigScreen(
             Image(painterResource(R.drawable.icn_arrow_down_black), contentDescription = null)
         }
 
-        HorizontalDivider(color = FillsaTheme.colorScheme.outlineVariant)
+        HorizontalDivider()
 
         Spacer(Modifier.height(20.dp))
 
@@ -141,18 +162,18 @@ fun MyWidgetConfigScreen(
 
             WidgetPreview2x2()
             Spacer(Modifier.height(5.dp))
-            Text("비율(2x2)", style = FillsaTheme.typography.body3, color = Color.Black)
+            Text("비율(2x2)", color = Color.Black)
 
             Spacer(Modifier.height(20.dp))
 
             WidgetPreview4x2()
             Spacer(Modifier.height(5.dp))
-            Text("비율(4x2)", style = FillsaTheme.typography.body3, color = Color.Black)
+            Text("비율(4x2)", color = Color.Black)
         }
 
         Spacer(Modifier.height(20.dp))
 
-        HorizontalDivider(color = FillsaTheme.colorScheme.outlineVariant)
+        HorizontalDivider()
 
         Row(
             modifier = Modifier
@@ -167,7 +188,6 @@ fun MyWidgetConfigScreen(
 
             Text(
                 "언어설정",
-                style = FillsaTheme.typography.body2,
                 color = colorResource(
                     R.color.gray_700
                 )
@@ -180,7 +200,7 @@ fun MyWidgetConfigScreen(
             )
         }
 
-        HorizontalDivider(color = FillsaTheme.colorScheme.outlineVariant)
+        HorizontalDivider()
 
         Row(
             modifier = Modifier
@@ -195,7 +215,6 @@ fun MyWidgetConfigScreen(
 
             Text(
                 "텍스트 크기",
-                style = FillsaTheme.typography.body2,
                 color = colorResource(
                     R.color.gray_700
                 )
@@ -208,30 +227,25 @@ fun MyWidgetConfigScreen(
             )
         }
 
-        HorizontalDivider(color = FillsaTheme.colorScheme.outlineVariant)
+        HorizontalDivider()
 
 
         Spacer(Modifier.weight(1f))
 
-        Box(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .fillMaxWidth()
-                .background(
-                    color = FillsaTheme.colorScheme.onSecondaryContainer2,
-                    shape = RoundedCornerShape(8.dp)
-                )
-                .padding(vertical = 15.dp)
-        ) {
-            Text(
-                "확인",
-                color = Color.White,
-                style = FillsaTheme.typography.buttonMediumBold,
-                modifier = Modifier.align(
-                    Alignment.Center
-                )
-            )
-        }
+        PositiveButton(
+            text = "확인",
+            onClick = {
+                scope.launch {
+                    launch {
+                        dataStore.edit { editor ->
+                            editor[WidgetPrefsKey.FONT_SIZE_KEY] = selectedFontSize
+                            editor[WidgetPrefsKey.LANGUAGE_KEY] = selectedLanguage
+                        }
+                    }.join()
+                    onClick()
+                }
+            }
+        )
 
         Spacer(Modifier.height(20.dp))
 
@@ -243,7 +257,4 @@ fun MyWidgetConfigScreen(
 @Preview
 @Composable
 private fun ConfigPreview() {
-    FillsaTheme {
-        MyWidgetConfigScreen()
-    }
 }

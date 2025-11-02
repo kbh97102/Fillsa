@@ -11,21 +11,27 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.core.DataStore
+import androidx.datastore.dataStoreFile
+import androidx.datastore.preferences.core.Preferences
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
 import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
+import androidx.glance.LocalContext
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
+import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
+import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
@@ -41,9 +47,12 @@ import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withContext
+import java.io.File
 
 // GlanceAppWidget UI
 class MyWidget : GlanceAppWidget() {
+
+    override val stateDefinition = MyDataStoreStateDefinition
 
     // a way to get hilt inject what you need in non-suported class
     @EntryPoint
@@ -73,27 +82,19 @@ class MyWidget : GlanceAppWidget() {
 //            Font(R.font.pretendard_700, FontWeight.Bold, FontStyle.Normal),
 //        )
 
-        val dataStore = context.dataStore
+
 
         provideContent {
             val dailyQuote by dailyQuoteInfo.collectAsState(null)
             GlanceTheme {
 
-                var test by remember {
-                    mutableStateOf("")
-                }
+                val context = LocalContext.current
 
-                LaunchedEffect(dataStore) {
-                    dataStore.data.collectLatest { data ->
-                        test = data[WidgetPrefsKey.TEST_STRING] ?: ""
-                    }
-                }
+                val prefs = currentState<Preferences>()
 
-                LaunchedEffect(test) {
-                    if (test.isNotEmpty()) {
-                        Log.e(">>>>", "WIDGET UPDATED? ${test}")
-                    }
-                }
+                val widgetFontSize = prefs[WidgetPrefsKey.FONT_SIZE_KEY] ?: "중간"
+                val widgetLanguage = prefs[WidgetPrefsKey.LANGUAGE_KEY] ?: "한국어"
+
 
                 Column(
                     modifier = GlanceModifier.fillMaxSize().background(R.color.primary)
@@ -125,14 +126,22 @@ class MyWidget : GlanceAppWidget() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
+
+                        val fontSize = when (widgetFontSize) {
+                            "작게" -> 16.sp
+                            "중간" -> 18.sp
+                            else -> 20.sp
+                        }
+
                         // 연속 로그인
                         // 명언
                         Text(
                             modifier = GlanceModifier.fillMaxWidth(),
-                            text = dailyQuote?.korQuote ?: "",
+                            text = if (widgetLanguage == "한국어") dailyQuote?.korQuote
+                                ?: "" else dailyQuote?.engQuote ?: "",
                             style = TextStyle(
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 18.sp,
+                                fontSize = fontSize,
                                 color = ColorProvider(
                                     day = Color(context.getColor(R.color.purple01)),
                                     night = Color(context.getColor(R.color.purple01)),
@@ -142,15 +151,31 @@ class MyWidget : GlanceAppWidget() {
                         )
                         // 저자
                         Text(
-                            dailyQuote?.korAuthor ?: "",
+                            if (widgetLanguage == "한국어") dailyQuote?.korAuthor
+                                ?: "" else dailyQuote?.engAuthor ?: "",
                             style = TextStyle(
                                 fontWeight = FontWeight.Normal,
-                                fontSize = 18.sp,
+                                fontSize = fontSize,
                             ),
                         )
                     }
                 }
             }
+        }
+    }
+
+    object MyDataStoreStateDefinition : GlanceStateDefinition<Preferences> {
+        private const val DATA_STORE_NAME = "widget_test"
+
+        override suspend fun getDataStore(
+            context: Context,
+            fileKey: String
+        ): DataStore<Preferences> {
+            return context.dataStore
+        }
+
+        override fun getLocation(context: Context, fileKey: String): File {
+            return context.dataStoreFile(DATA_STORE_NAME)
         }
     }
 

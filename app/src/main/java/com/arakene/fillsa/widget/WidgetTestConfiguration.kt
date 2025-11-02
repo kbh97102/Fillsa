@@ -33,31 +33,18 @@ class WidgetTestConfiguration : ComponentActivity() {
         }
 
         setContent {
-            FillsaTheme {
-                MyWidgetConfigScreen(
-
-                )
-            }
-        }
-    }
-
-    // At the top level of your kotlin file:
-
-
-    private val scope = CoroutineScope(Dispatchers.IO)
-
-    private fun saveConfig(appWidgetId: Int, theme: String, size: String) {
-        // SharedPreferences 등으로 설정 저장
-        scope.launch {
-            this@WidgetTestConfiguration.dataStore.edit {
-                it[WidgetPrefsKey.TEST_STRING] = "${(System.currentTimeMillis() / 1000f)}"
-            }
+            MyWidgetConfigScreen(
+                onClick = {
+                    updateWidget(appWidgetId)
+                    setResultAndFinish()
+                },
+                dataStore = dataStore
+            )
         }
     }
 
     private fun updateWidget(appWidgetId: Int) {
         AppWidgetManager.getInstance(this)
-//        appWidgetManager.update
         CoroutineScope(Dispatchers.IO).launch {
             val glanceManager = GlanceAppWidgetManager(this@WidgetTestConfiguration)
             val glanceId = glanceManager.getGlanceIdBy(appWidgetId)

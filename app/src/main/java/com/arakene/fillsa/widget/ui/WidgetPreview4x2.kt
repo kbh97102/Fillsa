@@ -54,7 +54,6 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
 
                 Text(
                     "오늘의 문장",
-                    style = FillsaTheme.typography.buttonSmallBold,
                     color = colorResource(com.arakene.presentation.R.color.gray_700)
                 )
             }
@@ -64,14 +63,13 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
             Box(
                 modifier = Modifier
                     .background(
-                        color = FillsaTheme.colorScheme.onBackground2,
+                        color = colorResource(com.arakene.presentation.R.color.purple01),
                         shape = RoundedCornerShape(100.dp)
                     )
                     .padding(horizontal = 6.dp),
             ) {
                 Text(
                     text = stringResource(R.string.write_continuation),
-                    style = FillsaTheme.typography.buttonSmallNormal.copy(fontSize = 8.sp),
                     color = Color.White
                 )
             }
@@ -82,14 +80,10 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
 
         Text(
             "진정한 용기는 두려움 속에서도 행동하는 것이다.",
-            color = FillsaTheme.colorScheme.onBackground2,
-            style = FillsaTheme.typography.body4
         )
         Spacer(Modifier.height(5.dp))
         Text(
             "-넬슨 만델라",
-            color = FillsaTheme.colorScheme.onBackground1,
-            style = FillsaTheme.typography.body4
         )
 
     }

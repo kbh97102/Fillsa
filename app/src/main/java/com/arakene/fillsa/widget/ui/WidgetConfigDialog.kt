@@ -13,6 +13,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -46,7 +47,7 @@ fun WidgetConfigDialog(
                     .fillMaxWidth()
                     .padding(horizontal = 20.dp)
                     .clip(MaterialTheme.shapes.small)
-                    .background(FillsaTheme.colorScheme.backgroundContainer)
+                    .background(color = Color.White)
                     .padding(horizontal = 12.dp)
                     .padding(top = 20.dp, bottom = 12.dp),
                 verticalArrangement = Arrangement.spacedBy(30.dp)

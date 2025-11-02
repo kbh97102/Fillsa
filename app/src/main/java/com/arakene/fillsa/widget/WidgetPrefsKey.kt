@@ -9,6 +9,8 @@ import androidx.datastore.preferences.preferencesDataStore
 object WidgetPrefsKey {
 
     val TEST_STRING = stringPreferencesKey("test_string_key")
+    val LANGUAGE_KEY = stringPreferencesKey("LANGUAGE_KEY")
+    val FONT_SIZE_KEY = stringPreferencesKey("FONT_SIZE_KEY")
 
 }
 
