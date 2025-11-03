@@ -31,4 +31,6 @@ object ApiEndPoint {
     const val GET_TYPING = "/api/v1/member-quotes/{dailyQuoteSeq}/typing"
 
     const val GET_MONTHLY_QUOTES = "/api/v1/quotes/monthly"
+
+    const val GET_MEMBER_STREAKS= "/api/v1/member-streaks"
 }

@@ -9,6 +9,7 @@ import com.arakene.domain.responses.MemberQuoteImageResponse
 import com.arakene.domain.responses.MemberTypingQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
 import com.arakene.domain.responses.SimpleIntResponse
+import com.arakene.domain.responses.WritingStatusDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -21,6 +22,9 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface FillsaApi {
+
+    @GET(ApiEndPoint.GET_MEMBER_STREAKS)
+    suspend fun getMemberStreaks(): Response<WritingStatusDto>
 
     @GET(ApiEndPoint.GET_DAILY_QUOTE)
     suspend fun getDailyQuote(
