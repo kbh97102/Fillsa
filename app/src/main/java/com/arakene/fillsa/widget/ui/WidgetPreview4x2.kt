@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,7 +33,7 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .sizeIn(minWidth = 245.dp, minHeight = 115.dp)
-            .background(FillsaTheme.colorScheme.background, shape = RoundedCornerShape(10.dp))
+            .background(colorResource(com.arakene.presentation.R.color.primary), shape = RoundedCornerShape(10.dp))
             .padding(8.dp)
 
         ,
@@ -54,7 +55,8 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
 
                 Text(
                     "오늘의 문장",
-                    color = colorResource(com.arakene.presentation.R.color.gray_700)
+                    color = colorResource(com.arakene.presentation.R.color.gray_700),
+                    fontSize = 12.sp
                 )
             }
 
@@ -70,7 +72,8 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
             ) {
                 Text(
                     text = stringResource(R.string.write_continuation),
-                    color = Color.White
+                    color = Color.White,
+                    fontSize = 8.sp
                 )
             }
 
@@ -80,12 +83,14 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
 
         Text(
             "진정한 용기는 두려움 속에서도 행동하는 것이다.",
+            textAlign = TextAlign.Center,
+            color = colorResource(com.arakene.presentation.R.color.purple01)
         )
         Spacer(Modifier.height(5.dp))
         Text(
             "-넬슨 만델라",
         )
-
+        Spacer(Modifier.height(38.dp))
     }
 }
 

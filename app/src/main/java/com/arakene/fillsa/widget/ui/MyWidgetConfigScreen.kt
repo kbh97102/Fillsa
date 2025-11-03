@@ -1,5 +1,6 @@
 package com.arakene.fillsa.widget.ui
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +38,6 @@ import androidx.datastore.preferences.core.edit
 import com.arakene.fillsa.widget.WidgetPrefsKey
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.PositiveButton
-import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.noEffectClickable
 import kotlinx.coroutines.launch
 
@@ -59,7 +60,7 @@ fun MyWidgetConfigScreen(
 
     val widgetLanguage by remember(data) {
         mutableStateOf(
-            data?.get(WidgetPrefsKey.LANGUAGE_KEY) ?: "중간"
+            data?.get(WidgetPrefsKey.LANGUAGE_KEY) ?: "한국어"
         )
     }
 
@@ -72,6 +73,10 @@ fun MyWidgetConfigScreen(
 
     var selectedLanguage by remember(widgetLanguage) {
         mutableStateOf(widgetLanguage)
+    }
+
+    LaunchedEffect(selectedLanguage) {
+        Log.e(">>>>", "Selected? $selectedLanguage")
     }
 
     var selectedFontSize by remember(widgetFontSize) {
@@ -233,6 +238,7 @@ fun MyWidgetConfigScreen(
         Spacer(Modifier.weight(1f))
 
         PositiveButton(
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
             text = "확인",
             onClick = {
                 scope.launch {

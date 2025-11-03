@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.arakene.fillsa.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 
@@ -50,7 +51,8 @@ fun WidgetPreview2x2(modifier: Modifier = Modifier) {
         ) {
             Text(
                 text = stringResource(R.string.write_continuation),
-                color = Color.White
+                color = Color.White,
+                fontSize = 6.sp
             )
         }
 
