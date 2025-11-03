@@ -323,7 +323,7 @@ fun Day(
                 modifier = Modifier
                     .size(12.dp)
                     .alpha(
-                        if (quoteData?.typingYn == YN.Y) {
+                        if (quoteData?.completed == true) {
                             1f
                         } else 0f
                     )

@@ -129,18 +129,23 @@ class CalendarViewModel @Inject constructor(
                         quote = quote.quote,
                         quoteDate = quote.quoteDate,
                         author = quote.author,
-                        typingYnString = if (localMatchingData?.korTyping?.isNotEmpty() == true || localMatchingData?.engTyping?.isNotEmpty() == true) {
-                            YN.Y.type
+                        completed = if (localMatchingData?.korTyping?.isNotEmpty() == true || localMatchingData?.engTyping?.isNotEmpty() == true) {
+                            true
                         } else {
-                            YN.N.type
+                            false
                         },
-                        likeYnString = localMatchingData?.likeYn ?: YN.N.type
+                        likeYnString = localMatchingData?.likeYn ?: YN.N.type,
+                        todayCompleted = if (localMatchingData?.korTyping?.isNotEmpty() == true || localMatchingData?.engTyping?.isNotEmpty() == true) {
+                            true
+                        } else {
+                            false
+                        }
                     )
                 }.let {
                     MemberMonthlyQuoteResponse(
                         memberQuotes = it,
                         monthlySummary = MonthlySummaryData(
-                            typingCount = it.count { data -> data.typingYn == YN.Y },
+                            typingCount = it.count { data -> data.completed },
                             likeCount = it.count { data -> data.likeYn == YN.Y },
                         )
                     )
