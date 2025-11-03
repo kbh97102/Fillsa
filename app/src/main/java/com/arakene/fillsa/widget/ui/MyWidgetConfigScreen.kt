@@ -75,12 +75,12 @@ fun MyWidgetConfigScreen(
         mutableStateOf(widgetLanguage)
     }
 
-    LaunchedEffect(selectedLanguage) {
-        Log.e(">>>>", "Selected? $selectedLanguage")
-    }
-
     var selectedFontSize by remember(widgetFontSize) {
         mutableStateOf(widgetFontSize)
+    }
+
+    var displayExample by remember {
+        mutableStateOf(true)
     }
 
     WidgetConfigDialog(
@@ -139,7 +139,11 @@ fun MyWidgetConfigScreen(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 13.dp),
+                .padding(horizontal = 20.dp, vertical = 13.dp)
+                .noEffectClickable {
+                    displayExample = !displayExample
+                }
+            ,
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -151,34 +155,43 @@ fun MyWidgetConfigScreen(
                 )
             )
 
-            Image(painterResource(R.drawable.icn_arrow_down_black), contentDescription = null)
+            Image(painterResource(R.drawable.icn_arrow_down_black), contentDescription = null,
+                modifier = Modifier.rotate(
+                    if (displayExample){
+                        180f
+                    } else {
+                        0f
+                    }
+                ))
         }
 
         HorizontalDivider()
 
-        Spacer(Modifier.height(20.dp))
+        if (displayExample) {
+            Spacer(Modifier.height(20.dp))
 
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 60.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 60.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
 
-            WidgetPreview2x2()
-            Spacer(Modifier.height(5.dp))
-            Text("비율(2x2)", color = Color.Black)
+                WidgetPreview2x2()
+                Spacer(Modifier.height(5.dp))
+                Text("비율(2x2)", color = Color.Black)
+
+                Spacer(Modifier.height(20.dp))
+
+                WidgetPreview4x2()
+                Spacer(Modifier.height(5.dp))
+                Text("비율(4x2)", color = Color.Black)
+            }
 
             Spacer(Modifier.height(20.dp))
 
-            WidgetPreview4x2()
-            Spacer(Modifier.height(5.dp))
-            Text("비율(4x2)", color = Color.Black)
+            HorizontalDivider()
         }
-
-        Spacer(Modifier.height(20.dp))
-
-        HorizontalDivider()
 
         Row(
             modifier = Modifier
@@ -238,7 +251,9 @@ fun MyWidgetConfigScreen(
         Spacer(Modifier.weight(1f))
 
         PositiveButton(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
             text = "확인",
             onClick = {
                 scope.launch {

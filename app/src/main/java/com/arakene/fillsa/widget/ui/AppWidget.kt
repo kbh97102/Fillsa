@@ -98,7 +98,7 @@ class MyWidget : GlanceAppWidget() {
 
                 Column(
                     modifier = GlanceModifier.fillMaxSize().background(R.color.primary)
-                        .padding(4.dp),
+                        .padding(horizontal = 10.dp, vertical = 11.dp),
                 ) {
                     // header
                     Row(verticalAlignment = Alignment.Vertical.CenterVertically) {
