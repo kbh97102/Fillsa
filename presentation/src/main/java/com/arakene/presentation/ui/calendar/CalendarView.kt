@@ -104,6 +104,7 @@ fun CalendarView(
                 CalendarCountSection(
                     typingCount = data?.monthlySummary?.typingCount ?: 0,
                     likeCount = data?.monthlySummary?.likeCount ?: 0,
+                    todayCompleteCount = data?.monthlySummary?.likeCount ?: 0,
                     modifier = Modifier.padding(top = 15.dp),
                     countOnClick = {
                         viewModel.handleContract(CalendarAction.ClickCount)
