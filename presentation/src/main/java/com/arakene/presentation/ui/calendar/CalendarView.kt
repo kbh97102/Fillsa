@@ -85,7 +85,7 @@ fun CalendarView(
         BoxWithConstraints(modifier = Modifier.weight(1f)) {
 
             val calendarHeight = remember {
-                maxHeight * 0.6f
+                maxHeight * 0.75f
             }
 
             Column {

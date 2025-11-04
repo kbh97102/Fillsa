@@ -3,13 +3,13 @@ package com.arakene.presentation.ui.calendar
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -30,6 +30,7 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -40,6 +41,7 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.util.toKoreanShort
 import com.kizitonwose.calendar.compose.ContentHeightMode
@@ -309,37 +311,57 @@ fun Day(
             style = FillsaTheme.typography.buttonSmallNormal
         )
 
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
+        Column(
             modifier = Modifier
                 .padding(top = 3.dp)
                 .padding(horizontal = 5.dp)
-                .heightIn(min = 12.dp),
-            horizontalArrangement = Arrangement.spacedBy(2.dp)
         ) {
-            Image(
-                painterResource(R.drawable.icn_note_calendar),
-                contentDescription = null,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier
-                    .size(12.dp)
-                    .alpha(
-                        if (quoteData?.completed == true) {
-                            1f
-                        } else 0f
-                    )
-            )
+                    .heightIn(min = 12.dp),
+                horizontalArrangement = Arrangement.spacedBy(2.dp)
+            ) {
+                Image(
+                    painterResource(R.drawable.icn_note_calendar),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(12.dp)
+                        .alpha(
+                            if (quoteData?.completed == true) {
+                                1f
+                            } else 0f
+                        )
+                )
 
-            Image(
-                painterResource(R.drawable.icn_fill_heart),
-                contentDescription = null,
-                modifier = Modifier
-                    .size(12.dp)
-                    .alpha(
-                        if (quoteData?.likeYn == YN.Y) {
-                            1f
-                        } else 0f
-                    )
-            )
+                Image(
+                    painterResource(R.drawable.icn_fill_heart),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(12.dp)
+                        .alpha(
+                            if (quoteData?.likeYn == YN.Y) {
+                                1f
+                            } else 0f
+                        )
+                )
+            }
+
+            Row(modifier = Modifier.heightIn(min = 12.dp)) {
+                Image(
+                    painterResource(R.drawable.icn_today_complete),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(12.dp)
+                        .alpha(
+                            if (quoteData?.todayCompleted == true) {
+                                1f
+                            } else 0f
+                        ),
+                    contentScale = ContentScale.FillBounds
+                )
+            }
+
         }
     }
 }
