@@ -147,6 +147,7 @@ class CalendarViewModel @Inject constructor(
                         monthlySummary = MonthlySummaryData(
                             typingCount = it.count { data -> data.completed },
                             likeCount = it.count { data -> data.likeYn == YN.Y },
+                            streakCount = 0
                         )
                     )
                 }

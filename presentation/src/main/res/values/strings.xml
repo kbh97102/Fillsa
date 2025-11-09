@@ -50,4 +50,5 @@
     <string name="share_title">배경을 선택해주세요.</string>
     <string name="share_subtitle">필사한 문장이 이미지로 저장됩니다.</string>
     <string name="splash_logo_text">나만의 필사로 채우다,</string>
+    <string name="close">닫기</string>
 </resources>

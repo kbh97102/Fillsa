@@ -71,13 +71,14 @@ class MainActivity : ComponentActivity() {
 
         setContent {
 
-            val darkModeType by mainActivityViewModel.getDarkModeType().collectAsState(DarkModeType.SYSTEM)
+            val darkModeType by mainActivityViewModel.getDarkModeType()
+                .collectAsState(DarkModeType.SYSTEM)
 
             val systemDarkMode = isSystemInDarkTheme()
 
             val isDarkMode by remember(darkModeType) {
                 mutableStateOf(
-                    when(darkModeType) {
+                    when (darkModeType) {
                         DarkModeType.DARK -> true
                         DarkModeType.LIGHT -> false
                         DarkModeType.SYSTEM -> systemDarkMode
@@ -128,6 +129,7 @@ class MainActivity : ComponentActivity() {
                     LocalMoveHolder provides navController,
                     IsDarkMode provides isDarkMode
                 ) {
+
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
