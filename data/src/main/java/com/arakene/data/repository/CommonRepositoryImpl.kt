@@ -8,6 +8,7 @@ import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.network.GetNoticeDataSource
 import com.arakene.data.util.safeApi
 import com.arakene.domain.repository.CommonRepository
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.NoticeResponse
 import com.arakene.domain.responses.SimpleIntResponse
 import com.arakene.domain.responses.WritingStatusDto
@@ -19,12 +20,6 @@ class CommonRepositoryImpl @Inject constructor(
     private val noTokenApi: FillsaNoTokenApi,
     private val api: FillsaApi
 ) : CommonRepository {
-
-    override suspend fun getMemberStreaks(): ApiResult<WritingStatusDto> {
-        return safeApi {
-            api.getMemberStreaks()
-        }
-    }
 
     override fun getNotice(): Flow<PagingData<NoticeResponse>> {
         return Pager(
@@ -40,6 +35,12 @@ class CommonRepositoryImpl @Inject constructor(
     override suspend fun deleteResign(): ApiResult<SimpleIntResponse> {
         return safeApi {
             api.deleteResign()
+        }
+    }
+
+    override suspend fun getStreaks(): ApiResult<MemberStreakResponse> {
+        return safeApi {
+            noTokenApi.getStreaks()
         }
     }
 }

@@ -2,6 +2,7 @@ package com.arakene.domain.repository
 
 import androidx.paging.PagingData
 import com.arakene.domain.requests.TokenRefreshRequest
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.NoticeResponse
 import com.arakene.domain.responses.SimpleIntResponse
 import com.arakene.domain.responses.TokenInfo
@@ -13,7 +14,5 @@ interface CommonRepository {
 
     fun getNotice(): Flow<PagingData<NoticeResponse>>
     suspend fun deleteResign(): ApiResult<SimpleIntResponse>
-
-    suspend fun getMemberStreaks(): ApiResult<WritingStatusDto>
-
+    suspend fun getStreaks(): ApiResult<MemberStreakResponse>
 }
