@@ -44,6 +44,7 @@ import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
+import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,6 +67,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         mainActivityViewModel.initWidgetData()
+        mainActivityViewModel.getStreaks()
 
         enableEdgeToEdge()
 
@@ -85,6 +87,9 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+            val streakCount by remember {
+                mainActivityViewModel.streakCount
+            }
 
             val snackbarHostState = remember { SnackbarHostState() }
 
@@ -126,7 +131,8 @@ class MainActivity : ComponentActivity() {
                     LocalDialogDataHolder provides dialogData,
                     LocalLoadingState provides globalLoadingState,
                     LocalMoveHolder provides navController,
-                    IsDarkMode provides isDarkMode
+                    IsDarkMode provides isDarkMode,
+                    StreakProvider provides streakCount
                 ) {
                     Box(
                         modifier = Modifier.fillMaxSize(),

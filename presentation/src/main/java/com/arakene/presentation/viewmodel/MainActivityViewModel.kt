@@ -1,9 +1,12 @@
 package com.arakene.presentation.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.DailyQuotaNoToken
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.usecase.common.GetDarkModeTypeUseCase
+import com.arakene.domain.usecase.common.GetStreaksUseCase
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
@@ -17,9 +20,26 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     private val getDarkModeTypeUseCase: GetDarkModeTypeUseCase,
     private val setLocalQuoteForWidgetUseCase: SetLocalQuoteForWidgetUseCase,
-    private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase
+    private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
+    private val getStreaksUseCase: GetStreaksUseCase
 ) : ViewModel() {
 
+    val streakCount = mutableStateOf<MemberStreakResponse?>(null)
+
+    fun getStreaks(){
+        viewModelScope.launch {
+            getStreaksUseCase().let {
+                when(it){
+                    is ApiResult.Success -> {
+                        streakCount.value = it.data
+                    }
+                    else -> {
+                        streakCount.value = null
+                    }
+                }
+            }
+        }
+    }
 
     fun getDarkModeType() = getDarkModeTypeUseCase()
 
