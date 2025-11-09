@@ -8,9 +8,10 @@ import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.network.GetNoticeDataSource
 import com.arakene.data.util.safeApi
 import com.arakene.domain.repository.CommonRepository
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.NoticeResponse
+import com.arakene.domain.responses.PopupResponse
 import com.arakene.domain.responses.SimpleIntResponse
-import com.arakene.domain.responses.WritingStatusDto
 import com.arakene.domain.util.ApiResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
@@ -20,9 +21,15 @@ class CommonRepositoryImpl @Inject constructor(
     private val api: FillsaApi
 ) : CommonRepository {
 
-    override suspend fun getMemberStreaks(): ApiResult<WritingStatusDto> {
+    override suspend fun getMemberStreaks(): ApiResult<MemberStreakResponse> {
         return safeApi {
-            api.getMemberStreaks()
+            noTokenApi.getMemberStreaks()
+        }
+    }
+
+    override suspend fun getPopUpGeneral(): ApiResult<PopupResponse> {
+        return safeApi {
+            noTokenApi.getPopupGeneral()
         }
     }
 

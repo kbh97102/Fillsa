@@ -22,9 +22,6 @@ import retrofit2.http.Query
 
 interface FillsaApi {
 
-    @GET(ApiEndPoint.GET_MEMBER_STREAKS)
-    suspend fun getMemberStreaks(): Response<WritingStatusDto>
-
     @GET(ApiEndPoint.GET_DAILY_QUOTE)
     suspend fun getDailyQuote(
         @Query("quoteDate") quoteDate: String

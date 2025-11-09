@@ -1,9 +1,12 @@
 package com.arakene.presentation.viewmodel
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.DailyQuotaNoToken
+import com.arakene.domain.responses.PopupResponse
 import com.arakene.domain.usecase.common.GetDarkModeTypeUseCase
+import com.arakene.domain.usecase.common.GetPopupGeneralUseCase
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
@@ -17,9 +20,21 @@ import javax.inject.Inject
 class MainActivityViewModel @Inject constructor(
     private val getDarkModeTypeUseCase: GetDarkModeTypeUseCase,
     private val setLocalQuoteForWidgetUseCase: SetLocalQuoteForWidgetUseCase,
-    private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase
+    private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
+    private val getPopupGeneralUseCase: GetPopupGeneralUseCase
 ) : ViewModel() {
 
+    val popupResponse = mutableStateOf<PopupResponse?>(null)
+
+    fun getPopupGeneral(){
+        viewModelScope.launch {
+            getPopupGeneralUseCase().let {
+                if (it is ApiResult.Success){
+                    popupResponse.value = it.data
+                }
+            }
+        }
+    }
 
     fun getDarkModeType() = getDarkModeTypeUseCase()
 
