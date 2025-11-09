@@ -12,8 +12,9 @@ import kotlinx.coroutines.flow.Flow
 interface CommonRepository {
 
     fun getNotice(): Flow<PagingData<NoticeResponse>>
-    suspend fun deleteResign(): ApiResult<SimpleIntResponse>
 
     suspend fun getMemberStreaks(): ApiResult<WritingStatusDto>
+
+    suspend fun deleteResign(): ApiResult<Int>
 
 }

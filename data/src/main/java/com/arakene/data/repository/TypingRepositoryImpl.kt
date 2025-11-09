@@ -22,7 +22,7 @@ class TypingRepositoryImpl @Inject constructor(
     override suspend fun postTyping(
         dailyQuoteSeq: Int,
         request: TypingQuoteRequest
-    ): ApiResult<SimpleIntResponse> {
+    ): ApiResult<Int> {
         return safeApi {
             api.postTyping(dailyQuoteSeq, request)
         }
