@@ -18,7 +18,7 @@ object ApiEndPoint {
 
     const val POST_SAVE_MEMO = "/api/v1/member-quotes/{memberQuoteSeq}/memo"
 
-    const val GET_MEMBER_MONTHLY_QUOTES = "/api/v1/member-quotes/monthly"
+    const val GET_MEMBER_MONTHLY_QUOTES = "/api/v2/member-quotes/monthly"
 
     const val GET_NOTICE = "/api/v1/notices"
 

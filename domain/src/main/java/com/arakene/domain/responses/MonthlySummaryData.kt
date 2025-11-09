@@ -9,5 +9,8 @@ data class MonthlySummaryData(
     val typingCount: Int,
 
     @SerializedName("likeCount")
-    val likeCount: Int
+    val likeCount: Int,
+
+    @SerializedName("streakCount")
+    val streakCount: Int
 )
