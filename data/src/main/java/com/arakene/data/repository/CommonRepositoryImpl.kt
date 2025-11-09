@@ -30,7 +30,7 @@ class CommonRepositoryImpl @Inject constructor(
     }
 
 
-    override suspend fun deleteResign(): ApiResult<SimpleIntResponse> {
+    override suspend fun deleteResign(): ApiResult<Int> {
         return safeApi {
             api.deleteResign()
         }

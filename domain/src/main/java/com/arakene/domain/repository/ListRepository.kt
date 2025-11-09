@@ -19,6 +19,6 @@ interface ListRepository {
     suspend fun postSaveMemo(
         request: MemoRequest,
         memberQuoteSeq: String
-    ): ApiResult<SimpleIntResponse>
+    ): ApiResult<Int>
 
 }
