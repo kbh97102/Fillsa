@@ -30,7 +30,7 @@ class HomeRepositoryImpl @Inject constructor(
     override suspend fun postLike(
         likeRequest: LikeRequest,
         dailyQuoteSeq: Int
-    ): ApiResult<SimpleIntResponse> {
+    ): ApiResult<Int> {
         return safeApi {
             api.postLike(dailyQuoteSeq, likeRequest)
         }

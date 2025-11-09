@@ -16,7 +16,7 @@ interface HomeRepository {
 
     suspend fun getDailyQuote(quoteDate: String): ApiResult<DailyQuoteDto>
 
-    suspend fun postLike(likeRequest: LikeRequest, dailyQuoteSeq: Int): ApiResult<SimpleIntResponse>
+    suspend fun postLike(likeRequest: LikeRequest, dailyQuoteSeq: Int): ApiResult<Int>
 
     suspend fun postUploadImage(imageFile: File, dailyQuoteSeq: Int): ApiResult<MemberQuoteImageResponse>
 
