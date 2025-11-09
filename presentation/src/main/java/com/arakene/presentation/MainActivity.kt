@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -34,6 +35,7 @@ import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.MainNavHost
+import com.arakene.presentation.ui.common.TestDialog
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
@@ -66,6 +68,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         mainActivityViewModel.initWidgetData()
+        mainActivityViewModel.getPopupGeneral()
 
         enableEdgeToEdge()
 
@@ -86,6 +89,9 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+            var generalPopup by remember {
+                mainActivityViewModel.popupResponse
+            }
 
             val snackbarHostState = remember { SnackbarHostState() }
 
@@ -120,6 +126,11 @@ class MainActivity : ComponentActivity() {
             LaunchedEffect(currentDestination) {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
+
+            TestDialog(
+                generalPopup,
+                clear = { generalPopup = null }
+            )
 
             FillsaTheme(darkTheme = isDarkMode) {
                 CompositionLocalProvider(
