@@ -24,6 +24,7 @@ class DBModule {
         Room.databaseBuilder(context = context, QuoteDatabase::class.java, "dbName")
             .addMigrations(MIGRATION_1_2)
             .addMigrations(MIGRATION_2_3)
+            .addMigrations(MIGRATION_3_4)
             .build()
 
     @Singleton
@@ -91,4 +92,25 @@ class DBModule {
 
         }
     }
+
+    private val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            // INT (NOT NULL, DEFAULT 0) 추가
+            database.execSQL(
+                """
+            ALTER TABLE quoteInfo 
+            ADD COLUMN streakDateCount INTEGER NOT NULL DEFAULT 0
+            """
+            )
+
+            // BOOLEAN 대신 INTEGER로 저장 (0=false, 1=true)
+            database.execSQL(
+                """
+            ALTER TABLE quoteInfo 
+            ADD COLUMN isDailyWritingCompleted INTEGER NOT NULL DEFAULT 0
+            """
+            )
+        }
+    }
+
 }
