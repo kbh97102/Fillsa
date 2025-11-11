@@ -1,13 +1,10 @@
 package com.arakene.fillsa.widget.ui
 
 import android.content.Context
-import android.util.Log
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -28,15 +25,20 @@ import androidx.glance.currentState
 import androidx.glance.layout.Alignment
 import androidx.glance.layout.Column
 import androidx.glance.layout.Row
+import androidx.glance.layout.Spacer
 import androidx.glance.layout.fillMaxSize
 import androidx.glance.layout.fillMaxWidth
 import androidx.glance.layout.padding
+import androidx.glance.layout.size
 import androidx.glance.state.GlanceStateDefinition
 import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import com.arakene.domain.responses.MemberStreakResponse
+import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteForWidgetUseCase
+import com.arakene.domain.util.ApiResult
 import com.arakene.fillsa.widget.WidgetPrefsKey
 import com.arakene.fillsa.widget.dataStore
 import com.arakene.presentation.R
@@ -45,7 +47,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.EntryPointAccessors
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.withContext
 import java.io.File
 
@@ -57,8 +58,9 @@ class MyWidget : GlanceAppWidget() {
     // a way to get hilt inject what you need in non-suported class
     @EntryPoint
     @InstallIn(SingletonComponent::class)
-    interface StatisticsProviderEntryPoint {
+    interface WidgetHiltEntryPoint {
         fun getDailyUseCase(): GetLocalQuoteForWidgetUseCase
+        fun getStreak(): GetMemberStreaksUseCase
     }
 
     // TODO: 데이터 관리 방법에 더 간단한 방법이 있는걸로 파악됨 https://proandroiddev.com/widgets-with-glance-beyond-string-states-2dcc4db2f76c 참고
@@ -67,25 +69,29 @@ class MyWidget : GlanceAppWidget() {
 
         // TODO: 테이터/와이파이 미연결 후 다시 안결된 경우 데이터 재호출 필요
         val appContext = context.applicationContext ?: throw IllegalStateException()
-        val statisticsEntryPoint =
+        val widgetEntryPoint =
             EntryPointAccessors.fromApplication(
                 appContext,
-                StatisticsProviderEntryPoint::class.java,
+                WidgetHiltEntryPoint::class.java,
             )
-        val testUseCase = statisticsEntryPoint.getDailyUseCase()
+        val getDailyUseCase = widgetEntryPoint.getDailyUseCase()
+        val streakUseCase = widgetEntryPoint.getStreak()
 
         val dailyQuoteInfo = withContext(Dispatchers.IO) {
-            testUseCase()
+            getDailyUseCase()
         }
-//        val pretendard = FontFamily(
-//            Font(R.font.pretendard_400, FontWeight.Normal, FontStyle.Normal),
-//            Font(R.font.pretendard_700, FontWeight.Bold, FontStyle.Normal),
-//        )
 
+        val streakState = mutableStateOf<MemberStreakResponse?>(null)
 
+        withContext(Dispatchers.IO) {
+            streakUseCase().let {
+                streakState.value = if (it is ApiResult.Success) it.data else null
+            }
+        }
 
         provideContent {
             val dailyQuote by dailyQuoteInfo.collectAsState(null)
+            val streak by remember { streakState }
             GlanceTheme {
 
                 val context = LocalContext.current
@@ -95,6 +101,11 @@ class MyWidget : GlanceAppWidget() {
                 val widgetFontSize = prefs[WidgetPrefsKey.FONT_SIZE_KEY] ?: "중간"
                 val widgetLanguage = prefs[WidgetPrefsKey.LANGUAGE_KEY] ?: "한국어"
 
+                val fontSize = when (widgetFontSize) {
+                    "작게" -> 16.sp
+                    "중간" -> 18.sp
+                    else -> 20.sp
+                }
 
                 Column(
                     modifier = GlanceModifier.fillMaxSize().background(R.color.primary)
@@ -117,6 +128,32 @@ class MyWidget : GlanceAppWidget() {
                                 ),
                             )
                         )
+
+                        Spacer(GlanceModifier.defaultWeight())
+
+                        if (streak != null && (streak?.currentStreak ?: 0) > 0) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Image(
+                                    provider = ImageProvider(
+                                        (R.drawable.icn_today_complete)
+                                    ),
+                                    contentDescription = null,
+                                    modifier = GlanceModifier.size(24.dp)
+                                )
+
+                                Text(
+                                    "${streak?.currentStreak}일", style = TextStyle(
+                                        fontWeight = FontWeight.Normal,
+                                        fontSize = fontSize,
+                                        color = ColorProvider(
+                                            day = Color(context.getColor(R.color.gray_700)),
+                                            night = Color(context.getColor(R.color.gray_700)),
+                                        ),
+                                        textAlign = TextAlign.Center,
+                                    )
+                                )
+                            }
+                        }
                     }
 
                     Column(
@@ -127,11 +164,6 @@ class MyWidget : GlanceAppWidget() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
 
-                        val fontSize = when (widgetFontSize) {
-                            "작게" -> 16.sp
-                            "중간" -> 18.sp
-                            else -> 20.sp
-                        }
 
                         // 연속 로그인
                         // 명언
