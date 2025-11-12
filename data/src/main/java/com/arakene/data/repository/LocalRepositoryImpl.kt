@@ -9,6 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.map
 import com.arakene.data.db.LocalQuoteInfoDao
 import com.arakene.data.db.StreakInfoDao
+import com.arakene.data.db.StreakInfoEntity
 import com.arakene.data.db.WidgetQuoteInfoDao
 import com.arakene.data.network.GetLocalQuoteDataSource
 import com.arakene.data.util.DataStoreKey
@@ -48,8 +49,23 @@ class LocalRepositoryImpl @Inject constructor(
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
-    override suspend fun setStreakInfo(info: StreakInfo) {
-        streakInfoDao.insert(info.toEntity())
+    override suspend fun setTodayStreakInfo() {
+        val yesterday = dateFormatter.format(LocalDate.now().minusDays(1))
+
+        val yesterdayInfo = streakInfoDao.getByDate(yesterday)
+        val streakCount = if (yesterdayInfo?.isDailyWritingCompleted == true) {
+            yesterdayInfo.streakDateCount + 1
+        } else {
+            1
+        }
+
+        streakInfoDao.insert(
+            StreakInfoEntity(
+                date = dateFormatter.format(LocalDate.now()),
+                streakDateCount = streakCount,
+                isDailyWritingCompleted = true
+            )
+        )
     }
 
     override suspend fun getYesterdayStreakInfo(): StreakInfo? {

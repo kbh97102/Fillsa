@@ -1,7 +1,9 @@
 package com.arakene.domain.model
 
+import java.time.LocalDate
+
 data class StreakInfo(
-    val date: String, // yyyy-MM-dd
+    val date: LocalDate, // yyyy-MM-dd
 
     val streakDateCount: Int = 0,
 

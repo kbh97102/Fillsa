@@ -8,6 +8,8 @@ import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.util.YN
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 fun LocalQuoteInfoEntity.toDomain() = LocalQuoteInfo(
     dailyQuoteSeq,
@@ -85,14 +87,15 @@ fun WidgetQuoteInfoEntity.toDailyQuotaNoToken(): DailyQuotaNoToken {
     )
 }
 
+private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 fun StreakInfo.toEntity() = StreakInfoEntity(
-    date = date,
+    date = dateFormatter.format(date),
     streakDateCount = streakDateCount,
     isDailyWritingCompleted = isDailyWritingCompleted
 )
 
 fun StreakInfoEntity.toDto() = StreakInfo(
-    date = date,
+    date = LocalDate.parse(date),
     streakDateCount = streakDateCount,
     isDailyWritingCompleted = isDailyWritingCompleted
 )

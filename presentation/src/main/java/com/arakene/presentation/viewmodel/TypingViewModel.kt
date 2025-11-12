@@ -12,6 +12,7 @@ import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.InsertStreakInfoUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
@@ -47,7 +48,8 @@ class TypingViewModel @Inject constructor(
     private val postTypingUseCase: PostTypingUseCase,
     private val getLocalQuoteUseCase: GetLocalQuoteUseCase,
     private val deleteLocalQuoteUseCase: DeleteLocalQuoteUseCase,
-    private val getMemberStreakResponse: GetMemberStreaksUseCase
+    private val getMemberStreakResponse: GetMemberStreaksUseCase,
+    private val setTodayTypingComplete: InsertStreakInfoUseCase
 ) : BaseViewModel() {
 
     private var streakResponse: MemberStreakResponse? = null
@@ -154,7 +156,8 @@ class TypingViewModel @Inject constructor(
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
-
+            val isComplete =
+                korTyping == dailyQuoteDto.korQuote || engTyping == dailyQuoteDto.engQuote
             if (!loginStatus) {
 
                 if (korTyping.isEmpty() && engTyping.isEmpty()) {
@@ -167,6 +170,10 @@ class TypingViewModel @Inject constructor(
                             return@launch
                         }
                     }
+                }
+
+                if (isComplete) {
+                    setTodayTypingComplete()
                 }
 
                 addLocalQuoteUseCase(
@@ -200,8 +207,7 @@ class TypingViewModel @Inject constructor(
 
             if (useSaveSnackBar) {
                 if (loginStatus) {
-                    val isComplete =
-                        korTyping == dailyQuoteDto.korQuote || engTyping == dailyQuoteDto.engQuote
+
                     when {
                         // 연속 필사 완료
                         isComplete && (streakResponse?.currentStreak ?: 0) > 0 -> {

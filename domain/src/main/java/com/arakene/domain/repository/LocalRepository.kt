@@ -58,7 +58,7 @@ interface LocalRepository {
     suspend fun setDarkModeType(darkMode: DarkModeType)
     fun getDarkModeType(): Flow<DarkModeType>
 
-    suspend fun setStreakInfo(info: StreakInfo)
+    suspend fun setTodayStreakInfo()
     suspend fun getYesterdayStreakInfo(): StreakInfo?
     suspend fun getAllStreakInfos(): List<StreakInfo>
 }
