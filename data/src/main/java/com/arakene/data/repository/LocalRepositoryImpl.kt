@@ -49,6 +49,21 @@ class LocalRepositoryImpl @Inject constructor(
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+    override suspend fun getStreakDateCount(): Int {
+        val todayInfo = streakInfoDao.getByDate(dateFormatter.format(LocalDate.now()))
+        if (todayInfo == null) {
+            val yesterdayInfo =
+                streakInfoDao.getByDate(dateFormatter.format(LocalDate.now().minusDays(1)))
+
+            if (yesterdayInfo == null) {
+                return 0
+            }
+            return yesterdayInfo.streakDateCount
+        }
+
+        return todayInfo.streakDateCount
+    }
+
     override suspend fun setTodayStreakInfo() {
         val yesterday = dateFormatter.format(LocalDate.now().minusDays(1))
 
