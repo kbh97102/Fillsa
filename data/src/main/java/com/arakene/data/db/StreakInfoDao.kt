@@ -10,7 +10,7 @@ interface StreakInfoDao {
 
     // ✅ Create / Update (PK 충돌 시 업데이트)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsert(streakInfo: StreakInfoEntity)
+    suspend fun insert(streakInfo: StreakInfoEntity)
 
     // ✅ Read (단일 조회)
     @Query("SELECT * FROM streak_info WHERE date = :date LIMIT 1")

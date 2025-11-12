@@ -1,7 +1,9 @@
 package com.arakene.data.util
 
 import com.arakene.data.db.LocalQuoteInfoEntity
+import com.arakene.data.db.StreakInfoEntity
 import com.arakene.data.db.WidgetQuoteInfoEntity
+import com.arakene.domain.model.StreakInfo
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
@@ -82,3 +84,15 @@ fun WidgetQuoteInfoEntity.toDailyQuotaNoToken(): DailyQuotaNoToken {
         authorUrl = this.authorUrl
     )
 }
+
+fun StreakInfo.toEntity() = StreakInfoEntity(
+    date = date,
+    streakDateCount = streakDateCount,
+    isDailyWritingCompleted = isDailyWritingCompleted
+)
+
+fun StreakInfoEntity.toDto() = StreakInfo(
+    date = date,
+    streakDateCount = streakDateCount,
+    isDailyWritingCompleted = isDailyWritingCompleted
+)

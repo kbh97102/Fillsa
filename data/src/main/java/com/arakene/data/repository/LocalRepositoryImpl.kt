@@ -8,13 +8,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.arakene.data.db.LocalQuoteInfoDao
+import com.arakene.data.db.StreakInfoDao
 import com.arakene.data.db.WidgetQuoteInfoDao
 import com.arakene.data.network.GetLocalQuoteDataSource
 import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
 import com.arakene.data.util.DataStoreKey.ALARM_KEY
-import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
 import com.arakene.data.util.DataStoreKey.DARK_MODE_TYPE
+import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
 import com.arakene.data.util.DataStoreKey.PERMISSION_REQUESTED
 import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
 import com.arakene.data.util.DataStoreKey.SHARE_DESCRIPTION
@@ -23,6 +24,7 @@ import com.arakene.data.util.toDomain
 import com.arakene.data.util.toDto
 import com.arakene.data.util.toEntity
 import com.arakene.data.util.toWidgetQuoteInfoEntity
+import com.arakene.domain.model.StreakInfo
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuotaNoToken
@@ -40,8 +42,25 @@ class LocalRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val tokenProvider: TokenProvider,
     private val dao: LocalQuoteInfoDao,
-    private val widgetDao: WidgetQuoteInfoDao
+    private val widgetDao: WidgetQuoteInfoDao,
+    private val streakInfoDao: StreakInfoDao
 ) : LocalRepository {
+
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+    override suspend fun setStreakInfo(info: StreakInfo) {
+        streakInfoDao.insert(info.toEntity())
+    }
+
+    override suspend fun getYesterdayStreakInfo(): StreakInfo? {
+        return streakInfoDao.getByDate(dateFormatter.format(LocalDate.now().minusDays(1)))?.toDto()
+    }
+
+    override suspend fun getAllStreakInfos(): List<StreakInfo> {
+        return streakInfoDao.getAll().map {
+            it.toDto()
+        }
+    }
 
     override fun getLocalQuoteForWidget(): Flow<DailyQuoteDto?> {
 

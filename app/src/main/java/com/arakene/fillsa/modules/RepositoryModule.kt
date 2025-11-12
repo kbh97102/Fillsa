@@ -3,8 +3,8 @@ package com.arakene.fillsa.modules
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import androidx.room.PrimaryKey
 import com.arakene.data.db.LocalQuoteInfoDao
+import com.arakene.data.db.StreakInfoDao
 import com.arakene.data.db.WidgetQuoteInfoDao
 import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
@@ -50,9 +50,10 @@ class RepositoryModule {
         dataStore: DataStore<Preferences>,
         tokenProvider: TokenProvider,
         dao: LocalQuoteInfoDao,
-        widgetDao: WidgetQuoteInfoDao
+        widgetDao: WidgetQuoteInfoDao,
+        streakInfoDao: StreakInfoDao
     ): LocalRepository {
-        return LocalRepositoryImpl(dataStore, tokenProvider, dao, widgetDao)
+        return LocalRepositoryImpl(dataStore, tokenProvider, dao, widgetDao, streakInfoDao)
     }
 
     @Provides
@@ -64,7 +65,10 @@ class RepositoryModule {
     fun provideListRepository(api: FillsaApi): ListRepository = ListRepositoryImpl(api)
 
     @Provides
-    fun provideCalendarRepository(api: FillsaApi, noTokenApi: FillsaNoTokenApi): CalendarRepository = CalendarRepositoryImpl(api, noTokenApi)
+    fun provideCalendarRepository(
+        api: FillsaApi,
+        noTokenApi: FillsaNoTokenApi
+    ): CalendarRepository = CalendarRepositoryImpl(api, noTokenApi)
 
     @Provides
     fun provideCommonRepository(api: FillsaNoTokenApi, tokenApi: FillsaApi): CommonRepository =
@@ -82,5 +86,8 @@ class RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideAdRepository(@ApplicationContext context: Context, cacheManagerImpl: AdCacheManagerImpl) : AdRepository = AdRepositoryImpl(context, cacheManagerImpl)
+    fun provideAdRepository(
+        @ApplicationContext context: Context,
+        cacheManagerImpl: AdCacheManagerImpl
+    ): AdRepository = AdRepositoryImpl(context, cacheManagerImpl)
 }
