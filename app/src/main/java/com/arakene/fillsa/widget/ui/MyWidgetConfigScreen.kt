@@ -38,6 +38,7 @@ import androidx.datastore.preferences.core.edit
 import com.arakene.fillsa.widget.WidgetPrefsKey
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.PositiveButton
+import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.noEffectClickable
 import kotlinx.coroutines.launch
 
@@ -130,7 +131,8 @@ fun MyWidgetConfigScreen(
 
             Text(
                 stringResource(com.arakene.fillsa.R.string.widget),
-                color = Color.Black
+                color = Color.Black,
+                style = FillsaTheme.typography.heading4
             )
         }
 
@@ -152,7 +154,8 @@ fun MyWidgetConfigScreen(
                 stringResource(com.arakene.fillsa.R.string.widget_example_view),
                 color = colorResource(
                     R.color.gray_700
-                )
+                ),
+                style = FillsaTheme.typography.body2
             )
 
             Image(painterResource(R.drawable.icn_arrow_down_black), contentDescription = null,
@@ -208,7 +211,8 @@ fun MyWidgetConfigScreen(
                 "언어설정",
                 color = colorResource(
                     R.color.gray_700
-                )
+                ),
+                style = FillsaTheme.typography.body2
             )
 
             Image(
@@ -235,7 +239,8 @@ fun MyWidgetConfigScreen(
                 "텍스트 크기",
                 color = colorResource(
                     R.color.gray_700
-                )
+                ),
+                style = FillsaTheme.typography.body2
             )
 
             Image(
