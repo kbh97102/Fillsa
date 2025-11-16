@@ -50,6 +50,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.util.CommonError
 import com.arakene.domain.util.CommonErrorWrappedException
 import com.arakene.presentation.R
@@ -184,6 +185,7 @@ val LocalSnackbarHost = compositionLocalOf { SnackbarHostState() }
 val LocalDialogDataHolder = compositionLocalOf { DialogDataHolder() }
 
 val LocalMoveHolder = compositionLocalOf<NavHostController?> { null }
+val StreakProvider = compositionLocalOf<MemberStreakResponse?> { null }
 
 val IsDarkMode = staticCompositionLocalOf { false }
 

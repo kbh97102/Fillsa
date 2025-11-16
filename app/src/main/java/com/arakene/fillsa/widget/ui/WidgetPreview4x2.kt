@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,10 +32,11 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .sizeIn(minWidth = 245.dp, minHeight = 115.dp)
-            .background(colorResource(com.arakene.presentation.R.color.primary), shape = RoundedCornerShape(10.dp))
-            .padding(8.dp)
-
-        ,
+            .background(
+                colorResource(com.arakene.presentation.R.color.primary),
+                shape = RoundedCornerShape(10.dp)
+            )
+            .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
@@ -56,7 +56,7 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
                 Text(
                     "오늘의 문장",
                     color = colorResource(com.arakene.presentation.R.color.gray_700),
-                    fontSize = 12.sp
+                    style = FillsaTheme.typography.buttonXSmallBold.copy(fontSize = 12.sp)
                 )
             }
 
@@ -68,12 +68,12 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
                         color = colorResource(com.arakene.presentation.R.color.purple01),
                         shape = RoundedCornerShape(100.dp)
                     )
-                    .padding(horizontal = 6.dp),
+                    .padding(horizontal = 6.dp, vertical = 4.dp),
             ) {
                 Text(
                     text = stringResource(R.string.write_continuation),
                     color = Color.White,
-                    fontSize = 8.sp
+                    style = FillsaTheme.typography.body4.copy(fontSize = 8.sp)
                 )
             }
 
@@ -84,11 +84,14 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
         Text(
             "진정한 용기는 두려움 속에서도 행동하는 것이다.",
             textAlign = TextAlign.Center,
-            color = colorResource(com.arakene.presentation.R.color.purple01)
+            color = colorResource(com.arakene.presentation.R.color.purple01),
+            style = FillsaTheme.typography.body4
         )
         Spacer(Modifier.height(5.dp))
         Text(
             "-넬슨 만델라",
+            style = FillsaTheme.typography.body4,
+            color = colorResource(com.arakene.presentation.R.color.gray_700)
         )
         Spacer(Modifier.height(38.dp))
     }

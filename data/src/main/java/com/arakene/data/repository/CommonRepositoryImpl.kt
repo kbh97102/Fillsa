@@ -11,7 +11,6 @@ import com.arakene.domain.repository.CommonRepository
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.NoticeResponse
 import com.arakene.domain.responses.PopupResponse
-import com.arakene.domain.responses.SimpleIntResponse
 import com.arakene.domain.util.ApiResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
