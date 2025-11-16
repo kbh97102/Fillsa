@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.RichTooltip
@@ -105,22 +104,12 @@ fun StreakInfo(
                                 }
                             )
                         }
-
-                        Spacer(Modifier.width(30.dp))
-
-                        Image(
-                            painterResource(R.drawable.icn_exit_white),
-                            contentDescription = null,
-                            modifier = Modifier.noEffectClickable{
-                                state.dismiss()
-                            }
-                        )
                     }
                 }
             },
             content = {
                 Image(
-                    painterResource(R.drawable.icn_today_complete), contentDescription = null,
+                    painterResource(R.drawable.icn_empty_daily_count), contentDescription = null,
                     modifier = Modifier.noEffectClickable {
                         scope.launch {
                             state.show()
