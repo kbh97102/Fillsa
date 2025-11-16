@@ -237,9 +237,9 @@ class TypingViewModel @Inject constructor(
                                         .title("필사가 완료되지 않았어요 :(")
                                         .drawableId(
                                             if (isDarkMode) {
-                                                R.drawable.icn_not_complete_night
+                                                R.drawable.icn_today_not_complete_night
                                             } else {
-                                                R.drawable.icn_not_complete
+                                                R.drawable.icn_today_not_complete
                                             }
                                         )
                                         .singleButton(false)
