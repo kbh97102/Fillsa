@@ -19,7 +19,6 @@ import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostTypingUseCase
-import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.util.Action
@@ -41,7 +40,6 @@ import javax.inject.Inject
 @HiltViewModel
 class TypingViewModel @Inject constructor(
     private val postLikeUseCase: PostLikeUseCase,
-    private val updateLocalQuoteUseCase: UpdateLocalQuoteUseCase,
     private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
     private val getLoginStateUseCase: GetLoginStatusUseCase,
     private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
@@ -51,7 +49,6 @@ class TypingViewModel @Inject constructor(
     private val deleteLocalQuoteUseCase: DeleteLocalQuoteUseCase,
     private val getMemberStreakResponse: GetMemberStreaksUseCase,
     private val setTodayTypingComplete: InsertStreakInfoUseCase,
-    private val getTodayLocalStreakInfoUseCase: GetTodayLocalStreakInfoUseCase
 ) : BaseViewModel() {
 
     private var streakResponse: MemberStreakResponse? = null
@@ -63,23 +60,9 @@ class TypingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            if (getLoginStateUseCase().firstOrNull() == true){
-                getMemberStreakResponse().let {
-                    streakResponse = if (it is ApiResult.Success) {
-                        it.data
-                    } else {
-                        null
-                    }
-                }
-            } else {
-                streakResponse = getTodayLocalStreakInfoUseCase()?.let {
-                    MemberStreakResponse(
-                        isTodayWritten = it.isDailyWritingCompleted,
-                        currentStreak = it.streakDateCount
-                    )
-                }
+            getMemberStreakResponse().let {
+                streakResponse = it
             }
-
         }
     }
 

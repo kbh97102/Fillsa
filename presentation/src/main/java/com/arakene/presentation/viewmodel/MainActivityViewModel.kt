@@ -7,8 +7,8 @@ import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.PopupResponse
 import com.arakene.domain.usecase.common.GetDarkModeTypeUseCase
-import com.arakene.domain.usecase.common.GetPopupGeneralUseCase
 import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
+import com.arakene.domain.usecase.common.GetPopupGeneralUseCase
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
@@ -44,11 +44,17 @@ class MainActivityViewModel @Inject constructor(
     fun getStreakInfo() {
         viewModelScope.launch {
             getMemberStreaksUseCase().let {
-                streakCount.value = if (it is ApiResult.Success) {
-                    it.data
-                } else {
-                    null
-                }
+                streakCount.value = it
+            }
+        }
+    }
+
+    fun updateStreakInfo(route: String?) {
+        when {
+            route?.contains("Home") == true || route?.contains("Calendar") == true || route?.contains(
+                "QuoteList"
+            ) == true -> {
+                getStreakInfo()
             }
         }
     }

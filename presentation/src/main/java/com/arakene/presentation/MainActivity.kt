@@ -70,7 +70,6 @@ class MainActivity : ComponentActivity() {
 
         mainActivityViewModel.initWidgetData()
         mainActivityViewModel.getPopupGeneral()
-        mainActivityViewModel.getStreakInfo()
 
 
         enableEdgeToEdge()
@@ -132,6 +131,7 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(currentDestination) {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
+                mainActivityViewModel.updateStreakInfo(currentDestination?.destination?.route)
             }
 
             TestDialog(
