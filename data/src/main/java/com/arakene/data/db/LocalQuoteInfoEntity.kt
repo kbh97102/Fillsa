@@ -30,5 +30,5 @@ data class LocalQuoteInfoEntity(
 
     val date: String = LocalDate.now().format(DateTimeFormatter.ISO_DATE),
 
-    val dayOfWeek: String = LocalDate.now().dayOfWeek.name
+    val dayOfWeek: String = LocalDate.now().dayOfWeek.name,
 )

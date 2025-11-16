@@ -46,6 +46,7 @@ import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
+import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,6 +70,8 @@ class MainActivity : ComponentActivity() {
 
         mainActivityViewModel.initWidgetData()
         mainActivityViewModel.getPopupGeneral()
+        mainActivityViewModel.getStreakInfo()
+
 
         enableEdgeToEdge()
 
@@ -87,6 +90,10 @@ class MainActivity : ComponentActivity() {
                         DarkModeType.SYSTEM -> systemDarkMode
                     }
                 )
+            }
+
+            val streakCount by remember {
+                mainActivityViewModel.streakCount
             }
 
             var generalPopup by remember {
@@ -138,7 +145,8 @@ class MainActivity : ComponentActivity() {
                     LocalDialogDataHolder provides dialogData,
                     LocalLoadingState provides globalLoadingState,
                     LocalMoveHolder provides navController,
-                    IsDarkMode provides isDarkMode
+                    IsDarkMode provides isDarkMode,
+                    StreakProvider provides streakCount
                 ) {
 
                     Box(

@@ -7,9 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,19 +16,22 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.StreakInfo
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
 fun HomeTopSection(
     navigate: Navigate,
     modifier: Modifier = Modifier,
-    todayCompleteCount: Int = 0,
-    darkMode: Boolean = IsDarkMode.current
+    darkMode: Boolean = IsDarkMode.current,
+    streak: MemberStreakResponse? = StreakProvider.current
 ) {
 
     Row(
@@ -53,24 +54,14 @@ fun HomeTopSection(
             })
 
         Row(verticalAlignment = Alignment.CenterVertically) {
-            if (todayCompleteCount > 0) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Image(
-                        painterResource(R.drawable.icn_today_complete),
-                        contentDescription = null,
-                        modifier = Modifier.size(20.dp)
-                    )
-                    Text(
-                        "${todayCompleteCount}일",
-                        style = FillsaTheme.typography.subtitle1,
-                        color = FillsaTheme.colorScheme.onBackground1
-                    )
 
+            StreakInfo(
+                moveToCalendar = {
+                    navigate(Screens.Calendar)
                 }
-                Spacer(Modifier.width(10.dp))
-            }
+            )
+
+            Spacer(Modifier.width(10.dp))
 
             Image(
                 painterResource(R.drawable.icn_my_page),
@@ -91,6 +82,5 @@ fun HomeTopSection(
 private fun HomeTopSectionPreview() {
     HomeTopSection(
         navigate = {},
-        todayCompleteCount = 100
     )
 }

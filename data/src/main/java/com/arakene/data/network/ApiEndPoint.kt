@@ -32,8 +32,9 @@ object ApiEndPoint {
 
     const val GET_MONTHLY_QUOTES = "/api/v1/quotes/monthly"
 
+    const val GET_STREAKS = "/api/v1/member-streaks"
+
     const val GET_MEMBER_STREAKS= "/api/v1/member-streaks"
 
     const val GET_POPUP_GENERAL = "/api/v1/popups/general"
-
 }

@@ -7,7 +7,6 @@ import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.MonthlyQuoteResponse
 import com.arakene.domain.responses.PageResponseNoticeResponse
 import com.arakene.domain.responses.PopupResponse
-import com.arakene.domain.responses.WritingStatusDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -21,7 +20,7 @@ interface FillsaNoTokenApi {
     suspend fun getMemberStreaks(): Response<MemberStreakResponse>
 
     @GET(ApiEndPoint.GET_POPUP_GENERAL)
-    suspend fun getPopupGeneral() : Response<PopupResponse>
+    suspend fun getPopupGeneral(): Response<PopupResponse>
 
     @GET("/test/code/{code}")
     suspend fun testErrorCode(
@@ -48,5 +47,8 @@ interface FillsaNoTokenApi {
     suspend fun getMonthlyQuotesNonMember(
         @Query("yearMonth") yearMonth: String
     ): Response<List<MonthlyQuoteResponse>>
+
+    @GET(ApiEndPoint.GET_STREAKS)
+    suspend fun getStreaks(): Response<MemberStreakResponse>
 
 }

@@ -12,6 +12,8 @@ import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.GetTodayLocalStreakInfoUseCase
+import com.arakene.domain.usecase.db.InsertStreakInfoUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
@@ -47,7 +49,9 @@ class TypingViewModel @Inject constructor(
     private val postTypingUseCase: PostTypingUseCase,
     private val getLocalQuoteUseCase: GetLocalQuoteUseCase,
     private val deleteLocalQuoteUseCase: DeleteLocalQuoteUseCase,
-    private val getMemberStreakResponse: GetMemberStreaksUseCase
+    private val getMemberStreakResponse: GetMemberStreaksUseCase,
+    private val setTodayTypingComplete: InsertStreakInfoUseCase,
+    private val getTodayLocalStreakInfoUseCase: GetTodayLocalStreakInfoUseCase
 ) : BaseViewModel() {
 
     private var streakResponse: MemberStreakResponse? = null
@@ -59,13 +63,23 @@ class TypingViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            getMemberStreakResponse().let {
-                streakResponse = if (it is ApiResult.Success) {
-                    it.data
-                } else {
-                    null
+            if (getLoginStateUseCase().firstOrNull() == true){
+                getMemberStreakResponse().let {
+                    streakResponse = if (it is ApiResult.Success) {
+                        it.data
+                    } else {
+                        null
+                    }
+                }
+            } else {
+                streakResponse = getTodayLocalStreakInfoUseCase()?.let {
+                    MemberStreakResponse(
+                        isTodayWritten = it.isDailyWritingCompleted,
+                        currentStreak = it.streakDateCount
+                    )
                 }
             }
+
         }
     }
 
@@ -154,7 +168,8 @@ class TypingViewModel @Inject constructor(
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
-
+            val isComplete =
+                korTyping == dailyQuoteDto.korQuote || engTyping == dailyQuoteDto.engQuote
             if (!loginStatus) {
 
                 if (korTyping.isEmpty() && engTyping.isEmpty()) {
@@ -167,6 +182,10 @@ class TypingViewModel @Inject constructor(
                             return@launch
                         }
                     }
+                }
+
+                if (isComplete) {
+                    setTodayTypingComplete()
                 }
 
                 addLocalQuoteUseCase(
@@ -199,76 +218,71 @@ class TypingViewModel @Inject constructor(
             }
 
             if (useSaveSnackBar) {
-                if (loginStatus) {
-                    val isComplete =
-                        korTyping == dailyQuoteDto.korQuote || engTyping == dailyQuoteDto.engQuote
-                    when {
-                        // 연속 필사 완료
-                        isComplete && (streakResponse?.currentStreak ?: 0) > 0 -> {
-                            emitEffect(
-                                CommonEffect.ShowDialog(
-                                    DialogData.Builder()
-                                        .title("연속 필사 완료!")
-                                        .drawableId(R.drawable.icn_today_complete)
-                                        .singleButton(true)
-                                        .okText("확인")
-                                        .build()
-                                )
+
+                when {
+                    // 연속 필사 완료
+                    isComplete && (streakResponse?.currentStreak ?: 0) > 0 -> {
+                        emitEffect(
+                            CommonEffect.ShowDialog(
+                                DialogData.Builder()
+                                    .title("연속 필사 완료!")
+                                    .drawableId(R.drawable.icn_today_complete)
+                                    .singleButton(true)
+                                    .okText("확인")
+                                    .build()
                             )
-                        }
-                        // 필사 완료
-                        isComplete -> {
-                            emitEffect(
-                                CommonEffect.ShowDialog(
-                                    DialogData.Builder()
-                                        .title("필사 완료!")
-                                        .drawableId(R.drawable.icn_thumb_up)
-                                        .singleButton(true)
-                                        .okText("확인")
-                                        .build()
-                                )
+                        )
+                    }
+                    // 필사 완료
+                    isComplete -> {
+                        emitEffect(
+                            CommonEffect.ShowDialog(
+                                DialogData.Builder()
+                                    .title("필사 완료!")
+                                    .drawableId(R.drawable.icn_thumb_up)
+                                    .singleButton(true)
+                                    .okText("확인")
+                                    .build()
                             )
-                        }
-                        // 필사 미완료
-                        !isComplete -> {
-                            emitEffect(
-                                CommonEffect.ShowDialog(
-                                    DialogData.Builder()
-                                        .title("필사가 완료되지 않았어요 :(")
-                                        .drawableId(
-                                            if (isDarkMode) {
-                                                R.drawable.icn_today_not_complete_night
-                                            } else {
-                                                R.drawable.icn_today_not_complete
-                                            }
-                                        )
-                                        .singleButton(false)
-                                        .okText("필사하기")
-                                        .onClick {
-                                            emitEffect(
-                                                CommonEffect.Move(
-                                                    Screens.DailyQuote(
-                                                        dailyQuoteDto
-                                                    )
+                        )
+                    }
+                    // 필사 미완료
+                    !isComplete -> {
+                        emitEffect(
+                            CommonEffect.ShowDialog(
+                                DialogData.Builder()
+                                    .title("필사가 완료되지 않았어요 :(")
+                                    .drawableId(
+                                        if (isDarkMode) {
+                                            R.drawable.icn_today_not_complete_night
+                                        } else {
+                                            R.drawable.icn_today_not_complete
+                                        }
+                                    )
+                                    .singleButton(false)
+                                    .okText("필사하기")
+                                    .onClick {
+                                        emitEffect(
+                                            CommonEffect.Move(
+                                                Screens.DailyQuote(
+                                                    dailyQuoteDto
                                                 )
                                             )
-                                        }
-                                        .build()
-                                )
-                            )
-                        }
-                    }
-
-
-                } else {
-                    viewModelScope.launch {
-                        emitEffect(
-                            CommonEffect.ShowSnackBar(
-                                message = "저장되었습니다."
+                                        )
+                                    }
+                                    .build()
                             )
                         )
                     }
                 }
+
+//                viewModelScope.launch {
+//                    emitEffect(
+//                        CommonEffect.ShowSnackBar(
+//                            message = "저장되었습니다."
+//                        )
+//                    )
+//                }
             }
         }
 
