@@ -48,8 +48,10 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.defaultButtonColors
 import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.IsDarkMode
+import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
@@ -66,7 +68,8 @@ fun TypingQuoteView(
     backOnClick: () -> Unit,
     viewModel: TypingViewModel = hiltViewModel(),
     snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
-    darkMode: Boolean = IsDarkMode.current
+    darkMode: Boolean = IsDarkMode.current,
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current
 ) {
 
     val focusManager = LocalFocusManager.current
@@ -154,6 +157,11 @@ fun TypingQuoteView(
 
             is CommonEffect.HideKeyboard -> {
                 keyboardController?.hide()
+            }
+
+            is CommonEffect.ShowDialog -> {
+                dialogDataHolder.data = it.dialogData
+                dialogDataHolder.show = true
             }
         }
     }

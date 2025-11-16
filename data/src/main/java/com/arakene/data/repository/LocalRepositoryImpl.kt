@@ -110,6 +110,10 @@ class LocalRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getTodayLocalStreakInfo(): StreakInfo? {
+        return streakInfoDao.getByDate(dateFormatter.format(LocalDate.now()))?.toDto()
+    }
+
     override fun getLocalQuoteForWidget(): Flow<DailyQuoteDto?> {
 
         val today = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
