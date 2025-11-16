@@ -123,7 +123,9 @@ fun MainNavHost(
                 TypingQuoteView(
                     data.dailyQuoteDto,
                     navigate = {
-                        navController.navigate(it)
+                        navController.navigate(it){
+                            launchSingleTop = true
+                        }
                     },
                     backOnClick = {
                         navController.popBackStack()
