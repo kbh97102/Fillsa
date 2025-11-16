@@ -33,13 +33,15 @@ class WidgetTestConfiguration : ComponentActivity() {
         }
 
         setContent {
-            MyWidgetConfigScreen(
-                onClick = {
-                    updateWidget(appWidgetId)
-                    setResultAndFinish()
-                },
-                dataStore = dataStore
-            )
+            FillsaTheme {
+                MyWidgetConfigScreen(
+                    onClick = {
+                        updateWidget(appWidgetId)
+                        setResultAndFinish()
+                    },
+                    dataStore = dataStore
+                )
+            }
         }
     }
 
