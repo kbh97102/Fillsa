@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.MemberStreakResponse
+import com.arakene.domain.responses.PopupResponse
 import com.arakene.domain.usecase.common.GetDarkModeTypeUseCase
-import com.arakene.domain.usecase.common.GetStreaksUseCase
+import com.arakene.domain.usecase.common.GetPopupGeneralUseCase
+import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
@@ -21,21 +23,31 @@ class MainActivityViewModel @Inject constructor(
     private val getDarkModeTypeUseCase: GetDarkModeTypeUseCase,
     private val setLocalQuoteForWidgetUseCase: SetLocalQuoteForWidgetUseCase,
     private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
-    private val getStreaksUseCase: GetStreaksUseCase
+    private val getMemberStreaksUseCase: GetMemberStreaksUseCase,
+    private val getPopupGeneralUseCase: GetPopupGeneralUseCase
 ) : ViewModel() {
 
     val streakCount = mutableStateOf<MemberStreakResponse?>(null)
 
-    fun getStreaks(){
+    val popupResponse = mutableStateOf<PopupResponse?>(null)
+
+    fun getPopupGeneral() {
         viewModelScope.launch {
-            getStreaksUseCase().let {
-                when(it){
-                    is ApiResult.Success -> {
-                        streakCount.value = it.data
-                    }
-                    else -> {
-                        streakCount.value = null
-                    }
+            getPopupGeneralUseCase().let {
+                if (it is ApiResult.Success) {
+                    popupResponse.value = it.data
+                }
+            }
+        }
+    }
+
+    fun getStreakInfo() {
+        viewModelScope.launch {
+            getMemberStreaksUseCase().let {
+                streakCount.value = if (it is ApiResult.Success) {
+                    it.data
+                } else {
+                    null
                 }
             }
         }

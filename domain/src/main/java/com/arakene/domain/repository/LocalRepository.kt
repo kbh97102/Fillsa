@@ -1,6 +1,7 @@
 package com.arakene.domain.repository
 
 import androidx.paging.PagingData
+import com.arakene.domain.model.StreakInfo
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
@@ -56,4 +57,9 @@ interface LocalRepository {
 
     suspend fun setDarkModeType(darkMode: DarkModeType)
     fun getDarkModeType(): Flow<DarkModeType>
+
+    suspend fun setTodayStreakInfo()
+    suspend fun getYesterdayStreakInfo(): StreakInfo?
+    suspend fun getAllStreakInfos(): List<StreakInfo>
+    suspend fun getStreakDateCount(): Int
 }

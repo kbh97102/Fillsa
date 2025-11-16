@@ -6,23 +6,29 @@ import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.usecase.common.DeleteLocalQuoteUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.InsertStreakInfoUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostTypingUseCase
+import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.YN
+import com.arakene.presentation.R
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.Screens
-import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.TypingEffect
+import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.getDayOfWeekEnglish
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -41,13 +47,29 @@ class TypingViewModel @Inject constructor(
     private val getTypingUseCase: GetTypingUseCase,
     private val postTypingUseCase: PostTypingUseCase,
     private val getLocalQuoteUseCase: GetLocalQuoteUseCase,
-    private val deleteLocalQuoteUseCase: DeleteLocalQuoteUseCase
+    private val deleteLocalQuoteUseCase: DeleteLocalQuoteUseCase,
+    private val getMemberStreakResponse: GetMemberStreaksUseCase,
+    private val setTodayTypingComplete: InsertStreakInfoUseCase
 ) : BaseViewModel() {
+
+    private var streakResponse: MemberStreakResponse? = null
 
     var isLike = mutableStateOf(false)
 
     val savedKorTyping = mutableStateOf("")
     val savedEngTyping = mutableStateOf("")
+
+    init {
+        viewModelScope.launch {
+            getMemberStreakResponse().let {
+                streakResponse = if (it is ApiResult.Success) {
+                    it.data
+                } else {
+                    null
+                }
+            }
+        }
+    }
 
     override fun handleAction(action: Action) {
         when (val typingAction = action as TypingAction) {
@@ -129,11 +151,13 @@ class TypingViewModel @Inject constructor(
         engTyping: String,
         dailyQuoteDto: DailyQuoteDto,
         likeYn: Boolean,
-        useSaveSnackBar: Boolean = false
+        useSaveSnackBar: Boolean = false,
+        isDarkMode: Boolean = false
     ) {
         CoroutineScope(Dispatchers.IO).launch {
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
-
+            val isComplete =
+                korTyping == dailyQuoteDto.korQuote || engTyping == dailyQuoteDto.engQuote
             if (!loginStatus) {
 
                 if (korTyping.isEmpty() && engTyping.isEmpty()) {
@@ -146,6 +170,10 @@ class TypingViewModel @Inject constructor(
                             return@launch
                         }
                     }
+                }
+
+                if (isComplete) {
+                    setTodayTypingComplete()
                 }
 
                 addLocalQuoteUseCase(
@@ -178,12 +206,74 @@ class TypingViewModel @Inject constructor(
             }
 
             if (useSaveSnackBar) {
-                viewModelScope.launch {
-                    emitEffect(
-                        CommonEffect.ShowSnackBar(
-                            message = "저장되었습니다."
+                if (loginStatus) {
+
+                    when {
+                        // 연속 필사 완료
+                        isComplete && (streakResponse?.currentStreak ?: 0) > 0 -> {
+                            emitEffect(
+                                CommonEffect.ShowDialog(
+                                    DialogData.Builder()
+                                        .title("연속 필사 완료!")
+                                        .drawableId(R.drawable.icn_today_complete)
+                                        .singleButton(true)
+                                        .okText("확인")
+                                        .build()
+                                )
+                            )
+                        }
+                        // 필사 완료
+                        isComplete -> {
+                            emitEffect(
+                                CommonEffect.ShowDialog(
+                                    DialogData.Builder()
+                                        .title("필사 완료!")
+                                        .drawableId(R.drawable.icn_thumb_up)
+                                        .singleButton(true)
+                                        .okText("확인")
+                                        .build()
+                                )
+                            )
+                        }
+                        // 필사 미완료
+                        !isComplete -> {
+                            emitEffect(
+                                CommonEffect.ShowDialog(
+                                    DialogData.Builder()
+                                        .title("필사가 완료되지 않았어요 :(")
+                                        .drawableId(
+                                            if (isDarkMode) {
+                                                R.drawable.icn_exit_white
+                                            } else {
+                                                R.drawable.icn_exit_white
+                                            }
+                                        )
+                                        .singleButton(false)
+                                        .okText("필사하기")
+                                        .onClick {
+                                            emitEffect(
+                                                CommonEffect.Move(
+                                                    Screens.DailyQuote(
+                                                        dailyQuoteDto
+                                                    )
+                                                )
+                                            )
+                                        }
+                                        .build()
+                                )
+                            )
+                        }
+                    }
+
+
+                } else {
+                    viewModelScope.launch {
+                        emitEffect(
+                            CommonEffect.ShowSnackBar(
+                                message = "저장되었습니다."
+                            )
                         )
-                    )
+                    }
                 }
             }
         }

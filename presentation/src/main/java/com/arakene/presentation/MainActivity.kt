@@ -23,6 +23,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
@@ -34,6 +35,7 @@ import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.MainNavHost
+import com.arakene.presentation.ui.common.TestDialog
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
@@ -67,19 +69,22 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         mainActivityViewModel.initWidgetData()
-        mainActivityViewModel.getStreaks()
+        mainActivityViewModel.getPopupGeneral()
+        mainActivityViewModel.getStreakInfo()
+
 
         enableEdgeToEdge()
 
         setContent {
 
-            val darkModeType by mainActivityViewModel.getDarkModeType().collectAsState(DarkModeType.SYSTEM)
+            val darkModeType by mainActivityViewModel.getDarkModeType()
+                .collectAsState(DarkModeType.SYSTEM)
 
             val systemDarkMode = isSystemInDarkTheme()
 
             val isDarkMode by remember(darkModeType) {
                 mutableStateOf(
-                    when(darkModeType) {
+                    when (darkModeType) {
                         DarkModeType.DARK -> true
                         DarkModeType.LIGHT -> false
                         DarkModeType.SYSTEM -> systemDarkMode
@@ -89,6 +94,10 @@ class MainActivity : ComponentActivity() {
 
             val streakCount by remember {
                 mainActivityViewModel.streakCount
+            }
+
+            var generalPopup by remember {
+                mainActivityViewModel.popupResponse
             }
 
             val snackbarHostState = remember { SnackbarHostState() }
@@ -125,6 +134,11 @@ class MainActivity : ComponentActivity() {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
             }
 
+            TestDialog(
+                generalPopup,
+                clear = { generalPopup = null }
+            )
+
             FillsaTheme(darkTheme = isDarkMode) {
                 CompositionLocalProvider(
                     LocalSnackbarHost provides snackbarHostState,
@@ -134,6 +148,7 @@ class MainActivity : ComponentActivity() {
                     IsDarkMode provides isDarkMode,
                     StreakProvider provides streakCount
                 ) {
+
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center

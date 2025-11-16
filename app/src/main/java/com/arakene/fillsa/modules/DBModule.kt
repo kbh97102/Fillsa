@@ -6,6 +6,7 @@ import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.arakene.data.db.LocalQuoteInfoDao
 import com.arakene.data.db.QuoteDatabase
+import com.arakene.data.db.StreakInfoDao
 import com.arakene.data.db.WidgetQuoteInfoDao
 import dagger.Module
 import dagger.Provides
@@ -24,6 +25,7 @@ class DBModule {
         Room.databaseBuilder(context = context, QuoteDatabase::class.java, "dbName")
             .addMigrations(MIGRATION_1_2)
             .addMigrations(MIGRATION_2_3)
+            .addMigrations(MIGRATION_3_4)
             .build()
 
     @Singleton
@@ -34,6 +36,9 @@ class DBModule {
     @Provides
     fun provideWidgetDao(db: QuoteDatabase): WidgetQuoteInfoDao = db.widgetQuoteDao()
 
+    @Singleton
+    @Provides
+    fun provideStreakInfoDao(db: QuoteDatabase): StreakInfoDao = db.streakInfoDao()
 
     private val MIGRATION_1_2 = object : Migration(1, 2) {
         override fun migrate(db: SupportSQLiteDatabase) {
@@ -91,4 +96,19 @@ class DBModule {
 
         }
     }
+
+    private val MIGRATION_3_4 = object : Migration(3, 4) {
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL(
+                """
+            CREATE TABLE IF NOT EXISTS streak_info (
+                date TEXT NOT NULL PRIMARY KEY,
+                streak_date_count INTEGER NOT NULL DEFAULT 0,
+                is_daily_writing_completed INTEGER NOT NULL DEFAULT 0
+            )
+            """
+            )
+        }
+    }
+
 }

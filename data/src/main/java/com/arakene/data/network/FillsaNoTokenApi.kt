@@ -6,6 +6,7 @@ import com.arakene.domain.responses.LoginResponse
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.MonthlyQuoteResponse
 import com.arakene.domain.responses.PageResponseNoticeResponse
+import com.arakene.domain.responses.PopupResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -14,6 +15,12 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface FillsaNoTokenApi {
+
+    @GET(ApiEndPoint.GET_MEMBER_STREAKS)
+    suspend fun getMemberStreaks(): Response<MemberStreakResponse>
+
+    @GET(ApiEndPoint.GET_POPUP_GENERAL)
+    suspend fun getPopupGeneral(): Response<PopupResponse>
 
     @GET("/test/code/{code}")
     suspend fun testErrorCode(
