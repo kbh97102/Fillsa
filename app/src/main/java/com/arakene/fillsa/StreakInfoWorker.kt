@@ -4,21 +4,22 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
+import com.arakene.domain.usecase.common.CheckYesterdayStreakUseCase
+import com.arakene.domain.usecase.db.GetYesterdayStreakInfoUseCase
 import dagger.assisted.Assisted
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltWorker
 class StreakInfoWorker(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
+    private val checkYesterdayStreakUseCase: CheckYesterdayStreakUseCase
 ) : CoroutineWorker(appContext, workerParams) {
 
     override suspend fun doWork(): Result {
-
-        // TODO: 매일 자정이 넘어간 후 어제 날짜의 필사 여부를 체크, 만약 필사한 내역이 없다면 연속필사 일수 초기화
-
-
-
+        // 정각을 넘긴이후 실행하기에 하루 전날을 기준으로 계산
+        checkYesterdayStreakUseCase
 
         return Result.success()
     }

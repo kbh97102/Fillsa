@@ -49,6 +49,23 @@ class LocalRepositoryImpl @Inject constructor(
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
+    override suspend fun checkYesterdayStreak() {
+        val yesterday = dateFormatter.format(LocalDate.now().minusDays(1))
+
+        val yesterdayInfo = streakInfoDao.getByDate(yesterday)
+
+        // 어제 필사를 완료하지 않은 경우, 연속필사여부 초기화
+        if (yesterdayInfo?.isDailyWritingCompleted == false) {
+            streakInfoDao.insert(
+                StreakInfoEntity(
+                    date = dateFormatter.format(LocalDate.now()),
+                    streakDateCount = 0,
+                    isDailyWritingCompleted = false
+                )
+            )
+        }
+    }
+
     override suspend fun getStreakDateCount(): Int {
         val todayInfo = streakInfoDao.getByDate(dateFormatter.format(LocalDate.now()))
         if (todayInfo == null) {

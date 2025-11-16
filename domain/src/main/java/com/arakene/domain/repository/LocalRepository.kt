@@ -62,4 +62,5 @@ interface LocalRepository {
     suspend fun getYesterdayStreakInfo(): StreakInfo?
     suspend fun getAllStreakInfos(): List<StreakInfo>
     suspend fun getStreakDateCount(): Int
+    suspend fun checkYesterdayStreak()
 }
