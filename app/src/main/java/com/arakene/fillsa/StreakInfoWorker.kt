@@ -7,11 +7,12 @@ import androidx.work.WorkerParameters
 import com.arakene.domain.usecase.common.CheckYesterdayStreakUseCase
 import com.arakene.domain.usecase.db.GetYesterdayStreakInfoUseCase
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltWorker
-class StreakInfoWorker(
+class StreakInfoWorker @AssistedInject constructor(
     @Assisted appContext: Context,
     @Assisted workerParams: WorkerParameters,
     private val checkYesterdayStreakUseCase: CheckYesterdayStreakUseCase
@@ -19,7 +20,7 @@ class StreakInfoWorker(
 
     override suspend fun doWork(): Result {
         // 정각을 넘긴이후 실행하기에 하루 전날을 기준으로 계산
-        checkYesterdayStreakUseCase
+        checkYesterdayStreakUseCase.invoke()
 
         return Result.success()
     }
