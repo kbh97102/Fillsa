@@ -43,7 +43,7 @@ fun StreakInfo(
     darkMode: Boolean = IsDarkMode.current
 ) {
 
-    val streakCount by remember {
+    val streakCount by remember(streak) {
         mutableIntStateOf(streak?.currentStreak ?: 0)
     }
     if (streakCount > 0) {

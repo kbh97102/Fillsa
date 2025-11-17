@@ -12,6 +12,7 @@ import com.arakene.domain.usecase.common.GetPopupGeneralUseCase
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
+import com.arakene.presentation.util.logError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -44,6 +45,7 @@ class MainActivityViewModel @Inject constructor(
     fun getStreakInfo() {
         viewModelScope.launch {
             getMemberStreaksUseCase().let {
+                logError("mainActivityViewModel get data ${it}")
                 streakCount.value = it
             }
         }
@@ -54,6 +56,7 @@ class MainActivityViewModel @Inject constructor(
             route?.contains("Home") == true || route?.contains("Calendar") == true || route?.contains(
                 "QuoteList"
             ) == true -> {
+                logError("Update in $route")
                 getStreakInfo()
             }
         }

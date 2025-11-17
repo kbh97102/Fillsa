@@ -31,7 +31,9 @@ import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.util.DarkModeType
+import com.arakene.domain.util.Logger
 import com.arakene.domain.util.YN
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
@@ -96,7 +98,9 @@ class LocalRepositoryImpl @Inject constructor(
                 date = dateFormatter.format(LocalDate.now()),
                 streakDateCount = streakCount,
                 isDailyWritingCompleted = true
-            )
+            ).also {
+                Logger.logE("insert target $it")
+            }
         )
     }
 
@@ -110,7 +114,36 @@ class LocalRepositoryImpl @Inject constructor(
         }
     }
 
+    var testFirst = true
+
     override suspend fun getTodayLocalStreakInfo(): StreakInfo? {
+
+//        if (testFirst){
+//            testFirst = false
+//            streakInfoDao.deleteAll()
+//
+//            delay(2000)
+//
+//            fun createStreakDummyData(): List<StreakInfoEntity> {
+//                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//                val today = LocalDate.now()
+//
+//                return (5 downTo 1).map { diff ->
+//                    val date = today.minusDays(diff.toLong()).format(formatter)
+//                    StreakInfoEntity(
+//                        date = date,
+//                        streakDateCount = 7 - diff, // 1~7 증가
+//                        isDailyWritingCompleted = true
+//                    )
+//                }
+//            }
+//
+//            createStreakDummyData().forEach {
+//                streakInfoDao.insert(it)
+//            }
+//        }
+
+
         return streakInfoDao.getByDate(dateFormatter.format(LocalDate.now()))?.toDto()
     }
 

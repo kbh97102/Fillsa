@@ -47,6 +47,7 @@ import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.StreakProvider
+import com.arakene.presentation.util.logError
 import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -93,6 +94,10 @@ class MainActivity : ComponentActivity() {
 
             val streakCount by remember {
                 mainActivityViewModel.streakCount
+            }
+
+            LaunchedEffect(streakCount) {
+                logError("업데이트 되는거니? $streakCount")
             }
 
             var generalPopup by remember {

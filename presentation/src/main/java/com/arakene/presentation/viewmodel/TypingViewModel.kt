@@ -30,6 +30,7 @@ import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.getDayOfWeekEnglish
+import com.arakene.presentation.util.logError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -168,6 +169,7 @@ class TypingViewModel @Inject constructor(
                 }
 
                 if (isComplete) {
+                    logError("Save start in typingViewModel")
                     setTodayTypingComplete()
                 }
 
