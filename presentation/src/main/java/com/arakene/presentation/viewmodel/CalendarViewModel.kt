@@ -9,13 +9,14 @@ import com.arakene.domain.usecase.calendar.GetMonthlyQuotesNonMemberUseCase
 import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
+import com.arakene.domain.usecase.db.GetTodayLocalStreakInfoUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
-import com.arakene.presentation.util.action.CalendarAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.action.CalendarAction
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,7 +33,8 @@ class CalendarViewModel @Inject constructor(
     private val getQuotesMonthlyUseCase: GetQuotesMonthlyUseCase,
     private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
-    private val getMonthlyQuotesNonMemberUseCase: GetMonthlyQuotesNonMemberUseCase
+    private val getMonthlyQuotesNonMemberUseCase: GetMonthlyQuotesNonMemberUseCase,
+    private val getTodayLocalStreakInfoUseCase: GetTodayLocalStreakInfoUseCase
 
 ) : BaseViewModel() {
 
@@ -119,6 +121,7 @@ class CalendarViewModel @Inject constructor(
     private fun getQuotesMonthlyNonMember(yearMonth: String) {
         viewModelScope.launch {
             val localData = getLocalQuoteListUseCase()
+            val localStreakData = getTodayLocalStreakInfoUseCase()
             getResponse(getMonthlyQuotesNonMemberUseCase(yearMonth))?.let { quotes ->
 
                 data.value = quotes.map { quote ->
@@ -129,17 +132,9 @@ class CalendarViewModel @Inject constructor(
                         quote = quote.quote,
                         quoteDate = quote.quoteDate,
                         author = quote.author,
-                        completed = if (localMatchingData?.korTyping?.isNotEmpty() == true || localMatchingData?.engTyping?.isNotEmpty() == true) {
-                            true
-                        } else {
-                            false
-                        },
+                        completed = localMatchingData?.korTyping?.isNotEmpty() == true || localMatchingData?.engTyping?.isNotEmpty() == true,
                         likeYnString = localMatchingData?.likeYn ?: YN.N.type,
-                        todayCompleted = if (localMatchingData?.korTyping?.isNotEmpty() == true || localMatchingData?.engTyping?.isNotEmpty() == true) {
-                            true
-                        } else {
-                            false
-                        }
+                        todayCompleted = localMatchingData?.korTyping?.isNotEmpty() == true || localMatchingData?.engTyping?.isNotEmpty() == true
                     )
                 }.let {
                     MemberMonthlyQuoteResponse(
@@ -147,7 +142,7 @@ class CalendarViewModel @Inject constructor(
                         monthlySummary = MonthlySummaryData(
                             typingCount = it.count { data -> data.completed },
                             likeCount = it.count { data -> data.likeYn == YN.Y },
-                            streakCount = 0
+                            streakCount = localStreakData?.streakDateCount ?: 0
                         )
                     )
                 }
