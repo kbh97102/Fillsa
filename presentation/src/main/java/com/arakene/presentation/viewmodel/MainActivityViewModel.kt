@@ -14,6 +14,7 @@ import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.util.logError
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -30,13 +31,13 @@ class MainActivityViewModel @Inject constructor(
 
     val streakCount = mutableStateOf<MemberStreakResponse?>(null)
 
-    val popupResponse = mutableStateOf<PopupResponse?>(null)
+    val popupResponse = MutableSharedFlow<PopupResponse?>()
 
     fun getPopupGeneral() {
         viewModelScope.launch {
             getPopupGeneralUseCase().let {
                 if (it is ApiResult.Success) {
-                    popupResponse.value = it.data
+                    popupResponse.emit(it.data)
                 }
             }
         }
@@ -45,7 +46,6 @@ class MainActivityViewModel @Inject constructor(
     fun getStreakInfo() {
         viewModelScope.launch {
             getMemberStreaksUseCase().let {
-                logError("mainActivityViewModel get data ${it}")
                 streakCount.value = it
             }
         }
