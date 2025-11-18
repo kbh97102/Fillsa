@@ -1,6 +1,6 @@
 package com.arakene.presentation.util
 
-enum class GeneralPopupType {
+enum class GeneralPopupType(val priority: Int) {
 
-    NOTICE, VERSION_UPDATE, EVENT
+    VERSION_UPDATE(1), NOTICE(2), EVENT(3)
 }

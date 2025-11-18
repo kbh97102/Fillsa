@@ -9,15 +9,17 @@ import com.arakene.domain.responses.PopupResponse
 import com.arakene.domain.usecase.common.GetDarkModeTypeUseCase
 import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.common.GetPopupGeneralUseCase
+import com.arakene.domain.usecase.common.GetPopupVersionUpdateUseCase
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
-import com.arakene.presentation.util.logError
+import com.arakene.presentation.util.GeneralPopupType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.util.PriorityQueue
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,8 +28,12 @@ class MainActivityViewModel @Inject constructor(
     private val setLocalQuoteForWidgetUseCase: SetLocalQuoteForWidgetUseCase,
     private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
     private val getMemberStreaksUseCase: GetMemberStreaksUseCase,
-    private val getPopupGeneralUseCase: GetPopupGeneralUseCase
+    private val getPopupGeneralUseCase: GetPopupGeneralUseCase,
+    private val getPopupVersionUpdateUseCase: GetPopupVersionUpdateUseCase
 ) : ViewModel() {
+
+    private val popupResponsesQueue =
+        PriorityQueue<PopupResponse>(compareBy { GeneralPopupType.valueOf(it.popupType) })
 
     val streakCount = mutableStateOf<MemberStreakResponse?>(null)
 
@@ -35,11 +41,27 @@ class MainActivityViewModel @Inject constructor(
 
     fun getPopupGeneral() {
         viewModelScope.launch {
-            getPopupGeneralUseCase().let {
-                if (it is ApiResult.Success) {
-                    popupResponse.emit(it.data)
+            launch {
+                getPopupGeneralUseCase().let {
+                    if (it is ApiResult.Success) {
+                        popupResponsesQueue.offer(it.data)
+                    }
                 }
-            }
+
+                getPopupVersionUpdateUseCase().let {
+                    if (it is ApiResult.Success) {
+                        popupResponsesQueue.offer(it.data)
+                    }
+                }
+            }.join()
+
+            getNextGeneralPopUp()
+        }
+    }
+
+    fun getNextGeneralPopUp() {
+        viewModelScope.launch {
+            popupResponse.emit(popupResponsesQueue.poll())
         }
     }
 
@@ -56,7 +78,6 @@ class MainActivityViewModel @Inject constructor(
             route?.contains("Home") == true || route?.contains("Calendar") == true || route?.contains(
                 "QuoteList"
             ) == true -> {
-                logError("Update in $route")
                 getStreakInfo()
             }
         }

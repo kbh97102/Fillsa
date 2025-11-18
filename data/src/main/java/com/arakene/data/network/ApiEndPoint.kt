@@ -37,4 +37,6 @@ object ApiEndPoint {
     const val GET_MEMBER_STREAKS= "/api/v1/member-streaks"
 
     const val GET_POPUP_GENERAL = "/api/v1/popups/general"
+
+    const val GET_VERSION_UPDATE = "/api/v1/popups/version-update"
 }

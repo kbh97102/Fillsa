@@ -34,8 +34,8 @@ import com.arakene.domain.util.DarkModeType
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
-import com.arakene.presentation.ui.common.MainNavHost
 import com.arakene.presentation.ui.common.GeneralDialogs
+import com.arakene.presentation.ui.common.MainNavHost
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
@@ -153,7 +153,8 @@ class MainActivity : ComponentActivity() {
                     ) {
 
                         GeneralDialogs(
-                            generalPopup
+                            generalPopup,
+                            getNextPopUp = mainActivityViewModel::getNextGeneralPopUp
                         )
 
                         Column(
