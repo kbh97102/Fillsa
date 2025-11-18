@@ -353,4 +353,17 @@ class LocalRepositoryImpl @Inject constructor(
     override fun getName(): Flow<String> = dataStore.data.map {
         it[DataStoreKey.USER_NAME] ?: ""
     }
+
+    override suspend fun checkPopupIsHidden(seq: Int): Boolean {
+        val popUpSet = dataStore.data.firstOrNull()?.get(DataStoreKey.HIDDEN_POPUP_SEQ_SET) ?: emptySet()
+
+        return popUpSet.contains(seq.toString())
+    }
+
+    override suspend fun addHiddenPopup(seq: Int) {
+        dataStore.edit {
+            val current = it[DataStoreKey.HIDDEN_POPUP_SEQ_SET] ?: emptySet()
+            it[DataStoreKey.HIDDEN_POPUP_SEQ_SET] = current + seq.toString()
+        }
+    }
 }

@@ -10,6 +10,8 @@ import com.arakene.domain.usecase.common.GetDarkModeTypeUseCase
 import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.common.GetPopupGeneralUseCase
 import com.arakene.domain.usecase.common.GetPopupVersionUpdateUseCase
+import com.arakene.domain.usecase.db.AddHiddenPopupUseCase
+import com.arakene.domain.usecase.db.CheckPopupIsHiddenUseCase
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
@@ -29,7 +31,9 @@ class MainActivityViewModel @Inject constructor(
     private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
     private val getMemberStreaksUseCase: GetMemberStreaksUseCase,
     private val getPopupGeneralUseCase: GetPopupGeneralUseCase,
-    private val getPopupVersionUpdateUseCase: GetPopupVersionUpdateUseCase
+    private val getPopupVersionUpdateUseCase: GetPopupVersionUpdateUseCase,
+    private val addHiddenPopupUseCase: AddHiddenPopupUseCase,
+    private val isHiddenUseCase: CheckPopupIsHiddenUseCase
 ) : ViewModel() {
 
     private val popupResponsesQueue =
@@ -39,11 +43,20 @@ class MainActivityViewModel @Inject constructor(
 
     val popupResponse = MutableSharedFlow<PopupResponse?>()
 
+    fun addHiddenPopUp(seq: Int) {
+        viewModelScope.launch {
+            addHiddenPopupUseCase(seq)
+        }
+    }
+
     fun getPopupGeneral() {
         viewModelScope.launch {
             launch {
                 getPopupGeneralUseCase().let {
                     if (it is ApiResult.Success) {
+                        if (isHiddenUseCase(it.data.popupSeq)) {
+                            return@let
+                        }
                         popupResponsesQueue.offer(it.data)
                     }
                 }

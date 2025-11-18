@@ -2,6 +2,7 @@ package com.arakene.data.util
 
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 
 object DataStoreKey {
 
@@ -15,4 +16,5 @@ object DataStoreKey {
     val PERMISSION_REQUESTED = booleanPreferencesKey("PERMISSION_REQUESTED")
     val SHARE_DESCRIPTION = booleanPreferencesKey("SHARE_DESCRIPTION")
     val DARK_MODE_TYPE = stringPreferencesKey("DARK_MODE_TYPE")
+    val HIDDEN_POPUP_SEQ_SET = stringSetPreferencesKey("HIDDEN_POPUP_SEQ_SET")
 }

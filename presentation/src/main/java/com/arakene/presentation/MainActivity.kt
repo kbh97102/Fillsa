@@ -154,7 +154,8 @@ class MainActivity : ComponentActivity() {
 
                         GeneralDialogs(
                             generalPopup,
-                            getNextPopUp = mainActivityViewModel::getNextGeneralPopUp
+                            getNextPopUp = mainActivityViewModel::getNextGeneralPopUp,
+                            addHiddenPopUp = mainActivityViewModel::addHiddenPopUp
                         )
 
                         Column(

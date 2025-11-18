@@ -8,12 +8,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.arakene.domain.responses.PopupResponse
 import com.arakene.presentation.util.GeneralPopupType
-import com.arakene.presentation.util.logError
 
 @Composable
 fun GeneralDialogs(
     generalPopup: PopupResponse?,
     getNextPopUp: () -> Unit,
+    addHiddenPopUp: (Int) -> Unit
 ) {
 
     var versionUpdateVisible by remember {
@@ -26,8 +26,6 @@ fun GeneralDialogs(
 
     LaunchedEffect(generalPopup) {
         val data = generalPopup ?: return@LaunchedEffect
-
-        logError("여기오니? $generalPopup")
 
         when (data.popupType) {
             GeneralPopupType.VERSION_UPDATE.name -> {
@@ -75,6 +73,7 @@ fun GeneralDialogs(
                         getNextPopUp()
                     },
                     onDismissToday = {
+                        addHiddenPopUp(generalPopup.popupSeq)
                         noticeVisible = false
                         getNextPopUp()
                     }
