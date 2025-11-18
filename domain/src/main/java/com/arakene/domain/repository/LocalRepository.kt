@@ -67,4 +67,5 @@ interface LocalRepository {
 
     suspend fun checkPopupIsHidden(seq: Int): Boolean
     suspend fun addHiddenPopup(seq: Int)
+    suspend fun clearAllHiddenPopUp()
 }

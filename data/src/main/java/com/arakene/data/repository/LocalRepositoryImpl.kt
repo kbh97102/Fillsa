@@ -366,4 +366,10 @@ class LocalRepositoryImpl @Inject constructor(
             it[DataStoreKey.HIDDEN_POPUP_SEQ_SET] = current + seq.toString()
         }
     }
+
+    override suspend fun clearAllHiddenPopUp() {
+        dataStore.edit {
+            it[DataStoreKey.HIDDEN_POPUP_SEQ_SET] = emptySet()
+        }
+    }
 }
