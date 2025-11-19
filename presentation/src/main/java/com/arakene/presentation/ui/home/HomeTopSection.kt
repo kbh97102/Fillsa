@@ -2,12 +2,12 @@ package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import com.arakene.presentation.util.IsDarkMode
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -17,7 +17,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
+import com.arakene.presentation.ui.common.StreakInfo
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.noEffectClickable
@@ -26,7 +28,7 @@ import com.arakene.presentation.util.noEffectClickable
 fun HomeTopSection(
     navigate: Navigate,
     modifier: Modifier = Modifier,
-    darkMode: Boolean = IsDarkMode.current
+    darkMode: Boolean = IsDarkMode.current,
 ) {
 
     Row(
@@ -48,14 +50,25 @@ fun HomeTopSection(
                 navigate(Screens.Home())
             })
 
-        Image(
-            painterResource(R.drawable.icn_my_page),
-            contentDescription = null,
-            modifier = Modifier.noEffectClickable {
-                navigate(Screens.MyPage)
-            },
-            colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+
+            StreakInfo(
+                moveToCalendar = {
+                    navigate(Screens.Calendar)
+                }
+            )
+
+            Spacer(Modifier.width(10.dp))
+
+            Image(
+                painterResource(R.drawable.icn_my_page),
+                contentDescription = null,
+                modifier = Modifier.noEffectClickable {
+                    navigate(Screens.MyPage)
+                },
+                colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
+            )
+        }
     }
 
 }
@@ -65,6 +78,6 @@ fun HomeTopSection(
 @Composable
 private fun HomeTopSectionPreview() {
     HomeTopSection(
-        navigate = {}
+        navigate = {},
     )
 }

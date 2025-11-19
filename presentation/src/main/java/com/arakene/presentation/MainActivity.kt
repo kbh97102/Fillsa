@@ -27,12 +27,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.arakene.domain.util.DarkModeType
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
+import com.arakene.presentation.ui.common.GeneralDialogs
 import com.arakene.presentation.ui.common.MainNavHost
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.AlarmManagerHelper
@@ -44,6 +46,8 @@ import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
+import com.arakene.presentation.util.StreakProvider
+import com.arakene.presentation.util.logError
 import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -65,17 +69,22 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
+        mainActivityViewModel.initWidgetData()
+        mainActivityViewModel.getPopupGeneral()
+
+
         enableEdgeToEdge()
 
         setContent {
 
-            val darkModeType by mainActivityViewModel.getDarkModeType().collectAsState(DarkModeType.SYSTEM)
+            val darkModeType by mainActivityViewModel.getDarkModeType()
+                .collectAsState(DarkModeType.SYSTEM)
 
             val systemDarkMode = isSystemInDarkTheme()
 
             val isDarkMode by remember(darkModeType) {
                 mutableStateOf(
-                    when(darkModeType) {
+                    when (darkModeType) {
                         DarkModeType.DARK -> true
                         DarkModeType.LIGHT -> false
                         DarkModeType.SYSTEM -> systemDarkMode
@@ -83,6 +92,15 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+            val streakCount by remember {
+                mainActivityViewModel.streakCount
+            }
+
+            LaunchedEffect(streakCount) {
+                logError("업데이트 되는거니? $streakCount")
+            }
+
+            val generalPopup by mainActivityViewModel.popupResponse.collectAsStateWithLifecycle(null)
 
             val snackbarHostState = remember { SnackbarHostState() }
 
@@ -116,6 +134,7 @@ class MainActivity : ComponentActivity() {
 
             LaunchedEffect(currentDestination) {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
+                mainActivityViewModel.updateStreakInfo(currentDestination?.destination?.route)
             }
 
             FillsaTheme(darkTheme = isDarkMode) {
@@ -124,12 +143,21 @@ class MainActivity : ComponentActivity() {
                     LocalDialogDataHolder provides dialogData,
                     LocalLoadingState provides globalLoadingState,
                     LocalMoveHolder provides navController,
-                    IsDarkMode provides isDarkMode
+                    IsDarkMode provides isDarkMode,
+                    StreakProvider provides streakCount
                 ) {
+
                     Box(
                         modifier = Modifier.fillMaxSize(),
                         contentAlignment = Alignment.Center
                     ) {
+
+                        GeneralDialogs(
+                            generalPopup,
+                            getNextPopUp = mainActivityViewModel::getNextGeneralPopUp,
+                            addHiddenPopUp = mainActivityViewModel::addHiddenPopUp
+                        )
+
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()

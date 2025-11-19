@@ -8,32 +8,159 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.map
 import com.arakene.data.db.LocalQuoteInfoDao
+import com.arakene.data.db.StreakInfoDao
+import com.arakene.data.db.StreakInfoEntity
+import com.arakene.data.db.WidgetQuoteInfoDao
 import com.arakene.data.network.GetLocalQuoteDataSource
 import com.arakene.data.util.DataStoreKey
 import com.arakene.data.util.DataStoreKey.ACCESS_TOKEN
 import com.arakene.data.util.DataStoreKey.ALARM_KEY
-import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
 import com.arakene.data.util.DataStoreKey.DARK_MODE_TYPE
+import com.arakene.data.util.DataStoreKey.FIRST_OPEN_KEY
 import com.arakene.data.util.DataStoreKey.PERMISSION_REQUESTED
 import com.arakene.data.util.DataStoreKey.REFRESH_TOKEN
 import com.arakene.data.util.DataStoreKey.SHARE_DESCRIPTION
 import com.arakene.data.util.TokenProvider
 import com.arakene.data.util.toDomain
+import com.arakene.data.util.toDto
 import com.arakene.data.util.toEntity
+import com.arakene.data.util.toWidgetQuoteInfoEntity
+import com.arakene.domain.model.StreakInfo
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.responses.DailyQuotaNoToken
+import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.util.DarkModeType
+import com.arakene.domain.util.Logger
 import com.arakene.domain.util.YN
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class LocalRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>,
     private val tokenProvider: TokenProvider,
-    private val dao: LocalQuoteInfoDao
+    private val dao: LocalQuoteInfoDao,
+    private val widgetDao: WidgetQuoteInfoDao,
+    private val streakInfoDao: StreakInfoDao
 ) : LocalRepository {
+
+    private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+    override suspend fun checkYesterdayStreak() {
+        val yesterday = dateFormatter.format(LocalDate.now().minusDays(1))
+
+        val yesterdayInfo = streakInfoDao.getByDate(yesterday)
+
+        // 어제 필사를 완료하지 않은 경우, 연속필사여부 초기화
+        if (yesterdayInfo?.isDailyWritingCompleted == false) {
+            streakInfoDao.insert(
+                StreakInfoEntity(
+                    date = dateFormatter.format(LocalDate.now()),
+                    streakDateCount = 0,
+                    isDailyWritingCompleted = false
+                )
+            )
+        }
+    }
+
+    override suspend fun getStreakDateCount(): Int {
+        val todayInfo = streakInfoDao.getByDate(dateFormatter.format(LocalDate.now()))
+        if (todayInfo == null) {
+            val yesterdayInfo =
+                streakInfoDao.getByDate(dateFormatter.format(LocalDate.now().minusDays(1)))
+
+            if (yesterdayInfo == null) {
+                return 0
+            }
+            return yesterdayInfo.streakDateCount
+        }
+
+        return todayInfo.streakDateCount
+    }
+
+    override suspend fun setTodayStreakInfo() {
+        val yesterday = dateFormatter.format(LocalDate.now().minusDays(1))
+
+        val yesterdayInfo = streakInfoDao.getByDate(yesterday)
+        val streakCount = if (yesterdayInfo?.isDailyWritingCompleted == true) {
+            yesterdayInfo.streakDateCount + 1
+        } else {
+            1
+        }
+
+        streakInfoDao.insert(
+            StreakInfoEntity(
+                date = dateFormatter.format(LocalDate.now()),
+                streakDateCount = streakCount,
+                isDailyWritingCompleted = true
+            ).also {
+                Logger.logE("insert target $it")
+            }
+        )
+    }
+
+    override suspend fun getYesterdayStreakInfo(): StreakInfo? {
+        return streakInfoDao.getByDate(dateFormatter.format(LocalDate.now().minusDays(1)))?.toDto()
+    }
+
+    override suspend fun getAllStreakInfos(): List<StreakInfo> {
+        return streakInfoDao.getAll().map {
+            it.toDto()
+        }
+    }
+
+    var testFirst = true
+
+    override suspend fun getTodayLocalStreakInfo(): StreakInfo? {
+
+//        if (testFirst){
+//            testFirst = false
+//            streakInfoDao.deleteAll()
+//
+//            delay(2000)
+//
+//            fun createStreakDummyData(): List<StreakInfoEntity> {
+//                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+//                val today = LocalDate.now()
+//
+//                return (5 downTo 1).map { diff ->
+//                    val date = today.minusDays(diff.toLong()).format(formatter)
+//                    StreakInfoEntity(
+//                        date = date,
+//                        streakDateCount = 7 - diff, // 1~7 증가
+//                        isDailyWritingCompleted = true
+//                    )
+//                }
+//            }
+//
+//            createStreakDummyData().forEach {
+//                streakInfoDao.insert(it)
+//            }
+//        }
+
+
+        return streakInfoDao.getByDate(dateFormatter.format(LocalDate.now()))?.toDto()
+    }
+
+    override fun getLocalQuoteForWidget(): Flow<DailyQuoteDto?> {
+
+        val today = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
+
+        return widgetDao.get(today)
+            .map {
+                it?.toDto()
+            }
+    }
+
+    override suspend fun setLocalQuoteForWidget(data: DailyQuotaNoToken) {
+        val today = DateTimeFormatter.ofPattern("yyyy-MM-dd").format(LocalDate.now())
+        widgetDao.insert(data.toWidgetQuoteInfoEntity(today))
+    }
 
     override suspend fun setDarkModeType(darkMode: DarkModeType) {
         dataStore.edit {
@@ -225,5 +352,24 @@ class LocalRepositoryImpl @Inject constructor(
 
     override fun getName(): Flow<String> = dataStore.data.map {
         it[DataStoreKey.USER_NAME] ?: ""
+    }
+
+    override suspend fun checkPopupIsHidden(seq: Int): Boolean {
+        val popUpSet = dataStore.data.firstOrNull()?.get(DataStoreKey.HIDDEN_POPUP_SEQ_SET) ?: emptySet()
+
+        return popUpSet.contains(seq.toString())
+    }
+
+    override suspend fun addHiddenPopup(seq: Int) {
+        dataStore.edit {
+            val current = it[DataStoreKey.HIDDEN_POPUP_SEQ_SET] ?: emptySet()
+            it[DataStoreKey.HIDDEN_POPUP_SEQ_SET] = current + seq.toString()
+        }
+    }
+
+    override suspend fun clearAllHiddenPopUp() {
+        dataStore.edit {
+            it[DataStoreKey.HIDDEN_POPUP_SEQ_SET] = emptySet()
+        }
     }
 }

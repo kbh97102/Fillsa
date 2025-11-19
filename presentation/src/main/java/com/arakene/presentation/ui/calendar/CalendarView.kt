@@ -85,7 +85,7 @@ fun CalendarView(
         BoxWithConstraints(modifier = Modifier.weight(1f)) {
 
             val calendarHeight = remember {
-                maxHeight * 0.6f
+                maxHeight * 0.75f
             }
 
             Column {
@@ -104,6 +104,7 @@ fun CalendarView(
                 CalendarCountSection(
                     typingCount = data?.monthlySummary?.typingCount ?: 0,
                     likeCount = data?.monthlySummary?.likeCount ?: 0,
+                    todayCompleteCount = data?.monthlySummary?.streakCount ?: 0,
                     modifier = Modifier.padding(top = 15.dp),
                     countOnClick = {
                         viewModel.handleContract(CalendarAction.ClickCount)

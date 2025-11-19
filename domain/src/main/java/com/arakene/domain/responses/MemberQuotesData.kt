@@ -18,12 +18,15 @@ data class MemberQuotesData(
     @SerializedName("author")
     val author: String,
 
-    @SerializedName("typingYn")
-    val typingYnString: String,  // "Y" 또는 "N"
+    @SerializedName("completed")
+    val completed: Boolean,  // "Y" 또는 "N"
 
     @SerializedName("likeYn")
-    val likeYnString: String     // "Y" 또는 "N"
+    val likeYnString: String,     // "Y" 또는 "N"
+
+    @SerializedName("todayCompleted")
+    val todayCompleted: Boolean
 ) {
     val likeYn get() = YN.getYN(likeYnString)
-    val typingYn get() = YN.getYN(typingYnString)
+
 }

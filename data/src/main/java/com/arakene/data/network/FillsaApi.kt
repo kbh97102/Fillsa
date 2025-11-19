@@ -8,7 +8,7 @@ import com.arakene.domain.responses.MemberMonthlyQuoteResponse
 import com.arakene.domain.responses.MemberQuoteImageResponse
 import com.arakene.domain.responses.MemberTypingQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
-import com.arakene.domain.responses.SimpleIntResponse
+import com.arakene.domain.responses.WritingStatusDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body
@@ -31,7 +31,7 @@ interface FillsaApi {
     suspend fun postLike(
         @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
         @Body body: LikeRequest
-    ): Response<SimpleIntResponse>
+    ): Response<Int>
 
     @Multipart
     @POST(ApiEndPoint.POST_UPLOAD_IMAGE)
@@ -59,7 +59,7 @@ interface FillsaApi {
     suspend fun postSaveMemo(
         @Path("memberQuoteSeq") memberQuoteSeq: String,
         @Body body: MemoRequest
-    ): Response<SimpleIntResponse>
+    ): Response<Int>
 
     @GET(ApiEndPoint.GET_MEMBER_MONTHLY_QUOTES)
     suspend fun getQuotesMonthly(
@@ -68,13 +68,13 @@ interface FillsaApi {
 
     @DELETE(ApiEndPoint.DELETE_RESIGN)
     suspend fun deleteResign(
-    ): Response<SimpleIntResponse>
+    ): Response<Int>
 
     @POST(ApiEndPoint.POST_TYPING)
     suspend fun postTyping(
         @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
         @Body body: TypingQuoteRequest
-    ): Response<SimpleIntResponse>
+    ): Response<Int>
 
     @GET(ApiEndPoint.GET_TYPING)
     suspend fun getTyping(

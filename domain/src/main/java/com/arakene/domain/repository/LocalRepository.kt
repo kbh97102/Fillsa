@@ -1,12 +1,18 @@
 package com.arakene.domain.repository
 
 import androidx.paging.PagingData
+import com.arakene.domain.model.StreakInfo
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.responses.DailyQuotaNoToken
+import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 
 interface LocalRepository {
+
+    fun getLocalQuoteForWidget(): Flow<DailyQuoteDto?>
+    suspend fun setLocalQuoteForWidget(data: DailyQuotaNoToken)
 
     suspend fun setAccessToken(token: String)
     suspend fun getAccessToken(): String
@@ -51,4 +57,15 @@ interface LocalRepository {
 
     suspend fun setDarkModeType(darkMode: DarkModeType)
     fun getDarkModeType(): Flow<DarkModeType>
+
+    suspend fun setTodayStreakInfo()
+    suspend fun getYesterdayStreakInfo(): StreakInfo?
+    suspend fun getAllStreakInfos(): List<StreakInfo>
+    suspend fun getStreakDateCount(): Int
+    suspend fun checkYesterdayStreak()
+    suspend fun getTodayLocalStreakInfo(): StreakInfo?
+
+    suspend fun checkPopupIsHidden(seq: Int): Boolean
+    suspend fun addHiddenPopup(seq: Int)
+    suspend fun clearAllHiddenPopUp()
 }

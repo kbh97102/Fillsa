@@ -18,7 +18,7 @@ object ApiEndPoint {
 
     const val POST_SAVE_MEMO = "/api/v1/member-quotes/{memberQuoteSeq}/memo"
 
-    const val GET_MEMBER_MONTHLY_QUOTES = "/api/v1/member-quotes/monthly"
+    const val GET_MEMBER_MONTHLY_QUOTES = "/api/v2/member-quotes/monthly"
 
     const val GET_NOTICE = "/api/v1/notices"
 
@@ -31,4 +31,12 @@ object ApiEndPoint {
     const val GET_TYPING = "/api/v1/member-quotes/{dailyQuoteSeq}/typing"
 
     const val GET_MONTHLY_QUOTES = "/api/v1/quotes/monthly"
+
+    const val GET_STREAKS = "/api/v1/member-streaks"
+
+    const val GET_MEMBER_STREAKS= "/api/v1/member-streaks"
+
+    const val GET_POPUP_GENERAL = "/api/v1/popups/general"
+
+    const val GET_VERSION_UPDATE = "/api/v1/popups/version-update"
 }

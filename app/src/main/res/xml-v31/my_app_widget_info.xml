@@ -1,0 +1,19 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="109dp"
+    android:minHeight="115dp"
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+    android:maxResizeWidth="624dp"
+    android:maxResizeHeight="276dp"
+    android:updatePeriodMillis="86400000"
+    android:description="@string/alarm_description"
+    android:initialLayout="@layout/layout_test_widget_initial"
+    android:resizeMode="horizontal|vertical"
+    android:configure="com.arakene.fillsa.widget.WidgetTestConfiguration"
+    android:previewLayout="@layout/layout_test_widget_preview"
+    android:widgetCategory="home_screen"
+    android:widgetFeatures="reconfigurable|configuration_optional">
+</appwidget-provider>
+<!--    android:initialLayout="@layout/example_loading_appwidget"-->
+<!--    android:configure="com.example.android.ExampleAppWidgetConfigurationActivity"-->
+    <!--    android:previewLayout="@layout/example_appwidget_preview"-->

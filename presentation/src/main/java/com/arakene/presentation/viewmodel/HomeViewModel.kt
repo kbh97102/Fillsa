@@ -4,13 +4,13 @@ package com.arakene.presentation.viewmodel
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.TestErrorCodeUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
+import com.arakene.domain.usecase.common.GetStreakCountUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.FindLocalQuoteByIdUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
@@ -27,10 +27,10 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.Effect
-import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
@@ -53,7 +53,8 @@ class HomeViewModel @Inject constructor(
     private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
     private val findLocalQuoteByIdUseCase: FindLocalQuoteByIdUseCase,
     private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
-    private val testErrorCodeUseCase: TestErrorCodeUseCase
+    private val testErrorCodeUseCase: TestErrorCodeUseCase,
+    private val getStreakCountUseCase: GetStreakCountUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -67,6 +68,8 @@ class HomeViewModel @Inject constructor(
     val backgroundImageUri = mutableStateOf("")
 
     val date = mutableStateOf(LocalDate.now())
+
+    val streakInfo = mutableStateOf(0)
 
     private val today = LocalDate.now()
 
@@ -130,7 +133,7 @@ class HomeViewModel @Inject constructor(
 
     }
 
-    fun testErrorCode(code: Int){
+    fun testErrorCode(code: Int) {
         viewModelScope.launch {
             getResponse(
                 testErrorCodeUseCase(code)
@@ -280,9 +283,15 @@ class HomeViewModel @Inject constructor(
 
         if (isLogged) {
             getDailyQuote(convertedDate)
+            getStreakCount()
         } else {
+            getStreakCount()
             getDailyQuoteNoToken(convertedDate)
         }
+    }
+
+    private suspend fun getStreakCount() {
+        streakInfo.value = getStreakCountUseCase()
     }
 
     private fun getDailyQuote(date: String) = viewModelScope.launch {

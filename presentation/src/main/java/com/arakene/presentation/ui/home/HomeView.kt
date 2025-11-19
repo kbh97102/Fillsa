@@ -192,7 +192,9 @@ fun HomeView(
             )
         }
 
-        HomeTopSection(navigate = navigate)
+        HomeTopSection(
+            navigate = navigate
+        )
 
         Row(
             modifier = Modifier.padding(top = 20.dp),

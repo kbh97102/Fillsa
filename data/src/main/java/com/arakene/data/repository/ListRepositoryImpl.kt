@@ -21,7 +21,7 @@ class ListRepositoryImpl @Inject constructor(
     override suspend fun postSaveMemo(
         request: MemoRequest,
         memberQuoteSeq: String
-    ): ApiResult<SimpleIntResponse> {
+    ): ApiResult<Int> {
         return safeApi {
             api.postSaveMemo(body = request, memberQuoteSeq = memberQuoteSeq)
         }
