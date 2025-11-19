@@ -6,6 +6,7 @@ import androidx.annotation.Keep
 data class PopupResponse(
     val popupSeq: Int,
     val popupType: String,
-    val title: String,
-    val imageUrl: String
+    val title: String?,
+    val content: String?,
+    val imageUrl: String?
 )

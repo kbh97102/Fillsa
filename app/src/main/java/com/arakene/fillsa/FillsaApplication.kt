@@ -52,6 +52,7 @@ class FillsaApplication : Application(), Configuration.Provider {
         }
 
         scheduleMidnightWorker(applicationContext)
+        scheduleClearHiddenPopUp(applicationContext)
     }
 
     private fun scheduleMidnightWorker(context: Context) {
@@ -66,6 +67,23 @@ class FillsaApplication : Application(), Configuration.Provider {
         WorkManager.getInstance(context)
             .enqueueUniquePeriodicWork(
                 "midnight_work",
+                ExistingPeriodicWorkPolicy.UPDATE,
+                workRequest
+            )
+    }
+
+    private fun scheduleClearHiddenPopUp(context: Context) {
+        val now = LocalDateTime.now()
+        val midnight = now.toLocalDate().plusDays(1).atStartOfDay().withMinute(30)
+        val initialDelay = Duration.between(now, midnight)
+
+        val workRequest = PeriodicWorkRequestBuilder<ClearHiddenInfoWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay)
+            .build()
+
+        WorkManager.getInstance(context)
+            .enqueueUniquePeriodicWork(
+                "clear_hidden_popup",
                 ExistingPeriodicWorkPolicy.UPDATE,
                 workRequest
             )

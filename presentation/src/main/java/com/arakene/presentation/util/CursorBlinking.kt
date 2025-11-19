@@ -19,7 +19,6 @@ fun Modifier.cursorBlinking(
     val state = remember { CursorAnimateState() }
 
     LaunchedEffect(value.annotatedString, hasFocus) {
-        logDebug("focused $hasFocus")
         if (hasFocus) {
             state.startBlinking()
         } else {

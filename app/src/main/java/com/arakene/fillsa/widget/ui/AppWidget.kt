@@ -38,7 +38,6 @@ import androidx.glance.text.TextStyle
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteForWidgetUseCase
-import com.arakene.domain.util.ApiResult
 import com.arakene.fillsa.widget.WidgetPrefsKey
 import com.arakene.fillsa.widget.dataStore
 import com.arakene.presentation.R
@@ -85,7 +84,7 @@ class MyWidget : GlanceAppWidget() {
 
         withContext(Dispatchers.IO) {
             streakUseCase().let {
-                streakState.value = if (it is ApiResult.Success) it.data else null
+                streakState.value = it
             }
         }
 

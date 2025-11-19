@@ -15,6 +15,7 @@ interface CommonRepository {
     suspend fun getMemberStreaks(): ApiResult<MemberStreakResponse>
 
     suspend fun getPopUpGeneral(): ApiResult<PopupResponse>
+    suspend fun getPopUpVersionUpdate(): ApiResult<PopupResponse>
 
     suspend fun deleteResign(): ApiResult<Int>
 

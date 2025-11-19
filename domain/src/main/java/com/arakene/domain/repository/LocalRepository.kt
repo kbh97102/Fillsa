@@ -64,4 +64,8 @@ interface LocalRepository {
     suspend fun getStreakDateCount(): Int
     suspend fun checkYesterdayStreak()
     suspend fun getTodayLocalStreakInfo(): StreakInfo?
+
+    suspend fun checkPopupIsHidden(seq: Int): Boolean
+    suspend fun addHiddenPopup(seq: Int)
+    suspend fun clearAllHiddenPopUp()
 }

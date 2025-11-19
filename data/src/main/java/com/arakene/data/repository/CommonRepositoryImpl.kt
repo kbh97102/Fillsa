@@ -20,6 +20,12 @@ class CommonRepositoryImpl @Inject constructor(
     private val api: FillsaApi
 ) : CommonRepository {
 
+    override suspend fun getPopUpVersionUpdate(): ApiResult<PopupResponse> {
+        return safeApi {
+            noTokenApi.getVersionUpdate()
+        }
+    }
+
     override suspend fun getMemberStreaks(): ApiResult<MemberStreakResponse> {
         return safeApi {
             noTokenApi.getMemberStreaks()

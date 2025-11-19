@@ -51,7 +51,6 @@ fun ImageOnlyDialog(
             ) {
                 CustomAsyncImage(
                     imagePath = imageUri,
-                    modifier = Modifier.weight(1f),
                     contentScale = ContentScale.Fit
                 )
 
