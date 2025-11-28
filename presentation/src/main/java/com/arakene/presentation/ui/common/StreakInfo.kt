@@ -46,6 +46,18 @@ fun StreakInfo(
     val streakCount by remember(streak) {
         mutableIntStateOf(streak?.currentStreak ?: 0)
     }
+
+    Image(
+        painterResource(R.drawable.icn_empty_daily_count), contentDescription = null,
+        modifier = modifier.noEffectClickable {
+//            scope.launch {
+//                state.show()
+//            }
+        })
+
+    return
+
+
     if (streakCount > 0) {
         Row(
             verticalAlignment = Alignment.CenterVertically
