@@ -98,7 +98,11 @@ fun StreakInfo(
                             Text(
                                 "나의 필사현황 보기",
                                 style = FillsaTheme.typography.body4,
-                                color = FillsaTheme.colorScheme.tertiary,
+                                color = if (IsDarkMode.current){
+                                    colorResource(R.color.purple01)
+                                } else {
+                                    colorResource(R.color.yellow02)
+                                },
                                 textDecoration = TextDecoration.Underline,
                                 modifier = Modifier.noEffectClickable {
                                     state.dismiss()
