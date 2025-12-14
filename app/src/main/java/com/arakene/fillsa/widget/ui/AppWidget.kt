@@ -1,6 +1,7 @@
 package com.arakene.fillsa.widget.ui
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,7 +18,10 @@ import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.action.actionStartActivity
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
+import androidx.glance.appwidget.action.actionStartActivity
 import androidx.glance.appwidget.provideContent
 import androidx.glance.background
 import androidx.glance.color.ColorProvider
@@ -40,6 +44,7 @@ import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteForWidgetUseCase
 import com.arakene.fillsa.widget.WidgetPrefsKey
 import com.arakene.fillsa.widget.dataStore
+import com.arakene.presentation.MainActivity
 import com.arakene.presentation.R
 import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
@@ -108,7 +113,13 @@ class MyWidget : GlanceAppWidget() {
 
                 Column(
                     modifier = GlanceModifier.fillMaxSize().background(R.color.primary)
-                        .padding(horizontal = 10.dp, vertical = 11.dp),
+                        .padding(horizontal = 10.dp, vertical = 11.dp)
+                        .clickable(
+                            actionStartActivity(
+                                Intent(context, MainActivity::class.java)
+                            )
+                        )
+                    ,
                 ) {
                     // header
                     Row(verticalAlignment = Alignment.Vertical.CenterVertically) {

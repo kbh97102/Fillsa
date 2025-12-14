@@ -70,7 +70,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         mainActivityViewModel.initWidgetData()
-        mainActivityViewModel.getPopupGeneral()
+//        mainActivityViewModel.getPopupGeneral()
 
 
         enableEdgeToEdge()
