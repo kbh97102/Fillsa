@@ -89,7 +89,11 @@ fun HomeTopSection(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
 
-            StreakInfo()
+            StreakInfo(
+                displayPopUp = {
+                    displayPopUp = true
+                }
+            )
 
             if (displayPopUp) {
                 val density = LocalDensity.current

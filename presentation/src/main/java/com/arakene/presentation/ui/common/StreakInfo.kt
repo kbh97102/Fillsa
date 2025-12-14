@@ -19,10 +19,12 @@ import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.StreakProvider
+import com.arakene.presentation.util.noEffectClickable
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StreakInfo(
+    displayPopUp: () -> Unit,
     streak: MemberStreakResponse? = StreakProvider.current,
 ) {
 
@@ -49,6 +51,9 @@ fun StreakInfo(
     } else {
         Image(
             painterResource(R.drawable.icn_empty_daily_count), contentDescription = null,
+            modifier = Modifier.noEffectClickable{
+                displayPopUp
+            }
         )
     }
 
@@ -62,5 +67,6 @@ private fun StreakInfoPreview() {
             currentStreak = 0,
             isTodayWritten = false
         ),
+        displayPopUp = {}
     )
 }
