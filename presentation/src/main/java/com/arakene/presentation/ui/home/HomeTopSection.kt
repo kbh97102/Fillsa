@@ -1,6 +1,5 @@
 package com.arakene.presentation.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,8 +18,8 @@ import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -32,10 +31,6 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.layout.positionInParent
-import androidx.compose.ui.layout.positionInRoot
-import androidx.compose.ui.layout.positionInWindow
-import androidx.compose.ui.layout.positionOnScreen
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,12 +38,14 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.StreakInfo
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
@@ -56,10 +53,19 @@ fun HomeTopSection(
     navigate: Navigate,
     modifier: Modifier = Modifier,
     darkMode: Boolean = IsDarkMode.current,
+    streak: MemberStreakResponse? = StreakProvider.current,
 ) {
 
-    var test by remember {
+    var popupPosition by remember {
         mutableStateOf(Offset.Zero)
+    }
+
+    val streakCount by remember(streak) {
+        mutableIntStateOf(streak?.currentStreak ?: 0)
+    }
+
+    var displayPopUp by remember(streakCount) {
+        mutableStateOf(streakCount <= 0)
     }
 
     Row(
@@ -83,32 +89,29 @@ fun HomeTopSection(
 
         Row(verticalAlignment = Alignment.CenterVertically) {
 
-            StreakInfo(
-                modifier  = Modifier.onGloballyPositioned(onGloballyPositioned = {
-                    Log.e(">>>>", "inParent ${it.positionOnScreen()}")
-                    Log.e(">>>>", "inRoot ${it.positionInRoot()}")
-//                    test = it.positionInRoot().copy(y = it.size.height.toFloat())
-                    test = Offset(-it.size.width.toFloat(), it.size.height.toFloat())
-                }),
-                moveToCalendar = {
-                    navigate(Screens.Calendar)
-                }
-            )
+            StreakInfo()
 
-            if (true) {
+            if (displayPopUp) {
                 val density = LocalDensity.current
-                LaunchedEffect(test) {
-                    Log.e(">>>>", "x position $test")
-                }
                 // 2) 팝업 툴팁
                 Popup(
                     alignment = Alignment.TopEnd,
-                    offset = with(density) { IntOffset(test.x.toInt(), test.y.toInt()) },
-                    onDismissRequest = {  }
+                    offset = with(density) {
+                        IntOffset(
+                            popupPosition.x.toInt() + 9.dp.toPx().toInt(), popupPosition.y.toInt()
+                        )
+                    },
+                    onDismissRequest = {
+                        displayPopUp = false
+                    }
                 ) {
                     BubbleTooltip(
-                        onClickAction = { /* TODO: 버튼 클릭 처리 */ },
-                        onDismiss = {  }
+                        onClickAction = {
+                            navigate.invoke(Screens.Calendar)
+                        },
+                        onDismiss = {
+                            displayPopUp = false
+                        }
                     )
                 }
             }
@@ -139,7 +142,7 @@ fun BubbleTooltip(
             .pointerInput(Unit) { // 팝업 외부 클릭 가능
                 detectTapGestures { onDismiss() }
             },
-        horizontalAlignment =Alignment.End
+        horizontalAlignment = Alignment.End
     ) {
         Row(modifier = Modifier, horizontalArrangement = Arrangement.End) {
             TriangleArrow()
