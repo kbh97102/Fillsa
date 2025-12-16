@@ -2,6 +2,8 @@ package com.arakene.fillsa.widget.ui
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -18,6 +20,7 @@ import androidx.glance.GlanceTheme
 import androidx.glance.Image
 import androidx.glance.ImageProvider
 import androidx.glance.LocalContext
+import androidx.glance.LocalSize
 import androidx.glance.action.actionStartActivity
 import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
@@ -67,6 +70,7 @@ class MyWidget : GlanceAppWidget() {
         fun getStreak(): GetMemberStreaksUseCase
     }
 
+
     // TODO: 데이터 관리 방법에 더 간단한 방법이 있는걸로 파악됨 https://proandroiddev.com/widgets-with-glance-beyond-string-states-2dcc4db2f76c 참고
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
@@ -96,6 +100,13 @@ class MyWidget : GlanceAppWidget() {
         provideContent {
             val dailyQuote by dailyQuoteInfo.collectAsState(null)
             val streak by remember { streakState }
+
+            val localSize = LocalSize.current
+
+            LaunchedEffect(localSize.width) {
+                Log.e(">>>>SIZE", "widgth ${localSize.width} height ${localSize.height}")
+            }
+
             GlanceTheme {
 
                 val context = LocalContext.current

@@ -35,11 +35,17 @@ import androidx.compose.ui.unit.dp
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.emptyPreferences
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.glance.LocalContext
+import androidx.glance.currentState
 import com.arakene.fillsa.widget.WidgetPrefsKey
+import com.arakene.fillsa.widget.dataStore
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.PositiveButton
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.noEffectClickable
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 
 
@@ -108,6 +114,14 @@ fun MyWidgetConfigScreen(
         }
     )
 
+
+    val sizeType by dataStore.data.map {
+        it[stringPreferencesKey("SIZE_KEY")] ?: "SMALL"
+    }.collectAsState("SMALL")
+
+    LaunchedEffect(sizeType) {
+        Log.e(">>>>TEST", "type $sizeType")
+    }
 
     Column(
         modifier = Modifier
@@ -180,13 +194,17 @@ fun MyWidgetConfigScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
 
-                WidgetPreview2x2()
+                WidgetPreview2x2(
+                    isCurrent = sizeType == "SMALL"
+                )
                 Spacer(Modifier.height(5.dp))
                 Text("비율(2x2)", color = Color.Black)
 
                 Spacer(Modifier.height(20.dp))
 
-                WidgetPreview4x2()
+                WidgetPreview4x2(
+                    isCurrent = sizeType != "SMALL"
+                )
                 Spacer(Modifier.height(5.dp))
                 Text("비율(4x2)", color = Color.Black)
             }

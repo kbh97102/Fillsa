@@ -2,15 +2,13 @@ package com.arakene.fillsa.widget.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +27,10 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 
 
 @Composable
-fun WidgetPreview2x2(modifier: Modifier = Modifier) {
+fun WidgetPreview2x2(
+    isCurrent: Boolean,
+    modifier: Modifier = Modifier
+) {
 
     Column(
         modifier = modifier
@@ -37,6 +38,16 @@ fun WidgetPreview2x2(modifier: Modifier = Modifier) {
             .background(
                 color = colorResource(com.arakene.presentation.R.color.primary),
                 shape = RoundedCornerShape(10.dp)
+            )
+            .then(
+                if (isCurrent){
+                    Modifier.border(
+                        2.dp, color = colorResource(com.arakene.presentation.R.color.purple01),
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                } else {
+                    Modifier
+                }
             )
             .padding(horizontal = 5.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -85,6 +96,8 @@ fun WidgetPreview2x2(modifier: Modifier = Modifier) {
 @Composable
 private fun WidgetPreview2x2Preview() {
     FillsaTheme {
-        WidgetPreview2x2()
+        WidgetPreview2x2(
+            isCurrent = true
+        )
     }
 }
