@@ -2,6 +2,7 @@ package com.arakene.fillsa.widget.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,13 +29,25 @@ import com.arakene.fillsa.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 
 @Composable
-fun WidgetPreview4x2(modifier: Modifier = Modifier) {
+fun WidgetPreview4x2(
+    isCurrent: Boolean,
+    modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .sizeIn(minWidth = 245.dp, minHeight = 115.dp)
             .background(
                 colorResource(com.arakene.presentation.R.color.primary),
                 shape = RoundedCornerShape(10.dp)
+            )
+            .then(
+                if (isCurrent){
+                    Modifier.border(
+                        2.dp, color = colorResource(com.arakene.presentation.R.color.purple01),
+                        shape = RoundedCornerShape(10.dp)
+                    )
+                } else {
+                    Modifier
+                }
             )
             .padding(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -102,6 +115,8 @@ fun WidgetPreview4x2(modifier: Modifier = Modifier) {
 @Composable
 private fun WidgetPreview4x2Preview() {
     FillsaTheme {
-        WidgetPreview4x2()
+        WidgetPreview4x2(
+            isCurrent = true
+        )
     }
 }
