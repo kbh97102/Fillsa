@@ -1,79 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#F9ECCC"
-    android:padding="10dp"
+    android:orientation="vertical"
     >
 
-    <LinearLayout
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/top"
-        >
+        android:src="@drawable/img_preview"
+        android:scaleType="center"
+        />
 
-        <!-- FillSa Logo -->
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:src="@drawable/icn_logo"
-            android:layout_gravity="center_vertical"
-            android:layout_marginTop="4dp"
-            android:contentDescription="@null" />
-
-
-        <!-- Fire + 100일 -->
-        <LinearLayout
-            android:layout_gravity="center_vertical"
-            android:id="@+id/streak_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical|end">
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@drawable/icn_today_complete"
-                android:contentDescription="@null" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="100일"
-                android:textColor="#000000"
-                android:textSize="16sp"
-                android:layout_marginStart="4dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-    </LinearLayout>
-
-    <!-- Main Quote -->
-    <TextView
-        android:id="@+id/quote"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/top"
-        android:layout_marginTop="24dp"
-        android:text="진정한 용기는 두려움 속에서도 행동하는 것이다."
-        android:textSize="16sp"
-        android:layout_centerHorizontal="true"
-        android:textColor="#645DF7"
-        android:lineSpacingExtra="2dp" />
-
-    <!-- Author -->
-    <TextView
-        android:id="@+id/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/quote"
-        android:layout_marginTop="12dp"
-        android:text="넬슨 만델라"
-        android:layout_centerHorizontal="true"
-        android:textSize="14sp"
-        android:textColor="#222222" />
-
-</RelativeLayout>
+</LinearLayout>

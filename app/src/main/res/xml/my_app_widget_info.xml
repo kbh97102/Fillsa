@@ -5,7 +5,7 @@
     android:description="@string/alarm_description"
     android:resizeMode="horizontal|vertical"
     android:widgetCategory="home_screen"
-    android:previewImage="@drawable/widget_preview"
+    android:previewImage="@drawable/img_preview"
     android:initialLayout="@layout/layout_test_widget_initial"
     android:configure="com.arakene.fillsa.widget.WidgetTestConfiguration"
     android:widgetFeatures="reconfigurable|configuration_optional">
