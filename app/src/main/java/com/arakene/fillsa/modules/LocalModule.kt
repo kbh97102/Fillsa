@@ -5,7 +5,6 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.arakene.presentation.util.AlarmManagerHelper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,13 +24,5 @@ class LocalModule {
         return PreferenceDataStoreFactory.create {
             context.preferencesDataStoreFile("settings")
         }
-    }
-
-    @Provides
-    @Singleton
-    fun provideAlarmManagerHelper(
-        @ApplicationContext context: Context
-    ): AlarmManagerHelper {
-        return AlarmManagerHelper(context)
     }
 }

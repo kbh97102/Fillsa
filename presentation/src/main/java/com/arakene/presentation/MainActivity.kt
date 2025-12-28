@@ -37,7 +37,6 @@ import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.GeneralDialogs
 import com.arakene.presentation.ui.common.MainNavHost
 import com.arakene.presentation.ui.theme.FillsaTheme
-import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
@@ -52,7 +51,6 @@ import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.MutableStateFlow
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -60,9 +58,6 @@ class MainActivity : ComponentActivity() {
     private val viewModel: SplashViewModel by viewModels()
 
     private val mainActivityViewModel: MainActivityViewModel by viewModels()
-
-    @Inject
-    lateinit var alarmManagerHelper: AlarmManagerHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplash()

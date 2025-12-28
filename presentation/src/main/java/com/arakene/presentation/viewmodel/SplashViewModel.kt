@@ -9,7 +9,6 @@ import com.arakene.domain.usecase.common.SetAlarmPermissionRequestedBeforeUseCas
 import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
 import com.arakene.domain.usecase.common.SetFirstOpenUseCase
 import com.arakene.presentation.util.Action
-import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +28,6 @@ class SplashViewModel @Inject constructor(
     private val logoutUseCase: LogoutUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
     private val setAlarmUsageUseCase: SetAlarmUsageUseCase,
-    private val alarmManagerHelper: AlarmManagerHelper,
     private val getAlarmPermissionRequestedBeforeUseCase: GetAlarmPermissionRequestedBeforeUseCase,
     private val setAlarmPermissionRequestedBeforeUseCase: SetAlarmPermissionRequestedBeforeUseCase
 ) : BaseViewModel() {
@@ -51,9 +49,6 @@ class SplashViewModel @Inject constructor(
     fun setPermissionRequested() = viewModelScope.launch {
         setAlarmPermissionRequestedBeforeUseCase(true)
     }
-
-    fun setAlarm() = alarmManagerHelper.setAlarm()
-    fun cancelAlarm() = alarmManagerHelper.cancelAlarm()
 
     fun clearToken() {
         viewModelScope.launch {

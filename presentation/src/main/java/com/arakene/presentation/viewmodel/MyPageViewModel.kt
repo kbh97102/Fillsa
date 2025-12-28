@@ -14,7 +14,6 @@ import com.arakene.domain.usecase.common.SetDarkModeTypeUseCase
 import com.arakene.domain.usecase.home.GetImageUriUseCase
 import com.arakene.domain.util.DarkModeType
 import com.arakene.presentation.util.Action
-import com.arakene.presentation.util.AlarmManagerHelper
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.action.MyPageAction
@@ -36,7 +35,6 @@ class MyPageViewModel @Inject constructor(
     private val getAlarmUsageUseCase: GetAlarmUsageUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
     private val getImageUriUseCase: GetImageUriUseCase,
-    private val alarmManagerHelper: AlarmManagerHelper,
     private val setDarkModeTypeUseCase: SetDarkModeTypeUseCase,
     private val getDarkModeTypeUseCase: GetDarkModeTypeUseCase
 ) : BaseViewModel() {
@@ -88,11 +86,7 @@ class MyPageViewModel @Inject constructor(
 
     fun checkAlarmState() = viewModelScope.launch {
         getAlarmUsage.distinctUntilChanged().collectLatest {
-            if (it) {
-                alarmManagerHelper.setAlarm()
-            } else {
-                alarmManagerHelper.cancelAlarm()
-            }
+            // TODO: 알림 수용 여부
         }
     }
 

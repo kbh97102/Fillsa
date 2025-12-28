@@ -5,8 +5,10 @@ import android.content.Context
 import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import androidx.work.ExistingPeriodicWorkPolicy
+import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
+import com.arakene.fillsa.DailyNotificationWorker
 import com.arakene.data.util.TokenProvider
 import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.presentation.BuildConfig
@@ -53,7 +55,34 @@ class FillsaApplication : Application(), Configuration.Provider {
 
         scheduleMidnightWorker(applicationContext)
         scheduleClearHiddenPopUp(applicationContext)
+        scheduleDailyNotification(applicationContext)
+//        enqueueTestWorker(applicationContext)
     }
+
+    private fun scheduleDailyNotification(context: Context) {
+        val now = LocalDateTime.now()
+        val midnight = now.toLocalDate().plusDays(1).atStartOfDay().withHour(6)
+        val initialDelay = Duration.between(now, midnight)
+
+        val workRequest = PeriodicWorkRequestBuilder<DailyNotificationWorker>(1, TimeUnit.DAYS)
+            .setInitialDelay(initialDelay)
+            .build()
+
+        WorkManager.getInstance(context)
+            .enqueueUniquePeriodicWork(
+                "DailyNotificationWorker",
+                ExistingPeriodicWorkPolicy.KEEP,
+                workRequest
+            )
+    }
+
+    fun enqueueTestWorker(context: Context) {
+        val request = OneTimeWorkRequestBuilder<DailyNotificationWorker>()
+            .build()
+
+        WorkManager.getInstance(context).enqueue(request)
+    }
+
 
     private fun scheduleMidnightWorker(context: Context) {
         val now = LocalDateTime.now()

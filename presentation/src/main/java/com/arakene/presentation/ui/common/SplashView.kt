@@ -72,7 +72,6 @@ fun SplashView(
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                 if (alarmManager?.canScheduleExactAlarms() == true) {
                     // ✅ 권한 허용됨 - 알람 설정 가능
-                    viewModel.setAlarm()
                     viewModel.permissionChecked.value = true
                 } else {
                     // ❌ 권한 아직 없음 - 사용자 거절함
@@ -121,7 +120,6 @@ fun SplashView(
                             .build()
                     }.show = true
                 } else {
-                    viewModel.setAlarm()
                     viewModel.permissionChecked.value = true
                 }
             }
@@ -129,7 +127,6 @@ fun SplashView(
                     viewModel.permissionChecked.value = true
                 }
         } else {
-            viewModel.cancelAlarm()
             viewModel.permissionChecked.value = true
         }
     }

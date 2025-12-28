@@ -46,11 +46,6 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="${ADS_ID}" />
 
-        <receiver
-            android:name="com.arakene.presentation.util.AlarmReceiver"
-            android:exported="true"
-            tools:ignore="ExportedReceiver" />
-
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
