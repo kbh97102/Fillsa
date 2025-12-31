@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,14 +26,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.SubcomposeLayout
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -47,6 +49,7 @@ import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.noEffectClickable
+import kotlin.math.roundToInt
 
 @Composable
 fun HomeTopSection(
@@ -56,16 +59,9 @@ fun HomeTopSection(
     streak: MemberStreakResponse? = StreakProvider.current,
 ) {
 
-    var popupPosition by remember {
-        mutableStateOf(Offset.Zero)
-    }
 
-    val streakCount by remember(streak) {
-        mutableIntStateOf(streak?.currentStreak ?: 0)
-    }
-
-    var displayPopUp by remember(streakCount) {
-        mutableStateOf(streakCount <= 0)
+    var displayPopUp by remember {
+        mutableStateOf(false)
     }
 
     Row(
@@ -87,49 +83,72 @@ fun HomeTopSection(
                 navigate(Screens.Home())
             })
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        val density = LocalDensity.current
+        val padding = with(density) { 8.dp.roundToPx() }
 
-            StreakInfo(
-                displayPopUp = {
-                    displayPopUp = true
-                }
-            )
-
-            if (displayPopUp) {
-                val density = LocalDensity.current
-                // 2) 팝업 툴팁
-                Popup(
-                    alignment = Alignment.TopEnd,
-                    offset = with(density) {
-                        IntOffset(
-                            popupPosition.x.toInt() + 9.dp.toPx().toInt(), popupPosition.y.toInt()
-                        )
-                    },
-                    onDismissRequest = {
-                        displayPopUp = false
+        SubcomposeLayout {
+            val streakInfoPlaceable = subcompose("STREAK_INFO") {
+                StreakInfo(
+                    displayPopUp = {
+                        displayPopUp = true
                     }
-                ) {
-                    BubbleTooltip(
-                        onClickAction = {
-                            navigate.invoke(Screens.Calendar)
-                        },
-                        onDismiss = {
+                )
+            }.single().measure(it)
+
+            val popupPlaceable = subcompose("POPUP_STREAK_INFO") {
+                if (displayPopUp) {
+                    // 2) 팝업 툴팁
+                    Popup(
+                        alignment = Alignment.TopEnd,
+                        onDismissRequest = {
                             displayPopUp = false
-                        }
-                    )
+                        },
+                        offset = IntOffset(
+                            -(streakInfoPlaceable.width.toFloat() / 2).roundToInt(),
+                            streakInfoPlaceable.height
+                        )
+                    ) {
+                        BubbleTooltip(
+                            onClickAction = {
+                                displayPopUp = false
+                                navigate.invoke(Screens.Calendar)
+                            },
+                            onDismiss = {
+                                displayPopUp = false
+                            }
+                        )
+                    }
                 }
+            }.firstOrNull()?.measure(it)
+
+            val myPagePlaceable = subcompose("MY_PAGE") {
+                Image(
+                    painterResource(R.drawable.icn_my_page),
+                    contentDescription = null,
+                    modifier = Modifier.noEffectClickable {
+                        navigate(Screens.MyPage)
+                    },
+                    colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
+                )
+            }.single().measure(it)
+
+            val streakInfoXPos =
+                it.maxWidth - myPagePlaceable.width - streakInfoPlaceable.width - padding
+            val popUpXPos =
+                streakInfoXPos
+
+            layout(it.maxWidth, myPagePlaceable.height) {
+                myPagePlaceable.let { myPage ->
+                    myPage.placeRelative(x = it.maxWidth - myPage.width, y = 0)
+                }
+                streakInfoPlaceable.placeRelative(
+                    x = streakInfoXPos,
+                    y = 0
+                )
+                popupPlaceable?.placeRelative(
+                    x = popUpXPos, y = 0, zIndex = 1f
+                )
             }
-
-            Spacer(Modifier.width(10.dp))
-
-            Image(
-                painterResource(R.drawable.icn_my_page),
-                contentDescription = null,
-                modifier = Modifier.noEffectClickable {
-                    navigate(Screens.MyPage)
-                },
-                colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
-            )
         }
     }
 
@@ -138,7 +157,8 @@ fun HomeTopSection(
 @Composable
 fun BubbleTooltip(
     onClickAction: () -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
+    darkMode: Boolean = IsDarkMode.current
 ) {
     Column(
         Modifier
@@ -155,23 +175,36 @@ fun BubbleTooltip(
         // 말풍선 전체 UI
         Column(
             modifier = Modifier
-                .background(Color.Black, shape = RoundedCornerShape(10.dp))
+                .background(if (darkMode){
+                    colorResource(R.color.primary)
+                } else {
+                    colorResource(R.color.black)
+                }, shape = RoundedCornerShape(10.dp))
                 .padding(16.dp)
                 .align(Alignment.End)
         ) {
             Text(
                 text = "연속 필사를 완료해 주세요!",
-                color = Color.White,
-                fontSize = 16.sp
+                color = if (darkMode){
+                    colorResource(R.color.gray_700)
+                } else {
+                    Color.White
+                },
+                style = FillsaTheme.typography.subtitle2
             )
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = "나의 필사현황 보기",
-                color = Color(0xFFFFD966),
-                fontSize = 14.sp,
-                modifier = Modifier.clickable { onClickAction() }
+                style = FillsaTheme.typography.body4,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.noEffectClickable { onClickAction() },
+                color = if (darkMode){
+                    FillsaTheme.colorScheme.onTertiary2
+                } else{
+                    FillsaTheme.colorScheme.tertiary
+                }
             )
         }
     }
@@ -196,7 +229,7 @@ fun TriangleArrow() {
 @Preview
 @Composable
 private fun Preview() {
-    BubbleTooltip(onClickAction = {}) { }
+    BubbleTooltip(onClickAction = {}, onDismiss = {})
 }
 
 @Preview(showBackground = true, widthDp = 400)

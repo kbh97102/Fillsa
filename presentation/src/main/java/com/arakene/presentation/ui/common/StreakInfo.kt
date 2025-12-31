@@ -27,6 +27,7 @@ import com.arakene.presentation.util.noEffectClickable
 fun StreakInfo(
     displayPopUp: () -> Unit,
     streak: MemberStreakResponse? = StreakProvider.current,
+    modifier: Modifier = Modifier
 ) {
 
     val streakCount by remember(streak) {
@@ -53,7 +54,7 @@ fun StreakInfo(
         Image(
             painterResource(R.drawable.icn_empty_daily_count), contentDescription = null,
             modifier = Modifier.noEffectClickable{
-                displayPopUp
+                displayPopUp()
             }
         )
     }
