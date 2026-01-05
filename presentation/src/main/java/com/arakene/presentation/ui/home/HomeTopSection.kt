@@ -1,10 +1,8 @@
 package com.arakene.presentation.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,7 +18,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -38,7 +35,6 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.presentation.R
@@ -175,17 +171,19 @@ fun BubbleTooltip(
         // 말풍선 전체 UI
         Column(
             modifier = Modifier
-                .background(if (darkMode){
-                    colorResource(R.color.primary)
-                } else {
-                    colorResource(R.color.black)
-                }, shape = RoundedCornerShape(10.dp))
+                .background(
+                    if (darkMode) {
+                        colorResource(R.color.primary)
+                    } else {
+                        colorResource(R.color.black)
+                    }, shape = RoundedCornerShape(10.dp)
+                )
                 .padding(16.dp)
                 .align(Alignment.End)
         ) {
             Text(
                 text = "연속 필사를 완료해 주세요!",
-                color = if (darkMode){
+                color = if (darkMode) {
                     colorResource(R.color.gray_700)
                 } else {
                     Color.White
@@ -200,9 +198,9 @@ fun BubbleTooltip(
                 style = FillsaTheme.typography.body4,
                 textDecoration = TextDecoration.Underline,
                 modifier = Modifier.noEffectClickable { onClickAction() },
-                color = if (darkMode){
+                color = if (darkMode) {
                     FillsaTheme.colorScheme.onTertiary2
-                } else{
+                } else {
                     FillsaTheme.colorScheme.tertiary
                 }
             )
@@ -211,7 +209,12 @@ fun BubbleTooltip(
 }
 
 @Composable
-fun TriangleArrow() {
+fun TriangleArrow(
+    darkMode: Boolean = IsDarkMode.current
+) {
+    val primary = colorResource(R.color.primary)
+    val black = colorResource(R.color.black)
+
     Canvas(
         modifier = Modifier
             .size(width = 20.dp, height = 18.dp)
@@ -222,7 +225,13 @@ fun TriangleArrow() {
             lineTo(size.width, size.height)
             close()
         }
-        drawPath(path, Color.Black)
+        drawPath(
+            path, if (darkMode) {
+                primary
+            } else {
+                black
+            }
+        )
     }
 }
 
