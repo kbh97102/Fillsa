@@ -1,6 +1,6 @@
 android {
     defaultConfig {
-        versionCode = 18
+        versionCode = 19
         versionName = "1.0.25"
         buildConfigField("String", "VERSION_NAME", "\"${project.android.defaultConfig.versionName}\"")
     }
