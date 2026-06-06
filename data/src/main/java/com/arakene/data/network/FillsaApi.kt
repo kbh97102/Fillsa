@@ -6,6 +6,7 @@ import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberMonthlyQuoteResponse
 import com.arakene.domain.responses.MemberQuoteImageResponse
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.MemberTypingQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
 import com.arakene.domain.responses.WritingStatusDto
@@ -80,4 +81,7 @@ interface FillsaApi {
     suspend fun getTyping(
         @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
     ): Response<MemberTypingQuoteResponse>
+
+    @GET(ApiEndPoint.GET_MEMBER_STREAKS)
+    suspend fun getMemberStreaks(): Response<MemberStreakResponse>
 }

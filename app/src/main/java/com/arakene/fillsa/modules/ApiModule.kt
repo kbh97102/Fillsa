@@ -4,6 +4,7 @@ import com.arakene.data.network.FillsaApi
 import com.arakene.data.network.FillsaNoTokenApi
 import com.arakene.data.network.TokenApi
 import com.arakene.data.util.AuthAuthenticator
+import com.arakene.data.util.HttpLogInterceptor
 import com.arakene.data.util.TokenInterceptor
 import com.arakene.data.util.VersionInterceptor
 import dagger.Module
@@ -11,7 +12,6 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Named
@@ -24,9 +24,7 @@ class ApiModule {
     @Named("refreshClient")
     fun provideRefreshOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            })
+            .addInterceptor(HttpLogInterceptor())
             .build()
     }
 
@@ -45,22 +43,22 @@ class ApiModule {
         return retrofit.create(TokenApi::class.java)
     }
 
+    private val baseUrl = "https://api.fillsa.com/"
+
     @Provides
     fun provideApi(
         tokenInterceptor: TokenInterceptor,
         auth: AuthAuthenticator
     ): FillsaApi {
         return Retrofit.Builder()
-            .baseUrl("https://www.fillsa.store/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    })
                     .addInterceptor(VersionInterceptor())
                     .authenticator(auth)
                     .addInterceptor(tokenInterceptor)
+                    .addInterceptor(HttpLogInterceptor())
                     .build()
             )
             .addConverterFactory(GsonConverterFactory.create())
@@ -71,14 +69,12 @@ class ApiModule {
     @Provides
     fun provideNoTokenApi(): FillsaNoTokenApi {
         return Retrofit.Builder()
-            .baseUrl("https://www.fillsa.store/")
+            .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
             .client(
                 OkHttpClient.Builder()
-                    .addInterceptor(HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    })
                     .addInterceptor(VersionInterceptor())
+                    .addInterceptor(HttpLogInterceptor())
                     .build()
             )
             .build()

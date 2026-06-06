@@ -28,7 +28,7 @@ class CommonRepositoryImpl @Inject constructor(
 
     override suspend fun getMemberStreaks(): ApiResult<MemberStreakResponse> {
         return safeApi {
-            noTokenApi.getMemberStreaks()
+            api.getMemberStreaks()
         }
     }
 

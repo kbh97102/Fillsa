@@ -82,7 +82,6 @@ dependencies {
 
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
-    implementation(libs.logger)
     implementation(libs.datastore)
     implementation(platform(libs.firebase.bom))
 

@@ -1,6 +1,7 @@
 package com.arakene.presentation.viewmodel
 
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -9,6 +10,7 @@ import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.TestErrorCodeUseCase
+import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetStreakCountUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
@@ -54,7 +56,8 @@ class HomeViewModel @Inject constructor(
     private val findLocalQuoteByIdUseCase: FindLocalQuoteByIdUseCase,
     private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
     private val testErrorCodeUseCase: TestErrorCodeUseCase,
-    private val getStreakCountUseCase: GetStreakCountUseCase
+    private val getStreakCountUseCase: GetStreakCountUseCase,
+    private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -291,6 +294,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private suspend fun getStreakCount() {
+        Log.e(">>>>", "streak? ${getAccessTokenUseCase()}")
         streakInfo.value = getStreakCountUseCase()
     }
 
