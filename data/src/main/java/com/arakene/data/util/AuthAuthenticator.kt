@@ -44,18 +44,25 @@ class AuthAuthenticator @Inject constructor(
         if (responseCount(response) >= 2) return null
 
         val tokens = runBlocking {
+            val refreshToken = getRefreshTokenUseCase()
+            if (refreshToken.isBlank()) {
+                return@runBlocking null
+            }
+
             updateTokenUseCase(
                 TokenRefreshRequest(
                     deviceId = "",
-                    refreshToken = getRefreshTokenUseCase()
+                    refreshToken = refreshToken
                 )
             ).also { tokenInfo ->
-                setAccessTokenUseCase(tokenInfo?.accessToken ?: "")
-                setRefreshTokenUseCase(tokenInfo?.refreshToken ?: "")
+                if (tokenInfo?.accessToken?.isNotBlank() == true && tokenInfo.refreshToken.isNotBlank()) {
+                    setAccessTokenUseCase(tokenInfo.accessToken)
+                    setRefreshTokenUseCase(tokenInfo.refreshToken)
+                }
             }
         }
 
-        val accessToken = tokens?.accessToken
+        val accessToken = tokens?.accessToken?.takeIf { it.isNotBlank() }
 
         return if (accessToken != null) {
             response.request.newBuilder()

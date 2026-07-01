@@ -20,10 +20,13 @@ import javax.inject.Named
 @InstallIn(SingletonComponent::class)
 class ApiModule {
 
+    private val baseUrl = "https://api.fillsa.com/"
+
     @Provides
     @Named("refreshClient")
     fun provideRefreshOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
+            .addInterceptor(VersionInterceptor())
             .addInterceptor(HttpLogInterceptor())
             .build()
     }
@@ -32,7 +35,7 @@ class ApiModule {
     @Named("refreshRetrofit")
     fun provideRefreshRetrofit(@Named("refreshClient") client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://www.fillsa.store/")
+            .baseUrl(baseUrl)
             .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -42,8 +45,6 @@ class ApiModule {
     fun provideTokenRefreshApi(@Named("refreshRetrofit") retrofit: Retrofit): TokenApi {
         return retrofit.create(TokenApi::class.java)
     }
-
-    private val baseUrl = "https://api.fillsa.com/"
 
     @Provides
     fun provideApi(
