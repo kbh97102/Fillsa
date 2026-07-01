@@ -133,35 +133,13 @@ fun SplashView(
 
     LaunchedEffect(Unit) {
         viewModel.checkReady()
-        val permissions = when {
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU -> {
-                arrayOf(
-                    Manifest.permission.READ_MEDIA_IMAGES,
-                    Manifest.permission.POST_NOTIFICATIONS,
-                    Manifest.permission.SCHEDULE_EXACT_ALARM
-                )
-            }
-
-            Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE,
-                    Manifest.permission.SCHEDULE_EXACT_ALARM
-                )
-            }
-
-            else -> {
-                arrayOf(
-                    Manifest.permission.READ_EXTERNAL_STORAGE
-                )
-            }
-        }
-
-        val notGranted = permissions.any {
-            ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_DENIED
-        }
-
-        if (notGranted) {
-            permissionLauncher.launch(permissions)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+            ContextCompat.checkSelfPermission(
+                context,
+                Manifest.permission.POST_NOTIFICATIONS
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+            permissionLauncher.launch(arrayOf(Manifest.permission.POST_NOTIFICATIONS))
         } else {
             viewModel.permissionChecked.value = true
         }
