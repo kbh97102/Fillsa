@@ -18,11 +18,11 @@ val secretsFile = Properties().apply {
 
 android {
     namespace = "com.arakene.presentation"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
 
         buildConfigField("String", "kakao_key", secretsFile["KAKAO_KEY"].toString())
         buildConfigField("String", "google_key", secretsFile["GOOGLE_KEY"].toString())

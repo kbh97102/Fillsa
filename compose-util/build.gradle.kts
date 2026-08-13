@@ -6,7 +6,7 @@ plugins {
 
 android {
   namespace = "com.google.android.gms.example"
-  compileSdk = 35
+  compileSdk = 36
 
   defaultConfig {
     minSdk = 24
