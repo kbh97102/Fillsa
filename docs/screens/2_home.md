@@ -21,7 +21,7 @@
 | Header | `2929:15476` | Figma logo, current streak, profile navigation | `FigmaHomeContent` | 부분 통과(빌드) |
 | Month calendar | `2929:15661` | actual `YYYY.MM` display and calendar navigation action | `HomeDateWeekSection` | 부분 통과(빌드) |
 | Week strip | `2929:17161` | actual selected date; Home contract has no completed-date collection, so completion marker is false | `HomeDateWeekSection` | 완료 배지 Figma 상태는 Blocked |
-| Quote card | `2929:13642` | selected quote, author search affordance, Figma direction/date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
+| Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
 | Quote action row | `2929:15503` | copy/share/like/image actions with current like visual state | `HomeQuoteActionRow` | 부분 통과(빌드) |
 | Prompt response | `2929:13630` | question, answer-entry CTA with existing Home navigation | `HomeView` | 미검증 |
 | Global bottom navigation/ad | `2929:29254`, `2929:29249` | full-frame navigation/ad surface; owned by `BottomNavigationBar` | scaffold | 공유 범위 확인 대기 |

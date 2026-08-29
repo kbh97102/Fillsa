@@ -22,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
@@ -63,6 +64,7 @@ fun HomeView(
     }
 
     val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
 
     val scope = rememberCoroutineScope()
 
@@ -189,6 +191,7 @@ fun HomeView(
         onProfile = { navigate(Screens.MyPage) },
         onCalendar = { viewModel.handleContract(HomeAction.ClickCalendar) },
         onQuote = { viewModel.handleContract(HomeAction.ClickQuote) },
+        onAuthor = { uriHandler.openUri(homeAuthorUri(author)) },
         onPreviousQuote = { viewModel.handleContract(HomeAction.ClickBefore) },
         onNextQuote = { viewModel.handleContract(HomeAction.ClickNext) },
         onCopy = { copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author) },

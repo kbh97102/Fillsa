@@ -44,6 +44,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.gangwoneduall
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.StreakProvider
+import com.arakene.presentation.util.getWikipediaUriString
 import com.arakene.presentation.util.noEffectClickable
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -93,10 +94,12 @@ internal fun homeQuoteSwipe(
     canGoNext: Boolean,
 ): HomeQuoteSwipe =
     when {
-        horizontalDrag < -150f -> HomeQuoteSwipe.Previous
-        horizontalDrag > 150f && canGoNext -> HomeQuoteSwipe.Next
+        horizontalDrag > 150f -> HomeQuoteSwipe.Previous
+        horizontalDrag < -150f && canGoNext -> HomeQuoteSwipe.Next
         else -> HomeQuoteSwipe.None
     }
+
+internal fun homeAuthorUri(author: String): String = getWikipediaUriString(author)
 
 @Composable
 internal fun FigmaHomeContent(
@@ -111,6 +114,7 @@ internal fun FigmaHomeContent(
     onProfile: () -> Unit,
     onCalendar: () -> Unit,
     onQuote: () -> Unit,
+    onAuthor: () -> Unit,
     onPreviousQuote: () -> Unit,
     onNextQuote: () -> Unit,
     onCopy: () -> Unit,
@@ -143,6 +147,7 @@ internal fun FigmaHomeContent(
             author = author,
             canGoNext = canGoNext,
             onQuote = onQuote,
+            onAuthor = onAuthor,
             onPreviousQuote = onPreviousQuote,
             onNextQuote = onNextQuote,
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
@@ -324,6 +329,7 @@ private fun HomeQuoteCard(
     author: String,
     canGoNext: Boolean,
     onQuote: () -> Unit,
+    onAuthor: () -> Unit,
     onPreviousQuote: () -> Unit,
     onNextQuote: () -> Unit,
     modifier: Modifier = Modifier,
@@ -372,7 +378,10 @@ private fun HomeQuoteCard(
                 modifier = Modifier.fillMaxWidth(),
             )
             Spacer(Modifier.weight(1f))
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.noEffectClickable(click = onAuthor),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
                 Text(
                     author,
                     style = FillsaTheme.typography.body4,
