@@ -34,7 +34,6 @@ import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeEffect
-import com.arakene.presentation.util.HomePromptQuestion
 import com.arakene.presentation.util.ImageDialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalSnackbarHost
@@ -192,15 +191,7 @@ fun HomeView(
         onProfile = { navigate(Screens.MyPage) },
         onCalendar = { viewModel.handleContract(HomeAction.ClickCalendar) },
         onQuote = { viewModel.handleContract(HomeAction.ClickQuote()) },
-        onRecordAnswer = { answer ->
-            viewModel.handleContract(
-                HomeAction.ClickQuote(
-                    initialAnswer = answer,
-                    promptDate = date.toString(),
-                    promptQuestion = HomePromptQuestion,
-                )
-            )
-        },
+        onRecordAnswer = { answer -> viewModel.handleContract(HomeAction.ClickQuote(answer)) },
         onAuthor = { uriHandler.openUri(homeAuthorUri(author)) },
         onPreviousQuote = { viewModel.handleContract(HomeAction.ClickBefore) },
         onNextQuote = { viewModel.handleContract(HomeAction.ClickNext) },

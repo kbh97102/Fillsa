@@ -104,16 +104,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickQuote -> {
-                emitEffect(
-                    CommonEffect.Move(
-                        homeAnswerRoute(
-                            dailyQuote = currentQuota,
-                            answer = action.initialAnswer,
-                            promptDate = action.promptDate,
-                            promptQuestion = action.promptQuestion,
-                        )
-                    )
-                )
+                emitEffect(CommonEffect.Move(homeAnswerRoute(currentQuota, action.initialAnswer)))
             }
 
             is HomeAction.ClickShare -> {

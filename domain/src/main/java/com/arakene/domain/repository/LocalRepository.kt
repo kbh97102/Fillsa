@@ -2,7 +2,6 @@ package com.arakene.domain.repository
 
 import androidx.paging.PagingData
 import com.arakene.domain.model.StreakInfo
-import com.arakene.domain.model.PromptAnswerRecord
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
@@ -46,9 +45,6 @@ interface LocalRepository {
     suspend fun updateLocalQuoteMemo(memo: String, seq: Int)
     suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int
     suspend fun getQuoteLocal(seq: Int): LocalQuoteInfo?
-
-    suspend fun savePromptAnswer(record: PromptAnswerRecord)
-    suspend fun getPromptAnswer(date: String, question: String): PromptAnswerRecord?
 
     suspend fun emitTokenExpired(errorCode: String)
     fun getTokenExpired(): Flow<String>

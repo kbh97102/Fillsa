@@ -72,8 +72,6 @@ sealed interface Screens {
     data class DailyQuote(
         val dailyQuoteDto: DailyQuoteDto,
         val initialAnswer: String = "",
-        val promptDate: String = "",
-        val promptQuestion: String = "",
     ) : Screens {
         override val routeString: String
             get() = "DailyQuote"

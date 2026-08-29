@@ -26,7 +26,6 @@ import com.arakene.data.util.toDto
 import com.arakene.data.util.toEntity
 import com.arakene.data.util.toWidgetQuoteInfoEntity
 import com.arakene.domain.model.StreakInfo
-import com.arakene.domain.model.PromptAnswerRecord
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuotaNoToken
@@ -51,7 +50,6 @@ class LocalRepositoryImpl @Inject constructor(
 ) : LocalRepository {
 
     private val dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-    private val promptAnswerStore = PromptAnswerStore(dataStore)
 
     override suspend fun checkYesterdayStreak() {
         val yesterday = dateFormatter.format(LocalDate.now().minusDays(1))
@@ -208,15 +206,7 @@ class LocalRepositoryImpl @Inject constructor(
 
     override suspend fun clear() {
         dao.clear()
-        promptAnswerStore.clear()
     }
-
-    override suspend fun savePromptAnswer(record: PromptAnswerRecord) {
-        promptAnswerStore.save(record)
-    }
-
-    override suspend fun getPromptAnswer(date: String, question: String): PromptAnswerRecord? =
-        promptAnswerStore.load(date, question)
 
     override suspend fun findLocalQuoteById(seq: Int): LocalQuoteInfo? {
         return dao.findQuoteById(seq)?.toDomain()

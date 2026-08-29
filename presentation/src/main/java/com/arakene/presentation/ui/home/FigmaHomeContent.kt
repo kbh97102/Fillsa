@@ -49,7 +49,6 @@ import com.arakene.presentation.ui.theme.gangwoneduall
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.HomeAnswerMaxGraphemes
-import com.arakene.presentation.util.HomePromptQuestion
 import com.arakene.presentation.util.getWikipediaUriString
 import com.arakene.presentation.util.homeAnswerInputState
 import com.arakene.presentation.util.noEffectClickable
@@ -473,7 +472,7 @@ private fun HomePromptAnswerSection(
         Text("오늘의 질문", style = FillsaTheme.typography.subtitle2, color = HomePrimary)
         // The Home contract has no question feed, so this preserves the established Figma placeholder.
         Text(
-            HomePromptQuestion,
+            "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
             style = FillsaTheme.typography.body3,
             color = HomeInk,
             modifier = Modifier.padding(top = 4.dp),

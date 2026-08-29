@@ -4,6 +4,4 @@ interface TypingEffect : Effect {
 
     data class Refresh(val seq: Int) : TypingEffect
 
-    data object PromptAnswerSaved : TypingEffect
-
 }
