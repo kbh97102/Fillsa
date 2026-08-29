@@ -53,11 +53,9 @@
 - Isolated 360 × 821 / 160dpi dark emulator override was attempted, but `adb exec-out screencap -p` did not respond within 60 seconds and was terminated. The override was restored to physical 1280 × 2856, 480dpi and system light mode before handoff. No matching-size overlay was produced.
 - Comparison: component-level Figma-to-runtime inspection only; full pixel overlay is Blocked because device-frame capture did not complete at Figma dimensions, Figma is iOS status/navigation while runtime is Android, the shared bar has four rather than three routes, and live ad/debug overlay content is not a Figma-defined deterministic surface.
 
-- Comparison: no valid Home runtime capture yet. The emulator is in onboarding state and changing that state would not be isolated from the existing app data.
-
 ## Final assembled-screen result
 
-- Final runtime capture: pending; no persistent Home app state was mutated merely to obtain a capture.
-- Comparison: pending 360 × 821 full-frame overlay/side-by-side comparison.
+- Final runtime capture: `docs/design-qa/assets/home-figma-3039-26518/runtime-dark-emulator-1280x2856.png`, captured from the freshly installed debug APK on Android Emulator `emulator-5556` (1280 × 2856 px, 480dpi, dark mode). It is a valid full-device dark Home capture, but not a matching-size controlled comparison frame.
+- Comparison: pending 360 × 821 / 160dpi controlled full-frame capture and Figma overlay/side-by-side comparison; the prior controlled capture attempt stalled in `screencap` and was restored.
 - Result: Blocked.
 - Remaining differences: (1) Figma `3087:29254` has three 120dp tabs, while Android deliberately preserves four shared routes; (2) the Figma ad reference `2929:29249` no longer exists, while Android preserves its live ad surface and debug validator overlay; (3) Figma `2929:17161` shows a completed date/badge, but the current Home contract has no completed-date source, so the Android strip truthfully renders no completion marker; (4) Figma `2929:13630`'s question is a static established placeholder because Home has no question source; (5) the Figma answer field has no current answer record/storage or Home→Typing handoff contract, so CTA preserves only the original quote navigation; (6) a matching-state 360 × 821 Android capture could not be completed because `screencap` stalled under the temporary override, although the original emulator configuration was restored; (7) Figma uses iOS system surfaces while the runtime capture uses Android ones; (8) final component and assembled-frame pixel comparison is therefore incomplete.
