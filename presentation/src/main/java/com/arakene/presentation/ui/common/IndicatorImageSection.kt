@@ -25,9 +25,9 @@ fun IndicatorImageSection(
             modifier = Modifier.fillMaxSize(),
             painter =
                 when (it) {
-                    0 -> painterResource(R.drawable.img_guide_1)
-                    1 -> painterResource(R.drawable.img_guide_2)
-                    else -> painterResource(R.drawable.img_guide_3)
+                    0 -> painterResource(R.drawable.onboarding_guide_visual_1)
+                    1 -> painterResource(R.drawable.onboarding_guide_visual_2)
+                    else -> painterResource(R.drawable.onboarding_guide_visual_3)
                 },
             contentDescription = null
         )
