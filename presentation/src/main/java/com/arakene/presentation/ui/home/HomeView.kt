@@ -164,115 +164,44 @@ fun HomeView(
         viewModel.isLike
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(FillsaTheme.colorScheme.background)
-            .padding(horizontal = 20.dp)
-    ) {
-
-        if (imageDialogDataHolder.show) {
-            ImageDialog(
-                author = imageDialogDataHolder.author,
-                quote = imageDialogDataHolder.quote,
-                onDismiss = {
-                    imageDialogDataHolder.show = false
-                },
-                uploadImage = {
-                    viewModel.handleContract(
-                        HomeAction.ClickChangeImage(
-                            uri = it.toString()
-                        )
-                    )
-                },
-                backgroundImageUrl = backgroundImageUrl,
-                deleteOnClick = {
-                    viewModel.handleContract(HomeAction.ClickDeleteImage)
-                }
-            )
-        }
-
-        HomeTopSection(
-            navigate = navigate
-        )
-
-        Row(
-            modifier = Modifier.padding(top = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            CalendarSection(
-                date = date,
-                modifier = Modifier
-                    .weight(1f)
-                    .noEffectClickable {
-                        viewModel.handleContract(HomeAction.ClickCalendar)
-                    }
-            )
-
-            ImageSection(
-                isLogged = isLogged,
-                modifier = Modifier.weight(1f),
-                imageUri = backgroundImageUrl,
-                onClick = {
-                    viewModel.handleContract(
-                        HomeAction.ClickImage(
-                            isLogged = isLogged,
-                            author = author,
-                            quote = quote
-                        )
-                    )
-                }
-            )
-        }
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            LocaleSwitch(
-                selected = selectedLocale,
-                setSelected = {
-                    selectedLocale = it
-                },
-                modifier = Modifier.padding(top = 20.dp)
-            )
-        }
-
-        DailyQuotaSection(
-            text = quote,
-            author = author,
-            next = {
-                viewModel.handleContract(HomeAction.ClickNext)
+    if (imageDialogDataHolder.show) {
+        ImageDialog(
+            author = imageDialogDataHolder.author,
+            quote = imageDialogDataHolder.quote,
+            onDismiss = { imageDialogDataHolder.show = false },
+            uploadImage = {
+                viewModel.handleContract(HomeAction.ClickChangeImage(uri = it.toString()))
             },
-            before = {
-                viewModel.handleContract(HomeAction.ClickBefore)
-            },
-            navigate = {
-                viewModel.handleContract(HomeAction.ClickQuote)
-            },
-            date = date,
-            modifier = Modifier.padding(top = 20.dp)
-        )
-
-        InteractionButtonSection(
-            copy = {
-                copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author)
-            },
-            share = {
-                viewModel.handleContract(
-                    HomeAction.ClickShare(
-                        author = author,
-                        quote = quote
-                    )
-                )
-            },
-            isLike = isLike,
-            setIsLike = {
-                viewModel.handleContract(HomeAction.ClickLike)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 28.dp)
+            backgroundImageUrl = backgroundImageUrl,
+            deleteOnClick = { viewModel.handleContract(HomeAction.ClickDeleteImage) }
         )
     }
+
+    FigmaHomeContent(
+        date = date,
+        quote = quote,
+        author = author,
+        selectedLocale = selectedLocale,
+        isLike = isLike,
+        canGoNext = date.isBefore(LocalDate.now()),
+        onLocaleChanged = { selectedLocale = it },
+        onHome = { navigate(Screens.Home()) },
+        onProfile = { navigate(Screens.MyPage) },
+        onCalendar = { viewModel.handleContract(HomeAction.ClickCalendar) },
+        onQuote = { viewModel.handleContract(HomeAction.ClickQuote) },
+        onPreviousQuote = { viewModel.handleContract(HomeAction.ClickBefore) },
+        onNextQuote = { viewModel.handleContract(HomeAction.ClickNext) },
+        onCopy = { copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author) },
+        onShare = {
+            viewModel.handleContract(HomeAction.ClickShare(author = author, quote = quote))
+        },
+        onLike = { viewModel.handleContract(HomeAction.ClickLike) },
+        onImage = {
+            viewModel.handleContract(
+                HomeAction.ClickImage(isLogged = isLogged, author = author, quote = quote)
+            )
+        }
+    )
 
 }
 

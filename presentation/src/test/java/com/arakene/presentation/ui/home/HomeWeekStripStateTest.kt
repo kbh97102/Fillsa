@@ -1,0 +1,27 @@
+package com.arakene.presentation.ui.home
+
+import java.time.LocalDate
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Test
+
+class HomeWeekStripStateTest {
+
+    @Test
+    fun `week strip only marks dates supplied by completion data`() {
+        val selectedDate = LocalDate.of(2026, 8, 12)
+
+        val days = homeWeekDayStates(
+            selectedDate = selectedDate,
+            completedDates = emptySet(),
+        )
+
+        assertEquals(
+            listOf(10, 11, 12, 13, 14, 15, 16),
+            days.map { it.date.dayOfMonth },
+        )
+        assertEquals(selectedDate, days.single { it.isSelected }.date)
+        assertFalse(days.first().isCompleted)
+        assertEquals(0, days.count { it.isCompleted })
+    }
+}
