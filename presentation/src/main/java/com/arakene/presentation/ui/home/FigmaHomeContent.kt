@@ -120,7 +120,7 @@ internal fun FigmaHomeContent(
     onProfile: () -> Unit,
     onCalendar: () -> Unit,
     onQuote: () -> Unit,
-    onRecordAnswer: (String) -> Unit,
+    onRecordAnswer: () -> Unit,
     onAuthor: () -> Unit,
     onPreviousQuote: () -> Unit,
     onNextQuote: () -> Unit,
@@ -462,7 +462,7 @@ private fun HomeQuoteLikeAction(isLiked: Boolean, modifier: Modifier, onClick: (
 
 @Composable
 private fun HomePromptAnswerSection(
-    onRecordAnswer: (String) -> Unit,
+    onRecordAnswer: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var answer by rememberSaveable { mutableStateOf("") }
@@ -513,7 +513,7 @@ private fun HomePromptAnswerSection(
             modifier = Modifier.fillMaxWidth().padding(top = 3.dp),
             textAlign = TextAlign.End,
         )
-        HomeAnswerRecordButton(onClick = { onRecordAnswer(answerState.text) })
+        HomeAnswerRecordButton(onClick = onRecordAnswer)
     }
 }
 

@@ -122,7 +122,6 @@ fun MainNavHost(
                 val data = it.toRoute<Screens.DailyQuote>()
                 TypingQuoteView(
                     data.dailyQuoteDto,
-                    initialAnswer = data.initialAnswer,
                     navigate = {
                         navController.navigate(it){
                             launchSingleTop = true

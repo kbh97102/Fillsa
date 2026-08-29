@@ -1,6 +1,5 @@
 package com.arakene.presentation.util
 
-import com.arakene.domain.responses.DailyQuoteDto
 import java.text.BreakIterator
 
 internal const val HomeAnswerMaxGraphemes = 200
@@ -30,11 +29,3 @@ internal fun homeAnswerInputState(text: String): HomeAnswerInputState {
         remainingCount = HomeAnswerMaxGraphemes - graphemeCount,
     )
 }
-
-internal fun homeAnswerRoute(
-    dailyQuote: DailyQuoteDto,
-    answer: String,
-): Screens.DailyQuote = Screens.DailyQuote(
-    dailyQuoteDto = dailyQuote,
-    initialAnswer = homeAnswerInputState(answer).text,
-)

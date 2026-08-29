@@ -23,5 +23,7 @@
 | Week strip | `2929:17161` | actual selected date; Home contract has no completed-date collection, so completion marker is false | `HomeDateWeekSection` | 완료 배지 Figma 상태는 Blocked |
 | Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
 | Quote action row | `2929:15503` | copy/share/like/image actions with current like visual state | `HomeQuoteActionRow` | 부분 통과(빌드) |
-| Prompt response | `2929:13630` | established question placeholder, 200-grapheme answer input/count, typed draft handoff to existing typing route | `HomePromptAnswerSection` | 부분 통과(빌드) |
+| Prompt response | `2929:13630` | established question placeholder, 200-grapheme answer input/count; record CTA keeps the original parameterless quote navigation | `HomePromptAnswerSection` | UI 부분 통과; 답변 저장·전달 Blocked |
+
+현재 Home에는 질문 답변을 나타내는 domain/data 계약이 없습니다. 답변을 저장하거나 Typing으로 전달하려면 별도 작업에서 (1) 날짜·질문 기반 `PromptAnswerRecord` 모델, (2) `LocalRepository`의 저장/조회 계약과 device-local 또는 실제 backend 구현, (3) Home/Typing route state 및 명시 Save/Back 사용자 피드백을 함께 정의해야 합니다. 기존 quote 필사와 memo/API 필드는 재사용하지 않습니다.
 | Global bottom navigation/ad | `2929:29254`, `2929:29249` | full-frame navigation/ad surface; owned by `BottomNavigationBar` | scaffold | 공유 범위 확인 대기 |
