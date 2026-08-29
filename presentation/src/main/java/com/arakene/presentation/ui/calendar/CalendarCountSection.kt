@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.noEffectClickable
 
 @Composable
@@ -20,7 +21,8 @@ fun CalendarCountSection(
     typingCount: Int,
     todayCompleteCount: Int,
     countOnClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current,
 ) {
     Row(
         modifier = modifier
@@ -36,6 +38,7 @@ fun CalendarCountSection(
             CalendarFigmaAsset(
                 fileName = "calendar_record_heart.svg",
                 modifier = Modifier.size(16.dp),
+                darkMode = darkMode,
             )
 
             Text(
@@ -49,7 +52,8 @@ fun CalendarCountSection(
                 fileName = "calendar_record_fire.svg",
                 modifier = Modifier
                     .padding(start = 20.dp)
-                    .size(16.dp)
+                    .size(16.dp),
+                darkMode = darkMode,
             )
 
             Text(

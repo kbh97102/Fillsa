@@ -33,4 +33,22 @@ class CalendarRecordIndicatorTest {
         assertFalse(indicators.showFire)
         assertFalse(indicators.showHeart)
     }
+
+    @Test
+    fun `today completion renders the Figma fire indicator even without a completed record`() {
+        val indicators = calendarRecordIndicators(
+            MemberQuotesData(
+                dailyQuoteSeq = 2,
+                quoteDate = "2025-03-18",
+                quote = "quote",
+                author = "author",
+                completed = false,
+                likeYnString = YN.N.type,
+                todayCompleted = true,
+            ),
+        )
+
+        assertTrue(indicators.showFire)
+        assertFalse(indicators.showHeart)
+    }
 }
