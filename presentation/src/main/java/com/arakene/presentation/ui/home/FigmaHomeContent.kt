@@ -34,6 +34,8 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
@@ -46,11 +48,12 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.gangwoneduall
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.StreakProvider
+import com.arakene.presentation.util.HomeAnswerMaxGraphemes
 import com.arakene.presentation.util.getWikipediaUriString
+import com.arakene.presentation.util.homeAnswerInputState
 import com.arakene.presentation.util.noEffectClickable
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.text.BreakIterator
 import kotlin.math.abs
 
 private val HomeBackground = Color(0xFFFFEFCC)
@@ -104,34 +107,6 @@ internal fun homeQuoteSwipe(
 
 internal fun homeAuthorUri(author: String): String = getWikipediaUriString(author)
 
-internal data class HomeAnswerInputState(
-    val text: String,
-    val remainingCount: Int,
-)
-
-internal fun homeAnswerInputState(text: String): HomeAnswerInputState {
-    val graphemeIterator = BreakIterator.getCharacterInstance()
-    graphemeIterator.setText(text)
-
-    val acceptedText = StringBuilder()
-    var graphemeCount = 0
-    var start = graphemeIterator.first()
-    var end = graphemeIterator.next()
-    while (end != BreakIterator.DONE && graphemeCount < HomeAnswerMaxGraphemes) {
-        acceptedText.append(text, start, end)
-        graphemeCount += 1
-        start = end
-        end = graphemeIterator.next()
-    }
-
-    return HomeAnswerInputState(
-        text = acceptedText.toString(),
-        remainingCount = HomeAnswerMaxGraphemes - graphemeCount,
-    )
-}
-
-private const val HomeAnswerMaxGraphemes = 200
-
 @Composable
 internal fun FigmaHomeContent(
     date: LocalDate,
@@ -145,6 +120,7 @@ internal fun FigmaHomeContent(
     onProfile: () -> Unit,
     onCalendar: () -> Unit,
     onQuote: () -> Unit,
+    onRecordAnswer: (String) -> Unit,
     onAuthor: () -> Unit,
     onPreviousQuote: () -> Unit,
     onNextQuote: () -> Unit,
@@ -193,7 +169,7 @@ internal fun FigmaHomeContent(
         )
 
         HomePromptAnswerSection(
-            onRecordAnswer = onQuote,
+            onRecordAnswer = onRecordAnswer,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, top = 15.dp, end = 20.dp),
@@ -486,7 +462,7 @@ private fun HomeQuoteLikeAction(isLiked: Boolean, modifier: Modifier, onClick: (
 
 @Composable
 private fun HomePromptAnswerSection(
-    onRecordAnswer: () -> Unit,
+    onRecordAnswer: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var answer by rememberSaveable { mutableStateOf("") }
@@ -516,7 +492,8 @@ private fun HomePromptAnswerSection(
                 textStyle = FillsaTheme.typography.body4.copy(color = HomeInk),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(11.dp),
+                    .padding(11.dp)
+                    .semantics { contentDescription = "오늘의 답변 입력" },
                 decorationBox = { innerTextField ->
                     if (answerState.text.isEmpty()) {
                         Text(
@@ -536,7 +513,7 @@ private fun HomePromptAnswerSection(
             modifier = Modifier.fillMaxWidth().padding(top = 3.dp),
             textAlign = TextAlign.End,
         )
-        HomeAnswerRecordButton(onClick = onRecordAnswer)
+        HomeAnswerRecordButton(onClick = { onRecordAnswer(answerState.text) })
     }
 }
 
@@ -549,7 +526,8 @@ private fun HomeAnswerRecordButton(onClick: () -> Unit) {
             .height(50.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(HomePrimary)
-            .noEffectClickable(click = onClick),
+            .noEffectClickable(click = onClick)
+            .semantics { contentDescription = "내 답변 기록하기" },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {

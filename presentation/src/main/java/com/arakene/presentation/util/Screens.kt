@@ -70,7 +70,8 @@ sealed interface Screens {
 
     @Serializable
     data class DailyQuote(
-        val dailyQuoteDto: DailyQuoteDto
+        val dailyQuoteDto: DailyQuoteDto,
+        val initialAnswer: String = "",
     ) : Screens {
         override val routeString: String
             get() = "DailyQuote"

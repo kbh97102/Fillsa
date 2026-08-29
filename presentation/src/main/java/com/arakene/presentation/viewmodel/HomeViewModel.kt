@@ -31,6 +31,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.Screens
+import com.arakene.presentation.util.homeAnswerRoute
 import com.arakene.presentation.util.TypographyEnum
 import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.logDebug
@@ -103,7 +104,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickQuote -> {
-                emitEffect(CommonEffect.Move(Screens.DailyQuote(currentQuota)))
+                emitEffect(CommonEffect.Move(homeAnswerRoute(currentQuota, action.initialAnswer)))
             }
 
             is HomeAction.ClickShare -> {
