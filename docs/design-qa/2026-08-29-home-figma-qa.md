@@ -6,9 +6,11 @@
 - Target frame/node: `2929:13556` (`2.home`)
 - Reference image: `docs/design-qa/assets/home-figma-2929-13556/reference-full.png`
 - Full-frame reference: 360 × 821 px, including the Figma status, safe, navigation, and ad areas.
+- Dark target frame/node: `3039:26518` (`2.home`); parent `2929:9603` is not a render target.
+- Dark reference image: `docs/design-qa/assets/home-figma-3039-26518/reference-dark-full.png` (360 × 821 px; exported directly from Figma on 2026-08-30).
 - Runtime target: Android emulator `sdk_gphone64_arm64`, API 36, 1280 × 2856 px at 480 dpi, light mode, Korean locale. It must be resized to the reference 360 × 821 dp frame for final comparison and restored afterwards.
 - Capture platform/device/emulator: Android Emulator (`emulator-5556`).
-- Figma source assets: `presentation/src/main/assets/figma/home/` (downloaded from Figma on 2026-08-29).
+- Figma source assets: light `presentation/src/main/assets/figma/home/` (2026-08-29); exact dark SVG bytes `presentation/src/main/assets/figma/home-night/` (2026-08-30). The eight changed dark assets are logo/profile/wave/search/copy/share/like/camera; their SVG format is density-independent and rendered at Figma dp sizes. Calendar/write/badge/streak dark bytes equal their existing light assets.
 
 ## Component inventory
 
@@ -17,6 +19,7 @@
 | Top home controls | `2929:15476`, `2929:15661`, `2929:17161` | light, 2026.08, 10 complete/12 today | completion marker Blocked; remaining controls pending |
 | Quote card/actions | `2929:13642`, `2929:15503` | Korean quote, action row | pending |
 | Prompt response | `2929:13630` | empty answer, `0 / 200` | UI partial pass; persistence/handoff Blocked |
+| Dark Home body | `3039:26518` | dark system/app scheme | token/asset validation partial pass; assembled frame Blocked |
 | Navigation/ad | `3087:29254`; ad reference `2929:29249` unavailable | Home selected, Figma 3-tab metrics vs Android 4 shared routes | Blocked — product decision required |
 
 ## Validation rounds
@@ -38,6 +41,18 @@
 | Prompt response | Figma `2929:13630` specifies question, answer area, counter, and record CTA. Home has no question feed, while existing Typing `korTyping`/`engTyping` are quote-transcription state and cannot represent a prompt answer. | `HomePromptAnswerSection` preserves the established static Figma question placeholder, 17dp/`#DED4BD`/50% white answer box, 200-grapheme input/count, accessible input/CTA labels, and the downloaded 18dp CTA SVG. The CTA intentionally retains original parameterless `HomeAction.ClickQuote` navigation. | UI behavior is partial pass: `HomeAnswerInputStateTest` verifies the cap/count. Answer persistence or handoff is Blocked—there is no question-answer model, repository storage/API, or Home→Typing route/state contract. A separate task must define a date/question-keyed record, local or real backend storage, and explicit Save/Back feedback without repurposing quote transcription or memo fields. Runtime visual comparison pending. |
 | Global bottom navigation/ad | Figma `3087:29254` has three 120 × 60dp items (Home, Calendar, My page), 32dp icons, selected `#5C65FF`, and unselected `#212121`. Android `BottomNavigationBar` has the same light selected/unselected colors and 32dp local vectors, but intentionally preserves four shared routes (Home, QuoteList, Calendar, My page). Its Material3 metrics cannot be made into Figma's three equal columns without changing that shared route layout. The recorded Figma ad node `2929:29249` is no longer found. | No production change: downloading the three Figma icon assets would not solve the 3-versus-4 layout and would make the shared bar inconsistent; existing live `SingleLineAdSection` behavior/assets are preserved. | Blocked full-frame difference. Required product decision: either update Figma to the established four-tab/live-ad contract, or explicitly authorize an app-wide navigation/ad policy change to three tabs. |
 
+### Round 2 — dark Home
+
+| Scope | Difference | Fix | Result |
+|---|---|---|---|
+| Root, card/input, text and dividers | Existing Home used the light root/card/input palette in both system schemes. Figma `3039:26518` specifies root `#212121`, quote/answer `#424242`, border/action divider `#616161`, 55% main divider, white primary text, `#E0E0E0` action labels, and `#9E9E9E` muted text. | Added pure `HomeColorPalette` dark/light resolution and supplied it to the existing Home components. Calendar stays white; selected/completed weekday and primary CTA retain their Figma colors. Light values retain their prior tokens. | `HomeColorPaletteTest` RED→GREEN verifies all dark tokens and representative light regression tokens. |
+| Dark SVGs | Light logo/profile/wave/search/action SVGs have different Figma dark bytes. | Downloaded and committed exact Figma SVG bytes to `assets/figma/home-night/`: `home_logo`, `home_profile`, `home_quote_wave`, `home_search`, `home_copy`, `home_share`, `home_like`, `home_camera`. `FigmaAsset` selects this durable directory only in dark mode. Calendar/write/badge/streak bytes were verified identical and remain shared. | Component-level asset selection built and rendered in runtime capture. |
+| Quote behavior and answer UI | The dark visual work must not change finished Home behavior. | Retained existing real like state, swipe mapping, author URI action, parameterless answer CTA navigation, 200-grapheme input, and four-tab shared navigation policy. No data, route, storage, or ad behavior changed. | Focused palette test and presentation test suite/build pass. |
+
+- Runtime capture: `docs/design-qa/assets/home-figma-3039-26518/runtime-dark-emulator-1280x2856.png` is a complete dark Home device frame captured from the freshly installed debug APK. It verifies the root/card/input/action visual state, but includes Android system surfaces, the established four-tab bar/live ad, and the debug AdMob validator overlay.
+- Isolated 360 × 821 / 160dpi dark emulator override was attempted, but `adb exec-out screencap -p` did not respond within 60 seconds and was terminated. The override was restored to physical 1280 × 2856, 480dpi and system light mode before handoff. No matching-size overlay was produced.
+- Comparison: component-level Figma-to-runtime inspection only; full pixel overlay is Blocked because device-frame capture did not complete at Figma dimensions, Figma is iOS status/navigation while runtime is Android, the shared bar has four rather than three routes, and live ad/debug overlay content is not a Figma-defined deterministic surface.
+
 - Comparison: no valid Home runtime capture yet. The emulator is in onboarding state and changing that state would not be isolated from the existing app data.
 
 ## Final assembled-screen result
@@ -45,4 +60,4 @@
 - Final runtime capture: pending; no persistent Home app state was mutated merely to obtain a capture.
 - Comparison: pending 360 × 821 full-frame overlay/side-by-side comparison.
 - Result: Blocked.
-- Remaining differences: (1) Figma `3087:29254` has three 120dp tabs, while Android deliberately preserves four shared routes; (2) the Figma ad reference `2929:29249` no longer exists, while Android preserves its live ad surface; (3) Figma `2929:17161` shows a completed date/badge, but the current Home contract has no completed-date source, so the Android strip truthfully renders no completion marker; (4) Figma `2929:13630`'s question is a static established placeholder because Home has no question source; (5) the Figma answer field has no current answer record/storage or Home→Typing handoff contract, so CTA preserves only the original quote navigation; (6) a matching-state 360 × 821 full Android frame has not been captured without changing existing emulator app state; (7) final component and assembled-frame pixel comparison is therefore incomplete.
+- Remaining differences: (1) Figma `3087:29254` has three 120dp tabs, while Android deliberately preserves four shared routes; (2) the Figma ad reference `2929:29249` no longer exists, while Android preserves its live ad surface and debug validator overlay; (3) Figma `2929:17161` shows a completed date/badge, but the current Home contract has no completed-date source, so the Android strip truthfully renders no completion marker; (4) Figma `2929:13630`'s question is a static established placeholder because Home has no question source; (5) the Figma answer field has no current answer record/storage or Home→Typing handoff contract, so CTA preserves only the original quote navigation; (6) a matching-state 360 × 821 Android capture could not be completed because `screencap` stalled under the temporary override, although the original emulator configuration was restored; (7) Figma uses iOS system surfaces while the runtime capture uses Android ones; (8) final component and assembled-frame pixel comparison is therefore incomplete.

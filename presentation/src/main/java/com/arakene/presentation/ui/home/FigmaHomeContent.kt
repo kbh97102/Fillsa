@@ -46,6 +46,7 @@ import coil3.svg.SvgDecoder
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.gangwoneduall
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.HomeAnswerMaxGraphemes
@@ -56,11 +57,49 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 
-private val HomeBackground = Color(0xFFFFEFCC)
-private val HomeCard = Color(0xFFFFF7E6)
-private val HomeInk = Color(0xFF212121)
-private val HomeMuted = Color(0xFF9E9E9E)
 private val HomePrimary = Color(0xFF5C65FF)
+
+internal data class HomeColorPalette(
+    val background: Color,
+    val card: Color,
+    val cardBorder: Color,
+    val mainDivider: Color,
+    val actionDivider: Color,
+    val primaryText: Color,
+    val actionLabel: Color,
+    val mutedText: Color,
+    val answerField: Color,
+    val answerBorder: Color,
+)
+
+internal fun homeColorPalette(darkMode: Boolean): HomeColorPalette =
+    if (darkMode) {
+        HomeColorPalette(
+            background = Color(0xFF212121),
+            card = Color(0xFF424242),
+            cardBorder = Color(0xFF616161),
+            mainDivider = Color(0x8C616161),
+            actionDivider = Color(0xFF616161),
+            primaryText = Color.White,
+            actionLabel = Color(0xFFE0E0E0),
+            mutedText = Color(0xFF9E9E9E),
+            answerField = Color(0xFF424242),
+            answerBorder = Color(0xFF616161),
+        )
+    } else {
+        HomeColorPalette(
+            background = Color(0xFFFFEFCC),
+            card = Color(0xFFFFF7E6),
+            cardBorder = Color.Transparent,
+            mainDivider = Color(0x3D9D8961),
+            actionDivider = Color(0x409D8961),
+            primaryText = Color(0xFF212121),
+            actionLabel = Color(0xFF565149),
+            mutedText = Color(0xFF9E9E9E),
+            answerField = Color(0x80FFFFFF),
+            answerBorder = Color(0xFFDED4BD),
+        )
+    }
 
 internal enum class HomeLikeIcon {
     Selected,
@@ -129,14 +168,16 @@ internal fun FigmaHomeContent(
     onLike: () -> Unit,
     onImage: () -> Unit,
     modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current,
 ) {
+    val palette = homeColorPalette(darkMode)
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(HomeBackground)
+            .background(palette.background)
     ) {
-        HomeHeaderSection(onHome = onHome, onProfile = onProfile)
-        HomeDateWeekSection(date = date, onCalendar = onCalendar)
+        HomeHeaderSection(onHome = onHome, onProfile = onProfile, palette = palette, darkMode = darkMode)
+        HomeDateWeekSection(date = date, onCalendar = onCalendar, palette = palette)
 
         Row(
             modifier = Modifier
@@ -145,7 +186,7 @@ internal fun FigmaHomeContent(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
-            Text("아래 글을 필사해주세요.", style = FillsaTheme.typography.body3, color = HomeInk)
+            Text("아래 글을 필사해주세요.", style = FillsaTheme.typography.body3, color = palette.primaryText)
             FigmaLocaleToggle(selectedLocale, onLocaleChanged)
         }
 
@@ -157,6 +198,8 @@ internal fun FigmaHomeContent(
             onAuthor = onAuthor,
             onPreviousQuote = onPreviousQuote,
             onNextQuote = onNextQuote,
+            palette = palette,
+            darkMode = darkMode,
             modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
         )
 
@@ -166,10 +209,13 @@ internal fun FigmaHomeContent(
             onShare = onShare,
             onLike = onLike,
             onImage = onImage,
+            palette = palette,
+            darkMode = darkMode,
         )
 
         HomePromptAnswerSection(
             onRecordAnswer = onRecordAnswer,
+            palette = palette,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, top = 15.dp, end = 20.dp),
@@ -178,7 +224,12 @@ internal fun FigmaHomeContent(
 }
 
 @Composable
-private fun HomeHeaderSection(onHome: () -> Unit, onProfile: () -> Unit) {
+private fun HomeHeaderSection(
+    onHome: () -> Unit,
+    onProfile: () -> Unit,
+    palette: HomeColorPalette,
+    darkMode: Boolean,
+) {
     val streak = StreakProvider.current?.currentStreak ?: 0
     Row(
         modifier = Modifier
@@ -187,24 +238,25 @@ private fun HomeHeaderSection(onHome: () -> Unit, onProfile: () -> Unit) {
             .padding(horizontal = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        FigmaAsset("home_logo.svg", Modifier.width(60.dp).height(27.dp).noEffectClickable(click = onHome))
+        FigmaAsset("home_logo.svg", Modifier.width(60.dp).height(27.dp).noEffectClickable(click = onHome), darkMode = darkMode)
         Spacer(Modifier.weight(1f))
         FigmaAsset("home_streak.svg", Modifier.size(20.dp))
         Text(
             text = "${streak}일",
             style = FillsaTheme.typography.subtitle1,
-            color = HomeInk,
+            color = palette.primaryText,
             modifier = Modifier.padding(start = 2.dp),
         )
         FigmaAsset(
             "home_profile.svg",
             Modifier.padding(start = 12.dp).size(24.dp).noEffectClickable(click = onProfile),
+            darkMode = darkMode,
         )
     }
 }
 
 @Composable
-private fun HomeDateWeekSection(date: LocalDate, onCalendar: () -> Unit) {
+private fun HomeDateWeekSection(date: LocalDate, onCalendar: () -> Unit, palette: HomeColorPalette) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -213,7 +265,7 @@ private fun HomeDateWeekSection(date: LocalDate, onCalendar: () -> Unit) {
         horizontalArrangement = Arrangement.spacedBy(5.dp),
     ) {
         HomeMonthCalendar(date = date, onCalendar = onCalendar)
-        HomeWeekStrip(date = date)
+        HomeWeekStrip(date = date, palette = palette)
     }
 }
 
@@ -233,14 +285,14 @@ private fun HomeMonthCalendar(date: LocalDate, onCalendar: () -> Unit) {
         Text(
             date.format(DateTimeFormatter.ofPattern("yyyy.MM")),
             style = FillsaTheme.typography.buttonXSmallBold,
-            color = HomeInk,
+            color = Color(0xFF212121),
             modifier = Modifier.padding(start = 2.dp),
         )
     }
 }
 
 @Composable
-private fun HomeWeekStrip(date: LocalDate) {
+private fun HomeWeekStrip(date: LocalDate, palette: HomeColorPalette) {
     // HomeViewModel currently exposes the selected date but no completed-date collection.
     // Render no completion marker instead of inferring one from a week-strip position.
     val days = homeWeekDayStates(selectedDate = date, completedDates = emptySet())
@@ -264,7 +316,7 @@ private fun HomeWeekStrip(date: LocalDate) {
                         )
                         .border(
                             1.dp,
-                            if (day.isCompleted || day.isSelected) HomePrimary else HomeMuted,
+                            if (day.isCompleted || day.isSelected) HomePrimary else palette.mutedText,
                             RoundedCornerShape(99.dp),
                         ),
                     contentAlignment = Alignment.Center,
@@ -272,7 +324,7 @@ private fun HomeWeekStrip(date: LocalDate) {
                     Text(
                         day.date.dayOfMonth.toString(),
                         style = FillsaTheme.typography.body4,
-                        color = if (day.isCompleted) Color.White else if (day.isSelected) HomeInk else HomeMuted,
+                        color = if (day.isCompleted) Color.White else if (day.isSelected) Color(0xFF212121) else palette.mutedText,
                     )
                 }
                 if (day.isCompleted) {
@@ -287,7 +339,10 @@ private fun HomeWeekStrip(date: LocalDate) {
 }
 
 @Composable
-private fun FigmaLocaleToggle(selectedLocale: LocaleType, onLocaleChanged: (LocaleType) -> Unit) {
+private fun FigmaLocaleToggle(
+    selectedLocale: LocaleType,
+    onLocaleChanged: (LocaleType) -> Unit,
+) {
     val koreanSelected = selectedLocale == LocaleType.KOR
     Row(
         modifier = Modifier
@@ -303,7 +358,7 @@ private fun FigmaLocaleToggle(selectedLocale: LocaleType, onLocaleChanged: (Loca
         Text(
             "한",
             style = FillsaTheme.typography.buttonXSmallBold,
-            color = HomeInk,
+            color = Color(0xFF212121),
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .weight(1f)
@@ -314,7 +369,7 @@ private fun FigmaLocaleToggle(selectedLocale: LocaleType, onLocaleChanged: (Loca
         Text(
             "A",
             style = FillsaTheme.typography.buttonXSmallBold,
-            color = HomeInk,
+            color = Color(0xFF212121),
             textAlign = TextAlign.Center,
             modifier = Modifier.weight(1f),
         )
@@ -330,16 +385,23 @@ private fun HomeQuoteCard(
     onAuthor: () -> Unit,
     onPreviousQuote: () -> Unit,
     onNextQuote: () -> Unit,
+    palette: HomeColorPalette,
+    darkMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
     var horizontalDrag by remember { mutableStateOf(0f) }
     Box(
-        modifier = modifier
+        modifier = (if (darkMode) modifier else modifier.shadow(
+            16.dp,
+            RoundedCornerShape(14.dp),
+            ambientColor = Color(0xB2CBC0A8),
+            spotColor = Color.Transparent,
+        ))
             .fillMaxWidth()
             .height(150.dp)
-            .shadow(16.dp, RoundedCornerShape(14.dp), ambientColor = Color(0xB2CBC0A8), spotColor = Color.Transparent)
             .clip(RoundedCornerShape(14.dp))
-            .background(HomeCard)
+            .background(palette.card)
+            .border(1.dp, palette.cardBorder, RoundedCornerShape(14.dp))
             .noEffectClickable(click = onQuote)
             .pointerInput(Unit) {
                 detectDragGestures(
@@ -359,6 +421,7 @@ private fun HomeQuoteCard(
             "home_quote_wave.svg",
             Modifier.fillMaxWidth().height(161.dp).align(Alignment.Center),
             contentScale = ContentScale.FillBounds,
+            darkMode = darkMode,
         )
         Column(
             modifier = Modifier
@@ -369,7 +432,7 @@ private fun HomeQuoteCard(
             Text(
                 text = quote,
                 style = FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall),
-                color = HomeInk,
+                color = palette.primaryText,
                 textAlign = TextAlign.Center,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
@@ -383,10 +446,10 @@ private fun HomeQuoteCard(
                 Text(
                     author,
                     style = FillsaTheme.typography.body4,
-                    color = HomeInk,
+                    color = palette.primaryText,
                     textDecoration = TextDecoration.Underline,
                 )
-                FigmaAsset("home_search.svg", Modifier.padding(start = 2.dp).size(16.dp))
+                FigmaAsset("home_search.svg", Modifier.padding(start = 2.dp).size(16.dp), darkMode = darkMode)
             }
         }
     }
@@ -399,6 +462,8 @@ private fun HomeQuoteActionRow(
     onShare: () -> Unit,
     onLike: () -> Unit,
     onImage: () -> Unit,
+    palette: HomeColorPalette,
+    darkMode: Boolean,
 ) {
     Column(
         modifier = Modifier
@@ -409,23 +474,31 @@ private fun HomeQuoteActionRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            HomeQuoteAction("home_copy.svg", "복사", Modifier.weight(1f), onCopy)
-            HomeQuoteActionDivider()
-            HomeQuoteAction("home_share.svg", "공유", Modifier.weight(1f), onShare)
-            HomeQuoteActionDivider()
-            HomeQuoteLikeAction(isLiked = isLike, modifier = Modifier.weight(1f), onClick = onLike)
-            HomeQuoteActionDivider()
-            HomeQuoteAction("home_camera.svg", "이미지 등록", Modifier.weight(1.15f), onImage)
+            HomeQuoteAction("home_copy.svg", "복사", Modifier.weight(1f), onCopy, palette, darkMode)
+            HomeQuoteActionDivider(palette)
+            HomeQuoteAction("home_share.svg", "공유", Modifier.weight(1f), onShare, palette, darkMode)
+            HomeQuoteActionDivider(palette)
+            HomeQuoteLikeAction(isLiked = isLike, modifier = Modifier.weight(1f), onClick = onLike, palette = palette, darkMode = darkMode)
+            HomeQuoteActionDivider(palette)
+            HomeQuoteAction("home_camera.svg", "이미지 등록", Modifier.weight(1.15f), onImage, palette, darkMode)
         }
-        Box(Modifier.fillMaxWidth().height(1.dp).background(Color(0x3D9D8961)))
+        Box(Modifier.fillMaxWidth().height(1.dp).background(palette.mainDivider))
     }
 }
 
 @Composable
-private fun HomeQuoteActionDivider() = Box(Modifier.width(1.dp).height(28.dp).background(Color(0x409D8961)))
+private fun HomeQuoteActionDivider(palette: HomeColorPalette) =
+    Box(Modifier.width(1.dp).height(28.dp).background(palette.actionDivider))
 
 @Composable
-private fun HomeQuoteAction(asset: String, label: String, modifier: Modifier, onClick: () -> Unit) {
+private fun HomeQuoteAction(
+    asset: String,
+    label: String,
+    modifier: Modifier,
+    onClick: () -> Unit,
+    palette: HomeColorPalette,
+    darkMode: Boolean,
+) {
     Row(
         modifier = modifier
             .height(42.dp)
@@ -433,13 +506,19 @@ private fun HomeQuoteAction(asset: String, label: String, modifier: Modifier, on
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        FigmaAsset(asset, Modifier.size(16.dp))
-        Text(label, style = FillsaTheme.typography.body4, color = Color(0xFF565149), modifier = Modifier.padding(start = 4.dp))
+        FigmaAsset(asset, Modifier.size(16.dp), darkMode = darkMode)
+        Text(label, style = FillsaTheme.typography.body4, color = palette.actionLabel, modifier = Modifier.padding(start = 4.dp))
     }
 }
 
 @Composable
-private fun HomeQuoteLikeAction(isLiked: Boolean, modifier: Modifier, onClick: () -> Unit) {
+private fun HomeQuoteLikeAction(
+    isLiked: Boolean,
+    modifier: Modifier,
+    onClick: () -> Unit,
+    palette: HomeColorPalette,
+    darkMode: Boolean,
+) {
     Row(
         modifier = modifier
             .height(42.dp)
@@ -454,15 +533,16 @@ private fun HomeQuoteLikeAction(isLiked: Boolean, modifier: Modifier, onClick: (
                 modifier = Modifier.size(16.dp),
             )
 
-            HomeLikeIcon.Unselected -> FigmaAsset("home_like.svg", Modifier.size(16.dp))
+            HomeLikeIcon.Unselected -> FigmaAsset("home_like.svg", Modifier.size(16.dp), darkMode = darkMode)
         }
-        Text("좋아요", style = FillsaTheme.typography.body4, color = Color(0xFF565149), modifier = Modifier.padding(start = 4.dp))
+        Text("좋아요", style = FillsaTheme.typography.body4, color = palette.actionLabel, modifier = Modifier.padding(start = 4.dp))
     }
 }
 
 @Composable
 private fun HomePromptAnswerSection(
     onRecordAnswer: () -> Unit,
+    palette: HomeColorPalette,
     modifier: Modifier = Modifier,
 ) {
     var answer by rememberSaveable { mutableStateOf("") }
@@ -474,7 +554,7 @@ private fun HomePromptAnswerSection(
         Text(
             "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
             style = FillsaTheme.typography.body3,
-            color = HomeInk,
+            color = palette.primaryText,
             modifier = Modifier.padding(top = 4.dp),
         )
         Box(
@@ -483,13 +563,13 @@ private fun HomePromptAnswerSection(
                 .padding(top = 4.dp)
                 .height(174.dp)
                 .clip(RoundedCornerShape(17.dp))
-                .background(Color(0x80FFFFFF))
-                .border(1.dp, Color(0xFFDED4BD), RoundedCornerShape(17.dp)),
+                .background(palette.answerField)
+                .border(1.dp, palette.answerBorder, RoundedCornerShape(17.dp)),
         ) {
             BasicTextField(
                 value = answerState.text,
                 onValueChange = { answer = homeAnswerInputState(it).text },
-                textStyle = FillsaTheme.typography.body4.copy(color = HomeInk),
+                textStyle = FillsaTheme.typography.body4.copy(color = palette.primaryText),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(11.dp)
@@ -499,7 +579,7 @@ private fun HomePromptAnswerSection(
                         Text(
                             "오늘의 질문을 보고 떠오른 생각을 자유롭게 기록해보세요.",
                             style = FillsaTheme.typography.body4,
-                            color = HomeMuted,
+                            color = palette.mutedText,
                         )
                     }
                     innerTextField()
@@ -509,7 +589,7 @@ private fun HomePromptAnswerSection(
         Text(
             "${HomeAnswerMaxGraphemes - answerState.remainingCount} / $HomeAnswerMaxGraphemes",
             style = FillsaTheme.typography.body4,
-            color = Color(0xFF8D877D),
+            color = palette.mutedText,
             modifier = Modifier.fillMaxWidth().padding(top = 3.dp),
             textAlign = TextAlign.End,
         )
@@ -546,12 +626,13 @@ private fun FigmaAsset(
     fileName: String,
     modifier: Modifier,
     contentScale: ContentScale = ContentScale.Fit,
+    darkMode: Boolean = false,
 ) {
     val context = LocalContext.current
     AsyncImage(
-        model = remember(fileName) {
+        model = remember(fileName, darkMode) {
             ImageRequest.Builder(context)
-                .data("file:///android_asset/figma/home/$fileName")
+                .data("file:///android_asset/figma/${if (darkMode) "home-night" else "home"}/$fileName")
                 .decoderFactory(SvgDecoder.Factory())
                 .build()
         },
