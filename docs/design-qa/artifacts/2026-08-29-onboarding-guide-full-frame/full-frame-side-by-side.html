@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Onboarding guide full-frame comparison</title>
+  <style>
+    body { margin: 24px; background: #f4f4f4; color: #212121; font-family: sans-serif; }
+    h1 { font-size: 20px; }
+    p { max-width: 1000px; }
+    .row { display: flex; gap: 24px; align-items: flex-start; margin: 32px 0; overflow-x: auto; }
+    figure { margin: 0; flex: 0 0 360px; }
+    figcaption { margin-bottom: 8px; font-weight: 700; }
+    img { display: block; width: 360px; height: 720px; background: #fff; box-shadow: 0 1px 4px rgb(0 0 0 / 18%); }
+  </style>
+</head>
+<body>
+  <h1>Onboarding guide Figma vs corrected runtime</h1>
+  <p>All images are uncropped 360 × 720 frames. Runtime screenshots use Android system chrome, so only the requested white root/status/gesture surface is directly comparable; the QA record lists the remaining out-of-scope content differences.</p>
+  <section class="row">
+    <figure><figcaption>Page 1 — Figma</figcaption><img src="figma-page-1.png" alt="Figma onboarding page 1"></figure>
+    <figure><figcaption>Page 1 — corrected runtime</figcaption><img src="runtime-green-page-1-white-system-surface.png" alt="Corrected runtime onboarding page 1"></figure>
+  </section>
+  <section class="row">
+    <figure><figcaption>Page 2 — Figma</figcaption><img src="figma-page-2.png" alt="Figma onboarding page 2"></figure>
+    <figure><figcaption>Page 2 — corrected runtime</figcaption><img src="runtime-green-page-2-white-system-surface.png" alt="Corrected runtime onboarding page 2"></figure>
+  </section>
+  <section class="row">
+    <figure><figcaption>Page 3 — Figma</figcaption><img src="figma-page-3.png" alt="Figma onboarding page 3"></figure>
+    <figure><figcaption>Page 3 — corrected runtime</figcaption><img src="runtime-green-page-3-white-system-surface.png" alt="Corrected runtime onboarding page 3"></figure>
+  </section>
+</body>
+</html>

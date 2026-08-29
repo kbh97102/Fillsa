@@ -109,6 +109,10 @@ class MainActivity : ComponentActivity() {
 
             val currentDestination by navController.currentBackStackEntryAsState()
 
+            val isOnboardingGuide = currentDestination?.destination?.route?.contains(
+                Screens.OnBoardingGuide.routeString
+            ) == true
+
             val displayBottomBar by remember(currentDestination) {
                 mutableStateOf(
                     shouldShowBottomBar(currentDestination?.destination?.route)
@@ -175,10 +179,12 @@ class MainActivity : ComponentActivity() {
                                         displayBottomBar = displayBottomBar
                                     )
                                 },
-                                containerColor = if (isDarkMode) colorResource(R.color.gray_700) else if (currentDestination?.destination?.route?.contains(
-                                        "Splash"
-                                    ) == true
-                                ) colorResource(R.color.white) else colorResource(R.color.primary),
+                                containerColor = when {
+                                    isDarkMode -> colorResource(R.color.gray_700)
+                                    isOnboardingGuide -> colorResource(R.color.white)
+                                    currentDestination?.destination?.route?.contains("Splash") == true -> colorResource(R.color.white)
+                                    else -> colorResource(R.color.primary)
+                                },
                                 contentWindowInsets = if (shouldShowAd) {
                                     WindowInsets.statusBars
                                 } else {

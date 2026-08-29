@@ -25,6 +25,7 @@
 
 ## Final assembled-screen result
 
-- Final runtime capture: not produced in this asset-only delegated scope.
-- Result: Blocked pending parent assembled-screen visual capture.
-- Remaining differences: runtime size/placement comparison against the 360 × 720 Figma frames has not been captured; pager ordering, copy, indicator, and navigation were intentionally unchanged.
+- Full-frame follow-up: [2026-08-29-onboarding-guide-full-frame-qa.md](2026-08-29-onboarding-guide-full-frame-qa.md) records the persistent Figma references, RED/GREEN runtime captures, emulator mapping, and comparison.
+- Final runtime capture: `artifacts/2026-08-29-onboarding-guide-full-frame/runtime-green-page-{1,2,3}-white-system-surface.png` (full 360 × 720 device frames).
+- Result: the asset mapping remains verified; full assembled Figma parity is Blocked in the follow-up QA because current guide copy/layout differs outside the graphics and system-surface scopes.
+- Remaining differences: current guide titles/copy, composition, and visual placement/size still require a separately scoped Figma implementation; pager ordering, navigation, and the 4× guide assets were intentionally unchanged.
