@@ -1,9 +1,12 @@
 package com.arakene.presentation.ui.calendar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,45 +46,76 @@ fun CalendarQuoteSection(
             }
     }
 
-    Row(
-        modifier = modifier
-            .background(
-                color = if (darkMode) colorResource(R.color.gray_600) else Color.White,
-                shape = RoundedCornerShape(10.dp)
-            ),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-
-        Column(
-            modifier = Modifier
-                .padding(vertical = 16.dp)
-                .padding(start = 20.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
+    if (selectedDayQuote.isBlank()) {
+        Row(
+            modifier = modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text(
-                day,
-                style = FillsaTheme.typography.heading4,
-                color = if (darkMode) colorResource(R.color.white) else colorResource(R.color.purple01),
+            CalendarFigmaAsset(
+                fileName = "calendar_empty_handwriting.svg",
+                modifier = Modifier.size(100.dp),
+                darkMode = darkMode,
             )
-            Text(
-                dayOfWeek,
-                style = FillsaTheme.typography.body4,
-                color = if (darkMode) colorResource(R.color.white) else colorResource(R.color.purple01),
-            )
+            Column(modifier = Modifier.padding(start = 0.dp)) {
+                Text(
+                    text = "필사하지 않은 날이에요.",
+                    style = FillsaTheme.typography.body3,
+                    color = if (darkMode) Color.White else colorResource(R.color.purple01),
+                )
+                Text(
+                    text = "아래 텍스트를 선택하여 기록해주세요!",
+                    style = FillsaTheme.typography.body4,
+                    color = if (darkMode) Color.White else colorResource(R.color.purple01),
+                )
+            }
         }
+    } else {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(
+                    color = if (darkMode) Color(0xFF424242) else Color.White,
+                    shape = RoundedCornerShape(10.dp),
+                )
+                .border(
+                    width = 1.dp,
+                    color = if (darkMode) Color(0xFF616161) else colorResource(R.color.purple01),
+                    shape = RoundedCornerShape(10.dp),
+                ),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
 
-        Text(
-            selectedDayQuote,
-            modifier = Modifier
-                .weight(1f)
-                .padding(start = 20.dp, end = 10.dp)
-                .padding(vertical = 10.dp),
-            maxLines = 3,
-            overflow = TextOverflow.Ellipsis,
-            style = FillsaTheme.typography.body3,
-            color = FillsaTheme.colorScheme.onBackground1
-        )
+            Column(
+                modifier = Modifier
+                    .padding(vertical = 16.dp)
+                    .padding(start = 20.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Text(
+                    day,
+                    style = FillsaTheme.typography.heading4,
+                    color = if (darkMode) colorResource(R.color.white) else colorResource(R.color.purple01),
+                )
+                Text(
+                    dayOfWeek,
+                    style = FillsaTheme.typography.body4,
+                    color = if (darkMode) colorResource(R.color.white) else colorResource(R.color.purple01),
+                )
+            }
 
+            Text(
+                selectedDayQuote,
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(start = 20.dp, end = 10.dp)
+                    .padding(vertical = 10.dp),
+                maxLines = 3,
+                overflow = TextOverflow.Ellipsis,
+                style = FillsaTheme.typography.body3,
+                color = FillsaTheme.colorScheme.onBackground1,
+            )
+
+        }
     }
 }
 

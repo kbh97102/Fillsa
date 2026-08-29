@@ -1,8 +1,8 @@
 package com.arakene.presentation.ui.calendar
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,12 +10,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -26,20 +24,21 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.ui.theme.pretendard
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.noEffectClickable
@@ -58,6 +57,17 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Locale
+
+internal data class CalendarRecordIndicators(
+    val showFire: Boolean,
+    val showHeart: Boolean,
+)
+
+internal fun calendarRecordIndicators(quoteData: MemberQuotesData?): CalendarRecordIndicators =
+    CalendarRecordIndicators(
+        showFire = quoteData?.let { it.completed || it.todayCompleted } == true,
+        showHeart = quoteData?.likeYn == YN.Y,
+    )
 
 @Composable
 fun CalendarSection(
@@ -104,15 +114,14 @@ fun CalendarSection(
 
     Column(
         modifier = modifier
-            .padding(top = 20.dp)
             .background(
-                if (darkMode) colorResource(R.color.gray_700) else colorResource(R.color.yellow01),
-                shape = MaterialTheme.shapes.medium
+                if (darkMode) Color(0xFF424242) else Color.White.copy(alpha = 0.5f),
+                shape = RoundedCornerShape(12.dp),
             )
             .border(
                 1.dp,
-                color = if (darkMode) colorResource(R.color.gray_600) else colorResource(R.color.yellow02),
-                shape = MaterialTheme.shapes.medium
+                color = if (darkMode) Color(0xFF616161) else Color(0xFFFFCB5C),
+                shape = RoundedCornerShape(12.dp),
             )
     ) {
 
@@ -121,6 +130,7 @@ fun CalendarSection(
                 .padding(top = 8.dp)
                 .padding(horizontal = 16.dp),
             currentMonth = currentMonth,
+            darkMode = darkMode,
             goToPrevious = {
                 scope.launch {
                     val target = state.firstVisibleMonth.yearMonth.previousMonth
@@ -218,6 +228,7 @@ fun SimpleCalendarTitle(
     currentMonth: YearMonth,
     goToPrevious: () -> Unit,
     goToNext: () -> Unit,
+    darkMode: Boolean = IsDarkMode.current,
 ) {
 
     val converter = remember {
@@ -240,30 +251,34 @@ fun SimpleCalendarTitle(
         modifier = modifier.fillMaxWidth(),
     ) {
         if (displayBeforeButton) {
-            CalendarNavigationIcon(
+            Box(
                 modifier = Modifier
                     .rotate(180f)
-                    .align(Alignment.CenterStart),
-                painter = painterResource(R.drawable.icn_arror_purple),
-                contentDescription = "Previous",
-                onClick = goToPrevious,
-            )
+                    .align(Alignment.CenterStart)
+                    .size(24.dp)
+                    .semantics { contentDescription = "Previous" }
+                    .noEffectClickable { goToPrevious() },
+            ) { CalendarFigmaAsset("calendar_arrow.svg", Modifier.size(24.dp), darkMode) }
         }
         Text(
             modifier = Modifier
                 .align(Alignment.Center),
             text = convertedDate,
-            style = FillsaTheme.typography.buttonLargeBold,
+            fontFamily = pretendard,
+            fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+            fontSize = 20.sp,
+            lineHeight = 30.sp,
             textAlign = TextAlign.Center,
             color = colorResource(R.color.purple01)
         )
         if (displayNextButton) {
-            CalendarNavigationIcon(
-                modifier = Modifier.align(Alignment.CenterEnd),
-                painter = painterResource(R.drawable.icn_arror_purple),
-                contentDescription = "Next",
-                onClick = goToNext,
-            )
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterEnd)
+                    .size(24.dp)
+                    .semantics { contentDescription = "Next" }
+                    .noEffectClickable { goToNext() },
+            ) { CalendarFigmaAsset("calendar_arrow.svg", Modifier.size(24.dp), darkMode) }
         }
     }
 }
@@ -278,9 +293,11 @@ fun Day(
     onClick: (CalendarDay) -> Unit = {},
 ) {
 
+    val indicators = calendarRecordIndicators(quoteData)
+
     Column(
         modifier = Modifier
-            .padding(vertical = 4.dp)
+            .height(50.dp)
             .fillMaxSize()
             .background(
                 color = if (isSelected) colorResource(R.color.purple01) else Color.Transparent,
@@ -293,7 +310,7 @@ fun Day(
     ) {
 
         Text(
-            modifier = Modifier,
+            modifier = Modifier.padding(top = 4.dp),
             text = day.date.dayOfMonth.toString(),
             color = if (isMonthDate) {
                 if (isSelected) {
@@ -308,60 +325,22 @@ fun Day(
                     colorResource(R.color.gray_400)
                 }
             },
-            style = FillsaTheme.typography.buttonSmallNormal
+            fontFamily = pretendard,
+            fontSize = 14.sp,
+            lineHeight = 20.sp,
         )
 
-        Column(
-            modifier = Modifier
-                .padding(top = 3.dp)
-                .padding(horizontal = 5.dp)
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.padding(top = 2.dp),
+            horizontalArrangement = Arrangement.spacedBy(2.dp),
         ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .heightIn(min = 12.dp),
-                horizontalArrangement = Arrangement.spacedBy(2.dp)
-            ) {
-                Image(
-                    painterResource(R.drawable.icn_note_calendar),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(12.dp)
-                        .alpha(
-                            if (quoteData?.completed == true) {
-                                1f
-                            } else 0f
-                        )
-                )
-
-                Image(
-                    painterResource(R.drawable.icn_fill_heart),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(12.dp)
-                        .alpha(
-                            if (quoteData?.likeYn == YN.Y) {
-                                1f
-                            } else 0f
-                        )
-                )
+            if (indicators.showHeart) {
+                CalendarFigmaAsset("calendar_record_heart.svg", Modifier.size(12.dp), darkMode)
             }
-
-            Row(modifier = Modifier.heightIn(min = 12.dp)) {
-                Image(
-                    painterResource(R.drawable.icn_today_complete),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(12.dp)
-                        .alpha(
-                            if (quoteData?.todayCompleted == true) {
-                                1f
-                            } else 0f
-                        ),
-                    contentScale = ContentScale.FillBounds
-                )
+            if (indicators.showFire) {
+                CalendarFigmaAsset("calendar_record_fire.svg", Modifier.size(12.dp), darkMode)
             }
-
         }
     }
 }
@@ -377,7 +356,7 @@ fun MonthHeader(
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
                 style = FillsaTheme.typography.buttonSmallBold,
-                color = colorResource(R.color.gray_700),
+                color = if (IsDarkMode.current) Color.White else Color(0xFF212121),
                 text = dayOfWeek.toKoreanShort(),
             )
         }
