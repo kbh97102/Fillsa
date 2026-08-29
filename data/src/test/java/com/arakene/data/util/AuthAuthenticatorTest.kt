@@ -2,6 +2,7 @@ package com.arakene.data.util
 
 import androidx.paging.PagingData
 import com.arakene.domain.model.StreakInfo
+import com.arakene.domain.model.PromptAnswerRecord
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.repository.TokenRepository
 import com.arakene.domain.requests.LocalQuoteInfo
@@ -78,6 +79,7 @@ private class FakeLocalRepository(
 ) : LocalRepository {
     var savedAccessToken = ""
     var savedRefreshToken = ""
+    private val promptAnswers = mutableMapOf<Pair<String, String>, PromptAnswerRecord>()
 
     override suspend fun setAccessToken(token: String) {
         savedAccessToken = token
@@ -122,6 +124,13 @@ private class FakeLocalRepository(
     override suspend fun emitTokenExpired(errorCode: String) = Unit
     override fun getTokenExpired(): Flow<String> = flowOf("")
     override suspend fun findLocalQuoteById(seq: Int): LocalQuoteInfo? = null
+    override suspend fun savePromptAnswer(record: PromptAnswerRecord) {
+        promptAnswers[record.date to record.question] = record
+    }
+
+    override suspend fun getPromptAnswer(date: String, question: String): PromptAnswerRecord? =
+        promptAnswers[date to question]
+
     override suspend fun clear() = Unit
     override suspend fun deleteQuote(seq: Int) = Unit
     override suspend fun setDarkModeType(darkMode: DarkModeType) = Unit

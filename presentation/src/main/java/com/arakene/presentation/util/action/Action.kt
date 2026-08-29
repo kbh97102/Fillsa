@@ -2,6 +2,7 @@ package com.arakene.presentation.util.action
 
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberQuotesResponse
+import com.arakene.domain.model.PromptAnswerRecord
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.LocaleType
 import com.kizitonwose.calendar.core.CalendarDay
@@ -41,7 +42,11 @@ sealed interface HomeAction : Action {
     data object ClickNext : HomeAction
     data object ClickBefore : HomeAction
     data object ClickLike : HomeAction
-    data class ClickQuote(val initialAnswer: String = "") : HomeAction
+    data class ClickQuote(
+        val initialAnswer: String = "",
+        val promptDate: String = "",
+        val promptQuestion: String = "",
+    ) : HomeAction
     data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
     data class ClickShare(val quote: String, val author: String) : HomeAction
     data class ClickChangeImage(val uri: String) : HomeAction
@@ -58,7 +63,8 @@ sealed interface TypingAction : Action {
         val engTyping: String,
         val dailyQuote: DailyQuoteDto,
         val localeType: LocaleType,
-        val isLike: Boolean
+        val isLike: Boolean,
+        val promptAnswer: PromptAnswerRecord? = null,
     ) : TypingAction
 
     data class Save(
@@ -66,7 +72,8 @@ sealed interface TypingAction : Action {
         val engTyping: String,
         val dailyQuote: DailyQuoteDto,
         val localeType: LocaleType,
-        val isLike: Boolean
+        val isLike: Boolean,
+        val promptAnswer: PromptAnswerRecord? = null,
     ) : TypingAction
 }
 

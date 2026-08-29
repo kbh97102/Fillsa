@@ -12,8 +12,10 @@ import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
+import com.arakene.domain.usecase.db.GetPromptAnswerUseCase
 import com.arakene.domain.usecase.db.GetTodayLocalStreakInfoUseCase
 import com.arakene.domain.usecase.db.InsertStreakInfoUseCase
+import com.arakene.domain.usecase.db.SavePromptAnswerUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
@@ -50,6 +52,8 @@ class TypingViewModel @Inject constructor(
     private val deleteLocalQuoteUseCase: DeleteLocalQuoteUseCase,
     private val getMemberStreakResponse: GetMemberStreaksUseCase,
     private val setTodayTypingComplete: InsertStreakInfoUseCase,
+    private val getPromptAnswerUseCase: GetPromptAnswerUseCase,
+    private val savePromptAnswerUseCase: SavePromptAnswerUseCase,
 ) : BaseViewModel() {
 
     private var streakResponse: MemberStreakResponse? = null
@@ -58,6 +62,7 @@ class TypingViewModel @Inject constructor(
 
     val savedKorTyping = mutableStateOf("")
     val savedEngTyping = mutableStateOf("")
+    val savedPromptAnswer = mutableStateOf("")
 
     init {
         viewModelScope.launch {
@@ -90,7 +95,13 @@ class TypingViewModel @Inject constructor(
                     typingAction.korTyping,
                     typingAction.engTyping,
                     typingAction.dailyQuote,
-                    likeYn = typingAction.isLike
+                    likeYn = typingAction.isLike,
+                    promptAnswer = typingAction.promptAnswer,
+                    onPromptAnswerSaved = if (typingAction.promptAnswer != null) {
+                        { emitEffect(TypingEffect.PromptAnswerSaved) }
+                    } else {
+                        null
+                    },
                 )
             }
 
@@ -101,13 +112,11 @@ class TypingViewModel @Inject constructor(
                     typingAction.engTyping,
                     typingAction.dailyQuote,
                     likeYn = typingAction.isLike,
-                    useSaveSnackBar = true
+                    useSaveSnackBar = true,
+                    promptAnswer = typingAction.promptAnswer,
                 )
             }
 
-            else -> {
-
-            }
         }
     }
 
@@ -142,15 +151,25 @@ class TypingViewModel @Inject constructor(
         }
     }
 
+    fun loadPromptAnswer(date: String, question: String) = viewModelScope.launch {
+        savedPromptAnswer.value = getPromptAnswerUseCase(date, question)?.answer.orEmpty()
+    }
+
     private fun saveTyping(
         korTyping: String,
         engTyping: String,
         dailyQuoteDto: DailyQuoteDto,
         likeYn: Boolean,
         useSaveSnackBar: Boolean = false,
-        isDarkMode: Boolean = false
+        isDarkMode: Boolean = false,
+        promptAnswer: com.arakene.domain.model.PromptAnswerRecord? = null,
+        onPromptAnswerSaved: (() -> Unit)? = null,
     ) {
         CoroutineScope(Dispatchers.IO).launch {
+            promptAnswer?.let {
+                savePromptAnswerUseCase(it)
+                onPromptAnswerSaved?.invoke()
+            }
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
             val isComplete =
                 korTyping == dailyQuoteDto.korQuote || engTyping == dailyQuoteDto.engQuote

@@ -14,10 +14,14 @@ class HomeAnswerRouteTest {
         val route = homeAnswerRoute(
             dailyQuote = DailyQuoteDto(quote = "Quote"),
             answer = grapheme.repeat(200) + "x",
+            promptDate = "2026-08-29",
+            promptQuestion = HomePromptQuestion,
         )
 
         assertEquals(grapheme.repeat(200), route.initialAnswer)
         assertEquals(grapheme.repeat(200), typingInitialAnswerDraft(route.initialAnswer))
+        assertEquals("2026-08-29", route.promptDate)
+        assertEquals(HomePromptQuestion, route.promptQuestion)
     }
 
     @Test

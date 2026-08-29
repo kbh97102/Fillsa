@@ -67,6 +67,7 @@ import com.arakene.presentation.util.TypingEffect
 import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.homeAnswerInputState
+import com.arakene.presentation.util.homePromptAnswerRecord
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
 
@@ -77,6 +78,8 @@ internal fun typingInitialAnswerDraft(initialAnswer: String): String =
 fun TypingQuoteView(
     data: DailyQuoteDto,
     initialAnswer: String = "",
+    promptDate: String = "",
+    promptQuestion: String = "",
     navigate: (Screens) -> Unit,
     backOnClick: () -> Unit,
     viewModel: TypingViewModel = hiltViewModel(),
@@ -90,9 +93,16 @@ fun TypingQuoteView(
     val typingSectionFocusRequester = remember {
         FocusRequester()
     }
+    val hasPromptAnswer = promptDate.isNotBlank() && promptQuestion.isNotBlank()
 
     LaunchedEffect(data.dailyQuoteSeq) {
         viewModel.handleContract(TypingEffect.Refresh(data.dailyQuoteSeq))
+    }
+
+    LaunchedEffect(promptDate, promptQuestion) {
+        if (hasPromptAnswer) {
+            viewModel.loadPromptAnswer(promptDate, promptQuestion)
+        }
     }
 
     var isLike by remember {
@@ -107,6 +117,10 @@ fun TypingQuoteView(
         viewModel.savedEngTyping
     }
 
+    val savedPromptAnswer by remember {
+        viewModel.savedPromptAnswer
+    }
+
     var korTyping by remember(savedKorTyping) {
         mutableStateOf(
             TextFieldValue(savedKorTyping, selection = TextRange(savedKorTyping.length))
@@ -119,8 +133,9 @@ fun TypingQuoteView(
         )
     }
 
-    var answerDraft by rememberSaveable(initialAnswer) {
-        mutableStateOf(typingInitialAnswerDraft(initialAnswer))
+    val routeOrSavedAnswer = if (initialAnswer.isNotEmpty()) initialAnswer else savedPromptAnswer
+    var answerDraft by rememberSaveable(initialAnswer, savedPromptAnswer) {
+        mutableStateOf(typingInitialAnswerDraft(routeOrSavedAnswer))
     }
 
     var localeType by remember {
@@ -137,17 +152,25 @@ fun TypingQuoteView(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val updateBackEvent by rememberUpdatedState({
+        val promptAnswer = if (hasPromptAnswer) {
+            homePromptAnswerRecord(promptDate, promptQuestion, answerDraft)
+        } else {
+            null
+        }
         viewModel.handleContract(
             TypingAction.Back(
                 korTyping = korTyping.text,
                 engTyping = engTyping.text,
                 data,
                 localeType,
-                isLike
+                isLike,
+                promptAnswer = promptAnswer,
             )
         )
 
-        backOnClick()
+        if (promptAnswer == null) {
+            backOnClick()
+        }
     })
 
     BackHandler {
@@ -179,6 +202,10 @@ fun TypingQuoteView(
             is CommonEffect.ShowDialog -> {
                 dialogDataHolder.data = it.dialogData
                 dialogDataHolder.show = true
+            }
+
+            is TypingEffect.PromptAnswerSaved -> {
+                backOnClick()
             }
         }
     }
@@ -235,7 +262,7 @@ fun TypingQuoteView(
                 localeType = localeType
             )
 
-            if (initialAnswer.isNotEmpty()) {
+            if (hasPromptAnswer) {
                 TypingPromptAnswerDraftSection(
                     answer = answerDraft,
                     onAnswerChanged = { answerDraft = homeAnswerInputState(it).text },
@@ -247,13 +274,19 @@ fun TypingQuoteView(
 
             TypingQuoteBottomSection(
                 saveOnClick = {
+                    val promptAnswer = if (hasPromptAnswer) {
+                        homePromptAnswerRecord(promptDate, promptQuestion, answerDraft)
+                    } else {
+                        null
+                    }
                     viewModel.handleContract(
                         TypingAction.Save(
                             korTyping = korTyping.text,
                             engTyping = engTyping.text,
                             data,
                             localeType,
-                            isLike
+                            isLike,
+                            promptAnswer = promptAnswer,
                         )
                     )
                 },

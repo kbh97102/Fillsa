@@ -123,6 +123,8 @@ fun MainNavHost(
                 TypingQuoteView(
                     data.dailyQuoteDto,
                     initialAnswer = data.initialAnswer,
+                    promptDate = data.promptDate,
+                    promptQuestion = data.promptQuestion,
                     navigate = {
                         navController.navigate(it){
                             launchSingleTop = true
