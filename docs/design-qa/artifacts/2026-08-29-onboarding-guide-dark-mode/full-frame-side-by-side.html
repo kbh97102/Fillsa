@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Onboarding guide dark-mode full-frame comparison</title>
+<style>
+  body { background: #111; color: #eee; font-family: sans-serif; margin: 24px; }
+  section { display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 32px; }
+  figure { margin: 0; }
+  img { display: block; image-rendering: auto; width: 360px; height: 720px; border: 1px solid #555; }
+  figcaption { margin: 8px 0; }
+</style>
+<h1>Onboarding guide — system dark mode (360 × 720, uncropped)</h1>
+<p>Each row compares the Figma full-frame export with the Android RED baseline and the GREEN night-resource capture.</p>
+<script>
+  const pages = [1, 2, 3];
+  document.write(pages.map(page => `<section><figure><figcaption>Figma page ${page}</figcaption><img src="figma-page-${page}.png" alt="Figma dark page ${page}"></figure><figure><figcaption>RED: Android light graphic</figcaption><img src="runtime-red-page-${page}-light-graphic.png" alt="Android red page ${page}"></figure><figure><figcaption>GREEN: Android dark graphic</figcaption><img src="runtime-green-page-${page}-dark-graphic.png" alt="Android green page ${page}"></figure></section>`).join(''));
+</script>
