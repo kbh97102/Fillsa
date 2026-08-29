@@ -24,6 +24,8 @@
 | Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
 | Quote action row | `2929:15503` | copy/share/like/image actions with current like visual state | `HomeQuoteActionRow` | 부분 통과(빌드) |
 | Prompt response | `2929:13630` | established question placeholder, 200-grapheme answer input/count; record CTA keeps the original parameterless quote navigation | `HomePromptAnswerSection` | UI 부분 통과; 답변 저장·전달 Blocked |
+| Global bottom navigation/ad | `3087:29254`; ad reference `2929:29249` is unavailable | Figma has 3 × 120dp tabs; Android keeps its shared 4-route bar and live ad surface | scaffold / `BottomNavigationBar` | Blocked — product decision required |
 
 현재 Home에는 질문 답변을 나타내는 domain/data 계약이 없습니다. 답변을 저장하거나 Typing으로 전달하려면 별도 작업에서 (1) 날짜·질문 기반 `PromptAnswerRecord` 모델, (2) `LocalRepository`의 저장/조회 계약과 device-local 또는 실제 backend 구현, (3) Home/Typing route state 및 명시 Save/Back 사용자 피드백을 함께 정의해야 합니다. 기존 quote 필사와 memo/API 필드는 재사용하지 않습니다.
-| Global bottom navigation/ad | `2929:29254`, `2929:29249` | full-frame navigation/ad surface; owned by `BottomNavigationBar` | scaffold | 공유 범위 확인 대기 |
+
+`3087:29254`는 Home/Calendar/My page 3개 탭(각 120 × 60dp, 32dp icon), 선택 `#5C65FF`, 비선택 `#212121`만 정의합니다. Android `BottomNavigationBar`는 동일한 light selected/unselected color와 32dp local vector를 사용하지만 Home/QuoteList/Calendar/My page의 4개 shared route를 보존합니다. 3등분 폭·3개 icon asset을 그대로 적용하려면 QuoteList의 위치·폭 또는 route를 변경해야 하므로 Home 범위에서 변경하지 않습니다. 광고는 live `SingleLineAdSection`의 native content이며, 이전 참조 `2929:29249`는 2026-08-30 Figma MCP에서 찾을 수 없었습니다. 향후 제품 결정은 (a) Android의 4탭/live ad contract를 Figma에 반영하거나, (b) shared navigation과 광고 노출 정책을 앱 전체 범위에서 3탭 디자인으로 변경하도록 명시 승인하는 것입니다.
