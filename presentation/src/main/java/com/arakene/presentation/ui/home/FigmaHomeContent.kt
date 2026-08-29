@@ -17,11 +17,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,6 +50,7 @@ import com.arakene.presentation.util.getWikipediaUriString
 import com.arakene.presentation.util.noEffectClickable
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
+import java.text.BreakIterator
 import kotlin.math.abs
 
 private val HomeBackground = Color(0xFFFFEFCC)
@@ -100,6 +103,34 @@ internal fun homeQuoteSwipe(
     }
 
 internal fun homeAuthorUri(author: String): String = getWikipediaUriString(author)
+
+internal data class HomeAnswerInputState(
+    val text: String,
+    val remainingCount: Int,
+)
+
+internal fun homeAnswerInputState(text: String): HomeAnswerInputState {
+    val graphemeIterator = BreakIterator.getCharacterInstance()
+    graphemeIterator.setText(text)
+
+    val acceptedText = StringBuilder()
+    var graphemeCount = 0
+    var start = graphemeIterator.first()
+    var end = graphemeIterator.next()
+    while (end != BreakIterator.DONE && graphemeCount < HomeAnswerMaxGraphemes) {
+        acceptedText.append(text, start, end)
+        graphemeCount += 1
+        start = end
+        end = graphemeIterator.next()
+    }
+
+    return HomeAnswerInputState(
+        text = acceptedText.toString(),
+        remainingCount = HomeAnswerMaxGraphemes - graphemeCount,
+    )
+}
+
+private const val HomeAnswerMaxGraphemes = 200
 
 @Composable
 internal fun FigmaHomeContent(
@@ -161,21 +192,12 @@ internal fun FigmaHomeContent(
             onImage = onImage,
         )
 
-        Column(
+        HomePromptAnswerSection(
+            onRecordAnswer = onQuote,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, top = 15.dp, end = 20.dp),
-        ) {
-            Text("오늘의 질문", style = FillsaTheme.typography.subtitle2, color = HomePrimary)
-            Text(
-                "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
-                style = FillsaTheme.typography.body3,
-                color = HomeInk,
-                modifier = Modifier.padding(top = 4.dp),
-            )
-            FigmaAnswerBox()
-            FigmaAnswerButton(onQuote = onQuote)
-        }
+        )
     }
 }
 
@@ -463,35 +485,63 @@ private fun HomeQuoteLikeAction(isLiked: Boolean, modifier: Modifier, onClick: (
 }
 
 @Composable
-private fun FigmaAnswerBox() {
-    Column(modifier = Modifier.padding(top = 4.dp)) {
+private fun HomePromptAnswerSection(
+    onRecordAnswer: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    var answer by rememberSaveable { mutableStateOf("") }
+    val answerState = homeAnswerInputState(answer)
+
+    Column(modifier = modifier) {
+        Text("오늘의 질문", style = FillsaTheme.typography.subtitle2, color = HomePrimary)
+        // The Home contract has no question feed, so this preserves the established Figma placeholder.
+        Text(
+            "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
+            style = FillsaTheme.typography.body3,
+            color = HomeInk,
+            modifier = Modifier.padding(top = 4.dp),
+        )
         Box(
             modifier = Modifier
                 .fillMaxWidth()
+                .padding(top = 4.dp)
                 .height(174.dp)
                 .clip(RoundedCornerShape(17.dp))
                 .background(Color(0x80FFFFFF))
                 .border(1.dp, Color(0xFFDED4BD), RoundedCornerShape(17.dp)),
         ) {
-            Text(
-                "오늘의 질문을 보고 떠오른 생각을 자유롭게 기록해보세요.",
-                style = FillsaTheme.typography.body4,
-                color = HomeMuted,
-                modifier = Modifier.padding(11.dp),
+            BasicTextField(
+                value = answerState.text,
+                onValueChange = { answer = homeAnswerInputState(it).text },
+                textStyle = FillsaTheme.typography.body4.copy(color = HomeInk),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(11.dp),
+                decorationBox = { innerTextField ->
+                    if (answerState.text.isEmpty()) {
+                        Text(
+                            "오늘의 질문을 보고 떠오른 생각을 자유롭게 기록해보세요.",
+                            style = FillsaTheme.typography.body4,
+                            color = HomeMuted,
+                        )
+                    }
+                    innerTextField()
+                },
             )
         }
         Text(
-            "0 / 200",
+            "${HomeAnswerMaxGraphemes - answerState.remainingCount} / $HomeAnswerMaxGraphemes",
             style = FillsaTheme.typography.body4,
             color = Color(0xFF8D877D),
             modifier = Modifier.fillMaxWidth().padding(top = 3.dp),
             textAlign = TextAlign.End,
         )
+        HomeAnswerRecordButton(onClick = onRecordAnswer)
     }
 }
 
 @Composable
-private fun FigmaAnswerButton(onQuote: () -> Unit) {
+private fun HomeAnswerRecordButton(onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(top = 10.dp)
@@ -499,7 +549,7 @@ private fun FigmaAnswerButton(onQuote: () -> Unit) {
             .height(50.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(HomePrimary)
-            .noEffectClickable(click = onQuote),
+            .noEffectClickable(click = onClick),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
