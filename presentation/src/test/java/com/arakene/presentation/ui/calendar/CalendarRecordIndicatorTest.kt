@@ -2,12 +2,30 @@ package com.arakene.presentation.ui.calendar
 
 import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.util.YN
+import com.arakene.presentation.util.toKoreanShort
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CalendarRecordIndicatorTest {
+
+    @Test
+    fun `weekday labels are ordered Sunday through Saturday for the Sunday-first Figma grid`() {
+        assertEquals(
+            listOf("일", "월", "화", "수", "목", "금", "토"),
+            calendarWeekdayOrder().map { it.toKoreanShort() },
+        )
+    }
+
+    @Test
+    fun `empty calendar presentation always includes the fully sized quote card`() {
+        val content = calendarDetailContent(CalendarSelectedDayPresentation.Empty)
+
+        assertTrue(content.showEmptyMessage)
+        assertTrue(content.showQuoteCard)
+        assertEquals(80, content.quoteCardHeightDp)
+    }
 
     @Test
     fun `selected day presentation follows completion data instead of quote text`() {

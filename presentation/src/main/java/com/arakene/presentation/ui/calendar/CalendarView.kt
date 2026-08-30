@@ -70,7 +70,10 @@ fun CalendarView(
             .padding(horizontal = 20.dp)
             .offset(y = (-20).dp),
     ) {
-        CalendarHeader(onProfile = { navigate(Screens.MyPage) })
+        CalendarHeader(
+            onHome = { navigate(Screens.Home()) },
+            onProfile = { navigate(Screens.MyPage) },
+        )
         CalendarSection(
             memberQuotes = data?.memberQuotes ?: emptyList(),
             changeMonth = { viewModel.handleContract(CalendarAction.ChangeMonth(it)) },
@@ -109,7 +112,7 @@ fun CalendarView(
 }
 
 @Composable
-private fun CalendarHeader(onProfile: () -> Unit) {
+private fun CalendarHeader(onHome: () -> Unit, onProfile: () -> Unit) {
     val streak = StreakProvider.current
     Row(
         modifier = Modifier.fillMaxWidth().height(50.dp),
@@ -117,7 +120,7 @@ private fun CalendarHeader(onProfile: () -> Unit) {
     ) {
         CalendarFigmaAsset(
             fileName = "home_logo.svg",
-            modifier = Modifier.size(width = 60.dp, height = 27.dp),
+            modifier = Modifier.size(width = 60.dp, height = 27.dp).noEffectClickable(click = onHome),
             assetSet = "home",
         )
         Spacer(Modifier.weight(1f))

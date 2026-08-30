@@ -45,6 +45,16 @@ import java.util.Locale
 
 internal data class CalendarRecordIndicators(val showFire: Boolean, val showHeart: Boolean)
 
+internal fun calendarWeekdayOrder(): List<DayOfWeek> = listOf(
+    DayOfWeek.SUNDAY,
+    DayOfWeek.MONDAY,
+    DayOfWeek.TUESDAY,
+    DayOfWeek.WEDNESDAY,
+    DayOfWeek.THURSDAY,
+    DayOfWeek.FRIDAY,
+    DayOfWeek.SATURDAY,
+)
+
 internal fun calendarRecordIndicators(quoteData: MemberQuotesData?) = CalendarRecordIndicators(
     showFire = quoteData?.let { it.completed || it.todayCompleted } == true,
     showHeart = quoteData?.likeYn == YN.Y,
@@ -249,7 +259,7 @@ fun Day(
 @Composable
 fun MonthHeader(
     modifier: Modifier = Modifier,
-    daysOfWeek: List<DayOfWeek> = DayOfWeek.entries,
+    daysOfWeek: List<DayOfWeek> = calendarWeekdayOrder(),
 ) {
     Row(
         modifier = modifier.height(40.dp).fillMaxWidth(),

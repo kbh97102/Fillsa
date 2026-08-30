@@ -41,6 +41,28 @@ import com.kizitonwose.calendar.core.CalendarDay
 import java.time.format.TextStyle
 import java.util.Locale
 
+internal data class CalendarDetailContent(
+    val showEmptyMessage: Boolean,
+    val showQuoteCard: Boolean,
+    val quoteCardHeightDp: Int,
+)
+
+internal fun calendarDetailContent(
+    presentation: CalendarSelectedDayPresentation,
+): CalendarDetailContent = when (presentation) {
+    CalendarSelectedDayPresentation.Empty -> CalendarDetailContent(
+        showEmptyMessage = true,
+        showQuoteCard = true,
+        quoteCardHeightDp = 80,
+    )
+    CalendarSelectedDayPresentation.Completed,
+    CalendarSelectedDayPresentation.Expanded -> CalendarDetailContent(
+        showEmptyMessage = false,
+        showQuoteCard = false,
+        quoteCardHeightDp = 0,
+    )
+}
+
 @Composable
 internal fun CalendarQuoteSection(
     quoteData: MemberQuotesData?,
@@ -54,23 +76,27 @@ internal fun CalendarQuoteSection(
     modifier: Modifier = Modifier,
     darkMode: Boolean = IsDarkMode.current,
 ) {
+    val detailContent = calendarDetailContent(presentation)
     Column(modifier = modifier.fillMaxWidth()) {
-        when (presentation) {
-            CalendarSelectedDayPresentation.Empty -> {
-                CalendarEmptyDay(darkMode)
+        if (detailContent.showEmptyMessage) {
+            CalendarEmptyDay(darkMode)
+            if (detailContent.showQuoteCard) {
                 CalendarQuotePreviewCard(
-                    quoteData, selectedDay, onOpenQuote, darkMode, Modifier.padding(top = 4.dp).offset(y = (-28).dp),
+                    quoteData = quoteData,
+                    selectedDay = selectedDay,
+                    quoteCardHeightDp = detailContent.quoteCardHeightDp,
+                    onClick = onOpenQuote,
+                    darkMode = darkMode,
+                    modifier = Modifier.padding(top = 4.dp).offset(y = (-28).dp),
                 )
             }
-            CalendarSelectedDayPresentation.Completed,
-            CalendarSelectedDayPresentation.Expanded -> {
-                if (quoteData != null) {
-                    CalendarCompletedDayCard(
-                        quoteData, selectedDay, onCopy, onShare, onLike, onImage, darkMode,
-                    )
-                }
-                CalendarPromptAnswer(onOpenQuote, darkMode, Modifier.padding(top = 10.dp))
+        } else {
+            if (quoteData != null) {
+                CalendarCompletedDayCard(
+                    quoteData, selectedDay, onCopy, onShare, onLike, onImage, darkMode,
+                )
             }
+            CalendarPromptAnswer(onOpenQuote, darkMode, Modifier.padding(top = 10.dp))
         }
     }
 }
@@ -101,12 +127,13 @@ private fun CalendarEmptyDay(darkMode: Boolean) {
 private fun CalendarQuotePreviewCard(
     quoteData: MemberQuotesData?,
     selectedDay: CalendarDay,
+    quoteCardHeightDp: Int,
     onClick: () -> Unit,
     darkMode: Boolean,
     modifier: Modifier,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth().height(80.dp)
+        modifier = modifier.fillMaxWidth().height(quoteCardHeightDp.dp)
             .background(if (darkMode) Color(0xFF424242) else Color.White, RoundedCornerShape(10.dp))
             .border(1.dp, colorResource(R.color.purple01), RoundedCornerShape(10.dp))
             .noEffectClickable(click = onClick)
