@@ -12,7 +12,6 @@ class HomeTypingNavigationTest {
         assertNull(
             homeTypingDestination(
                 quote = loadedQuote(),
-                localeType = LocaleType.KOR,
                 loadState = HomeQuoteLoadState.Loading,
             ),
         )
@@ -23,28 +22,25 @@ class HomeTypingNavigationTest {
         assertNull(
             homeTypingDestination(
                 quote = DailyQuoteDto(),
-                localeType = LocaleType.KOR,
                 loadState = HomeQuoteLoadState.Loaded,
             ),
         )
     }
 
     @Test
-    fun `loaded quote missing the selected locale cannot navigate to typing`() {
+    fun `english-only payload cannot navigate to Korean-first typing`() {
         assertNull(
             homeTypingDestination(
-                quote = loadedQuote(engQuote = ""),
-                localeType = LocaleType.ENG,
+                quote = loadedQuote(korQuote = "", engQuote = "English only"),
                 loadState = HomeQuoteLoadState.Loaded,
             ),
         )
     }
 
     @Test
-    fun `loaded localized quote navigates to typing with its original sequence`() {
+    fun `loaded Korean quote navigates to Korean-first typing with its original sequence`() {
         val destination = homeTypingDestination(
             quote = loadedQuote(),
-            localeType = LocaleType.KOR,
             loadState = HomeQuoteLoadState.Loaded,
         )
 
@@ -52,11 +48,14 @@ class HomeTypingNavigationTest {
         assertEquals("오늘의 글", destination?.dailyQuoteDto?.korQuote)
     }
 
-    private fun loadedQuote(engQuote: String = "Today's writing") = DailyQuoteDto(
+    private fun loadedQuote(
+        korQuote: String = "오늘의 글",
+        engQuote: String = "Today's writing",
+    ) = DailyQuoteDto(
         likeYn = "N",
         imagePath = null,
         dailyQuoteSeq = 73,
-        korQuote = "오늘의 글",
+        korQuote = korQuote,
         engQuote = engQuote,
         korAuthor = "작가",
         engAuthor = "Author",

@@ -10,18 +10,12 @@ internal enum class HomeQuoteLoadState {
 
 internal fun homeTypingDestination(
     quote: DailyQuoteDto,
-    localeType: LocaleType,
     loadState: HomeQuoteLoadState,
 ): Screens.DailyQuote? {
-    val localizedQuote = when (localeType) {
-        LocaleType.KOR -> quote.korQuote
-        LocaleType.ENG -> quote.engQuote
-    }
-
     return if (
         loadState == HomeQuoteLoadState.Loaded &&
         quote.dailyQuoteSeq > 0 &&
-        !localizedQuote.isNullOrBlank()
+        !quote.korQuote.isNullOrBlank()
     ) {
         Screens.DailyQuote(quote)
     } else {

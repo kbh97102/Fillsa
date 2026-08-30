@@ -111,7 +111,6 @@ class HomeViewModel @Inject constructor(
             is HomeAction.ClickQuote -> {
                 homeTypingDestination(
                     quote = currentQuota,
-                    localeType = action.localeType,
                     loadState = quoteLoadState,
                 )?.let { destination ->
                     emitEffect(CommonEffect.Move(destination))

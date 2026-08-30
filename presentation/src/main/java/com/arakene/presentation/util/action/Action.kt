@@ -41,7 +41,7 @@ sealed interface HomeAction : Action {
     data object ClickNext : HomeAction
     data object ClickBefore : HomeAction
     data object ClickLike : HomeAction
-    data class ClickQuote(val localeType: LocaleType) : HomeAction
+    data object ClickQuote : HomeAction
     data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
     data class ClickShare(val quote: String, val author: String) : HomeAction
     data class ClickChangeImage(val uri: String) : HomeAction
