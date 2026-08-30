@@ -30,9 +30,11 @@ import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.HomeEffect
+import com.arakene.presentation.util.HomeQuoteLoadState
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypographyEnum
 import com.arakene.presentation.util.action.HomeAction
+import com.arakene.presentation.util.homeTypingDestination
 import com.arakene.presentation.util.logDebug
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
@@ -65,6 +67,10 @@ class HomeViewModel @Inject constructor(
     val isLogged = getLoginStatusUseCase()
 
     var currentQuota by mutableStateOf(DailyQuoteDto())
+
+    internal var quoteLoadState by mutableStateOf(HomeQuoteLoadState.Loading)
+
+    private var requestedQuoteDate: LocalDate? = null
 
     var isLike = mutableStateOf(false)
 
@@ -103,7 +109,21 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickQuote -> {
-                emitEffect(CommonEffect.Move(Screens.DailyQuote(currentQuota)))
+                homeTypingDestination(
+                    quote = currentQuota,
+                    localeType = action.localeType,
+                    loadState = quoteLoadState,
+                )?.let { destination ->
+                    emitEffect(CommonEffect.Move(destination))
+                } ?: emitEffect(
+                    CommonEffect.ShowSnackBar(
+                        if (quoteLoadState == HomeQuoteLoadState.Loading) {
+                            "글을 불러오는 중입니다."
+                        } else {
+                            "글을 불러오지 못했습니다."
+                        }
+                    )
+                )
             }
 
             is HomeAction.ClickShare -> {
@@ -281,15 +301,18 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun refresh(date: LocalDate) = viewModelScope.launch {
+        requestedQuoteDate = date
+        currentQuota = DailyQuoteDto()
+        quoteLoadState = HomeQuoteLoadState.Loading
         val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
         val convertedDate = convertDate(date)
 
         if (isLogged) {
-            getDailyQuote(convertedDate)
+            getDailyQuote(convertedDate, date)
             getStreakCount()
         } else {
             getStreakCount()
-            getDailyQuoteNoToken(convertedDate)
+            getDailyQuoteNoToken(convertedDate, date)
         }
     }
 
@@ -298,19 +321,26 @@ class HomeViewModel @Inject constructor(
         streakInfo.value = getStreakCountUseCase()
     }
 
-    private fun getDailyQuote(date: String) = viewModelScope.launch {
-        getResponse(getDailyQuoteUseCase(date))?.let {
+    private fun getDailyQuote(date: String, requestedDate: LocalDate) = viewModelScope.launch {
+        val quote = getResponse(getDailyQuoteUseCase(date))
+        if (requestedQuoteDate != requestedDate) return@launch
+
+        quote?.let {
             currentQuota = it
             isLike.value = it.likeYn == YN.Y.type
             backgroundImageUri.value = (it.imagePath ?: "")
-        }
+            quoteLoadState = HomeQuoteLoadState.Loaded
+        } ?: run { quoteLoadState = HomeQuoteLoadState.Failed }
     }
 
-    private fun getDailyQuoteNoToken(date: String) = viewModelScope.launch {
+    private fun getDailyQuoteNoToken(date: String, requestedDate: LocalDate) = viewModelScope.launch {
         val localList = getLocalQuoteListUseCase()
 
 
-        getResponse(getDailyQuoteNoTokenUseCase(date))?.let {
+        val quote = getResponse(getDailyQuoteNoTokenUseCase(date))
+        if (requestedQuoteDate != requestedDate) return@launch
+
+        quote?.let {
             currentQuota = DailyQuoteDto(
                 likeYn = "N",
                 imagePath = "",
@@ -337,7 +367,8 @@ class HomeViewModel @Inject constructor(
             }
 
             backgroundImageUri.value = ""
-        }
+            quoteLoadState = HomeQuoteLoadState.Loaded
+        } ?: run { quoteLoadState = HomeQuoteLoadState.Failed }
     }
 
     private fun convertDate(date: LocalDate) = dateFormat.format(date)
