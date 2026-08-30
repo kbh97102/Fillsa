@@ -14,12 +14,13 @@ internal fun CalendarFigmaAsset(
     fileName: String,
     modifier: Modifier = Modifier,
     darkMode: Boolean = false,
+    assetSet: String = "calendar",
 ) {
     val context = LocalContext.current
     AsyncImage(
-        model = remember(fileName, darkMode) {
+        model = remember(fileName, darkMode, assetSet) {
             ImageRequest.Builder(context)
-                .data("file:///android_asset/figma/${if (darkMode) "calendar-night" else "calendar"}/$fileName")
+                .data("file:///android_asset/figma/${if (darkMode) "$assetSet-night" else assetSet}/$fileName")
                 .decoderFactory(SvgDecoder.Factory())
                 .build()
         },

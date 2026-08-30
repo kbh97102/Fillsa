@@ -3,44 +3,47 @@
 ## Reference
 
 - Figma URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2985-21952
-- Target frames/nodes: light `2985:21952` (`3. calendar`); dark `3039:28370` (`3. calendar`). Sections `2929:13366` and `2929:6874` are orientation-only.
-- Reference images: `docs/design-qa/assets/calendar-figma-2985-21952/reference-light-full.png`; `docs/design-qa/assets/calendar-figma-2985-21952/reference-dark-full.png`.
-- Full-frame reference: both references include Figma system status, safe, navigation, and gesture surfaces at 360 × 821 px.
-- Runtime target: Android Emulator `emulator-5556`, controlled 360 × 821 / 160dpi if capture is available; light and dark system modes, Korean locale, existing Calendar data state.
+- Target section/frames: light section `2929:13366`; basic `2985:21952` (360 × 816), selected/completed `2985:22510` (360 × 1101), and expanded scroll `2987:22796` (360 × 1101). The three render frames were directly queried.
+- Figma reference exports: `/private/tmp/fillsa-calendar-figma-basic-2985-21952.png`; `/private/tmp/fillsa-calendar-figma-selected-2985-22510.png`; `/private/tmp/fillsa-calendar-figma-expanded-2987-22796.png`.
+- Runtime target: Android Emulator `emulator-5556`, controlled 360dp configuration; basic empty and completed selected states require real monthly data and are never fabricated.
 
 ## Component inventory
 
 | Component | Figma node | Target state | Final result |
 |---|---|---|---|
-| Calendar shell | `2985:21954`; dark equivalent | month, grid, selected date | Partial — runtime captures, no matching-size overlay |
+| Calendar header | top_mobile descendants | logo, real streak, profile action | Build/test passed; live empty capture exists |
+| Calendar shell | `2985:21954` | fixed 320 × 396 month/grid/selected date | Build/test passed; live empty capture exists |
 | Daily indicators | `2985:22041`, `2985:22044` | completion/like mapping | Partial — genuine RED→GREEN unit test |
 | Legend | Calendar frame descendants | existing like/streak aggregate counts | Partial — Figma heart/fire assets in runtime capture |
-| Selected-date companion | light/dark root frame | established quote or empty companion | Partial — photo-modal state blocked |
-| Full assembled frame | `2985:21952`, `3039:28370` | light/dark | Blocked |
+| Selected-date companion | `2985:21952`, `2985:22510`, `2987:22796` | empty/complete/expanded | Mapper test passed; runtime completed data capture pending |
+| Full assembled frame | basic/selected/expanded light frames | light | Blocked pending controlled runtime captures |
 
 ## Known contract limits
 
-- The dark Figma target `3039:28370` is a photo-record detail modal state over its calendar. Current Calendar state exposes only monthly quote text, completion/like flags, and counts; it has no photo-record payload, image-change/delete action, or modal action contract. This work must not invent one, so that exact modal is Blocked pending a product/data contract.
+- Calendar's existing data supplies date, quote, author, `completed`, `todayCompleted`, and `likeYn`, but no question/answer record contract. The Figma question text keeps the established Home placeholder and enforces the existing 200-grapheme UI cap; CTA goes to the existing selected-date typing flow and does not persist a prompt answer.
+- Copy uses the established clipboard behavior and share uses the existing Share route. Like/image enter the existing selected-date Home flow because Calendar owns no direct like/image contract; no photo modal or new storage/API was created.
 - Figma has three bottom tabs while Android preserves the existing shared four-route navigation and live ad behavior. That product-level discrepancy is outside Calendar scope.
 
 ## Validation rounds
 
-### Round 1
+### Round 2 — Calendar reimplementation
 
 | Scope | Difference | Fix | Result |
 |---|---|---|---|
 | Reference acquisition | Light/dark full-frame exports saved locally | N/A | Complete |
-| Daily indicator behavior | No pure Figma record-indicator mapping existed | Added `calendarRecordIndicators(MemberQuotesData?)`; RED was unresolved function, then GREEN passed `CalendarRecordIndicatorTest` | Complete |
-| Calendar shell | Existing card had non-Figma height, shape, dark background, and legacy drawable icons | 320dp-width 12dp shell, Figma colors, and durable Figma SVG arrow/fire/heart assets | Partial — runtime captured |
-| Empty/detail companion | Existing empty selected day was a blank card | Added the Figma empty companion with existing blank-quote state; existing nonblank quote destination remains clickable | Partial — dark photo modal cannot be represented by current data contract |
+| Detail-state behavior | Quote string was incorrectly sufficient to choose the detail state | RED failed on missing `calendarSelectedDayPresentation`; GREEN asserts null/noncompleted → Empty, `todayCompleted` → Completed, completed+expanded → Expanded | Complete |
+| Header | Legacy `HomeTopSection` could include a warning/popup | Dedicated 50dp Figma header uses only durable logo, genuine supplied streak, and profile action | Build passed |
+| Calendar shell | Library fill mode produced variable grid geometry | Replaced only Calendar screen shell with fixed 36dp × 50dp cells, 11dp gaps, six rows and 320 × 396 dimensions; ViewModel month/date constraints preserved | Build passed |
+| Empty/detail companion | Empty state keyed off selected quote string and omitted its quote card | Completion now resolves from `completed || todayCompleted`; empty has 100dp Figma character plus tappable 80dp quote card, completed has 133dp detail/action card then 200-grapheme answer UI | Build passed |
 
-- Focused RED: `./gradlew :presentation:testDebugUnitTest --tests com.arakene.presentation.ui.calendar.CalendarRecordIndicatorTest --console=plain` failed because `calendarRecordIndicators` did not exist.
-- Focused GREEN: the same command passed after the mapper was implemented.
-- Durable Figma SVG assets: `presentation/src/main/assets/figma/calendar/` contains `calendar_arrow.svg`, `calendar_record_fire.svg`, `calendar_record_heart.svg`, and `calendar_empty_handwriting.svg`. `presentation/src/main/assets/figma/calendar-night/` contains the dark-export empty companion plus byte-identical direct Figma arrow/fire/heart assets. SVGs are density-independent and render at Figma 24dp navigation, 12dp cell, 16dp legend, and 100dp companion sizes.
+- Focused RED: `./gradlew :presentation:testDebugUnitTest --tests com.arakene.presentation.ui.calendar.CalendarRecordIndicatorTest` failed with unresolved `CalendarSelectedDayPresentation` / `calendarSelectedDayPresentation`.
+- Focused GREEN: the same command passed after the completion mapper was implemented.
+- Durable Figma SVG assets: existing `presentation/src/main/assets/figma/calendar/` provides direct Figma arrow/fire/heart/empty-character bytes; existing `figma/home/` supplies the direct Figma logo/profile/streak/action/CTA bytes reused by the Calendar header/detail controls. All are vector assets, so no density bucket is applicable.
 
 ## Final assembled-screen result
 
-- Final runtime capture: `docs/design-qa/assets/calendar-figma-2985-21952/runtime-light-emulator-1280x2856.png` and `docs/design-qa/assets/calendar-figma-2985-21952/runtime-dark-emulator-1280x2856.png`, captured on Android Emulator `emulator-5556` (physical 1280 × 2856 px, 480dpi). Light was selected through the existing My page theme UI for capture, then the pre-existing in-app Dark theme was restored; system mode remains light.
-- Comparison: both captures are full-device frames including status, safe, bottom-navigation, ad, and gesture surfaces, but their 1280 × 2856 / 480dpi target does not match the Figma 360 × 821 reference. No controlled matching-size overlay exists.
+- Prior runtime capture paths document the pre-reimplementation screen only and are not evidence for this round.
+- Controlled reimplementation basic capture: `/private/tmp/fillsa-calendar-rework-basic-light-360x816.png`, Android Emulator `emulator-5556`, temporary 360 × 816 / 160dpi and the existing app Light theme. It includes status/safe/nav/ad surfaces and was taken from the live empty selection; the emulator was restored to its prior Dark setting and physical 1280 × 2856 / 480dpi configuration afterward.
+- A completed-detail capture was not made: the live August-2026 monthly data contains no `completed || todayCompleted` selected record. No QA data was fabricated or persisted.
 - Result: Blocked.
-- Remaining differences: (1) dark Figma `3039:28370` is a photo-record modal state for which Calendar has no photo/modal/delete/change data/action contract; (2) Figma light's March-2025 empty-state data differs from the real August-2026 runtime data and cannot be fabricated; (3) shared Android 4-tab/live-ad surface differs from Figma's 3 tabs; (4) matching 360 × 821 / 160dpi capture and overlay are pending.
+- Remaining differences: (1) Figma's 3-tab surface differs from Android's preserved shared 4-tab/live-ad surface, which reduces the visible basic quote-card space; (2) live data/date text differs from the March-2025 reference and is not fabricated; (3) Calendar has no persistent question-answer or direct image-modal contract; (4) the live completed-detail state and pixel overlay remain unavailable without genuine completed emulator data.
