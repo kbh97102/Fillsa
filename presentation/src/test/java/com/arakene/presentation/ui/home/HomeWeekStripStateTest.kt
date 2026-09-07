@@ -17,7 +17,7 @@ class HomeWeekStripStateTest {
         )
 
         assertEquals(
-            listOf(10, 11, 12, 13, 14, 15, 16),
+            listOf(6, 7, 8, 9, 10, 11, 12),
             days.map { it.date.dayOfMonth },
         )
         assertEquals(selectedDate, days.single { it.isSelected }.date)

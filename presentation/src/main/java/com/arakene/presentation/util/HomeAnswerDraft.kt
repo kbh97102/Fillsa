@@ -9,6 +9,19 @@ internal data class HomeAnswerInputState(
     val remainingCount: Int,
 )
 
+/** Session-only state for the Home question; no domain persistence contract exists yet. */
+data class HomeAnswerUiState(
+    val draft: String = "",
+    val recordedAnswer: String? = null,
+    val isEditing: Boolean = true,
+) {
+    internal val input: HomeAnswerInputState
+        get() = homeAnswerInputState(if (isEditing) draft else recordedAnswer.orEmpty())
+
+    val isRecorded: Boolean
+        get() = recordedAnswer != null && !isEditing
+}
+
 internal fun homeAnswerInputState(text: String): HomeAnswerInputState {
     val graphemeIterator = BreakIterator.getCharacterInstance()
     graphemeIterator.setText(text)
@@ -29,3 +42,12 @@ internal fun homeAnswerInputState(text: String): HomeAnswerInputState {
         remainingCount = HomeAnswerMaxGraphemes - graphemeCount,
     )
 }
+
+internal fun changeHomeAnswer(state: HomeAnswerUiState, text: String): HomeAnswerUiState =
+    state.copy(draft = homeAnswerInputState(text).text)
+
+internal fun recordHomeAnswer(state: HomeAnswerUiState): HomeAnswerUiState =
+    state.copy(recordedAnswer = homeAnswerInputState(state.draft).text, isEditing = false)
+
+internal fun editHomeAnswer(state: HomeAnswerUiState): HomeAnswerUiState =
+    state.copy(draft = state.recordedAnswer.orEmpty(), isEditing = true)

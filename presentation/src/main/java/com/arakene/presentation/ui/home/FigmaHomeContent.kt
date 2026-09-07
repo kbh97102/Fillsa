@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,7 +24,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -50,10 +50,11 @@ import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.HomeAnswerMaxGraphemes
+import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.getWikipediaUriString
-import com.arakene.presentation.util.homeAnswerInputState
 import com.arakene.presentation.util.noEffectClickable
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import kotlin.math.abs
 
@@ -119,8 +120,8 @@ internal fun homeWeekDayStates(
     selectedDate: LocalDate,
     completedDates: Set<LocalDate>,
 ): List<HomeWeekDayState> =
-    (0L..6L).map { index ->
-        val day = selectedDate.minusDays(2).plusDays(index)
+    (-6L..0L).map { offset ->
+        val day = selectedDate.plusDays(offset)
         HomeWeekDayState(
             date = day,
             isSelected = day == selectedDate,
@@ -153,13 +154,26 @@ internal fun FigmaHomeContent(
     author: String,
     selectedLocale: LocaleType,
     isLike: Boolean,
+    completedDates: Set<LocalDate>,
+    isCalendarOpen: Boolean,
+    displayedMonth: YearMonth,
+    isStreakTooltipOpen: Boolean,
+    answerUiState: HomeAnswerUiState,
     canGoNext: Boolean,
     onLocaleChanged: (LocaleType) -> Unit,
     onHome: () -> Unit,
     onProfile: () -> Unit,
     onCalendar: () -> Unit,
+    onDismissCalendar: () -> Unit,
+    onMonthChanged: (YearMonth) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
+    onStreakStatus: () -> Unit,
+    onDismissStreakTooltip: () -> Unit,
+    onStreakCalendar: () -> Unit,
     onQuote: () -> Unit,
+    onAnswerChanged: (String) -> Unit,
     onRecordAnswer: () -> Unit,
+    onEditAnswer: () -> Unit,
     onAuthor: () -> Unit,
     onPreviousQuote: () -> Unit,
     onNextQuote: () -> Unit,
@@ -171,66 +185,116 @@ internal fun FigmaHomeContent(
     darkMode: Boolean = IsDarkMode.current,
 ) {
     val palette = homeColorPalette(darkMode)
-    Column(
+    val streak = StreakProvider.current?.currentStreak ?: 0
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(palette.background)
     ) {
-        HomeHeaderSection(onHome = onHome, onProfile = onProfile, palette = palette, darkMode = darkMode)
-        HomeDateWeekSection(date = date, onCalendar = onCalendar, palette = palette)
+        Column {
+            HomeHeaderSection(
+                streak = streak,
+                onHome = onHome,
+                onProfile = onProfile,
+                onStreakStatus = onStreakStatus,
+                palette = palette,
+                darkMode = darkMode,
+            )
+            HomeDateWeekSection(
+                date = date,
+                completedDates = completedDates,
+                isCalendarOpen = isCalendarOpen,
+                onCalendar = onCalendar,
+                palette = palette,
+            )
 
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, end = 20.dp, top = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            Text("아래 글을 필사해주세요.", style = FillsaTheme.typography.body3, color = palette.primaryText)
-            FigmaLocaleToggle(selectedLocale, onLocaleChanged)
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, end = 20.dp, top = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Text("아래 글을 필사해주세요.", style = FillsaTheme.typography.body3, color = palette.primaryText)
+                FigmaLocaleToggle(selectedLocale, onLocaleChanged)
+            }
+
+            HomeQuoteCard(
+                quote = quote,
+                author = author,
+                canGoNext = canGoNext,
+                onQuote = onQuote,
+                onAuthor = onAuthor,
+                onPreviousQuote = onPreviousQuote,
+                onNextQuote = onNextQuote,
+                palette = palette,
+                darkMode = darkMode,
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
+            )
+
+            HomeQuoteActionRow(
+                isLike = isLike,
+                onCopy = onCopy,
+                onShare = onShare,
+                onLike = onLike,
+                onImage = onImage,
+                palette = palette,
+                darkMode = darkMode,
+            )
+
+            HomePromptAnswerSection(
+                answerUiState = answerUiState,
+                onAnswerChanged = onAnswerChanged,
+                onRecordAnswer = onRecordAnswer,
+                onEditAnswer = onEditAnswer,
+                palette = palette,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 20.dp, top = 15.dp, end = 20.dp),
+            )
         }
 
-        HomeQuoteCard(
-            quote = quote,
-            author = author,
-            canGoNext = canGoNext,
-            onQuote = onQuote,
-            onAuthor = onAuthor,
-            onPreviousQuote = onPreviousQuote,
-            onNextQuote = onNextQuote,
-            palette = palette,
-            darkMode = darkMode,
-            modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
-        )
+        if (isCalendarOpen || isStreakTooltipOpen) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .pointerInput(isCalendarOpen, isStreakTooltipOpen) {
+                        detectTapGestures {
+                            if (isCalendarOpen) onDismissCalendar()
+                            if (isStreakTooltipOpen) onDismissStreakTooltip()
+                        }
+                    },
+            )
+        }
 
-        HomeQuoteActionRow(
-            isLike = isLike,
-            onCopy = onCopy,
-            onShare = onShare,
-            onLike = onLike,
-            onImage = onImage,
-            palette = palette,
-            darkMode = darkMode,
-        )
+        if (isCalendarOpen) {
+            HomeInlineCalendar(
+                displayedMonth = displayedMonth,
+                selectedDate = date,
+                onMonthChanged = onMonthChanged,
+                onDateSelected = onDateSelected,
+                modifier = Modifier.padding(start = 20.dp, top = 96.dp),
+            )
+        }
 
-        HomePromptAnswerSection(
-            onRecordAnswer = onRecordAnswer,
-            palette = palette,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 20.dp, top = 15.dp, end = 20.dp),
-        )
+        if (isStreakTooltipOpen && streak == 0) {
+            HomeStreakTooltip(
+                onCalendar = onStreakCalendar,
+                modifier = Modifier.padding(start = 92.dp, top = 44.dp),
+            )
+        }
     }
 }
 
 @Composable
 private fun HomeHeaderSection(
+    streak: Int,
     onHome: () -> Unit,
     onProfile: () -> Unit,
+    onStreakStatus: () -> Unit,
     palette: HomeColorPalette,
     darkMode: Boolean,
 ) {
-    val streak = StreakProvider.current?.currentStreak ?: 0
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -240,7 +304,10 @@ private fun HomeHeaderSection(
     ) {
         FigmaAsset("home_logo.svg", Modifier.width(60.dp).height(27.dp).noEffectClickable(click = onHome), darkMode = darkMode)
         Spacer(Modifier.weight(1f))
-        FigmaAsset("home_streak.svg", Modifier.size(20.dp))
+        FigmaAsset(
+            "home_streak.svg",
+            Modifier.size(20.dp).noEffectClickable(enable = streak == 0, click = onStreakStatus),
+        )
         Text(
             text = "${streak}일",
             style = FillsaTheme.typography.subtitle1,
@@ -256,7 +323,13 @@ private fun HomeHeaderSection(
 }
 
 @Composable
-private fun HomeDateWeekSection(date: LocalDate, onCalendar: () -> Unit, palette: HomeColorPalette) {
+private fun HomeDateWeekSection(
+    date: LocalDate,
+    completedDates: Set<LocalDate>,
+    isCalendarOpen: Boolean,
+    onCalendar: () -> Unit,
+    palette: HomeColorPalette,
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -264,19 +337,19 @@ private fun HomeDateWeekSection(date: LocalDate, onCalendar: () -> Unit, palette
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(5.dp),
     ) {
-        HomeMonthCalendar(date = date, onCalendar = onCalendar)
-        HomeWeekStrip(date = date, palette = palette)
+        HomeMonthCalendar(date = date, isOpen = isCalendarOpen, onCalendar = onCalendar)
+        HomeWeekStrip(date = date, completedDates = completedDates, palette = palette)
     }
 }
 
 @Composable
-private fun HomeMonthCalendar(date: LocalDate, onCalendar: () -> Unit) {
+private fun HomeMonthCalendar(date: LocalDate, isOpen: Boolean, onCalendar: () -> Unit) {
     Row(
         modifier = Modifier
             .height(30.dp)
             .width(73.dp)
             .clip(RoundedCornerShape(4.dp))
-            .background(Color.White)
+            .background(if (isOpen) Color(0xFFEEF0FF) else Color.White)
             .noEffectClickable(click = onCalendar),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
@@ -292,10 +365,8 @@ private fun HomeMonthCalendar(date: LocalDate, onCalendar: () -> Unit) {
 }
 
 @Composable
-private fun HomeWeekStrip(date: LocalDate, palette: HomeColorPalette) {
-    // HomeViewModel currently exposes the selected date but no completed-date collection.
-    // Render no completion marker instead of inferring one from a week-strip position.
-    val days = homeWeekDayStates(selectedDate = date, completedDates = emptySet())
+private fun HomeWeekStrip(date: LocalDate, completedDates: Set<LocalDate>, palette: HomeColorPalette) {
+    val days = homeWeekDayStates(selectedDate = date, completedDates = completedDates)
     Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
         days.forEach { day ->
             Box(
@@ -309,14 +380,14 @@ private fun HomeWeekStrip(date: LocalDate, palette: HomeColorPalette) {
                         .clip(RoundedCornerShape(99.dp))
                         .background(
                             when {
-                                day.isCompleted -> HomePrimary
                                 day.isSelected -> Color.White
+                                day.isCompleted -> HomePrimary
                                 else -> Color.Transparent
                             }
                         )
                         .border(
                             1.dp,
-                            if (day.isCompleted || day.isSelected) HomePrimary else palette.mutedText,
+                            if (day.isSelected || day.isCompleted) HomePrimary else palette.mutedText,
                             RoundedCornerShape(99.dp),
                         ),
                     contentAlignment = Alignment.Center,
@@ -324,10 +395,10 @@ private fun HomeWeekStrip(date: LocalDate, palette: HomeColorPalette) {
                     Text(
                         day.date.dayOfMonth.toString(),
                         style = FillsaTheme.typography.body4,
-                        color = if (day.isCompleted) Color.White else if (day.isSelected) Color(0xFF212121) else palette.mutedText,
+                        color = if (day.isSelected) Color(0xFF212121) else if (day.isCompleted) Color.White else palette.mutedText,
                     )
                 }
-                if (day.isCompleted) {
+                if (day.isCompleted && !day.isSelected) {
                     FigmaAsset(
                         "home_complete_badge.svg",
                         Modifier.size(18.dp).align(Alignment.TopCenter).offset(y = (-10).dp),
@@ -541,12 +612,14 @@ private fun HomeQuoteLikeAction(
 
 @Composable
 private fun HomePromptAnswerSection(
+    answerUiState: HomeAnswerUiState,
+    onAnswerChanged: (String) -> Unit,
     onRecordAnswer: () -> Unit,
+    onEditAnswer: () -> Unit,
     palette: HomeColorPalette,
     modifier: Modifier = Modifier,
 ) {
-    var answer by rememberSaveable { mutableStateOf("") }
-    val answerState = homeAnswerInputState(answer)
+    val answerState = answerUiState.input
 
     Column(modifier = modifier) {
         Text("오늘의 질문", style = FillsaTheme.typography.subtitle2, color = HomePrimary)
@@ -568,7 +641,8 @@ private fun HomePromptAnswerSection(
         ) {
             BasicTextField(
                 value = answerState.text,
-                onValueChange = { answer = homeAnswerInputState(it).text },
+                onValueChange = onAnswerChanged,
+                readOnly = !answerUiState.isEditing,
                 textStyle = FillsaTheme.typography.body4.copy(color = palette.primaryText),
                 modifier = Modifier
                     .fillMaxSize()
@@ -593,12 +667,15 @@ private fun HomePromptAnswerSection(
             modifier = Modifier.fillMaxWidth().padding(top = 3.dp),
             textAlign = TextAlign.End,
         )
-        HomeAnswerRecordButton(onClick = onRecordAnswer)
+        HomeAnswerRecordButton(
+            isRecorded = answerUiState.isRecorded,
+            onClick = if (answerUiState.isRecorded) onEditAnswer else onRecordAnswer,
+        )
     }
 }
 
 @Composable
-private fun HomeAnswerRecordButton(onClick: () -> Unit) {
+private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .padding(top = 10.dp)
@@ -613,10 +690,30 @@ private fun HomeAnswerRecordButton(onClick: () -> Unit) {
     ) {
         FigmaAsset("home_write_answer.svg", Modifier.size(18.dp))
         Text(
-            "내 답변 기록하기",
+            if (isRecorded) "내 답변 수정하기" else "내 답변 기록하기",
             style = FillsaTheme.typography.buttonMediumBold,
             color = Color.White,
             modifier = Modifier.padding(start = 4.dp),
+        )
+    }
+}
+
+@Composable
+private fun HomeStreakTooltip(onCalendar: () -> Unit, modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .width(188.dp)
+            .clip(RoundedCornerShape(8.dp))
+            .background(Color(0xFF212121))
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+    ) {
+        Text("연속 필사를 완료해 주세요!", style = FillsaTheme.typography.body4, color = Color.White)
+        Text(
+            "나의 필사현황 보기",
+            style = FillsaTheme.typography.body4,
+            color = Color(0xFFFFCB5C),
+            textDecoration = TextDecoration.Underline,
+            modifier = Modifier.padding(top = 4.dp).noEffectClickable(click = onCalendar),
         )
     }
 }

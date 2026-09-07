@@ -15,6 +15,7 @@ import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetStreakCountUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.FindLocalQuoteByIdUseCase
+import com.arakene.domain.usecase.db.GetAllStreakInfoUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.home.DeleteUploadImageUseCase
@@ -30,17 +31,22 @@ import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.HomeEffect
+import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.HomeQuoteLoadState
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypographyEnum
 import com.arakene.presentation.util.action.HomeAction
+import com.arakene.presentation.util.changeHomeAnswer
+import com.arakene.presentation.util.editHomeAnswer
 import com.arakene.presentation.util.homeTypingDestination
 import com.arakene.presentation.util.logDebug
+import com.arakene.presentation.util.recordHomeAnswer
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.io.File
 import java.time.LocalDate
+import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
@@ -59,6 +65,7 @@ class HomeViewModel @Inject constructor(
     private val addLocalQuoteUseCase: AddLocalQuoteUseCase,
     private val testErrorCodeUseCase: TestErrorCodeUseCase,
     private val getStreakCountUseCase: GetStreakCountUseCase,
+    private val getAllStreakInfoUseCase: GetAllStreakInfoUseCase,
     private val getAccessTokenUseCase: GetAccessTokenUseCase
 ) : BaseViewModel() {
 
@@ -79,6 +86,21 @@ class HomeViewModel @Inject constructor(
     val date = mutableStateOf(LocalDate.now())
 
     val streakInfo = mutableStateOf(0)
+
+    var isCalendarOpen by mutableStateOf(false)
+        private set
+
+    var displayedMonth by mutableStateOf(YearMonth.now())
+        private set
+
+    var isStreakTooltipOpen by mutableStateOf(false)
+        private set
+
+    var answerUiState by mutableStateOf(HomeAnswerUiState())
+        private set
+
+    var completedDates by mutableStateOf<Set<LocalDate>>(emptySet())
+        private set
 
     private val today = LocalDate.now()
 
@@ -145,7 +167,55 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickCalendar -> {
+                isCalendarOpen = !isCalendarOpen
+                displayedMonth = YearMonth.from(date.value)
+                isStreakTooltipOpen = false
+            }
+
+            is HomeAction.SelectHomeDate -> {
+                if (action.date in DateCondition.startDay..today) {
+                    date.value = action.date
+                    displayedMonth = YearMonth.from(action.date)
+                    isCalendarOpen = false
+                    refresh(action.date)
+                }
+            }
+
+            is HomeAction.DismissHomeCalendar -> {
+                isCalendarOpen = false
+            }
+
+            is HomeAction.ChangeHomeMonth -> {
+                if (action.month in DateCondition.startMonth..YearMonth.now()) {
+                    displayedMonth = action.month
+                }
+            }
+
+            is HomeAction.ClickStreakStatus -> {
+                isStreakTooltipOpen = !isStreakTooltipOpen
+                isCalendarOpen = false
+            }
+
+            is HomeAction.DismissStreakTooltip -> {
+                isStreakTooltipOpen = false
+            }
+
+            is HomeAction.ClickStreakCalendar -> {
+                isStreakTooltipOpen = false
                 emitEffect(CommonEffect.Move(Screens.Calendar))
+            }
+
+            is HomeAction.ChangeAnswer -> {
+                answerUiState = changeHomeAnswer(answerUiState, action.answer)
+            }
+
+            is HomeAction.RecordAnswer -> {
+                answerUiState = recordHomeAnswer(answerUiState)
+                emitEffect(CommonEffect.ShowSnackBar("답변을 기록했어요."))
+            }
+
+            is HomeAction.EditAnswer -> {
+                answerUiState = editHomeAnswer(answerUiState)
             }
 
             else -> {
@@ -306,6 +376,8 @@ class HomeViewModel @Inject constructor(
         val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
         val convertedDate = convertDate(date)
 
+        loadCompletedDates()
+
         if (isLogged) {
             getDailyQuote(convertedDate, date)
             getStreakCount()
@@ -318,6 +390,14 @@ class HomeViewModel @Inject constructor(
     private suspend fun getStreakCount() {
         Log.e(">>>>", "streak? ${getAccessTokenUseCase()}")
         streakInfo.value = getStreakCountUseCase()
+    }
+
+    private suspend fun loadCompletedDates() {
+        completedDates = getAllStreakInfoUseCase()
+            .asSequence()
+            .filter { it.isDailyWritingCompleted }
+            .map { it.date }
+            .toSet()
     }
 
     private fun getDailyQuote(date: String, requestedDate: LocalDate) = viewModelScope.launch {

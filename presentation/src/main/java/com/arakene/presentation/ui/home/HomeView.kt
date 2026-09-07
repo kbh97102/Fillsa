@@ -166,6 +166,12 @@ fun HomeView(
         viewModel.isLike
     }
 
+    val completedDates = viewModel.completedDates
+    val isCalendarOpen = viewModel.isCalendarOpen
+    val displayedMonth = viewModel.displayedMonth
+    val isStreakTooltipOpen = viewModel.isStreakTooltipOpen
+    val answerUiState = viewModel.answerUiState
+
     if (imageDialogDataHolder.show) {
         ImageDialog(
             author = imageDialogDataHolder.author,
@@ -185,13 +191,26 @@ fun HomeView(
         author = author,
         selectedLocale = selectedLocale,
         isLike = isLike,
+        completedDates = completedDates,
+        isCalendarOpen = isCalendarOpen,
+        displayedMonth = displayedMonth,
+        isStreakTooltipOpen = isStreakTooltipOpen,
+        answerUiState = answerUiState,
         canGoNext = date.isBefore(LocalDate.now()),
         onLocaleChanged = { selectedLocale = it },
         onHome = { navigate(Screens.Home()) },
         onProfile = { navigate(Screens.MyPage) },
         onCalendar = { viewModel.handleContract(HomeAction.ClickCalendar) },
+        onDismissCalendar = { viewModel.handleContract(HomeAction.DismissHomeCalendar) },
+        onMonthChanged = { viewModel.handleContract(HomeAction.ChangeHomeMonth(it)) },
+        onDateSelected = { viewModel.handleContract(HomeAction.SelectHomeDate(it)) },
+        onStreakStatus = { viewModel.handleContract(HomeAction.ClickStreakStatus) },
+        onDismissStreakTooltip = { viewModel.handleContract(HomeAction.DismissStreakTooltip) },
+        onStreakCalendar = { viewModel.handleContract(HomeAction.ClickStreakCalendar) },
         onQuote = { viewModel.handleContract(HomeAction.ClickQuote) },
-        onRecordAnswer = { viewModel.handleContract(HomeAction.ClickQuote) },
+        onAnswerChanged = { viewModel.handleContract(HomeAction.ChangeAnswer(it)) },
+        onRecordAnswer = { viewModel.handleContract(HomeAction.RecordAnswer) },
+        onEditAnswer = { viewModel.handleContract(HomeAction.EditAnswer) },
         onAuthor = { uriHandler.openUri(homeAuthorUri(author)) },
         onPreviousQuote = { viewModel.handleContract(HomeAction.ClickBefore) },
         onNextQuote = { viewModel.handleContract(HomeAction.ClickNext) },
