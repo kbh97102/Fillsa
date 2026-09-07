@@ -26,14 +26,15 @@ fun NegativeButton(
         modifier = modifier,
         onClick = onClick,
         colors = MaterialTheme.colorScheme.defaultButtonColors,
-        contentPadding = PaddingValues(horizontal = 34.5.dp, vertical = 15.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 15.dp),
         shape = MaterialTheme.shapes.small,
         border = BorderStroke(1.dp, color = colorResource(R.color.purple01))
     ) {
         Text(
             text,
             style = FillsaTheme.typography.buttonMediumBold,
-            color = colorResource(R.color.purple01)
+            color = colorResource(R.color.purple01),
+            maxLines = 1,
         )
     }
 

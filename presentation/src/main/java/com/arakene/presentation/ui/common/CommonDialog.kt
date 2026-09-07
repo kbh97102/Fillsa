@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.border
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -49,12 +51,15 @@ fun CommonDialog(
         )
     ) {
 
+        val hasBody = body.isNotEmpty()
         Column(
             modifier = Modifier
                 .fillMaxWidth()
+                .height(if (hasBody) 165.dp else 181.dp)
                 .padding(horizontal = 20.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .background(FillsaTheme.colorScheme.backgroundContainer)
+                .border(1.dp, FillsaTheme.colorScheme.outline, RoundedCornerShape(8.dp))
                 .padding(12.dp)
         ) {
 
@@ -64,7 +69,7 @@ fun CommonDialog(
                 color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 52.dp),
+                    .padding(top = if (hasBody) 11.dp else 39.dp),
                 textAlign = TextAlign.Center,
             )
 
@@ -95,7 +100,7 @@ fun CommonDialog(
                     dismiss = dismiss,
                     negativeText = negativeText,
                     positiveText = positiveText,
-                    modifier = Modifier.padding(top = 44.dp)
+                    modifier = Modifier.padding(top = if (hasBody) 25.dp else 44.dp)
                 )
             }
         }

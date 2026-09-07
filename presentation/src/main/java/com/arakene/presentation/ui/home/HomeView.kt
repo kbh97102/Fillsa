@@ -32,12 +32,14 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.HomeAnswerRecordedSnackbar
 import com.arakene.presentation.util.HomeAnswerUiState
+import com.arakene.presentation.util.HomeQuoteLoadState
 import com.arakene.presentation.util.ImageDialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.LocalHomeRuntimeQaFixture
@@ -53,6 +55,7 @@ import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import com.arakene.domain.responses.DailyQuoteDto
 import java.time.LocalDate
 
 @Composable
@@ -121,14 +124,46 @@ fun HomeView(
         ImageDialogDataHolder()
     }
 
+    val qaImageUri = if (homeQaFixture?.showSelectedImageState == true || homeQaFixture?.showImageDialog == true) {
+        "android.resource://${context.packageName}/${com.arakene.presentation.R.drawable.home_registered_image_fixture}"
+    } else {
+        null
+    }
+    val displayedBackgroundImageUrl = qaImageUri ?: backgroundImageUrl
+
+    LaunchedEffect(homeQaFixture?.showImageDialog, homeQaFixture?.showTemplateDialog) {
+        if (homeQaFixture?.showImageDialog == true || homeQaFixture?.showTemplateDialog == true) {
+            imageDialogDataHolder.quote = homeQaFixture.quote
+            imageDialogDataHolder.author = homeQaFixture.author
+            imageDialogDataHolder.show = true
+        }
+    }
+
+    LaunchedEffect(homeQaFixture?.showLoginDialog) {
+        if (homeQaFixture?.showLoginDialog == true) {
+            dialogDataHolder.data = DialogData.Builder()
+                .title("로그인 후 사용하실 수 있습니다.")
+                .titleTextStyle(com.arakene.presentation.util.TypographyEnum.Subtitle1)
+                .okText("로그인 하기")
+                .onClick { navigate(Screens.Login(isOnBoarding = true)) }
+                .build()
+            dialogDataHolder.show = true
+        }
+    }
+
     DoubleBackPressHandler(
         onExit = {
             (context as? Activity)?.finishAffinity()
         }
     )
 
-    LaunchedEffect(requestDate) {
-        if (requestDate != null) {
+    LaunchedEffect(requestDate, homeQaFixture) {
+        if (homeQaFixture != null) {
+            val qaDate = LocalDate.of(2026, 8, 16)
+            viewModel.handleContract(HomeEffect.SetDate(qaDate))
+            viewModel.currentQuota = DailyQuoteDto(homeQaFixture.quote, homeQaFixture.author)
+            viewModel.quoteLoadState = HomeQuoteLoadState.Loaded
+        } else if (requestDate != null) {
             viewModel.handleContract(HomeEffect.SetDate(requestDate))
             viewModel.handleContract(HomeEffect.Refresh(requestDate))
         } else {
@@ -177,11 +212,16 @@ fun HomeView(
         }
     }
 
-    val isLike by remember {
+    val storedIsLike by remember {
         viewModel.isLike
     }
+    val isLike = homeQaFixture?.showSelectedImageState ?: storedIsLike
 
-    val completedDates = viewModel.completedDates
+    val completedDates = if (homeQaFixture != null) {
+        setOf(date.minusDays(6), date.minusDays(5))
+    } else {
+        viewModel.completedDates
+    }
     val isCalendarOpen = viewModel.isCalendarOpen
     val displayedMonth = viewModel.displayedMonth
     val isStreakTooltipOpen = viewModel.isStreakTooltipOpen
@@ -199,8 +239,11 @@ fun HomeView(
             uploadImage = {
                 viewModel.handleContract(HomeAction.ClickChangeImage(uri = it.toString()))
             },
-            backgroundImageUrl = backgroundImageUrl,
-            deleteOnClick = { viewModel.handleContract(HomeAction.ClickDeleteImage) }
+            backgroundImageUrl = displayedBackgroundImageUrl,
+            deleteOnClick = {
+                imageDialogDataHolder.show = false
+                viewModel.handleContract(HomeAction.ClickDeleteImage)
+            }
         )
     }
 
@@ -210,6 +253,7 @@ fun HomeView(
         author = author,
         selectedLocale = selectedLocale,
         isLike = isLike,
+        backgroundImageUrl = displayedBackgroundImageUrl,
         completedDates = completedDates,
         isCalendarOpen = isCalendarOpen,
         displayedMonth = displayedMonth,
@@ -226,7 +270,20 @@ fun HomeView(
         onStreakStatus = { viewModel.handleContract(HomeAction.ClickStreakStatus) },
         onDismissStreakTooltip = { viewModel.handleContract(HomeAction.DismissStreakTooltip) },
         onStreakCalendar = { viewModel.handleContract(HomeAction.ClickStreakCalendar) },
-        onQuote = { viewModel.handleContract(HomeAction.ClickQuote) },
+        onQuote = {
+            if (homeQaFixture != null) {
+                navigate(
+                    Screens.DailyQuote(
+                        DailyQuoteDto(
+                            quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+                            author = "존 우든",
+                        )
+                    )
+                )
+            } else {
+                viewModel.handleContract(HomeAction.ClickQuote)
+            }
+        },
         onAnswerChanged = { viewModel.handleContract(HomeAction.ChangeAnswer(it)) },
         onRecordAnswer = { viewModel.handleContract(HomeAction.RecordAnswer) },
         onEditAnswer = { viewModel.handleContract(HomeAction.EditAnswer) },

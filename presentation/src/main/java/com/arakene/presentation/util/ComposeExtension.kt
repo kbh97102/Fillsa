@@ -191,6 +191,10 @@ internal data class HomeRuntimeQaFixture(
     val quote: String,
     val author: String,
     val showRecordedAnswer: Boolean = false,
+    val showSelectedImageState: Boolean = false,
+    val showImageDialog: Boolean = false,
+    val showTemplateDialog: Boolean = false,
+    val showLoginDialog: Boolean = false,
 )
 
 internal val LocalHomeRuntimeQaFixture = staticCompositionLocalOf<HomeRuntimeQaFixture?> { null }
@@ -210,9 +214,7 @@ fun copyToClipboard(
         val copyText = "$quote - $author"
         clipBoard.setClipEntry(ClipEntry(ClipData.newPlainText(copyText, copyText)))
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-            snackbarHostState.showSnackbar(context.getString(R.string.copied))
-        }
+        snackbarHostState.showSnackbar(context.getString(R.string.copied))
     }
 }
 

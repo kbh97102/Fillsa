@@ -82,11 +82,31 @@ class MainActivity : ComponentActivity() {
             EXTRA_HOME_QA_RECORDED_ANSWER,
             false
         )
+        val homeQaShowSelectedImageState = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_SELECTED_IMAGE,
+            false
+        )
+        val homeQaShowImageDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_IMAGE_DIALOG,
+            false
+        )
+        val homeQaShowTemplateDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_TEMPLATE_DIALOG,
+            false
+        )
+        val homeQaShowLoginDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_LOGIN_DIALOG,
+            false
+        )
         val homeQaFixture = if (BuildConfig.DEBUG && intent.getBooleanExtra(EXTRA_HOME_QA_FIXTURE, false)) {
             HomeRuntimeQaFixture(
-                quote = "최고의 선은 물과 같으니, 물은 만물을 이롭게 하면서도 다투지 않는다.",
-                author = "노자",
+                quote = "사랑이라는 선물은 억지로 줄 수 없고 받아들여지기를 기다릴 뿐이다.",
+                author = "존우든",
                 showRecordedAnswer = homeQaShowRecordedAnswer,
+                showSelectedImageState = homeQaShowSelectedImageState,
+                showImageDialog = homeQaShowImageDialog,
+                showTemplateDialog = homeQaShowTemplateDialog,
+                showLoginDialog = homeQaShowLoginDialog,
             )
         } else {
             null
@@ -224,15 +244,13 @@ class MainActivity : ComponentActivity() {
                                     ScaffoldDefaults.contentWindowInsets
                                 }
                             ) { paddingValues ->
-                                if (homeQaFixture == null) {
-                                    DialogSection(dialogData)
-                                }
+                                DialogSection(dialogData)
 
                                 MainNavHost(
                                     modifier = Modifier
                                         .padding(paddingValues),
                                     navController = navController,
-                                    startDestination = Screens.Splash,
+                                    startDestination = if (homeQaFixture == null) Screens.Splash else Screens.Home(),
                                     logoutEvent = logoutEvent
                                 )
                             }
@@ -266,5 +284,9 @@ class MainActivity : ComponentActivity() {
         const val EXTRA_HOME_QA_HIDE_AD = "com.arakene.fillsa.extra.HOME_QA_HIDE_AD"
         const val EXTRA_HOME_QA_FIXTURE = "com.arakene.fillsa.extra.HOME_QA_FIXTURE"
         const val EXTRA_HOME_QA_RECORDED_ANSWER = "com.arakene.fillsa.extra.HOME_QA_RECORDED_ANSWER"
+        const val EXTRA_HOME_QA_SELECTED_IMAGE = "com.arakene.fillsa.extra.HOME_QA_SELECTED_IMAGE"
+        const val EXTRA_HOME_QA_IMAGE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_IMAGE_DIALOG"
+        const val EXTRA_HOME_QA_TEMPLATE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_TEMPLATE_DIALOG"
+        const val EXTRA_HOME_QA_LOGIN_DIALOG = "com.arakene.fillsa.extra.HOME_QA_LOGIN_DIALOG"
     }
 }

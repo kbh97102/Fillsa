@@ -11,15 +11,20 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -39,6 +44,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -46,6 +52,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
 import coil3.svg.SvgDecoder
@@ -117,6 +124,14 @@ internal enum class HomeLikeIcon {
 internal fun homeLikeIcon(isLiked: Boolean): HomeLikeIcon =
     if (isLiked) HomeLikeIcon.Selected else HomeLikeIcon.Unselected
 
+internal enum class HomeImageActionPresentation {
+    Register,
+    View,
+}
+
+internal fun homeImageActionPresentation(backgroundImageUrl: String): HomeImageActionPresentation =
+    if (backgroundImageUrl.isBlank()) HomeImageActionPresentation.Register else HomeImageActionPresentation.View
+
 internal data class HomeWeekDayState(
     val date: LocalDate,
     val isSelected: Boolean,
@@ -182,6 +197,7 @@ internal fun FigmaHomeContent(
     author: String,
     selectedLocale: LocaleType,
     isLike: Boolean,
+    backgroundImageUrl: String,
     completedDates: Set<LocalDate>,
     isCalendarOpen: Boolean,
     displayedMonth: YearMonth,
@@ -214,72 +230,90 @@ internal fun FigmaHomeContent(
 ) {
     val palette = homeColorPalette(darkMode)
     val streak = StreakProvider.current?.currentStreak
+    val density = LocalDensity.current
+    val isImeVisible = WindowInsets.ime.getBottom(density) > 0
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(palette.background)
     ) {
         Column {
-            HomeHeaderSection(
-                streak = streak,
-                onHome = onHome,
-                onProfile = onProfile,
-                onStreakStatus = onStreakStatus,
-                palette = palette,
-                darkMode = darkMode,
-            )
-            HomeDateWeekSection(
-                date = date,
-                completedDates = completedDates,
-                isCalendarOpen = isCalendarOpen,
-                onCalendar = onCalendar,
-                palette = palette,
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, end = 20.dp, top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween,
-            ) {
-                Text("아래 글을 필사해주세요.", style = FillsaTheme.typography.body3, color = palette.primaryText)
-                FigmaLocaleToggle(selectedLocale, onLocaleChanged)
+            Box(Modifier.zIndex(1f)) {
+                HomeHeaderSection(
+                    streak = streak,
+                    onHome = onHome,
+                    onProfile = onProfile,
+                    onStreakStatus = onStreakStatus,
+                    palette = palette,
+                    darkMode = darkMode,
+                )
             }
 
-            HomeQuoteCard(
-                quote = quote,
-                author = author,
-                canGoNext = canGoNext,
-                onQuote = onQuote,
-                onAuthor = onAuthor,
-                onPreviousQuote = onPreviousQuote,
-                onNextQuote = onNextQuote,
-                palette = palette,
-                darkMode = darkMode,
-                modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp),
-            )
+            Column(
+                modifier = if (isImeVisible) {
+                    Modifier
+                        // Android pans another 131dp to keep the focused field above the IME.
+                        // Combined with this authored shift, the body matches the Figma -209dp focus state.
+                        .offset(y = (-78).dp)
+                        .requiredHeight(638.dp)
+                } else {
+                    Modifier
+                },
+            ) {
+                HomeDateWeekSection(
+                    date = date,
+                    completedDates = completedDates,
+                    isCalendarOpen = isCalendarOpen,
+                    onCalendar = onCalendar,
+                    palette = palette,
+                )
 
-            HomeQuoteActionRow(
-                isLike = isLike,
-                onCopy = onCopy,
-                onShare = onShare,
-                onLike = onLike,
-                onImage = onImage,
-                palette = palette,
-                darkMode = darkMode,
-            )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, end = 20.dp, top = 12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text("아래 글을 필사해주세요.", style = FillsaTheme.typography.body3, color = palette.primaryText)
+                    FigmaLocaleToggle(selectedLocale, onLocaleChanged)
+                }
 
-            HomePromptAnswerSection(
-                answerUiState = answerUiState,
-                onAnswerChanged = onAnswerChanged,
-                onRecordAnswer = onRecordAnswer,
-                onEditAnswer = onEditAnswer,
-                palette = palette,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 20.dp, top = 15.dp, end = 20.dp),
-            )
+                HomeQuoteCard(
+                    quote = quote,
+                    author = author,
+                    canGoNext = canGoNext,
+                    onQuote = onQuote,
+                    onAuthor = onAuthor,
+                    onPreviousQuote = onPreviousQuote,
+                    onNextQuote = onNextQuote,
+                    palette = palette,
+                    darkMode = darkMode,
+                    modifier = Modifier.padding(start = 20.dp, top = 4.dp, end = 20.dp, bottom = 10.dp),
+                )
+
+                HomeQuoteActionRow(
+                    isLike = isLike,
+                    backgroundImageUrl = backgroundImageUrl,
+                    onCopy = onCopy,
+                    onShare = onShare,
+                    onLike = onLike,
+                    onImage = onImage,
+                    palette = palette,
+                    darkMode = darkMode,
+                )
+
+                HomePromptAnswerSection(
+                    answerUiState = answerUiState,
+                    onAnswerChanged = onAnswerChanged,
+                    onRecordAnswer = onRecordAnswer,
+                    onEditAnswer = onEditAnswer,
+                    palette = palette,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 20.dp, top = 15.dp, end = 20.dp),
+                )
+            }
         }
 
         if (isCalendarOpen || isStreakTooltipOpen) {
@@ -301,14 +335,14 @@ internal fun FigmaHomeContent(
                 selectedDate = date,
                 onMonthChanged = onMonthChanged,
                 onDateSelected = onDateSelected,
-                modifier = Modifier.padding(start = 20.dp, top = 96.dp),
+                modifier = Modifier.padding(start = 20.dp, top = 102.dp),
             )
         }
 
         if (isStreakTooltipOpen && isKnownZeroStreak(streak)) {
             HomeStreakTooltip(
                 onCalendar = onStreakCalendar,
-                modifier = Modifier.padding(start = 92.dp, top = 44.dp),
+                modifier = Modifier.padding(start = 92.dp, top = 61.dp),
             )
         }
     }
@@ -597,6 +631,7 @@ private fun HomeQuoteCard(
 @Composable
 private fun HomeQuoteActionRow(
     isLike: Boolean,
+    backgroundImageUrl: String,
     onCopy: () -> Unit,
     onShare: () -> Unit,
     onLike: () -> Unit,
@@ -619,7 +654,13 @@ private fun HomeQuoteActionRow(
             HomeQuoteActionDivider(palette)
             HomeQuoteLikeAction(isLiked = isLike, modifier = Modifier.weight(1f), onClick = onLike, palette = palette, darkMode = darkMode)
             HomeQuoteActionDivider(palette)
-            HomeQuoteAction("home_camera.svg", "이미지 등록", Modifier.weight(1.15f), onImage, palette, darkMode)
+            HomeImageAction(
+                backgroundImageUrl = backgroundImageUrl,
+                modifier = Modifier.weight(1.15f),
+                onClick = onImage,
+                palette = palette,
+                darkMode = darkMode,
+            )
         }
         Box(Modifier.fillMaxWidth().height(1.dp).background(palette.mainDivider))
     }
@@ -670,11 +711,51 @@ private fun HomeQuoteLikeAction(
                 painter = painterResource(R.drawable.icn_fill_heart),
                 contentDescription = null,
                 modifier = Modifier.size(16.dp),
+                colorFilter = ColorFilter.tint(Color(0xFFFFCB5C)),
             )
 
             HomeLikeIcon.Unselected -> FigmaAsset("home_like.svg", Modifier.size(16.dp), darkMode = darkMode)
         }
-        Text("좋아요", style = FillsaTheme.typography.body4, color = palette.actionLabel, modifier = Modifier.padding(start = 4.dp))
+        Text(
+            "좋아요",
+            style = FillsaTheme.typography.body4,
+            color = if (isLiked) Color(0xFFFFCB5C) else palette.actionLabel,
+            modifier = Modifier.padding(start = 4.dp),
+        )
+    }
+}
+
+@Composable
+private fun HomeImageAction(
+    backgroundImageUrl: String,
+    modifier: Modifier,
+    onClick: () -> Unit,
+    palette: HomeColorPalette,
+    darkMode: Boolean,
+) {
+    val presentation = homeImageActionPresentation(backgroundImageUrl)
+    val registered = presentation == HomeImageActionPresentation.View
+    Row(
+        modifier = modifier.height(42.dp).noEffectClickable(click = onClick),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        if (registered) {
+            AsyncImage(
+                model = backgroundImageUrl,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(28.dp).clip(RoundedCornerShape(5.dp)),
+            )
+        } else {
+            FigmaAsset("home_camera.svg", Modifier.size(16.dp), darkMode = darkMode)
+        }
+        Text(
+            if (registered) "이미지 보기" else "이미지 등록",
+            style = if (registered) FillsaTheme.typography.buttonXSmallBold else FillsaTheme.typography.body4,
+            color = if (registered) Color(0xFFFFCB5C) else palette.actionLabel,
+            modifier = Modifier.padding(start = 4.dp),
+        )
     }
 }
 
@@ -688,6 +769,8 @@ private fun HomePromptAnswerSection(
     modifier: Modifier = Modifier,
 ) {
     val answerState = answerUiState.input
+    val interactionSource = remember { MutableInteractionSource() }
+    val isFocused by interactionSource.collectIsFocusedAsState()
 
     Column(modifier = modifier) {
         Text("오늘의 질문", style = FillsaTheme.typography.subtitle2, color = HomePrimary)
@@ -701,17 +784,22 @@ private fun HomePromptAnswerSection(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 4.dp)
+                .padding(top = 16.dp)
                 .height(174.dp)
                 .clip(RoundedCornerShape(17.dp))
                 .background(palette.answerField)
-                .border(1.dp, palette.answerBorder, RoundedCornerShape(17.dp)),
+                .border(
+                    1.dp,
+                    if (isFocused && answerUiState.isEditing) HomePrimary else palette.answerBorder,
+                    RoundedCornerShape(17.dp),
+                ),
         ) {
             BasicTextField(
                 value = answerState.text,
                 onValueChange = onAnswerChanged,
                 readOnly = !answerUiState.isEditing,
                 textStyle = FillsaTheme.typography.body4.copy(color = palette.primaryText),
+                interactionSource = interactionSource,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(11.dp)
@@ -749,7 +837,7 @@ private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit) {
     val label = if (isRecorded) "내 답변 수정하기" else "내 답변 기록하기"
     Row(
         modifier = Modifier
-            .padding(top = 10.dp)
+            .padding(top = 8.dp)
             .fillMaxWidth()
             .height(50.dp)
             .clip(RoundedCornerShape(8.dp))
@@ -771,21 +859,40 @@ private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit) {
 
 @Composable
 private fun HomeStreakTooltip(onCalendar: () -> Unit, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .width(188.dp)
-            .clip(RoundedCornerShape(8.dp))
-            .background(Color(0xFF212121))
-            .padding(horizontal = 12.dp, vertical = 10.dp),
-    ) {
-        Text("연속 필사를 완료해 주세요!", style = FillsaTheme.typography.body4, color = Color.White)
-        Text(
-            "나의 필사현황 보기",
-            style = FillsaTheme.typography.body4,
-            color = Color(0xFFFFCB5C),
-            textDecoration = TextDecoration.Underline,
-            modifier = Modifier.padding(top = 4.dp).noEffectClickable(click = onCalendar),
-        )
+    Box(modifier = modifier.width(231.dp).height(76.dp)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .shadow(4.dp, RoundedCornerShape(4.dp))
+                .clip(RoundedCornerShape(4.dp))
+                .background(Color(0xFFFFEFCC))
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            Text("연속 필사를 완료해 주세요!", style = FillsaTheme.typography.subtitle2, color = Color(0xFF212121))
+            Text(
+                "나의 필사현황 보기",
+                style = FillsaTheme.typography.body4,
+                color = HomePrimary,
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.noEffectClickable(click = onCalendar),
+            )
+        }
+        Canvas(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .offset(x = (-16).dp, y = (-16).dp)
+                .width(21.dp)
+                .height(18.dp),
+        ) {
+            val caret = Path().apply {
+                moveTo(size.width / 2f, 0f)
+                lineTo(size.width, size.height)
+                lineTo(0f, size.height)
+                close()
+            }
+            drawPath(caret, Color(0xFFFFEFCC))
+        }
     }
 }
 

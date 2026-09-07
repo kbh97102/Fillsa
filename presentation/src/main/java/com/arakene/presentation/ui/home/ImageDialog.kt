@@ -10,16 +10,18 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -33,6 +35,7 @@ import androidx.compose.ui.window.DialogProperties
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.CustomAsyncImage
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.ui.theme.gangwoneduall
 import com.arakene.presentation.ui.theme.defaultButtonColors
 import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.noEffectClickable
@@ -70,9 +73,10 @@ fun ImageDialog(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
+                .height(373.dp)
                 .padding(horizontal = 20.dp)
-                .clip(MaterialTheme.shapes.medium)
+                .shadow(23.dp, RoundedCornerShape(12.dp))
+                .clip(RoundedCornerShape(12.dp))
         ) {
 
             if (backgroundImageUrl.isEmpty()) {
@@ -122,7 +126,7 @@ fun ImageDialog(
                         .fillMaxWidth()
                         .padding(top = 90.dp),
                     textAlign = TextAlign.Center,
-                    style = FillsaTheme.typography.body2,
+                    style = FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall),
                     color = colorResource(R.color.gray_700)
                 )
 
@@ -132,12 +136,13 @@ fun ImageDialog(
                         .fillMaxWidth()
                         .padding(top = 12.dp),
                     textAlign = TextAlign.Center,
-                    style = FillsaTheme.typography.body2,
-                    color = colorResource(R.color.gray_700)
+                    style = FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall),
+                    color = colorResource(R.color.gray_700),
+                    textDecoration = TextDecoration.Underline,
                 )
 
                 Row(
-                    modifier = Modifier.padding(top = 86.dp),
+                    modifier = Modifier.padding(top = 98.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Button(

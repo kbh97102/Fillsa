@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -130,11 +131,11 @@ fun ShareView(
                 HorizontalPager(
                     state = state,
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(vertical = 30.dp),
+                        .height(481.dp)
+                        .padding(top = 51.dp, bottom = 30.dp),
                     beyondViewportPageCount = 1,
                     pageSpacing = 20.dp,
-                    contentPadding = PaddingValues(horizontal = 60.dp)
+                    contentPadding = PaddingValues(horizontal = 45.dp)
                 ) { page ->
 
                     val color by remember(page) {
@@ -246,7 +247,8 @@ private fun ShareBottomSection(
             onClick = {
                 saveOnClick()
             },
-            textColor = FillsaTheme.colorScheme.onBackground1
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = if (darkMode) colorResource(R.color.gray_600) else Color.White,
         )
 
         ShareButton(
@@ -261,7 +263,8 @@ private fun ShareBottomSection(
             onClick = {
                 copyOnClick()
             },
-            textColor = FillsaTheme.colorScheme.onBackground1
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = if (darkMode) colorResource(R.color.gray_600) else Color.White,
         )
 
         ShareButton(
@@ -270,7 +273,8 @@ private fun ShareBottomSection(
             onClick = {
                 shareOnClick()
             },
-            textColor = FillsaTheme.colorScheme.onBackground1
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = Color.Transparent,
         )
     }
 }
@@ -281,7 +285,8 @@ private fun ShareButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    textColor: Color = colorResource(R.color.white)
+    textColor: Color = colorResource(R.color.white),
+    backgroundColor: Color = Color.White,
 ) {
     Column(
         modifier = modifier
@@ -290,7 +295,7 @@ private fun ShareButton(
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .background(color = Color.White, shape = CircleShape),
+                .background(color = backgroundColor, shape = CircleShape),
             contentAlignment = Alignment.Center
         ) {
 

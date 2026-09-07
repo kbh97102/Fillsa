@@ -155,7 +155,7 @@ fun LoginView(
 
         Image(
             modifier = Modifier
-                .padding(top = 154.dp)
+                .padding(top = 88.dp)
                 .noEffectClickable {
 
                     testClickCount++
@@ -178,7 +178,7 @@ fun LoginView(
             stringResource(R.string.login_description),
             style = FillsaTheme.typography.body2,
             color = FillsaTheme.colorScheme.onBackground1,
-            modifier = Modifier.padding(top = 80.dp),
+            modifier = Modifier.padding(top = 50.dp),
         )
 
         // 카카오
@@ -431,5 +431,4 @@ private fun LoginButtonPreview() {
         onClick = {}
     )
 }
-
 

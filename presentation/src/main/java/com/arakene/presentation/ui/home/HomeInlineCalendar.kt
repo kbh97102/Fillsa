@@ -87,18 +87,18 @@ internal fun HomeInlineCalendar(
                 onMonthChanged(displayedMonth.minusMonths(1))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                HomeCalendarSelector(displayedMonth.year.toString())
-                HomeCalendarSelector(displayedMonth.monthValue.toString().padStart(2, '0'))
+                HomeCalendarSelector(displayedMonth.year.toString(), width = 65.dp)
+                HomeCalendarSelector(displayedMonth.monthValue.toString().padStart(2, '0'), width = 61.dp)
             }
             HomeCalendarArrow("›", enabled = displayedMonth < YearMonth.from(today)) {
                 onMonthChanged(displayedMonth.plusMonths(1))
             }
         }
-        Row(modifier = Modifier.fillMaxWidth().padding(top = 8.dp)) {
+        Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
             listOf("일", "월", "화", "수", "목", "금", "토").forEach { day ->
                 Text(
                     text = day,
-                    style = FillsaTheme.typography.body4,
+                    style = FillsaTheme.typography.body3,
                     color = Color(0xFF77736D),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.weight(1f),
@@ -130,7 +130,7 @@ internal fun HomeInlineCalendar(
                         ) {
                             Text(
                                 text = day.date.dayOfMonth.toString(),
-                                style = FillsaTheme.typography.body4,
+                                style = FillsaTheme.typography.body3,
                                 color = when {
                                     day.isSelected || day.isToday -> Color.White
                                     day.isInDisplayedMonth -> Color(0xFF212121)
@@ -157,9 +157,10 @@ private fun HomeCalendarArrow(label: String, enabled: Boolean, onClick: () -> Un
 }
 
 @Composable
-private fun HomeCalendarSelector(value: String) {
+private fun HomeCalendarSelector(value: String, width: androidx.compose.ui.unit.Dp) {
     Row(
         modifier = Modifier
+            .width(width)
             .height(31.dp)
             .clip(RoundedCornerShape(7.dp))
             .background(Color.White)
@@ -167,7 +168,7 @@ private fun HomeCalendarSelector(value: String) {
             .padding(horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(value, style = FillsaTheme.typography.body4, color = Color(0xFF212121))
-        Text("⌄", style = FillsaTheme.typography.body4, color = Color(0xFF77736D), modifier = Modifier.padding(start = 4.dp))
+        Text(value, style = FillsaTheme.typography.body3, color = Color(0xFF212121))
+        Text("⌄", style = FillsaTheme.typography.body3, color = Color(0xFF77736D), modifier = Modifier.padding(start = 4.dp))
     }
 }

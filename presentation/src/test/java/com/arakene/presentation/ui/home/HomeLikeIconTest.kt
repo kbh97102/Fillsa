@@ -10,4 +10,10 @@ class HomeLikeIconTest {
         assertEquals(HomeLikeIcon.Selected, homeLikeIcon(isLiked = true))
         assertEquals(HomeLikeIcon.Unselected, homeLikeIcon(isLiked = false))
     }
+
+    @Test
+    fun `image action label follows the registered image state`() {
+        assertEquals(HomeImageActionPresentation.Register, homeImageActionPresentation(""))
+        assertEquals(HomeImageActionPresentation.View, homeImageActionPresentation("https://example.test/image.png"))
+    }
 }

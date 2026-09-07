@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +41,9 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.svg.SvgDecoder
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.domain.responses.DailyQuoteDto
@@ -52,6 +56,7 @@ import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
+import com.arakene.presentation.util.LocalHomeRuntimeQaFixture
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
@@ -89,14 +94,16 @@ fun TypingQuoteView(
     val savedKorTyping by remember {
         viewModel.savedKorTyping
     }
+    val homeQaFixture = LocalHomeRuntimeQaFixture.current
 
     val savedEngTyping by remember {
         viewModel.savedEngTyping
     }
 
-    var korTyping by remember(savedKorTyping) {
+    var korTyping by remember(savedKorTyping, homeQaFixture, data) {
+        val initialTyping = if (homeQaFixture != null) data.korQuote.orEmpty().take(8) else savedKorTyping
         mutableStateOf(
-            TextFieldValue(savedKorTyping, selection = TextRange(savedKorTyping.length))
+            TextFieldValue(initialTyping, selection = TextRange(initialTyping.length))
         )
     }
 
@@ -190,12 +197,31 @@ fun TypingQuoteView(
         Column(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
-                .padding(top = 20.dp)
+                .padding(top = 6.dp)
                 .noEffectClickable {
                     typingSectionFocusRequester.requestFocus()
                     keyboardController?.show()
                 }
         ) {
+            AsyncImage(
+                model = remember(context) {
+                    ImageRequest.Builder(context)
+                        .data("file:///android_asset/figma/typing/typing_handwriting_dark.svg")
+                        .decoderFactory(SvgDecoder.Factory())
+                        .build()
+                },
+                contentDescription = null,
+                modifier = Modifier
+                    .size(60.dp)
+                    .align(Alignment.CenterHorizontally),
+            )
+            Text(
+                text = "오늘의 문장을 따라 써주세요.",
+                style = FillsaTheme.typography.subtitle1,
+                color = colorResource(R.color.purple01),
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+            )
+            Spacer(Modifier.padding(top = 20.dp))
             TypingQuoteBodySection(
                 modifier = Modifier.focusRequester(focusRequester = typingSectionFocusRequester),
                 quote = if (localeType == LocaleType.KOR) {

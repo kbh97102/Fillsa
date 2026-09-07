@@ -23,10 +23,10 @@ fun PositiveButton(
         modifier = modifier,
         onClick = onClick,
         colors = MaterialTheme.colorScheme.positiveButtonColors,
-        contentPadding = PaddingValues(horizontal = 34.5.dp, vertical = 15.dp),
+        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 15.dp),
         shape = MaterialTheme.shapes.small
     ) {
-        Text(text, style = FillsaTheme.typography.buttonMediumBold, color = Color.White)
+        Text(text, style = FillsaTheme.typography.buttonMediumBold, color = Color.White, maxLines = 1)
     }
 
 }
