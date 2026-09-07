@@ -11,7 +11,7 @@
 - Figma URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-13556
 - 대상 프레임/노드: light `2929:13556` (`2.home`), dark `3039:26518` (`2.home`). Parent section `2929:9603` is not a render target.
 - 대상 기기/프레임 크기: Figma export 360 × 821 px; light root `#FFEFCC`, dark root `#212121`. (The supplied 360 × 720 description conflicts with the authoritative node export; QA uses the export.)
-- 검증 상태: Partial / evidence-backed — `wm size 945x2155` (420 dpi)로 logical 360 × 821dp exact-size runtime capture를 확보했다. clean light/dark positive default, genuine-zero warning/tooltip, inline calendar open/select-close, question done/edit와 completion snackbar를 확인했다. focus는 emulator가 full soft keyboard 대신 IME side toolbar만 보여 exact visual pass가 아니며, authenticated image flow와 app-wide 4-tab/live-ad 차이는 남아 있다.
+- 검증 상태: **Blocked** — `wm size 945x2155` (420 dpi)로 logical 360 × 821dp exact-size component capture를 확보했다. clean light/dark positive default, genuine-zero warning/tooltip, inline calendar open/select-close, question done/edit와 completion snackbar는 확인했지만, full soft keyboard, authenticated image, 실제 completed-writing marker, 그리고 app-wide 4-tab/live-ad와 Figma 3-tab/static-ad의 차이 때문에 assembled-screen acceptance는 Blocked다. 컴포넌트별 검증은 부분 통과일 수 있으나 화면 최종 결과는 Partial/Pass가 아니다.
 - 기준 이미지: `docs/design-qa/assets/home-figma-2929-13556/reference-full.png`
 - QA 기록: `docs/design-qa/2026-09-07-android-home-interactions-qa.md`
 
