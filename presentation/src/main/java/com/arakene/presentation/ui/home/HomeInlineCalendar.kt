@@ -19,7 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.noEffectClickable
@@ -65,6 +67,7 @@ internal fun HomeInlineCalendar(
     selectedDate: LocalDate,
     onMonthChanged: (YearMonth) -> Unit,
     onDateSelected: (LocalDate) -> Unit,
+    darkMode: Boolean = IsDarkMode.current,
     modifier: Modifier = Modifier,
 ) {
     val today = DateCondition.currentDay()
@@ -87,18 +90,22 @@ internal fun HomeInlineCalendar(
                 onMonthChanged(displayedMonth.minusMonths(1))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                HomeCalendarSelector(displayedMonth.year.toString(), width = 65.dp)
-                HomeCalendarSelector(displayedMonth.monthValue.toString().padStart(2, '0'), width = 61.dp)
+                HomeCalendarSelector(displayedMonth.year.toString(), width = 65.dp.takeIf { darkMode }, darkMode = darkMode)
+                HomeCalendarSelector(
+                    displayedMonth.monthValue.toString().padStart(2, '0'),
+                    width = 61.dp.takeIf { darkMode },
+                    darkMode = darkMode,
+                )
             }
             HomeCalendarArrow("›", enabled = displayedMonth < YearMonth.from(today)) {
                 onMonthChanged(displayedMonth.plusMonths(1))
             }
         }
-        Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp)) {
+        Row(modifier = Modifier.fillMaxWidth().padding(top = if (darkMode) 16.dp else 8.dp)) {
             listOf("일", "월", "화", "수", "목", "금", "토").forEach { day ->
                 Text(
                     text = day,
-                    style = FillsaTheme.typography.body3,
+                    style = if (darkMode) FillsaTheme.typography.body3 else FillsaTheme.typography.body4,
                     color = Color(0xFF77736D),
                     textAlign = TextAlign.Center,
                     modifier = Modifier.weight(1f),
@@ -130,7 +137,7 @@ internal fun HomeInlineCalendar(
                         ) {
                             Text(
                                 text = day.date.dayOfMonth.toString(),
-                                style = FillsaTheme.typography.body3,
+                                style = if (darkMode) FillsaTheme.typography.body3 else FillsaTheme.typography.body4,
                                 color = when {
                                     day.isSelected || day.isToday -> Color.White
                                     day.isInDisplayedMonth -> Color(0xFF212121)
@@ -157,10 +164,10 @@ private fun HomeCalendarArrow(label: String, enabled: Boolean, onClick: () -> Un
 }
 
 @Composable
-private fun HomeCalendarSelector(value: String, width: androidx.compose.ui.unit.Dp) {
+private fun HomeCalendarSelector(value: String, width: Dp?, darkMode: Boolean) {
     Row(
         modifier = Modifier
-            .width(width)
+            .then(width?.let { Modifier.width(it) } ?: Modifier)
             .height(31.dp)
             .clip(RoundedCornerShape(7.dp))
             .background(Color.White)
@@ -168,7 +175,8 @@ private fun HomeCalendarSelector(value: String, width: androidx.compose.ui.unit.
             .padding(horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(value, style = FillsaTheme.typography.body3, color = Color(0xFF212121))
-        Text("⌄", style = FillsaTheme.typography.body3, color = Color(0xFF77736D), modifier = Modifier.padding(start = 4.dp))
+        val style = if (darkMode) FillsaTheme.typography.body3 else FillsaTheme.typography.body4
+        Text(value, style = style, color = Color(0xFF212121))
+        Text("⌄", style = style, color = Color(0xFF77736D), modifier = Modifier.padding(start = 4.dp))
     }
 }

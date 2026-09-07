@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
@@ -19,14 +20,15 @@ import com.arakene.presentation.ui.theme.defaultButtonColors
 fun NegativeButton(
     text: String,
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    horizontalContentPadding: Dp = 34.5.dp,
 ) {
 
     Button(
         modifier = modifier,
         onClick = onClick,
         colors = MaterialTheme.colorScheme.defaultButtonColors,
-        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 15.dp),
+        contentPadding = PaddingValues(horizontal = horizontalContentPadding, vertical = 15.dp),
         shape = MaterialTheme.shapes.small,
         border = BorderStroke(1.dp, color = colorResource(R.color.purple01))
     ) {
@@ -34,7 +36,6 @@ fun NegativeButton(
             text,
             style = FillsaTheme.typography.buttonMediumBold,
             color = colorResource(R.color.purple01),
-            maxLines = 1,
         )
     }
 

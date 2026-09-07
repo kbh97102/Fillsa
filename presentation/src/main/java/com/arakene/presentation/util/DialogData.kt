@@ -7,6 +7,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import com.arakene.presentation.R
 
+enum class DialogLayoutMode {
+    Content,
+    HomeDarkMeasured,
+}
+
 @Stable
 class DialogData private constructor() {
 
@@ -21,6 +26,7 @@ class DialogData private constructor() {
     var reversed = false
     var drawableId = -1
     var singleButton = false
+    var layoutMode = DialogLayoutMode.Content
 
 
 
@@ -40,6 +46,7 @@ class DialogData private constructor() {
         fun reversed(reversed: Boolean) = apply { data.reversed = reversed }
         fun drawableId(drawableId: Int) = apply { data.drawableId = drawableId }
         fun singleButton(isSingleButton: Boolean) = apply { data.singleButton = isSingleButton }
+        fun layoutMode(mode: DialogLayoutMode) = apply { data.layoutMode = mode }
 
         fun build(): DialogData = data
 

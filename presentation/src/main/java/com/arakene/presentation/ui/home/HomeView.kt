@@ -33,6 +33,7 @@ import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.DialogLayoutMode
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
@@ -143,9 +144,20 @@ fun HomeView(
         if (homeQaFixture?.showLoginDialog == true) {
             dialogDataHolder.data = DialogData.Builder()
                 .title("로그인 후 사용하실 수 있습니다.")
-                .titleTextStyle(com.arakene.presentation.util.TypographyEnum.Subtitle1)
+                .layoutMode(DialogLayoutMode.HomeDarkMeasured)
                 .okText("로그인 하기")
                 .onClick { navigate(Screens.Login(isOnBoarding = true)) }
+                .build()
+            dialogDataHolder.show = true
+        }
+    }
+
+    LaunchedEffect(homeQaFixture?.showMultilineDialog) {
+        if (homeQaFixture?.showMultilineDialog == true) {
+            dialogDataHolder.data = DialogData.Builder()
+                .title("요청을 처리하는 중 여러 문제가 발생했습니다.\n잠시 후 다시 시도해 주세요.")
+                .body("네트워크 상태를 확인한 뒤 다시 시도해 주세요. 문제가 계속되면 고객센터에 문의해 주세요.")
+                .singleButton(true)
                 .build()
             dialogDataHolder.show = true
         }
@@ -199,6 +211,7 @@ fun HomeView(
             }
 
             is HomeEffect.ProcessImage -> {
+                if (homeQaFixture != null) return@HandleViewEffect
                 val file = withContext(Dispatchers.IO) {
                     uriToCacheFile(context = context, uri = it.uri.toUri())?.let { file ->
                         resizeImageToMaxSize(
@@ -237,12 +250,28 @@ fun HomeView(
             quote = imageDialogDataHolder.quote,
             onDismiss = { imageDialogDataHolder.show = false },
             uploadImage = {
-                viewModel.handleContract(HomeAction.ClickChangeImage(uri = it.toString()))
+                if (homeQaFixture == null) {
+                    viewModel.handleContract(HomeAction.ClickChangeImage(uri = it.toString()))
+                }
             },
             backgroundImageUrl = displayedBackgroundImageUrl,
+            showDeleteAction = displayedBackgroundImageUrl.isNotEmpty() || homeQaFixture?.showTemplateDialog == true,
             deleteOnClick = {
                 imageDialogDataHolder.show = false
-                viewModel.handleContract(HomeAction.ClickDeleteImage)
+                if (homeQaFixture == null) {
+                    viewModel.handleContract(HomeAction.ClickDeleteImage)
+                } else {
+                    dialogDataHolder.data = DialogData.Builder()
+                        .title("이미지를 삭제하시겠습니까?")
+                        .body("삭제 후 이미지를 되돌릴 수 없습니다. 😢")
+                        .layoutMode(DialogLayoutMode.HomeDarkMeasured)
+                        .reversed(true)
+                        .cancelText("삭제하기")
+                        .okText("취소")
+                        .cancelOnClick { }
+                        .build()
+                    dialogDataHolder.show = true
+                }
             }
         )
     }
@@ -294,7 +323,9 @@ fun HomeView(
         onShare = {
             viewModel.handleContract(HomeAction.ClickShare(author = author, quote = quote))
         },
-        onLike = { viewModel.handleContract(HomeAction.ClickLike) },
+        onLike = {
+            if (homeQaFixture == null) viewModel.handleContract(HomeAction.ClickLike)
+        },
         onImage = {
             viewModel.handleContract(
                 HomeAction.ClickImage(isLogged = isLogged, author = author, quote = quote)

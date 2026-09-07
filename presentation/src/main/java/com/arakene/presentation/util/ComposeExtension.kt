@@ -195,6 +195,7 @@ internal data class HomeRuntimeQaFixture(
     val showImageDialog: Boolean = false,
     val showTemplateDialog: Boolean = false,
     val showLoginDialog: Boolean = false,
+    val showMultilineDialog: Boolean = false,
 )
 
 internal val LocalHomeRuntimeQaFixture = staticCompositionLocalOf<HomeRuntimeQaFixture?> { null }

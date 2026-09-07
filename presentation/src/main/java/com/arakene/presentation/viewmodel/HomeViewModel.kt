@@ -29,6 +29,7 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.DialogLayoutMode
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.HomeAnswerUiState
@@ -277,6 +278,7 @@ class HomeViewModel @Inject constructor(
                     .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
                     .titleTextStyle(TypographyEnum.Heading4)
                     .bodyTextStyle(TypographyEnum.Body2)
+                    .layoutMode(DialogLayoutMode.HomeDarkMeasured)
                     .reversed(true)
                     .cancelText("삭제하기")
                     .okText("취소")
@@ -304,7 +306,7 @@ class HomeViewModel @Inject constructor(
                     // TODO: 이 구조가 과연 좋은거일까? , onClick의 시점, textStyle도 지정하고싶긴한데 viewModel에서 composable함수 참조 해야함
                     DialogData.Builder()
                         .title("로그인 후 사용하실 수 있습니다.")
-                        .titleTextStyle(TypographyEnum.Subtitle1)
+                        .layoutMode(DialogLayoutMode.HomeDarkMeasured)
                         .okText("로그인 하기")
                         .onClick {
                             emitEffect(CommonEffect.Move(Screens.Login(isOnBoarding = true)))

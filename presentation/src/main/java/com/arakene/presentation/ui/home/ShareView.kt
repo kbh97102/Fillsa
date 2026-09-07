@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -53,6 +54,12 @@ import com.arakene.presentation.util.saveBitmapToCache
 import com.arakene.presentation.util.saveBitmapToGallery
 import com.arakene.presentation.viewmodel.ShareViewModel
 import kotlinx.coroutines.launch
+
+internal fun sharePagerHeight(
+    availableHeight: androidx.compose.ui.unit.Dp,
+    bottomGap: androidx.compose.ui.unit.Dp,
+): androidx.compose.ui.unit.Dp =
+    (availableHeight - 51.dp - 77.dp - bottomGap).coerceIn(320.dp, 481.dp)
 
 @Composable
 fun ShareView(
@@ -110,33 +117,43 @@ fun ShareView(
 
             }
 
-            Column(
+            BoxWithConstraints(
                 Modifier
                     .weight(1f)
+                    .fillMaxWidth()
                     .background(getBackgroundColor()),
-                horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                val bottomGap = if (darkMode) 24.dp else 50.dp
+                val pagerHeight = sharePagerHeight(maxHeight, bottomGap)
 
-                Text(
-                    stringResource(R.string.share_title),
-                    style = FillsaTheme.typography.heading4,
-                    color = FillsaTheme.colorScheme.onBackground1
-                )
-                Text(
-                    stringResource(R.string.share_subtitle),
-                    style = FillsaTheme.typography.body2,
-                    color = FillsaTheme.colorScheme.onBackground1
-                )
+                Column(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
 
-                HorizontalPager(
-                    state = state,
-                    modifier = Modifier
-                        .height(481.dp)
-                        .padding(top = 51.dp, bottom = 30.dp),
-                    beyondViewportPageCount = 1,
-                    pageSpacing = 20.dp,
-                    contentPadding = PaddingValues(horizontal = 45.dp)
-                ) { page ->
+                    Text(
+                        stringResource(R.string.share_title),
+                        style = FillsaTheme.typography.heading4,
+                        color = FillsaTheme.colorScheme.onBackground1
+                    )
+                    Text(
+                        stringResource(R.string.share_subtitle),
+                        style = FillsaTheme.typography.body2,
+                        color = FillsaTheme.colorScheme.onBackground1
+                    )
+
+                    HorizontalPager(
+                        state = state,
+                        modifier = Modifier
+                            .height(pagerHeight)
+                            .padding(
+                                top = if (darkMode) 51.dp else 30.dp,
+                                bottom = 30.dp,
+                            ),
+                        beyondViewportPageCount = 1,
+                        pageSpacing = 20.dp,
+                        contentPadding = PaddingValues(horizontal = if (darkMode) 45.dp else 60.dp)
+                    ) { page ->
 
                     val color by remember(page) {
                         mutableIntStateOf(
@@ -147,21 +164,21 @@ fun ShareView(
                         )
                     }
 
-                    ShareItem(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(
-                                RoundedCornerShape(30.dp)
-                            ),
-                        graphicLayer = graphicLayer.takeIf { page == state.currentPage },
-                        author = author,
-                        quote = quote,
-                        backgroundUri = imageList[page],
-                        textColor = colorResource(color)
-                    )
-                }
+                        ShareItem(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(
+                                    RoundedCornerShape(30.dp)
+                                ),
+                            graphicLayer = graphicLayer.takeIf { page == state.currentPage },
+                            author = author,
+                            quote = quote,
+                            backgroundUri = imageList[page],
+                            textColor = colorResource(color)
+                        )
+                    }
 
-                ShareBottomSection(
+                    ShareBottomSection(
                     shareOnClick = {
                         // TODO: 카톡 공유
                         scope.launch {
@@ -205,9 +222,9 @@ fun ShareView(
                         }
 
                     },
-                    modifier = Modifier
-                        .padding(bottom = 50.dp)
-                )
+                        modifier = Modifier.padding(bottom = bottomGap)
+                    )
+                }
             }
         }
         if (uiState.descriptionShouldVisible) {

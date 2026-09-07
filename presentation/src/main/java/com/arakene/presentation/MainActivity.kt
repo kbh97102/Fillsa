@@ -90,6 +90,10 @@ class MainActivity : ComponentActivity() {
             EXTRA_HOME_QA_IMAGE_DIALOG,
             false
         )
+        val homeQaUseLongImageText = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_LONG_IMAGE_TEXT,
+            false
+        )
         val homeQaShowTemplateDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
             EXTRA_HOME_QA_TEMPLATE_DIALOG,
             false
@@ -98,15 +102,28 @@ class MainActivity : ComponentActivity() {
             EXTRA_HOME_QA_LOGIN_DIALOG,
             false
         )
+        val homeQaShowMultilineDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_MULTILINE_DIALOG,
+            false
+        )
         val homeQaFixture = if (BuildConfig.DEBUG && intent.getBooleanExtra(EXTRA_HOME_QA_FIXTURE, false)) {
             HomeRuntimeQaFixture(
-                quote = "사랑이라는 선물은 억지로 줄 수 없고 받아들여지기를 기다릴 뿐이다.",
-                author = "존우든",
+                quote = if (homeQaUseLongImageText) {
+                    "사랑이라는 선물은 억지로 줄 수 없고 받아들여지기를 기다릴 뿐이며, 오래 마음에 담아 둔 문장은 여러 줄로 이어져도 온전히 읽을 수 있어야 합니다. 화면의 글자 크기가 커지거나 문장이 훨씬 길어져도 저자와 이미지 변경, 확인 버튼은 가려지지 않아야 합니다."
+                } else {
+                    "사랑이라는 선물은 억지로 줄 수 없고 받아들여지기를 기다릴 뿐이다."
+                },
+                author = if (homeQaUseLongImageText) {
+                    "아주 긴 이름을 가진 글쓴이 존 우든과 함께 기록한 또 다른 공동 저자"
+                } else {
+                    "존우든"
+                },
                 showRecordedAnswer = homeQaShowRecordedAnswer,
                 showSelectedImageState = homeQaShowSelectedImageState,
                 showImageDialog = homeQaShowImageDialog,
                 showTemplateDialog = homeQaShowTemplateDialog,
                 showLoginDialog = homeQaShowLoginDialog,
+                showMultilineDialog = homeQaShowMultilineDialog,
             )
         } else {
             null
@@ -286,7 +303,9 @@ class MainActivity : ComponentActivity() {
         const val EXTRA_HOME_QA_RECORDED_ANSWER = "com.arakene.fillsa.extra.HOME_QA_RECORDED_ANSWER"
         const val EXTRA_HOME_QA_SELECTED_IMAGE = "com.arakene.fillsa.extra.HOME_QA_SELECTED_IMAGE"
         const val EXTRA_HOME_QA_IMAGE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_IMAGE_DIALOG"
+        const val EXTRA_HOME_QA_LONG_IMAGE_TEXT = "com.arakene.fillsa.extra.HOME_QA_LONG_IMAGE_TEXT"
         const val EXTRA_HOME_QA_TEMPLATE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_TEMPLATE_DIALOG"
         const val EXTRA_HOME_QA_LOGIN_DIALOG = "com.arakene.fillsa.extra.HOME_QA_LOGIN_DIALOG"
+        const val EXTRA_HOME_QA_MULTILINE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_MULTILINE_DIALOG"
     }
 }

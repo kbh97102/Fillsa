@@ -21,10 +21,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.util.DialogLayoutMode
+import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.TypographyEnum
 import com.arakene.presentation.util.getStyle
+
+internal fun shouldUseMeasuredHomeDialog(
+    layoutMode: DialogLayoutMode,
+    darkMode: Boolean,
+    fontScale: Float,
+): Boolean = layoutMode == DialogLayoutMode.HomeDarkMeasured && darkMode && fontScale <= 1f
 
 @Composable
 fun CommonDialog(
@@ -38,7 +45,9 @@ fun CommonDialog(
     body: String = "",
     titleTextStyle: TypographyEnum = TypographyEnum.Heading4,
     bodyTextStyle: TypographyEnum = TypographyEnum.Body2,
-    singleButton: Boolean = false
+    singleButton: Boolean = false,
+    layoutMode: DialogLayoutMode = DialogLayoutMode.Content,
+    darkMode: Boolean = IsDarkMode.current,
 ) {
 
     Dialog(
@@ -52,24 +61,49 @@ fun CommonDialog(
     ) {
 
         val hasBody = body.isNotEmpty()
+        val measuredHomeDialog = shouldUseMeasuredHomeDialog(
+            layoutMode = layoutMode,
+            darkMode = darkMode,
+            fontScale = androidx.compose.ui.platform.LocalDensity.current.fontScale,
+        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(if (hasBody) 165.dp else 181.dp)
                 .padding(horizontal = 20.dp)
+                .then(
+                    if (measuredHomeDialog) {
+                        Modifier.height(if (hasBody) 165.dp else 181.dp)
+                    } else {
+                        Modifier
+                    }
+                )
                 .clip(RoundedCornerShape(8.dp))
                 .background(FillsaTheme.colorScheme.backgroundContainer)
-                .border(1.dp, FillsaTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+                .then(
+                    if (measuredHomeDialog) {
+                        Modifier.border(1.dp, FillsaTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+                    } else {
+                        Modifier
+                    }
+                )
                 .padding(12.dp)
         ) {
 
             Text(
                 title,
-                style = FillsaTheme.typography.getStyle(titleTextStyle),
+                style = FillsaTheme.typography.getStyle(
+                    if (measuredHomeDialog && !hasBody) TypographyEnum.Subtitle1 else titleTextStyle
+                ),
                 color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = if (hasBody) 11.dp else 39.dp),
+                    .padding(
+                        top = when {
+                            !measuredHomeDialog -> 52.dp
+                            hasBody -> 11.dp
+                            else -> 39.dp
+                        }
+                    ),
                 textAlign = TextAlign.Center,
             )
 
@@ -100,7 +134,13 @@ fun CommonDialog(
                     dismiss = dismiss,
                     negativeText = negativeText,
                     positiveText = positiveText,
-                    modifier = Modifier.padding(top = if (hasBody) 25.dp else 44.dp)
+                    modifier = Modifier.padding(
+                        top = when {
+                            !measuredHomeDialog -> 44.dp
+                            hasBody -> 25.dp
+                            else -> 44.dp
+                        }
+                    )
                 )
             }
         }
@@ -120,7 +160,8 @@ fun DialogSingleButton(
             onClick()
             dismiss()
         },
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
+        horizontalContentPadding = 16.dp,
     )
 }
 
@@ -144,6 +185,7 @@ fun DialogTwoButton(
             NegativeButton(
                 modifier = Modifier.weight(1f),
                 text = negativeText,
+                horizontalContentPadding = 16.dp,
                 onClick = {
                     negativeOnClick()
                     dismiss()
@@ -153,6 +195,7 @@ fun DialogTwoButton(
             PositiveButton(
                 modifier = Modifier.weight(1f),
                 text = positiveText,
+                horizontalContentPadding = 16.dp,
                 onClick = {
                     positiveOnClick()
                     dismiss()
@@ -162,6 +205,7 @@ fun DialogTwoButton(
             PositiveButton(
                 modifier = Modifier.weight(1f),
                 text = negativeText,
+                horizontalContentPadding = 16.dp,
                 onClick = {
                     negativeOnClick()
                     dismiss()
@@ -171,6 +215,7 @@ fun DialogTwoButton(
             NegativeButton(
                 modifier = Modifier.weight(1f),
                 text = positiveText,
+                horizontalContentPadding = 16.dp,
                 onClick = {
                     positiveOnClick()
                     dismiss()

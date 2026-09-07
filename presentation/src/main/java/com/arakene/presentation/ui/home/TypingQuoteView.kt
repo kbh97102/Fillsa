@@ -66,6 +66,8 @@ import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
 
+internal fun typingDecorationVisible(darkMode: Boolean): Boolean = darkMode
+
 @Composable
 fun TypingQuoteView(
     data: DailyQuoteDto,
@@ -127,15 +129,17 @@ fun TypingQuoteView(
     val keyboardController = LocalSoftwareKeyboardController.current
 
     val updateBackEvent by rememberUpdatedState({
-        viewModel.handleContract(
-            TypingAction.Back(
-                korTyping = korTyping.text,
-                engTyping = engTyping.text,
-                data,
-                localeType,
-                isLike
+        if (homeQaFixture == null) {
+            viewModel.handleContract(
+                TypingAction.Back(
+                    korTyping = korTyping.text,
+                    engTyping = engTyping.text,
+                    data,
+                    localeType,
+                    isLike
+                )
             )
-        )
+        }
 
         backOnClick()
     })
@@ -197,31 +201,33 @@ fun TypingQuoteView(
         Column(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
-                .padding(top = 6.dp)
+                .padding(top = if (darkMode) 6.dp else 20.dp)
                 .noEffectClickable {
                     typingSectionFocusRequester.requestFocus()
                     keyboardController?.show()
                 }
         ) {
-            AsyncImage(
-                model = remember(context) {
-                    ImageRequest.Builder(context)
-                        .data("file:///android_asset/figma/typing/typing_handwriting_dark.svg")
-                        .decoderFactory(SvgDecoder.Factory())
-                        .build()
-                },
-                contentDescription = null,
-                modifier = Modifier
-                    .size(60.dp)
-                    .align(Alignment.CenterHorizontally),
-            )
-            Text(
-                text = "오늘의 문장을 따라 써주세요.",
-                style = FillsaTheme.typography.subtitle1,
-                color = colorResource(R.color.purple01),
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
-            Spacer(Modifier.padding(top = 20.dp))
+            if (typingDecorationVisible(darkMode)) {
+                AsyncImage(
+                    model = remember(context) {
+                        ImageRequest.Builder(context)
+                            .data("file:///android_asset/figma/typing/typing_handwriting_dark.svg")
+                            .decoderFactory(SvgDecoder.Factory())
+                            .build()
+                    },
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(60.dp)
+                        .align(Alignment.CenterHorizontally),
+                )
+                Text(
+                    text = "오늘의 문장을 따라 써주세요.",
+                    style = FillsaTheme.typography.subtitle1,
+                    color = colorResource(R.color.purple01),
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                )
+                Spacer(Modifier.padding(top = 20.dp))
+            }
             TypingQuoteBodySection(
                 modifier = Modifier.focusRequester(focusRequester = typingSectionFocusRequester),
                 quote = if (localeType == LocaleType.KOR) {
@@ -248,15 +254,17 @@ fun TypingQuoteView(
 
             TypingQuoteBottomSection(
                 saveOnClick = {
-                    viewModel.handleContract(
-                        TypingAction.Save(
-                            korTyping = korTyping.text,
-                            engTyping = engTyping.text,
-                            data,
-                            localeType,
-                            isLike
+                    if (homeQaFixture == null) {
+                        viewModel.handleContract(
+                            TypingAction.Save(
+                                korTyping = korTyping.text,
+                                engTyping = engTyping.text,
+                                data,
+                                localeType,
+                                isLike
+                            )
                         )
-                    )
+                    }
                 },
                 shareOnClick = {
                     viewModel.handleContract(
@@ -298,12 +306,14 @@ fun TypingQuoteView(
                 setLike = {
                     // TODO: 어떻게 관리하는게 mvi 패턴을 더 잘 사용하는 걸까 너무 갇히는건가
                     isLike = !isLike
-                    viewModel.handleContract(
-                        TypingAction.ClickLike(
-                            like = isLike,
-                            dailyQuoteSeq = data.dailyQuoteSeq
+                    if (homeQaFixture == null) {
+                        viewModel.handleContract(
+                            TypingAction.ClickLike(
+                                like = isLike,
+                                dailyQuoteSeq = data.dailyQuoteSeq
+                            )
                         )
-                    )
+                    }
                 },
             )
 

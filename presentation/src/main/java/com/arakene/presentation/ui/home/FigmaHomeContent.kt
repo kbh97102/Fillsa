@@ -6,6 +6,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,15 +19,16 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.ime
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -232,13 +234,23 @@ internal fun FigmaHomeContent(
     val streak = StreakProvider.current?.currentStreak
     val density = LocalDensity.current
     val isImeVisible = WindowInsets.ime.getBottom(density) > 0
+    val bodyScrollState = rememberScrollState()
+
+    LaunchedEffect(isImeVisible, bodyScrollState.maxValue) {
+        bodyScrollState.scrollTo(if (isImeVisible) bodyScrollState.maxValue else 0)
+    }
     Box(
         modifier = modifier
             .fillMaxSize()
             .background(palette.background)
     ) {
-        Column {
-            Box(Modifier.zIndex(1f)) {
+        Column(Modifier.fillMaxSize()) {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .background(palette.background)
+                    .zIndex(1f),
+            ) {
                 HomeHeaderSection(
                     streak = streak,
                     onHome = onHome,
@@ -250,15 +262,9 @@ internal fun FigmaHomeContent(
             }
 
             Column(
-                modifier = if (isImeVisible) {
-                    Modifier
-                        // Android pans another 131dp to keep the focused field above the IME.
-                        // Combined with this authored shift, the body matches the Figma -209dp focus state.
-                        .offset(y = (-78).dp)
-                        .requiredHeight(638.dp)
-                } else {
-                    Modifier
-                },
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(bodyScrollState),
             ) {
                 HomeDateWeekSection(
                     date = date,
@@ -271,7 +277,7 @@ internal fun FigmaHomeContent(
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 20.dp, end = 20.dp, top = 12.dp),
+                        .padding(start = 20.dp, end = 20.dp, top = if (darkMode) 12.dp else 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
@@ -289,7 +295,12 @@ internal fun FigmaHomeContent(
                     onNextQuote = onNextQuote,
                     palette = palette,
                     darkMode = darkMode,
-                    modifier = Modifier.padding(start = 20.dp, top = 4.dp, end = 20.dp, bottom = 10.dp),
+                    modifier = Modifier.padding(
+                        start = 20.dp,
+                        top = if (darkMode) 4.dp else 10.dp,
+                        end = 20.dp,
+                        bottom = 10.dp,
+                    ),
                 )
 
                 HomeQuoteActionRow(
@@ -309,6 +320,7 @@ internal fun FigmaHomeContent(
                     onRecordAnswer = onRecordAnswer,
                     onEditAnswer = onEditAnswer,
                     palette = palette,
+                    darkMode = darkMode,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(start = 20.dp, top = 15.dp, end = 20.dp),
@@ -335,14 +347,16 @@ internal fun FigmaHomeContent(
                 selectedDate = date,
                 onMonthChanged = onMonthChanged,
                 onDateSelected = onDateSelected,
-                modifier = Modifier.padding(start = 20.dp, top = 102.dp),
+                darkMode = darkMode,
+                modifier = Modifier.padding(start = 20.dp, top = if (darkMode) 102.dp else 96.dp),
             )
         }
 
         if (isStreakTooltipOpen && isKnownZeroStreak(streak)) {
             HomeStreakTooltip(
                 onCalendar = onStreakCalendar,
-                modifier = Modifier.padding(start = 92.dp, top = 61.dp),
+                darkMode = darkMode,
+                modifier = Modifier.padding(start = 92.dp, top = if (darkMode) 61.dp else 44.dp),
             )
         }
     }
@@ -711,7 +725,7 @@ private fun HomeQuoteLikeAction(
                 painter = painterResource(R.drawable.icn_fill_heart),
                 contentDescription = null,
                 modifier = Modifier.size(16.dp),
-                colorFilter = ColorFilter.tint(Color(0xFFFFCB5C)),
+                colorFilter = if (darkMode) ColorFilter.tint(Color(0xFFFFCB5C)) else null,
             )
 
             HomeLikeIcon.Unselected -> FigmaAsset("home_like.svg", Modifier.size(16.dp), darkMode = darkMode)
@@ -719,7 +733,7 @@ private fun HomeQuoteLikeAction(
         Text(
             "좋아요",
             style = FillsaTheme.typography.body4,
-            color = if (isLiked) Color(0xFFFFCB5C) else palette.actionLabel,
+            color = if (darkMode && isLiked) Color(0xFFFFCB5C) else palette.actionLabel,
             modifier = Modifier.padding(start = 4.dp),
         )
     }
@@ -752,8 +766,8 @@ private fun HomeImageAction(
         }
         Text(
             if (registered) "이미지 보기" else "이미지 등록",
-            style = if (registered) FillsaTheme.typography.buttonXSmallBold else FillsaTheme.typography.body4,
-            color = if (registered) Color(0xFFFFCB5C) else palette.actionLabel,
+            style = if (darkMode && registered) FillsaTheme.typography.buttonXSmallBold else FillsaTheme.typography.body4,
+            color = if (darkMode && registered) Color(0xFFFFCB5C) else palette.actionLabel,
             modifier = Modifier.padding(start = 4.dp),
         )
     }
@@ -766,6 +780,7 @@ private fun HomePromptAnswerSection(
     onRecordAnswer: () -> Unit,
     onEditAnswer: () -> Unit,
     palette: HomeColorPalette,
+    darkMode: Boolean,
     modifier: Modifier = Modifier,
 ) {
     val answerState = answerUiState.input
@@ -784,13 +799,13 @@ private fun HomePromptAnswerSection(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 16.dp)
+                .padding(top = if (darkMode) 16.dp else 4.dp)
                 .height(174.dp)
                 .clip(RoundedCornerShape(17.dp))
                 .background(palette.answerField)
                 .border(
                     1.dp,
-                    if (isFocused && answerUiState.isEditing) HomePrimary else palette.answerBorder,
+                    if (darkMode && isFocused && answerUiState.isEditing) HomePrimary else palette.answerBorder,
                     RoundedCornerShape(17.dp),
                 ),
         ) {
@@ -826,18 +841,19 @@ private fun HomePromptAnswerSection(
         HomeAnswerRecordButton(
             isRecorded = answerUiState.isRecorded,
             onClick = if (answerUiState.isRecorded) onEditAnswer else onRecordAnswer,
+            darkMode = darkMode,
         )
     }
 }
 
 @Composable
-private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit) {
+private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit, darkMode: Boolean) {
     val background = if (isRecorded) Color(0xFFD3D5FF) else HomePrimary
     val contentColor = if (isRecorded) HomePrimary else Color.White
     val label = if (isRecorded) "내 답변 수정하기" else "내 답변 기록하기"
     Row(
         modifier = Modifier
-            .padding(top = 8.dp)
+            .padding(top = if (darkMode) 8.dp else 10.dp)
             .fillMaxWidth()
             .height(50.dp)
             .clip(RoundedCornerShape(8.dp))
@@ -858,7 +874,27 @@ private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit) {
 }
 
 @Composable
-private fun HomeStreakTooltip(onCalendar: () -> Unit, modifier: Modifier = Modifier) {
+private fun HomeStreakTooltip(onCalendar: () -> Unit, darkMode: Boolean, modifier: Modifier = Modifier) {
+    if (!darkMode) {
+        Column(
+            modifier = modifier
+                .width(188.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(Color(0xFF212121))
+                .padding(horizontal = 12.dp, vertical = 10.dp),
+        ) {
+            Text("연속 필사를 완료해 주세요!", style = FillsaTheme.typography.body4, color = Color.White)
+            Text(
+                "나의 필사현황 보기",
+                style = FillsaTheme.typography.body4,
+                color = Color(0xFFFFCB5C),
+                textDecoration = TextDecoration.Underline,
+                modifier = Modifier.padding(top = 4.dp).noEffectClickable(click = onCalendar),
+            )
+        }
+        return
+    }
+
     Box(modifier = modifier.width(231.dp).height(76.dp)) {
         Column(
             modifier = Modifier
