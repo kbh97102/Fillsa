@@ -21,7 +21,10 @@ All primary captures are 360×821. The 360×720 suffixed captures are supplement
 - Supplemental linked-route crops: `runtime-android-dark-typing-ime-360x720.png`, `runtime-android-dark-login-full-360x720.png`, `runtime-android-dark-share-first-360x720.png`, `runtime-android-dark-share-carousel-360x720.png`
 - Independent-review before/after: `runtime-review-question-focus-after.png`, `runtime-review-question-cta-clicked-after.png`, `runtime-review-common-dialog-font130-before.png`, `runtime-review-common-dialog-font130-after.png`, `runtime-review-image-dialog-font130-before.png`, `runtime-review-image-dialog-short-after.png`, `runtime-review-image-dialog-long-font130-after.png`
 - Viewport/theme regressions: `runtime-review-share-controls-after-360x720.png`, `runtime-review-share-controls-after-360x821.png`, `runtime-review-light-home-after.png`, `runtime-review-light-calendar-after.png`, `runtime-review-light-login-dialog-after.png`, `runtime-review-light-typing-before.png`, `runtime-review-light-typing-after.png`, `runtime-review-dark-typing-after.png`
-- Template action: `runtime-review-image-template-delete-after.png`; `runtime-review-image-template-delete-dismissed-after.png` proves tapping its delete affordance closes the fixture preview without a production mutation.
+- Template action historical pair: `runtime-review-image-template-delete-after.png`, `runtime-review-image-template-delete-dismissed-after.png`. This pair brackets preview/dismissed states but does not by itself prove a single-tap transition.
+- Second-review ImageDialog: `runtime-review2-image-long-font150-before.png`, failed `runtime-review2-image-short-after.png`, and final `runtime-review3-image-short-font100-after.png`, `runtime-review3-image-short-confirmed.png`, `runtime-review3-image-extreme-font150-top.png`, `runtime-review3-image-extreme-font150-bottom.png`, `runtime-review3-image-extreme-confirmed.png`.
+- Second-review Share: `runtime-review2-share-font150-360x720-before.png`, `runtime-review2-share-font150-360x720-after.png`, `runtime-review2-share-dark-360x821-after.png`, `runtime-review2-share-light-360x821-after.png`.
+- Template confirmation sequence: `runtime-review2-template-delete-before.png`, `runtime-review2-template-confirmation-after-one-tap.png`, `runtime-review2-template-safe-dismissed-after-confirm.png`.
 
 ## Component inventory
 
@@ -33,10 +36,10 @@ All primary captures are 360×821. The 360×720 suffixed captures are supplement
 | Streak tooltip | `3039:26778` | Pass. 231×76 cream surface at x92/y85, 4dp radius, shadow, caret, title, and Calendar link match. |
 | Copy/liked/image actions | `3039:26996`, `3039:27295` | Pass for app-owned UI. Registered thumbnail is 28×28 with yellow label; selected heart and label use `#FFCB5C`; snackbar width/gap match. API 35 additionally shows the native clipboard preview. |
 | Question flow | `3139:1454`, `3139:1478`, `3139:1466`, `3139:910`, `3136:1198`, `3139:1061`, `3139:1238` | Pass after independent review. The fixed opaque header and available-space scroll body replace device constants. `mInputShown=true` and the full Gboard are recorded; the 174dp field and complete CTA remain above navigation/IME, and tapping the CTA reaches the recorded state. |
-| Image flow | `3223:5985`, `3223:6126`, `3223:6435`, `3223:6600`, `3223:6912` | Pass for short 320×373 geometry and long/font-1.3 growth with complete controls. The template fixture now exposes Figma's delete action; its QA callback is deterministic and does not invoke the production upload-delete API. Production picker/delete contracts are unchanged. |
+| Image flow | `3223:5985`, `3223:6126`, `3223:6435`, `3223:6600`, `3223:6912` | Pass in the captured short/font-1.0 and extreme/font-1.5 fixtures. The short surface is 320×373; in the extreme fixture the header/footer remain exposed while the bounded middle scroll reaches the wrapped author, and both states record successful confirm taps. The template delete sequence visibly opens confirmation after one tap, then uses an empty fixture callback. Production picker/delete contracts are unchanged. |
 | Typing | `3087:28815` | Pass for active typing geometry and exact handwriting asset. Android Gboard is retained rather than reproducing the Figma iOS keyboard bitmap. API-backed success/outcome dialogs were code-audited but not invoked against production services during QA. |
 | Login | `2929:9931`, `2929:10788` | Pass for modal and Android login route. Existing Kakao/Google providers are preserved; the Figma Apple row is intentionally not added to Android. |
-| Share | `2929:10884`, `2929:10850`, template nodes | Pass at both requested heights. At 360×821 the card remains 270×400; at 360×720 it shrinks after reserving the complete action row, so all `저장`/`복사`/`카카오톡` labels remain visible. Existing save/copy/Kakao behavior is preserved. |
+| Share | `2929:10884`, `2929:10850`, template nodes | Pass in the captured dark 360×821/font-1.0, dark 360×720/font-1.5, and light 360×821/font-1.0 states. Intrinsic title/control measurement leaves a 270×377 compact card with all `저장`/`복사`/`카카오톡` labels visible; dark 360×821 remains 270×400, and light uses its uncapped baseline weighted pager. Existing save/copy/Kakao behavior is preserved. |
 | Shared dialog | Home login/delete plus `WithBaseErrorHandling` callers | Pass for scoped Home geometry and content growth. Dark/font-1.0 Home uses explicit 181/165dp variants; light, font-1.3, and generic multiline callers remain content-driven. |
 | Light regression | baseline `77af9fe` | Pass for captured Home, inline calendar, login dialog, and Typing. The dark handwriting asset/heading, dark landmark deltas, dark calendar metrics, and Home measured dialog are gated by appearance. |
 
@@ -66,11 +69,18 @@ All primary captures are 360×821. The 360×720 suffixed captures are supplement
 - Captured CommonDialog and ImageDialog at font scale 1.3, Share at 360×720 and 360×821, and paired light/dark Typing. Before captures remain beside the after evidence rather than being re-labelled as Pass.
 - Added post-implementation unit coverage for dialog mode selection, adaptive Share height, and dark-only Typing decoration.
 
+### Round 5 — bounded text and intrinsic Share re-review
+
+- Reproduced ImageDialog with a substantially longer fixture at font scale 1.5. The second hypothesis reserved controls and enabled scrolling, but its default `weight(fill=true)` failed the short-state gate by expanding the dialog to almost the full available height; `runtime-review2-image-short-after.png` remains labeled as failure evidence.
+- The authorized third hypothesis changed only the middle viewport to `weight(fill=false)`. The final short capture is x20/y225/320×373 and clickable; the extreme capture scrolls to the wrapped author with the action footer fixed and clickable.
+- Removed Share's fixed 51dp/77dp title/control reservations and 320dp pager minimum. Title and controls now measure intrinsically, dark receives only a 481dp pager cap, and light retains baseline `weight(1f)` sizing. Runtime coverage includes compact dark font 1.5, tall dark, and tall light.
+- Replaced the ambiguous template before/dismissed inference with a three-frame sequence that visibly records confirmation after one delete tap and the subsequent safe fixture dismissal.
+
 ## Verification
 
-- `./gradlew :presentation:testDebugUnitTest :presentation:assembleDebug --console=plain`: BUILD SUCCESSFUL; 34 tests, 0 skipped/failures/errors.
+- `./gradlew :presentation:testDebugUnitTest :presentation:assembleDebug --console=plain`: BUILD SUCCESSFUL in 3s; 36 tests, 0 skipped/failures/errors.
 - `./gradlew :app:assembleDebug --console=plain`: BUILD SUCCESSFUL.
-- Final emulator reads: logical 360×821, density 160, font scale 1.0, dark appearance. Share was also directly captured at 360×720.
+- Final emulator matrix includes logical 360×821/density 160 at dark font 1.0 and ImageDialog dark font 1.5, Share dark 360×720/font 1.5, and Share light 360×821/font 1.0. The emulator was returned to 360×821/font 1.0/dark after capture.
 - `git diff --check`: no output.
 
 ## Final assembled-screen result

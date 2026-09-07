@@ -107,3 +107,64 @@ The user explicitly requires implementation-first verification, so systematic-de
 - `./gradlew :app:assembleDebug --console=plain`: `BUILD SUCCESSFUL in 883ms`.
 - Emulator final reads: override 360×821, density 160, font scale 1.0, dark appearance; Share additionally captured at 360×720. Full Gboard focus reported `mInputShown=true`.
 - `git diff --check`: no output. The pre-existing 3-tab/static-ad versus 4-route/live-ad product blocker remains unchanged.
+
+## Second scoped review — Phase 1–3 before changes
+
+The user again overrides TDD sequencing: the two second hypotheses are implemented first, then covered by tests and runtime evidence. If either second hypothesis fails its target runtime state, implementation stops for architecture review rather than accumulating a third patch.
+
+### 1. ImageDialog reserved controls / bounded scrolling
+
+- **Phase 1 — reproduce and trace:** `runtime-review2-image-long-font150-before.png` at 360×821/font scale 1.5 shows the long author ending exactly where the action row begins. The UI hierarchy reports quote `[32,223][328,494]`, author `[32,506][328,567]`, and buttons starting at y567. In `ImageDialog.kt`, all three regions are non-weight children inside a max-height Column; `Arrangement.SpaceBetween` only distributes positive free space and does not reserve space for children measured after overflowing text.
+- **Phase 2 — working pattern:** Compose layouts with persistent actions measure header and footer as unweighted children and give the variable body `weight(1f)`. `verticalScroll` on that bounded middle viewport lets text exceed its allocation while the footer keeps its intrinsic height. Centering the scroll container when its content is short preserves the existing 320×373 composition.
+- **Phase 3 — second single hypothesis:** the failure risk comes from the text owning unconstrained main-axis measurement before the footer. Making only the center text region `weight(1f)` and vertically scrollable, while keeping header/footer unweighted, will guarantee button measurement at very long text/font 1.5 and preserve short geometry.
+
+### 2. Share intrinsic title/control measurement
+
+- **Phase 1 — reproduce and trace:** `runtime-review2-share-font150-360x720-before.png` still happens to show labels, but accessibility bounds prove the fixed budget is already inaccurate: title/subtitle occupy y74–133 (59px rather than 51), while action items occupy y603–672 (69px plus a 24px gap rather than the assumed 77 total). `sharePagerHeight` never observes either child and retains a 320dp minimum that can exceed truly compact remaining space.
+- **Phase 2 — working pattern:** baseline `77af9fe` measures title and `ShareBottomSection` intrinsically, then allocates the rest to a `weight(1f)` pager. Dark only needs an upper cap of 481dp plus different pager padding; it does not need to replace intrinsic sibling measurement. Light should use the baseline weighted pager without a dark cap.
+- **Phase 3 — second single hypothesis:** fixed sibling reservations are the root cause. An unweighted intrinsic title/footer plus `weight(fill=false)` dark pager capped at 481dp will consume only the actually remaining constraint at compact/large-font sizes, while retaining the 360×821 dark target. A separate light branch using baseline `weight(1f)` will prevent dark sizing from leaking into tall light layouts.
+
+### Template confirmation evidence correction
+
+- **Phase 1:** the previous pair only proves a before modal and an after-dismissed Home; it cannot prove a single delete tap or visible confirmation. Runtime tapping showed the synchronous fixture dialog swap can remove the image dialog without presenting the new CommonDialog in the captured frame.
+- **Phase 2:** production deletion already emits its confirmation asynchronously through the ViewModel after the preview is dismissed. The fixture performs both state changes in one callback/recomposition.
+- **Phase 3 hypothesis:** waiting one Compose frame after dismissing the fixture preview before setting the shared dialog holder will mirror the production sequencing and make the safe confirmation visibly testable without invoking a mutation.
+
+### Second fix 1 result — extreme state passed, short-state gate failed
+
+- Dark `ImageDialog` measured header and action row as unweighted children and assigned only the middle text viewport default `weight(1f)` plus `verticalScroll`. This fixed the extreme-content failure but forced short content to fill the available allocation.
+- The extended fixture is substantially longer than the previous font-1.3 sample. At 360×821/font scale 1.5, `runtime-review2-image-extreme-font150-after-top.png` keeps both 58px-tall buttons fully visible. After scrolling, `runtime-review2-image-extreme-font150-after-bottom.png` reaches the wrapped author while button bounds remain `[32,719][171,777]` and `[181,719][328,777]`.
+- The accessibility tree reports a scrollable middle viewport `[32,72][328,719]`, quote ending at y646, author `[32,658][328,719]`, and controls beginning at y719. This proves text overflow is owned by the bounded scroll region rather than consuming the controls.
+
+### Second fix 2 result — second hypothesis confirmed
+
+- Removed `sharePagerHeight` and its 51/77dp sibling reservations. Title/subtitle and `ShareBottomSection` now measure at their real scaled heights; the pager receives the remaining Column constraint through `weight`.
+- Dark uses `weight(fill=false)` plus only a 481dp maximum. `runtime-review2-share-font150-360x720-after.png` at font scale 1.5 shows all three labels fully visible while the card adapts to 270×377. `runtime-review2-share-dark-360x821-after.png` retains the target x45/y168/270×400 card and y598 controls.
+- Light has no pager cap and uses the baseline `weight(1f)` plus 30dp vertical/60dp horizontal padding. `runtime-review2-share-light-360x821-after.png` records the expected tall weighted card and complete controls.
+
+### Template confirmation result — hypothesis confirmed
+
+- Fixture deletion now waits one Compose frame after dismissing `ImageDialog`, then presents the shared Home measured confirmation. The production ViewModel path is untouched.
+- `runtime-review2-template-delete-before.png` records the actionable label; `runtime-review2-template-confirmation-after-one-tap.png` is the direct frame after one tap and visibly contains `삭제하기`/`취소`; `runtime-review2-template-safe-dismissed-after-confirm.png` records the result after tapping fixture `삭제하기`.
+- The safe fixture callback is empty and CommonDialog only dismisses itself, so this sequence does not call the upload-image deletion use case.
+
+## Architecture review — authorized third ImageDialog hypothesis
+
+- **Second-hypothesis failure:** the first reserved-control implementation used `weight(1f)` with its default `fill=true`. Extreme font-1.5 content scrolled and retained controls, but `runtime-review2-image-short-after.png` showed short content expanding the outer surface from 320×373 to almost the full 320×773 maximum. The weighted center's forced allocation, not text size, became the short dialog's measured height.
+- **Architecture pattern:** `ColumnScope.weight(weight, fill=false)` still assigns the center at most the space left after non-weight header/footer measurement, but does not force a short child to occupy that full allocation. The outer `heightIn(min=373,max=screen-48)` can therefore enforce only the 373dp minimum for short content while allowing an overflowing scroll viewport to grow up to the bounded allocation.
+- **Authorized third single hypothesis:** changing only the center scroll region from `weight(1f)` to `weight(1f, fill=false)` will keep short font-1.0 geometry at 320×373 and retain the extreme font-1.5 bounded scroll/header/footer behavior. Both runtime conditions must pass before any other work resumes; one failure stops the round without another patch.
+
+### Third ImageDialog result — architecture hypothesis confirmed
+
+- The only layout change from the failed state was `weight(1f, fill=false)`. `runtime-review3-image-short-font100-after.png` restores the short surface to x20/y225/320×373 with both buttons visible; `runtime-review3-image-short-confirmed.png` records the Home state after tapping `확인`.
+- At 360×821/font scale 1.5, `runtime-review3-image-extreme-font150-top.png` keeps header and both 58px controls fixed on the screen. After scrolling to the end, `runtime-review3-image-extreme-font150-bottom.png` and the UI tree show ScrollView `[32,72][328,719]`, wrapped author `[32,658][328,719]`, and controls starting at y719. `runtime-review3-image-extreme-confirmed.png` records the successful `확인` tap.
+- Both architecture gates passed, so the round resumed with post-implementation tests, documentation correction, and commit preparation.
+
+## Second scoped review — final verification
+
+- The first build after adding the one-frame template confirmation failed in `:presentation:compileDebugKotlin`: `launch` was unresolved and `withFrameNanos` consequently reported a suspend-call diagnostic. The code path already used `scope`; importing `kotlinx.coroutines.launch` was the single correction, and the immediate build retry succeeded.
+- Targeted post-implementation command: `./gradlew :presentation:testDebugUnitTest --tests 'com.arakene.presentation.ui.home.ImageDialogLayoutTest' --tests 'com.arakene.presentation.ui.home.ShareLayoutTest' --console=plain --quiet` exited 0. Output contained only the existing google-services plugin warning.
+- Full presentation command: `./gradlew :presentation:testDebugUnitTest :presentation:assembleDebug --console=plain` → `BUILD SUCCESSFUL in 3s`, 63 actionable tasks (6 executed, 57 up-to-date). XML totals: 36 tests, 0 skipped, 0 failures, 0 errors.
+- App command: `./gradlew :app:assembleDebug --console=plain` → `BUILD SUCCESSFUL in 1s`, 135 actionable tasks (135 up-to-date).
+- `file` reports the original independent-review set as 17 PNGs at 360×821 and 2 at 360×720; the second/third-round set adds 16 PNGs at 360×821 and 2 at 360×720.
+- Final pending gates before handoff: range `git diff --check`, logical commits, and a clean worktree.

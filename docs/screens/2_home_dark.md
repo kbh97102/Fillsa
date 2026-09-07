@@ -120,7 +120,7 @@ Home의 보호된 이미지 action에서 기존 인증 정책에 따라 modal/ro
 - 질문 focus에서는 고정 header 아래의 실제 가용 높이와 scroll range를 사용한다. `runtime-review-question-focus-after.png`는 `mInputShown=true`인 전체 Gboard, 174dp field, counter, 완전 노출된 CTA를 기록하며 post-tap 캡처는 CTA 동작을 확인한다.
 - Android Gboard, Android system/status/navigation bar, API 35 clipboard preview, Android Kakao/Google provider 구성은 OS/platform 소유 차이로 기록했다.
 - 질문 답변은 UI session state, 이미지/인증/공유/좋아요/날짜는 기존 domain/API/auth/navigation 계약을 계속 사용한다. 테스트 fixture는 debug intent extra로만 활성화되며 upload/delete/like와 Typing 저장 mutation callback은 fixture에서만 deterministic no-op으로 차단한다.
-- 공용 dialog는 기본 content-driven sizing으로 복구했고, dark Home의 181/165dp geometry만 명시적 variant로 제한했다. font scale 1.3 multiline dialog와 긴 ImageDialog text/control 상태를 별도 캡처했다.
-- Share pager는 controls 공간을 먼저 예약한다. 360×720과 360×821 모두 action label이 완전히 보이며, dark-only asset/geometry는 light Home/calendar/login/Typing 회귀 캡처와 `darkMode` gate로 분리했다.
-- template preview fixture는 `3223:6600`의 삭제 affordance를 표시하며 fixture callback은 preview만 닫는다. 실제 업로드 이미지 삭제는 기존 production domain/API 경로를 계속 사용한다.
+- 공용 dialog는 기본 content-driven sizing으로 복구했고, dark Home의 181/165dp geometry만 명시적 variant로 제한했다. ImageDialog는 header/footer를 먼저 측정하고 중앙 text viewport에 `weight(fill=false)`와 bounded scroll을 적용했다. short font-1.0의 320×373과 extreme font-1.5의 author 끝까지 scroll/button tap을 별도 캡처했다.
+- Share는 title/control의 실제 측정 높이 후 남은 constraint를 pager가 사용한다. dark 360×821에서 270×400을 유지하고, 360×720/font-1.5에서 270×377로 줄어들어 세 action label이 보인다. light는 dark cap 없이 baseline `weight(1f)` sizing을 유지한다.
+- template preview fixture는 `3223:6600`의 삭제 affordance를 표시하고, 삭제 tap 후 한 Compose frame을 대기해 공용 확인 dialog를 표시한다. fixture의 확정 callback은 없으며 dialog만 닫힌다. 실제 업로드 이미지 삭제는 기존 production domain/API 경로를 계속 사용한다.
 - 상세 비교와 최종 판정: `docs/design-qa/2026-09-07-android-home-dark-root-qa.md`. 3-tab/static AD 대 4-route/live AD 차이는 명시적 제품 결정 전까지 계속 Blocked다.
