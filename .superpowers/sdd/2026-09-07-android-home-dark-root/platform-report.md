@@ -1,13 +1,13 @@
 # Android platform report — Home dark root
 
-Date: 2026-09-07  
-Worktree: `/Users/gangbohun/AndroidStudioProjects/Fillsa/.worktrees/home-dark-root`  
-Branch: `codex/home-dark-root`  
+Date: 2026-09-07
+Worktree: `/Users/gangbohun/AndroidStudioProjects/Fillsa/.worktrees/home-dark-root`
+Branch: `codex/home-dark-root`
 Documentation baseline: `77af9fe`
 
 ## Outcome
 
-All six Android briefs were implemented as one Home/platform integration batch. Home-owned dark surfaces and the linked image, Typing, login, and share routes were exercised on an Android API 35 emulator. Final assembled-screen acceptance remains **Blocked** only by the pre-existing product discrepancy between Figma's 3-tab/static-ad composition and the production app's shared 4-route/live-ad contract.
+All six Android briefs were implemented as one Home/platform integration batch, then corrected through an independent five-issue review. Home-owned dark surfaces and linked image, Typing, login, and share routes were exercised on an Android API 35 emulator at 360×821 and the required compact 360×720 Share viewport. The Android-owned checks pass with the evidence below. Product-level assembled-screen acceptance remains **Blocked** by the pre-existing discrepancy between Figma's 3-tab/static-ad composition and the production app's shared 4-route/live-ad contract; expected OS/provider differences and production-only outcome flows are separately listed as concerns rather than hidden by that blocker.
 
 ## Figma render nodes read
 
@@ -27,11 +27,14 @@ Every item below was read with individual `get_design_context` calls using `clie
 - Implemented selected like/image presentation using the existing loaded background URL. The registered action renders a 28dp rounded thumbnail plus yellow `이미지 보기`; like icon and label use `#FFCB5C`.
 - Rebuilt the zero-streak tooltip as the measured 231×76 cream callout at x92/y85, including shadow, 21×18 caret, and linked Calendar text.
 - Refined the inline calendar to 248×335 at x20/y126 with 14sp dates/weekdays and 65/61dp selectors. The runtime fixture keeps Aug 16 selected because the Figma open state internally conflicts with its own Aug 16 header by selecting Aug 25.
-- Added focused-question interaction tracking and purple border. With the IME visible, the body has an authored -78dp offset plus Android's observed 131dp focus pan, yielding the Figma effective -209dp shift and preserving the 174dp answer box.
+- Replaced the question-focus `offset(-78.dp)`/`requiredHeight(638.dp)` workaround with an opaque fixed header and a parent-constrained scroll body. IME visibility scrolls to the body's measured maximum; full Gboard, the 174dp field, complete CTA, and a successful CTA tap were captured at 360×821.
 - Kept question answers in existing UI-session state. Copy always emits the required app snackbar; Android 13+ may additionally render its OS clipboard preview.
-- Reused the existing `ImageDialog` contracts while aligning the 320×373 preview, typography, controls, uploaded ocean fixture, template preview, and delete confirmation. Deletion dismisses the preview before the existing confirmation effect.
-- Added the exact Figma Typing handwriting SVG and aligned the Typing/share/login dark geometry. Android retains Gboard and Kakao/Google providers rather than copying iOS keyboard pixels or adding Apple login.
-- Debug-only intent extras provide deterministic, non-network QA states. The fixture bypasses Splash/API quote loading only in `BuildConfig.DEBUG`; production contracts are unchanged.
+- Restored content-driven sizing as the shared `CommonDialog` default. Exact 181/165dp geometry is an explicit `HomeDarkMeasured` mode enabled only for dark Home at font scale 1.0; light, accessibility font scale, and multiline error callers grow intrinsically.
+- Made Share pager height derive from actual available height after reserving all controls. The 360×821 card stays 270×400 and 360×720 retains all three action labels.
+- Reworked dark `ImageDialog` to preserve the short 320×373 target while growing for long quote/wrapped author/font scale 1.3. Controls remain anchored and complete.
+- Added the exact Figma Typing handwriting SVG and aligned the Typing/share/login dark geometry, then gated all render-node-specific asset/metric deltas by `darkMode`. Captured light Home/calendar/login/Typing references and paired dark Typing evidence.
+- Debug-only intent extras provide deterministic QA states. Fixture mode intercepts Home upload/delete/like and Typing save/like/back-save mutation callbacks; production callbacks are unchanged when the fixture is absent.
+- The template fixture now renders Figma's delete affordance. Its callback only closes the fixture preview, so it neither invents a template-removal contract nor calls the production uploaded-image deletion API.
 - Preserved the shared 4-route bottom bar and live-ad behavior. The Figma 3-tab/static-ad discrepancy is intentionally recorded as Blocked, not papered over in Home code.
 
 ## Files changed
@@ -51,9 +54,14 @@ Every item below was read with individual `get_design_context` calls using `clie
 - `presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteBodySection.kt`
 - `presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteView.kt`
 - `presentation/src/main/java/com/arakene/presentation/util/ComposeExtension.kt`
+- `presentation/src/main/java/com/arakene/presentation/util/DialogData.kt`
 - `presentation/src/main/java/com/arakene/presentation/util/SnackbarContent.kt`
 - `presentation/src/main/java/com/arakene/presentation/viewmodel/HomeViewModel.kt`
+- `presentation/src/main/java/com/arakene/presentation/ui/common/DialogSection.kt`
 - `presentation/src/test/java/com/arakene/presentation/ui/home/HomeLikeIconTest.kt`
+- `presentation/src/test/java/com/arakene/presentation/ui/common/CommonDialogLayoutTest.kt`
+- `presentation/src/test/java/com/arakene/presentation/ui/home/ShareLayoutTest.kt`
+- `presentation/src/test/java/com/arakene/presentation/ui/home/TypingDarkModeTest.kt`
 - `presentation/src/main/assets/figma/typing/typing_handwriting_dark.svg`
 - `presentation/src/main/res/drawable/home_registered_image_fixture.png`
 
@@ -62,19 +70,25 @@ Every item below was read with individual `get_design_context` calls using `clie
 - `docs/design-qa/2026-09-07-android-home-dark-root-qa.md`
 - `docs/screens/2_home_dark.md`
 - `docs/design-qa/assets/home-figma-2929-9603/2026-09-07/runtime-android-dark-*.png` (19 runtime captures)
+- `docs/design-qa/assets/home-figma-2929-9603/2026-09-07/runtime-review-*.png` (19 independent-review before/after captures)
 - `.superpowers/sdd/2026-09-07-android-home-dark-root/platform-report.md`
+- `.superpowers/sdd/2026-09-07-android-home-dark-root/progress.md`
 
 ## Commands and exact results
 
 - `git status --short && git branch --show-current`: started clean on `codex/home-dark-root`; baseline documentation commit was `77af9fe`.
 - `curl -L <Figma asset URL> -o <temporary path>`: first sandbox attempt failed with DNS resolution; the policy-required escalated retry succeeded for both assets. `file` reported SVG text for the handwriting asset and a 1024×1024 PNG for the ocean image.
 - Initial `./gradlew :app:assembleDebug --console=plain`: failed because the ignored worktree-local `app/google-services.json` was absent. The existing ignored file was copied from the parent checkout into this worktree; it was not staged or committed.
-- Final `./gradlew :presentation:testDebugUnitTest :presentation:assembleDebug --console=plain`: `BUILD SUCCESSFUL in 2s`, 63 actionable tasks (6 executed, 57 up-to-date). XML results contain 29 tests, 0 skipped, 0 failures, 0 errors.
-- Final `./gradlew :app:assembleDebug --console=plain`: `BUILD SUCCESSFUL in 5s`, 135 actionable tasks (12 executed, 123 up-to-date).
+- Independent-review implementation check `./gradlew :presentation:testDebugUnitTest --console=plain`: `BUILD SUCCESSFUL in 2s`, 48 actionable tasks (10 executed, 38 up-to-date).
+- Pre-capture APK `./gradlew :app:assembleDebug --console=plain`: `BUILD SUCCESSFUL in 4s`, 135 actionable tasks (11 executed, 124 up-to-date).
+- Final `./gradlew :presentation:testDebugUnitTest :presentation:assembleDebug --console=plain`: `BUILD SUCCESSFUL in 1s`, 63 actionable tasks (3 executed, 60 up-to-date). XML results contain 34 tests, 0 skipped, 0 failures, 0 errors.
+- Final `./gradlew :app:assembleDebug --console=plain`: `BUILD SUCCESSFUL in 883ms`, 135 actionable tasks (135 up-to-date).
 - `adb install -r app/build/outputs/apk/debug/app-debug.apk`: `Success`.
 - Emulator configuration used escalated ADB because sandbox daemon startup was denied: `wm size 360x821`, density 160, `cmd uimode night yes`, font scale 1, and animation scales 0. `adb shell wm size` reported physical 1080×2400 and override 360×821 at final capture time.
-- `file docs/design-qa/assets/home-figma-2929-9603/2026-09-07/runtime-android-dark-*.png`: primary files report 360×821 PNG; explicitly suffixed supplemental files report 360×720 PNG.
-- `git diff --check`: no output before both implementation and QA commits.
+- Focused-question verification additionally reported `mCurMethodId=com.google.android.inputmethod.latin/com.android.inputmethod.latin.LatinIME` and `mInputShown=true`; resetting the test-emulator Gboard package restored the full keyboard after its one-handed toolbar state became stuck.
+- `file docs/design-qa/assets/home-figma-2929-9603/2026-09-07/runtime-review-*.png`: 16 independent-review files report 360×821 PNG and 3 Share files report 360×720 PNG.
+- Final `adb shell wm size`, `wm density`, font-scale, and UI-mode reads: override `360x821`, override density `160`, font scale `1.0`, `Night mode: yes`.
+- `git diff --check`: no output before commits.
 
 ## Runtime captures and comparison findings
 
@@ -86,19 +100,27 @@ Capture directory: `docs/design-qa/assets/home-figma-2929-9603/2026-09-07/`
 - `runtime-android-dark-home-copy-toast.png`: app snackbar matches; API 35 native clipboard overlay is extra OS UI.
 - `runtime-android-dark-home-selected.png`: selected heart/label and exact ocean thumbnail appear.
 - `runtime-android-dark-home-recorded-toast.png`: recorded answer/session snackbar state appears.
-- `runtime-android-dark-question-focus-ime.png`: action row/question match the focus-node vertical composition and the 174dp field remains intact above Gboard.
+- `runtime-android-dark-question-focus-ime.png`: pre-review capture showing the original overlap/CTA-clipping defect; it is retained as before evidence, not a Pass.
+- `runtime-review-question-focus-after.png`: full Gboard (`mInputShown=true`), fixed opaque header, complete 174dp field/counter/CTA, and no header/status overlap. The shared production bottom navigation remains above Gboard, consistent with Scaffold ownership and the Figma focus layout.
+- `runtime-review-question-cta-clicked-after.png`: keyboard closes and CTA changes to `내 답변 수정하기`, proving the visible action is clickable.
 - `runtime-android-dark-image-preview.png`: uploaded ocean preview, delete, quote/author, and controls align in a centered 320×373 modal.
 - `runtime-android-dark-image-template.png`: template preview uses the existing gradient background and aligned controls.
+- `runtime-review-image-template-delete-after.png` / `runtime-review-image-template-delete-dismissed-after.png`: gradient template includes Figma's delete affordance; the paired frame proves tapping it closes the preview through the fixture-only safe callback.
 - `runtime-android-dark-image-delete-confirmation.png`: preview closes before the 320×165 confirmation; full labels fit.
 - `runtime-android-dark-typing-ime.png`: full Android IME state plus exact Figma handwriting character/title and typed-prefix styling.
 - `runtime-android-dark-login-modal.png`, `runtime-android-dark-login-full.png`: 320×181 prompt and full Android provider route align; the final login label is not clipped.
 - `runtime-android-dark-share-first.png`, `runtime-android-dark-share-carousel.png`: 270×400 card at x45/y168, action circles at y598, first guide and paging verified.
-- `*-360x720.png`: supplemental direct captures for 360×720 Typing/login/share render nodes; primary acceptance still uses the requested 360×821 emulator override.
+- `runtime-review-common-dialog-font130-before.png` / `after.png`: before records the risky global cap; after shows long title/body/button complete at font scale 1.3 on the shared dialog path.
+- `runtime-review-image-dialog-font130-before.png`, `runtime-review-image-dialog-short-after.png`, `runtime-review-image-dialog-long-font130-after.png`: controls change from clipped blank to complete while short geometry remains 320×373 and long/font-1.3 content grows.
+- `runtime-review-share-controls-after-360x720.png` and `runtime-review-share-controls-after-360x821.png`: all three labels are visible at both heights; the compact card shrinks and the tall card remains 270×400.
+- `runtime-review-light-typing-before.png` / `after.png` plus `runtime-review-dark-typing-after.png`: directly prove the ornament/heading leak was removed from light and retained in dark. `runtime-review-light-home-after.png`, `runtime-review-light-calendar-after.png`, and `runtime-review-light-login-dialog-after.png` cover the other gated metrics.
 
 ## Commits
 
 - `2ad2ccb` — `feat(android): align dark Home states with Figma`
 - `1a9e24f` — `docs(android): record dark Home runtime parity`
+- `038a7b0` — `docs(android): add dark Home platform report`
+- `4ac2f4e` — `fix(android): address dark Home review findings`
 - Platform report commit: the commit containing this file (listed in the parent handoff because a commit cannot include its own SHA).
 
 ## Concerns / blockers
@@ -108,3 +130,4 @@ Capture directory: `docs/design-qa/assets/home-figma-2929-9603/2026-09-07/`
 3. **Provider contract:** Android intentionally remains Kakao/Google; the Figma full-login Apple row is not applicable without a product/auth decision.
 4. **Production-side effects avoided:** quote-saving outcome modals and production image/auth API mutations were not triggered solely for screenshots. Their render-node contexts were read and existing route/effect contracts were preserved; active Typing, question, image, login, and share states were captured safely.
 5. The ignored `app/google-services.json` must exist locally for `:app:assembleDebug`; it is not part of these commits.
+6. The Figma template delete action is implemented only for the debug fixture because production has no separate template-removal domain contract. Production uploaded-image deletion remains unchanged.

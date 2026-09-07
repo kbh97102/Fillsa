@@ -19,6 +19,9 @@ All primary captures are 360×821. The 360×720 suffixed captures are supplement
 - Image states: `runtime-android-dark-image-preview.png`, `runtime-android-dark-image-template.png`, `runtime-android-dark-image-delete-confirmation.png`
 - Linked routes: `runtime-android-dark-typing-ime.png`, `runtime-android-dark-login-modal.png`, `runtime-android-dark-login-full.png`, `runtime-android-dark-share-first.png`, `runtime-android-dark-share-carousel.png`
 - Supplemental linked-route crops: `runtime-android-dark-typing-ime-360x720.png`, `runtime-android-dark-login-full-360x720.png`, `runtime-android-dark-share-first-360x720.png`, `runtime-android-dark-share-carousel-360x720.png`
+- Independent-review before/after: `runtime-review-question-focus-after.png`, `runtime-review-question-cta-clicked-after.png`, `runtime-review-common-dialog-font130-before.png`, `runtime-review-common-dialog-font130-after.png`, `runtime-review-image-dialog-font130-before.png`, `runtime-review-image-dialog-short-after.png`, `runtime-review-image-dialog-long-font130-after.png`
+- Viewport/theme regressions: `runtime-review-share-controls-after-360x720.png`, `runtime-review-share-controls-after-360x821.png`, `runtime-review-light-home-after.png`, `runtime-review-light-calendar-after.png`, `runtime-review-light-login-dialog-after.png`, `runtime-review-light-typing-before.png`, `runtime-review-light-typing-after.png`, `runtime-review-dark-typing-after.png`
+- Template action: `runtime-review-image-template-delete-after.png`; `runtime-review-image-template-delete-dismissed-after.png` proves tapping its delete affordance closes the fixture preview without a production mutation.
 
 ## Component inventory
 
@@ -29,18 +32,20 @@ All primary captures are 360×821. The 360×720 suffixed captures are supplement
 | Week strip | `3039:28627`, `3039:28629`, `3039:28631` | Pass. Aug 10/11 completed markers and Aug 16 selected/today state are present in the fixture. |
 | Streak tooltip | `3039:26778` | Pass. 231×76 cream surface at x92/y85, 4dp radius, shadow, caret, title, and Calendar link match. |
 | Copy/liked/image actions | `3039:26996`, `3039:27295` | Pass for app-owned UI. Registered thumbnail is 28×28 with yellow label; selected heart and label use `#FFCB5C`; snackbar width/gap match. API 35 additionally shows the native clipboard preview. |
-| Question flow | `3139:1454`, `3139:1478`, `3139:1466`, `3139:910`, `3136:1198`, `3139:1061`, `3139:1238` | Pass for before/focus/snackbar/done UI-session states. Focus uses a purple border and an IME-aware -209dp effective body shift; answer field remains 174dp instead of collapsing under `adjustResize`. |
-| Image flow | `3223:5985`, `3223:6126`, `3223:6435`, `3223:6600`, `3223:6912` | Pass for unregistered/registered actions, uploaded preview, template preview, and delete confirmation. Existing picker/delete contracts are unchanged. |
+| Question flow | `3139:1454`, `3139:1478`, `3139:1466`, `3139:910`, `3136:1198`, `3139:1061`, `3139:1238` | Pass after independent review. The fixed opaque header and available-space scroll body replace device constants. `mInputShown=true` and the full Gboard are recorded; the 174dp field and complete CTA remain above navigation/IME, and tapping the CTA reaches the recorded state. |
+| Image flow | `3223:5985`, `3223:6126`, `3223:6435`, `3223:6600`, `3223:6912` | Pass for short 320×373 geometry and long/font-1.3 growth with complete controls. The template fixture now exposes Figma's delete action; its QA callback is deterministic and does not invoke the production upload-delete API. Production picker/delete contracts are unchanged. |
 | Typing | `3087:28815` | Pass for active typing geometry and exact handwriting asset. Android Gboard is retained rather than reproducing the Figma iOS keyboard bitmap. API-backed success/outcome dialogs were code-audited but not invoked against production services during QA. |
 | Login | `2929:9931`, `2929:10788` | Pass for modal and Android login route. Existing Kakao/Google providers are preserved; the Figma Apple row is intentionally not added to Android. |
-| Share | `2929:10884`, `2929:10850`, template nodes | Pass. Card x45/y168 at 270×400, first-load guide, carousel paging, and dark 48dp action circles match while existing save/copy/Kakao behavior is preserved. |
+| Share | `2929:10884`, `2929:10850`, template nodes | Pass at both requested heights. At 360×821 the card remains 270×400; at 360×720 it shrinks after reserving the complete action row, so all `저장`/`복사`/`카카오톡` labels remain visible. Existing save/copy/Kakao behavior is preserved. |
+| Shared dialog | Home login/delete plus `WithBaseErrorHandling` callers | Pass for scoped Home geometry and content growth. Dark/font-1.0 Home uses explicit 181/165dp variants; light, font-1.3, and generic multiline callers remain content-driven. |
+| Light regression | baseline `77af9fe` | Pass for captured Home, inline calendar, login dialog, and Typing. The dark handwriting asset/heading, dark landmark deltas, dark calendar metrics, and Home measured dialog are gated by appearance. |
 
 ## Validation rounds
 
 ### Round 1 — Home assembly
 
 - Configured the API 35 emulator with `wm size 360x821`, density 160, dark UI mode, font scale 1, and disabled animation scales.
-- The deterministic fixture renders Aug 16, 2026, the exact Figma quote/author, 100-day streak, and completed-day markers for Aug 10/11 without issuing Home API writes.
+- The deterministic fixture renders Aug 16, 2026, the exact Figma quote/author, 100-day streak, and completed-day markers for Aug 10/11. Fixture-only upload/delete/like and Typing save/like/back-save callbacks are intercepted; production callbacks remain unchanged when the fixture is absent.
 - Measured runtime landmarks match the render-node context: quote card y168/h150, action row y328/h42, divider y370, question group y389, answer field y438/h174, and CTA y637/h50.
 
 ### Round 2 — overlays and state variants
@@ -51,14 +56,21 @@ All primary captures are 360×821. The 360×720 suffixed captures are supplement
 
 ### Round 3 — IME and linked routes
 
-- The first focused-question capture exposed `adjustResize` squeezing the answer field. The final implementation keeps the 174dp field and aligns action row/question landmarks to the `3136:1198` focus composition while the app header stays fixed.
-- Captured full Android Gboard states for Home question and Typing. The keyboard top/keys differ from the Figma iOS keyboard asset by platform, while app-owned content above it is aligned.
+- The first focused-question capture exposed `requiredHeight(638.dp)`/`offset(-78.dp)` drawing through the header and hiding the CTA. The final implementation uses parent constraints and measured scroll range; `runtime-review-question-focus-after.png` records the full Gboard and complete CTA, and the paired post-tap frame proves clickability.
+- The production bottom navigation remains above Gboard because the shared Scaffold owns it and the Figma focus frame retains navigation above its keyboard. The route-count mismatch remains the documented product blocker.
 - Captured login modal/full route and the share guide/carousel. A signed-in emulator datastore was left intact; deterministic debug flags only select visual states and do not replace auth/domain/API contracts.
+
+### Round 4 — independent review corrections
+
+- Verified five single root-cause hypotheses before moving between issues: viewport constants, global dialog height, fixed Share pager, fixed ImageDialog height, and unconditional dark deltas.
+- Captured CommonDialog and ImageDialog at font scale 1.3, Share at 360×720 and 360×821, and paired light/dark Typing. Before captures remain beside the after evidence rather than being re-labelled as Pass.
+- Added post-implementation unit coverage for dialog mode selection, adaptive Share height, and dark-only Typing decoration.
 
 ## Verification
 
-- `./gradlew :presentation:testDebugUnitTest :presentation:assembleDebug --console=plain`: BUILD SUCCESSFUL; 29 tests, 0 failures/errors.
+- `./gradlew :presentation:testDebugUnitTest :presentation:assembleDebug --console=plain`: BUILD SUCCESSFUL; 34 tests, 0 skipped/failures/errors.
 - `./gradlew :app:assembleDebug --console=plain`: BUILD SUCCESSFUL.
+- Final emulator reads: logical 360×821, density 160, font scale 1.0, dark appearance. Share was also directly captured at 360×720.
 - `git diff --check`: no output.
 
 ## Final assembled-screen result

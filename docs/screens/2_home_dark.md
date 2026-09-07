@@ -117,7 +117,10 @@ Home의 보호된 이미지 action에서 기존 인증 정책에 따라 modal/ro
 
 - API 35 emulator를 logical 360×821dp, density 160, dark appearance로 실행했다. Home 기본/달력/tooltip/복사/선택/질문 focus·recorded/image preview·template/delete/login/share/Typing IME 상태는 `docs/design-qa/assets/home-figma-2929-9603/2026-09-07/runtime-android-dark-*.png`에 있다.
 - Home 기본 runtime landmark는 quote y168/h150, action row y328/h42, question y389, answer field y438/h174, CTA y637/h50이다. 달력 popup은 x20/y126, 248×335이고 tooltip은 x92/y85, 231×76이다.
-- 질문 focus에서는 Android IME resize/pan을 반영해 body가 최종 -209dp 이동하며 `3136:1198`의 action row/question/174dp field 배치를 유지한다.
+- 질문 focus에서는 고정 header 아래의 실제 가용 높이와 scroll range를 사용한다. `runtime-review-question-focus-after.png`는 `mInputShown=true`인 전체 Gboard, 174dp field, counter, 완전 노출된 CTA를 기록하며 post-tap 캡처는 CTA 동작을 확인한다.
 - Android Gboard, Android system/status/navigation bar, API 35 clipboard preview, Android Kakao/Google provider 구성은 OS/platform 소유 차이로 기록했다.
-- 질문 답변은 UI session state, 이미지/인증/공유/좋아요/날짜는 기존 domain/API/auth/navigation 계약을 계속 사용한다. 테스트 fixture는 debug intent extra로만 활성화된다.
+- 질문 답변은 UI session state, 이미지/인증/공유/좋아요/날짜는 기존 domain/API/auth/navigation 계약을 계속 사용한다. 테스트 fixture는 debug intent extra로만 활성화되며 upload/delete/like와 Typing 저장 mutation callback은 fixture에서만 deterministic no-op으로 차단한다.
+- 공용 dialog는 기본 content-driven sizing으로 복구했고, dark Home의 181/165dp geometry만 명시적 variant로 제한했다. font scale 1.3 multiline dialog와 긴 ImageDialog text/control 상태를 별도 캡처했다.
+- Share pager는 controls 공간을 먼저 예약한다. 360×720과 360×821 모두 action label이 완전히 보이며, dark-only asset/geometry는 light Home/calendar/login/Typing 회귀 캡처와 `darkMode` gate로 분리했다.
+- template preview fixture는 `3223:6600`의 삭제 affordance를 표시하며 fixture callback은 preview만 닫는다. 실제 업로드 이미지 삭제는 기존 production domain/API 경로를 계속 사용한다.
 - 상세 비교와 최종 판정: `docs/design-qa/2026-09-07-android-home-dark-root-qa.md`. 3-tab/static AD 대 4-route/live AD 차이는 명시적 제품 결정 전까지 계속 Blocked다.
