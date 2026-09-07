@@ -43,8 +43,11 @@ fun CalendarView(
     popBackStack: () -> Unit,
     viewModel: CalendarViewModel = hiltViewModel(),
 ) {
-    val data by remember { viewModel.data }
-    val selectedDay by remember { viewModel.selectedDay }
+    val productionData by remember { viewModel.data }
+    val productionSelectedDay by remember { viewModel.selectedDay }
+    val qaFixture = LocalCalendarRuntimeQaFixture.current
+    val data = qaFixture?.data ?: productionData
+    val selectedDay = qaFixture?.selectedDay ?: productionSelectedDay
     val lifecycleOwner = LocalLifecycleOwner.current
     val selectedQuote = data?.memberQuotes?.firstOrNull {
         it.quoteDate == selectedDay.date.toString()
@@ -54,9 +57,19 @@ fun CalendarView(
     val scope = rememberCoroutineScope()
     val snackbarHost = LocalSnackbarHost.current
 
-    LaunchedEffect(Unit) { viewModel.handleContract(CommonEffect.Refresh) }
-    LaunchedEffect(data?.memberQuotes) {
-        if (!data?.memberQuotes.isNullOrEmpty()) viewModel.handleContract(CalendarAction.SelectDay(selectedDay))
+    val registeredImageUri = remember(context.packageName) {
+        "android.resource://${context.packageName}/${com.arakene.presentation.R.drawable.home_registered_image_fixture}"
+    }
+    val selectedDayPresentation = qaFixture?.selectedDayPresentation(registeredImageUri)
+        ?: calendarSelectedDayPresentation(selectedQuote)
+
+    LaunchedEffect(qaFixture) {
+        if (qaFixture == null) viewModel.handleContract(CommonEffect.Refresh)
+    }
+    LaunchedEffect(data?.memberQuotes, qaFixture) {
+        if (qaFixture == null && !data?.memberQuotes.isNullOrEmpty()) {
+            viewModel.handleContract(CalendarAction.SelectDay(selectedDay))
+        }
     }
     BackHandler { popBackStack() }
     HandleViewEffect(viewModel.effect, lifecycleOwner) {
@@ -68,7 +81,7 @@ fun CalendarView(
             .background(FillsaTheme.colorScheme.background)
             .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp)
-            .offset(y = (-20).dp),
+            .offset(y = 6.dp),
     ) {
         CalendarHeader(
             onHome = { navigate(Screens.Home()) },
@@ -76,36 +89,52 @@ fun CalendarView(
         )
         CalendarSection(
             memberQuotes = data?.memberQuotes ?: emptyList(),
-            changeMonth = { viewModel.handleContract(CalendarAction.ChangeMonth(it)) },
-            selectDay = { viewModel.handleContract(CalendarAction.SelectDay(it)) },
+            changeMonth = {
+                if (qaFixture == null) viewModel.handleContract(CalendarAction.ChangeMonth(it))
+            },
+            selectDay = {
+                if (qaFixture == null) viewModel.handleContract(CalendarAction.SelectDay(it))
+            },
             selectedDay = selectedDay,
+            qaState = qaFixture?.state,
             modifier = Modifier.padding(top = 10.dp),
         )
         CalendarCountSection(
             typingCount = data?.monthlySummary?.typingCount ?: 0,
             likeCount = data?.monthlySummary?.likeCount ?: 0,
-            todayCompleteCount = data?.monthlySummary?.streakCount ?: 0,
             modifier = Modifier.padding(top = 10.dp),
-            countOnClick = { viewModel.handleContract(CalendarAction.ClickCount) },
+            countOnClick = {
+                if (qaFixture == null) viewModel.handleContract(CalendarAction.ClickCount)
+            },
         )
         CalendarQuoteSection(
             quoteData = selectedQuote,
             selectedDay = selectedDay,
-            presentation = calendarSelectedDayPresentation(selectedQuote, expanded = false),
+            presentation = selectedDayPresentation,
             onCopy = {
-                selectedQuote?.let {
-                    copyToClipboard(context, scope, clipboard, snackbarHost, it.quote, it.author)
+                if (qaFixture == null) {
+                    selectedQuote?.let {
+                        copyToClipboard(context, scope, clipboard, snackbarHost, it.quote, it.author)
+                    }
                 }
             },
             onShare = {
-                selectedQuote?.let { navigate(Screens.Share(it.quote, it.author)) }
+                if (qaFixture == null) {
+                    selectedQuote?.let { navigate(Screens.Share(it.quote, it.author)) }
+                }
             },
             // Calendar has no independent action contract; these retain the established
             // selected-date Home flow, where like/image behavior already exists.
-            onLike = { viewModel.handleContract(CalendarAction.ClickBottomQuote) },
-            onImage = { viewModel.handleContract(CalendarAction.ClickBottomQuote) },
-            onOpenQuote = { viewModel.handleContract(CalendarAction.ClickBottomQuote) },
-            modifier = Modifier.padding(top = 10.dp),
+            onLike = {
+                if (qaFixture == null) viewModel.handleContract(CalendarAction.ClickBottomQuote)
+            },
+            onImage = {
+                if (qaFixture == null) viewModel.handleContract(CalendarAction.ClickBottomQuote)
+            },
+            onOpenQuote = {
+                if (qaFixture == null) viewModel.handleContract(CalendarAction.ClickBottomQuote)
+            },
+            modifier = Modifier.padding(top = if (selectedDayPresentation.completed) 16.dp else 12.dp),
         )
         Spacer(Modifier.height(16.dp))
     }

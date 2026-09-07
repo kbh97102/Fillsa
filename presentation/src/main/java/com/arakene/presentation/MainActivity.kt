@@ -33,6 +33,9 @@ import androidx.navigation.compose.rememberNavController
 import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.presentation.ui.BottomNavigationBar
+import com.arakene.presentation.ui.calendar.CalendarRuntimeQaFixture
+import com.arakene.presentation.ui.calendar.CalendarRuntimeQaState
+import com.arakene.presentation.ui.calendar.LocalCalendarRuntimeQaFixture
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.GeneralDialogs
@@ -129,7 +132,14 @@ class MainActivity : ComponentActivity() {
             null
         }
 
-        mainActivityViewModel.initWidgetData()
+        val calendarQaFixture = if (BuildConfig.DEBUG) {
+            CalendarRuntimeQaState.fromLaunchValue(intent.getStringExtra(EXTRA_CALENDAR_QA_STATE))
+                ?.let(::CalendarRuntimeQaFixture)
+        } else {
+            null
+        }
+
+        if (calendarQaFixture == null) mainActivityViewModel.initWidgetData()
 //        mainActivityViewModel.getPopupGeneral()
 
 
@@ -142,9 +152,9 @@ class MainActivity : ComponentActivity() {
 
             val systemDarkMode = isSystemInDarkTheme()
 
-            val isDarkMode by remember(darkModeType, homeQaDarkModeOverride) {
+            val isDarkMode by remember(darkModeType, homeQaDarkModeOverride, calendarQaFixture) {
                 mutableStateOf(
-                    homeQaDarkModeOverride ?: when (darkModeType) {
+                    if (calendarQaFixture != null) false else homeQaDarkModeOverride ?: when (darkModeType) {
                         DarkModeType.DARK -> true
                         DarkModeType.LIGHT -> false
                         DarkModeType.SYSTEM -> systemDarkMode
@@ -155,7 +165,9 @@ class MainActivity : ComponentActivity() {
             val streakCount by remember {
                 mainActivityViewModel.streakCount
             }
-            val providedStreak = homeQaStreakOverride?.let { streak ->
+            val providedStreak = calendarQaFixture?.let {
+                MemberStreakResponse(currentStreak = 100, isTodayWritten = false)
+            } ?: homeQaStreakOverride?.let { streak ->
                 MemberStreakResponse(currentStreak = streak, isTodayWritten = false)
             } ?: streakCount
 
@@ -180,6 +192,8 @@ class MainActivity : ComponentActivity() {
             val isOnboardingGuide = currentDestination?.destination?.route?.contains(
                 Screens.OnBoardingGuide.routeString
             ) == true
+            val isCalendarScreen = currentDestination?.destination?.route?.substringBefore("?") ==
+                Screens.Calendar::class.qualifiedName
 
             val displayBottomBar by remember(currentDestination) {
                 mutableStateOf(
@@ -198,11 +212,13 @@ class MainActivity : ComponentActivity() {
             val isLogged by viewModel.isLogged.collectAsState(false)
 
             val shouldShowAd by viewModel.shouldShowAd.collectAsState()
-            val displayAd = shouldShowAd && !homeQaHideAd
+            val displayAd = shouldShowAd && !homeQaHideAd && calendarQaFixture == null
 
             LaunchedEffect(currentDestination) {
-                viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
-                mainActivityViewModel.updateStreakInfo(currentDestination?.destination?.route)
+                if (calendarQaFixture == null) {
+                    viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
+                    mainActivityViewModel.updateStreakInfo(currentDestination?.destination?.route)
+                }
             }
 
             FillsaTheme(darkTheme = isDarkMode) {
@@ -212,6 +228,7 @@ class MainActivity : ComponentActivity() {
                     LocalLoadingState provides globalLoadingState,
                     LocalMoveHolder provides navController,
                     LocalHomeRuntimeQaFixture provides homeQaFixture,
+                    LocalCalendarRuntimeQaFixture provides calendarQaFixture,
                     IsDarkMode provides isDarkMode,
                     StreakProvider provides providedStreak
                 ) {
@@ -255,7 +272,7 @@ class MainActivity : ComponentActivity() {
                                     currentDestination?.destination?.route?.contains("Splash") == true -> colorResource(R.color.white)
                                     else -> colorResource(R.color.primary)
                                 },
-                                contentWindowInsets = if (displayAd) {
+                                contentWindowInsets = if (displayAd || isCalendarScreen) {
                                     WindowInsets.statusBars
                                 } else {
                                     ScaffoldDefaults.contentWindowInsets
@@ -267,7 +284,11 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier
                                         .padding(paddingValues),
                                     navController = navController,
-                                    startDestination = if (homeQaFixture == null) Screens.Splash else Screens.Home(),
+                                    startDestination = when {
+                                        calendarQaFixture != null -> Screens.Calendar
+                                        homeQaFixture != null -> Screens.Home()
+                                        else -> Screens.Splash
+                                    },
                                     logoutEvent = logoutEvent
                                 )
                             }
@@ -307,5 +328,6 @@ class MainActivity : ComponentActivity() {
         const val EXTRA_HOME_QA_TEMPLATE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_TEMPLATE_DIALOG"
         const val EXTRA_HOME_QA_LOGIN_DIALOG = "com.arakene.fillsa.extra.HOME_QA_LOGIN_DIALOG"
         const val EXTRA_HOME_QA_MULTILINE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_MULTILINE_DIALOG"
+        const val EXTRA_CALENDAR_QA_STATE = "com.arakene.fillsa.extra.CALENDAR_QA_STATE"
     }
 }

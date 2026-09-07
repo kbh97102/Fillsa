@@ -23,7 +23,9 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -38,6 +40,7 @@ import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.homeAnswerInputState
 import com.arakene.presentation.util.noEffectClickable
 import com.kizitonwose.calendar.core.CalendarDay
+import coil3.compose.AsyncImage
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -49,14 +52,14 @@ internal data class CalendarDetailContent(
 
 internal fun calendarDetailContent(
     presentation: CalendarSelectedDayPresentation,
-): CalendarDetailContent = when (presentation) {
-    CalendarSelectedDayPresentation.Empty -> CalendarDetailContent(
+): CalendarDetailContent = if (!presentation.completed) {
+    CalendarDetailContent(
         showEmptyMessage = true,
         showQuoteCard = true,
         quoteCardHeightDp = 80,
     )
-    CalendarSelectedDayPresentation.Completed,
-    CalendarSelectedDayPresentation.Expanded -> CalendarDetailContent(
+} else {
+    CalendarDetailContent(
         showEmptyMessage = false,
         showQuoteCard = false,
         quoteCardHeightDp = 0,
@@ -83,7 +86,9 @@ internal fun CalendarQuoteSection(
             if (detailContent.showQuoteCard) {
                 CalendarQuotePreviewCard(
                     quoteData = quoteData,
-                    selectedDay = selectedDay,
+                    selectedDay = presentation.quoteDateOverride?.let {
+                        CalendarDay(it, selectedDay.position)
+                    } ?: selectedDay,
                     quoteCardHeightDp = detailContent.quoteCardHeightDp,
                     onClick = onOpenQuote,
                     darkMode = darkMode,
@@ -93,10 +98,15 @@ internal fun CalendarQuoteSection(
         } else {
             if (quoteData != null) {
                 CalendarCompletedDayCard(
-                    quoteData, selectedDay, onCopy, onShare, onLike, onImage, darkMode,
+                    quoteData, selectedDay, presentation, onCopy, onShare, onLike, onImage, darkMode,
                 )
             }
-            CalendarPromptAnswer(onOpenQuote, darkMode, Modifier.padding(top = 10.dp))
+            CalendarPromptAnswer(
+                presentation = presentation,
+                onOpenQuote = onOpenQuote,
+                darkMode = darkMode,
+                modifier = Modifier.padding(top = 10.dp),
+            )
         }
     }
 }
@@ -156,6 +166,7 @@ private fun CalendarQuotePreviewCard(
 private fun CalendarCompletedDayCard(
     quoteData: MemberQuotesData,
     selectedDay: CalendarDay,
+    presentation: CalendarSelectedDayPresentation,
     onCopy: () -> Unit,
     onShare: () -> Unit,
     onLike: () -> Unit,
@@ -179,7 +190,15 @@ private fun CalendarCompletedDayCard(
             )
         }
         Box(Modifier.height(1.dp).fillMaxWidth().background(if (darkMode) Color(0x8C616161) else Color(0x3D9D8961)))
-        CalendarActionRow(quoteData.likeYn == YN.Y, onCopy, onShare, onLike, onImage, darkMode)
+        CalendarActionRow(
+            liked = quoteData.likeYn == YN.Y,
+            registeredImageUri = presentation.registeredImageUri,
+            onCopy = onCopy,
+            onShare = onShare,
+            onLike = onLike,
+            onImage = onImage,
+            darkMode = darkMode,
+        )
     }
 }
 
@@ -205,6 +224,7 @@ private fun CalendarDateLabel(selectedDay: CalendarDay, darkMode: Boolean, modif
 @Composable
 private fun CalendarActionRow(
     liked: Boolean,
+    registeredImageUri: String?,
     onCopy: () -> Unit,
     onShare: () -> Unit,
     onLike: () -> Unit,
@@ -216,13 +236,75 @@ private fun CalendarActionRow(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        CalendarAction("home_copy.svg", "복사", Modifier.weight(1f), onCopy, darkMode)
+        CalendarAction("home_copy.svg", "복사", Modifier.width(70.dp), onCopy, darkMode)
         CalendarActionDivider(darkMode)
-        CalendarAction("home_share.svg", "공유", Modifier.weight(1f), onShare, darkMode)
+        CalendarAction("home_share.svg", "공유", Modifier.width(70.dp), onShare, darkMode)
         CalendarActionDivider(darkMode)
-        CalendarAction("home_like.svg", if (liked) "좋아요 취소" else "좋아요", Modifier.weight(1f), onLike, darkMode)
+        CalendarLikeAction(liked, Modifier.width(70.dp), onLike, darkMode)
         CalendarActionDivider(darkMode)
-        CalendarAction("home_camera.svg", "이미지 등록", Modifier.weight(1.15f), onImage, darkMode)
+        CalendarImageAction(registeredImageUri, Modifier.width(107.dp), onImage, darkMode)
+    }
+}
+
+@Composable
+private fun CalendarLikeAction(
+    liked: Boolean,
+    modifier: Modifier,
+    onClick: () -> Unit,
+    darkMode: Boolean,
+) {
+    val selectedColor = colorResource(R.color.purple01)
+    Row(
+        modifier = modifier.height(42.dp).noEffectClickable(click = onClick),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        CalendarFigmaAsset(
+            fileName = if (liked) "calendar_record_heart.svg" else "home_like.svg",
+            modifier = Modifier.size(16.dp),
+            darkMode = darkMode,
+            assetSet = if (liked) "calendar" else "home",
+            tint = if (liked) selectedColor else null,
+        )
+        Text(
+            "좋아요",
+            style = FillsaTheme.typography.body4,
+            color = if (liked) selectedColor else if (darkMode) Color(0xFFE0E0E0) else Color(0xFF6B6255),
+            modifier = Modifier.padding(start = 4.dp),
+        )
+    }
+}
+
+@Composable
+private fun CalendarImageAction(
+    registeredImageUri: String?,
+    modifier: Modifier,
+    onClick: () -> Unit,
+    darkMode: Boolean,
+) {
+    val registered = !registeredImageUri.isNullOrBlank()
+    val selectedColor = colorResource(R.color.purple01)
+    Row(
+        modifier = modifier.height(42.dp).noEffectClickable(click = onClick),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center,
+    ) {
+        if (registered) {
+            AsyncImage(
+                model = registeredImageUri,
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier.size(28.dp).clip(RoundedCornerShape(5.dp)),
+            )
+        } else {
+            CalendarFigmaAsset("home_camera.svg", Modifier.size(16.dp), darkMode, assetSet = "home")
+        }
+        Text(
+            if (registered) "이미지 보기" else "이미지 등록",
+            style = if (registered) FillsaTheme.typography.buttonXSmallBold else FillsaTheme.typography.body4,
+            color = if (registered) selectedColor else if (darkMode) Color(0xFFE0E0E0) else Color(0xFF6B6255),
+            modifier = Modifier.padding(start = 4.dp),
+        )
     }
 }
 
@@ -256,12 +338,14 @@ private fun CalendarActionDivider(darkMode: Boolean) {
 
 @Composable
 private fun CalendarPromptAnswer(
+    presentation: CalendarSelectedDayPresentation,
     onOpenQuote: () -> Unit,
     darkMode: Boolean,
     modifier: Modifier,
 ) {
-    var answer by rememberSaveable { mutableStateOf("") }
+    var answer by rememberSaveable(presentation.answer) { mutableStateOf(presentation.answer) }
     val state = homeAnswerInputState(answer)
+    val hasRecordedAnswer = presentation.hasRecordedAnswer
     val primary = if (darkMode) Color.White else Color(0xFF211F1B)
     val muted = Color(0xFF9E9E9E)
     Column(modifier = modifier) {
@@ -274,7 +358,7 @@ private fun CalendarPromptAnswer(
             color = primary,
         )
         Box(
-            modifier = Modifier.padding(top = 4.dp).fillMaxWidth().height(174.dp)
+            modifier = Modifier.padding(top = 11.dp).fillMaxWidth().height(174.dp)
                 .background(if (darkMode) Color(0xFF424242) else Color.White.copy(alpha = .5f), RoundedCornerShape(17.dp))
                 .border(1.dp, if (darkMode) Color(0xFF616161) else Color(0xFFDED4BD), RoundedCornerShape(17.dp)),
         ) {
@@ -297,7 +381,7 @@ private fun CalendarPromptAnswer(
             )
         }
         Text(
-            (200 - state.remainingCount).toString() + " / 200",
+            (presentation.displayedCountOverride ?: (200 - state.remainingCount)).toString() + " / 200",
             modifier = Modifier.fillMaxWidth().padding(top = 3.dp),
             style = FillsaTheme.typography.body4,
             textAlign = TextAlign.End,
@@ -305,17 +389,27 @@ private fun CalendarPromptAnswer(
         )
         Row(
             modifier = Modifier.padding(top = 10.dp).fillMaxWidth().height(50.dp)
-                .background(colorResource(R.color.purple01), RoundedCornerShape(8.dp))
+                .background(
+                    if (hasRecordedAnswer) Color(0xFFD3D5FF) else colorResource(R.color.purple01),
+                    RoundedCornerShape(8.dp),
+                )
                 .noEffectClickable(click = onOpenQuote)
-                .semantics { contentDescription = "내 답변 기록하기" },
+                .semantics {
+                    contentDescription = if (hasRecordedAnswer) "내 답변 수정하기" else "내 답변 기록하기"
+                },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
-            CalendarFigmaAsset("home_write_answer.svg", Modifier.size(18.dp), assetSet = "home")
+            CalendarFigmaAsset(
+                "home_write_answer.svg",
+                Modifier.size(18.dp),
+                assetSet = "home",
+                tint = if (hasRecordedAnswer) colorResource(R.color.purple01) else null,
+            )
             Text(
-                "내 답변 기록하기",
+                if (hasRecordedAnswer) "내 답변 수정하기" else "내 답변 기록하기",
                 style = FillsaTheme.typography.buttonMediumBold,
-                color = Color.White,
+                color = if (hasRecordedAnswer) colorResource(R.color.purple01) else Color.White,
                 modifier = Modifier.padding(start = 4.dp),
             )
         }

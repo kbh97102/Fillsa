@@ -31,7 +31,7 @@ class CalendarRecordIndicatorTest {
     fun `selected day presentation follows completion data instead of quote text`() {
         assertEquals(
             CalendarSelectedDayPresentation.Empty,
-            calendarSelectedDayPresentation(quoteData = null, expanded = false),
+            calendarSelectedDayPresentation(quoteData = null),
         )
         assertEquals(
             CalendarSelectedDayPresentation.Empty,
@@ -45,7 +45,6 @@ class CalendarRecordIndicatorTest {
                     likeYnString = YN.N.type,
                     todayCompleted = false,
                 ),
-                expanded = false,
             ),
         )
         assertEquals(
@@ -60,24 +59,65 @@ class CalendarRecordIndicatorTest {
                     likeYnString = YN.N.type,
                     todayCompleted = true,
                 ),
-                expanded = false,
             ),
         )
+    }
+
+    @Test
+    fun `production completion presentation never invents an answer or registered image`() {
+        val presentation = calendarSelectedDayPresentation(
+            MemberQuotesData(
+                dailyQuoteSeq = 5,
+                quoteDate = "2025-03-21",
+                quote = "quote",
+                author = "author",
+                completed = true,
+                likeYnString = YN.Y.type,
+                todayCompleted = false,
+            ),
+        )
+
+        assertTrue(presentation.completed)
+        assertFalse(presentation.hasRecordedAnswer)
+        assertFalse(presentation.hasRegisteredImage)
+        assertEquals(null, presentation.displayedCountOverride)
+    }
+
+    @Test
+    fun `answered image fixture is deterministic and presentation only`() {
+        val fixture = CalendarRuntimeQaFixture(CalendarRuntimeQaState.CompletedAnsweredImage)
+        val presentation = fixture.selectedDayPresentation("android.resource://fillsa/fixture")
+
+        assertEquals("2025-03-21", fixture.selectedDay.date.toString())
+        assertEquals(4, fixture.data.monthlySummary.typingCount)
+        assertEquals(4, fixture.data.monthlySummary.likeCount)
+        assertTrue(presentation.hasRecordedAnswer)
+        assertTrue(presentation.hasRegisteredImage)
+        assertEquals(0, presentation.displayedCountOverride)
+    }
+
+    @Test
+    fun `calendar QA state accepts only explicit launch values`() {
         assertEquals(
-            CalendarSelectedDayPresentation.Expanded,
-            calendarSelectedDayPresentation(
-                quoteData = MemberQuotesData(
-                    dailyQuoteSeq = 5,
-                    quoteDate = "2025-03-21",
-                    quote = "quote",
-                    author = "author",
-                    completed = true,
-                    likeYnString = YN.N.type,
-                    todayCompleted = false,
-                ),
-                expanded = true,
-            ),
+            CalendarRuntimeQaState.CompletedUnanswered,
+            CalendarRuntimeQaState.fromLaunchValue("completed_unanswered"),
         )
+        assertEquals(null, CalendarRuntimeQaState.fromLaunchValue("unknown"))
+        assertEquals(null, CalendarRuntimeQaState.fromLaunchValue(null))
+    }
+
+    @Test
+    fun `basic QA grid preserves the binding Figma synthetic cells`() {
+        val cells = calendarQaGridCells(CalendarRuntimeQaState.Basic)
+
+        assertEquals(42, cells.size)
+        assertEquals(
+            listOf("17", "17", "18", "19", "20", "22", "23"),
+            cells.subList(21, 28).map { it.label },
+        )
+        assertTrue(cells[21].selected)
+        assertTrue(cells[23].indicators.showFire)
+        assertFalse(cells[23].indicators.showHeart)
     }
 
     @Test

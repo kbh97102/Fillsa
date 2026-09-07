@@ -19,7 +19,6 @@ import com.arakene.presentation.util.noEffectClickable
 fun CalendarCountSection(
     likeCount: Int,
     typingCount: Int,
-    todayCompleteCount: Int,
     countOnClick: () -> Unit,
     modifier: Modifier = Modifier,
     darkMode: Boolean = IsDarkMode.current,
@@ -57,7 +56,7 @@ fun CalendarCountSection(
             )
 
             Text(
-                todayCompleteCount.toString(),
+                typingCount.toString(),
                 style = FillsaTheme.typography.body3,
                 color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier.padding(start = 4.dp)
@@ -72,7 +71,6 @@ private fun CalendarCountSectionPreview() {
     CalendarCountSection(
         typingCount = 3,
         likeCount = 5,
-        todayCompleteCount = 2,
         countOnClick = {}
     )
 }

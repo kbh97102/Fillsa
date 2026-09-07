@@ -3,6 +3,8 @@ package com.arakene.presentation.ui.calendar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import coil3.compose.AsyncImage
@@ -15,6 +17,7 @@ internal fun CalendarFigmaAsset(
     modifier: Modifier = Modifier,
     darkMode: Boolean = false,
     assetSet: String = "calendar",
+    tint: Color? = null,
 ) {
     val context = LocalContext.current
     AsyncImage(
@@ -26,6 +29,7 @@ internal fun CalendarFigmaAsset(
         },
         contentDescription = null,
         contentScale = ContentScale.Fit,
+        colorFilter = tint?.let(ColorFilter::tint),
         modifier = modifier,
     )
 }

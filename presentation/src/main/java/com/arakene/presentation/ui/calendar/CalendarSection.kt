@@ -45,6 +45,22 @@ import java.util.Locale
 
 internal data class CalendarRecordIndicators(val showFire: Boolean, val showHeart: Boolean)
 
+internal data class CalendarQaDayCell(
+    val label: String,
+    val monthDate: Boolean = true,
+    val selected: Boolean = false,
+    val indicators: CalendarRecordIndicators = CalendarRecordIndicators(false, false),
+)
+
+private data class CalendarDayUi(
+    val day: CalendarDay,
+    val quoteData: MemberQuotesData?,
+    val labelOverride: String? = null,
+    val indicatorsOverride: CalendarRecordIndicators? = null,
+    val selected: Boolean,
+    val monthDate: Boolean,
+)
+
 internal fun calendarWeekdayOrder(): List<DayOfWeek> = listOf(
     DayOfWeek.SUNDAY,
     DayOfWeek.MONDAY,
@@ -60,31 +76,17 @@ internal fun calendarRecordIndicators(quoteData: MemberQuotesData?) = CalendarRe
     showHeart = quoteData?.likeYn == YN.Y,
 )
 
-/** Figma's empty, completed card, and below-the-fold completed states. */
-internal enum class CalendarSelectedDayPresentation { Empty, Completed, Expanded }
-
-internal fun calendarSelectedDayPresentation(
-    quoteData: MemberQuotesData?,
-    expanded: Boolean,
-): CalendarSelectedDayPresentation {
-    val completed = quoteData?.let { it.completed || it.todayCompleted } == true
-    return when {
-        !completed -> CalendarSelectedDayPresentation.Empty
-        expanded -> CalendarSelectedDayPresentation.Expanded
-        else -> CalendarSelectedDayPresentation.Completed
-    }
-}
-
 /**
  * Fixed Figma shell: 8 + 30 + 10 + 40 + (6 * 50) + 8 = 396dp.
  * CalendarViewModel continues to own month bounds and selection; only layout is local.
  */
 @Composable
-fun CalendarSection(
+internal fun CalendarSection(
     memberQuotes: List<MemberQuotesData>,
     changeMonth: (YearMonth) -> Unit,
     selectDay: (CalendarDay) -> Unit,
     selectedDay: CalendarDay,
+    qaState: CalendarRuntimeQaState? = null,
     modifier: Modifier = Modifier,
     darkMode: Boolean = IsDarkMode.current,
 ) {
@@ -113,20 +115,37 @@ fun CalendarSection(
         )
         Spacer(Modifier.height(10.dp))
         MonthHeader()
-        calendarGridDays(currentMonth).chunked(7).forEach { week ->
+        val cells = qaState?.let(::calendarQaGridCells)?.map { cell ->
+            CalendarDayUi(
+                day = selectedDay,
+                quoteData = null,
+                labelOverride = cell.label,
+                indicatorsOverride = cell.indicators,
+                selected = cell.selected,
+                monthDate = cell.monthDate,
+            )
+        } ?: calendarGridDays(currentMonth).map { day ->
+            CalendarDayUi(
+                day = day,
+                quoteData = memberQuotes.firstOrNull { it.quoteDate == formatter.format(day.date) },
+                selected = selectedDay.date == day.date,
+                monthDate = day.position == DayPosition.MonthDate && day.date in startDay..today,
+            )
+        }
+        cells.chunked(7).forEach { week ->
             Row(
                 modifier = Modifier.height(50.dp).fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(11.dp, Alignment.CenterHorizontally),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                week.forEach { day ->
-                    val quote = memberQuotes.firstOrNull { it.quoteDate == formatter.format(day.date) }
-                    val selectable = day.position == DayPosition.MonthDate && day.date in startDay..today
+                week.forEach { cell ->
                     Day(
-                        day = day,
-                        quoteData = quote,
-                        isSelected = selectedDay.date == day.date,
-                        isMonthDate = selectable,
+                        day = cell.day,
+                        quoteData = cell.quoteData,
+                        labelOverride = cell.labelOverride,
+                        indicatorsOverride = cell.indicatorsOverride,
+                        isSelected = cell.selected,
+                        isMonthDate = cell.monthDate,
                         darkMode = darkMode,
                         onClick = selectDay,
                     )
@@ -135,6 +154,39 @@ fun CalendarSection(
         }
         Spacer(Modifier.height(8.dp))
     }
+}
+
+internal fun calendarQaGridCells(state: CalendarRuntimeQaState): List<CalendarQaDayCell> {
+    val inactive = listOf("27", "28", "29", "30", "31").map {
+        CalendarQaDayCell(label = it, monthDate = false)
+    }
+    val firstHalf = inactive + (1..16).map { CalendarQaDayCell(it.toString()) }
+    val fire = CalendarRecordIndicators(showFire = true, showHeart = false)
+    val heartFire = CalendarRecordIndicators(showFire = true, showHeart = true)
+    val focusWeek = when (state) {
+        CalendarRuntimeQaState.Basic -> listOf(
+            CalendarQaDayCell("17", selected = true),
+            CalendarQaDayCell("17"),
+            CalendarQaDayCell("18", indicators = fire),
+            CalendarQaDayCell("19", indicators = heartFire),
+            CalendarQaDayCell("20", indicators = heartFire),
+            CalendarQaDayCell("22"),
+            CalendarQaDayCell("23"),
+        )
+        CalendarRuntimeQaState.CompletedUnanswered,
+        CalendarRuntimeQaState.CompletedAnsweredImage -> listOf(
+            CalendarQaDayCell("17"),
+            CalendarQaDayCell("18", indicators = heartFire),
+            CalendarQaDayCell("19", indicators = heartFire),
+            CalendarQaDayCell("20", indicators = heartFire),
+            CalendarQaDayCell("21", selected = true, indicators = heartFire),
+            CalendarQaDayCell("22"),
+            CalendarQaDayCell("23"),
+        )
+    }
+    val lastRows = (24..31).map { CalendarQaDayCell(it.toString()) } +
+        List(6) { CalendarQaDayCell(label = "", monthDate = false) }
+    return firstHalf + focusWeek + lastRows
 }
 
 internal fun calendarGridDays(month: YearMonth): List<CalendarDay> {
@@ -216,15 +268,17 @@ private fun CalendarNavigationArrow(
 }
 
 @Composable
-fun Day(
+internal fun Day(
     day: CalendarDay,
     quoteData: MemberQuotesData?,
+    labelOverride: String? = null,
+    indicatorsOverride: CalendarRecordIndicators? = null,
     isSelected: Boolean = false,
     isMonthDate: Boolean = true,
     darkMode: Boolean = IsDarkMode.current,
     onClick: (CalendarDay) -> Unit = {},
 ) {
-    val indicators = calendarRecordIndicators(quoteData)
+    val indicators = indicatorsOverride ?: calendarRecordIndicators(quoteData)
     Column(
         modifier = Modifier
             .size(width = 36.dp, height = 50.dp)
@@ -234,7 +288,7 @@ fun Day(
     ) {
         Text(
             modifier = Modifier.height(24.dp),
-            text = day.date.dayOfMonth.toString(),
+            text = labelOverride ?: day.date.dayOfMonth.toString(),
             color = when {
                 isSelected -> Color.White
                 isMonthDate -> FillsaTheme.colorScheme.onBackground1
