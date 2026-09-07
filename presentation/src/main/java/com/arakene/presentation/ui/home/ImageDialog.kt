@@ -5,6 +5,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Arrangement
@@ -44,6 +46,14 @@ import com.arakene.presentation.util.logDebug
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.noEffectClickable
 
+internal enum class ImageDialogTextLayout {
+    Intrinsic,
+    BoundedScrollable,
+}
+
+internal fun imageDialogTextLayout(darkMode: Boolean): ImageDialogTextLayout =
+    if (darkMode) ImageDialogTextLayout.BoundedScrollable else ImageDialogTextLayout.Intrinsic
+
 @Composable
 fun ImageDialog(
     quote: String,
@@ -70,6 +80,8 @@ fun ImageDialog(
     )
 
     val maxDialogHeight = (LocalConfiguration.current.screenHeightDp - 48).dp
+    val textScrollState = rememberScrollState()
+    val textLayout = imageDialogTextLayout(darkMode)
 
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -109,6 +121,7 @@ fun ImageDialog(
 
             Column(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .then(
                         if (darkMode) {
                             Modifier.heightIn(min = 373.dp, max = maxDialogHeight)
@@ -142,37 +155,56 @@ fun ImageDialog(
                     }
                 }
 
-                Column(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(top = if (darkMode) 0.dp else 90.dp),
+                        .then(
+                            if (textLayout == ImageDialogTextLayout.BoundedScrollable) {
+                                Modifier.weight(1f, fill = false)
+                            } else {
+                                Modifier.padding(top = 90.dp)
+                            }
+                        ),
+                    contentAlignment = Alignment.Center,
                 ) {
-                    Text(
-                        quote,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        style = if (darkMode) {
-                            FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall)
-                        } else {
-                            FillsaTheme.typography.body2
-                        },
-                        color = colorResource(R.color.gray_700)
-                    )
-
-                    Text(
-                        author,
+                    Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(top = 12.dp),
-                        textAlign = TextAlign.Center,
-                        style = if (darkMode) {
-                            FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall)
-                        } else {
-                            FillsaTheme.typography.body2
-                        },
-                        color = colorResource(R.color.gray_700),
-                        textDecoration = if (darkMode) TextDecoration.Underline else TextDecoration.None,
-                    )
+                            .then(
+                                if (textLayout == ImageDialogTextLayout.BoundedScrollable) {
+                                    Modifier.verticalScroll(textScrollState)
+                                } else {
+                                    Modifier
+                                }
+                            ),
+                    ) {
+                        Text(
+                            quote,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                            style = if (darkMode) {
+                                FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall)
+                            } else {
+                                FillsaTheme.typography.body2
+                            },
+                            color = colorResource(R.color.gray_700)
+                        )
+
+                        Text(
+                            author,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 12.dp),
+                            textAlign = TextAlign.Center,
+                            style = if (darkMode) {
+                                FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall)
+                            } else {
+                                FillsaTheme.typography.body2
+                            },
+                            color = colorResource(R.color.gray_700),
+                            textDecoration = if (darkMode) TextDecoration.Underline else TextDecoration.None,
+                        )
+                    }
                 }
 
                 Row(

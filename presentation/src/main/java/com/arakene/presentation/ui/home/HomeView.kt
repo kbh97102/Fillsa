@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboard
@@ -55,6 +56,7 @@ import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.arakene.domain.responses.DailyQuoteDto
 import java.time.LocalDate
@@ -261,16 +263,19 @@ fun HomeView(
                 if (homeQaFixture == null) {
                     viewModel.handleContract(HomeAction.ClickDeleteImage)
                 } else {
-                    dialogDataHolder.data = DialogData.Builder()
-                        .title("이미지를 삭제하시겠습니까?")
-                        .body("삭제 후 이미지를 되돌릴 수 없습니다. 😢")
-                        .layoutMode(DialogLayoutMode.HomeDarkMeasured)
-                        .reversed(true)
-                        .cancelText("삭제하기")
-                        .okText("취소")
-                        .cancelOnClick { }
-                        .build()
-                    dialogDataHolder.show = true
+                    scope.launch {
+                        withFrameNanos { }
+                        dialogDataHolder.data = DialogData.Builder()
+                            .title("이미지를 삭제하시겠습니까?")
+                            .body("삭제 후 이미지를 되돌릴 수 없습니다. 😢")
+                            .layoutMode(DialogLayoutMode.HomeDarkMeasured)
+                            .reversed(true)
+                            .cancelText("삭제하기")
+                            .okText("취소")
+                            .cancelOnClick { }
+                            .build()
+                        dialogDataHolder.show = true
+                    }
                 }
             }
         )

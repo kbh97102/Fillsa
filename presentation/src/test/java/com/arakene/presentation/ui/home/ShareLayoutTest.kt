@@ -2,17 +2,18 @@ package com.arakene.presentation.ui.home
 
 import androidx.compose.ui.unit.dp
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertNull
 import org.junit.Test
 
 class ShareLayoutTest {
 
     @Test
-    fun `compact viewport reserves room for all share controls`() {
-        assertEquals(477.dp, sharePagerHeight(629.dp, 24.dp))
+    fun `dark pager keeps only the Figma maximum`() {
+        assertEquals(481.dp, sharePagerMaxHeight(darkMode = true))
     }
 
     @Test
-    fun `tall viewport caps pager at Figma height`() {
-        assertEquals(481.dp, sharePagerHeight(730.dp, 24.dp))
+    fun `light pager has no dark cap`() {
+        assertNull(sharePagerMaxHeight(darkMode = false))
     }
 }

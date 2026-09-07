@@ -5,13 +5,12 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -55,11 +54,8 @@ import com.arakene.presentation.util.saveBitmapToGallery
 import com.arakene.presentation.viewmodel.ShareViewModel
 import kotlinx.coroutines.launch
 
-internal fun sharePagerHeight(
-    availableHeight: androidx.compose.ui.unit.Dp,
-    bottomGap: androidx.compose.ui.unit.Dp,
-): androidx.compose.ui.unit.Dp =
-    (availableHeight - 51.dp - 77.dp - bottomGap).coerceIn(320.dp, 481.dp)
+internal fun sharePagerMaxHeight(darkMode: Boolean): androidx.compose.ui.unit.Dp? =
+    481.dp.takeIf { darkMode }
 
 @Composable
 fun ShareView(
@@ -117,43 +113,41 @@ fun ShareView(
 
             }
 
-            BoxWithConstraints(
+            Column(
                 Modifier
                     .weight(1f)
-                    .fillMaxWidth()
                     .background(getBackgroundColor()),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val bottomGap = if (darkMode) 24.dp else 50.dp
-                val pagerHeight = sharePagerHeight(maxHeight, bottomGap)
 
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
+                Text(
+                    stringResource(R.string.share_title),
+                    style = FillsaTheme.typography.heading4,
+                    color = FillsaTheme.colorScheme.onBackground1
+                )
+                Text(
+                    stringResource(R.string.share_subtitle),
+                    style = FillsaTheme.typography.body2,
+                    color = FillsaTheme.colorScheme.onBackground1
+                )
 
-                    Text(
-                        stringResource(R.string.share_title),
-                        style = FillsaTheme.typography.heading4,
-                        color = FillsaTheme.colorScheme.onBackground1
-                    )
-                    Text(
-                        stringResource(R.string.share_subtitle),
-                        style = FillsaTheme.typography.body2,
-                        color = FillsaTheme.colorScheme.onBackground1
-                    )
-
-                    HorizontalPager(
-                        state = state,
-                        modifier = Modifier
-                            .height(pagerHeight)
-                            .padding(
-                                top = if (darkMode) 51.dp else 30.dp,
-                                bottom = 30.dp,
-                            ),
-                        beyondViewportPageCount = 1,
-                        pageSpacing = 20.dp,
-                        contentPadding = PaddingValues(horizontal = if (darkMode) 45.dp else 60.dp)
-                    ) { page ->
+                HorizontalPager(
+                    state = state,
+                    modifier = Modifier
+                        .then(
+                            sharePagerMaxHeight(darkMode)?.let { maxHeight ->
+                                Modifier.weight(1f, fill = false).heightIn(max = maxHeight)
+                            } ?: Modifier.weight(1f)
+                        )
+                        .padding(
+                            top = if (darkMode) 51.dp else 30.dp,
+                            bottom = 30.dp,
+                        ),
+                    beyondViewportPageCount = 1,
+                    pageSpacing = 20.dp,
+                    contentPadding = PaddingValues(horizontal = if (darkMode) 45.dp else 60.dp)
+                ) { page ->
 
                     val color by remember(page) {
                         mutableIntStateOf(
@@ -164,21 +158,21 @@ fun ShareView(
                         )
                     }
 
-                        ShareItem(
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clip(
-                                    RoundedCornerShape(30.dp)
-                                ),
-                            graphicLayer = graphicLayer.takeIf { page == state.currentPage },
-                            author = author,
-                            quote = quote,
-                            backgroundUri = imageList[page],
-                            textColor = colorResource(color)
-                        )
-                    }
+                    ShareItem(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(
+                                RoundedCornerShape(30.dp)
+                            ),
+                        graphicLayer = graphicLayer.takeIf { page == state.currentPage },
+                        author = author,
+                        quote = quote,
+                        backgroundUri = imageList[page],
+                        textColor = colorResource(color)
+                    )
+                }
 
-                    ShareBottomSection(
+                ShareBottomSection(
                     shareOnClick = {
                         // TODO: 카톡 공유
                         scope.launch {
@@ -222,9 +216,8 @@ fun ShareView(
                         }
 
                     },
-                        modifier = Modifier.padding(bottom = bottomGap)
-                    )
-                }
+                    modifier = Modifier.padding(bottom = bottomGap)
+                )
             }
         }
         if (uiState.descriptionShouldVisible) {
