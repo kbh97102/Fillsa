@@ -14,6 +14,7 @@
 - 검증 상태: **Blocked** — `wm size 945x2155` (420 dpi)로 logical 360 × 821dp exact-size component capture를 확보했다. clean light/dark positive default, genuine-zero warning/tooltip, inline calendar open/select-close, question done/edit와 completion snackbar는 확인했지만, full soft keyboard, authenticated image, 실제 completed-writing marker, 그리고 app-wide 4-tab/live-ad와 Figma 3-tab/static-ad의 차이 때문에 assembled-screen acceptance는 Blocked다. 컴포넌트별 검증은 부분 통과일 수 있으나 화면 최종 결과는 Partial/Pass가 아니다.
 - 기준 이미지: `docs/design-qa/assets/home-figma-2929-13556/reference-full.png`
 - QA 기록: `docs/design-qa/2026-09-07-android-home-interactions-qa.md`
+- Dark root 상세 명세: `docs/screens/2_home_dark.md` (root `2929:9603`, 상태별 render node와 기준 이미지)
 
 ### 2026-09-07 Home 상호작용 구현 계약
 
