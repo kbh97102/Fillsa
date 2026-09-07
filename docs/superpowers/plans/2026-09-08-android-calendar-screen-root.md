@@ -19,7 +19,7 @@ Bring the existing Compose Calendar screen up to the current Figma light-root co
 
 Shared four-route navigation and live ad ownership remain unchanged; their difference from Figma's three-tab/static-ad frame is recorded as a product boundary.
 
-## Tasks
+## Task 1: Implement and verify the Calendar root
 
 1. Reconfirm Figma metadata and durable exports for `2985:21952`, `2987:22796`, and `2985:22510`; maintain the complete node map in `docs/screens/3_calendar.md`.
 2. Audit `CalendarView`, `CalendarSection`, `Day`, counts, selected quote/actions, and prompt-answer UI against the three references. Reuse existing theme tokens and Home registered-image rendering where appropriate.
@@ -29,7 +29,7 @@ Shared four-route navigation and live ad ownership remain unchanged; their diffe
 6. After implementation, run focused Calendar unit tests, the relevant presentation test task, and debug APK assembly. This plan deliberately excludes TDD; tests are post-implementation regression checks.
 7. Request an independent scoped code/design review, apply required fixes, rerun verification, update QA, and commit. Do not merge or push without a new explicit request.
 
-## Likely files
+### Likely files
 
 - `presentation/src/main/java/com/arakene/presentation/ui/calendar/CalendarView.kt`
 - `presentation/src/main/java/com/arakene/presentation/ui/calendar/CalendarSection.kt`
@@ -40,7 +40,7 @@ Shared four-route navigation and live ad ownership remain unchanged; their diffe
 - `docs/screens/3_calendar.md`
 - `docs/design-qa/2026-09-08-android-calendar-screen-root-qa.md`
 
-## Verification commands
+### Verification commands
 
 ```bash
 ./gradlew :presentation:testDebugUnitTest --tests com.arakene.presentation.ui.calendar.CalendarRecordIndicatorTest --console=plain
