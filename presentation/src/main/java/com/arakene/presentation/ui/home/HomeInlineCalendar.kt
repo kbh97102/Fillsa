@@ -34,11 +34,15 @@ internal data class HomeCalendarDay(
     val isToday: Boolean,
 )
 
-internal fun isHomeCalendarDateSelectable(date: LocalDate): Boolean =
-    date in DateCondition.startDay..LocalDate.now()
+internal fun isHomeCalendarDateSelectable(date: LocalDate, today: LocalDate = DateCondition.currentDay()): Boolean =
+    date in DateCondition.startDay..today
 
 /** Sunday-first grid containing all visible dates for a month. */
-internal fun homeMonthGrid(month: YearMonth, selectedDate: LocalDate): List<HomeCalendarDay> {
+internal fun homeMonthGrid(
+    month: YearMonth,
+    selectedDate: LocalDate,
+    today: LocalDate = DateCondition.currentDay(),
+): List<HomeCalendarDay> {
     val first = month.atDay(1)
     val gridStart = first.minusDays((first.dayOfWeek.value % DayOfWeek.SUNDAY.value).toLong())
     val last = month.atEndOfMonth()
@@ -49,7 +53,7 @@ internal fun homeMonthGrid(month: YearMonth, selectedDate: LocalDate): List<Home
                 date = date,
                 isInDisplayedMonth = YearMonth.from(date) == month,
                 isSelected = date == selectedDate,
-                isToday = date == LocalDate.now(),
+                isToday = date == today,
             )
         }
         .toList()
@@ -63,7 +67,8 @@ internal fun HomeInlineCalendar(
     onDateSelected: (LocalDate) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val days = homeMonthGrid(displayedMonth, selectedDate)
+    val today = DateCondition.currentDay()
+    val days = homeMonthGrid(displayedMonth, selectedDate, today)
     Column(
         modifier = modifier
             .width(248.dp)
@@ -85,7 +90,7 @@ internal fun HomeInlineCalendar(
                 HomeCalendarSelector(displayedMonth.year.toString())
                 HomeCalendarSelector(displayedMonth.monthValue.toString().padStart(2, '0'))
             }
-            HomeCalendarArrow("›", enabled = displayedMonth < YearMonth.now()) {
+            HomeCalendarArrow("›", enabled = displayedMonth < YearMonth.from(today)) {
                 onMonthChanged(displayedMonth.plusMonths(1))
             }
         }
@@ -118,7 +123,7 @@ internal fun HomeInlineCalendar(
                                         else -> Color.Transparent
                                     }
                                 )
-                                .noEffectClickable(enable = day.isInDisplayedMonth && isHomeCalendarDateSelectable(day.date)) {
+                                .noEffectClickable(enable = day.isInDisplayedMonth && isHomeCalendarDateSelectable(day.date, today)) {
                                     onDateSelected(day.date)
                                 },
                             contentAlignment = Alignment.Center,

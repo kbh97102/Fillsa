@@ -31,6 +31,7 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeEffect
@@ -196,7 +197,7 @@ fun HomeView(
         displayedMonth = displayedMonth,
         isStreakTooltipOpen = isStreakTooltipOpen,
         answerUiState = answerUiState,
-        canGoNext = date.isBefore(LocalDate.now()),
+        canGoNext = date.isBefore(DateCondition.currentDay()),
         onLocaleChanged = { selectedLocale = it },
         onHome = { navigate(Screens.Home()) },
         onProfile = { navigate(Screens.MyPage) },

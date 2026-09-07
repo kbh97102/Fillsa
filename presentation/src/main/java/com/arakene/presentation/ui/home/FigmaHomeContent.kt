@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,6 +53,7 @@ import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.HomeAnswerMaxGraphemes
 import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.getWikipediaUriString
+import com.arakene.presentation.util.isKnownZeroStreak
 import com.arakene.presentation.util.noEffectClickable
 import java.time.LocalDate
 import java.time.YearMonth
@@ -115,6 +117,19 @@ internal data class HomeWeekDayState(
     val isSelected: Boolean,
     val isCompleted: Boolean,
 )
+
+internal enum class HomeWeekDayPresentation {
+    Selected,
+    Completed,
+    Default,
+}
+
+internal fun homeWeekDayPresentation(day: HomeWeekDayState): HomeWeekDayPresentation =
+    when {
+        day.isSelected -> HomeWeekDayPresentation.Selected
+        day.isCompleted -> HomeWeekDayPresentation.Completed
+        else -> HomeWeekDayPresentation.Default
+    }
 
 internal fun homeWeekDayStates(
     selectedDate: LocalDate,
@@ -185,7 +200,7 @@ internal fun FigmaHomeContent(
     darkMode: Boolean = IsDarkMode.current,
 ) {
     val palette = homeColorPalette(darkMode)
-    val streak = StreakProvider.current?.currentStreak ?: 0
+    val streak = StreakProvider.current?.currentStreak
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -277,7 +292,7 @@ internal fun FigmaHomeContent(
             )
         }
 
-        if (isStreakTooltipOpen && streak == 0) {
+        if (isStreakTooltipOpen && isKnownZeroStreak(streak)) {
             HomeStreakTooltip(
                 onCalendar = onStreakCalendar,
                 modifier = Modifier.padding(start = 92.dp, top = 44.dp),
@@ -288,7 +303,7 @@ internal fun FigmaHomeContent(
 
 @Composable
 private fun HomeHeaderSection(
-    streak: Int,
+    streak: Int?,
     onHome: () -> Unit,
     onProfile: () -> Unit,
     onStreakStatus: () -> Unit,
@@ -306,10 +321,10 @@ private fun HomeHeaderSection(
         Spacer(Modifier.weight(1f))
         FigmaAsset(
             "home_streak.svg",
-            Modifier.size(20.dp).noEffectClickable(enable = streak == 0, click = onStreakStatus),
+            Modifier.size(20.dp).noEffectClickable(enable = isKnownZeroStreak(streak), click = onStreakStatus),
         )
         Text(
-            text = "${streak}일",
+            text = "${streak ?: 0}일",
             style = FillsaTheme.typography.subtitle1,
             color = palette.primaryText,
             modifier = Modifier.padding(start = 2.dp),
@@ -369,6 +384,7 @@ private fun HomeWeekStrip(date: LocalDate, completedDates: Set<LocalDate>, palet
     val days = homeWeekDayStates(selectedDate = date, completedDates = completedDates)
     Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
         days.forEach { day ->
+            val presentation = homeWeekDayPresentation(day)
             Box(
                 modifier = Modifier
                     .size(30.dp),
@@ -379,15 +395,15 @@ private fun HomeWeekStrip(date: LocalDate, completedDates: Set<LocalDate>, palet
                         .fillMaxSize()
                         .clip(RoundedCornerShape(99.dp))
                         .background(
-                            when {
-                                day.isSelected -> Color.White
-                                day.isCompleted -> HomePrimary
-                                else -> Color.Transparent
+                            when (presentation) {
+                                HomeWeekDayPresentation.Selected -> Color.White
+                                HomeWeekDayPresentation.Completed -> HomePrimary
+                                HomeWeekDayPresentation.Default -> Color.Transparent
                             }
                         )
                         .border(
                             1.dp,
-                            if (day.isSelected || day.isCompleted) HomePrimary else palette.mutedText,
+                            if (presentation != HomeWeekDayPresentation.Default) HomePrimary else palette.mutedText,
                             RoundedCornerShape(99.dp),
                         ),
                     contentAlignment = Alignment.Center,
@@ -395,10 +411,14 @@ private fun HomeWeekStrip(date: LocalDate, completedDates: Set<LocalDate>, palet
                     Text(
                         day.date.dayOfMonth.toString(),
                         style = FillsaTheme.typography.body4,
-                        color = if (day.isSelected) Color(0xFF212121) else if (day.isCompleted) Color.White else palette.mutedText,
+                        color = when (presentation) {
+                            HomeWeekDayPresentation.Selected -> Color(0xFF212121)
+                            HomeWeekDayPresentation.Completed -> Color.White
+                            HomeWeekDayPresentation.Default -> palette.mutedText
+                        },
                     )
                 }
-                if (day.isCompleted && !day.isSelected) {
+                if (presentation == HomeWeekDayPresentation.Completed) {
                     FigmaAsset(
                         "home_complete_badge.svg",
                         Modifier.size(18.dp).align(Alignment.TopCenter).offset(y = (-10).dp),
@@ -676,23 +696,26 @@ private fun HomePromptAnswerSection(
 
 @Composable
 private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit) {
+    val background = if (isRecorded) Color(0xFFD3D5FF) else HomePrimary
+    val contentColor = if (isRecorded) HomePrimary else Color.White
+    val label = if (isRecorded) "내 답변 수정하기" else "내 답변 기록하기"
     Row(
         modifier = Modifier
             .padding(top = 10.dp)
             .fillMaxWidth()
             .height(50.dp)
             .clip(RoundedCornerShape(8.dp))
-            .background(HomePrimary)
+            .background(background)
             .noEffectClickable(click = onClick)
-            .semantics { contentDescription = "내 답변 기록하기" },
+            .semantics { contentDescription = label },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        FigmaAsset("home_write_answer.svg", Modifier.size(18.dp))
+        FigmaAsset("home_write_answer.svg", Modifier.size(18.dp), colorFilter = ColorFilter.tint(contentColor))
         Text(
-            if (isRecorded) "내 답변 수정하기" else "내 답변 기록하기",
+            label,
             style = FillsaTheme.typography.buttonMediumBold,
-            color = Color.White,
+            color = contentColor,
             modifier = Modifier.padding(start = 4.dp),
         )
     }
@@ -724,6 +747,7 @@ private fun FigmaAsset(
     modifier: Modifier,
     contentScale: ContentScale = ContentScale.Fit,
     darkMode: Boolean = false,
+    colorFilter: ColorFilter? = null,
 ) {
     val context = LocalContext.current
     AsyncImage(
@@ -736,5 +760,6 @@ private fun FigmaAsset(
         contentDescription = null,
         modifier = modifier,
         contentScale = contentScale,
+        colorFilter = colorFilter,
     )
 }

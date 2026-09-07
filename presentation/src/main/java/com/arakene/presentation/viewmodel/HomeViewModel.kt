@@ -39,8 +39,11 @@ import com.arakene.presentation.util.action.HomeAction
 import com.arakene.presentation.util.changeHomeAnswer
 import com.arakene.presentation.util.editHomeAnswer
 import com.arakene.presentation.util.homeTypingDestination
+import com.arakene.presentation.util.homeStreakCalendarDestination
 import com.arakene.presentation.util.logDebug
-import com.arakene.presentation.util.recordHomeAnswer
+import com.arakene.presentation.util.recordHomeAnswerForHome
+import com.arakene.presentation.util.selectHomeCalendarDate
+import com.arakene.presentation.util.toggleHomeCalendar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -102,8 +105,6 @@ class HomeViewModel @Inject constructor(
     var completedDates by mutableStateOf<Set<LocalDate>>(emptySet())
         private set
 
-    private val today = LocalDate.now()
-
     override fun handleAction(action: Action) {
         when (action) {
             is HomeAction.ClickBefore -> {
@@ -116,7 +117,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeAction.ClickNext -> {
                 val targetDate = date.value.plusDays(1)
-                if (targetDate <= today) {
+                if (targetDate <= DateCondition.currentDay()) {
                     date.value = targetDate
                     refresh(date.value)
                 }
@@ -167,17 +168,18 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickCalendar -> {
-                isCalendarOpen = !isCalendarOpen
-                displayedMonth = YearMonth.from(date.value)
+                val calendarState = toggleHomeCalendar(isCalendarOpen, date.value)
+                isCalendarOpen = calendarState.isOpen
+                displayedMonth = calendarState.displayedMonth
                 isStreakTooltipOpen = false
             }
 
             is HomeAction.SelectHomeDate -> {
-                if (action.date in DateCondition.startDay..today) {
-                    date.value = action.date
-                    displayedMonth = YearMonth.from(action.date)
+                selectHomeCalendarDate(action.date)?.let { calendarState ->
+                    date.value = calendarState.refreshDate ?: return@let
+                    displayedMonth = calendarState.displayedMonth
                     isCalendarOpen = false
-                    refresh(action.date)
+                    refresh(date.value)
                 }
             }
 
@@ -186,7 +188,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ChangeHomeMonth -> {
-                if (action.month in DateCondition.startMonth..YearMonth.now()) {
+                if (action.month in DateCondition.startMonth..YearMonth.from(DateCondition.currentDay())) {
                     displayedMonth = action.month
                 }
             }
@@ -202,7 +204,7 @@ class HomeViewModel @Inject constructor(
 
             is HomeAction.ClickStreakCalendar -> {
                 isStreakTooltipOpen = false
-                emitEffect(CommonEffect.Move(Screens.Calendar))
+                emitEffect(CommonEffect.Move(homeStreakCalendarDestination()))
             }
 
             is HomeAction.ChangeAnswer -> {
@@ -210,8 +212,9 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.RecordAnswer -> {
-                answerUiState = recordHomeAnswer(answerUiState)
-                emitEffect(CommonEffect.ShowSnackBar("답변을 기록했어요."))
+                val outcome = recordHomeAnswerForHome(answerUiState)
+                answerUiState = outcome.state
+                emitEffect(CommonEffect.ShowSnackBar(outcome.snackbarMessage))
             }
 
             is HomeAction.EditAnswer -> {

@@ -24,4 +24,15 @@ class HomeWeekStripStateTest {
         assertFalse(days.first().isCompleted)
         assertEquals(0, days.count { it.isCompleted })
     }
+
+    @Test
+    fun `selected weekday appearance wins over a completed marker`() {
+        val selectedDate = LocalDate.of(2026, 8, 12)
+        val selectedDay = homeWeekDayStates(
+            selectedDate = selectedDate,
+            completedDates = setOf(selectedDate),
+        ).last()
+
+        assertEquals(HomeWeekDayPresentation.Selected, homeWeekDayPresentation(selectedDay))
+    }
 }

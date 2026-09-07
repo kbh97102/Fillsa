@@ -11,7 +11,7 @@
 - Figma URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-13556
 - 대상 프레임/노드: light `2929:13556` (`2.home`), dark `3039:26518` (`2.home`). Parent section `2929:9603` is not a render target.
 - 대상 기기/프레임 크기: Figma export 360 × 821 px; light root `#FFEFCC`, dark root `#212121`. (The supplied 360 × 720 description conflicts with the authoritative node export; QA uses the export.)
-- 검증 상태: Blocked — 2026-09-07 상호작용 구현과 unit/build 검증은 완료했지만, 연결된 Android emulator/device가 없어 전체 런타임 프레임 비교를 캡처하지 못함
+- 검증 상태: Blocked — 2026-09-07 Android Emulator(1080 × 2400, 420 dpi)에서 기본·inline calendar·질문 focus/done·이미지 로그인·dark runtime capture를 확보했다. 그러나 matching 360 × 821 full-frame, genuine zero-streak tooltip, authenticated image flow는 확보하지 못했고 debug AdMob validator가 snackbar/dark 하단 비교를 가린다.
 - 기준 이미지: `docs/design-qa/assets/home-figma-2929-13556/reference-full.png`
 - QA 기록: `docs/design-qa/2026-09-07-android-home-interactions-qa.md`
 
@@ -42,14 +42,14 @@
 ### 컴포넌트 분해
 | 컴포넌트 | Figma 노드 | 책임 | 조립 위치 | 검증 상태 |
 |---|---|---|---|---|
-| Header | `2929:15476` | Figma logo, current streak, profile navigation | `FigmaHomeContent` | 부분 통과(unit/build); runtime Blocked |
-| Month calendar | `2929:15667`, `2929:16221`, `3139:1501` | `YYYY.MM` selector와 inline month popup, 월/연도 탐색 및 날짜 선택 | `HomeDateWeekSection` / `HomeInlineCalendar` | 부분 통과(unit/build); runtime Blocked |
-| Week strip | `3204:2435` | 선택일을 오른쪽 끝으로 둔 7일과 실제 완료 필사 marker | `HomeDateWeekSection` | 부분 통과(unit/build); runtime Blocked |
+| Header | `2929:15476` | Figma logo, current streak, profile navigation | `FigmaHomeContent` | 부분 통과(runtime default); genuine 0 tooltip Blocked |
+| Month calendar | `2929:15667`, `2929:16221`, `3139:1501` | `YYYY.MM` selector와 inline month popup, 월/연도 탐색 및 날짜 선택 | `HomeDateWeekSection` / `HomeInlineCalendar` | 부분 통과(runtime open/select-close); target frame Blocked |
+| Week strip | `3204:2435` | 선택일을 오른쪽 끝으로 둔 7일과 실제 완료 필사 marker | `HomeDateWeekSection` | 부분 통과(runtime selected); completion data Blocked |
 | Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
 | Quote action row | `2929:15503` | copy/share/like/image actions with current like visual state | `HomeQuoteActionRow` | 부분 통과(빌드) |
-| Prompt response | `3087:29376`, `3139:1399`, `3087:29378`, `3110:34293` | 200-grapheme 입력, session 기록, snackbar, done/edit 상태; 명언 필사 route와 분리 | `HomePromptAnswerSection` / `HomeViewModel` | 부분 통과(unit/build); runtime Blocked; 영구 저장은 별도 범위 |
+| Prompt response | `3087:29376`, `3139:1399`, `3087:29378`, `3110:34293` | 200-grapheme 입력, session 기록, snackbar, done/edit 상태; 명언 필사 route와 분리 | `HomePromptAnswerSection` / `HomeViewModel` | 부분 통과(runtime focus/done); clean snackbar frame Blocked; 영구 저장은 별도 범위 |
 | Global bottom navigation/ad | `3087:29254`; ad reference `2929:29249` is unavailable | Figma has 3 × 120dp tabs; Android keeps its shared 4-route bar and live ad surface | scaffold / `BottomNavigationBar` | Blocked — product decision required |
-| Dark palette/assets | `3039:26518` | dark root/card/input/text/divider plus night SVG variants | `FigmaHomeContent` / `assets/figma/home-night/` | 부분 통과(RED→GREEN token test·runtime capture); full frame Blocked |
+| Dark palette/assets | `3039:26518` | dark root/card/input/text/divider plus night SVG variants | `FigmaHomeContent` / `assets/figma/home-night/` | 부분 통과(runtime capture); unobstructed full frame Blocked |
 
 현재 Home에는 질문 답변을 나타내는 domain/data 계약이 없습니다. 이번 UI 범위는 `HomeViewModel`의 session state로 기록/수정 상태와 snackbar를 구현하며 Typing으로 전달하지 않습니다. 영구 저장은 별도 작업에서 (1) 날짜·질문 기반 `PromptAnswerRecord` 모델, (2) `LocalRepository`의 저장/조회 계약과 device-local 또는 실제 backend 구현을 함께 정의해야 합니다. 기존 quote 필사와 memo/API 필드는 재사용하지 않습니다.
 
