@@ -8,7 +8,7 @@
 - Render target: 아래 표의 360×821 또는 360×720 frame. 구현 작업자는 root section이 아니라 각 render target에 Figma MCP `get_design_context`를 다시 호출한다.
 - Color mode: Dark
 - 조사일: 2026-09-07
-- 검증 상태: 문서화 완료 / 구현 및 런타임 검증 미착수
+- 검증 상태: Android 구현 및 런타임 검증 완료 / 최종 조립 parity는 3-tab·static AD 제품 결정 부재로 Blocked
 - 기준 이미지: `docs/design-qa/assets/home-figma-2929-9603/2026-09-07/`
 - QA 준비 문서: `docs/design-qa/2026-09-07-android-home-dark-root-qa.md`
 
@@ -112,3 +112,12 @@ Home의 보호된 이미지 action에서 기존 인증 정책에 따라 modal/ro
 
 - iOS: `docs/superpowers/plans/2026-09-07-ios-home-dark-root.md`
 - Android: `docs/superpowers/plans/2026-09-07-android-home-dark-root.md`
+
+## Android implementation evidence — 2026-09-07
+
+- API 35 emulator를 logical 360×821dp, density 160, dark appearance로 실행했다. Home 기본/달력/tooltip/복사/선택/질문 focus·recorded/image preview·template/delete/login/share/Typing IME 상태는 `docs/design-qa/assets/home-figma-2929-9603/2026-09-07/runtime-android-dark-*.png`에 있다.
+- Home 기본 runtime landmark는 quote y168/h150, action row y328/h42, question y389, answer field y438/h174, CTA y637/h50이다. 달력 popup은 x20/y126, 248×335이고 tooltip은 x92/y85, 231×76이다.
+- 질문 focus에서는 Android IME resize/pan을 반영해 body가 최종 -209dp 이동하며 `3136:1198`의 action row/question/174dp field 배치를 유지한다.
+- Android Gboard, Android system/status/navigation bar, API 35 clipboard preview, Android Kakao/Google provider 구성은 OS/platform 소유 차이로 기록했다.
+- 질문 답변은 UI session state, 이미지/인증/공유/좋아요/날짜는 기존 domain/API/auth/navigation 계약을 계속 사용한다. 테스트 fixture는 debug intent extra로만 활성화된다.
+- 상세 비교와 최종 판정: `docs/design-qa/2026-09-07-android-home-dark-root-qa.md`. 3-tab/static AD 대 4-route/live AD 차이는 명시적 제품 결정 전까지 계속 Blocked다.
