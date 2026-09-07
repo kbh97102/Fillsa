@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -35,8 +36,11 @@ import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeEffect
+import com.arakene.presentation.util.HomeAnswerRecordedSnackbar
+import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.ImageDialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
+import com.arakene.presentation.util.LocalHomeRuntimeQaFixture
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
@@ -80,10 +84,20 @@ fun HomeView(
     var selectedLocale by remember {
         mutableStateOf(LocaleType.KOR)
     }
+    val homeQaFixture = LocalHomeRuntimeQaFixture.current
 
-    val quote by remember(viewModel.currentQuota, selectedLocale) {
+    LaunchedEffect(homeQaFixture?.showRecordedAnswer) {
+        if (homeQaFixture?.showRecordedAnswer == true) {
+            snackbarHostState.showSnackbar(
+                message = HomeAnswerRecordedSnackbar,
+                duration = SnackbarDuration.Indefinite,
+            )
+        }
+    }
+
+    val quote by remember(viewModel.currentQuota, selectedLocale, homeQaFixture) {
         mutableStateOf(
-            if (selectedLocale == LocaleType.KOR) {
+            homeQaFixture?.quote ?: if (selectedLocale == LocaleType.KOR) {
                 viewModel.currentQuota.korQuote ?: ""
             } else {
                 viewModel.currentQuota.engQuote ?: ""
@@ -91,9 +105,9 @@ fun HomeView(
         )
     }
 
-    val author by remember(viewModel.currentQuota, selectedLocale) {
+    val author by remember(viewModel.currentQuota, selectedLocale, homeQaFixture) {
         mutableStateOf(
-            if (selectedLocale == LocaleType.KOR) {
+            homeQaFixture?.author ?: if (selectedLocale == LocaleType.KOR) {
                 viewModel.currentQuota.korAuthor ?: ""
             } else {
                 viewModel.currentQuota.engAuthor ?: ""
@@ -171,7 +185,11 @@ fun HomeView(
     val isCalendarOpen = viewModel.isCalendarOpen
     val displayedMonth = viewModel.displayedMonth
     val isStreakTooltipOpen = viewModel.isStreakTooltipOpen
-    val answerUiState = viewModel.answerUiState
+    val answerUiState = if (homeQaFixture?.showRecordedAnswer == true) {
+        HomeAnswerUiState(recordedAnswer = "기록한 답변", isEditing = false)
+    } else {
+        viewModel.answerUiState
+    }
 
     if (imageDialogDataHolder.show) {
         ImageDialog(

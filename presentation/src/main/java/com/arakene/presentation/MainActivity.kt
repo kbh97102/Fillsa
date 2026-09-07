@@ -31,6 +31,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.arakene.domain.util.DarkModeType
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.presentation.ui.BottomNavigationBar
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
@@ -40,12 +41,14 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
+import com.arakene.presentation.util.LocalHomeRuntimeQaFixture
 import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.StreakProvider
+import com.arakene.presentation.util.HomeRuntimeQaFixture
 import com.arakene.presentation.util.logError
 import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
@@ -64,6 +67,31 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
+        val homeQaStreakOverride = if (BuildConfig.DEBUG && intent.hasExtra(EXTRA_HOME_QA_STREAK)) {
+            intent.getIntExtra(EXTRA_HOME_QA_STREAK, 0)
+        } else {
+            null
+        }
+        val homeQaDarkModeOverride = if (BuildConfig.DEBUG && intent.hasExtra(EXTRA_HOME_QA_DARK_MODE)) {
+            intent.getBooleanExtra(EXTRA_HOME_QA_DARK_MODE, false)
+        } else {
+            null
+        }
+        val homeQaHideAd = BuildConfig.DEBUG && intent.getBooleanExtra(EXTRA_HOME_QA_HIDE_AD, false)
+        val homeQaShowRecordedAnswer = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_RECORDED_ANSWER,
+            false
+        )
+        val homeQaFixture = if (BuildConfig.DEBUG && intent.getBooleanExtra(EXTRA_HOME_QA_FIXTURE, false)) {
+            HomeRuntimeQaFixture(
+                quote = "최고의 선은 물과 같으니, 물은 만물을 이롭게 하면서도 다투지 않는다.",
+                author = "노자",
+                showRecordedAnswer = homeQaShowRecordedAnswer,
+            )
+        } else {
+            null
+        }
+
         mainActivityViewModel.initWidgetData()
 //        mainActivityViewModel.getPopupGeneral()
 
@@ -77,19 +105,22 @@ class MainActivity : ComponentActivity() {
 
             val systemDarkMode = isSystemInDarkTheme()
 
-            val isDarkMode by remember(darkModeType) {
+            val isDarkMode by remember(darkModeType, homeQaDarkModeOverride) {
                 mutableStateOf(
-                    when (darkModeType) {
+                    homeQaDarkModeOverride ?: when (darkModeType) {
                         DarkModeType.DARK -> true
                         DarkModeType.LIGHT -> false
                         DarkModeType.SYSTEM -> systemDarkMode
-                    }
+                    },
                 )
             }
 
             val streakCount by remember {
                 mainActivityViewModel.streakCount
             }
+            val providedStreak = homeQaStreakOverride?.let { streak ->
+                MemberStreakResponse(currentStreak = streak, isTodayWritten = false)
+            } ?: streakCount
 
             LaunchedEffect(streakCount) {
                 logError("업데이트 되는거니? $streakCount")
@@ -130,6 +161,7 @@ class MainActivity : ComponentActivity() {
             val isLogged by viewModel.isLogged.collectAsState(false)
 
             val shouldShowAd by viewModel.shouldShowAd.collectAsState()
+            val displayAd = shouldShowAd && !homeQaHideAd
 
             LaunchedEffect(currentDestination) {
                 viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
@@ -142,8 +174,9 @@ class MainActivity : ComponentActivity() {
                     LocalDialogDataHolder provides dialogData,
                     LocalLoadingState provides globalLoadingState,
                     LocalMoveHolder provides navController,
+                    LocalHomeRuntimeQaFixture provides homeQaFixture,
                     IsDarkMode provides isDarkMode,
-                    StreakProvider provides streakCount
+                    StreakProvider provides providedStreak
                 ) {
 
                     Box(
@@ -175,7 +208,7 @@ class MainActivity : ComponentActivity() {
                                     BottomNavigationBar(
                                         isLogged = isLogged,
                                         navController = navController,
-                                        displayAd = shouldShowAd,
+                                        displayAd = displayAd,
                                         displayBottomBar = displayBottomBar
                                     )
                                 },
@@ -185,13 +218,15 @@ class MainActivity : ComponentActivity() {
                                     currentDestination?.destination?.route?.contains("Splash") == true -> colorResource(R.color.white)
                                     else -> colorResource(R.color.primary)
                                 },
-                                contentWindowInsets = if (shouldShowAd) {
+                                contentWindowInsets = if (displayAd) {
                                     WindowInsets.statusBars
                                 } else {
                                     ScaffoldDefaults.contentWindowInsets
                                 }
                             ) { paddingValues ->
-                                DialogSection(dialogData)
+                                if (homeQaFixture == null) {
+                                    DialogSection(dialogData)
+                                }
 
                                 MainNavHost(
                                     modifier = Modifier
@@ -223,5 +258,13 @@ class MainActivity : ComponentActivity() {
             Screens.Calendar::class.qualifiedName,
             Screens.MyPage::class.qualifiedName
         )
+    }
+
+    private companion object {
+        const val EXTRA_HOME_QA_STREAK = "com.arakene.fillsa.extra.HOME_QA_STREAK"
+        const val EXTRA_HOME_QA_DARK_MODE = "com.arakene.fillsa.extra.HOME_QA_DARK_MODE"
+        const val EXTRA_HOME_QA_HIDE_AD = "com.arakene.fillsa.extra.HOME_QA_HIDE_AD"
+        const val EXTRA_HOME_QA_FIXTURE = "com.arakene.fillsa.extra.HOME_QA_FIXTURE"
+        const val EXTRA_HOME_QA_RECORDED_ANSWER = "com.arakene.fillsa.extra.HOME_QA_RECORDED_ANSWER"
     }
 }

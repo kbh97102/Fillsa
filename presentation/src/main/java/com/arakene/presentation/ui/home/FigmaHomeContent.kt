@@ -3,6 +3,7 @@ package com.arakene.presentation.ui.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,10 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -130,6 +135,14 @@ internal fun homeWeekDayPresentation(day: HomeWeekDayState): HomeWeekDayPresenta
         day.isCompleted -> HomeWeekDayPresentation.Completed
         else -> HomeWeekDayPresentation.Default
     }
+
+internal enum class HomeStreakHeaderPresentation {
+    ZeroWarning,
+    Streak,
+}
+
+internal fun homeStreakHeaderPresentation(streak: Int?): HomeStreakHeaderPresentation =
+    if (isKnownZeroStreak(streak)) HomeStreakHeaderPresentation.ZeroWarning else HomeStreakHeaderPresentation.Streak
 
 internal fun homeWeekDayStates(
     selectedDate: LocalDate,
@@ -319,20 +332,55 @@ private fun HomeHeaderSection(
     ) {
         FigmaAsset("home_logo.svg", Modifier.width(60.dp).height(27.dp).noEffectClickable(click = onHome), darkMode = darkMode)
         Spacer(Modifier.weight(1f))
-        FigmaAsset(
-            "home_streak.svg",
-            Modifier.size(20.dp).noEffectClickable(enable = isKnownZeroStreak(streak), click = onStreakStatus),
-        )
-        Text(
-            text = "${streak ?: 0}일",
-            style = FillsaTheme.typography.subtitle1,
-            color = palette.primaryText,
-            modifier = Modifier.padding(start = 2.dp),
-        )
+        when (homeStreakHeaderPresentation(streak)) {
+            HomeStreakHeaderPresentation.ZeroWarning -> HomeZeroStreakWarning(onClick = onStreakStatus)
+            HomeStreakHeaderPresentation.Streak -> {
+                FigmaAsset("home_streak.svg", Modifier.size(20.dp))
+                Text(
+                    text = "${streak ?: 0}일",
+                    style = FillsaTheme.typography.subtitle1,
+                    color = palette.primaryText,
+                    modifier = Modifier.padding(start = 2.dp),
+                )
+            }
+        }
         FigmaAsset(
             "home_profile.svg",
             Modifier.padding(start = 12.dp).size(24.dp).noEffectClickable(click = onProfile),
             darkMode = darkMode,
+        )
+    }
+}
+
+@Composable
+private fun HomeZeroStreakWarning(onClick: () -> Unit) {
+    Canvas(
+        modifier = Modifier
+            .size(24.dp)
+            .noEffectClickable(click = onClick),
+    ) {
+        val triangle = Path().apply {
+            moveTo(size.width / 2f, size.height * 0.12f)
+            lineTo(size.width * 0.9f, size.height * 0.84f)
+            lineTo(size.width * 0.1f, size.height * 0.84f)
+            close()
+        }
+        drawPath(
+            path = triangle,
+            color = HomePrimary,
+            style = Stroke(width = 1.75.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round),
+        )
+        drawLine(
+            color = HomePrimary,
+            start = androidx.compose.ui.geometry.Offset(size.width / 2f, size.height * 0.38f),
+            end = androidx.compose.ui.geometry.Offset(size.width / 2f, size.height * 0.58f),
+            strokeWidth = 1.75.dp.toPx(),
+            cap = StrokeCap.Round,
+        )
+        drawCircle(
+            color = HomePrimary,
+            radius = 1.35.dp.toPx(),
+            center = androidx.compose.ui.geometry.Offset(size.width / 2f, size.height * 0.7f),
         )
     }
 }

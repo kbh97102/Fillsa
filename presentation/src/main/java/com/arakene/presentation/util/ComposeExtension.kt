@@ -187,6 +187,14 @@ val LocalDialogDataHolder = compositionLocalOf { DialogDataHolder() }
 val LocalMoveHolder = compositionLocalOf<NavHostController?> { null }
 val StreakProvider = compositionLocalOf<MemberStreakResponse?> { null }
 
+internal data class HomeRuntimeQaFixture(
+    val quote: String,
+    val author: String,
+    val showRecordedAnswer: Boolean = false,
+)
+
+internal val LocalHomeRuntimeQaFixture = staticCompositionLocalOf<HomeRuntimeQaFixture?> { null }
+
 val IsDarkMode = staticCompositionLocalOf { false }
 
 

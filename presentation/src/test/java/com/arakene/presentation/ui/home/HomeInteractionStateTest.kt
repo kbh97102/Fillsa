@@ -43,6 +43,13 @@ class HomeInteractionStateTest {
     }
 
     @Test
+    fun `only a known zero uses the warning header control`() {
+        assertEquals(HomeStreakHeaderPresentation.Streak, homeStreakHeaderPresentation(null))
+        assertEquals(HomeStreakHeaderPresentation.Streak, homeStreakHeaderPresentation(3))
+        assertEquals(HomeStreakHeaderPresentation.ZeroWarning, homeStreakHeaderPresentation(0))
+    }
+
+    @Test
     fun `recording an answer produces the Home snackbar without a Typing destination`() {
         val outcome = recordHomeAnswerForHome(HomeAnswerUiState(draft = "홈에서 기록"))
 
