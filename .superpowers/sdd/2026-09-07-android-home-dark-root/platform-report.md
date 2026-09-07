@@ -121,6 +121,7 @@ Capture directory: `docs/design-qa/assets/home-figma-2929-9603/2026-09-07/`
 - `1a9e24f` — `docs(android): record dark Home runtime parity`
 - `038a7b0` — `docs(android): add dark Home platform report`
 - `4ac2f4e` — `fix(android): address dark Home review findings`
+- `641171c` — `docs(android): record dark Home review verification`
 - Platform report commit: the commit containing this file (listed in the parent handoff because a commit cannot include its own SHA).
 
 ## Concerns / blockers
