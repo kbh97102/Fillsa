@@ -47,6 +47,8 @@ class MainDispatcherRule(
 
 internal class CountingHomeRepository : HomeRepository {
     val events = mutableListOf<String>()
+    var networkCallCount: Int = 0
+        private set
     val weeklyEndDates = mutableListOf<String?>()
     var weeklyResult: ApiResult<MemberWeeklyQuoteResponse> = ApiResult.Fail(CommonError.DefaultError)
     var dailyResult: ApiResult<MemberQuoteDay> = ApiResult.Fail(CommonError.DefaultError)
@@ -55,29 +57,48 @@ internal class CountingHomeRepository : HomeRepository {
         DailyQuotaNoToken(1, "guest", "guest", "author", "author", null),
     )
 
-    override suspend fun testErrorCode(code: Int): ApiResult<Unit> = ApiResult.Success(Unit)
+    private fun record(event: String) {
+        networkCallCount += 1
+        events += event
+    }
+
+    override suspend fun testErrorCode(code: Int): ApiResult<Unit> {
+        record("test-error:$code")
+        return ApiResult.Success(Unit)
+    }
     override suspend fun getDailyQuoteNoToken(quoteDate: String): ApiResult<DailyQuotaNoToken> {
-        events += "guest-daily:$quoteDate"
+        record("guest-daily:$quoteDate")
         return guestDailyResult
     }
-    override suspend fun getDailyQuote(quoteDate: String): ApiResult<DailyQuoteDto> = ApiResult.Success(DailyQuoteDto())
+    override suspend fun getDailyQuote(quoteDate: String): ApiResult<DailyQuoteDto> {
+        record("legacy-daily:$quoteDate")
+        return ApiResult.Success(DailyQuoteDto())
+    }
     override suspend fun getWeeklyQuotes(endDate: String?): ApiResult<MemberWeeklyQuoteResponse> {
         weeklyEndDates += endDate
-        events += "weekly:${endDate ?: "omitted"}"
+        record("weekly:${endDate ?: "omitted"}")
         return weeklyResult
     }
     override suspend fun getMemberQuoteDay(quoteDate: String): ApiResult<MemberQuoteDay> {
-        events += "member-daily:$quoteDate"
+        record("member-daily:$quoteDate")
         return dailyResult
     }
     override suspend fun postAnswer(dailyQuoteSeq: Int, request: AnswerRequest): ApiResult<AnswerResponse> {
-        events += "answer:$dailyQuoteSeq:${request.answer}"
+        record("answer:$dailyQuoteSeq:${request.answer}")
         return answerResult
     }
-    override suspend fun postLike(likeRequest: LikeRequest, dailyQuoteSeq: Int): ApiResult<Int> = ApiResult.Success(1)
-    override suspend fun postUploadImage(imageFile: File, dailyQuoteSeq: Int): ApiResult<MemberQuoteImageResponse> =
-        ApiResult.Success(MemberQuoteImageResponse(dailyQuoteSeq, "image"))
-    override suspend fun deleteUploadImage(dailyQuoteSeq: Int): ApiResult<Int> = ApiResult.Success(1)
+    override suspend fun postLike(likeRequest: LikeRequest, dailyQuoteSeq: Int): ApiResult<Int> {
+        record("like:$dailyQuoteSeq:${likeRequest.likeYn}")
+        return ApiResult.Success(1)
+    }
+    override suspend fun postUploadImage(imageFile: File, dailyQuoteSeq: Int): ApiResult<MemberQuoteImageResponse> {
+        record("upload-image:$dailyQuoteSeq:${imageFile.name}")
+        return ApiResult.Success(MemberQuoteImageResponse(dailyQuoteSeq, "image"))
+    }
+    override suspend fun deleteUploadImage(dailyQuoteSeq: Int): ApiResult<Int> {
+        record("delete-image:$dailyQuoteSeq")
+        return ApiResult.Success(1)
+    }
 }
 
 internal class CountingCalendarRepository : CalendarRepository {

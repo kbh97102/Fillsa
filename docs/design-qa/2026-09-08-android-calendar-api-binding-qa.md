@@ -34,7 +34,7 @@ Task 6 performs an integration revalidation rather than changing or extending th
 - Guest-only design question fallback was explicitly confirmed by the parent; members use API question exclusively.
 - Figma fixture local-resource thumbnail and fixture-only displayed count remain scoped to the existing QA fixture.
 - Coroutine-level `CalendarViewModel` tests use counted Home/Calendar repository fakes to verify monthly invocation, cache-only `SelectDay` with zero network calls, POST-before-daily order, silent daily failure, guest isolation, unchanged summary/completion/like/image fields, and exact Calendar-to-Home target emission.
-- Retrofit contract tests independently verify typing GET uses `/api/v1/typing/{date}` with an empty request body while typing POST uses `/api/v2/typing/{date}` with its JSON body.
+- Retrofit contract tests independently verify typing GET uses `/api/v1/member-quotes/{dailyQuoteSeq}/typing` with an empty request body while typing POST uses `/api/v2/member-quotes/{dailyQuoteSeq}/typing` with its JSON body.
 
 ## Final assembled-screen result
 

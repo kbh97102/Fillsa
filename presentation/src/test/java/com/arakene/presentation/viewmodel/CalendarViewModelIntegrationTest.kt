@@ -55,12 +55,14 @@ class CalendarViewModelIntegrationTest {
         vm.handleContract(CommonEffect.Refresh)
         advanceUntilIdle()
         assertEquals(1, calendar.events.count { it.startsWith("member-monthly:") })
+        assertEquals(0, home.networkCallCount)
 
         vm.handleContract(CalendarAction.SelectDay(day("2026-09-07")))
         runCurrent()
 
         assertEquals(1, calendar.events.size)
-        assertTrue(home.events.isEmpty())
+        assertEquals(0, home.networkCallCount)
+        assertEquals(emptyList<String>(), home.events)
         assertEquals("2026-09-07", vm.selectedDay.value.date.toString())
     }
 
@@ -84,6 +86,7 @@ class CalendarViewModelIntegrationTest {
         vm.handleContract(CalendarAction.RecordAnswer)
         advanceUntilIdle()
 
+        assertEquals(2, home.networkCallCount)
         assertEquals(listOf("answer:42:내 답변", "member-daily:2026-09-08"), home.events)
         val after = vm.data.value!!
         val quote = after.memberQuotes.single { it.quoteDate == "2026-09-08" }
@@ -108,7 +111,8 @@ class CalendarViewModelIntegrationTest {
 
         assertEquals(1, calendar.events.count { it.startsWith("guest-monthly:") })
         assertFalse(calendar.events.any { it.startsWith("member-monthly:") })
-        assertTrue(home.events.isEmpty())
+        assertEquals(0, home.networkCallCount)
+        assertEquals(emptyList<String>(), home.events)
     }
 
     @Test

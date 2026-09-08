@@ -57,11 +57,13 @@ class HomeViewModelIntegrationTest {
         vm.initialRefresh(null)
         advanceUntilIdle()
         assertEquals(listOf<String?>(null), home.weeklyEndDates)
+        assertEquals(1, home.networkCallCount)
 
         vm.handleContract(HomeAction.SelectWeekDay(LocalDate.parse("2026-09-01")))
         runCurrent()
 
         assertEquals(listOf<String?>(null), home.weeklyEndDates)
+        assertEquals(1, home.networkCallCount)
         assertEquals(LocalDate.parse("2026-09-01"), vm.date.value)
         assertTrue(LocalDate.parse("2026-08-30") in vm.completedDates)
     }
@@ -87,14 +89,17 @@ class HomeViewModelIntegrationTest {
         vm.initialRefresh(null)
         advanceUntilIdle()
         assertTrue(vm.memberQuoteWindow != null)
+        val eventsBeforeLogout = home.events.toList()
+        assertEquals(listOf("weekly:omitted"), eventsBeforeLogout)
 
         local.loginStatus.emit(false)
         advanceUntilIdle()
 
         assertNull(vm.memberQuoteWindow)
         assertEquals(1, home.weeklyEndDates.size)
-        assertTrue(home.events.any { it.startsWith("guest-daily:") })
-        assertFalse(home.events.drop(1).any { it.startsWith("member-daily:") || it.startsWith("answer:") })
+        assertEquals(2, home.networkCallCount)
+        assertEquals(eventsBeforeLogout, home.events.dropLast(1))
+        assertTrue(home.events.last().startsWith("guest-daily:"))
     }
 
     @Test
@@ -131,9 +136,10 @@ class HomeViewModelIntegrationTest {
         vm.handleContract(HomeAction.RecordAnswer)
         advanceUntilIdle()
 
+        assertEquals(3, home.networkCallCount)
         assertEquals(
-            listOf("answer:107:내 답변", "member-daily:2026-09-03"),
-            home.events.filter { it.startsWith("answer:") || it.startsWith("member-daily:") },
+            listOf("weekly:omitted", "answer:107:내 답변", "member-daily:2026-09-03"),
+            home.events,
         )
         assertEquals("서버 답변", vm.answerUiState.recordedAnswer)
         assertFalse(vm.memberQuoteWindow!!.selectedDay!!.completed)
