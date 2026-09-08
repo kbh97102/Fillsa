@@ -38,6 +38,7 @@ The fixture is process-local presentation input. Calendar refresh/actions, widge
 ## Source inconsistencies and rulings
 
 - The binding frames label the month `2025. 03`, but their cells do not follow March 2025 arithmetic. The basic frame duplicates 17 and omits 21. Production continues to use real `YearMonth` arithmetic; only the explicit QA fixture carries the Figma visual cell sequence.
+- Figma also assigns incorrect weekday labels to its synthetic dates: basic preview date March 22 is labeled `(금)` and completed date March 21 is labeled `(목)`, while actual March 2025 weekdays are `(토)` and `(금)`. Production and fixture retain actual `LocalDate` weekday labels; no false weekday presentation data is injected.
 - `2985:22670` shows a non-empty answer and `0 / 200`. Production uses the existing grapheme-safe actual count. The answered/image fixture alone uses the reference's displayed zero for exact visual comparison.
 - The monthly `MemberQuotesData` response has no answer or `imagePath`. Production completion maps to unanswered/no-image presentation. Answer/image fields exist only in the presentation model/QA fixture; domain/data contracts were not changed.
 - Figma has three bottom tabs and a static 35dp ad. Android retains its shared four-route navigation and live ad. The nonnetwork fixture suppresses live-ad loading instead of fabricating an ad. Android and Figma also have different system status/gesture surfaces.
@@ -129,9 +130,21 @@ The fixture is process-local presentation input. Calendar refresh/actions, widge
 - Fresh full-frame overlays: `overlay-basic-round6.png`, `overlay-unanswered-round6.png`, `overlay-answered-image-round6.png`; fresh Figma-left/Android-right side-by-sides: `side-by-side-basic-round6.png`, `side-by-side-unanswered-round6.png`, `side-by-side-answered-image-round6.png`.
 - Visual inspection confirms the Round 6 shared geometry preserves the focus-week glyph position, record indicators, selected 50dp pill, ordinary row alignment, and basic companion line spacing. No blanket numeric residual tolerance is asserted.
 
+### Round 8 — final branch review corrections
+
+| Scope | Difference | Fix | Result |
+|---|---|---|---|
+| QA fixture navigation | Calendar fixture could navigate via Back, header Home/Profile, or shared bottom tabs to production routes that refresh | Calendar-specific Back/header/effect exits are no-ops under fixture; `BottomNavigationBar` receives `navigationEnabled = false` under the same fixture. Production navigation remains unchanged | Emulator tap/back check remained on Calendar before final capture; fixture continues to skip refresh/ad/streak effects |
+| Calendar counts | Heart/fire group used a 20dp inter-group gap instead of Figma's 10dp (68dp total group) | Changed shared production gap to 10dp | Final all-state captures use the 68dp group geometry |
+| Answer and placeholder wrapping | Input used 11dp horizontal insets / 298dp content width and the binding answered sample wrapped differently | Shared field now uses 12dp left/right insets (296dp content width) and existing Pretendard 12sp/18sp body style. The binding fixture content includes its line break after `그 말이`, so the second line begins `진심이었다는` without fixture-only layout | Answered crop verified; placeholder uses the same 296dp field geometry |
+
+- Final toast-free, seven-second-settle runtime evidence: `runtime-basic-round8.png` (360×816, SHA-256 `f487b536463a99b867a35824cc6a160fa9bebe21253cd99766d061a1f9192d2d`), `runtime-unanswered-round8.png` (360×1101, SHA-256 `f97f380a4a423b8cdc214f31fa8b8db6bc5dee797dc6d8e74578f5a21f2e9750`), and `runtime-answered-image-round8.png` (360×1101, SHA-256 `1f4449c7a848e0ce3ba4af86e2bbea0cb1127e344dfa6c36c27744432bb1ac79`).
+- Final full-frame overlays: `overlay-basic-round8.png`, `overlay-unanswered-round8.png`, `overlay-answered-image-round8.png`; final Figma-left/Android-right side-by-sides: `side-by-side-basic-round8.png`, `side-by-side-unanswered-round8.png`, `side-by-side-answered-image-round8.png`.
+- Visual inspection covers all three final captures. Shared/system differences remain Android status/gesture UI, shared four-route navigation, and omitted nonnetwork-fixture ad; Figma's synthetic weekday error is recorded above rather than reproduced.
+
 ## Final assembled-screen result
 
-- Calendar-owned result: Round 6 shared-geometry revalidation is ready for the parent task's final assembled-screen acceptance; all three binding states have fresh full-frame evidence.
+- Calendar-owned result: Round 8 final revalidation is ready for the parent task's final assembled-screen acceptance; all three binding states have fresh full-frame evidence.
 - Whole-frame literal result: **Blocked only by preserved shared/system product surfaces** — Android vs iOS system UI, shared four-route navigation vs Figma three tabs, and live ad intentionally absent from the nonnetwork fixture.
 - Remaining Calendar-owned differences: no blanket numeric tolerance is asserted; the scoped Round 5 glyph measurements are recorded above.
 - Required product-boundary differences: documented above; no navigation or ad ownership was changed.

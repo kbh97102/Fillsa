@@ -57,10 +57,12 @@
 - 월간 응답 `MemberQuotesData`에는 답변과 `imagePath`가 없다. production은 실제 응답이 제공하는 상태만 렌더링한다.
 - 답변·이미지 있음 상태는 Emulator QA fixture로 비영속·비네트워크 재현하여 컴포넌트를 검증한다. API/DB 계약을 임의로 확장하지 않는다.
 - Figma의 합성 달력에는 `2025. 03`과 실제 달력 산술이 맞지 않고 기본 프레임에 17 중복/21 누락이 있다. Production은 실제 날짜 산술을 유지하고, 정확한 Figma 대조용 process-local fixture만 명시적 visual cell map을 사용한다.
+- Figma는 합성 날짜의 요일도 잘못 표시한다(3월 22일 `(금)`, 3월 21일 `(목)`). Production과 fixture는 실제 `LocalDate` 요일인 `(토)`/`(금)`을 유지하며 거짓 요일 data를 주입하지 않는다.
 - 답변 있음 원본의 `0 / 200`은 디자인 소스 불일치다. Production 입력은 실제 grapheme count를 유지하고 해당 명시적 fixture만 `0 / 200`을 표시한다.
 - Calendar QA와 production은 같은 `CalendarView` geometry(+6dp root offset)와 Calendar-route status-bar inset을 사용한다. Fixture 전용 geometry 분기는 없다.
 - Calendar 주차 셀 geometry도 production과 fixture가 동일하게 실행한다. 선택 날짜 또는 fire/heart 기록이 하나라도 있는 주는 50dp inner cell, 그 외 주는 50dp row 중앙의 40dp inner cell을 사용하며 fixture는 synthetic date/content만 주입한다.
 - Figma의 3-tab/static-ad와 앱의 공유 4-route/live-ad는 Calendar 소유가 아니므로 유지하고 QA에 차이를 기록한다.
+- Calendar QA fixture는 process-local/nonnetwork 상태를 유지하기 위해 Back, Calendar header exits, and shared bottom-tab navigation을 no-op으로 처리한다. Production navigation은 변경하지 않는다.
 - 이번 작업은 TDD를 사용하지 않는다. 구현 후 기존 회귀 테스트와 추가 상태/런타임 테스트를 실행한다.
 
 ## Android 구성

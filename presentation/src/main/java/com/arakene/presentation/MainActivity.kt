@@ -263,7 +263,9 @@ class MainActivity : ComponentActivity() {
                                         isLogged = isLogged,
                                         navController = navController,
                                         displayAd = displayAd,
-                                        displayBottomBar = displayBottomBar
+                                        displayBottomBar = displayBottomBar,
+                                        // A Calendar visual fixture must stay process-local and nonnetwork.
+                                        navigationEnabled = calendarQaFixture == null,
                                     )
                                 },
                                 containerColor = when {

@@ -71,9 +71,9 @@ fun CalendarView(
             viewModel.handleContract(CalendarAction.SelectDay(selectedDay))
         }
     }
-    BackHandler { popBackStack() }
+    BackHandler(enabled = qaFixture == null) { popBackStack() }
     HandleViewEffect(viewModel.effect, lifecycleOwner) {
-        if (it is CommonEffect.Move) navigate(it.screen)
+        if (qaFixture == null && it is CommonEffect.Move) navigate(it.screen)
     }
 
     Column(
@@ -84,8 +84,8 @@ fun CalendarView(
             .offset(y = 6.dp),
     ) {
         CalendarHeader(
-            onHome = { navigate(Screens.Home()) },
-            onProfile = { navigate(Screens.MyPage) },
+            onHome = { if (qaFixture == null) navigate(Screens.Home()) },
+            onProfile = { if (qaFixture == null) navigate(Screens.MyPage) },
         )
         CalendarSection(
             memberQuotes = data?.memberQuotes ?: emptyList(),

@@ -33,6 +33,7 @@ fun BottomNavigationBar(
     displayAd: Boolean,
     displayBottomBar: Boolean,
     navController: NavHostController,
+    navigationEnabled: Boolean = true,
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
     darkMode: Boolean = IsDarkMode.current
 ) {
@@ -75,7 +76,7 @@ fun BottomNavigationBar(
                     NavigationBarItem(
                         selected = currentRoute == routeString,
                         onClick = {
-                            if (currentRoute != routeString) {
+                            if (navigationEnabled && currentRoute != routeString) {
                                 navController.navigate(item.first) {
                                     popUpTo(0) { inclusive = true }
                                 }
@@ -104,5 +105,4 @@ fun BottomNavigationBar(
         }
     }
 }
-
 

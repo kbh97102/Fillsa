@@ -93,6 +93,7 @@ class CalendarRecordIndicatorTest {
         assertEquals(4, fixture.data.monthlySummary.likeCount)
         assertTrue(presentation.hasRecordedAnswer)
         assertTrue(presentation.hasRegisteredImage)
+        assertTrue(presentation.answer.contains("\n진심이었다는"))
         assertEquals(0, presentation.displayedCountOverride)
     }
 

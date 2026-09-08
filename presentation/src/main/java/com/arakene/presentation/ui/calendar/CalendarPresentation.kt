@@ -72,7 +72,7 @@ internal data class CalendarRuntimeQaFixture(val state: CalendarRuntimeQaState) 
         )
         CalendarRuntimeQaState.CompletedUnanswered -> CalendarSelectedDayPresentation.Completed
         CalendarRuntimeQaState.CompletedAnsweredImage -> CalendarSelectedDayPresentation.Completed.copy(
-            answer = "친구가 힘들 때 언제든 연락하라고 했는데, 한참 뒤에야 그 말이 진심이었다는 걸 믿고 먼저 연락한 적이 있어요.",
+            answer = "친구가 힘들 때 언제든 연락하라고 했는데, 한참 뒤에야 그 말이\n진심이었다는 걸 믿고 먼저 연락한 적이 있어요.",
             registeredImageUri = registeredImageUri,
             // The reference shows 0 / 200 with a non-empty sample answer. Limit/count logic
             // remains production-correct; this override is confined to the exact QA fixture.

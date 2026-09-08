@@ -389,9 +389,10 @@ private fun CalendarPromptAnswer(
             BasicTextField(
                 value = state.text,
                 onValueChange = { answer = homeAnswerInputState(it).text },
+                // Figma input copy is Pretendard 12sp/18sp in the 296dp-wide content area.
                 textStyle = FillsaTheme.typography.body4.copy(color = primary),
                 modifier = Modifier.fillMaxWidth().height(174.dp)
-                    .padding(start = 11.dp, top = 16.dp, end = 11.dp, bottom = 11.dp)
+                    .padding(start = 12.dp, top = 16.dp, end = 12.dp, bottom = 11.dp)
                     .semantics { contentDescription = "오늘의 답변 입력" },
                 decorationBox = { field ->
                     if (state.text.isEmpty()) {

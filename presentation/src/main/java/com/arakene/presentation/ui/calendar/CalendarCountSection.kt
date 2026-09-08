@@ -50,7 +50,7 @@ fun CalendarCountSection(
             CalendarFigmaAsset(
                 fileName = "calendar_record_fire.svg",
                 modifier = Modifier
-                    .padding(start = 20.dp)
+                    .padding(start = 10.dp)
                     .size(16.dp),
                 darkMode = darkMode,
             )
