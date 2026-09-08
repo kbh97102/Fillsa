@@ -5,6 +5,8 @@ import com.arakene.domain.responses.MemberMonthlyQuoteResponse
 import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.homeAnswerInputState
+import com.arakene.presentation.util.editHomeAnswer
+import com.arakene.presentation.util.changeHomeAnswer
 import java.time.LocalDate
 
 internal data class CalendarMonthState(
@@ -12,6 +14,7 @@ internal data class CalendarMonthState(
     val selectedDate: LocalDate = LocalDate.now(),
     val answer: HomeAnswerUiState = HomeAnswerUiState(),
     val monthlyRevision: Long = 0,
+    val isAnswerEditExplicit: Boolean = false,
 ) {
     val selectedQuote get() = data?.memberQuotes?.firstOrNull { it.quoteDate == selectedDate.toString() }
     companion object {
@@ -24,10 +27,18 @@ internal data class CalendarDaySelection(val state: CalendarMonthState, val netw
 internal fun selectCalendarDay(state: CalendarMonthState, date: LocalDate) =
     CalendarDaySelection(state.copy(selectedDate = date).projectAnswer())
 
+internal fun editCalendarAnswer(state: CalendarMonthState): CalendarMonthState =
+    if (state.answer.isSaving) state else
+        state.copy(answer = editHomeAnswer(state.answer), isAnswerEditExplicit = true)
+
+internal fun changeCalendarAnswer(state: CalendarMonthState, text: String): CalendarMonthState =
+    if (state.answer.isSaving) state else
+        state.copy(answer = changeHomeAnswer(state.answer, text), isAnswerEditExplicit = true)
+
 private fun CalendarMonthState.projectAnswer(): CalendarMonthState = copy(answer = HomeAnswerUiState(
     draft = selectedQuote?.answer.orEmpty(), recordedAnswer = selectedQuote?.answer,
     isEditing = selectedQuote?.answer.isNullOrBlank(), dateKey = selectedDate,
-))
+), isAnswerEditExplicit = false)
 internal data class CalendarAnswerRequest(val id: Long, val auth: HomeAuthBoundRequestToken, val target: HomeMemberMutationTarget)
 internal data class CalendarAnswerStart(val coordinator: CalendarAnswerCoordinator, val answer: HomeAnswerUiState, val request: CalendarAnswerRequest? = null)
 internal data class CalendarAnswerResult(val coordinator: CalendarAnswerCoordinator, val state: CalendarMonthState, val shouldRefresh: Boolean = false)
@@ -36,20 +47,26 @@ internal data class CalendarAnswerEntry(
     val request: CalendarAnswerRequest,
     val answer: HomeAnswerUiState,
     val saved: AnswerResponse? = null,
-    val savedRevision: Long = 0,
 )
+internal data class CalendarAcceptedAnswer(val response: AnswerResponse, val revision: Long)
 internal data class CalendarAnswerCoordinator(
     val revision: Long = 0,
     private val entries: Map<HomeMemberMutationTarget, CalendarAnswerEntry> = emptyMap(),
+    private val acceptedAnswers: Map<HomeMemberMutationTarget, CalendarAcceptedAnswer> = emptyMap(),
 ) {
     fun acceptMonthly(state: CalendarMonthState, response: MemberMonthlyQuoteResponse, requestRevision: Long): CalendarMonthState {
         var updated = CalendarMonthState.from(response, state.selectedDate).copy(monthlyRevision = state.monthlyRevision + 1)
-        entries.values.filter { it.savedRevision > requestRevision }.forEach { entry ->
-            entry.saved?.let { updated = updated.patchAnswer(entry.request.target, it.answer, it.answeredAt) }
+        acceptedAnswers.forEach { (target, accepted) ->
+            if (accepted.revision > requestRevision) {
+                updated = updated.patchAnswer(target, accepted.response.answer, accepted.response.answeredAt)
+            }
         }
-        return updated.copy(answer = if (state.answer.isEditing && state.answer.dateKey == state.selectedDate &&
-            state.answer.draft != state.selectedQuote?.answer.orEmpty())
-            state.answer else answerFor(updated))
+        val preserveEditor = state.answer.isEditing && state.answer.dateKey == state.selectedDate &&
+            state.isAnswerEditExplicit
+        return updated.copy(
+            answer = if (preserveEditor) state.answer else answerFor(updated),
+            isAnswerEditExplicit = preserveEditor,
+        )
     }
 
     fun answerFor(state: CalendarMonthState): HomeAnswerUiState {
@@ -73,12 +90,18 @@ internal data class CalendarAnswerCoordinator(
     fun completePost(state: CalendarMonthState, auth: HomeAuthBoundRequestCoordinator, request: CalendarAnswerRequest, response: AnswerResponse?): CalendarAnswerResult {
         val entry = entries[request.target]
         if (!auth.accepts(request.auth) || entry?.request != request || !entry.answer.isSaving) return CalendarAnswerResult(this, state)
-        val coordinator = copy(revision = revision + 1, entries = entries + (request.target to entry.copy(
-            answer = entry.answer.copy(isSaving = false), saved = response, savedRevision = revision + 1)))
+        val coordinator = copy(
+            revision = revision + 1,
+            entries = entries + (request.target to entry.copy(answer = entry.answer.copy(isSaving = false), saved = response)),
+            acceptedAnswers = if (response == null) acceptedAnswers else
+                acceptedAnswers + (request.target to CalendarAcceptedAnswer(response, revision + 1)),
+        )
         val updated = if (response == null) state else state.patchAnswer(request.target, response.answer, response.answeredAt)
         val selectedTarget = state.selectedDate == request.target.date && state.selectedQuote?.dailyQuoteSeq == request.target.dailyQuoteSeq
-        return CalendarAnswerResult(coordinator, updated.copy(answer = if (selectedTarget)
-            coordinator.answerFor(updated) else state.answer), response != null)
+        return CalendarAnswerResult(coordinator, updated.copy(
+            answer = if (selectedTarget) coordinator.answerFor(updated) else state.answer,
+            isAnswerEditExplicit = if (selectedTarget && response != null) false else state.isAnswerEditExplicit,
+        ), response != null)
     }
     fun captureRefresh(state: CalendarMonthState, request: CalendarAnswerRequest) = CalendarAnswerRefresh(request, state.monthlyRevision)
     fun completeRefresh(state: CalendarMonthState, auth: HomeAuthBoundRequestCoordinator, refresh: CalendarAnswerRefresh, response: MemberQuoteDay?): CalendarMonthState {

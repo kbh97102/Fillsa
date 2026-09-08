@@ -142,4 +142,50 @@ class CalendarAnswerStateTest {
         assertEquals("답변", actual.answer.recordedAnswer)
         assertFalse(actual.answer.isEditing)
     }
+
+    @Test fun `pending second save and failure cannot discard the prior accepted answer during stale monthly refresh`() {
+        val coordinator = CalendarAnswerCoordinator()
+        val monthlyRequestRevision = coordinator.revision
+        val first = coordinator.begin(state(), HomeAnswerUiState("draft A"), auth.capture()!!)
+        val postA = first.coordinator.completePost(state(), auth, first.request!!, AnswerResponse(99, "accepted A", "time A"))
+        assertEquals("accepted A", postA.state.selectedQuote?.answer)
+        val editorB = postA.state.answer.copy(draft = "draft B", isEditing = true)
+        val second = postA.coordinator.begin(postA.state, editorB, auth.capture()!!)
+        val pendingB = postA.state.copy(answer = second.answer)
+        val monthly = second.coordinator.acceptMonthly(pendingB, response, monthlyRequestRevision)
+        assertEquals("accepted A", monthly.selectedQuote?.answer)
+        assertEquals("time A", monthly.selectedQuote?.answeredAt)
+        assertEquals("accepted A", monthly.answer.recordedAnswer)
+        assertEquals("draft B", monthly.answer.draft)
+        assertTrue(monthly.answer.isSaving)
+        val failedB = second.coordinator.completePost(monthly, auth, second.request!!, null)
+        assertEquals("accepted A", failedB.state.selectedQuote?.answer)
+        assertEquals("time A", failedB.state.selectedQuote?.answeredAt)
+        assertEquals("accepted A", failedB.state.answer.recordedAnswer)
+        assertEquals("draft B", failedB.state.answer.draft)
+        assertFalse(failedB.state.answer.isSaving)
+        assertFalse(failedB.shouldRefresh)
+        val anotherOldMonthly = failedB.coordinator.acceptMonthly(failedB.state, response, monthlyRequestRevision)
+        assertEquals("accepted A", anotherOldMonthly.selectedQuote?.answer)
+        assertEquals(response.monthlySummary, anotherOldMonthly.data?.monthlySummary)
+    }
+
+    @Test fun `monthly refresh preserves explicit edit before any text change`() {
+        val editing = editCalendarAnswer(state())
+        assertEquals("답변", editing.answer.draft)
+        assertTrue(editing.answer.isEditing)
+        val refreshed = CalendarAnswerCoordinator().acceptMonthly(editing, response, 0)
+        assertEquals("답변", refreshed.answer.draft)
+        assertTrue(refreshed.answer.isEditing)
+    }
+
+    @Test fun `monthly refresh preserves explicit edit after text returns to original answer`() {
+        val editing = editCalendarAnswer(state())
+        val changed = changeCalendarAnswer(editing, "수정 중인 답변")
+        val original = changeCalendarAnswer(changed, "답변")
+        val refreshed = CalendarAnswerCoordinator().acceptMonthly(original, response, 0)
+        assertEquals("답변", refreshed.answer.draft)
+        assertEquals("답변", refreshed.answer.recordedAnswer)
+        assertTrue(refreshed.answer.isEditing)
+    }
 }

@@ -20,9 +20,9 @@ import com.arakene.presentation.model.HomeAuthBoundRequestCoordinator
 import com.arakene.presentation.model.HomeAuthBoundRequestToken
 import com.arakene.presentation.model.HomeAuthContext
 import com.arakene.presentation.model.selectCalendarDay
+import com.arakene.presentation.model.editCalendarAnswer
+import com.arakene.presentation.model.changeCalendarAnswer
 import com.arakene.presentation.util.HomeAnswerUiState
-import com.arakene.presentation.util.changeHomeAnswer
-import com.arakene.presentation.util.editHomeAnswer
 import com.arakene.presentation.util.recordHomeAnswerForHome
 import com.arakene.presentation.util.HomeAnswerRecordedSnackbar
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
@@ -73,6 +73,7 @@ class CalendarViewModel @Inject constructor(
     private var answerCoordinator = CalendarAnswerCoordinator()
     private var authCoordinator = HomeAuthBoundRequestCoordinator()
     private var monthlyRevision = 0L
+    private var isAnswerEditExplicit = false
     private var loadRevision = 0L
     private var requestedMonth: YearMonth? = null
     private val guestAnswers = mutableMapOf<LocalDate, HomeAnswerUiState>()
@@ -104,15 +105,18 @@ class CalendarViewModel @Inject constructor(
                 val selection = selectCalendarDay(monthState(), calendarAction.target.date)
                 selectedDay.value = calendarAction.target
                 selectedDayQuote.value = selection.state.selectedQuote?.quote.orEmpty()
-                if (!sameDate) answerUiState = if (authCoordinator.context?.isLoggedIn == true)
-                    answerCoordinator.answerFor(selection.state) else guestAnswers[calendarAction.target.date] ?: selection.state.answer
+                if (!sameDate) {
+                    answerUiState = if (authCoordinator.context?.isLoggedIn == true)
+                        answerCoordinator.answerFor(selection.state) else guestAnswers[calendarAction.target.date] ?: selection.state.answer
+                    isAnswerEditExplicit = selection.state.isAnswerEditExplicit
+                }
             }
 
             is CalendarAction.ChangeAnswer -> {
-                answerUiState = changeHomeAnswer(answerUiState, calendarAction.answer)
+                applyMonthState(changeCalendarAnswer(monthState(), calendarAction.answer))
                 if (authCoordinator.context?.isLoggedIn == false) guestAnswers[selectedDay.value.date] = answerUiState
             }
-            CalendarAction.EditAnswer -> { answerUiState = editHomeAnswer(answerUiState) }
+            CalendarAction.EditAnswer -> { applyMonthState(editCalendarAnswer(monthState())) }
             CalendarAction.RecordAnswer -> recordAnswer()
 
             is CalendarAction.ClickBottomQuote -> {
@@ -213,12 +217,13 @@ class CalendarViewModel @Inject constructor(
         handleAction(CalendarAction.SelectDay(CalendarDay(LocalDate.of(yearMonth.year, yearMonth.month, 1), DayPosition.InDate)))
     }
 
-    private fun monthState() = CalendarMonthState(data.value, selectedDay.value.date, answerUiState, monthlyRevision)
+    private fun monthState() = CalendarMonthState(data.value, selectedDay.value.date, answerUiState, monthlyRevision, isAnswerEditExplicit)
 
     private fun applyMonthState(state: CalendarMonthState) {
         data.value = state.data
         answerUiState = state.answer
         monthlyRevision = state.monthlyRevision
+        isAnswerEditExplicit = state.isAnswerEditExplicit
         selectedDayQuote.value = state.selectedQuote?.quote.orEmpty()
     }
 
@@ -233,6 +238,7 @@ class CalendarViewModel @Inject constructor(
             data.value = null
             selectedDayQuote.value = ""
             answerUiState = HomeAnswerUiState()
+            isAnswerEditExplicit = false
             answerCoordinator = CalendarAnswerCoordinator()
             guestAnswers.clear()
         }
