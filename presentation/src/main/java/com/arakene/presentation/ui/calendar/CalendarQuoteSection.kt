@@ -16,11 +16,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,7 +34,7 @@ import com.arakene.domain.util.YN
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.IsDarkMode
-import com.arakene.presentation.util.homeAnswerInputState
+import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.noEffectClickable
 import com.kizitonwose.calendar.core.CalendarDay
 import coil3.compose.AsyncImage
@@ -72,6 +68,10 @@ internal fun CalendarQuoteSection(
     quoteData: MemberQuotesData?,
     selectedDay: CalendarDay,
     presentation: CalendarSelectedDayPresentation,
+    answerState: HomeAnswerUiState,
+    onAnswerChanged: (String) -> Unit,
+    onRecordAnswer: () -> Unit,
+    onEditAnswer: () -> Unit,
     onCopy: () -> Unit,
     onShare: () -> Unit,
     onLike: () -> Unit,
@@ -104,7 +104,10 @@ internal fun CalendarQuoteSection(
             }
             CalendarPromptAnswer(
                 presentation = presentation,
-                onOpenQuote = onOpenQuote,
+                answerState = answerState,
+                onAnswerChanged = onAnswerChanged,
+                onRecordAnswer = onRecordAnswer,
+                onEditAnswer = onEditAnswer,
                 darkMode = darkMode,
                 modifier = Modifier.padding(top = 10.dp),
             )
@@ -358,13 +361,15 @@ private fun CalendarActionDivider(darkMode: Boolean) {
 @Composable
 private fun CalendarPromptAnswer(
     presentation: CalendarSelectedDayPresentation,
-    onOpenQuote: () -> Unit,
+    answerState: HomeAnswerUiState,
+    onAnswerChanged: (String) -> Unit,
+    onRecordAnswer: () -> Unit,
+    onEditAnswer: () -> Unit,
     darkMode: Boolean,
     modifier: Modifier,
 ) {
-    var answer by rememberSaveable(presentation.answer) { mutableStateOf(presentation.answer) }
-    val state = homeAnswerInputState(answer)
-    val hasRecordedAnswer = presentation.hasRecordedAnswer
+    val state = answerState.input
+    val hasRecordedAnswer = answerState.isRecorded
     val primary = if (darkMode) Color.White else Color(0xFF211F1B)
     val muted = Color(0xFF9E9E9E)
     Column(modifier = modifier) {
@@ -374,9 +379,8 @@ private fun CalendarPromptAnswer(
             style = FillsaTheme.typography.subtitle2,
             color = colorResource(R.color.purple01),
         )
-        // Calendar has no question/answer data contract, so it retains the established Home placeholder.
         Text(
-            "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
+            presentation.question,
             modifier = Modifier.padding(top = 4.dp).offset(y = 6.dp),
             style = FillsaTheme.typography.body3,
             color = primary,
@@ -388,7 +392,8 @@ private fun CalendarPromptAnswer(
         ) {
             BasicTextField(
                 value = state.text,
-                onValueChange = { answer = homeAnswerInputState(it).text },
+                onValueChange = onAnswerChanged,
+                readOnly = !answerState.isEditing || answerState.isSaving,
                 // Figma input copy is Pretendard 12sp/18sp in the 296dp-wide content area.
                 textStyle = FillsaTheme.typography.body4.copy(color = primary),
                 modifier = Modifier.fillMaxWidth().height(174.dp)
@@ -419,7 +424,11 @@ private fun CalendarPromptAnswer(
                     if (hasRecordedAnswer) Color(0xFFD3D5FF) else colorResource(R.color.purple01),
                     RoundedCornerShape(8.dp),
                 )
-                .noEffectClickable(click = onOpenQuote)
+                .noEffectClickable(click = {
+                    if (!answerState.isSaving) {
+                        if (hasRecordedAnswer) onEditAnswer() else onRecordAnswer()
+                    }
+                })
                 .semantics {
                     contentDescription = if (hasRecordedAnswer) "내 답변 수정하기" else "내 답변 기록하기"
                 },

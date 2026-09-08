@@ -11,6 +11,14 @@ import org.junit.Test
 class CalendarRecordIndicatorTest {
 
     @Test
+    fun `guest keeps design question while members never substitute missing API question`() {
+        val guest = calendarSelectedDayPresentation(null, isMember = false)
+        val member = calendarSelectedDayPresentation(null, isMember = true)
+        assertEquals("누군가의 호의를 한참 뒤에야 받아들인 적 있나요?", guest.question)
+        assertEquals("", member.question)
+    }
+
+    @Test
     fun `weekday labels are ordered Sunday through Saturday for the Sunday-first Figma grid`() {
         assertEquals(
             listOf("일", "월", "화", "수", "목", "금", "토"),

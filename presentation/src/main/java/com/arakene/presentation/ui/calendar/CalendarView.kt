@@ -36,6 +36,8 @@ import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.CalendarViewModel
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalConfiguration
+import com.arakene.presentation.util.HomeAnswerUiState
 
 @Composable
 fun CalendarView(
@@ -61,7 +63,17 @@ fun CalendarView(
         "android.resource://${context.packageName}/${com.arakene.presentation.R.drawable.home_registered_image_fixture}"
     }
     val selectedDayPresentation = qaFixture?.selectedDayPresentation(registeredImageUri)
-        ?: calendarSelectedDayPresentation(selectedQuote)
+        ?: calendarSelectedDayPresentation(
+            selectedQuote,
+            language = LocalConfiguration.current.locales[0].language,
+            isMember = viewModel.isMemberSession,
+        )
+    val answerState = if (qaFixture == null) viewModel.answerUiState else HomeAnswerUiState(
+        draft = selectedDayPresentation.answer,
+        recordedAnswer = selectedDayPresentation.answer.takeIf { it.isNotBlank() },
+        isEditing = !selectedDayPresentation.hasRecordedAnswer,
+        dateKey = selectedDay.date,
+    )
 
     LaunchedEffect(qaFixture) {
         if (qaFixture == null) viewModel.handleContract(CommonEffect.Refresh)
@@ -73,7 +85,12 @@ fun CalendarView(
     }
     BackHandler(enabled = qaFixture == null) { popBackStack() }
     HandleViewEffect(viewModel.effect, lifecycleOwner) {
-        if (qaFixture == null && it is CommonEffect.Move) navigate(it.screen)
+        if (qaFixture == null) {
+            when (it) {
+                is CommonEffect.Move -> navigate(it.screen)
+                is CommonEffect.ShowSnackBar -> snackbarHost.showSnackbar(it.message)
+            }
+        }
     }
 
     Column(
@@ -111,6 +128,10 @@ fun CalendarView(
             quoteData = selectedQuote,
             selectedDay = selectedDay,
             presentation = selectedDayPresentation,
+            answerState = answerState,
+            onAnswerChanged = { if (qaFixture == null) viewModel.handleContract(CalendarAction.ChangeAnswer(it)) },
+            onRecordAnswer = { if (qaFixture == null) viewModel.handleContract(CalendarAction.RecordAnswer) },
+            onEditAnswer = { if (qaFixture == null) viewModel.handleContract(CalendarAction.EditAnswer) },
             onCopy = {
                 if (qaFixture == null) {
                     selectedQuote?.let {

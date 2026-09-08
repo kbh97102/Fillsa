@@ -9,13 +9,18 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import java.time.LocalDate
 
-/** UI-only details that the monthly Calendar response deliberately does not own. */
+/** Selected monthly detail; explicit fixture overrides remain presentation-only. */
 internal data class CalendarSelectedDayPresentation(
     val completed: Boolean,
     val answer: String = "",
     val registeredImageUri: String? = null,
     val quoteDateOverride: LocalDate? = null,
     val displayedCountOverride: Int? = null,
+    val question: String = "",
+    val answeredAt: String? = null,
+    val engQuote: String? = null,
+    val engAuthor: String? = null,
+    val authorUrl: String? = null,
 ) {
     val hasRecordedAnswer: Boolean get() = answer.isNotBlank()
     val hasRegisteredImage: Boolean get() = !registeredImageUri.isNullOrBlank()
@@ -28,9 +33,24 @@ internal data class CalendarSelectedDayPresentation(
 
 internal fun calendarSelectedDayPresentation(
     quoteData: MemberQuotesData?,
+    language: String = "ko",
+    isMember: Boolean = true,
 ): CalendarSelectedDayPresentation {
     val completed = quoteData?.let { it.completed || it.todayCompleted } == true
-    return if (completed) CalendarSelectedDayPresentation.Completed else CalendarSelectedDayPresentation.Empty
+    return CalendarSelectedDayPresentation(
+        completed = completed,
+        question = when {
+            !isMember -> "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?"
+            language == "en" -> quoteData?.questionEn.orEmpty()
+            else -> quoteData?.questionKo.orEmpty()
+        },
+        answer = quoteData?.answer.orEmpty(),
+        answeredAt = quoteData?.answeredAt,
+        registeredImageUri = quoteData?.imagePath,
+        engQuote = quoteData?.engQuote,
+        engAuthor = quoteData?.engAuthor,
+        authorUrl = quoteData?.authorUrl,
+    )
 }
 
 internal enum class CalendarRuntimeQaState(val launchValue: String) {
@@ -70,8 +90,11 @@ internal data class CalendarRuntimeQaFixture(val state: CalendarRuntimeQaState) 
             // The binding Figma basic frame selects March 17 but previews the March 22 quote.
             quoteDateOverride = LocalDate.of(2025, 3, 22),
         )
-        CalendarRuntimeQaState.CompletedUnanswered -> CalendarSelectedDayPresentation.Completed
+        CalendarRuntimeQaState.CompletedUnanswered -> CalendarSelectedDayPresentation.Completed.copy(
+            question = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
+        )
         CalendarRuntimeQaState.CompletedAnsweredImage -> CalendarSelectedDayPresentation.Completed.copy(
+            question = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
             answer = "친구가 힘들 때 언제든 연락하라고 했는데, 한참 뒤에야 그 말이\n진심이었다는 걸 믿고 먼저 연락한 적이 있어요.",
             registeredImageUri = registeredImageUri,
             // The reference shows 0 / 200 with a non-empty sample answer. Limit/count logic

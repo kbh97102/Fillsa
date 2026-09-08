@@ -86,6 +86,9 @@ sealed interface TypingAction : Action {
 
 
 sealed interface CalendarAction : Action {
+    data class ChangeAnswer(val answer: String) : CalendarAction
+    data object RecordAnswer : CalendarAction
+    data object EditAnswer : CalendarAction
     data class ChangeMonth(
         val target: YearMonth
     ) : CalendarAction
