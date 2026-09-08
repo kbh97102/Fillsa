@@ -69,6 +69,7 @@ import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.getWikipediaUriString
 import com.arakene.presentation.util.isKnownZeroStreak
 import com.arakene.presentation.util.noEffectClickable
+import com.arakene.presentation.model.HomeMemberQuoteWindow
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -174,6 +175,16 @@ internal fun homeWeekDayStates(
         )
     }
 
+internal fun homeMemberWeekDayStates(window: HomeMemberQuoteWindow): List<HomeWeekDayState> =
+    window.days.map { day ->
+        val dayDate = LocalDate.parse(day.date)
+        HomeWeekDayState(
+            date = dayDate,
+            isSelected = dayDate == window.selectedDate,
+            isCompleted = day.state == "done" || day.completed,
+        )
+    }
+
 internal enum class HomeQuoteSwipe {
     Previous,
     Next,
@@ -200,7 +211,8 @@ internal fun FigmaHomeContent(
     selectedLocale: LocaleType,
     isLike: Boolean,
     backgroundImageUrl: String,
-    completedDates: Set<LocalDate>,
+    weekDays: List<HomeWeekDayState>,
+    question: String,
     isCalendarOpen: Boolean,
     displayedMonth: YearMonth,
     isStreakTooltipOpen: Boolean,
@@ -213,6 +225,7 @@ internal fun FigmaHomeContent(
     onDismissCalendar: () -> Unit,
     onMonthChanged: (YearMonth) -> Unit,
     onDateSelected: (LocalDate) -> Unit,
+    onWeekDaySelected: (LocalDate) -> Unit,
     onStreakStatus: () -> Unit,
     onDismissStreakTooltip: () -> Unit,
     onStreakCalendar: () -> Unit,
@@ -268,9 +281,10 @@ internal fun FigmaHomeContent(
             ) {
                 HomeDateWeekSection(
                     date = date,
-                    completedDates = completedDates,
+                    weekDays = weekDays,
                     isCalendarOpen = isCalendarOpen,
                     onCalendar = onCalendar,
+                    onWeekDaySelected = onWeekDaySelected,
                     palette = palette,
                 )
 
@@ -315,6 +329,7 @@ internal fun FigmaHomeContent(
                 )
 
                 HomePromptAnswerSection(
+                    question = question,
                     answerUiState = answerUiState,
                     onAnswerChanged = onAnswerChanged,
                     onRecordAnswer = onRecordAnswer,
@@ -436,9 +451,10 @@ private fun HomeZeroStreakWarning(onClick: () -> Unit) {
 @Composable
 private fun HomeDateWeekSection(
     date: LocalDate,
-    completedDates: Set<LocalDate>,
+    weekDays: List<HomeWeekDayState>,
     isCalendarOpen: Boolean,
     onCalendar: () -> Unit,
+    onWeekDaySelected: (LocalDate) -> Unit,
     palette: HomeColorPalette,
 ) {
     Row(
@@ -449,7 +465,7 @@ private fun HomeDateWeekSection(
         horizontalArrangement = Arrangement.spacedBy(5.dp),
     ) {
         HomeMonthCalendar(date = date, isOpen = isCalendarOpen, onCalendar = onCalendar)
-        HomeWeekStrip(date = date, completedDates = completedDates, palette = palette)
+        HomeWeekStrip(days = weekDays, onWeekDaySelected = onWeekDaySelected, palette = palette)
     }
 }
 
@@ -476,8 +492,11 @@ private fun HomeMonthCalendar(date: LocalDate, isOpen: Boolean, onCalendar: () -
 }
 
 @Composable
-private fun HomeWeekStrip(date: LocalDate, completedDates: Set<LocalDate>, palette: HomeColorPalette) {
-    val days = homeWeekDayStates(selectedDate = date, completedDates = completedDates)
+private fun HomeWeekStrip(
+    days: List<HomeWeekDayState>,
+    onWeekDaySelected: (LocalDate) -> Unit,
+    palette: HomeColorPalette,
+) {
     Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
         days.forEach { day ->
             val presentation = homeWeekDayPresentation(day)
@@ -490,6 +509,7 @@ private fun HomeWeekStrip(date: LocalDate, completedDates: Set<LocalDate>, palet
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(99.dp))
+                        .noEffectClickable { onWeekDaySelected(day.date) }
                         .background(
                             when (presentation) {
                                 HomeWeekDayPresentation.Selected -> Color.White
@@ -775,6 +795,7 @@ private fun HomeImageAction(
 
 @Composable
 private fun HomePromptAnswerSection(
+    question: String,
     answerUiState: HomeAnswerUiState,
     onAnswerChanged: (String) -> Unit,
     onRecordAnswer: () -> Unit,
@@ -789,9 +810,8 @@ private fun HomePromptAnswerSection(
 
     Column(modifier = modifier) {
         Text("오늘의 질문", style = FillsaTheme.typography.subtitle2, color = HomePrimary)
-        // The Home contract has no question feed, so this preserves the established Figma placeholder.
         Text(
-            "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
+            question,
             style = FillsaTheme.typography.body3,
             color = palette.primaryText,
             modifier = Modifier.padding(top = 4.dp),

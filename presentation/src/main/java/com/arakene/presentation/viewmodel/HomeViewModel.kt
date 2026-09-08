@@ -21,9 +21,22 @@ import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.home.DeleteUploadImageUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
+import com.arakene.domain.usecase.home.GetMemberQuoteDayUseCase
+import com.arakene.domain.usecase.home.GetMemberWeeklyQuotesUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostUploadImageUseCase
+import com.arakene.domain.usecase.home.SaveQuoteAnswerUseCase
 import com.arakene.domain.util.YN
+import com.arakene.presentation.model.HomeLoadCommand
+import com.arakene.presentation.model.HomeMemberFlowState
+import com.arakene.presentation.model.HomeMemberQuoteWindow
+import com.arakene.presentation.model.homeInitialLoadCommand
+import com.arakene.presentation.model.resolveMemberAnchorTarget
+import com.arakene.presentation.model.selectMemberDate
+import com.arakene.presentation.model.selectedMutationSequence
+import com.arakene.presentation.model.shouldAcceptHomeMemberQuoteResponse
+import com.arakene.presentation.model.toDailyQuoteDto
+import com.arakene.presentation.model.withCachedWindow
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -46,6 +59,7 @@ import com.arakene.presentation.util.recordHomeAnswerForHome
 import com.arakene.presentation.util.selectHomeCalendarDate
 import com.arakene.presentation.util.toggleHomeCalendar
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import java.io.File
@@ -59,6 +73,9 @@ class HomeViewModel @Inject constructor(
     // TODO: 이거 정리하는거 디자인패턴? 설계? 관련 글 봤는데 찾아보기
     private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
     private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
+    private val getMemberWeeklyQuotesUseCase: GetMemberWeeklyQuotesUseCase,
+    private val getMemberQuoteDayUseCase: GetMemberQuoteDayUseCase,
+    private val saveQuoteAnswerUseCase: SaveQuoteAnswerUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
     private val postLikeUseCase: PostLikeUseCase,
     private val postUploadImageUseCase: PostUploadImageUseCase,
@@ -70,7 +87,7 @@ class HomeViewModel @Inject constructor(
     private val testErrorCodeUseCase: TestErrorCodeUseCase,
     private val getStreakCountUseCase: GetStreakCountUseCase,
     private val getAllStreakInfoUseCase: GetAllStreakInfoUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase
+    private val getAccessTokenUseCase: GetAccessTokenUseCase,
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -82,6 +99,23 @@ class HomeViewModel @Inject constructor(
     internal var quoteLoadState by mutableStateOf(HomeQuoteLoadState.Loading)
 
     private var requestedQuoteDate: LocalDate? = null
+
+    private var isMemberSession = false
+    private var latestMemberRequestId = 0L
+    private var memberWindowRequestJob: Job? = null
+    private var memberWindowCache: Map<LocalDate, HomeMemberQuoteWindow> = emptyMap()
+
+    var memberQuoteWindow by mutableStateOf<HomeMemberQuoteWindow?>(null)
+        private set
+
+    var memberAnchorEndDate by mutableStateOf<LocalDate?>(null)
+        private set
+
+    var memberQuestionKo by mutableStateOf<String?>(null)
+        private set
+
+    var memberQuestionEn by mutableStateOf<String?>(null)
+        private set
 
     var isLike = mutableStateOf(false)
 
@@ -109,19 +143,23 @@ class HomeViewModel @Inject constructor(
     override fun handleAction(action: Action) {
         when (action) {
             is HomeAction.ClickBefore -> {
-                val targetDate = date.value.minusDays(1)
-                if (targetDate >= DateCondition.startDay) {
-                    date.value = targetDate
-                    refresh(date.value)
-                }
+                selectAdjacentDate(previous = true)
             }
 
             is HomeAction.ClickNext -> {
-                val targetDate = date.value.plusDays(1)
-                if (targetDate <= DateCondition.currentDay()) {
-                    date.value = targetDate
-                    refresh(date.value)
-                }
+                selectAdjacentDate(previous = false)
+            }
+
+            is HomeAction.SelectWeekDay -> {
+                selectDate(action.date)
+            }
+
+            is HomeAction.LoadPreviousWindow -> {
+                selectAdjacentDate(previous = true)
+            }
+
+            is HomeAction.LoadNextWindow -> {
+                selectAdjacentDate(previous = false)
             }
 
             is HomeAction.ClickImage -> {
@@ -129,10 +167,12 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickLike -> {
+                if (!canMutateSelectedQuote()) return
                 postLike(date.value)
             }
 
             is HomeAction.ClickQuote -> {
+                if (!canMutateSelectedQuote()) return
                 homeTypingDestination(
                     quote = currentQuota,
                     loadState = quoteLoadState,
@@ -161,10 +201,12 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ClickChangeImage -> {
+                if (!canMutateSelectedQuote()) return
                 uploadBackgroundImage(action)
             }
 
             is HomeAction.ClickDeleteImage -> {
+                if (!canMutateSelectedQuote()) return
                 deleteBackgroundImage()
             }
 
@@ -176,11 +218,19 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.SelectHomeDate -> {
-                selectHomeCalendarDate(action.date)?.let { calendarState ->
-                    date.value = calendarState.refreshDate ?: return@let
-                    displayedMonth = calendarState.displayedMonth
-                    isCalendarOpen = false
-                    refresh(date.value)
+                if (isMemberSession) {
+                    if (action.date >= DateCondition.startDay) {
+                        isCalendarOpen = false
+                        displayedMonth = YearMonth.from(action.date)
+                        selectMemberTarget(action.date, alignToServerAnchor = true)
+                    }
+                } else {
+                    selectHomeCalendarDate(action.date)?.let { calendarState ->
+                        date.value = calendarState.refreshDate ?: return@let
+                        displayedMonth = calendarState.displayedMonth
+                        isCalendarOpen = false
+                        refresh(date.value)
+                    }
                 }
             }
 
@@ -189,7 +239,11 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ChangeHomeMonth -> {
-                if (action.month in DateCondition.startMonth..YearMonth.from(DateCondition.currentDay())) {
+                val lastMonth = memberAnchorEndDate
+                    ?.takeIf { isMemberSession }
+                    ?.let(YearMonth::from)
+                    ?: YearMonth.from(DateCondition.currentDay())
+                if (action.month in DateCondition.startMonth..lastMonth) {
                     displayedMonth = action.month
                 }
             }
@@ -209,16 +263,19 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.ChangeAnswer -> {
+                if (!canMutateSelectedQuote()) return
                 answerUiState = changeHomeAnswer(answerUiState, action.answer)
             }
 
             is HomeAction.RecordAnswer -> {
+                if (isMemberSession) return
                 val outcome = recordHomeAnswerForHome(answerUiState)
                 answerUiState = outcome.state
                 emitEffect(CommonEffect.ShowSnackBar(outcome.snackbarMessage))
             }
 
             is HomeAction.EditAnswer -> {
+                if (!canMutateSelectedQuote()) return
                 answerUiState = editHomeAnswer(answerUiState)
             }
 
@@ -251,12 +308,18 @@ class HomeViewModel @Inject constructor(
         }
     }
 
+    fun initialRefresh(requestDate: LocalDate?) {
+        requestDate?.let { date.value = it }
+        refresh(requestDate ?: date.value)
+    }
+
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
         viewModelScope.launch {
             emitEffect(HomeEffect.ProcessImage(homeAction.uri))
         }
 
     fun uploadImage(file: File?) {
+        if (!canMutateSelectedQuote()) return
         viewModelScope.launch {
             getResponse(
                 postUploadImageUseCase(
@@ -314,6 +377,7 @@ class HomeViewModel @Inject constructor(
                         .build()
                 ))
         } else {
+            if (!canMutateSelectedQuote()) return
             emitEffect(
                 HomeEffect.OpenImageDialog(
                     quote = action.quote,
@@ -377,21 +441,149 @@ class HomeViewModel @Inject constructor(
 
     private fun refresh(date: LocalDate) = viewModelScope.launch {
         requestedQuoteDate = date
-        currentQuota = DailyQuoteDto()
-        quoteLoadState = HomeQuoteLoadState.Loading
         val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
-        val convertedDate = convertDate(date)
+        isMemberSession = isLogged
 
-        loadCompletedDates()
+        when (val command = homeInitialLoadCommand(isLogged, date)) {
+            is HomeLoadCommand.MemberWeekly -> {
+                quoteLoadState = HomeQuoteLoadState.Loading
+                requestMemberWindow(
+                    endDate = command.endDate,
+                    requestedDate = date,
+                    resolveAgainstServerAnchor = true,
+                )
+                getStreakCount()
+            }
 
-        if (isLogged) {
-            getDailyQuote(convertedDate, date)
-            getStreakCount()
-        } else {
-            getStreakCount()
-            getDailyQuoteNoToken(convertedDate, date)
+            is HomeLoadCommand.GuestDaily -> {
+                clearMemberSessionState()
+                currentQuota = DailyQuoteDto()
+                quoteLoadState = HomeQuoteLoadState.Loading
+                val guestDate = command.date ?: date
+                loadCompletedDates()
+                getStreakCount()
+                getDailyQuoteNoToken(convertDate(guestDate), guestDate)
+            }
         }
     }
+
+    private fun clearMemberSessionState() {
+        memberWindowRequestJob?.cancel()
+        latestMemberRequestId += 1
+        memberWindowCache = emptyMap()
+        memberQuoteWindow = null
+        memberAnchorEndDate = null
+        memberQuestionKo = null
+        memberQuestionEn = null
+    }
+
+    private fun selectAdjacentDate(previous: Boolean) {
+        val targetDate = if (previous) date.value.minusDays(1) else date.value.plusDays(1)
+        selectDate(targetDate)
+    }
+
+    private fun selectDate(targetDate: LocalDate) {
+        if (targetDate < DateCondition.startDay) return
+        if (isMemberSession) {
+            val anchorEndDate = memberAnchorEndDate ?: return
+            selectMemberTarget(minOf(targetDate, anchorEndDate))
+        } else if (targetDate <= DateCondition.currentDay()) {
+            date.value = targetDate
+            refresh(targetDate)
+        }
+    }
+
+    private fun selectMemberTarget(
+        targetDate: LocalDate,
+        alignToServerAnchor: Boolean = false,
+    ) {
+        val currentWindow = memberQuoteWindow ?: return
+        val anchorEndDate = memberAnchorEndDate ?: currentWindow.endDate
+        val clampedTarget = minOf(targetDate, anchorEndDate)
+        val result = if (alignToServerAnchor && currentWindow.select(clampedTarget) == null) {
+            val anchorWindow = memberWindowCache[anchorEndDate] ?: currentWindow
+            resolveMemberAnchorTarget(anchorWindow, clampedTarget)
+        } else {
+            selectMemberDate(currentWindow, clampedTarget, memberWindowCache)
+        }
+
+        result.loadCommand?.let { command ->
+            requestMemberWindow(
+                endDate = command.endDate,
+                requestedDate = result.requestedDate,
+                resolveAgainstServerAnchor = false,
+            )
+        } ?: applyMemberWindow(result.window)
+    }
+
+    private fun requestMemberWindow(
+        endDate: String?,
+        requestedDate: LocalDate,
+        resolveAgainstServerAnchor: Boolean,
+    ) {
+        val requestedEndDate = endDate?.let(LocalDate::parse)
+        val cachedWindow = requestedEndDate?.let(memberWindowCache::get)
+        if (cachedWindow != null) {
+            applyMemberWindow(cachedWindow.select(requestedDate) ?: cachedWindow)
+            return
+        }
+
+        val requestId = ++latestMemberRequestId
+        memberWindowRequestJob?.cancel()
+        memberWindowRequestJob = viewModelScope.launch {
+            val apiResult = getMemberWeeklyQuotesUseCase(endDate)
+            if (!shouldAcceptHomeMemberQuoteResponse(requestId, latestMemberRequestId)) return@launch
+            val response = getResponse(apiResult)
+            if (!shouldAcceptHomeMemberQuoteResponse(requestId, latestMemberRequestId)) return@launch
+
+            if (response == null) {
+                if (memberQuoteWindow == null) quoteLoadState = HomeQuoteLoadState.Failed
+                return@launch
+            }
+
+            val responseWindow = HomeMemberQuoteWindow.from(response)
+            memberWindowCache = memberWindowCache.withCachedWindow(responseWindow)
+
+            if (resolveAgainstServerAnchor) {
+                memberAnchorEndDate = responseWindow.endDate
+                val result = resolveMemberAnchorTarget(responseWindow, requestedDate)
+                result.loadCommand?.let { command ->
+                    applyMemberWindow(responseWindow)
+                    memberWindowRequestJob = null
+                    requestMemberWindow(
+                        endDate = command.endDate,
+                        requestedDate = result.requestedDate,
+                        resolveAgainstServerAnchor = false,
+                    )
+                } ?: applyMemberWindow(result.window)
+            } else {
+                applyMemberWindow(responseWindow.select(requestedDate) ?: responseWindow)
+            }
+        }
+    }
+
+    private fun applyMemberWindow(window: HomeMemberQuoteWindow) {
+        val selectedDay = window.selectedDay ?: return
+        val memberState = HomeMemberFlowState.from(window)
+        memberQuoteWindow = memberState.window
+        date.value = memberState.window.selectedDate
+        displayedMonth = YearMonth.from(memberState.window.selectedDate)
+        currentQuota = selectedDay.toDailyQuoteDto()
+        isLike.value = selectedDay.likeYn == YN.Y.type
+        backgroundImageUri.value = selectedDay.imagePath.orEmpty()
+        completedDates = window.days
+            .asSequence()
+            .filter { it.state == "done" || it.completed }
+            .map { LocalDate.parse(it.date) }
+            .toSet()
+        memberQuestionKo = memberState.questionKo
+        memberQuestionEn = memberState.questionEn
+        answerUiState = memberState.answer
+        quoteLoadState = HomeQuoteLoadState.Loaded
+    }
+
+    private fun canMutateSelectedQuote(): Boolean =
+        !isMemberSession || memberQuoteWindow?.selectedMutationSequence() != null
 
     private suspend fun getStreakCount() {
         Log.e(">>>>", "streak? ${getAccessTokenUseCase()}")

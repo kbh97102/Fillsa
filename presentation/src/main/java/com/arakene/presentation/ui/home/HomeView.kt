@@ -177,11 +177,8 @@ fun HomeView(
             viewModel.handleContract(HomeEffect.SetDate(qaDate))
             viewModel.currentQuota = DailyQuoteDto(homeQaFixture.quote, homeQaFixture.author)
             viewModel.quoteLoadState = HomeQuoteLoadState.Loaded
-        } else if (requestDate != null) {
-            viewModel.handleContract(HomeEffect.SetDate(requestDate))
-            viewModel.handleContract(HomeEffect.Refresh(requestDate))
         } else {
-            viewModel.handleContract(HomeEffect.Refresh(date))
+            viewModel.initialRefresh(requestDate)
         }
     }
 
@@ -237,6 +234,22 @@ fun HomeView(
     } else {
         viewModel.completedDates
     }
+    val memberWindow = viewModel.memberQuoteWindow
+    val weekDays = if (homeQaFixture == null && memberWindow != null) {
+        homeMemberWeekDayStates(memberWindow)
+    } else {
+        homeWeekDayStates(selectedDate = date, completedDates = completedDates)
+    }
+    val defaultQuestion = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?"
+    val question = if (homeQaFixture == null && memberWindow != null) {
+        if (selectedLocale == LocaleType.KOR) {
+            viewModel.memberQuestionKo.orEmpty()
+        } else {
+            viewModel.memberQuestionEn.orEmpty()
+        }
+    } else {
+        defaultQuestion
+    }
     val isCalendarOpen = viewModel.isCalendarOpen
     val displayedMonth = viewModel.displayedMonth
     val isStreakTooltipOpen = viewModel.isStreakTooltipOpen
@@ -288,12 +301,13 @@ fun HomeView(
         selectedLocale = selectedLocale,
         isLike = isLike,
         backgroundImageUrl = displayedBackgroundImageUrl,
-        completedDates = completedDates,
+        weekDays = weekDays,
+        question = question,
         isCalendarOpen = isCalendarOpen,
         displayedMonth = displayedMonth,
         isStreakTooltipOpen = isStreakTooltipOpen,
         answerUiState = answerUiState,
-        canGoNext = date.isBefore(DateCondition.currentDay()),
+        canGoNext = date.isBefore(viewModel.memberAnchorEndDate ?: DateCondition.currentDay()),
         onLocaleChanged = { selectedLocale = it },
         onHome = { navigate(Screens.Home()) },
         onProfile = { navigate(Screens.MyPage) },
@@ -301,6 +315,7 @@ fun HomeView(
         onDismissCalendar = { viewModel.handleContract(HomeAction.DismissHomeCalendar) },
         onMonthChanged = { viewModel.handleContract(HomeAction.ChangeHomeMonth(it)) },
         onDateSelected = { viewModel.handleContract(HomeAction.SelectHomeDate(it)) },
+        onWeekDaySelected = { viewModel.handleContract(HomeAction.SelectWeekDay(it)) },
         onStreakStatus = { viewModel.handleContract(HomeAction.ClickStreakStatus) },
         onDismissStreakTooltip = { viewModel.handleContract(HomeAction.DismissStreakTooltip) },
         onStreakCalendar = { viewModel.handleContract(HomeAction.ClickStreakCalendar) },
@@ -322,8 +337,8 @@ fun HomeView(
         onRecordAnswer = { viewModel.handleContract(HomeAction.RecordAnswer) },
         onEditAnswer = { viewModel.handleContract(HomeAction.EditAnswer) },
         onAuthor = { uriHandler.openUri(homeAuthorUri(author)) },
-        onPreviousQuote = { viewModel.handleContract(HomeAction.ClickBefore) },
-        onNextQuote = { viewModel.handleContract(HomeAction.ClickNext) },
+        onPreviousQuote = { viewModel.handleContract(HomeAction.LoadPreviousWindow) },
+        onNextQuote = { viewModel.handleContract(HomeAction.LoadNextWindow) },
         onCopy = { copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author) },
         onShare = {
             viewModel.handleContract(HomeAction.ClickShare(author = author, quote = quote))
