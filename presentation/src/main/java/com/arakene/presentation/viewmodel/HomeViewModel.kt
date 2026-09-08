@@ -28,15 +28,25 @@ import com.arakene.domain.usecase.home.PostUploadImageUseCase
 import com.arakene.domain.usecase.home.SaveQuoteAnswerUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.model.HomeLoadCommand
+import com.arakene.presentation.model.HomeAuthContext
 import com.arakene.presentation.model.HomeMemberFlowState
+import com.arakene.presentation.model.HomeMemberMutationTarget
+import com.arakene.presentation.model.HomeMemberOrchestrationState
 import com.arakene.presentation.model.HomeMemberQuoteWindow
+import com.arakene.presentation.model.acceptHomeMemberSelection
+import com.arakene.presentation.model.beginHomeMemberRequest
 import com.arakene.presentation.model.homeInitialLoadCommand
+import com.arakene.presentation.model.homeMemberLoadStateAfterFailure
+import com.arakene.presentation.model.patchHomeMemberImage
+import com.arakene.presentation.model.patchHomeMemberLike
 import com.arakene.presentation.model.resolveMemberAnchorTarget
+import com.arakene.presentation.model.resolveInitialMemberWindow
 import com.arakene.presentation.model.selectMemberDate
 import com.arakene.presentation.model.selectedMutationSequence
 import com.arakene.presentation.model.shouldAcceptHomeMemberQuoteResponse
+import com.arakene.presentation.model.storeHomeMemberWindow
 import com.arakene.presentation.model.toDailyQuoteDto
-import com.arakene.presentation.model.withCachedWindow
+import com.arakene.presentation.model.transitionHomeAuthContext
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -60,7 +70,7 @@ import com.arakene.presentation.util.selectHomeCalendarDate
 import com.arakene.presentation.util.toggleHomeCalendar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
 import java.time.LocalDate
@@ -101,15 +111,19 @@ class HomeViewModel @Inject constructor(
     private var requestedQuoteDate: LocalDate? = null
 
     private var isMemberSession = false
-    private var latestMemberRequestId = 0L
     private var memberWindowRequestJob: Job? = null
-    private var memberWindowCache: Map<LocalDate, HomeMemberQuoteWindow> = emptyMap()
+    private var memberOrchestration by mutableStateOf(HomeMemberOrchestrationState())
+    private var activeAuthContext: HomeAuthContext? = null
+    private var homeStarted = false
+    private var pendingExplicitTarget: LocalDate? = null
+    private var loadedAuthContext: HomeAuthContext? = null
+    private var pendingImageMutation: Pair<HomeAuthContext, HomeMemberMutationTarget>? = null
 
-    var memberQuoteWindow by mutableStateOf<HomeMemberQuoteWindow?>(null)
-        private set
+    val memberQuoteWindow: HomeMemberQuoteWindow?
+        get() = memberOrchestration.currentWindow
 
-    var memberAnchorEndDate by mutableStateOf<LocalDate?>(null)
-        private set
+    val memberAnchorEndDate: LocalDate?
+        get() = memberOrchestration.anchorEndDate
 
     var memberQuestionKo by mutableStateOf<String?>(null)
         private set
@@ -139,6 +153,18 @@ class HomeViewModel @Inject constructor(
 
     var completedDates by mutableStateOf<Set<LocalDate>>(emptySet())
         private set
+
+    init {
+        viewModelScope.launch {
+            isLogged.collect { loggedIn ->
+                val context = HomeAuthContext(
+                    isLoggedIn = loggedIn,
+                    accountIdentity = if (loggedIn) getAccessTokenUseCase() else null,
+                )
+                handleObservedAuthContext(context)
+            }
+        }
+    }
 
     override fun handleAction(action: Action) {
         when (action) {
@@ -229,7 +255,7 @@ class HomeViewModel @Inject constructor(
                         date.value = calendarState.refreshDate ?: return@let
                         displayedMonth = calendarState.displayedMonth
                         isCalendarOpen = false
-                        refresh(date.value)
+                        requestRefresh(date.value)
                     }
                 }
             }
@@ -301,7 +327,7 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeEffect.Refresh -> {
-                refresh(effect.date)
+                requestRefresh(effect.date)
             }
 
             else -> super.emitEffect(effect)
@@ -310,56 +336,107 @@ class HomeViewModel @Inject constructor(
 
     fun initialRefresh(requestDate: LocalDate?) {
         requestDate?.let { date.value = it }
-        refresh(requestDate ?: date.value)
+        homeStarted = true
+        pendingExplicitTarget = requestDate
+        activeAuthContext?.let { context ->
+            if (loadedAuthContext != context || requestDate != null) {
+                loadedAuthContext = context
+                pendingExplicitTarget = null
+                loadHome(context, requestDate)
+            }
+        }
     }
 
-    private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) =
+    private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) {
+        val context = activeAuthContext ?: return
+        val target = if (isMemberSession) {
+            selectedMemberMutationTarget() ?: return
+        } else {
+            HomeMemberMutationTarget(date.value, currentQuota.dailyQuoteSeq)
+        }
+        pendingImageMutation = context to target
         viewModelScope.launch {
             emitEffect(HomeEffect.ProcessImage(homeAction.uri))
         }
+    }
 
     fun uploadImage(file: File?) {
-        if (!canMutateSelectedQuote()) return
+        val mutation = pendingImageMutation ?: return
+        pendingImageMutation = null
+        if (activeAuthContext != mutation.first) return
         viewModelScope.launch {
             getResponse(
                 postUploadImageUseCase(
-                    dailyQuoteSeq = currentQuota.dailyQuoteSeq,
+                    dailyQuoteSeq = mutation.second.dailyQuoteSeq,
                     imageFile = file ?: return@launch
                 ), useLoading = false
             )?.let {
-                backgroundImageUri.value = it.imagePath
+                if (activeAuthContext != mutation.first) return@let
+                if (mutation.first.isLoggedIn) {
+                    memberOrchestration = patchHomeMemberImage(
+                        state = memberOrchestration,
+                        target = mutation.second,
+                        imagePath = it.imagePath,
+                    )
+                    if (isSelectedMemberTarget(mutation.second)) {
+                        backgroundImageUri.value = it.imagePath
+                    }
+                } else if (isSelectedGuestTarget(mutation.second)) {
+                    backgroundImageUri.value = it.imagePath
+                }
                 emitEffect(CommonEffect.ShowSnackBar("이미지가 변경되었습니다."))
             }
         }
     }
 
-    private fun deleteBackgroundImage() = viewModelScope.launch {
-        emitEffect(
-            CommonEffect.ShowDialog(
-                dialogData = DialogData.Builder()
-                    .title("이미지를 삭제하시겠습니까?")
-                    .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
-                    .titleTextStyle(TypographyEnum.Heading4)
-                    .bodyTextStyle(TypographyEnum.Body2)
-                    .layoutMode(DialogLayoutMode.HomeDarkMeasured)
-                    .reversed(true)
-                    .cancelText("삭제하기")
-                    .okText("취소")
-                    .cancelOnClick {
-                        viewModelScope.launch {
-                            getResponse(
-                                deleteUploadImageUseCase(currentQuota.dailyQuoteSeq),
-                                useLoading = false
-                            )?.let {
-                                emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
-                            } ?: let {
-                                logDebug("Fail?")
+    private fun deleteBackgroundImage() {
+        val context = activeAuthContext ?: return
+        val target = if (isMemberSession) {
+            selectedMemberMutationTarget() ?: return
+        } else {
+            HomeMemberMutationTarget(date.value, currentQuota.dailyQuoteSeq)
+        }
+        viewModelScope.launch {
+            emitEffect(
+                CommonEffect.ShowDialog(
+                    dialogData = DialogData.Builder()
+                        .title("이미지를 삭제하시겠습니까?")
+                        .body("삭제 후 이미지를 되돌릴 수 없습니다. \uD83D\uDE22")
+                        .titleTextStyle(TypographyEnum.Heading4)
+                        .bodyTextStyle(TypographyEnum.Body2)
+                        .layoutMode(DialogLayoutMode.HomeDarkMeasured)
+                        .reversed(true)
+                        .cancelText("삭제하기")
+                        .okText("취소")
+                        .cancelOnClick {
+                            viewModelScope.launch {
+                                getResponse(
+                                    deleteUploadImageUseCase(target.dailyQuoteSeq),
+                                    useLoading = false
+                                )?.let {
+                                    if (activeAuthContext != context) return@let
+                                    if (context.isLoggedIn) {
+                                        memberOrchestration = patchHomeMemberImage(
+                                            state = memberOrchestration,
+                                            target = target,
+                                            imagePath = null,
+                                        )
+                                        if (isSelectedMemberTarget(target)) {
+                                            backgroundImageUri.value = ""
+                                        }
+                                    } else if (isSelectedGuestTarget(target)) {
+                                        backgroundImageUri.value = ""
+                                    }
+                                    emitEffect(CommonEffect.ShowSnackBar("이미지가 삭제되었습니다."))
+                                } ?: let {
+                                    logDebug("Fail?")
+                                }
                             }
-                            backgroundImageUri.value = ""
                         }
-                    }
-                    .build()
-            ))
+                        .build()
+                )
+            )
+        }
     }
 
     private fun clickImage(action: HomeAction.ClickImage) {
@@ -387,25 +464,32 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun postLike(date: LocalDate) = viewModelScope.launch {
-        isLike.value = !isLike.value
-        val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
-
-        if (isLogged) {
-            getResponse(
-                postLikeUseCase(
-                    LikeRequest(
-                        if (isLike.value) {
-                            YN.Y.type
-                        } else {
-                            YN.N.type
-                        }
-                    ),
-                    dailyQuoteSeq = currentQuota.dailyQuoteSeq
-                )
-            )
+    private fun postLike(date: LocalDate) {
+        val targetLikeYn = if (isLike.value) YN.N.type else YN.Y.type
+        isLike.value = targetLikeYn == YN.Y.type
+        if (isMemberSession) {
+            val context = activeAuthContext ?: return
+            val target = selectedMemberMutationTarget() ?: return
+            viewModelScope.launch {
+                getResponse(
+                    postLikeUseCase(
+                        LikeRequest(targetLikeYn),
+                        dailyQuoteSeq = target.dailyQuoteSeq,
+                    )
+                )?.let {
+                    if (activeAuthContext != context) return@let
+                    memberOrchestration = patchHomeMemberLike(
+                        state = memberOrchestration,
+                        target = target,
+                        likeYn = targetLikeYn,
+                    )
+                    if (isSelectedMemberTarget(target)) {
+                        isLike.value = targetLikeYn == YN.Y.type
+                    }
+                }
+            }
         } else {
-            postLocalLike(date)
+            viewModelScope.launch { postLocalLike(date) }
         }
     }
 
@@ -439,17 +523,44 @@ class HomeViewModel @Inject constructor(
         )
     }
 
-    private fun refresh(date: LocalDate) = viewModelScope.launch {
-        requestedQuoteDate = date
-        val isLogged = getLoginStatusUseCase().firstOrNull() ?: false
-        isMemberSession = isLogged
+    private fun requestRefresh(requestedDate: LocalDate?) {
+        homeStarted = true
+        pendingExplicitTarget = requestedDate
+        activeAuthContext?.let { context ->
+            loadedAuthContext = context
+            pendingExplicitTarget = null
+            loadHome(context, requestedDate)
+        }
+    }
 
-        when (val command = homeInitialLoadCommand(isLogged, date)) {
+    private fun handleObservedAuthContext(context: HomeAuthContext) {
+        val previous = activeAuthContext
+        val changed = previous != null && previous != context
+        if (changed) {
+            memberWindowRequestJob?.cancel()
+            memberOrchestration = transitionHomeAuthContext(memberOrchestration, previous, context)
+            clearMemberProjection()
+            loadedAuthContext = null
+            pendingImageMutation = null
+        }
+
+        activeAuthContext = context
+        isMemberSession = context.isLoggedIn
+        if (homeStarted && loadedAuthContext != context) {
+            val target = if (previous == null) pendingExplicitTarget else null
+            pendingExplicitTarget = null
+            loadedAuthContext = context
+            loadHome(context, target)
+        }
+    }
+
+    private fun loadHome(context: HomeAuthContext, requestedDate: LocalDate?) = viewModelScope.launch {
+        when (val command = homeInitialLoadCommand(context.isLoggedIn, requestedDate)) {
             is HomeLoadCommand.MemberWeekly -> {
                 quoteLoadState = HomeQuoteLoadState.Loading
                 requestMemberWindow(
                     endDate = command.endDate,
-                    requestedDate = date,
+                    requestedDate = requestedDate,
                     resolveAgainstServerAnchor = true,
                 )
                 getStreakCount()
@@ -459,7 +570,8 @@ class HomeViewModel @Inject constructor(
                 clearMemberSessionState()
                 currentQuota = DailyQuoteDto()
                 quoteLoadState = HomeQuoteLoadState.Loading
-                val guestDate = command.date ?: date
+                val guestDate = command.date ?: date.value
+                requestedQuoteDate = guestDate
                 loadCompletedDates()
                 getStreakCount()
                 getDailyQuoteNoToken(convertDate(guestDate), guestDate)
@@ -469,12 +581,21 @@ class HomeViewModel @Inject constructor(
 
     private fun clearMemberSessionState() {
         memberWindowRequestJob?.cancel()
-        latestMemberRequestId += 1
-        memberWindowCache = emptyMap()
-        memberQuoteWindow = null
-        memberAnchorEndDate = null
+        memberOrchestration = HomeMemberOrchestrationState(
+            latestRequestId = memberOrchestration.latestRequestId + 1,
+        )
+        clearMemberProjection()
+    }
+
+    private fun clearMemberProjection() {
+        currentQuota = DailyQuoteDto()
+        quoteLoadState = HomeQuoteLoadState.Loading
         memberQuestionKo = null
         memberQuestionEn = null
+        answerUiState = HomeAnswerUiState()
+        completedDates = emptySet()
+        isLike.value = false
+        backgroundImageUri.value = ""
     }
 
     private fun selectAdjacentDate(previous: Boolean) {
@@ -489,7 +610,7 @@ class HomeViewModel @Inject constructor(
             selectMemberTarget(minOf(targetDate, anchorEndDate))
         } else if (targetDate <= DateCondition.currentDay()) {
             date.value = targetDate
-            refresh(targetDate)
+            requestRefresh(targetDate)
         }
     }
 
@@ -501,10 +622,10 @@ class HomeViewModel @Inject constructor(
         val anchorEndDate = memberAnchorEndDate ?: currentWindow.endDate
         val clampedTarget = minOf(targetDate, anchorEndDate)
         val result = if (alignToServerAnchor && currentWindow.select(clampedTarget) == null) {
-            val anchorWindow = memberWindowCache[anchorEndDate] ?: currentWindow
+            val anchorWindow = memberOrchestration.cachedWindows[anchorEndDate] ?: currentWindow
             resolveMemberAnchorTarget(anchorWindow, clampedTarget)
         } else {
-            selectMemberDate(currentWindow, clampedTarget, memberWindowCache)
+            selectMemberDate(currentWindow, clampedTarget, memberOrchestration.cachedWindows)
         }
 
         result.loadCommand?.let { command ->
@@ -513,40 +634,46 @@ class HomeViewModel @Inject constructor(
                 requestedDate = result.requestedDate,
                 resolveAgainstServerAnchor = false,
             )
-        } ?: applyMemberWindow(result.window)
+        } ?: acceptMemberSelection(result.window)
     }
 
     private fun requestMemberWindow(
         endDate: String?,
-        requestedDate: LocalDate,
+        requestedDate: LocalDate?,
         resolveAgainstServerAnchor: Boolean,
     ) {
         val requestedEndDate = endDate?.let(LocalDate::parse)
-        val cachedWindow = requestedEndDate?.let(memberWindowCache::get)
+        val cachedWindow = requestedEndDate?.let(memberOrchestration.cachedWindows::get)
         if (cachedWindow != null) {
-            applyMemberWindow(cachedWindow.select(requestedDate) ?: cachedWindow)
+            acceptMemberSelection(requestedDate?.let(cachedWindow::select) ?: cachedWindow)
             return
         }
 
-        val requestId = ++latestMemberRequestId
+        memberOrchestration = beginHomeMemberRequest(memberOrchestration)
+        val requestId = memberOrchestration.latestRequestId
         memberWindowRequestJob?.cancel()
         memberWindowRequestJob = viewModelScope.launch {
             val apiResult = getMemberWeeklyQuotesUseCase(endDate)
-            if (!shouldAcceptHomeMemberQuoteResponse(requestId, latestMemberRequestId)) return@launch
+            if (!shouldAcceptHomeMemberQuoteResponse(requestId, memberOrchestration.latestRequestId)) return@launch
             val response = getResponse(apiResult)
-            if (!shouldAcceptHomeMemberQuoteResponse(requestId, latestMemberRequestId)) return@launch
+            if (!shouldAcceptHomeMemberQuoteResponse(requestId, memberOrchestration.latestRequestId)) return@launch
 
             if (response == null) {
-                if (memberQuoteWindow == null) quoteLoadState = HomeQuoteLoadState.Failed
+                quoteLoadState = homeMemberLoadStateAfterFailure(
+                    hasUsableWindow = memberOrchestration.currentWindow != null,
+                )
                 return@launch
             }
 
             val responseWindow = HomeMemberQuoteWindow.from(response)
-            memberWindowCache = memberWindowCache.withCachedWindow(responseWindow)
 
             if (resolveAgainstServerAnchor) {
-                memberAnchorEndDate = responseWindow.endDate
-                val result = resolveMemberAnchorTarget(responseWindow, requestedDate)
+                memberOrchestration = storeHomeMemberWindow(
+                    state = memberOrchestration,
+                    window = responseWindow,
+                    isAnchor = true,
+                )
+                val result = resolveInitialMemberWindow(responseWindow, requestedDate)
                 result.loadCommand?.let { command ->
                     applyMemberWindow(responseWindow)
                     memberWindowRequestJob = null
@@ -555,17 +682,34 @@ class HomeViewModel @Inject constructor(
                         requestedDate = result.requestedDate,
                         resolveAgainstServerAnchor = false,
                     )
-                } ?: applyMemberWindow(result.window)
+                } ?: run {
+                    memberOrchestration = storeHomeMemberWindow(
+                        state = memberOrchestration,
+                        window = result.window,
+                        isAnchor = true,
+                    )
+                    applyMemberWindow(result.window)
+                }
             } else {
-                applyMemberWindow(responseWindow.select(requestedDate) ?: responseWindow)
+                val selectedWindow = requestedDate?.let(responseWindow::select) ?: responseWindow
+                memberOrchestration = storeHomeMemberWindow(
+                    state = memberOrchestration,
+                    window = selectedWindow,
+                )
+                applyMemberWindow(selectedWindow)
             }
         }
+    }
+
+    private fun acceptMemberSelection(window: HomeMemberQuoteWindow) {
+        memberWindowRequestJob?.cancel()
+        memberOrchestration = acceptHomeMemberSelection(memberOrchestration, window)
+        applyMemberWindow(window)
     }
 
     private fun applyMemberWindow(window: HomeMemberQuoteWindow) {
         val selectedDay = window.selectedDay ?: return
         val memberState = HomeMemberFlowState.from(window)
-        memberQuoteWindow = memberState.window
         date.value = memberState.window.selectedDate
         displayedMonth = YearMonth.from(memberState.window.selectedDate)
         currentQuota = selectedDay.toDailyQuoteDto()
@@ -584,6 +728,22 @@ class HomeViewModel @Inject constructor(
 
     private fun canMutateSelectedQuote(): Boolean =
         !isMemberSession || memberQuoteWindow?.selectedMutationSequence() != null
+
+    private fun selectedMemberMutationTarget(): HomeMemberMutationTarget? {
+        val selectedDay = memberQuoteWindow?.selectedDay ?: return null
+        val dailyQuoteSeq = selectedDay.dailyQuoteSeq ?: return null
+        return HomeMemberMutationTarget(
+            date = memberQuoteWindow?.selectedDate ?: return null,
+            dailyQuoteSeq = dailyQuoteSeq,
+        )
+    }
+
+    private fun isSelectedMemberTarget(target: HomeMemberMutationTarget): Boolean =
+        memberQuoteWindow?.selectedDate == target.date &&
+            memberQuoteWindow?.selectedDay?.dailyQuoteSeq == target.dailyQuoteSeq
+
+    private fun isSelectedGuestTarget(target: HomeMemberMutationTarget): Boolean =
+        date.value == target.date && currentQuota.dailyQuoteSeq == target.dailyQuoteSeq
 
     private suspend fun getStreakCount() {
         Log.e(">>>>", "streak? ${getAccessTokenUseCase()}")

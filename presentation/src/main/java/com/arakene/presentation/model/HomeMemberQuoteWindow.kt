@@ -4,6 +4,7 @@ import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.presentation.util.HomeAnswerUiState
+import com.arakene.presentation.util.HomeQuoteLoadState
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 
@@ -40,6 +41,103 @@ data class HomeMemberFlowState(
         }
     }
 }
+
+data class HomeAuthContext(
+    val isLoggedIn: Boolean,
+    val accountIdentity: String?,
+)
+
+data class HomeMemberMutationTarget(
+    val date: LocalDate,
+    val dailyQuoteSeq: Int,
+)
+
+data class HomeMemberOrchestrationState(
+    val currentWindow: HomeMemberQuoteWindow? = null,
+    val cachedWindows: Map<LocalDate, HomeMemberQuoteWindow> = emptyMap(),
+    val anchorEndDate: LocalDate? = null,
+    val latestRequestId: Long = 0,
+)
+
+fun beginHomeMemberRequest(
+    state: HomeMemberOrchestrationState,
+): HomeMemberOrchestrationState = state.copy(latestRequestId = state.latestRequestId + 1)
+
+fun acceptHomeMemberSelection(
+    state: HomeMemberOrchestrationState,
+    window: HomeMemberQuoteWindow,
+): HomeMemberOrchestrationState = state.copy(
+    currentWindow = window,
+    latestRequestId = state.latestRequestId + 1,
+)
+
+fun storeHomeMemberWindow(
+    state: HomeMemberOrchestrationState,
+    window: HomeMemberQuoteWindow,
+    isAnchor: Boolean = false,
+): HomeMemberOrchestrationState = state.copy(
+    currentWindow = window,
+    cachedWindows = state.cachedWindows.withCachedWindow(window),
+    anchorEndDate = if (isAnchor) window.endDate else state.anchorEndDate,
+)
+
+fun transitionHomeAuthContext(
+    state: HomeMemberOrchestrationState,
+    previous: HomeAuthContext?,
+    current: HomeAuthContext,
+): HomeMemberOrchestrationState =
+    if (previous != null && previous != current) {
+        HomeMemberOrchestrationState(latestRequestId = state.latestRequestId + 1)
+    } else {
+        state
+    }
+
+fun resolveInitialMemberWindow(
+    anchorWindow: HomeMemberQuoteWindow,
+    requestedDate: LocalDate?,
+): HomeMemberSelectionResult =
+    requestedDate?.let { resolveMemberAnchorTarget(anchorWindow, it) }
+        ?: HomeMemberSelectionResult(
+            window = anchorWindow,
+            requestedDate = anchorWindow.selectedDate,
+            loadCommand = null,
+        )
+
+fun patchHomeMemberLike(
+    state: HomeMemberOrchestrationState,
+    target: HomeMemberMutationTarget,
+    likeYn: String,
+): HomeMemberOrchestrationState = state.patchDay(target) { day -> day.copy(likeYn = likeYn) }
+
+fun patchHomeMemberImage(
+    state: HomeMemberOrchestrationState,
+    target: HomeMemberMutationTarget,
+    imagePath: String?,
+): HomeMemberOrchestrationState = state.patchDay(target) { day -> day.copy(imagePath = imagePath) }
+
+internal fun homeMemberLoadStateAfterFailure(hasUsableWindow: Boolean): HomeQuoteLoadState =
+    if (hasUsableWindow) HomeQuoteLoadState.Loaded else HomeQuoteLoadState.Failed
+
+private fun HomeMemberOrchestrationState.patchDay(
+    target: HomeMemberMutationTarget,
+    transform: (MemberQuoteDay) -> MemberQuoteDay,
+): HomeMemberOrchestrationState = copy(
+    currentWindow = currentWindow?.patchDay(target, transform),
+    cachedWindows = cachedWindows.mapValues { (_, window) -> window.patchDay(target, transform) },
+)
+
+private fun HomeMemberQuoteWindow.patchDay(
+    target: HomeMemberMutationTarget,
+    transform: (MemberQuoteDay) -> MemberQuoteDay,
+): HomeMemberQuoteWindow = copy(
+    days = days.map { day ->
+        if (LocalDate.parse(day.date) == target.date && day.dailyQuoteSeq == target.dailyQuoteSeq) {
+            transform(day)
+        } else {
+            day
+        }
+    },
+)
 
 data class HomeMemberQuoteWindow(
     val startDate: LocalDate,

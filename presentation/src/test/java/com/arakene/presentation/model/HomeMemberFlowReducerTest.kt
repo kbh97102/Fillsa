@@ -2,6 +2,7 @@ package com.arakene.presentation.model
 
 import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
+import com.arakene.presentation.util.HomeQuoteLoadState
 import java.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -160,5 +161,101 @@ class HomeMemberFlowReducerTest {
     fun `late weekly response cannot replace state from the latest request`() {
         assertTrue(shouldAcceptHomeMemberQuoteResponse(requestId = 12, latestRequestId = 12))
         assertFalse(shouldAcceptHomeMemberQuoteResponse(requestId = 11, latestRequestId = 12))
+    }
+
+    @Test
+    fun `cached selection supersedes an uncached request before its response arrives`() {
+        val cachedWindow = window.select(LocalDate.of(2026, 9, 1))!!
+        val initialState = HomeMemberOrchestrationState(
+            currentWindow = window,
+            cachedWindows = mapOf(window.endDate to window),
+            anchorEndDate = window.endDate,
+            latestRequestId = 20,
+        )
+        val requesting = beginHomeMemberRequest(initialState)
+        val staleRequestId = requesting.latestRequestId
+        val selected = acceptHomeMemberSelection(requesting, cachedWindow)
+
+        assertEquals(22, selected.latestRequestId)
+        assertEquals(LocalDate.of(2026, 9, 1), selected.currentWindow!!.selectedDate)
+        assertFalse(shouldAcceptHomeMemberQuoteResponse(staleRequestId, selected.latestRequestId))
+    }
+
+    @Test
+    fun `initial response keeps server today when there is no explicit target`() {
+        val result = resolveInitialMemberWindow(window, requestedDate = null)
+
+        assertNull(result.loadCommand)
+        assertEquals(LocalDate.of(2026, 9, 3), result.window.selectedDate)
+        assertEquals(LocalDate.of(2026, 9, 3), result.requestedDate)
+    }
+
+    @Test
+    fun `successful member mutations survive selecting away and back`() {
+        val initialState = HomeMemberOrchestrationState(
+            currentWindow = window,
+            cachedWindows = mapOf(window.endDate to window),
+            anchorEndDate = window.endDate,
+        )
+        val target = HomeMemberMutationTarget(
+            date = LocalDate.of(2026, 9, 3),
+            dailyQuoteSeq = 87,
+        )
+        val selectedAway = initialState.copy(
+            currentWindow = window.select(LocalDate.of(2026, 9, 2))!!,
+        )
+
+        val patched = patchHomeMemberImage(
+            state = patchHomeMemberLike(selectedAway, target, likeYn = "Y"),
+            target = target,
+            imagePath = "https://example.com/member-image.jpg",
+        )
+        assertEquals(LocalDate.of(2026, 9, 2), patched.currentWindow!!.selectedDate)
+        val back = patched.currentWindow.select(LocalDate.of(2026, 9, 3))!!
+        val cachedBack = patched.cachedWindows.getValue(LocalDate.of(2026, 9, 3))
+            .select(LocalDate.of(2026, 9, 3))!!
+
+        assertEquals("Y", back.selectedDay!!.likeYn)
+        assertEquals("https://example.com/member-image.jpg", back.selectedDay!!.imagePath)
+        assertEquals("Y", cachedBack.selectedDay!!.likeYn)
+        assertEquals("https://example.com/member-image.jpg", cachedBack.selectedDay!!.imagePath)
+
+        val deleted = patchHomeMemberImage(patched, target, imagePath = null)
+        val deletedBack = deleted.cachedWindows.getValue(LocalDate.of(2026, 9, 3))
+            .select(LocalDate.of(2026, 9, 3))!!
+        assertNull(deletedBack.selectedDay!!.imagePath)
+    }
+
+    @Test
+    fun `account identity change clears member cache and invalidates requests`() {
+        val initialState = HomeMemberOrchestrationState(
+            currentWindow = window,
+            cachedWindows = mapOf(window.endDate to window),
+            anchorEndDate = window.endDate,
+            latestRequestId = 30,
+        )
+
+        val changed = transitionHomeAuthContext(
+            state = initialState,
+            previous = HomeAuthContext(isLoggedIn = true, accountIdentity = "account-a"),
+            current = HomeAuthContext(isLoggedIn = true, accountIdentity = "account-b"),
+        )
+
+        assertNull(changed.currentWindow)
+        assertTrue(changed.cachedWindows.isEmpty())
+        assertNull(changed.anchorEndDate)
+        assertEquals(31, changed.latestRequestId)
+    }
+
+    @Test
+    fun `failed refresh retains loaded state when a usable member window exists`() {
+        assertEquals(
+            HomeQuoteLoadState.Loaded,
+            homeMemberLoadStateAfterFailure(hasUsableWindow = true),
+        )
+        assertEquals(
+            HomeQuoteLoadState.Failed,
+            homeMemberLoadStateAfterFailure(hasUsableWindow = false),
+        )
     }
 }
