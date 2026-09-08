@@ -126,11 +126,13 @@ private fun CalendarEmptyDay(darkMode: Boolean) {
         Column(Modifier.width(220.dp).offset(y = (-7).dp)) {
             Text(
                 "필사하지 않은 날이에요.",
+                modifier = Modifier.offset(y = (-3).dp),
                 style = FillsaTheme.typography.subtitle2,
                 color = if (darkMode) Color.White else colorResource(R.color.purple01),
             )
             Text(
                 "아래 필사를 선택하여 기록해주세요!",
+                modifier = Modifier.offset(y = 2.dp),
                 style = FillsaTheme.typography.subtitle2,
                 color = if (darkMode) Color.White else colorResource(R.color.purple01),
             )
