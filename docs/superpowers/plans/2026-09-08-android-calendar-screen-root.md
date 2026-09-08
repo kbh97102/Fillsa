@@ -1,8 +1,8 @@
 # Android Calendar screen root implementation plan
 
-> Date: 2026-09-08  
-> Figma root: `2929:13366`  
-> Worktree: `.worktrees/calendar-screen-root` / branch `codex/calendar-screen-root`  
+> Date: 2026-09-08
+> Figma root: `2929:13366`
+> Worktree: `.worktrees/calendar-screen-root` / branch `codex/calendar-screen-root`
 > Base: `codex/home-dark-root` (`e50ffb7`), retaining the committed dark Home/shared-surface work.
 
 ## Goal
