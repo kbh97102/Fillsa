@@ -32,6 +32,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.util.YN
 import com.arakene.presentation.R
@@ -114,19 +115,23 @@ internal fun CalendarQuoteSection(
 @Composable
 private fun CalendarEmptyDay(darkMode: Boolean) {
     Row(
-        modifier = Modifier.height(100.dp).fillMaxWidth(),
+        modifier = Modifier.height(100.dp).fillMaxWidth().zIndex(1f),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        CalendarFigmaAsset("calendar_empty_handwriting.svg", Modifier.size(100.dp), darkMode)
-        Column {
+        CalendarFigmaAsset(
+            "calendar_empty_handwriting.svg",
+            Modifier.size(100.dp).offset(y = (-7).dp),
+            darkMode,
+        )
+        Column(Modifier.width(220.dp).offset(y = (-7).dp)) {
             Text(
                 "필사하지 않은 날이에요.",
-                style = FillsaTheme.typography.body3,
+                style = FillsaTheme.typography.subtitle2,
                 color = if (darkMode) Color.White else colorResource(R.color.purple01),
             )
             Text(
-                "아래 텍스트를 선택하여 기록해주세요!",
-                style = FillsaTheme.typography.body4,
+                "아래 필사를 선택하여 기록해주세요!",
+                style = FillsaTheme.typography.subtitle2,
                 color = if (darkMode) Color.White else colorResource(R.color.purple01),
             )
         }
@@ -179,10 +184,15 @@ private fun CalendarCompletedDayCard(
             .border(if (darkMode) 1.dp else 0.dp, if (darkMode) Color(0xFF616161) else Color.Transparent, RoundedCornerShape(10.dp)),
     ) {
         Row(Modifier.height(90.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            CalendarDateLabel(selectedDay, darkMode, Modifier.width(62.dp))
+            CalendarDateLabel(
+                selectedDay = selectedDay,
+                darkMode = darkMode,
+                modifier = Modifier.width(62.dp),
+                alignCompletedCardContent = true,
+            )
             Text(
                 quoteData.quote,
-                modifier = Modifier.weight(1f).padding(end = 10.dp),
+                modifier = Modifier.weight(1f).padding(end = 10.dp).offset(y = (-7).dp),
                 style = FillsaTheme.typography.body3,
                 maxLines = 3,
                 overflow = TextOverflow.Ellipsis,
@@ -203,18 +213,25 @@ private fun CalendarCompletedDayCard(
 }
 
 @Composable
-private fun CalendarDateLabel(selectedDay: CalendarDay, darkMode: Boolean, modifier: Modifier) {
+private fun CalendarDateLabel(
+    selectedDay: CalendarDay,
+    darkMode: Boolean,
+    modifier: Modifier,
+    alignCompletedCardContent: Boolean = false,
+) {
     val weekday = remember(selectedDay.date) {
         "(" + selectedDay.date.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale.KOREA) + ")"
     }
     Column(modifier = modifier, horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
             selectedDay.date.dayOfMonth.toString(),
+            modifier = Modifier.offset(y = if (alignCompletedCardContent) (-8).dp else 0.dp),
             style = FillsaTheme.typography.heading4,
             color = if (darkMode) Color.White else colorResource(R.color.purple01),
         )
         Text(
             weekday,
+            modifier = Modifier.offset(y = if (alignCompletedCardContent) (-3).dp else 0.dp),
             style = FillsaTheme.typography.body4,
             color = if (darkMode) Color.White else colorResource(R.color.purple01),
         )
@@ -349,11 +366,16 @@ private fun CalendarPromptAnswer(
     val primary = if (darkMode) Color.White else Color(0xFF211F1B)
     val muted = Color(0xFF9E9E9E)
     Column(modifier = modifier) {
-        Text("오늘의 질문", style = FillsaTheme.typography.subtitle2, color = colorResource(R.color.purple01))
+        Text(
+            "오늘의 질문",
+            modifier = Modifier.offset(y = 1.dp),
+            style = FillsaTheme.typography.subtitle2,
+            color = colorResource(R.color.purple01),
+        )
         // Calendar has no question/answer data contract, so it retains the established Home placeholder.
         Text(
             "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
-            modifier = Modifier.padding(top = 4.dp),
+            modifier = Modifier.padding(top = 4.dp).offset(y = 6.dp),
             style = FillsaTheme.typography.body3,
             color = primary,
         )
@@ -366,7 +388,8 @@ private fun CalendarPromptAnswer(
                 value = state.text,
                 onValueChange = { answer = homeAnswerInputState(it).text },
                 textStyle = FillsaTheme.typography.body4.copy(color = primary),
-                modifier = Modifier.fillMaxWidth().height(174.dp).padding(11.dp)
+                modifier = Modifier.fillMaxWidth().height(174.dp)
+                    .padding(start = 11.dp, top = 16.dp, end = 11.dp, bottom = 11.dp)
                     .semantics { contentDescription = "오늘의 답변 입력" },
                 decorationBox = { field ->
                     if (state.text.isEmpty()) {

@@ -94,7 +94,12 @@ private fun calendarQaQuotes(state: CalendarRuntimeQaState): List<MemberQuotesDa
             qaQuote(21, completedQuote, completed = true, liked = true),
             qaQuote(22, previewQuote, completed = true, liked = true),
         )
-        CalendarRuntimeQaState.CompletedUnanswered,
+        CalendarRuntimeQaState.CompletedUnanswered -> listOf(
+            qaQuote(18, completedQuote, completed = true, liked = true),
+            qaQuote(19, completedQuote, completed = true, liked = true),
+            qaQuote(20, completedQuote, completed = true, liked = true),
+            qaQuote(21, completedQuote, completed = true, liked = false),
+        )
         CalendarRuntimeQaState.CompletedAnsweredImage -> listOf(
             qaQuote(18, completedQuote, completed = true, liked = true),
             qaQuote(19, completedQuote, completed = true, liked = true),

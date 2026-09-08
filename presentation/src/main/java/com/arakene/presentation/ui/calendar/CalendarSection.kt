@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
@@ -287,7 +288,7 @@ internal fun Day(
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            modifier = Modifier.height(24.dp),
+            modifier = Modifier.height(24.dp).offset(y = 7.dp),
             text = labelOverride ?: day.date.dayOfMonth.toString(),
             color = when {
                 isSelected -> Color.White
@@ -322,7 +323,7 @@ fun MonthHeader(
     ) {
         daysOfWeek.forEach { day ->
             Text(
-                modifier = Modifier.size(width = 36.dp, height = 40.dp),
+                modifier = Modifier.size(width = 36.dp, height = 40.dp).offset(y = 8.dp),
                 textAlign = TextAlign.Center,
                 text = day.toKoreanShort(),
                 fontFamily = pretendard,

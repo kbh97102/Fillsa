@@ -11,7 +11,7 @@
 - 색상 모드 / 로케일: light / `ko-KR`. 루트 배경, status bar, top header, bottom navigation, ad 영역을 전체 프레임 비교에 포함한다.
 - 기준 이미지: `docs/design-qa/assets/calendar-figma-2929-13366/2026-09-08/figma-basic-2985-21952.png`, `figma-unanswered-2987-22796.png`, `figma-answered-image-2985-22510.png`.
 - 런타임 기준: Android Emulator `Medium_Phone_API_35`, API 35, 160dpi, 360dp 폭, light, app locale `ko-KR`; 기본은 360×816, 두 완료 상태는 360×1101 전체 프레임.
-- 검증 상태: Calendar 소유 컴포넌트와 조립 위치 `최종 통과`; 전체 시스템/공유 표면은 Android status/gesture bar와 보존된 4-route navigation, 비네트워크 fixture에서 생략한 live ad 때문에 제품 경계 차이 있음.
+- 검증 상태: Calendar 소유 컴포넌트와 조립 위치는 Round 4 재검증 완료(부모 작업자의 최종 조립 승인 대기); 전체 시스템/공유 표면은 Android status/gesture bar와 보존된 4-route navigation, 비네트워크 fixture에서 생략한 live ad 때문에 제품 경계 차이 있음.
 - QA 기록: `docs/design-qa/2026-09-08-android-calendar-screen-root-qa.md`.
 - 구현 플랜: `docs/superpowers/plans/2026-09-08-android-calendar-screen-root.md`.
 
@@ -44,13 +44,13 @@
 
 | 컴포넌트 | Figma 노드 | 책임 | 조립 위치 | 검증 상태 |
 |---|---|---|---|---|
-| `CalendarSection` | `2985:21954`, `2987:22799`, `3145:2024` | 월 이동, 7열×6행 날짜, 선택/비활성/기록 아이콘 | `CalendarView` | 최종 통과 |
-| `Day` / indicators | `2985:22026`, `2987:22871`, `3145:2096` descendants | 36×50 셀, heart/fire 12dp | `CalendarSection` | 최종 통과 |
+| `CalendarSection` | `2985:21954`, `2987:22799`, `3145:2024` | 월 이동, 7열×6행 날짜, 선택/비활성/기록 아이콘 | `CalendarView` | Round 4 재검증 완료 |
+| `Day` / indicators | `2985:22026`, `2987:22871`, `3145:2096` descendants | 36×50 셀, heart/fire 12dp | `CalendarSection` | Round 4 재검증 완료 |
 | `CalendarCountSection` | `2987:23057`, `2987:23117`, `3145:2158` | 월간 heart/fire 집계 (`likeCount`/`typingCount`) | `CalendarView` | 최종 통과 |
-| `CalendarEmptyDay` / preview | `2985:22183`, `2985:22145` | 미필사 안내와 80dp 명언 진입 카드 | `CalendarQuoteSection` | 최종 통과 |
-| completed card/action row | `2987:22950`, `3207:2950` | 완료 명언과 70/70/70/107 action row, 미등록/등록 이미지 | `CalendarQuoteSection` | 최종 통과 |
-| prompt answer | `2987:22977`, `2985:22670` | 200자 입력, 기록/수정 시각 상태 | `CalendarQuoteSection` | 최종 통과 |
-| 전체 Calendar 조립 | three actual frames | header y30–80, card y90–486, selected-day sections | app scaffold | Calendar 범위 최종 통과; shared/system surface 차이 기록 |
+| `CalendarEmptyDay` / preview | `2985:22183`, `2985:22145` | 미필사 안내와 80dp 명언 진입 카드 | `CalendarQuoteSection` | Round 4 재검증 완료 |
+| completed card/action row | `2987:22950`, `3207:2950` | 완료 명언과 70/70/70/107 action row, 미등록/등록 이미지 | `CalendarQuoteSection` | Round 4 재검증 완료 |
+| prompt answer | `2987:22977`, `2985:22670` | 200자 입력, 기록/수정 시각 상태 | `CalendarQuoteSection` | Round 4 재검증 완료 |
+| 전체 Calendar 조립 | three actual frames | header y30–80, card y90–486, selected-day sections | app scaffold | Round 4 조립 재검증 완료; parent 최종 승인 대기, shared/system surface 차이 기록 |
 
 ### 제품 계약 경계
 

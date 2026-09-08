@@ -97,6 +97,21 @@ class CalendarRecordIndicatorTest {
     }
 
     @Test
+    fun `completed fixtures preserve their binding like action states`() {
+        val unanswered = CalendarRuntimeQaFixture(CalendarRuntimeQaState.CompletedUnanswered)
+        val answeredImage = CalendarRuntimeQaFixture(CalendarRuntimeQaState.CompletedAnsweredImage)
+
+        assertEquals(
+            YN.N,
+            unanswered.data.memberQuotes.first { it.quoteDate == unanswered.selectedDay.date.toString() }.likeYn,
+        )
+        assertEquals(
+            YN.Y,
+            answeredImage.data.memberQuotes.first { it.quoteDate == answeredImage.selectedDay.date.toString() }.likeYn,
+        )
+    }
+
+    @Test
     fun `calendar QA state accepts only explicit launch values`() {
         assertEquals(
             CalendarRuntimeQaState.CompletedUnanswered,

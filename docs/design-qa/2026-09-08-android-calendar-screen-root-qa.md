@@ -66,6 +66,10 @@ The fixture is process-local presentation input. Calendar refresh/actions, widge
 
 ### Round 3
 
+> Superseded for the reviewed Calendar-owned internals by Round 4 below. Its earlier
+> assertion that the remaining text delta was only 1–2px did not cover the subsequently
+> identified 5–8px offsets.
+
 | Scope | Difference | Fix | Result |
 |---|---|---|---|
 | Header/calendar/count | Header y30–80, shell x20/y90–486, count row aligned | None | Pass |
@@ -81,9 +85,26 @@ The fixture is process-local presentation input. Calendar refresh/actions, widge
 - Crop boundaries: full 360×816 or 360×1101 images, no crop. Side-by-side files place Figma at x0–359 and Android at x360–719. Overlays are 50/50 full-frame blends.
 - The final captures were taken after a seven-second settle per state; the transient Android app-language/keyboard toast seen during the first final attempt is absent from every retained final runtime/comparison asset.
 
+### Round 4 — independent-review fix revalidation
+
+| Scope | Difference | Fix | Result |
+|---|---|---|---|
+| Calendar weekday/date labels | Cell labels were approximately 7–8px above their Figma positions although the x20/y90, 320×396 shell was correct | Offset weekday text +8dp and date labels +7dp inside their fixed 40dp/50dp cells; no shell geometry changed | Rechecked in basic and completed frames |
+| Basic companion `2985:22183` | The character/message visual y/typography and overlap with the quote card did not match | Used purple `subtitle2` companion text, moved the character/text visual up 7dp within the unchanged 100dp row, and raised that row for the character-over-card drawing order; the 320×80 card boundary remains y601–681 | Rechecked in basic frame |
+| Completed card / prompt | Card date/quote sat approximately 7–8px low, while question/answer text sat approximately 5–7px high | Moved completed-card text internals up without moving the 133dp card/action boundaries; moved the question and editor content down within the unchanged 174dp editor and 50dp CTA geometry | Rechecked in unanswered and answered/image frames |
+| Completed-unanswered fixture `2987:22796` | Selected completed-day Like action was incorrectly filled | Made only the unanswered selected record unliked (`YN.N`); answered/image remains liked (`YN.Y`) | Rechecked; runtime shows neutral outline Like action |
+
+- Fresh runtime captures after a seven-second settle, with no transient toast:
+  - Basic: `runtime-basic-round4.png` (360×816, SHA-256 `8ae102d969af61344f567ac4e23853cfc86d7e766da581c13f8804ab02200500`)
+  - Completed/unanswered: `runtime-unanswered-round4.png` (360×1101, SHA-256 `3637639db5cb70e90e287520c7d6d4e76bab317877705a43167cb81c04f17ae9`)
+  - Completed/answered-image: `runtime-answered-image-round4.png` (360×1101, SHA-256 `82184a822ab8e17a2084dc154f4c501a33090fa7d07a2bdd51c7c4ba9fe40c64`)
+- Fresh full-frame 50/50 overlays: `overlay-basic-round4.png`, `overlay-unanswered-round4.png`, `overlay-answered-image-round4.png`.
+- Fresh side-by-sides (Figma x0–359; Android x360–719): `side-by-side-basic-round4.png`, `side-by-side-unanswered-round4.png`, `side-by-side-answered-image-round4.png`.
+- Visual inspection: the reviewed Calendar-owned boundaries remain aligned. The residual text-edge differences visible in the raw overlays are limited to approximately 1–2px platform font rasterization; the prior 5–8px interior offsets are no longer present. Android status/gesture UI, the shared four-route navigation, and the suppressed fixture ad remain the documented whole-frame product-boundary differences.
+
 ## Final assembled-screen result
 
-- Calendar-owned result: **Pass in round 3** for all three binding states.
+- Calendar-owned result: Round 4 revalidation is ready for the parent task's final assembled-screen acceptance; all three binding states have fresh full-frame evidence.
 - Whole-frame literal result: **Blocked only by preserved shared/system product surfaces** — Android vs iOS system UI, shared four-route navigation vs Figma three tabs, and live ad intentionally absent from the nonnetwork fixture.
-- Remaining Calendar-owned differences: none beyond normal 1–2px font/rasterization variance.
+- Remaining Calendar-owned differences: only approximately 1–2px platform font/rasterization variance at text edges, as visible in Round 4 overlays; no 5–8px interior-layout claim is retained.
 - Required product-boundary differences: documented above; no navigation or ad ownership was changed.
