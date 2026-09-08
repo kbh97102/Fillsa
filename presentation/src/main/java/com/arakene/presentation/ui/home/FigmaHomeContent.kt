@@ -331,6 +331,7 @@ internal fun FigmaHomeContent(
                 HomePromptAnswerSection(
                     question = question,
                     answerUiState = answerUiState,
+                    isAnswerSaving = answerUiState.isSaving,
                     onAnswerChanged = onAnswerChanged,
                     onRecordAnswer = onRecordAnswer,
                     onEditAnswer = onEditAnswer,
@@ -797,6 +798,7 @@ private fun HomeImageAction(
 private fun HomePromptAnswerSection(
     question: String,
     answerUiState: HomeAnswerUiState,
+    isAnswerSaving: Boolean,
     onAnswerChanged: (String) -> Unit,
     onRecordAnswer: () -> Unit,
     onEditAnswer: () -> Unit,
@@ -832,7 +834,7 @@ private fun HomePromptAnswerSection(
             BasicTextField(
                 value = answerState.text,
                 onValueChange = onAnswerChanged,
-                readOnly = !answerUiState.isEditing,
+                readOnly = !answerUiState.isEditing || isAnswerSaving,
                 textStyle = FillsaTheme.typography.body4.copy(color = palette.primaryText),
                 interactionSource = interactionSource,
                 modifier = Modifier
@@ -860,6 +862,7 @@ private fun HomePromptAnswerSection(
         )
         HomeAnswerRecordButton(
             isRecorded = answerUiState.isRecorded,
+            isSaving = isAnswerSaving,
             onClick = if (answerUiState.isRecorded) onEditAnswer else onRecordAnswer,
             darkMode = darkMode,
         )
@@ -867,7 +870,7 @@ private fun HomePromptAnswerSection(
 }
 
 @Composable
-private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit, darkMode: Boolean) {
+private fun HomeAnswerRecordButton(isRecorded: Boolean, isSaving: Boolean, onClick: () -> Unit, darkMode: Boolean) {
     val background = if (isRecorded) Color(0xFFD3D5FF) else HomePrimary
     val contentColor = if (isRecorded) HomePrimary else Color.White
     val label = if (isRecorded) "내 답변 수정하기" else "내 답변 기록하기"
@@ -878,7 +881,7 @@ private fun HomeAnswerRecordButton(isRecorded: Boolean, onClick: () -> Unit, dar
             .height(50.dp)
             .clip(RoundedCornerShape(8.dp))
             .background(background)
-            .noEffectClickable(click = onClick)
+            .noEffectClickable(enable = !isSaving, click = onClick)
             .semantics { contentDescription = label },
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,

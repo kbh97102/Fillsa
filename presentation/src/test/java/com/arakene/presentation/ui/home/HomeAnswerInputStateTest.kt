@@ -11,6 +11,21 @@ import org.junit.Test
 class HomeAnswerInputStateTest {
 
     @Test
+    fun `family emoji and flag are each one visible grapheme`() {
+        val family = "👨‍👩‍👧‍👦"
+        val flag = "🇰🇷"
+        assertEquals(family.repeat(200), homeAnswerInputState(family.repeat(200) + "x").text)
+        assertEquals(198, homeAnswerInputState(family + flag).remainingCount)
+    }
+
+    @Test
+    fun `draft and edit actions cannot change an in flight answer`() {
+        val saving = HomeAnswerUiState(draft = "저장 중", isSaving = true)
+        assertEquals(saving, changeHomeAnswer(saving, "다른 답변"))
+        assertEquals(saving, editHomeAnswer(saving))
+    }
+
+    @Test
     fun `answer input caps at two hundred grapheme clusters and reports remaining count`() {
         val grapheme = "a\u0301"
 

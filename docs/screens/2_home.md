@@ -56,6 +56,13 @@
 
 회원 Home 질문 답변은 선택 날짜의 `questionKo`/`questionEn`, `answer`, `answeredAt`을 weekly/daily 응답에서 읽고 answer API로 저장한다. 선택 날짜가 바뀌면 날짜별 draft/recorded-answer를 원자적으로 교체하며, `dailyQuoteSeq == null`인 날짜에서는 답변을 포함한 mutation을 실행하지 않는다. 비회원만 기존 `HomeViewModel` session state로 기록/수정 상태와 snackbar를 유지하며 Typing으로 전달하지 않는다. 기존 quote 필사와 memo v1 API 필드는 신규 회원 Home·Calendar에서 재사용하지 않는다.
 
+### 2026-09-08 회원 질문 저장 연결
+
+- 범위: 위 light `2929:13556`의 질문 기본 `3087:29376`, focus `3139:1399`, done `3087:29378`, 저장 toast `3110:34293`.
+- `HomeMemberAnswerCoordinator`가 원래 날짜·dailyQuoteSeq·계정 세대·요청 revision을 보관한다. 저장 중 중복 입력/제출을 막고, POST 성공 시 서버 답변과 기록 시간을 현재/캐시 주간 데이터에 반영한다. 후속 daily refresh는 동일 origin/auth/revision에만 적용하며 실패 시 POST 결과를 유지한다.
+- 이미 연결된 `questionKo`/`questionEn`의 LocaleType 표시를 유지한다. Compose 변경은 저장 중 입력 readOnly 및 버튼 클릭 차단뿐이며 레이아웃·색·문구·계층은 변경하지 않는다.
+- QA 기록: [2026-09-08 Home answer integration QA](../design-qa/2026-09-08-android-home-answer-integration-qa.md). 단위 테스트와 코드 범위 검증은 비최종 증거이며, 전체 조립 화면의 runtime/Figma 최종 수용은 부모 작업자 검증 대기다.
+
 `3087:29254`는 Home/Calendar/My page 3개 탭(각 120 × 60dp, 32dp icon), 선택 `#5C65FF`, 비선택 `#212121`만 정의합니다. Android `BottomNavigationBar`는 동일한 light selected/unselected color와 32dp local vector를 사용하지만 Home/QuoteList/Calendar/My page의 4개 shared route를 보존합니다. 3등분 폭·3개 icon asset을 그대로 적용하려면 QuoteList의 위치·폭 또는 route를 변경해야 하므로 Home 범위에서 변경하지 않습니다. 광고는 live `SingleLineAdSection`의 native content이며, 이전 참조 `2929:29249`는 2026-08-30 Figma MCP에서 찾을 수 없었습니다. 향후 제품 결정은 (a) Android의 4탭/live ad contract를 Figma에 반영하거나, (b) shared navigation과 광고 노출 정책을 앱 전체 범위에서 3탭 디자인으로 변경하도록 명시 승인하는 것입니다.
 
 Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#616161` border/divider(주 divider 55%), white primary text, `#E0E0E0` action label, `#9E9E9E` muted text를 `HomeColorPalette`로 해석합니다. calendar와 selected/completed weekday, `#5C65FF` CTA는 Figma 상태대로 유지합니다. 정확한 dark SVG는 `presentation/src/main/assets/figma/home-night/`의 logo/profile/wave/search/copy/share/like/camera 8종이며 SVG가 density-independent이므로 Figma의 60/24/16/320dp Compose 크기로 렌더합니다. calendar/write/badge/streak SVG는 Figma dark bytes가 light와 동일해 기존 `assets/figma/home/`을 재사용합니다.

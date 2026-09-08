@@ -27,6 +27,7 @@ import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostUploadImageUseCase
 import com.arakene.domain.usecase.home.SaveQuoteAnswerUseCase
 import com.arakene.domain.util.YN
+import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.model.HomeLoadCommand
 import com.arakene.presentation.model.HomeAuthContext
 import com.arakene.presentation.model.HomeAuthBoundCommand
@@ -59,6 +60,7 @@ import com.arakene.presentation.util.DialogLayoutMode
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.HomeEffect
 import com.arakene.presentation.util.HomeAnswerUiState
+import com.arakene.presentation.util.HomeMemberAnswerCoordinator
 import com.arakene.presentation.util.HomeQuoteLoadState
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypographyEnum
@@ -125,6 +127,7 @@ class HomeViewModel @Inject constructor(
     private var authBoundCoordinator = HomeAuthBoundRequestCoordinator()
     private var authBoundJob = SupervisorJob(viewModelScope.coroutineContext[Job])
     private var pendingImageMutation: Pair<HomeAuthBoundRequestToken, HomeMemberMutationTarget>? = null
+    private var memberAnswerCoordinator = HomeMemberAnswerCoordinator()
 
     val memberQuoteWindow: HomeMemberQuoteWindow?
         get() = memberOrchestration.currentWindow
@@ -301,7 +304,10 @@ class HomeViewModel @Inject constructor(
             }
 
             is HomeAction.RecordAnswer -> {
-                if (isMemberSession) return
+                if (isMemberSession) {
+                    recordMemberAnswer()
+                    return
+                }
                 val outcome = recordHomeAnswerForHome(answerUiState)
                 answerUiState = outcome.state
                 emitEffect(CommonEffect.ShowSnackBar(outcome.snackbarMessage))
@@ -317,6 +323,43 @@ class HomeViewModel @Inject constructor(
             }
         }
 
+    }
+
+    private fun recordMemberAnswer() {
+        val window = memberQuoteWindow ?: return
+        val token = authBoundCoordinator.capture() ?: return
+        val start = memberAnswerCoordinator.begin(HomeMemberFlowState.from(window), answerUiState, token)
+        val request = start.request ?: return
+        memberAnswerCoordinator = start.coordinator
+        answerUiState = start.answer
+        launchAuthBound(token) save@{
+            val apiResult = saveQuoteAnswerUseCase(request.target.dailyQuoteSeq, request.answer.draft)
+            if (!authBoundCoordinator.accepts(token)) return@save
+            val response = getResponse(apiResult, useLoading = false)
+            if (!authBoundCoordinator.accepts(token)) return@save
+            val result = memberAnswerCoordinator.completePost(memberOrchestration, authBoundCoordinator, request, response)
+            memberAnswerCoordinator = result.coordinator
+            memberOrchestration = result.state
+            if (isSelectedMemberTarget(request.target)) {
+                memberQuoteWindow?.let(::applyMemberWindow)
+            }
+            result.snackbarMessage?.let { emitEffect(CommonEffect.ShowSnackBar(it)) }
+            if (!result.shouldRefresh) return@save
+
+            // This reconciliation is optional: a failed GET cannot undo a successful POST.
+            val dailyResult = getMemberQuoteDayUseCase(request.target.date.toString())
+            val daily = (dailyResult as? ApiResult.Success)?.data
+            val refreshed = memberAnswerCoordinator.completeRefresh(memberOrchestration, authBoundCoordinator, request, daily)
+            if (refreshed != memberOrchestration) {
+                memberOrchestration = refreshed
+                if (isSelectedMemberTarget(request.target)) {
+                    val currentAnswer = answerUiState
+                    memberQuoteWindow?.let(::applyMemberWindow)
+                    // An edit started after POST success belongs to the user, not the delayed GET.
+                    if (currentAnswer.isEditing) answerUiState = currentAnswer
+                }
+            }
+        }
     }
 
     fun testErrorCode(code: Int) {
@@ -623,6 +666,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun clearMemberProjection() {
+        memberAnswerCoordinator = HomeMemberAnswerCoordinator()
         currentQuota = DailyQuoteDto()
         quoteLoadState = HomeQuoteLoadState.Loading
         memberQuestionKo = null
@@ -763,7 +807,7 @@ class HomeViewModel @Inject constructor(
             .toSet()
         memberQuestionKo = memberState.questionKo
         memberQuestionEn = memberState.questionEn
-        answerUiState = memberState.answer
+        answerUiState = memberAnswerCoordinator.answerFor(window)
         quoteLoadState = HomeQuoteLoadState.Loaded
     }
 

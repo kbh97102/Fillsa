@@ -36,6 +36,7 @@ data class HomeMemberFlowState(
                     draft = selectedDay?.answer.orEmpty(),
                     recordedAnswer = selectedDay?.answer,
                     isEditing = selectedDay?.answer == null,
+                    dateKey = window.selectedDate,
                 ),
             )
         }
@@ -160,7 +161,7 @@ fun patchHomeMemberImage(
 internal fun homeMemberLoadStateAfterFailure(hasUsableWindow: Boolean): HomeQuoteLoadState =
     if (hasUsableWindow) HomeQuoteLoadState.Loaded else HomeQuoteLoadState.Failed
 
-private fun HomeMemberOrchestrationState.patchDay(
+internal fun HomeMemberOrchestrationState.patchDay(
     target: HomeMemberMutationTarget,
     transform: (MemberQuoteDay) -> MemberQuoteDay,
 ): HomeMemberOrchestrationState = copy(
