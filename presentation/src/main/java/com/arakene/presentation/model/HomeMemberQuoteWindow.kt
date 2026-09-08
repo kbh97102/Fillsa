@@ -100,7 +100,10 @@ data class HomeMemberOrchestrationState(
     val cachedWindows: Map<LocalDate, HomeMemberQuoteWindow> = emptyMap(),
     val anchorEndDate: LocalDate? = null,
     val latestRequestId: Long = 0,
+    val mutationRevisions: Map<HomeMemberMutationTarget, HomeMemberMutationRevisions> = emptyMap(),
 )
+
+data class HomeMemberMutationRevisions(val like: Long = 0, val image: Long = 0)
 
 fun beginHomeMemberRequest(
     state: HomeMemberOrchestrationState,
@@ -150,13 +153,23 @@ fun patchHomeMemberLike(
     state: HomeMemberOrchestrationState,
     target: HomeMemberMutationTarget,
     likeYn: String,
-): HomeMemberOrchestrationState = state.patchDay(target) { day -> day.copy(likeYn = likeYn) }
+): HomeMemberOrchestrationState {
+    val revisions = state.mutationRevisions[target] ?: HomeMemberMutationRevisions()
+    return state.patchDay(target) { day -> day.copy(likeYn = likeYn) }.copy(
+        mutationRevisions = state.mutationRevisions + (target to revisions.copy(like = revisions.like + 1)),
+    )
+}
 
 fun patchHomeMemberImage(
     state: HomeMemberOrchestrationState,
     target: HomeMemberMutationTarget,
     imagePath: String?,
-): HomeMemberOrchestrationState = state.patchDay(target) { day -> day.copy(imagePath = imagePath) }
+): HomeMemberOrchestrationState {
+    val revisions = state.mutationRevisions[target] ?: HomeMemberMutationRevisions()
+    return state.patchDay(target) { day -> day.copy(imagePath = imagePath) }.copy(
+        mutationRevisions = state.mutationRevisions + (target to revisions.copy(image = revisions.image + 1)),
+    )
+}
 
 internal fun homeMemberLoadStateAfterFailure(hasUsableWindow: Boolean): HomeQuoteLoadState =
     if (hasUsableWindow) HomeQuoteLoadState.Loaded else HomeQuoteLoadState.Failed

@@ -347,9 +347,10 @@ class HomeViewModel @Inject constructor(
             if (!result.shouldRefresh) return@save
 
             // This reconciliation is optional: a failed GET cannot undo a successful POST.
+            val refresh = memberAnswerCoordinator.captureRefresh(memberOrchestration, request)
             val dailyResult = getMemberQuoteDayUseCase(request.target.date.toString())
             val daily = (dailyResult as? ApiResult.Success)?.data
-            val refreshed = memberAnswerCoordinator.completeRefresh(memberOrchestration, authBoundCoordinator, request, daily)
+            val refreshed = memberAnswerCoordinator.completeRefresh(memberOrchestration, authBoundCoordinator, refresh, daily)
             if (refreshed != memberOrchestration) {
                 memberOrchestration = refreshed
                 if (isSelectedMemberTarget(request.target)) {

@@ -86,7 +86,8 @@ class HomeMemberAnswerSaveTest {
     @Test fun `failed daily refresh retains successful answer`() {
         val start = begin()
         val saved = start.coordinator.completePost(orchestration, auth, start.request!!, answerResponse)
-        val refreshed = saved.coordinator.completeRefresh(saved.state, auth, start.request!!, null)
+        val refresh = saved.coordinator.captureRefresh(saved.state, start.request!!)
+        val refreshed = saved.coordinator.completeRefresh(saved.state, auth, refresh, null)
         assertEquals(saved.state, refreshed)
         assertEquals("기록할 답변", refreshed.currentWindow!!.selectedDay!!.answer)
         assertFalse(refreshed.currentWindow!!.selectedDay!!.completed)
@@ -96,12 +97,13 @@ class HomeMemberAnswerSaveTest {
         val start = begin()
         val selected = acceptHomeMemberSelection(orchestration, memberState.window.select(LocalDate.parse("2026-09-02"))!!)
         val saved = start.coordinator.completePost(selected, auth, start.request!!, answerResponse)
+        val refresh = saved.coordinator.captureRefresh(saved.state, start.request!!)
         assertNull(saved.state.currentWindow!!.selectedDay!!.answer)
         assertNull(saved.coordinator.answerFor(saved.state.currentWindow!!).recordedAnswer)
         assertEquals(LocalDate.parse("2026-09-02"), saved.state.currentWindow!!.selectedDate)
         assertEquals("기록할 답변", saved.state.cachedWindows.values.single().days.last().answer)
         val daily = weeklyFixture.days.last().copy(answer = "서버 답변", answeredAt = "2026-09-03 14:01:15")
-        val refreshed = saved.coordinator.completeRefresh(saved.state, auth, start.request!!, daily)
+        val refreshed = saved.coordinator.completeRefresh(saved.state, auth, refresh, daily)
         assertNull(refreshed.currentWindow!!.selectedDay!!.answer)
         assertEquals("서버 답변", refreshed.currentWindow!!.days.last().answer)
     }
@@ -114,20 +116,22 @@ class HomeMemberAnswerSaveTest {
         assertNull(ignored.snackbarMessage)
         assertFalse(ignored.shouldRefresh)
         val saved = start.coordinator.completePost(orchestration, auth, start.request!!, answerResponse)
+        val refresh = saved.coordinator.captureRefresh(saved.state, start.request!!)
         assertEquals(orchestration, saved.coordinator.completeRefresh(orchestration, nextAuth,
-            start.request!!, weeklyFixture.days.last().copy(answer = "old account")))
+            refresh, weeklyFixture.days.last().copy(answer = "old account")))
     }
 
     @Test fun `daily refresh rejects wrong date sequence and obsolete save revision`() {
         val start = begin()
         val saved = start.coordinator.completePost(orchestration, auth, start.request!!, answerResponse)
-        assertEquals(saved.state, saved.coordinator.completeRefresh(saved.state, auth, start.request!!,
+        val refresh = saved.coordinator.captureRefresh(saved.state, start.request!!)
+        assertEquals(saved.state, saved.coordinator.completeRefresh(saved.state, auth, refresh,
             weeklyFixture.days[5].copy(answer = "wrong date")))
-        assertEquals(saved.state, saved.coordinator.completeRefresh(saved.state, auth, start.request!!,
+        assertEquals(saved.state, saved.coordinator.completeRefresh(saved.state, auth, refresh,
             weeklyFixture.days.last().copy(dailyQuoteSeq = 999, answer = "wrong sequence")))
         val retry = saved.coordinator.begin(HomeMemberFlowState.from(saved.state.currentWindow!!),
             HomeAnswerUiState(draft = "new answer"), auth.capture()!!)
-        assertEquals(saved.state, retry.coordinator.completeRefresh(saved.state, auth, start.request!!,
+        assertEquals(saved.state, retry.coordinator.completeRefresh(saved.state, auth, refresh,
             weeklyFixture.days.last().copy(answer = "stale answer")))
     }
 
@@ -140,5 +144,65 @@ class HomeMemberAnswerSaveTest {
         assertEquals(HomeAnswerRecordedSnackbar, recorded.snackbarMessage)
         assertFalse(recorded.state.isSaving)
         assertNull(HomeAnswerUiState().recordedAnswer)
+    }
+
+    @Test fun `delayed daily preserves like saved after GET started while reconciling other server fields`() {
+        val start = begin()
+        val saved = start.coordinator.completePost(orchestration, auth, start.request!!, answerResponse)
+        val refresh = saved.coordinator.captureRefresh(saved.state, start.request!!)
+        val afterLike = patchHomeMemberLike(saved.state, start.request!!.target, "Y")
+        val snapshot = weeklyFixture.days.last().copy(answer = "daily answer", completed = true, imagePath = "server.jpg")
+
+        val refreshed = saved.coordinator.completeRefresh(afterLike, auth, refresh, snapshot)
+
+        assertEquals("Y", refreshed.currentWindow!!.selectedDay!!.likeYn)
+        assertEquals("Y", refreshed.cachedWindows.values.single().selectedDay!!.likeYn)
+        assertEquals("daily answer", refreshed.currentWindow!!.selectedDay!!.answer)
+        assertEquals("server.jpg", refreshed.currentWindow!!.selectedDay!!.imagePath)
+        assertTrue(refreshed.currentWindow!!.selectedDay!!.completed)
+    }
+
+    @Test fun `delayed daily preserves image saved after GET started while reconciling other server fields`() {
+        val start = begin()
+        val saved = start.coordinator.completePost(orchestration, auth, start.request!!, answerResponse)
+        val refresh = saved.coordinator.captureRefresh(saved.state, start.request!!)
+        val afterImage = patchHomeMemberImage(saved.state, start.request!!.target, "new.jpg")
+        val snapshot = weeklyFixture.days.last().copy(answer = "daily answer", completed = true, likeYn = "Y", imagePath = "old.jpg")
+
+        val refreshed = saved.coordinator.completeRefresh(afterImage, auth, refresh, snapshot)
+
+        assertEquals("new.jpg", refreshed.currentWindow!!.selectedDay!!.imagePath)
+        assertEquals("new.jpg", refreshed.cachedWindows.values.single().selectedDay!!.imagePath)
+        assertEquals("daily answer", refreshed.currentWindow!!.selectedDay!!.answer)
+        assertEquals("Y", refreshed.currentWindow!!.selectedDay!!.likeYn)
+        assertTrue(refreshed.currentWindow!!.selectedDay!!.completed)
+    }
+
+    @Test fun `daily can reconcile like and image mutations that happened before GET started`() {
+        val start = begin()
+        val saved = start.coordinator.completePost(orchestration, auth, start.request!!, answerResponse)
+        val beforeGet = patchHomeMemberImage(
+            patchHomeMemberLike(saved.state, start.request!!.target, "Y"), start.request!!.target, "before.jpg",
+        )
+        val refresh = saved.coordinator.captureRefresh(beforeGet, start.request!!)
+        val snapshot = weeklyFixture.days.last().copy(likeYn = "N", imagePath = "server.jpg")
+
+        val refreshed = saved.coordinator.completeRefresh(beforeGet, auth, refresh, snapshot)
+
+        assertEquals("N", refreshed.currentWindow!!.selectedDay!!.likeYn)
+        assertEquals("server.jpg", refreshed.currentWindow!!.selectedDay!!.imagePath)
+    }
+
+    @Test fun `delayed daily cannot restore image deleted after GET started`() {
+        val start = begin()
+        val saved = start.coordinator.completePost(orchestration, auth, start.request!!, answerResponse)
+        val refresh = saved.coordinator.captureRefresh(saved.state, start.request!!)
+        val afterDelete = patchHomeMemberImage(saved.state, start.request!!.target, null)
+        val snapshot = weeklyFixture.days.last().copy(imagePath = "old.jpg")
+
+        val refreshed = saved.coordinator.completeRefresh(afterDelete, auth, refresh, snapshot)
+
+        assertNull(refreshed.currentWindow!!.selectedDay!!.imagePath)
+        assertNull(refreshed.cachedWindows.values.single().selectedDay!!.imagePath)
     }
 }

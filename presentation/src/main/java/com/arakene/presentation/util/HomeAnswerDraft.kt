@@ -8,6 +8,7 @@ import com.arakene.presentation.model.HomeAuthBoundRequestCoordinator
 import com.arakene.presentation.model.HomeAuthBoundRequestToken
 import com.arakene.presentation.model.HomeMemberFlowState
 import com.arakene.presentation.model.HomeMemberMutationTarget
+import com.arakene.presentation.model.HomeMemberMutationRevisions
 import com.arakene.presentation.model.HomeMemberOrchestrationState
 import com.arakene.presentation.model.HomeMemberQuoteWindow
 import com.arakene.presentation.model.patchDay
@@ -70,6 +71,11 @@ internal data class HomeMemberAnswerEntry(
     val request: HomeMemberAnswerRequest,
     val answer: HomeAnswerUiState,
     val postSucceeded: Boolean = false,
+)
+
+internal data class HomeMemberAnswerRefresh(
+    val request: HomeMemberAnswerRequest,
+    val mutationRevisions: HomeMemberMutationRevisions,
 )
 
 internal data class HomeMemberAnswerStart(
@@ -138,16 +144,30 @@ internal data class HomeMemberAnswerCoordinator(
         )
     }
 
+    fun captureRefresh(
+        state: HomeMemberOrchestrationState,
+        request: HomeMemberAnswerRequest,
+    ): HomeMemberAnswerRefresh = HomeMemberAnswerRefresh(
+        request, state.mutationRevisions[request.target] ?: HomeMemberMutationRevisions(),
+    )
+
     fun completeRefresh(
         state: HomeMemberOrchestrationState,
         auth: HomeAuthBoundRequestCoordinator,
-        request: HomeMemberAnswerRequest,
+        refresh: HomeMemberAnswerRefresh,
         response: MemberQuoteDay?,
     ): HomeMemberOrchestrationState {
+        val request = refresh.request
         val entry = entries[request.target]
         if (!auth.accepts(request.auth) || entry?.request != request || !entry.postSucceeded ||
             response?.date != request.target.date.toString() || response.dailyQuoteSeq != request.target.dailyQuoteSeq
         ) return state
-        return state.patchDay(request.target) { response }
+        val currentRevisions = state.mutationRevisions[request.target] ?: HomeMemberMutationRevisions()
+        return state.patchDay(request.target) { currentDay ->
+            response.copy(
+                likeYn = if (currentRevisions.like > refresh.mutationRevisions.like) currentDay.likeYn else response.likeYn,
+                imagePath = if (currentRevisions.image > refresh.mutationRevisions.image) currentDay.imagePath else response.imagePath,
+            )
+        }
     }
 }
