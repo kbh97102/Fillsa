@@ -54,8 +54,11 @@
 
 ### 제품 계약 경계
 
-- 월간 응답 `MemberQuotesData`에는 답변과 `imagePath`가 없다. production은 실제 응답이 제공하는 상태만 렌더링한다.
-- 답변·이미지 있음 상태는 Emulator QA fixture로 비영속·비네트워크 재현하여 컴포넌트를 검증한다. API/DB 계약을 임의로 확장하지 않는다.
+- 회원 Calendar는 진입과 월 변경마다 `GET /api/v2/member-quotes/monthly?yearMonth=`를 한 번 호출한다. 날짜 탭은 캐시된 `memberQuotes`에서 상세를 선택하고 추가 GET을 호출하지 않는다.
+- 월간 응답 `MemberQuotesData`의 `questionKo`, `questionEn`, `answer`, `answeredAt`, `imagePath`, `engQuote`, `engAuthor`, `authorUrl`은 선택된 날짜의 완료 상세에 직접 매핑한다. 답변·이미지 있음 상태는 더 이상 fixture 전용 계약이 아니며 production은 실제 월간 응답 상태를 렌더링한다.
+- 회원 답변 저장은 Home과 같은 answer UseCase를 사용한다. POST 성공 시 선택 월간 레코드의 `answer`·`answeredAt`만 메모리에서 갱신하고, 같은 날짜 daily GET을 best-effort로 호출해 서버 상태를 재조정한다. 보조 refresh 실패는 POST 성공 상태를 되돌리지 않으며 완료 상태, streak, 월간 summary를 변경하지 않는다.
+- 비회원은 monthly/daily/answer 회원 API를 호출하지 않고 기존 v1 월간 조회, 로컬 좋아요·필사, 질문 답변 session-only 동작을 유지한다.
+- Calendar의 복사/공유는 기존 로컬 동작을 유지한다. 좋아요/이미지 버튼의 기존 선택 날짜 Home 이동 계약도 이번 리뉴얼 API 연결에서 바꾸지 않는다.
 - Figma의 합성 달력에는 `2025. 03`과 실제 달력 산술이 맞지 않고 기본 프레임에 17 중복/21 누락이 있다. Production은 실제 날짜 산술을 유지하고, 정확한 Figma 대조용 process-local fixture만 명시적 visual cell map을 사용한다.
 - Figma는 합성 날짜의 요일도 잘못 표시한다(3월 22일 `(금)`, 3월 21일 `(목)`). Production과 fixture는 실제 `LocalDate` 요일인 `(토)`/`(금)`을 유지하며 거짓 요일 data를 주입하지 않는다.
 - 답변 있음 원본의 `0 / 200`은 디자인 소스 불일치다. Production 입력은 실제 grapheme count를 유지하고 해당 명시적 fixture만 `0 / 200`을 표시한다.
