@@ -3,9 +3,12 @@ package com.arakene.presentation.ui.home
 import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.presentation.model.HomeMemberQuoteWindow
+import com.arakene.presentation.model.HomeMemberFlowState
+import com.arakene.presentation.util.HomeRuntimeQaFixture
 import java.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class HomeWeekStripStateTest {
@@ -90,5 +93,47 @@ class HomeWeekStripStateTest {
             days.map { it.isCompleted },
         )
         assertEquals(LocalDate.of(2026, 9, 3), days.single { it.isSelected }.date)
+    }
+
+    @Test
+    fun `answer-only day stays incomplete across the August to September boundary`() {
+        val response = MemberWeeklyQuoteResponse(
+            startDate = "2026-08-28",
+            endDate = "2026-09-03",
+            days = listOf(
+                memberDay("2026-08-28", "past", false, null),
+                memberDay("2026-08-29", "past", false, "답변만 있음"),
+                memberDay("2026-08-30", "done", false, null),
+                memberDay("2026-08-31", "past", false, null),
+                memberDay("2026-09-01", "past", false, null),
+                memberDay("2026-09-02", "past", false, null),
+                memberDay("2026-09-03", "today", false, null),
+            ),
+        )
+
+        val days = homeMemberWeekDayStates(HomeMemberQuoteWindow.from(response))
+
+        assertFalse(days.single { it.date == LocalDate.parse("2026-08-29") }.isCompleted)
+        assertEquals(1, days.count { it.isCompleted })
+        assertEquals(LocalDate.parse("2026-08-30"), days.single { it.isCompleted }.date)
+    }
+
+    @Test
+    fun `runtime fixture enters Home through the production member day mapper`() {
+        val fixture = HomeRuntimeQaFixture(
+            quote = "fixture quote",
+            author = "fixture author",
+            showRecordedAnswer = true,
+            showSelectedImageState = true,
+        )
+
+        val state = HomeMemberFlowState.from(fixture.memberWindow)
+        val selected = state.window.selectedDay!!
+
+        assertEquals("fixture quote", selected.korQuote)
+        assertEquals("fixture author", selected.korAuthor)
+        assertEquals("기록한 답변", state.answer.recordedAnswer)
+        assertEquals("Y", selected.likeYn)
+        assertTrue(selected.imagePath?.isNotBlank() == true)
     }
 }

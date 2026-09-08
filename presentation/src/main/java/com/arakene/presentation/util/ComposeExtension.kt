@@ -51,9 +51,12 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.responses.MemberStreakResponse
+import com.arakene.domain.responses.MemberQuoteDay
+import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.domain.util.CommonError
 import com.arakene.domain.util.CommonErrorWrappedException
 import com.arakene.presentation.R
+import com.arakene.presentation.model.HomeMemberQuoteWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -196,7 +199,44 @@ internal data class HomeRuntimeQaFixture(
     val showTemplateDialog: Boolean = false,
     val showLoginDialog: Boolean = false,
     val showMultilineDialog: Boolean = false,
-)
+) {
+    /** Uses the same server-day window consumed by authenticated production Home. */
+    val memberWindow: HomeMemberQuoteWindow by lazy {
+        val dates = (10..16).map { LocalDate.of(2026, 8, it) }
+        HomeMemberQuoteWindow.from(
+            MemberWeeklyQuoteResponse(
+                startDate = dates.first().toString(),
+                endDate = dates.last().toString(),
+                days = dates.mapIndexed { index, date ->
+                    val selected = index == dates.lastIndex
+                    val completed = index < 2
+                    MemberQuoteDay(
+                        date = date.toString(),
+                        dayOfWeek = date.dayOfWeek.name,
+                        state = when {
+                            selected -> "today"
+                            completed -> "done"
+                            else -> "past"
+                        },
+                        dailyQuoteSeq = 9_100 + index,
+                        korQuote = quote,
+                        engQuote = quote,
+                        korAuthor = author,
+                        engAuthor = author,
+                        authorUrl = null,
+                        questionKo = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
+                        questionEn = "Have you ever accepted someone's kindness much later?",
+                        answer = if (selected && showRecordedAnswer) "기록한 답변" else null,
+                        answeredAt = if (selected && showRecordedAnswer) "2026-08-16 12:00:00" else null,
+                        likeYn = if (selected && showSelectedImageState) "Y" else "N",
+                        imagePath = if (selected && showSelectedImageState) "qa-resource://registered-image" else null,
+                        completed = completed,
+                    )
+                },
+            ),
+        )
+    }
+}
 
 internal val LocalHomeRuntimeQaFixture = staticCompositionLocalOf<HomeRuntimeQaFixture?> { null }
 

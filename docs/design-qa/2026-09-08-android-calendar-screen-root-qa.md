@@ -148,3 +148,17 @@ The fixture is process-local presentation input. Calendar refresh/actions, widge
 - Whole-frame literal result: **Blocked only by preserved shared/system product surfaces** — Android vs iOS system UI, shared four-route navigation vs Figma three tabs, and live ad intentionally absent from the nonnetwork fixture.
 - Remaining Calendar-owned differences: no blanket numeric tolerance is asserted; the scoped Round 5 glyph measurements are recorded above.
 - Required product-boundary differences: documented above; no navigation or ad ownership was changed.
+
+## Task 6 — API mapper integration revalidation
+
+The final integration build was relaunched after the Calendar fixture had been routed through the production `calendarSelectedDayPresentation` mapper. The fixture now supplies a `MemberQuotesData` response-shaped record first, then applies only the already-documented Figma-only overrides: synthetic basic preview date, local registered-image URI, and the reference's displayed answer count. Calendar composables and geometry are unchanged.
+
+The following uncropped full frames were visually compared against the existing Figma exports in `assets/calendar-figma-2929-13366/2026-09-08/`:
+
+| State | Runtime evidence | Size | SHA-256 | Result |
+|---|---|---:|---|---|
+| Basic | `assets/calendar-figma-2929-13366/2026-09-08-integration/runtime-basic.png` | 360 × 816 | `39186f94d45a19e154d77d30e3a62324a69ff25a968ca0de81522c916393c20c` | Production-mapped basic state preserves Round 8 Calendar-owned result |
+| Completed / unanswered | `assets/calendar-figma-2929-13366/2026-09-08-integration/runtime-unanswered.png` | 360 × 1101 | `7e410b97f3bbeccb074d56a97b3ad953c1d604c608c03cbbd2dc0eb07ac34533` | Production-mapped completion/question state preserves Round 8 result |
+| Completed / answered image | `assets/calendar-figma-2929-13366/2026-09-08-integration/runtime-answered-image.png` | 360 × 1101 | `0bc18558e08cbef35615cbf5e4450dfc5ee6bbf961b58aa1814cc9f5e5668c34` | Production-mapped answer/image state preserves Round 8 result |
+
+The comparison uses the entire image bounds; no crop, scaling, or new geometry tolerance was introduced. Calendar-owned mapped content remains revalidated. Literal whole-frame acceptance remains **Blocked only by the existing shared/system product boundaries**: Android status/gesture surfaces, four shared tabs versus Figma's three, the intentionally omitted nonnetwork-fixture ad, and the documented synthetic weekday discrepancy.

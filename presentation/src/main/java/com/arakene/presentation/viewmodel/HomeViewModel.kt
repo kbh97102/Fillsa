@@ -1,7 +1,6 @@
 package com.arakene.presentation.viewmodel
 
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -173,6 +172,16 @@ class HomeViewModel @Inject constructor(
                 )
                 handleObservedAuthContext(context)
             }
+        }
+    }
+
+    // Answer text and submission are one stateful interaction. Sending them through
+    // the navigation throttle can drop the latest draft or a fast submit tap.
+    override fun emitAction(action: Action) {
+        if (action is HomeAction.ChangeAnswer || action is HomeAction.RecordAnswer || action is HomeAction.EditAnswer) {
+            handleAction(action)
+        } else {
+            super.emitAction(action)
         }
     }
 
@@ -832,7 +841,6 @@ class HomeViewModel @Inject constructor(
         date.value == target.date && currentQuota.dailyQuoteSeq == target.dailyQuoteSeq
 
     private suspend fun getStreakCount(requestToken: HomeAuthBoundRequestToken) {
-        Log.e(">>>>", "streak? ${getAccessTokenUseCase()}")
         val responseValue = getStreakCountUseCase()
         streakInfo.value = authBoundCoordinator.valueIfCurrent(
             token = requestToken,

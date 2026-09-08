@@ -106,6 +106,19 @@ class CalendarRecordIndicatorTest {
     }
 
     @Test
+    fun `answered image fixture detail first passes through the production monthly mapper`() {
+        val fixture = CalendarRuntimeQaFixture(CalendarRuntimeQaState.CompletedAnsweredImage)
+        val selected = fixture.data.memberQuotes.single { it.quoteDate == fixture.selectedDay.date.toString() }
+        val productionMapped = calendarSelectedDayPresentation(selected, isMember = true)
+        val fixturePresentation = fixture.selectedDayPresentation("android.resource://fillsa/fixture")
+
+        assertEquals(productionMapped.question, fixturePresentation.question)
+        assertEquals(productionMapped.answer, fixturePresentation.answer)
+        assertEquals(productionMapped.answeredAt, fixturePresentation.answeredAt)
+        assertEquals(productionMapped.engQuote, fixturePresentation.engQuote)
+    }
+
+    @Test
     fun `completed fixtures preserve their binding like action states`() {
         val unanswered = CalendarRuntimeQaFixture(CalendarRuntimeQaState.CompletedUnanswered)
         val answeredImage = CalendarRuntimeQaFixture(CalendarRuntimeQaState.CompletedAnsweredImage)
@@ -193,5 +206,37 @@ class CalendarRecordIndicatorTest {
 
         assertTrue(indicators.showFire)
         assertFalse(indicators.showHeart)
+    }
+
+    @Test
+    fun `member monthly detail maps server answer image and question fields losslessly`() {
+        val quote = MemberQuotesData(
+            dailyQuoteSeq = 9,
+            quoteDate = "2026-09-08",
+            quote = "한국어 명언",
+            author = "한국어 작가",
+            completed = true,
+            likeYnString = YN.Y.type,
+            todayCompleted = false,
+            engQuote = "English quote",
+            engAuthor = "English author",
+            authorUrl = "https://example.com/author",
+            questionKo = "한국어 질문",
+            questionEn = "English question",
+            answer = "서버 답변",
+            answeredAt = "2026-09-08 12:00:00",
+            imagePath = "https://example.com/image.png",
+        )
+
+        val presentation = calendarSelectedDayPresentation(quote, isMember = true)
+
+        assertEquals("한국어 질문", presentation.question)
+        assertEquals("서버 답변", presentation.answer)
+        assertEquals("https://example.com/image.png", presentation.registeredImageUri)
+        assertEquals("English quote", presentation.engQuote)
+        assertEquals("English author", presentation.engAuthor)
+        assertEquals("https://example.com/author", presentation.authorUrl)
+        assertTrue(presentation.hasRecordedAnswer)
+        assertTrue(presentation.hasRegisteredImage)
     }
 }

@@ -31,6 +31,8 @@ import androidx.core.net.toUri
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
+import com.arakene.presentation.model.HomeMemberFlowState
+import com.arakene.presentation.model.toDailyQuoteDto
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.DialogData
@@ -59,6 +61,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.util.YN
 import java.time.LocalDate
 
 @Composable
@@ -91,6 +94,9 @@ fun HomeView(
         mutableStateOf(LocaleType.KOR)
     }
     val homeQaFixture = LocalHomeRuntimeQaFixture.current
+    val qaMemberWindow = homeQaFixture?.memberWindow
+    val qaSelectedDay = qaMemberWindow?.selectedDay
+    val displayedQuota = qaSelectedDay?.toDailyQuoteDto() ?: viewModel.currentQuota
 
     LaunchedEffect(homeQaFixture?.showRecordedAnswer) {
         if (homeQaFixture?.showRecordedAnswer == true) {
@@ -101,22 +107,22 @@ fun HomeView(
         }
     }
 
-    val quote by remember(viewModel.currentQuota, selectedLocale, homeQaFixture) {
+    val quote by remember(displayedQuota, selectedLocale) {
         mutableStateOf(
-            homeQaFixture?.quote ?: if (selectedLocale == LocaleType.KOR) {
-                viewModel.currentQuota.korQuote ?: ""
+            if (selectedLocale == LocaleType.KOR) {
+                displayedQuota.korQuote ?: ""
             } else {
-                viewModel.currentQuota.engQuote ?: ""
+                displayedQuota.engQuote ?: ""
             }
         )
     }
 
-    val author by remember(viewModel.currentQuota, selectedLocale, homeQaFixture) {
+    val author by remember(displayedQuota, selectedLocale) {
         mutableStateOf(
-            homeQaFixture?.author ?: if (selectedLocale == LocaleType.KOR) {
-                viewModel.currentQuota.korAuthor ?: ""
+            if (selectedLocale == LocaleType.KOR) {
+                displayedQuota.korAuthor ?: ""
             } else {
-                viewModel.currentQuota.engAuthor ?: ""
+                displayedQuota.engAuthor ?: ""
             }
         )
     }
@@ -173,9 +179,9 @@ fun HomeView(
 
     LaunchedEffect(requestDate, homeQaFixture) {
         if (homeQaFixture != null) {
-            val qaDate = LocalDate.of(2026, 8, 16)
+            val qaDate = homeQaFixture.memberWindow.selectedDate
             viewModel.handleContract(HomeEffect.SetDate(qaDate))
-            viewModel.currentQuota = DailyQuoteDto(homeQaFixture.quote, homeQaFixture.author)
+            viewModel.currentQuota = homeQaFixture.memberWindow.selectedDay!!.toDailyQuoteDto()
             viewModel.quoteLoadState = HomeQuoteLoadState.Loaded
         } else {
             viewModel.initialRefresh(requestDate)
@@ -227,25 +233,22 @@ fun HomeView(
     val storedIsLike by remember {
         viewModel.isLike
     }
-    val isLike = homeQaFixture?.showSelectedImageState ?: storedIsLike
+    val isLike = qaSelectedDay?.let { it.likeYn == YN.Y.type } ?: storedIsLike
 
-    val completedDates = if (homeQaFixture != null) {
-        setOf(date.minusDays(6), date.minusDays(5))
-    } else {
-        viewModel.completedDates
-    }
-    val memberWindow = viewModel.memberQuoteWindow
-    val weekDays = if (homeQaFixture == null && memberWindow != null) {
+    val completedDates = viewModel.completedDates
+    val memberWindow = qaMemberWindow ?: viewModel.memberQuoteWindow
+    val weekDays = if (memberWindow != null) {
         homeMemberWeekDayStates(memberWindow)
     } else {
         homeWeekDayStates(selectedDate = date, completedDates = completedDates)
     }
     val defaultQuestion = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?"
-    val question = if (homeQaFixture == null && memberWindow != null) {
+    val question = if (memberWindow != null) {
+        val memberState = HomeMemberFlowState.from(memberWindow)
         if (selectedLocale == LocaleType.KOR) {
-            viewModel.memberQuestionKo.orEmpty()
+            memberState.questionKo.orEmpty()
         } else {
-            viewModel.memberQuestionEn.orEmpty()
+            memberState.questionEn.orEmpty()
         }
     } else {
         defaultQuestion
@@ -253,8 +256,8 @@ fun HomeView(
     val isCalendarOpen = viewModel.isCalendarOpen
     val displayedMonth = viewModel.displayedMonth
     val isStreakTooltipOpen = viewModel.isStreakTooltipOpen
-    val answerUiState = if (homeQaFixture?.showRecordedAnswer == true) {
-        HomeAnswerUiState(recordedAnswer = "기록한 답변", isEditing = false)
+    val answerUiState = if (qaMemberWindow != null) {
+        HomeMemberFlowState.from(qaMemberWindow).answer
     } else {
         viewModel.answerUiState
     }

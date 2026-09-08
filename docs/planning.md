@@ -23,3 +23,11 @@ Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에�
 - Figma URL·프레임/노드·기준 이미지가 준비되기 전에는 `Figma UI 기준`의 빈 항목을 추정값으로 채우지 않는다.
 - UI 변경 전 대상 화면의 기능·상태·Compose 구성 위치를 최신화하고 컴포넌트 분해를 작성한다.
 - UI 변경 후에는 `docs/design-qa/`의 QA 기록으로 링크하고 검증 상태를 갱신한다.
+
+## Home / Calendar API UI 연동 검증 (2026-09-08)
+
+- Home의 주간·일간·답변 API 상태와 Calendar의 월간·일간·답변 API 상태를 기존 Compose UI에 연결한 최종 회귀 검증을 완료했다.
+- 코루틴 ViewModel 테스트는 실제 production 인터페이스를 통과하는 counted fake로 API 호출 횟수·순서·실패 정책과 Calendar `SelectDay`의 무네트워크 정책을 검증한다.
+- Retrofit 계약 테스트는 typing 조회의 GET v1과 저장의 POST v2 경로·method·body를 각각 검증한다.
+- 최종 런타임 증거와 판정은 [Home 상호작용 QA](design-qa/2026-09-07-android-home-interactions-qa.md), [Home 답변 연동 QA](design-qa/2026-09-08-android-home-answer-integration-qa.md), [Calendar 화면 QA](design-qa/2026-09-08-android-calendar-screen-root-qa.md), [Calendar API 바인딩 QA](design-qa/2026-09-08-android-calendar-api-binding-qa.md)에 기록했다.
+- Home/Calendar 소유 영역의 production mapper 결과는 재검증되었다. 다만 전체 프레임의 literal 판정은 기존 공유/시스템 경계(시스템 UI, 4-tab 대 Figma 3-tab, 광고)와 Home의 정확한 IME·인증 이미지·실완료 데이터 증거 부족 때문에 **Blocked**를 유지한다.

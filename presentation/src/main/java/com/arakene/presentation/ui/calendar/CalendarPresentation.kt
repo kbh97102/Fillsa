@@ -85,22 +85,22 @@ internal data class CalendarRuntimeQaFixture(val state: CalendarRuntimeQaState) 
         ),
     )
 
-    fun selectedDayPresentation(registeredImageUri: String): CalendarSelectedDayPresentation = when (state) {
-        CalendarRuntimeQaState.Basic -> CalendarSelectedDayPresentation.Empty.copy(
+    fun selectedDayPresentation(registeredImageUri: String): CalendarSelectedDayPresentation {
+        val selected = data.memberQuotes.firstOrNull { it.quoteDate == selectedDay.date.toString() }
+        val productionMapped = calendarSelectedDayPresentation(selected, isMember = true)
+        return when (state) {
+        CalendarRuntimeQaState.Basic -> productionMapped.copy(
             // The binding Figma basic frame selects March 17 but previews the March 22 quote.
             quoteDateOverride = LocalDate.of(2025, 3, 22),
         )
-        CalendarRuntimeQaState.CompletedUnanswered -> CalendarSelectedDayPresentation.Completed.copy(
-            question = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
-        )
-        CalendarRuntimeQaState.CompletedAnsweredImage -> CalendarSelectedDayPresentation.Completed.copy(
-            question = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
-            answer = "친구가 힘들 때 언제든 연락하라고 했는데, 한참 뒤에야 그 말이\n진심이었다는 걸 믿고 먼저 연락한 적이 있어요.",
+        CalendarRuntimeQaState.CompletedUnanswered -> productionMapped
+        CalendarRuntimeQaState.CompletedAnsweredImage -> productionMapped.copy(
             registeredImageUri = registeredImageUri,
             // The reference shows 0 / 200 with a non-empty sample answer. Limit/count logic
             // remains production-correct; this override is confined to the exact QA fixture.
             displayedCountOverride = 0,
         )
+        }
     }
 }
 
@@ -121,13 +121,27 @@ private fun calendarQaQuotes(state: CalendarRuntimeQaState): List<MemberQuotesDa
             qaQuote(18, completedQuote, completed = true, liked = true),
             qaQuote(19, completedQuote, completed = true, liked = true),
             qaQuote(20, completedQuote, completed = true, liked = true),
-            qaQuote(21, completedQuote, completed = true, liked = false),
+            qaQuote(
+                21,
+                completedQuote,
+                completed = true,
+                liked = false,
+                question = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
+            ),
         )
         CalendarRuntimeQaState.CompletedAnsweredImage -> listOf(
             qaQuote(18, completedQuote, completed = true, liked = true),
             qaQuote(19, completedQuote, completed = true, liked = true),
             qaQuote(20, completedQuote, completed = true, liked = true),
-            qaQuote(21, completedQuote, completed = true, liked = true),
+            qaQuote(
+                21,
+                completedQuote,
+                completed = true,
+                liked = true,
+                question = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
+                answer = "친구가 힘들 때 언제든 연락하라고 했는데, 한참 뒤에야 그 말이\n진심이었다는 걸 믿고 먼저 연락한 적이 있어요.",
+                imagePath = "qa-resource://registered-image",
+            ),
         )
     }
 }
@@ -137,6 +151,9 @@ private fun qaQuote(
     quote: String,
     completed: Boolean,
     liked: Boolean,
+    question: String? = null,
+    answer: String? = null,
+    imagePath: String? = null,
 ) = MemberQuotesData(
     dailyQuoteSeq = day,
     quoteDate = "2025-03-${day.toString().padStart(2, '0')}",
@@ -145,4 +162,11 @@ private fun qaQuote(
     completed = completed,
     likeYnString = if (liked) YN.Y.type else YN.N.type,
     todayCompleted = false,
+    engQuote = quote,
+    engAuthor = "Fillsa QA",
+    questionKo = question,
+    questionEn = question,
+    answer = answer,
+    answeredAt = answer?.let { "2025-03-21 12:00:00" },
+    imagePath = imagePath,
 )

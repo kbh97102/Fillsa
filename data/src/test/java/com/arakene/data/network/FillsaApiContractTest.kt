@@ -109,7 +109,16 @@ class FillsaApiContractTest {
             )
         )
 
-        assertEquals("/api/v2/member-quotes/42/typing", server.takeRequest().path)
+        val request = server.takeRequest()
+        assertEquals("POST", request.method)
+        assertEquals("/api/v2/member-quotes/42/typing", request.path)
+        assertEquals(
+            gson.fromJson(
+                """{"typingKorQuote":"한국어","typingEngQuote":"English"}""",
+                JsonObject::class.java,
+            ),
+            gson.fromJson(request.body.readUtf8(), JsonObject::class.java),
+        )
     }
 
     @Test
@@ -118,7 +127,10 @@ class FillsaApiContractTest {
 
         api.getTyping(dailyQuoteSeq = 42)
 
-        assertEquals("/api/v1/member-quotes/42/typing", server.takeRequest().path)
+        val request = server.takeRequest()
+        assertEquals("GET", request.method)
+        assertEquals("/api/v1/member-quotes/42/typing", request.path)
+        assertEquals(0L, request.bodySize)
     }
 
     private fun enqueueJson(body: String) {

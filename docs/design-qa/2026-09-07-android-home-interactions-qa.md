@@ -62,3 +62,18 @@ All retained files are clean 945 × 2155px / logical 360 × 821dp full frames un
 ## Final assembled-screen result
 
 **Blocked.** Multiple component states have verified clean evidence, but the full assembled screen cannot be accepted while the exact keyboard, authenticated-image, real completion-data, and shared live-ad/4-tab evidence remains unavailable or mismatched. Components may be partial; this screen-level result is not Partial or Pass.
+
+## Task 6 — API/UI integration revalidation
+
+The final integration build was relaunched with the existing debug-only Home QA fixture after the fixture had been routed through `MemberWeeklyQuoteResponse` → `HomeMemberQuoteWindow.from` → `toDailyQuoteDto` and the same `homeMemberWeekDayStates` projection used by production. This verifies the API mapper reaches the already-accepted Home UI without introducing fixture-only quote, question, answer, or completion rendering.
+
+Full-frame comparison used the same logical 360 × 821dp target and the existing full Figma references listed above. Every runtime file is an uncropped 945 × 2155px capture:
+
+| State | Runtime evidence | SHA-256 | Result |
+|---|---|---|---|
+| Light default | `assets/home-figma-2929-13556/2026-09-08-integration/runtime-light-default.png` | `0e94797f3810e5998eac64de6a65dedcc782e9ccfa50fa5969d1287b3b5a02c5` | Home-owned mapped quote/week/question state revalidated |
+| Light recorded answer | `assets/home-figma-2929-13556/2026-09-08-integration/runtime-light-recorded-answer.png` | `be7c8ed76440e2dd76c53fb08e4ef85c71b593908665a9ecfb28e647b34cf593` | Mapped recorded answer and success snackbar revalidated |
+| Dark default | `assets/home-figma-2929-13556/2026-09-08-integration/runtime-dark-default.png` | `9d4a18e663d23db409d695cafe37b0952b4d97a2c62ec49971c5224f19c59d07` | Home-owned mapped state revalidated in dark appearance |
+| Dark recorded answer | `assets/home-figma-2929-13556/2026-09-08-integration/runtime-dark-recorded-answer.png` | `fd0fc6ec6855ae2744280de12ad9e8028a5df3d7567c3d9f1ef6ea38eb682878` | Mapped recorded answer and snackbar revalidated in dark appearance |
+
+All four retained frames were captured after the UI settled and visually compared at full bounds against the light/dark and question-flow references. No Home geometry, copy, colour, hierarchy, or asset was changed in Task 6. The Home-owned mapper result is revalidated, while the assembled-screen result remains **Blocked** for the same documented acceptance boundaries: exact IME evidence, authenticated live image/completion data, shared four-tab navigation versus Figma's three tabs, and the live/static ad difference.
