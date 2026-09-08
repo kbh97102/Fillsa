@@ -99,6 +99,28 @@ class HomeMemberQuoteWindowTest {
     }
 
     @Test
+    fun `window keeps its own day list when the source response list is later mutated`() {
+        val responseDays = weeklyFixture.days.toMutableList()
+        val window = HomeMemberQuoteWindow.from(weeklyFixture.copy(days = responseDays))
+
+        responseDays.removeAt(0)
+
+        assertEquals(7, window.days.size)
+        assertEquals(
+            listOf(
+                LocalDate.of(2026, 8, 28),
+                LocalDate.of(2026, 8, 29),
+                LocalDate.of(2026, 8, 30),
+                LocalDate.of(2026, 8, 31),
+                LocalDate.of(2026, 9, 1),
+                LocalDate.of(2026, 9, 2),
+                LocalDate.of(2026, 9, 3),
+            ),
+            window.visibleDates,
+        )
+    }
+
+    @Test
     fun `window boundaries derive from response endDate`() {
         val window = HomeMemberQuoteWindow.from(weeklyFixture)
 

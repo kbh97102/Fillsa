@@ -34,7 +34,7 @@ data class HomeMemberQuoteWindow(
             return HomeMemberQuoteWindow(
                 startDate = LocalDate.parse(response.startDate),
                 endDate = endDate,
-                days = response.days,
+                days = response.days.toList(),
                 selectedDate = response.days
                     .firstOrNull { it.state == "today" }
                     ?.let { LocalDate.parse(it.date) }
