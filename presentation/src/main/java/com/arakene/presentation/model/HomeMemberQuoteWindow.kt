@@ -47,6 +47,48 @@ data class HomeAuthContext(
     val accountIdentity: String?,
 )
 
+internal data class HomeAuthBoundRequestToken(
+    val context: HomeAuthContext,
+    val generation: Long,
+)
+
+internal sealed interface HomeAuthBoundCommand {
+    data class DeleteImage(val dailyQuoteSeq: Int) : HomeAuthBoundCommand
+}
+
+internal data class HomeAuthBoundRequestCoordinator(
+    val context: HomeAuthContext? = null,
+    val generation: Long = 0,
+) {
+    fun transition(nextContext: HomeAuthContext): HomeAuthBoundRequestCoordinator =
+        if (context == nextContext) {
+            this
+        } else {
+            copy(context = nextContext, generation = generation + 1)
+        }
+
+    fun capture(): HomeAuthBoundRequestToken? = context?.let { currentContext ->
+        HomeAuthBoundRequestToken(
+            context = currentContext,
+            generation = generation,
+        )
+    }
+
+    fun accepts(token: HomeAuthBoundRequestToken): Boolean =
+        token.context == context && token.generation == generation
+
+    fun <T> valueIfCurrent(
+        token: HomeAuthBoundRequestToken,
+        currentValue: T,
+        responseValue: T,
+    ): T = if (accepts(token)) responseValue else currentValue
+
+    fun <T : HomeAuthBoundCommand> commandIfCurrent(
+        token: HomeAuthBoundRequestToken,
+        command: T,
+    ): T? = command.takeIf { accepts(token) }
+}
+
 data class HomeMemberMutationTarget(
     val date: LocalDate,
     val dailyQuoteSeq: Int,

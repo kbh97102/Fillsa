@@ -258,4 +258,61 @@ class HomeMemberFlowReducerTest {
             homeMemberLoadStateAfterFailure(hasUsableWindow = false),
         )
     }
+
+    @Test
+    fun `guest response captured before login cannot replace member state`() {
+        val guestCoordinator = HomeAuthBoundRequestCoordinator()
+            .transition(HomeAuthContext(isLoggedIn = false, accountIdentity = null))
+        val guestRequest = guestCoordinator.capture()!!
+        val memberCoordinator = guestCoordinator
+            .transition(HomeAuthContext(isLoggedIn = true, accountIdentity = "account-a"))
+
+        val quote = memberCoordinator.valueIfCurrent(
+            token = guestRequest,
+            currentValue = "member quote",
+            responseValue = "late guest quote",
+        )
+
+        assertEquals("member quote", quote)
+        assertFalse(memberCoordinator.accepts(guestRequest))
+    }
+
+    @Test
+    fun `old auth generation cannot publish streak or completed dates`() {
+        val accountA = HomeAuthBoundRequestCoordinator()
+            .transition(HomeAuthContext(isLoggedIn = true, accountIdentity = "account-a"))
+        val oldRequest = accountA.capture()!!
+        val accountB = accountA
+            .transition(HomeAuthContext(isLoggedIn = true, accountIdentity = "account-b"))
+
+        val streak = accountB.valueIfCurrent(
+            token = oldRequest,
+            currentValue = 9,
+            responseValue = 2,
+        )
+        val completedDates = accountB.valueIfCurrent(
+            token = oldRequest,
+            currentValue = setOf(LocalDate.of(2026, 9, 3)),
+            responseValue = setOf(LocalDate.of(2026, 8, 28)),
+        )
+
+        assertEquals(9, streak)
+        assertEquals(setOf(LocalDate.of(2026, 9, 3)), completedDates)
+    }
+
+    @Test
+    fun `delete confirmation captured by old account produces no request command`() {
+        val accountA = HomeAuthBoundRequestCoordinator()
+            .transition(HomeAuthContext(isLoggedIn = true, accountIdentity = "account-a"))
+        val capturedConfirmation = accountA.capture()!!
+        val accountB = accountA
+            .transition(HomeAuthContext(isLoggedIn = true, accountIdentity = "account-b"))
+
+        val command = accountB.commandIfCurrent(
+            token = capturedConfirmation,
+            command = HomeAuthBoundCommand.DeleteImage(dailyQuoteSeq = 87),
+        )
+
+        assertNull(command)
+    }
 }

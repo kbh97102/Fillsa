@@ -29,6 +29,9 @@ import com.arakene.domain.usecase.home.SaveQuoteAnswerUseCase
 import com.arakene.domain.util.YN
 import com.arakene.presentation.model.HomeLoadCommand
 import com.arakene.presentation.model.HomeAuthContext
+import com.arakene.presentation.model.HomeAuthBoundCommand
+import com.arakene.presentation.model.HomeAuthBoundRequestCoordinator
+import com.arakene.presentation.model.HomeAuthBoundRequestToken
 import com.arakene.presentation.model.HomeMemberFlowState
 import com.arakene.presentation.model.HomeMemberMutationTarget
 import com.arakene.presentation.model.HomeMemberOrchestrationState
@@ -70,6 +73,8 @@ import com.arakene.presentation.util.selectHomeCalendarDate
 import com.arakene.presentation.util.toggleHomeCalendar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import java.io.File
@@ -117,7 +122,9 @@ class HomeViewModel @Inject constructor(
     private var homeStarted = false
     private var pendingExplicitTarget: LocalDate? = null
     private var loadedAuthContext: HomeAuthContext? = null
-    private var pendingImageMutation: Pair<HomeAuthContext, HomeMemberMutationTarget>? = null
+    private var authBoundCoordinator = HomeAuthBoundRequestCoordinator()
+    private var authBoundJob = SupervisorJob(viewModelScope.coroutineContext[Job])
+    private var pendingImageMutation: Pair<HomeAuthBoundRequestToken, HomeMemberMutationTarget>? = null
 
     val memberQuoteWindow: HomeMemberQuoteWindow?
         get() = memberOrchestration.currentWindow
@@ -348,13 +355,13 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun uploadBackgroundImage(homeAction: HomeAction.ClickChangeImage) {
-        val context = activeAuthContext ?: return
+        val requestToken = authBoundCoordinator.capture() ?: return
         val target = if (isMemberSession) {
             selectedMemberMutationTarget() ?: return
         } else {
             HomeMemberMutationTarget(date.value, currentQuota.dailyQuoteSeq)
         }
-        pendingImageMutation = context to target
+        pendingImageMutation = requestToken to target
         viewModelScope.launch {
             emitEffect(HomeEffect.ProcessImage(homeAction.uri))
         }
@@ -363,16 +370,16 @@ class HomeViewModel @Inject constructor(
     fun uploadImage(file: File?) {
         val mutation = pendingImageMutation ?: return
         pendingImageMutation = null
-        if (activeAuthContext != mutation.first) return
-        viewModelScope.launch {
+        if (!authBoundCoordinator.accepts(mutation.first)) return
+        launchAuthBound(mutation.first) upload@{
             getResponse(
                 postUploadImageUseCase(
                     dailyQuoteSeq = mutation.second.dailyQuoteSeq,
-                    imageFile = file ?: return@launch
+                    imageFile = file ?: return@upload
                 ), useLoading = false
             )?.let {
-                if (activeAuthContext != mutation.first) return@let
-                if (mutation.first.isLoggedIn) {
+                if (!authBoundCoordinator.accepts(mutation.first)) return@let
+                if (mutation.first.context.isLoggedIn) {
                     memberOrchestration = patchHomeMemberImage(
                         state = memberOrchestration,
                         target = mutation.second,
@@ -390,7 +397,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun deleteBackgroundImage() {
-        val context = activeAuthContext ?: return
+        val requestToken = authBoundCoordinator.capture() ?: return
         val target = if (isMemberSession) {
             selectedMemberMutationTarget() ?: return
         } else {
@@ -409,13 +416,17 @@ class HomeViewModel @Inject constructor(
                         .cancelText("삭제하기")
                         .okText("취소")
                         .cancelOnClick {
-                            viewModelScope.launch {
+                            launchAuthBound(requestToken) {
+                                val command = authBoundCoordinator.commandIfCurrent(
+                                    token = requestToken,
+                                    command = HomeAuthBoundCommand.DeleteImage(target.dailyQuoteSeq),
+                                ) ?: return@launchAuthBound
                                 getResponse(
-                                    deleteUploadImageUseCase(target.dailyQuoteSeq),
+                                    deleteUploadImageUseCase(command.dailyQuoteSeq),
                                     useLoading = false
                                 )?.let {
-                                    if (activeAuthContext != context) return@let
-                                    if (context.isLoggedIn) {
+                                    if (!authBoundCoordinator.accepts(requestToken)) return@let
+                                    if (requestToken.context.isLoggedIn) {
                                         memberOrchestration = patchHomeMemberImage(
                                             state = memberOrchestration,
                                             target = target,
@@ -468,16 +479,16 @@ class HomeViewModel @Inject constructor(
         val targetLikeYn = if (isLike.value) YN.N.type else YN.Y.type
         isLike.value = targetLikeYn == YN.Y.type
         if (isMemberSession) {
-            val context = activeAuthContext ?: return
+            val requestToken = authBoundCoordinator.capture() ?: return
             val target = selectedMemberMutationTarget() ?: return
-            viewModelScope.launch {
+            launchAuthBound(requestToken) {
                 getResponse(
                     postLikeUseCase(
                         LikeRequest(targetLikeYn),
                         dailyQuoteSeq = target.dailyQuoteSeq,
                     )
                 )?.let {
-                    if (activeAuthContext != context) return@let
+                    if (!authBoundCoordinator.accepts(requestToken)) return@let
                     memberOrchestration = patchHomeMemberLike(
                         state = memberOrchestration,
                         target = target,
@@ -489,7 +500,8 @@ class HomeViewModel @Inject constructor(
                 }
             }
         } else {
-            viewModelScope.launch { postLocalLike(date) }
+            val requestToken = authBoundCoordinator.capture() ?: return
+            launchAuthBound(requestToken) { postLocalLike(date) }
         }
     }
 
@@ -535,13 +547,16 @@ class HomeViewModel @Inject constructor(
 
     private fun handleObservedAuthContext(context: HomeAuthContext) {
         val previous = activeAuthContext
-        val changed = previous != null && previous != context
+        val nextCoordinator = authBoundCoordinator.transition(context)
+        val changed = nextCoordinator != authBoundCoordinator
         if (changed) {
-            memberWindowRequestJob?.cancel()
+            cancelAuthBoundWork()
+            authBoundCoordinator = nextCoordinator
             memberOrchestration = transitionHomeAuthContext(memberOrchestration, previous, context)
             clearMemberProjection()
             loadedAuthContext = null
             pendingImageMutation = null
+            requestedQuoteDate = null
         }
 
         activeAuthContext = context
@@ -554,29 +569,49 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    private fun loadHome(context: HomeAuthContext, requestedDate: LocalDate?) = viewModelScope.launch {
-        when (val command = homeInitialLoadCommand(context.isLoggedIn, requestedDate)) {
-            is HomeLoadCommand.MemberWeekly -> {
-                quoteLoadState = HomeQuoteLoadState.Loading
-                requestMemberWindow(
-                    endDate = command.endDate,
-                    requestedDate = requestedDate,
-                    resolveAgainstServerAnchor = true,
-                )
-                getStreakCount()
-            }
+    private fun loadHome(context: HomeAuthContext, requestedDate: LocalDate?) {
+        val requestToken = authBoundCoordinator.capture()
+            ?.takeIf { it.context == context }
+            ?: return
+        launchAuthBound(requestToken) {
+            when (val command = homeInitialLoadCommand(context.isLoggedIn, requestedDate)) {
+                is HomeLoadCommand.MemberWeekly -> {
+                    quoteLoadState = HomeQuoteLoadState.Loading
+                    requestMemberWindow(
+                        endDate = command.endDate,
+                        requestedDate = requestedDate,
+                        resolveAgainstServerAnchor = true,
+                        requestToken = requestToken,
+                    )
+                    getStreakCount(requestToken)
+                }
 
-            is HomeLoadCommand.GuestDaily -> {
-                clearMemberSessionState()
-                currentQuota = DailyQuoteDto()
-                quoteLoadState = HomeQuoteLoadState.Loading
-                val guestDate = command.date ?: date.value
-                requestedQuoteDate = guestDate
-                loadCompletedDates()
-                getStreakCount()
-                getDailyQuoteNoToken(convertDate(guestDate), guestDate)
+                is HomeLoadCommand.GuestDaily -> {
+                    clearMemberSessionState()
+                    currentQuota = DailyQuoteDto()
+                    quoteLoadState = HomeQuoteLoadState.Loading
+                    val guestDate = command.date ?: date.value
+                    requestedQuoteDate = guestDate
+                    loadCompletedDates(requestToken)
+                    getStreakCount(requestToken)
+                    getDailyQuoteNoToken(convertDate(guestDate), guestDate, requestToken)
+                }
             }
         }
+    }
+
+    private fun launchAuthBound(
+        requestToken: HomeAuthBoundRequestToken,
+        block: suspend () -> Unit,
+    ): Job = CoroutineScope(viewModelScope.coroutineContext + authBoundJob).launch {
+        if (!authBoundCoordinator.accepts(requestToken)) return@launch
+        block()
+    }
+
+    private fun cancelAuthBoundWork() {
+        authBoundJob.cancel()
+        authBoundJob = SupervisorJob(viewModelScope.coroutineContext[Job])
+        memberWindowRequestJob = null
     }
 
     private fun clearMemberSessionState() {
@@ -629,10 +664,12 @@ class HomeViewModel @Inject constructor(
         }
 
         result.loadCommand?.let { command ->
+            val requestToken = authBoundCoordinator.capture() ?: return
             requestMemberWindow(
                 endDate = command.endDate,
                 requestedDate = result.requestedDate,
                 resolveAgainstServerAnchor = false,
+                requestToken = requestToken,
             )
         } ?: acceptMemberSelection(result.window)
     }
@@ -641,6 +678,7 @@ class HomeViewModel @Inject constructor(
         endDate: String?,
         requestedDate: LocalDate?,
         resolveAgainstServerAnchor: Boolean,
+        requestToken: HomeAuthBoundRequestToken,
     ) {
         val requestedEndDate = endDate?.let(LocalDate::parse)
         val cachedWindow = requestedEndDate?.let(memberOrchestration.cachedWindows::get)
@@ -652,17 +690,19 @@ class HomeViewModel @Inject constructor(
         memberOrchestration = beginHomeMemberRequest(memberOrchestration)
         val requestId = memberOrchestration.latestRequestId
         memberWindowRequestJob?.cancel()
-        memberWindowRequestJob = viewModelScope.launch {
+        memberWindowRequestJob = launchAuthBound(requestToken) request@{
             val apiResult = getMemberWeeklyQuotesUseCase(endDate)
-            if (!shouldAcceptHomeMemberQuoteResponse(requestId, memberOrchestration.latestRequestId)) return@launch
+            if (!authBoundCoordinator.accepts(requestToken)) return@request
+            if (!shouldAcceptHomeMemberQuoteResponse(requestId, memberOrchestration.latestRequestId)) return@request
             val response = getResponse(apiResult)
-            if (!shouldAcceptHomeMemberQuoteResponse(requestId, memberOrchestration.latestRequestId)) return@launch
+            if (!authBoundCoordinator.accepts(requestToken)) return@request
+            if (!shouldAcceptHomeMemberQuoteResponse(requestId, memberOrchestration.latestRequestId)) return@request
 
             if (response == null) {
                 quoteLoadState = homeMemberLoadStateAfterFailure(
                     hasUsableWindow = memberOrchestration.currentWindow != null,
                 )
-                return@launch
+                return@request
             }
 
             val responseWindow = HomeMemberQuoteWindow.from(response)
@@ -681,6 +721,7 @@ class HomeViewModel @Inject constructor(
                         endDate = command.endDate,
                         requestedDate = result.requestedDate,
                         resolveAgainstServerAnchor = false,
+                        requestToken = requestToken,
                     )
                 } ?: run {
                     memberOrchestration = storeHomeMemberWindow(
@@ -745,37 +786,40 @@ class HomeViewModel @Inject constructor(
     private fun isSelectedGuestTarget(target: HomeMemberMutationTarget): Boolean =
         date.value == target.date && currentQuota.dailyQuoteSeq == target.dailyQuoteSeq
 
-    private suspend fun getStreakCount() {
+    private suspend fun getStreakCount(requestToken: HomeAuthBoundRequestToken) {
         Log.e(">>>>", "streak? ${getAccessTokenUseCase()}")
-        streakInfo.value = getStreakCountUseCase()
+        val responseValue = getStreakCountUseCase()
+        streakInfo.value = authBoundCoordinator.valueIfCurrent(
+            token = requestToken,
+            currentValue = streakInfo.value,
+            responseValue = responseValue,
+        )
     }
 
-    private suspend fun loadCompletedDates() {
-        completedDates = getAllStreakInfoUseCase()
+    private suspend fun loadCompletedDates(requestToken: HomeAuthBoundRequestToken) {
+        val responseValue = getAllStreakInfoUseCase()
             .asSequence()
             .filter { it.isDailyWritingCompleted }
             .map { it.date }
             .toSet()
+        completedDates = authBoundCoordinator.valueIfCurrent(
+            token = requestToken,
+            currentValue = completedDates,
+            responseValue = responseValue,
+        )
     }
 
-    private fun getDailyQuote(date: String, requestedDate: LocalDate) = viewModelScope.launch {
-        val quote = getResponse(getDailyQuoteUseCase(date))
-        if (requestedQuoteDate != requestedDate) return@launch
-
-        quote?.let {
-            currentQuota = it
-            isLike.value = it.likeYn == YN.Y.type
-            backgroundImageUri.value = (it.imagePath ?: "")
-            quoteLoadState = HomeQuoteLoadState.Loaded
-        } ?: run { quoteLoadState = HomeQuoteLoadState.Failed }
-    }
-
-    private fun getDailyQuoteNoToken(date: String, requestedDate: LocalDate) = viewModelScope.launch {
+    private fun getDailyQuoteNoToken(
+        date: String,
+        requestedDate: LocalDate,
+        requestToken: HomeAuthBoundRequestToken,
+    ) = launchAuthBound(requestToken) guestQuote@{
         val localList = getLocalQuoteListUseCase()
 
 
         val quote = getResponse(getDailyQuoteNoTokenUseCase(date))
-        if (requestedQuoteDate != requestedDate) return@launch
+        if (!authBoundCoordinator.accepts(requestToken)) return@guestQuote
+        if (requestedQuoteDate != requestedDate) return@guestQuote
 
         quote?.let {
             currentQuota = DailyQuoteDto(
