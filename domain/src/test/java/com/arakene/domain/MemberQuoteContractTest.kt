@@ -1,5 +1,6 @@
 package com.arakene.domain
 
+import com.arakene.domain.requests.AnswerRequest
 import com.arakene.domain.responses.AnswerResponse
 import com.arakene.domain.responses.MemberMonthlyQuoteResponse
 import com.arakene.domain.responses.MemberQuoteDay
@@ -159,5 +160,55 @@ class MemberQuoteContractTest {
         assertEquals("답변", quote.answer)
         assertEquals("2026-09-08T14:10:00", quote.answeredAt)
         assertEquals("https://example.com/image.jpg", quote.imagePath)
+    }
+
+    @Test
+    fun monthlyResponse_keepsOldPayloadCompatibleWithNullRenewedFields() {
+        val json = """
+            {
+              "memberQuotes": [
+                {
+                  "dailyQuoteSeq": 7,
+                  "quoteDate": "2026-09-08",
+                  "quote": "기존 문장",
+                  "author": "기존 작가",
+                  "completed": false,
+                  "likeYn": "Y",
+                  "todayCompleted": false
+                }
+              ],
+              "monthlySummary": {
+                "typingCount": 3,
+                "likeCount": 4,
+                "streakCount": 5
+              }
+            }
+        """.trimIndent()
+
+        val response = gson.fromJson(json, MemberMonthlyQuoteResponse::class.java)
+        val quote = response.memberQuotes.single()
+
+        assertEquals(7, quote.dailyQuoteSeq)
+        assertEquals("기존 문장", quote.quote)
+        assertEquals("기존 작가", quote.author)
+        assertEquals("Y", quote.likeYnString)
+        assertNull(quote.engQuote)
+        assertNull(quote.engAuthor)
+        assertNull(quote.authorUrl)
+        assertNull(quote.questionKo)
+        assertNull(quote.questionEn)
+        assertNull(quote.answer)
+        assertNull(quote.answeredAt)
+        assertNull(quote.imagePath)
+        assertEquals(3, response.monthlySummary.typingCount)
+        assertEquals(4, response.monthlySummary.likeCount)
+        assertEquals(5, response.monthlySummary.streakCount)
+    }
+
+    @Test
+    fun answerRequest_serializesOnlyAnswerField() {
+        val json = gson.toJson(AnswerRequest(answer = "기록할 답변"))
+
+        assertEquals("""{"answer":"기록할 답변"}""", json)
     }
 }
