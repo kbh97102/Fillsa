@@ -131,11 +131,15 @@ class CalendarRecordIndicatorTest {
             cells.subList(21, 28).map { it.label },
         )
         assertTrue(cells[21].selected)
-        assertEquals(3, cells[21].dateLabelOffsetDp)
-        assertEquals(3, cells[27].dateLabelOffsetDp)
-        assertEquals(7, cells[20].dateLabelOffsetDp)
         assertTrue(cells[23].indicators.showFire)
         assertFalse(cells[23].indicators.showHeart)
+    }
+
+    @Test
+    fun `selected or record-bearing weeks use the shared expanded cell geometry`() {
+        assertFalse(calendarWeekUsesExpandedCells(hasSelectedCell = false, hasRecordIndicator = false))
+        assertTrue(calendarWeekUsesExpandedCells(hasSelectedCell = true, hasRecordIndicator = false))
+        assertTrue(calendarWeekUsesExpandedCells(hasSelectedCell = false, hasRecordIndicator = true))
     }
 
     @Test

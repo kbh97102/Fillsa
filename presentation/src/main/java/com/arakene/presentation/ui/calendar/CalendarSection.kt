@@ -51,8 +51,6 @@ internal data class CalendarQaDayCell(
     val monthDate: Boolean = true,
     val selected: Boolean = false,
     val indicators: CalendarRecordIndicators = CalendarRecordIndicators(false, false),
-    /** Figma's selected-week date glyphs sit 4dp above the otherwise aligned rows. */
-    val dateLabelOffsetDp: Int = 7,
 )
 
 private data class CalendarDayUi(
@@ -60,7 +58,6 @@ private data class CalendarDayUi(
     val quoteData: MemberQuotesData?,
     val labelOverride: String? = null,
     val indicatorsOverride: CalendarRecordIndicators? = null,
-    val dateLabelOffsetDp: Int = 7,
     val selected: Boolean,
     val monthDate: Boolean,
 )
@@ -79,6 +76,12 @@ internal fun calendarRecordIndicators(quoteData: MemberQuotesData?) = CalendarRe
     showFire = quoteData?.let { it.completed || it.todayCompleted } == true,
     showHeart = quoteData?.likeYn == YN.Y,
 )
+
+/** Figma expands the entire selected/record-bearing week, not just an individual date. */
+internal fun calendarWeekUsesExpandedCells(
+    hasSelectedCell: Boolean,
+    hasRecordIndicator: Boolean,
+): Boolean = hasSelectedCell || hasRecordIndicator
 
 /**
  * Fixed Figma shell: 8 + 30 + 10 + 40 + (6 * 50) + 8 = 396dp.
@@ -125,7 +128,6 @@ internal fun CalendarSection(
                 quoteData = null,
                 labelOverride = cell.label,
                 indicatorsOverride = cell.indicators,
-                dateLabelOffsetDp = cell.dateLabelOffsetDp,
                 selected = cell.selected,
                 monthDate = cell.monthDate,
             )
@@ -138,6 +140,13 @@ internal fun CalendarSection(
             )
         }
         cells.chunked(7).forEach { week ->
+            val usesExpandedCells = calendarWeekUsesExpandedCells(
+                hasSelectedCell = week.any { it.selected },
+                hasRecordIndicator = week.any { cell ->
+                    val indicators = cell.indicatorsOverride ?: calendarRecordIndicators(cell.quoteData)
+                    indicators.showFire || indicators.showHeart
+                },
+            )
             Row(
                 modifier = Modifier.height(50.dp).fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(11.dp, Alignment.CenterHorizontally),
@@ -149,7 +158,7 @@ internal fun CalendarSection(
                         quoteData = cell.quoteData,
                         labelOverride = cell.labelOverride,
                         indicatorsOverride = cell.indicatorsOverride,
-                        dateLabelOffsetDp = cell.dateLabelOffsetDp,
+                        usesExpandedCellGeometry = usesExpandedCells,
                         isSelected = cell.selected,
                         isMonthDate = cell.monthDate,
                         darkMode = darkMode,
@@ -171,23 +180,23 @@ internal fun calendarQaGridCells(state: CalendarRuntimeQaState): List<CalendarQa
     val heartFire = CalendarRecordIndicators(showFire = true, showHeart = true)
     val focusWeek = when (state) {
         CalendarRuntimeQaState.Basic -> listOf(
-            CalendarQaDayCell("17", selected = true, dateLabelOffsetDp = 3),
-            CalendarQaDayCell("17", dateLabelOffsetDp = 3),
-            CalendarQaDayCell("18", indicators = fire, dateLabelOffsetDp = 3),
-            CalendarQaDayCell("19", indicators = heartFire, dateLabelOffsetDp = 3),
-            CalendarQaDayCell("20", indicators = heartFire, dateLabelOffsetDp = 3),
-            CalendarQaDayCell("22", dateLabelOffsetDp = 3),
-            CalendarQaDayCell("23", dateLabelOffsetDp = 3),
+            CalendarQaDayCell("17", selected = true),
+            CalendarQaDayCell("17"),
+            CalendarQaDayCell("18", indicators = fire),
+            CalendarQaDayCell("19", indicators = heartFire),
+            CalendarQaDayCell("20", indicators = heartFire),
+            CalendarQaDayCell("22"),
+            CalendarQaDayCell("23"),
         )
         CalendarRuntimeQaState.CompletedUnanswered,
         CalendarRuntimeQaState.CompletedAnsweredImage -> listOf(
-            CalendarQaDayCell("17", dateLabelOffsetDp = 3),
-            CalendarQaDayCell("18", indicators = heartFire, dateLabelOffsetDp = 3),
-            CalendarQaDayCell("19", indicators = heartFire, dateLabelOffsetDp = 3),
-            CalendarQaDayCell("20", indicators = heartFire, dateLabelOffsetDp = 3),
-            CalendarQaDayCell("21", selected = true, indicators = heartFire, dateLabelOffsetDp = 3),
-            CalendarQaDayCell("22", dateLabelOffsetDp = 3),
-            CalendarQaDayCell("23", dateLabelOffsetDp = 3),
+            CalendarQaDayCell("17"),
+            CalendarQaDayCell("18", indicators = heartFire),
+            CalendarQaDayCell("19", indicators = heartFire),
+            CalendarQaDayCell("20", indicators = heartFire),
+            CalendarQaDayCell("21", selected = true, indicators = heartFire),
+            CalendarQaDayCell("22"),
+            CalendarQaDayCell("23"),
         )
     }
     val lastRows = (24..31).map { CalendarQaDayCell(it.toString()) } +
@@ -279,22 +288,24 @@ internal fun Day(
     quoteData: MemberQuotesData?,
     labelOverride: String? = null,
     indicatorsOverride: CalendarRecordIndicators? = null,
-    dateLabelOffsetDp: Int = 7,
+    usesExpandedCellGeometry: Boolean = false,
     isSelected: Boolean = false,
     isMonthDate: Boolean = true,
     darkMode: Boolean = IsDarkMode.current,
     onClick: (CalendarDay) -> Unit = {},
 ) {
     val indicators = indicatorsOverride ?: calendarRecordIndicators(quoteData)
+    val cellHeight = if (usesExpandedCellGeometry) 50.dp else 40.dp
+    val dateLabelOffset = if (usesExpandedCellGeometry) 3.dp else 2.dp
     Column(
         modifier = Modifier
-            .size(width = 36.dp, height = 50.dp)
+            .size(width = 36.dp, height = cellHeight)
             .background(if (isSelected) colorResource(R.color.purple01) else Color.Transparent, RoundedCornerShape(10.dp))
             .noEffectClickable(enable = isMonthDate) { onClick(day) },
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            modifier = Modifier.height(24.dp).offset(y = dateLabelOffsetDp.dp),
+            modifier = Modifier.height(24.dp).offset(y = dateLabelOffset),
             text = labelOverride ?: day.date.dayOfMonth.toString(),
             color = when {
                 isSelected -> Color.White

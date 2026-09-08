@@ -107,18 +107,31 @@ The fixture is process-local presentation input. Calendar refresh/actions, widge
 
 ### Round 5 — scoped re-review corrections
 
+> Superseded for the focus-week implementation mechanism by Round 6. The measured
+> Round 5 output was retained as evidence, but its fixture-held geometry is not accepted.
+
 | Scope | Difference | Fix | Result |
 |---|---|---|---|
-| Focus-week date glyphs | In Round 4, binding focus-week labels rendered y340–349 while the Figma reference is y336–345; ordinary rows already aligned | Added an explicit 3dp date-label offset only to the seven fixture focus-week cells; all other cells retain 7dp. The text offset does not alter the 50dp cell layout, indicators, or selected background | Basic and completed focus-week glyphs visually measure y336–345 |
+| Focus-week date glyphs | In Round 4, binding focus-week labels rendered y340–349 while the Figma reference is y336–345; ordinary rows already aligned | Superseded: the QA-only date offset was removed in Round 6 | Evidence retained; implementation rechecked in Round 6 |
 | Basic companion two-line copy | In Round 4, first-line glyphs were y553–564 and second-line glyphs y569–580 vs Figma y550–561 / y571–582 | Kept the matched character/card container geometry and applied per-line text-only offsets: -3dp first line, +2dp second line | Basic glyph bounds visually measure y550–561 and y571–582 |
 
 - Fresh toast-free, seven-second-settle runtime evidence: `runtime-basic-round5.png` (360×816, SHA-256 `c38f63631f0628b62dfef342bf0fe04455673bea7a4f355c204e89375c11fcbb`), `runtime-unanswered-round5.png` (360×1101, SHA-256 `6a42ba62a8e8380917344545337ee2ed3f2abd455561249400bb4b4f62096c59`), and `runtime-answered-image-round5.png` (360×1101, SHA-256 `60b64a2fb980545ff9f859ee6eb252db82b6c36dd42d24f4f086f7b53726e7c7`).
 - Fresh full-frame overlays: `overlay-basic-round5.png`, `overlay-unanswered-round5.png`, `overlay-answered-image-round5.png`; fresh Figma-left/Android-right side-by-sides: `side-by-side-basic-round5.png`, `side-by-side-unanswered-round5.png`, `side-by-side-answered-image-round5.png`.
 - Visual measurement is limited to the scoped glyph bounds above. No blanket 1–2px Calendar-owned residual claim is made. The unchanged whole-frame product-boundary differences remain Android status/gesture UI, shared four-route navigation, and the intentionally omitted fixture ad.
 
+### Round 6 — shared production/fixture week geometry
+
+| Scope | Difference | Fix | Result |
+|---|---|---|---|
+| Focus-week layout ownership | Round 5 carried a date offset in QA fixture cells, so production did not execute the same geometry | Removed fixture geometry. Every week now derives its cell geometry from real presentation state: a selected cell or any fire/heart record expands that entire week to 50dp cells; otherwise its 40dp cells are vertically centered in the fixed 50dp row. Fixture supplies only synthetic dates/content/indicators | Production and fixture call the same `CalendarSection` week rule; selected/record week glyphs remain y336–345 and ordinary rows remain aligned |
+
+- Fresh toast-free, seven-second-settle runtime evidence: `runtime-basic-round6.png` (360×816, SHA-256 `8d3250bd10c89cdd9bb054ebbb083620592c2e1e5c5f0070a41f9a8eab29c770`), `runtime-unanswered-round6.png` (360×1101, SHA-256 `e08b4a8c1e174792e4d4565936e0f9acaff1bf54b1dfa29e6cc938fff0112184`), and `runtime-answered-image-round6.png` (360×1101, SHA-256 `762ba2b4922e3832ffbd25347dcb63069d626e04a396766d8a04b5ee46f063fc`).
+- Fresh full-frame overlays: `overlay-basic-round6.png`, `overlay-unanswered-round6.png`, `overlay-answered-image-round6.png`; fresh Figma-left/Android-right side-by-sides: `side-by-side-basic-round6.png`, `side-by-side-unanswered-round6.png`, `side-by-side-answered-image-round6.png`.
+- Visual inspection confirms the Round 6 shared geometry preserves the focus-week glyph position, record indicators, selected 50dp pill, ordinary row alignment, and basic companion line spacing. No blanket numeric residual tolerance is asserted.
+
 ## Final assembled-screen result
 
-- Calendar-owned result: Round 5 scoped revalidation is ready for the parent task's final assembled-screen acceptance; all three binding states have fresh full-frame evidence.
+- Calendar-owned result: Round 6 shared-geometry revalidation is ready for the parent task's final assembled-screen acceptance; all three binding states have fresh full-frame evidence.
 - Whole-frame literal result: **Blocked only by preserved shared/system product surfaces** — Android vs iOS system UI, shared four-route navigation vs Figma three tabs, and live ad intentionally absent from the nonnetwork fixture.
 - Remaining Calendar-owned differences: no blanket numeric tolerance is asserted; the scoped Round 5 glyph measurements are recorded above.
 - Required product-boundary differences: documented above; no navigation or ad ownership was changed.
