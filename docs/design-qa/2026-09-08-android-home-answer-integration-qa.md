@@ -23,6 +23,14 @@
 - Reference screenshot and prior Home QA remain authoritative. Unit tests and code inspection are non-final evidence and do not count as a Figma comparison round.
 - Task 6 coroutine-level `HomeViewModel` tests additionally verify counted member weekly/daily/POST invocation order, Calendar target anchoring, account-generation reset, logout/guest isolation, and silent daily reconciliation failure.
 - Runtime fixture data is constructed as `MemberWeeklyQuoteResponse`/`MemberQuoteDay` and passed through `HomeMemberQuoteWindow.from`, `toDailyQuoteDto`, and `homeMemberWeekDayStates`; it does not bypass the production API-to-presentation mapping.
+- 2026-09-13 hardening tests verify that normal access-token renewal does not invalidate an in-flight answer POST, retained Home resume reloads member and guest projections, reselecting the current member day keeps an unsaved draft, and rapid member like changes are serialized with latest-intent cache application.
+- The member inline calendar uses the weekly server anchor for its today marker, selectable upper bound, and next-month boundary. The debug runtime fixture keeps date/calendar/answer/like/image interactions local and cannot invoke production API mutations.
+
+## Build and regression verification (2026-09-13)
+
+- `./gradlew test --console=plain` — 272 tests, failures 0, errors 0, skipped 0.
+- `./gradlew :app:assembleDebug :app:assembleRelease -x :app:uploadCrashlyticsMappingFileRelease --console=plain` — Debug and Release assembly successful.
+- Before adding the exclusion above, the first combined Release assembly automatically ran the repository's existing `:app:uploadCrashlyticsMappingFileRelease` task once. It was not a manual upload and was not repeated by the final verification.
 
 ## Final assembled-screen result
 

@@ -35,6 +35,13 @@ Task 6 performs an integration revalidation rather than changing or extending th
 - Figma fixture local-resource thumbnail and fixture-only displayed count remain scoped to the existing QA fixture.
 - Coroutine-level `CalendarViewModel` tests use counted Home/Calendar repository fakes to verify monthly invocation, cache-only `SelectDay` with zero network calls, POST-before-daily order, silent daily failure, guest isolation, unchanged summary/completion/like/image fields, and exact Calendar-to-Home target emission.
 - Retrofit contract tests independently verify typing GET uses `/api/v1/member-quotes/{dailyQuoteSeq}/typing` with an empty request body while typing POST uses `/api/v2/member-quotes/{dailyQuoteSeq}/typing` with its JSON body.
+- 2026-09-13 regression coverage verifies that a normal access-token renewal during Calendar answer POST preserves the logical login session and accepts the matching response; an explicit login-state transition still invalidates the previous generation.
+
+## Build and regression verification (2026-09-13)
+
+- `./gradlew test --console=plain` — 272 tests, failures 0, errors 0, skipped 0.
+- `./gradlew :app:assembleDebug :app:assembleRelease -x :app:uploadCrashlyticsMappingFileRelease --console=plain` — Debug and Release assembly successful.
+- The first combined Release assembly before this exclusion automatically ran the existing Crashlytics mapping upload task once; the final verification excluded it and did not repeat the upload.
 
 ## Final assembled-screen result
 

@@ -6,6 +6,7 @@ import com.arakene.presentation.model.HomeMemberQuoteWindow
 import com.arakene.presentation.model.HomeMemberFlowState
 import com.arakene.presentation.util.HomeRuntimeQaFixture
 import java.time.LocalDate
+import java.time.YearMonth
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -135,5 +136,19 @@ class HomeWeekStripStateTest {
         assertEquals("기록한 답변", state.answer.recordedAnswer)
         assertEquals("Y", selected.likeYn)
         assertTrue(selected.imagePath?.isNotBlank() == true)
+    }
+
+    @Test
+    fun `member inline calendar uses the server anchor for today selection and month navigation`() {
+        val serverAnchor = LocalDate.parse("2026-08-31")
+        val deviceToday = LocalDate.parse("2026-09-01")
+        val memberDays = homeMonthGrid(YearMonth.of(2026, 8), serverAnchor, serverAnchor)
+        val guestDays = homeMonthGrid(YearMonth.of(2026, 9), deviceToday, deviceToday)
+
+        assertEquals(serverAnchor, memberDays.single { it.isToday }.date)
+        assertFalse(isHomeCalendarDateSelectable(deviceToday, serverAnchor))
+        assertFalse(isHomeCalendarNextMonthEnabled(YearMonth.of(2026, 8), serverAnchor))
+        assertEquals(deviceToday, guestDays.single { it.isToday }.date)
+        assertTrue(isHomeCalendarNextMonthEnabled(YearMonth.of(2026, 8), deviceToday))
     }
 }
