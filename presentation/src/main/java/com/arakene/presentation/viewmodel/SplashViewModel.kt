@@ -6,7 +6,7 @@ import com.arakene.domain.usecase.common.GetAlarmPermissionRequestedBeforeUseCas
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
 import com.arakene.domain.usecase.common.SetAlarmPermissionRequestedBeforeUseCase
-import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
+import com.arakene.domain.usecase.common.SetDailyNotificationEnabledUseCase
 import com.arakene.domain.usecase.common.SetFirstOpenUseCase
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
@@ -27,7 +27,7 @@ class SplashViewModel @Inject constructor(
     private val setFirstOpenUseCase: SetFirstOpenUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
-    private val setAlarmUsageUseCase: SetAlarmUsageUseCase,
+    private val setDailyNotificationEnabledUseCase: SetDailyNotificationEnabledUseCase,
     private val getAlarmPermissionRequestedBeforeUseCase: GetAlarmPermissionRequestedBeforeUseCase,
     private val setAlarmPermissionRequestedBeforeUseCase: SetAlarmPermissionRequestedBeforeUseCase
 ) : BaseViewModel() {
@@ -58,7 +58,7 @@ class SplashViewModel @Inject constructor(
 
     fun setAlarmUsage(usage: Boolean) {
         viewModelScope.launch {
-            setAlarmUsageUseCase(usage)
+            setDailyNotificationEnabledUseCase(usage)
         }
     }
 
