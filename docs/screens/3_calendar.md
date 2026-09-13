@@ -58,6 +58,7 @@
 - 회원 Calendar는 진입과 월 변경마다 `GET /api/v2/member-quotes/monthly?yearMonth=`를 한 번 호출한다. 날짜 탭은 캐시된 `memberQuotes`에서 상세를 선택하고 추가 GET을 호출하지 않는다.
 - 월간 응답 `MemberQuotesData`의 `questionKo`, `questionEn`, `answer`, `answeredAt`, `imagePath`, `engQuote`, `engAuthor`, `authorUrl`은 선택된 날짜의 완료 상세에 직접 매핑한다. 답변·이미지 있음 상태는 더 이상 fixture 전용 계약이 아니며 production은 실제 월간 응답 상태를 렌더링한다.
 - 회원 답변 저장은 Home과 같은 answer UseCase를 사용한다. POST 성공 시 선택 월간 레코드의 `answer`·`answeredAt`만 메모리에서 갱신하고, 같은 날짜 daily GET을 best-effort로 호출해 서버 상태를 재조정한다. 보조 refresh 실패는 POST 성공 상태를 되돌리지 않으며 완료 상태, streak, 월간 summary를 변경하지 않는다.
+- 정상적인 access token 갱신은 Calendar 회원 세대를 바꾸거나 진행 중 answer POST를 폐기하지 않는다. 명시적인 로그인 상태 전환만 기존 월 projection과 요청 세대를 무효화한다.
 - 비회원은 monthly/daily/answer 회원 API를 호출하지 않고 기존 v1 월간 조회, 로컬 좋아요·필사, 질문 답변 session-only 동작을 유지한다.
 - 비회원 질문은 기존 디자인 문구를 유지한다. 회원 질문이 API에서 누락되어도 비회원 문구로 대체하지 않는다. 답변 입력·기록·수정 상태는 `CalendarViewModel`이 소유하며 날짜 선택은 추가 조회 없이 월 캐시에서 투영한다.
 - Calendar의 복사/공유는 기존 로컬 동작을 유지한다. 좋아요/이미지 버튼의 기존 선택 날짜 Home 이동 계약도 이번 리뉴얼 API 연결에서 바꾸지 않는다.

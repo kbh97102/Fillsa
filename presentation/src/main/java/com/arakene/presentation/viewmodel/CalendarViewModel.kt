@@ -10,7 +10,6 @@ import com.arakene.domain.responses.MonthlySummaryData
 import com.arakene.domain.usecase.calendar.GetMonthlyQuotesNonMemberUseCase
 import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
-import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.home.GetMemberQuoteDayUseCase
 import com.arakene.domain.usecase.home.SaveQuoteAnswerUseCase
 import com.arakene.domain.util.ApiResult
@@ -54,7 +53,6 @@ class CalendarViewModel @Inject constructor(
     private val getTodayLocalStreakInfoUseCase: GetTodayLocalStreakInfoUseCase,
     private val saveQuoteAnswerUseCase: SaveQuoteAnswerUseCase,
     private val getMemberQuoteDayUseCase: GetMemberQuoteDayUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase,
 
 ) : BaseViewModel() {
 
@@ -81,7 +79,7 @@ class CalendarViewModel @Inject constructor(
     init {
         viewModelScope.launch {
             getLoginStatusUseCase().collect { loggedIn ->
-                val changed = updateAuth(HomeAuthContext(loggedIn, if (loggedIn) getAccessTokenUseCase() else null))
+                val changed = updateAuth(HomeAuthContext(loggedIn, null))
                 if (changed) requestedMonth?.let(::refreshData)
             }
         }
@@ -247,7 +245,7 @@ class CalendarViewModel @Inject constructor(
 
     private suspend fun observeCurrentAuth() {
         val loggedIn = getLoginStatusUseCase().firstOrNull() ?: false
-        if (updateAuth(HomeAuthContext(loggedIn, if (loggedIn) getAccessTokenUseCase() else null)))
+        if (updateAuth(HomeAuthContext(loggedIn, null)))
             requestedMonth?.let(::refreshData)
     }
 

@@ -8,7 +8,6 @@ import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.responses.MonthlySummaryData
 import com.arakene.domain.usecase.calendar.GetMonthlyQuotesNonMemberUseCase
 import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
-import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.db.GetTodayLocalStreakInfoUseCase
@@ -23,6 +22,7 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import java.time.LocalDate
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.first
@@ -137,6 +137,42 @@ class CalendarViewModelIntegrationTest {
         assertEquals(7, destination.targetDay)
     }
 
+    @Test
+    fun `access token renewal during Calendar answer POST preserves the session and accepts the response`() = runTest {
+        val postStarted = CompletableDeferred<Unit>()
+        val releasePost = CompletableDeferred<Unit>()
+        val home = CountingHomeRepository().apply {
+            answerHandler = { _, _ ->
+                postStarted.complete(Unit)
+                releasePost.await()
+                ApiResult.Success(AnswerResponse(77, "서버 답변", "saved-at"))
+            }
+            dailyResult = ApiResult.Fail(CommonError.NetworkError)
+        }
+        val calendar = CountingCalendarRepository().apply { memberResult = ApiResult.Success(monthly()) }
+        val local = CountingLocalRepository(loggedIn = true)
+        val vm = createViewModel(home, calendar, local)
+        runCurrent()
+        vm.handleContract(CommonEffect.Refresh)
+        advanceUntilIdle()
+        vm.handleContract(CalendarAction.SelectDay(day("2026-09-08")))
+        runCurrent()
+        vm.handleContract(CalendarAction.ChangeAnswer("작성 중 답변"))
+        vm.handleContract(CalendarAction.RecordAnswer)
+        runCurrent()
+        postStarted.await()
+
+        local.accessToken = "renewed-access-token"
+        local.loginStatus.emit(true)
+        runCurrent()
+        releasePost.complete(Unit)
+        advanceUntilIdle()
+
+        assertEquals("서버 답변", vm.answerUiState.recordedAnswer)
+        assertFalse(vm.answerUiState.isSaving)
+        assertEquals(1, calendar.events.count { it.startsWith("member-monthly:") })
+    }
+
     private fun createViewModel(
         home: CountingHomeRepository,
         calendar: CountingCalendarRepository,
@@ -144,7 +180,7 @@ class CalendarViewModelIntegrationTest {
     ) = CalendarViewModel(
         GetQuotesMonthlyUseCase(calendar), GetLocalQuoteListUseCase(local), GetLoginStatusUseCase(local),
         GetMonthlyQuotesNonMemberUseCase(calendar), GetTodayLocalStreakInfoUseCase(local),
-        SaveQuoteAnswerUseCase(home), GetMemberQuoteDayUseCase(home), GetAccessTokenUseCase(local),
+        SaveQuoteAnswerUseCase(home), GetMemberQuoteDayUseCase(home),
     ).also { viewModel = it }
 
     private fun day(date: String) = CalendarDay(LocalDate.parse(date), DayPosition.MonthDate)

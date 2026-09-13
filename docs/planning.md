@@ -31,3 +31,12 @@ Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에�
 - Retrofit 계약 테스트는 typing 조회의 GET v1과 저장의 POST v2 경로·method·body를 각각 검증한다.
 - 최종 런타임 증거와 판정은 [Home 상호작용 QA](design-qa/2026-09-07-android-home-interactions-qa.md), [Home 답변 연동 QA](design-qa/2026-09-08-android-home-answer-integration-qa.md), [Calendar 화면 QA](design-qa/2026-09-08-android-calendar-screen-root-qa.md), [Calendar API 바인딩 QA](design-qa/2026-09-08-android-calendar-api-binding-qa.md)에 기록했다.
 - Home/Calendar 소유 영역의 production mapper 결과는 재검증되었다. 다만 전체 프레임의 literal 판정은 기존 공유/시스템 경계(시스템 UI, 4-tab 대 Figma 3-tab, 광고)와 Home의 정확한 IME·인증 이미지·실완료 데이터 증거 부족 때문에 **Blocked**를 유지한다.
+
+### 최종 안정화 검증 (2026-09-13)
+
+- access token 갱신은 로그인 세대를 바꾸지 않으며, 명시적인 로그인 상태 전환만 Home/Calendar 회원 세션과 진행 중 요청을 무효화한다.
+- retained Home이 resume될 때 회원 weekly 또는 비회원 daily/로컬 projection을 다시 읽는다. 같은 회원 날짜 재선택은 작성 중 draft를 보존하고, 같은 명언의 좋아요 변경은 요청 순서를 직렬화해 최신 의도만 캐시에 반영한다.
+- 회원 Home inline calendar의 오늘 표시·선택 가능 상한·다음 달 이동 상한은 기기 날짜가 아니라 weekly 응답의 서버 anchor를 사용한다. Debug QA fixture의 날짜·달력·답변·좋아요 상호작용은 production API를 호출하지 않는다.
+- 전체 회귀: `./gradlew test --console=plain` — 272 tests, failures 0, errors 0, skipped 0.
+- 조립 검증: `./gradlew :app:assembleDebug :app:assembleRelease -x :app:uploadCrashlyticsMappingFileRelease --console=plain` — Debug/Release 모두 성공.
+- 주의: 위 제외 옵션을 적용하기 전 최초 combined Release 조립에서는 저장소의 기존 Gradle 연결에 의해 `:app:uploadCrashlyticsMappingFileRelease`가 한 번 자동 실행됐다. 수동 업로드는 아니며 이후 검증에서는 해당 task를 제외해 재실행하지 않았다.

@@ -9,7 +9,6 @@ import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.usecase.TestErrorCodeUseCase
-import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetStreakCountUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
@@ -78,6 +77,8 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.sync.Mutex
+import kotlinx.coroutines.sync.withLock
 import java.io.File
 import java.time.LocalDate
 import java.time.YearMonth
@@ -103,7 +104,6 @@ class HomeViewModel @Inject constructor(
     private val testErrorCodeUseCase: TestErrorCodeUseCase,
     private val getStreakCountUseCase: GetStreakCountUseCase,
     private val getAllStreakInfoUseCase: GetAllStreakInfoUseCase,
-    private val getAccessTokenUseCase: GetAccessTokenUseCase,
 ) : BaseViewModel() {
 
     private val dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -127,6 +127,9 @@ class HomeViewModel @Inject constructor(
     private var authBoundJob = SupervisorJob(viewModelScope.coroutineContext[Job])
     private var pendingImageMutation: Pair<HomeAuthBoundRequestToken, HomeMemberMutationTarget>? = null
     private var memberAnswerCoordinator = HomeMemberAnswerCoordinator()
+    private var nextMemberLikeRequestId = 0L
+    private val memberLikeRequestIds = mutableMapOf<HomeMemberMutationTarget, Long>()
+    private val memberLikeMutexes = mutableMapOf<HomeMemberMutationTarget, Mutex>()
 
     val memberQuoteWindow: HomeMemberQuoteWindow?
         get() = memberOrchestration.currentWindow
@@ -168,7 +171,9 @@ class HomeViewModel @Inject constructor(
             isLogged.collect { loggedIn ->
                 val context = HomeAuthContext(
                     isLoggedIn = loggedIn,
-                    accountIdentity = if (loggedIn) getAccessTokenUseCase() else null,
+                    // Access tokens rotate during a normal credential refresh. Login-state
+                    // transitions, not credential bytes, define this ViewModel session.
+                    accountIdentity = null,
                 )
                 handleObservedAuthContext(context)
             }
@@ -395,14 +400,15 @@ class HomeViewModel @Inject constructor(
     }
 
     fun initialRefresh(requestDate: LocalDate?) {
+        val isResume = homeStarted
         requestDate?.let { date.value = it }
         homeStarted = true
         pendingExplicitTarget = requestDate
         activeAuthContext?.let { context ->
-            if (loadedAuthContext != context || requestDate != null) {
+            if (loadedAuthContext != context || requestDate != null || isResume) {
                 loadedAuthContext = context
                 pendingExplicitTarget = null
-                loadHome(context, requestDate)
+                loadHome(context, requestDate ?: date.value.takeIf { isResume })
             }
         }
     }
@@ -534,21 +540,33 @@ class HomeViewModel @Inject constructor(
         if (isMemberSession) {
             val requestToken = authBoundCoordinator.capture() ?: return
             val target = selectedMemberMutationTarget() ?: return
+            val requestId = ++nextMemberLikeRequestId
+            memberLikeRequestIds[target] = requestId
+            val requestMutex = memberLikeMutexes.getOrPut(target) { Mutex() }
             launchAuthBound(requestToken) {
-                getResponse(
-                    postLikeUseCase(
-                        LikeRequest(targetLikeYn),
-                        dailyQuoteSeq = target.dailyQuoteSeq,
+                requestMutex.withLock {
+                    if (!authBoundCoordinator.accepts(requestToken) || memberLikeRequestIds[target] != requestId) {
+                        return@withLock
+                    }
+                    val response = getResponse(
+                        postLikeUseCase(
+                            LikeRequest(targetLikeYn),
+                            dailyQuoteSeq = target.dailyQuoteSeq,
+                        )
                     )
-                )?.let {
-                    if (!authBoundCoordinator.accepts(requestToken)) return@let
-                    memberOrchestration = patchHomeMemberLike(
-                        state = memberOrchestration,
-                        target = target,
-                        likeYn = targetLikeYn,
-                    )
-                    if (isSelectedMemberTarget(target)) {
-                        isLike.value = targetLikeYn == YN.Y.type
+                    if (response != null && authBoundCoordinator.accepts(requestToken) && memberLikeRequestIds[target] == requestId) {
+                        memberOrchestration = patchHomeMemberLike(
+                            state = memberOrchestration,
+                            target = target,
+                            likeYn = targetLikeYn,
+                        )
+                        if (isSelectedMemberTarget(target)) {
+                            isLike.value = targetLikeYn == YN.Y.type
+                        }
+                    }
+                    if (memberLikeRequestIds[target] == requestId) {
+                        memberLikeRequestIds.remove(target)
+                        memberLikeMutexes.remove(target)
                     }
                 }
             }
@@ -665,6 +683,8 @@ class HomeViewModel @Inject constructor(
         authBoundJob.cancel()
         authBoundJob = SupervisorJob(viewModelScope.coroutineContext[Job])
         memberWindowRequestJob = null
+        memberLikeRequestIds.clear()
+        memberLikeMutexes.clear()
     }
 
     private fun clearMemberSessionState() {
@@ -797,9 +817,17 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun acceptMemberSelection(window: HomeMemberQuoteWindow) {
+        val previousTarget = selectedMemberMutationTarget()
+        val nextTarget = window.selectedDay?.dailyQuoteSeq?.let { sequence ->
+            HomeMemberMutationTarget(window.selectedDate, sequence)
+        }
+        val activeDraft = answerUiState.takeIf {
+            it.isEditing && previousTarget != null && previousTarget == nextTarget
+        }
         memberWindowRequestJob?.cancel()
         memberOrchestration = acceptHomeMemberSelection(memberOrchestration, window)
         applyMemberWindow(window)
+        if (activeDraft != null) answerUiState = activeDraft
     }
 
     private fun applyMemberWindow(window: HomeMemberQuoteWindow) {

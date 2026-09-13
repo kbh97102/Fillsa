@@ -215,6 +215,7 @@ internal fun FigmaHomeContent(
     question: String,
     isCalendarOpen: Boolean,
     displayedMonth: YearMonth,
+    calendarReferenceDate: LocalDate,
     isStreakTooltipOpen: Boolean,
     answerUiState: HomeAnswerUiState,
     canGoNext: Boolean,
@@ -361,6 +362,7 @@ internal fun FigmaHomeContent(
             HomeInlineCalendar(
                 displayedMonth = displayedMonth,
                 selectedDate = date,
+                referenceDate = calendarReferenceDate,
                 onMonthChanged = onMonthChanged,
                 onDateSelected = onDateSelected,
                 darkMode = darkMode,

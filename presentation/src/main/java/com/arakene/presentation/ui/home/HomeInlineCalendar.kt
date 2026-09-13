@@ -39,6 +39,9 @@ internal data class HomeCalendarDay(
 internal fun isHomeCalendarDateSelectable(date: LocalDate, today: LocalDate = DateCondition.currentDay()): Boolean =
     date in DateCondition.startDay..today
 
+internal fun isHomeCalendarNextMonthEnabled(displayedMonth: YearMonth, referenceDate: LocalDate): Boolean =
+    displayedMonth < YearMonth.from(referenceDate)
+
 /** Sunday-first grid containing all visible dates for a month. */
 internal fun homeMonthGrid(
     month: YearMonth,
@@ -65,13 +68,13 @@ internal fun homeMonthGrid(
 internal fun HomeInlineCalendar(
     displayedMonth: YearMonth,
     selectedDate: LocalDate,
+    referenceDate: LocalDate,
     onMonthChanged: (YearMonth) -> Unit,
     onDateSelected: (LocalDate) -> Unit,
     darkMode: Boolean = IsDarkMode.current,
     modifier: Modifier = Modifier,
 ) {
-    val today = DateCondition.currentDay()
-    val days = homeMonthGrid(displayedMonth, selectedDate, today)
+    val days = homeMonthGrid(displayedMonth, selectedDate, referenceDate)
     Column(
         modifier = modifier
             .width(248.dp)
@@ -97,7 +100,7 @@ internal fun HomeInlineCalendar(
                     darkMode = darkMode,
                 )
             }
-            HomeCalendarArrow("›", enabled = displayedMonth < YearMonth.from(today)) {
+            HomeCalendarArrow("›", enabled = isHomeCalendarNextMonthEnabled(displayedMonth, referenceDate)) {
                 onMonthChanged(displayedMonth.plusMonths(1))
             }
         }
@@ -130,7 +133,7 @@ internal fun HomeInlineCalendar(
                                         else -> Color.Transparent
                                     }
                                 )
-                                .noEffectClickable(enable = day.isInDisplayedMonth && isHomeCalendarDateSelectable(day.date, today)) {
+                                .noEffectClickable(enable = day.isInDisplayedMonth && isHomeCalendarDateSelectable(day.date, referenceDate)) {
                                     onDateSelected(day.date)
                                 },
                             contentAlignment = Alignment.Center,

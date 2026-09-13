@@ -51,8 +51,11 @@ internal class CountingHomeRepository : HomeRepository {
         private set
     val weeklyEndDates = mutableListOf<String?>()
     var weeklyResult: ApiResult<MemberWeeklyQuoteResponse> = ApiResult.Fail(CommonError.DefaultError)
+    var weeklyHandler: (suspend (String?) -> ApiResult<MemberWeeklyQuoteResponse>)? = null
     var dailyResult: ApiResult<MemberQuoteDay> = ApiResult.Fail(CommonError.DefaultError)
     var answerResult: ApiResult<AnswerResponse> = ApiResult.Fail(CommonError.DefaultError)
+    var answerHandler: (suspend (Int, AnswerRequest) -> ApiResult<AnswerResponse>)? = null
+    var likeHandler: (suspend (LikeRequest, Int) -> ApiResult<Int>)? = null
     var guestDailyResult: ApiResult<DailyQuotaNoToken> = ApiResult.Success(
         DailyQuotaNoToken(1, "guest", "guest", "author", "author", null),
     )
@@ -77,7 +80,7 @@ internal class CountingHomeRepository : HomeRepository {
     override suspend fun getWeeklyQuotes(endDate: String?): ApiResult<MemberWeeklyQuoteResponse> {
         weeklyEndDates += endDate
         record("weekly:${endDate ?: "omitted"}")
-        return weeklyResult
+        return weeklyHandler?.invoke(endDate) ?: weeklyResult
     }
     override suspend fun getMemberQuoteDay(quoteDate: String): ApiResult<MemberQuoteDay> {
         record("member-daily:$quoteDate")
@@ -85,11 +88,11 @@ internal class CountingHomeRepository : HomeRepository {
     }
     override suspend fun postAnswer(dailyQuoteSeq: Int, request: AnswerRequest): ApiResult<AnswerResponse> {
         record("answer:$dailyQuoteSeq:${request.answer}")
-        return answerResult
+        return answerHandler?.invoke(dailyQuoteSeq, request) ?: answerResult
     }
     override suspend fun postLike(likeRequest: LikeRequest, dailyQuoteSeq: Int): ApiResult<Int> {
         record("like:$dailyQuoteSeq:${likeRequest.likeYn}")
-        return ApiResult.Success(1)
+        return likeHandler?.invoke(likeRequest, dailyQuoteSeq) ?: ApiResult.Success(1)
     }
     override suspend fun postUploadImage(imageFile: File, dailyQuoteSeq: Int): ApiResult<MemberQuoteImageResponse> {
         record("upload-image:$dailyQuoteSeq:${imageFile.name}")

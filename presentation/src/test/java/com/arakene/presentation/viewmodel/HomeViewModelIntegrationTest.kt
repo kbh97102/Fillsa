@@ -5,7 +5,6 @@ import com.arakene.domain.responses.AnswerResponse
 import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.domain.usecase.TestErrorCodeUseCase
-import com.arakene.domain.usecase.common.GetAccessTokenUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetStreakCountUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
@@ -26,6 +25,7 @@ import com.arakene.domain.util.CommonError
 import com.arakene.presentation.util.action.HomeAction
 import java.time.LocalDate
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
@@ -103,19 +103,38 @@ class HomeViewModelIntegrationTest {
     }
 
     @Test
-    fun `account identity change discards cached window and anchors a fresh request`() = runTest {
-        val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
+    fun `access token renewal during answer POST preserves the member session and accepts the response`() = runTest {
+        val postStarted = CompletableDeferred<Unit>()
+        val releasePost = CompletableDeferred<Unit>()
+        val home = CountingHomeRepository().apply {
+            weeklyResult = ApiResult.Success(weekly())
+            answerHandler = { _, _ ->
+                postStarted.complete(Unit)
+                releasePost.await()
+                ApiResult.Success(AnswerResponse(107, "서버 답변", "saved-at"))
+            }
+            dailyResult = ApiResult.Fail(CommonError.NetworkError)
+        }
         val local = CountingLocalRepository(loggedIn = true)
         val vm = createViewModel(home, local)
         vm.initialRefresh(null)
         advanceUntilIdle()
 
-        local.accessToken = "account-b"
+        vm.handleContract(HomeAction.ChangeAnswer("작성 중 답변"))
+        vm.handleContract(HomeAction.RecordAnswer)
+        runCurrent()
+        postStarted.await()
+
+        local.accessToken = "renewed-access-token"
         local.loginStatus.emit(true)
+        runCurrent()
+        releasePost.complete(Unit)
         advanceUntilIdle()
 
-        assertEquals(listOf(null, null), home.weeklyEndDates)
+        assertEquals(listOf<String?>(null), home.weeklyEndDates)
         assertEquals(LocalDate.parse("2026-09-03"), vm.memberQuoteWindow?.selectedDate)
+        assertEquals("서버 답변", vm.answerUiState.recordedAnswer)
+        assertFalse(vm.answerUiState.isSaving)
     }
 
     @Test
@@ -147,6 +166,117 @@ class HomeViewModelIntegrationTest {
         assertTrue(errors.isEmpty())
     }
 
+    @Test
+    fun `resuming retained member Home reloads the selected week after typing mutations`() = runTest {
+        val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        home.weeklyResult = ApiResult.Success(
+            weekly().copy(days = weekly().days.map { day ->
+                if (day.date == "2026-09-03") day.copy(completed = true, state = "done", likeYn = "Y") else day
+            })
+        )
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        assertEquals(listOf<String?>(null, null), home.weeklyEndDates)
+        assertTrue(vm.memberQuoteWindow!!.selectedDay!!.completed)
+        assertTrue(vm.isLike.value)
+    }
+
+    @Test
+    fun `resuming retained guest Home reloads daily and local projections`() = runTest {
+        val home = CountingHomeRepository()
+        val local = CountingLocalRepository(loggedIn = false)
+        val vm = createViewModel(home, local)
+        vm.initialRefresh(LocalDate.parse("2026-09-03"))
+        advanceUntilIdle()
+        val firstCallCount = home.networkCallCount
+
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        assertEquals(firstCallCount + 1, home.networkCallCount)
+        assertEquals(2, home.events.count { it.startsWith("guest-daily:") })
+    }
+
+    @Test
+    fun `reselecting the current member day preserves an unsaved draft while cancelling another window request`() = runTest {
+        val previousWindowStarted = CompletableDeferred<Unit>()
+        val neverCompletePreviousWindow = CompletableDeferred<ApiResult<MemberWeeklyQuoteResponse>>()
+        val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+        vm.handleContract(HomeAction.ChangeAnswer("저장 전 초안"))
+
+        home.weeklyHandler = { endDate ->
+            if (endDate == "2026-08-27") {
+                previousWindowStarted.complete(Unit)
+                neverCompletePreviousWindow.await()
+            } else {
+                ApiResult.Success(weekly())
+            }
+        }
+        vm.handleContract(HomeAction.SelectWeekDay(LocalDate.parse("2026-08-27")))
+        runCurrent()
+        previousWindowStarted.await()
+        Thread.sleep(260)
+
+        vm.handleContract(HomeAction.SelectWeekDay(LocalDate.parse("2026-09-03")))
+        runCurrent()
+
+        assertEquals("저장 전 초안", vm.answerUiState.draft)
+        assertTrue(vm.answerUiState.isEditing)
+        assertFalse(vm.answerUiState.isSaving)
+        assertEquals(LocalDate.parse("2026-09-03"), vm.date.value)
+    }
+
+    @Test
+    fun `member like writes are serialized and only the latest intent updates cache`() = runTest {
+        val firstLikeStarted = CompletableDeferred<Unit>()
+        val releaseFirstLike = CompletableDeferred<Unit>()
+        val secondLikeStarted = CompletableDeferred<Unit>()
+        val releaseSecondLike = CompletableDeferred<Unit>()
+        val home = CountingHomeRepository().apply {
+            weeklyResult = ApiResult.Success(weekly())
+            likeHandler = { request, _ ->
+                if (request.likeYn == "Y") {
+                    firstLikeStarted.complete(Unit)
+                    releaseFirstLike.await()
+                } else {
+                    secondLikeStarted.complete(Unit)
+                    releaseSecondLike.await()
+                }
+                ApiResult.Success(1)
+            }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        vm.handleContract(HomeAction.ClickLike)
+        runCurrent()
+        firstLikeStarted.await()
+        Thread.sleep(260)
+        vm.handleContract(HomeAction.ClickLike)
+        runCurrent()
+
+        assertFalse(secondLikeStarted.isCompleted)
+        assertFalse(vm.isLike.value)
+        releaseFirstLike.complete(Unit)
+        runCurrent()
+        secondLikeStarted.await()
+        releaseSecondLike.complete(Unit)
+        advanceUntilIdle()
+
+        assertEquals(listOf("like:107:Y", "like:107:N"), home.events.filter { it.startsWith("like:") })
+        assertFalse(vm.isLike.value)
+        assertEquals("N", vm.memberQuoteWindow!!.selectedDay!!.likeYn)
+    }
+
     private fun createViewModel(home: CountingHomeRepository, local: CountingLocalRepository): HomeViewModel =
         HomeViewModel(
             GetDailyQuoteNoTokenUseCase(home), GetDailyQuoteUseCase(home), GetMemberWeeklyQuotesUseCase(home),
@@ -155,7 +285,6 @@ class HomeViewModelIntegrationTest {
             UpdateLocalQuoteLikeUseCase(local), GetLocalQuoteListUseCase(local), FindLocalQuoteByIdUseCase(local),
             AddLocalQuoteUseCase(local), TestErrorCodeUseCase(home),
             GetStreakCountUseCase(local, CountingCommonRepository()), GetAllStreakInfoUseCase(local),
-            GetAccessTokenUseCase(local),
         ).also { viewModel = it }
 
     private fun weekly() = MemberWeeklyQuoteResponse(

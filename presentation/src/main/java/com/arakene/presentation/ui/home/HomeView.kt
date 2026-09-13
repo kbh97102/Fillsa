@@ -29,6 +29,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
 import com.arakene.presentation.model.HomeMemberFlowState
@@ -63,6 +64,7 @@ import kotlinx.coroutines.withContext
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.util.YN
 import java.time.LocalDate
+import java.time.YearMonth
 
 @Composable
 fun HomeView(
@@ -86,7 +88,7 @@ fun HomeView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
-    val date by rememberSaveable {
+    val viewModelDate by rememberSaveable {
         viewModel.date
     }
 
@@ -94,7 +96,15 @@ fun HomeView(
         mutableStateOf(LocaleType.KOR)
     }
     val homeQaFixture = LocalHomeRuntimeQaFixture.current
-    val qaMemberWindow = homeQaFixture?.memberWindow
+    var fixtureDate by remember(homeQaFixture) {
+        mutableStateOf(homeQaFixture?.memberWindow?.selectedDate)
+    }
+    var fixtureDisplayedMonth by remember(homeQaFixture) {
+        mutableStateOf(homeQaFixture?.memberWindow?.selectedDate?.let(YearMonth::from))
+    }
+    var fixtureCalendarOpen by remember(homeQaFixture) { mutableStateOf(false) }
+    val date = fixtureDate ?: viewModelDate
+    val qaMemberWindow = homeQaFixture?.memberWindow?.select(date) ?: homeQaFixture?.memberWindow
     val qaSelectedDay = qaMemberWindow?.selectedDay
     val displayedQuota = qaSelectedDay?.toDailyQuoteDto() ?: viewModel.currentQuota
 
@@ -177,15 +187,20 @@ fun HomeView(
         }
     )
 
-    LaunchedEffect(requestDate, homeQaFixture) {
+    LaunchedEffect(homeQaFixture) {
         if (homeQaFixture != null) {
             val qaDate = homeQaFixture.memberWindow.selectedDate
             viewModel.handleContract(HomeEffect.SetDate(qaDate))
             viewModel.currentQuota = homeQaFixture.memberWindow.selectedDay!!.toDailyQuoteDto()
             viewModel.quoteLoadState = HomeQuoteLoadState.Loaded
-        } else {
+        }
+    }
+
+    LifecycleResumeEffect(requestDate, homeQaFixture) {
+        if (homeQaFixture == null) {
             viewModel.initialRefresh(requestDate)
         }
+        onPauseOrDispose { }
     }
 
     HandleViewEffect(
@@ -253,8 +268,12 @@ fun HomeView(
     } else {
         defaultQuestion
     }
-    val isCalendarOpen = viewModel.isCalendarOpen
-    val displayedMonth = viewModel.displayedMonth
+    val isCalendarOpen = if (homeQaFixture != null) fixtureCalendarOpen else viewModel.isCalendarOpen
+    val displayedMonth = fixtureDisplayedMonth ?: viewModel.displayedMonth
+    val calendarReferenceDate = qaMemberWindow?.endDate
+        ?: viewModel.memberAnchorEndDate
+        ?: memberWindow?.endDate
+        ?: DateCondition.currentDay()
     val isStreakTooltipOpen = viewModel.isStreakTooltipOpen
     val answerUiState = if (qaMemberWindow != null) {
         HomeMemberFlowState.from(qaMemberWindow).answer
@@ -308,17 +327,38 @@ fun HomeView(
         question = question,
         isCalendarOpen = isCalendarOpen,
         displayedMonth = displayedMonth,
+        calendarReferenceDate = calendarReferenceDate,
         isStreakTooltipOpen = isStreakTooltipOpen,
         answerUiState = answerUiState,
-        canGoNext = date.isBefore(viewModel.memberAnchorEndDate ?: DateCondition.currentDay()),
+        canGoNext = date.isBefore(calendarReferenceDate),
         onLocaleChanged = { selectedLocale = it },
         onHome = { navigate(Screens.Home()) },
         onProfile = { navigate(Screens.MyPage) },
-        onCalendar = { viewModel.handleContract(HomeAction.ClickCalendar) },
-        onDismissCalendar = { viewModel.handleContract(HomeAction.DismissHomeCalendar) },
-        onMonthChanged = { viewModel.handleContract(HomeAction.ChangeHomeMonth(it)) },
-        onDateSelected = { viewModel.handleContract(HomeAction.SelectHomeDate(it)) },
-        onWeekDaySelected = { viewModel.handleContract(HomeAction.SelectWeekDay(it)) },
+        onCalendar = {
+            if (homeQaFixture != null) {
+                fixtureCalendarOpen = !fixtureCalendarOpen
+                fixtureDisplayedMonth = YearMonth.from(date)
+            } else viewModel.handleContract(HomeAction.ClickCalendar)
+        },
+        onDismissCalendar = {
+            if (homeQaFixture != null) fixtureCalendarOpen = false
+            else viewModel.handleContract(HomeAction.DismissHomeCalendar)
+        },
+        onMonthChanged = {
+            if (homeQaFixture != null) fixtureDisplayedMonth = it
+            else viewModel.handleContract(HomeAction.ChangeHomeMonth(it))
+        },
+        onDateSelected = {
+            if (homeQaFixture != null) {
+                fixtureDate = it
+                fixtureDisplayedMonth = YearMonth.from(it)
+                fixtureCalendarOpen = false
+            } else viewModel.handleContract(HomeAction.SelectHomeDate(it))
+        },
+        onWeekDaySelected = {
+            if (homeQaFixture != null) fixtureDate = it
+            else viewModel.handleContract(HomeAction.SelectWeekDay(it))
+        },
         onStreakStatus = { viewModel.handleContract(HomeAction.ClickStreakStatus) },
         onDismissStreakTooltip = { viewModel.handleContract(HomeAction.DismissStreakTooltip) },
         onStreakCalendar = { viewModel.handleContract(HomeAction.ClickStreakCalendar) },
@@ -336,12 +376,22 @@ fun HomeView(
                 viewModel.handleContract(HomeAction.ClickQuote)
             }
         },
-        onAnswerChanged = { viewModel.handleContract(HomeAction.ChangeAnswer(it)) },
-        onRecordAnswer = { viewModel.handleContract(HomeAction.RecordAnswer) },
-        onEditAnswer = { viewModel.handleContract(HomeAction.EditAnswer) },
+        onAnswerChanged = { if (homeQaFixture == null) viewModel.handleContract(HomeAction.ChangeAnswer(it)) },
+        onRecordAnswer = { if (homeQaFixture == null) viewModel.handleContract(HomeAction.RecordAnswer) },
+        onEditAnswer = { if (homeQaFixture == null) viewModel.handleContract(HomeAction.EditAnswer) },
         onAuthor = { uriHandler.openUri(homeAuthorUri(author)) },
-        onPreviousQuote = { viewModel.handleContract(HomeAction.LoadPreviousWindow) },
-        onNextQuote = { viewModel.handleContract(HomeAction.LoadNextWindow) },
+        onPreviousQuote = {
+            if (homeQaFixture != null) {
+                val target = date.minusDays(1)
+                if (target in homeQaFixture.memberWindow.visibleDates) fixtureDate = target
+            } else viewModel.handleContract(HomeAction.LoadPreviousWindow)
+        },
+        onNextQuote = {
+            if (homeQaFixture != null) {
+                val target = date.plusDays(1)
+                if (target in homeQaFixture.memberWindow.visibleDates) fixtureDate = target
+            } else viewModel.handleContract(HomeAction.LoadNextWindow)
+        },
         onCopy = { copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author) },
         onShare = {
             viewModel.handleContract(HomeAction.ClickShare(author = author, quote = quote))
