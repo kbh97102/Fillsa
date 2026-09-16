@@ -11,7 +11,7 @@
 - 색상 모드 / 로케일: light / `ko-KR`. 루트 배경, status bar, top header, bottom navigation, ad 영역을 전체 프레임 비교에 포함한다.
 - 기준 이미지: `docs/design-qa/assets/calendar-figma-2929-13366/2026-09-08/figma-basic-2985-21952.png`, `figma-unanswered-2987-22796.png`, `figma-answered-image-2985-22510.png`.
 - 런타임 기준: Android Emulator `Medium_Phone_API_35`, API 35, 160dpi, 360dp 폭, light, app locale `ko-KR`; 기본은 360×816, 두 완료 상태는 360×1101 전체 프레임.
-- 검증 상태: Calendar 소유 컴포넌트와 조립 위치는 Round 6 shared-geometry 재검증 완료(부모 작업자의 최종 조립 승인 대기); 전체 시스템/공유 표면은 Android status/gesture bar와 보존된 4-route navigation, 비네트워크 fixture에서 생략한 live ad 때문에 제품 경계 차이 있음.
+- 검증 상태: Calendar 소유 컴포넌트와 조립 위치는 Round 6 shared-geometry 재검증 완료(부모 작업자의 최종 조립 승인 대기); 공유 navigation은 2026-09-16에 Figma 3탭으로 정렬했다. 전체 시스템/공유 표면에는 Android status/gesture bar와 비네트워크 fixture에서 생략한 live ad 차이가 남아 있다.
 - QA 기록: `docs/design-qa/2026-09-08-android-calendar-screen-root-qa.md`.
 - API 상태 연결 QA: `docs/design-qa/2026-09-08-android-calendar-api-binding-qa.md` (Task 5; 자동 상태 검증과 최종 조립 검증을 구분).
 - 구현 플랜: `docs/superpowers/plans/2026-09-08-android-calendar-screen-root.md`.
@@ -67,7 +67,7 @@
 - 답변 있음 원본의 `0 / 200`은 디자인 소스 불일치다. Production 입력은 실제 grapheme count를 유지하고 해당 명시적 fixture만 `0 / 200`을 표시한다.
 - Calendar QA와 production은 같은 `CalendarView` geometry(+6dp root offset)와 Calendar-route status-bar inset을 사용한다. Fixture 전용 geometry 분기는 없다.
 - Calendar 주차 셀 geometry도 production과 fixture가 동일하게 실행한다. 선택 날짜 또는 fire/heart 기록이 하나라도 있는 주는 50dp inner cell, 그 외 주는 50dp row 중앙의 40dp inner cell을 사용하며 fixture는 synthetic date/content만 주입한다.
-- Figma의 3-tab/static-ad와 앱의 공유 4-route/live-ad는 Calendar 소유가 아니므로 유지하고 QA에 차이를 기록한다.
+- 공유 하단 bar는 Figma의 Home/Calendar/My page 3탭을 사용한다. QuoteList route는 Calendar 집계에서 진입하는 하위 화면으로 유지하며 live-ad 정책은 변경하지 않는다.
 - Calendar QA fixture는 process-local/nonnetwork 상태를 유지하기 위해 Back, Calendar header exits, and shared bottom-tab navigation을 no-op으로 처리한다. Production navigation은 변경하지 않는다.
 - 이번 작업은 TDD를 사용하지 않는다. 구현 후 기존 회귀 테스트와 추가 상태/런타임 테스트를 실행한다.
 
@@ -94,4 +94,4 @@
 | Daily indicators | `2985:22041`, `2985:22044` | existing completion/like data rendered as Figma fire/heart icons | `Day` / `calendarRecordIndicators` | 부분 통과(RED→GREEN mapping test) |
 | Legend | `2985:22283` and related | Figma heart/Fire aggregate using existing like/streak data | `CalendarCountSection` | 부분 통과(runtime capture) |
 | Selected-day companion | `2985:21952`, `2985:22510`, `2987:22796` | empty character + 80dp quote card, or 133dp completed detail/action row and question UI | `CalendarQuoteSection` | unit/build 통과; runtime completed data capture 대기 |
-| Shared navigation/ad | frame descendants | existing 4-route nav and live ad surface | scaffold | Blocked — Figma has three tabs; shared routes/ad policy preserved |
+| Shared navigation/ad | `3087:29220`, `3087:29215` | Home/Calendar/My page 3탭과 기존 live ad surface | scaffold | navigation 통과; live ad는 fixture 비노출 |

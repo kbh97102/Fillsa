@@ -33,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.presentation.ui.BottomNavigationBar
+import com.arakene.presentation.ui.shouldShowMainBottomNavigation
 import com.arakene.presentation.ui.calendar.CalendarRuntimeQaFixture
 import com.arakene.presentation.ui.calendar.CalendarRuntimeQaState
 import com.arakene.presentation.ui.calendar.LocalCalendarRuntimeQaFixture
@@ -197,7 +198,7 @@ class MainActivity : ComponentActivity() {
 
             val displayBottomBar by remember(currentDestination) {
                 mutableStateOf(
-                    shouldShowBottomBar(currentDestination?.destination?.route)
+                    shouldShowMainBottomNavigation(currentDestination?.destination?.route)
                 )
             }
 
@@ -306,16 +307,6 @@ class MainActivity : ComponentActivity() {
 
     private fun installSplash() {
         installSplashScreen()
-    }
-
-    private fun shouldShowBottomBar(route: String?): Boolean {
-
-        return route?.substringBefore("?") in setOf(
-            Screens.Home::class.qualifiedName,
-            Screens.QuoteList::class.qualifiedName,
-            Screens.Calendar::class.qualifiedName,
-            Screens.MyPage::class.qualifiedName
-        )
     }
 
     private companion object {
