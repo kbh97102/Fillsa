@@ -11,7 +11,7 @@
 - Figma URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-13556
 - 대상 프레임/노드: light `2929:13556` (`2.home`), dark `3039:26518` (`2.home`). Parent section `2929:9603` is not a render target.
 - 대상 기기/프레임 크기: Figma export 360 × 821 px; light root `#FFEFCC`, dark root `#212121`. (The supplied 360 × 720 description conflicts with the authoritative node export; QA uses the export.)
-- 검증 상태: **Blocked** — `wm size 945x2155` (420 dpi)로 logical 360 × 821dp exact-size component capture를 확보했다. clean light/dark positive default, genuine-zero warning/tooltip, inline calendar open/select-close, question done/edit와 completion snackbar는 확인했지만, full soft keyboard, authenticated image, 실제 completed-writing marker, 그리고 app-wide 4-tab/live-ad와 Figma 3-tab/static-ad의 차이 때문에 assembled-screen acceptance는 Blocked다. 컴포넌트별 검증은 부분 통과일 수 있으나 화면 최종 결과는 Partial/Pass가 아니다.
+- 검증 상태: **Blocked** — `wm size 945x2155` (420 dpi)로 logical 360 × 821dp exact-size component capture를 확보했다. clean light/dark positive default, genuine-zero warning/tooltip, inline calendar open/select-close, question done/edit와 completion snackbar는 확인했고 app-wide navigation은 2026-09-16에 Figma 3탭으로 정렬했다. full soft keyboard, authenticated image, 실제 completed-writing marker, live-ad/static-ad 차이 때문에 assembled-screen acceptance는 계속 Blocked다. 컴포넌트별 검증은 부분 통과일 수 있으나 화면 최종 결과는 Partial/Pass가 아니다.
 - 기준 이미지: `docs/design-qa/assets/home-figma-2929-13556/reference-full.png`
 - QA 기록: `docs/design-qa/2026-09-07-android-home-interactions-qa.md`
 - Dark root 상세 명세: `docs/screens/2_home_dark.md` (root `2929:9603`, 상태별 render node와 기준 이미지)
@@ -40,7 +40,7 @@
 5. 비회원은 weekly/daily/answer 회원 API를 호출하지 않는다. 기존 v1 일간 조회, 로컬 좋아요·필사, 질문 답변의 session-only 동작을 유지한다.
 6. 회원 completed weekday는 `state == "done"` 또는 `completed == true`인 서버 날짜만 사용하며, 답변 유무는 완료 표시 조건이 아니다. 비회원은 기존 `GetAllStreakInfoUseCase`의 실제 완료 필사 날짜를 사용한다.
 7. 이미지 등록/보기/변경/삭제, 복사 snackbar, 좋아요 선택의 기존 domain/API 연결을 보존한다. 타이핑 GET은 v1을 유지하고 타이핑 POST만 v2를 유지한다.
-8. Figma 3-tab과 앱 4-route 하단 bar 차이는 앱 전역 제품 결정이므로 이번 Home 범위에서 변경하지 않는다.
+8. 앱 전역 하단 bar는 Figma대로 Home/Calendar/My page 3탭을 사용한다. QuoteList route는 Calendar에서 진입하는 하위 화면으로 유지하고 하단 bar에는 노출하지 않는다.
 9. access token 문자열 갱신은 회원 세션 교체로 취급하지 않는다. Home resume은 선택 상태를 기준으로 서버/로컬 projection을 다시 읽고, 명시적인 로그아웃 후 로그인 상태 전환만 기존 회원 cache와 진행 중 요청을 무효화한다.
 10. 같은 날짜를 다시 선택하면 저장 전 질문 draft를 보존한다. 같은 명언에 대한 연속 좋아요 요청은 순서대로 전송하고 최신 사용자 선택만 화면과 주간 cache에 확정한다.
 11. 회원 inline calendar의 오늘·선택 가능일·다음 달 이동 상한은 최초 weekly 응답의 서버 anchor를 따른다. 비회원은 기존 기기 날짜 기준을 유지한다.
@@ -55,7 +55,7 @@
 | Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
 | Quote action row | `2929:15503` | copy/share/like/image actions with current like visual state | `HomeQuoteActionRow` | 부분 통과(빌드) |
 | Prompt response | `3087:29376`, `3139:1399`, `3087:29378`, `3110:34293` | 200-grapheme 입력, 회원 answer POST 성공 후 snackbar·done/edit 상태, 비회원 session 기록; 명언 필사 route와 분리 | `HomePromptAnswerSection` / `HomeViewModel` | 부분 통과(exact done/snackbar 통과; focus full keyboard 미확보); 회원 API binding은 별도 연동 범위 |
-| Global bottom navigation/ad | `3087:29254`; ad reference `2929:29249` is unavailable | Figma has 3 × 120dp tabs; Android keeps its shared 4-route bar and live ad surface | scaffold / `BottomNavigationBar` | Blocked — product decision required |
+| Global bottom navigation/ad | `3087:29254`; Calendar instance `3087:29220`; ad reference `2929:29249` is unavailable | Figma 3 × 120dp tabs; Android shared navigation도 Home/Calendar/My page 3탭 사용. 광고는 live surface 유지 | scaffold / `BottomNavigationBar` | navigation 통과; 광고 정책은 별도 범위 |
 | Dark palette/assets | `3039:26518` | dark root/card/input/text/divider plus night SVG variants | `FigmaHomeContent` / `assets/figma/home-night/` | 부분 통과(exact-size positive default clean capture) |
 
 회원 Home 질문 답변은 선택 날짜의 `questionKo`/`questionEn`, `answer`, `answeredAt`을 weekly/daily 응답에서 읽고 answer API로 저장한다. 선택 날짜가 바뀌면 날짜별 draft/recorded-answer를 원자적으로 교체하며, `dailyQuoteSeq == null`인 날짜에서는 답변을 포함한 mutation을 실행하지 않는다. 비회원만 기존 `HomeViewModel` session state로 기록/수정 상태와 snackbar를 유지하며 Typing으로 전달하지 않는다. 기존 quote 필사와 memo v1 API 필드는 신규 회원 Home·Calendar에서 재사용하지 않는다.
@@ -68,6 +68,6 @@
 - QA 기록: [2026-09-08 Home answer integration QA](../design-qa/2026-09-08-android-home-answer-integration-qa.md). 단위 테스트와 코드 범위 검증은 비최종 증거이며, 전체 조립 화면의 runtime/Figma 최종 수용은 부모 작업자 검증 대기다.
 - 2026-09-13 안정화 검증은 token renewal 중 POST 수용, resume refresh, 같은 날짜 draft 보존, 좋아요 최신 의도 직렬화, 서버 anchor 달력 경계, QA fixture 무네트워크 정책을 포함한다. 정확한 Gradle 명령과 결과는 위 QA 기록과 `docs/planning.md`에 남긴다.
 
-`3087:29254`는 Home/Calendar/My page 3개 탭(각 120 × 60dp, 32dp icon), 선택 `#5C65FF`, 비선택 `#212121`만 정의합니다. Android `BottomNavigationBar`는 동일한 light selected/unselected color와 32dp local vector를 사용하지만 Home/QuoteList/Calendar/My page의 4개 shared route를 보존합니다. 3등분 폭·3개 icon asset을 그대로 적용하려면 QuoteList의 위치·폭 또는 route를 변경해야 하므로 Home 범위에서 변경하지 않습니다. 광고는 live `SingleLineAdSection`의 native content이며, 이전 참조 `2929:29249`는 2026-08-30 Figma MCP에서 찾을 수 없었습니다. 향후 제품 결정은 (a) Android의 4탭/live ad contract를 Figma에 반영하거나, (b) shared navigation과 광고 노출 정책을 앱 전체 범위에서 3탭 디자인으로 변경하도록 명시 승인하는 것입니다.
+`3087:29254`는 Home/Calendar/My page 3개 탭(각 120 × 60dp, 32dp icon), 선택 `#5C65FF`, 비선택 `#212121`을 정의합니다. Android `BottomNavigationBar`도 2026-09-16부터 같은 3등분 구조와 기존 32dp local vector를 사용합니다. QuoteList destination은 Calendar 집계에서 진입하는 하위 route로 남지만 전역 하단 bar와 표시 대상 route에서는 제외합니다. 광고는 기존 live `SingleLineAdSection` 정책을 유지하며 이번 navigation 변경 범위에 포함하지 않습니다.
 
 Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#616161` border/divider(주 divider 55%), white primary text, `#E0E0E0` action label, `#9E9E9E` muted text를 `HomeColorPalette`로 해석합니다. calendar와 selected/completed weekday, `#5C65FF` CTA는 Figma 상태대로 유지합니다. 정확한 dark SVG는 `presentation/src/main/assets/figma/home-night/`의 logo/profile/wave/search/copy/share/like/camera 8종이며 SVG가 density-independent이므로 Figma의 60/24/16/320dp Compose 크기로 렌더합니다. calendar/write/badge/streak SVG는 Figma dark bytes가 light와 동일해 기존 `assets/figma/home/`을 재사용합니다.
