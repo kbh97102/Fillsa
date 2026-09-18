@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -297,7 +298,14 @@ internal fun FigmaHomeContent(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text("아래 글을 필사해주세요.", style = FillsaTheme.typography.body3, color = palette.primaryText)
-                    FigmaLocaleToggle(selectedLocale, onLocaleChanged)
+                    LocaleSwitch(
+                        selected = selectedLocale,
+                        setSelected = onLocaleChanged,
+                        contentPadding = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
+                        containerColor = Color(0xFFFFCB5C),
+                        selectedContainerColor = Color.White,
+                        contentColor = Color(0xFF212121),
+                    )
                 }
 
                 HomeQuoteCard(
@@ -545,44 +553,6 @@ private fun HomeWeekStrip(
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun FigmaLocaleToggle(
-    selectedLocale: LocaleType,
-    onLocaleChanged: (LocaleType) -> Unit,
-) {
-    val koreanSelected = selectedLocale == LocaleType.KOR
-    Row(
-        modifier = Modifier
-            .width(60.dp)
-            .height(28.dp)
-            .clip(RoundedCornerShape(99.dp))
-            .background(Color(0xFFFFCB5C))
-            .noEffectClickable {
-                onLocaleChanged(if (koreanSelected) LocaleType.ENG else LocaleType.KOR)
-            },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Text(
-            "한",
-            style = FillsaTheme.typography.buttonXSmallBold,
-            color = Color(0xFF212121),
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .weight(1f)
-                .padding(vertical = 3.dp)
-                .clip(RoundedCornerShape(99.dp))
-                .background(if (koreanSelected) Color.White else Color.Transparent),
-        )
-        Text(
-            "A",
-            style = FillsaTheme.typography.buttonXSmallBold,
-            color = Color(0xFF212121),
-            textAlign = TextAlign.Center,
-            modifier = Modifier.weight(1f),
-        )
     }
 }
 

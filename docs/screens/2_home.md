@@ -52,6 +52,7 @@
 | Header | `2929:15476` | Figma logo, current streak, profile navigation | `FigmaHomeContent` | 부분 통과(exact-size positive default, genuine 0 warning/tooltip); unknown/null은 tooltip 미노출 |
 | Month calendar | `2929:15667`, `2929:16221`, `3139:1501` | `YYYY.MM` selector와 inline month popup, 월/연도 탐색 및 날짜 선택 | `HomeDateWeekSection` / `HomeInlineCalendar` | 통과(exact-size runtime open/select-close) |
 | Week strip | `3204:2435` | 선택일을 오른쪽 끝으로 둔 7일과 실제 완료 필사 marker | `HomeDateWeekSection` | 부분 통과(runtime selected); completion data Blocked |
+| Locale toggle | `2929:19887` (light Home `2929:13611`, dark Home `3039:26574`) | 텍스트와 패딩으로 측정되는 한/A 선택 토글; 선택 배경과 텍스트 정렬 | shared `LocaleSwitch` in `FigmaHomeContent` | 컴포넌트 통과(physical dark runtime, 한/영 상태); 전체 Home 수용 상태는 기존 Blocked 유지 |
 | Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
 | Quote action row | `2929:15503` | copy/share/like/image actions with current like visual state | `HomeQuoteActionRow` | 부분 통과(빌드) |
 | Prompt response | `3087:29376`, `3139:1399`, `3087:29378`, `3110:34293` | 200-grapheme 입력, 회원 answer POST 성공 후 snackbar·done/edit 상태, 비회원 session 기록; 명언 필사 route와 분리 | `HomePromptAnswerSection` / `HomeViewModel` | 부분 통과(exact done/snackbar 통과; focus full keyboard 미확보); 회원 API binding은 별도 연동 범위 |
@@ -67,6 +68,14 @@
 - 이미 연결된 `questionKo`/`questionEn`의 LocaleType 표시를 유지한다. Compose 변경은 저장 중 입력 readOnly 및 버튼 클릭 차단뿐이며 레이아웃·색·문구·계층은 변경하지 않는다.
 - QA 기록: [2026-09-08 Home answer integration QA](../design-qa/2026-09-08-android-home-answer-integration-qa.md). 단위 테스트와 코드 범위 검증은 비최종 증거이며, 전체 조립 화면의 runtime/Figma 최종 수용은 부모 작업자 검증 대기다.
 - 2026-09-13 안정화 검증은 token renewal 중 POST 수용, resume refresh, 같은 날짜 draft 보존, 좋아요 최신 의도 직렬화, 서버 anchor 달력 경계, QA fixture 무네트워크 정책을 포함한다. 정확한 Gradle 명령과 결과는 위 QA 기록과 `docs/planning.md`에 남긴다.
+
+### 2026-09-19 Home locale toggle 패딩 수정
+
+- Figma 컴포넌트: `2929:19887` (`Toggle_off_S`), light Home 인스턴스 `2929:13611`, dark Home 인스턴스 `3039:26574`.
+- 기준은 고정 폭/높이나 균등 `weight`가 아니라 텍스트 측정값과 패딩의 합이다. 항목 패딩은 좌우 `8dp`, 상하 `2dp`; 외곽 패딩은 시작 `4dp`, 상하 `3dp`다.
+- Home 전용 `FigmaLocaleToggle`을 제거하고 shared `LocaleSwitch`를 색상·패딩 파라미터로 재사용한다. 기존 Typing/Quote detail 호출의 기본 보라색 스타일과 패딩은 유지한다.
+- Home 색상은 outer `#FFCB5C`, selected `#FFFFFF`, text `#212121`을 사용한다.
+- QA 기록: [2026-09-19 Home locale toggle QA](../design-qa/2026-09-19-android-home-locale-toggle-qa.md).
 
 `3087:29254`는 Home/Calendar/My page 3개 탭(각 120 × 60dp, 32dp icon), 선택 `#5C65FF`, 비선택 `#212121`을 정의합니다. Android `BottomNavigationBar`도 2026-09-16부터 같은 3등분 구조와 기존 32dp local vector를 사용합니다. QuoteList destination은 Calendar 집계에서 진입하는 하위 route로 남지만 전역 하단 bar와 표시 대상 route에서는 제외합니다. 광고는 기존 live `SingleLineAdSection` 정책을 유지하며 이번 navigation 변경 범위에 포함하지 않습니다.
 

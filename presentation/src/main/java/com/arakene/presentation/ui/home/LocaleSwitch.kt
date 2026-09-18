@@ -27,13 +27,16 @@ fun LocaleSwitch(
     modifier: Modifier = Modifier,
     textStyle: TextStyle = FillsaTheme.typography.buttonXSmallBold,
     rootPadding: PaddingValues = PaddingValues(horizontal = 3.dp, vertical = 4.dp),
-    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
+    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
+    containerColor: Color = colorResource(R.color.purple02),
+    selectedContainerColor: Color = colorResource(R.color.white),
+    contentColor: Color = colorResource(R.color.gray_700),
 ) {
 
     Row(
         modifier = modifier
             .background(
-                color = colorResource(R.color.purple02),
+                color = containerColor,
                 shape = RoundedCornerShape(99.dp)
             )
             .padding(rootPadding)
@@ -53,14 +56,18 @@ fun LocaleSwitch(
             stringResource(R.string.locale_type_kor),
             selected = selected == LocaleType.KOR,
             textStyle = textStyle,
-            contentPadding = contentPadding
+            contentPadding = contentPadding,
+            selectedContainerColor = selectedContainerColor,
+            contentColor = contentColor,
         )
 
         LocaleItem(
             stringResource(R.string.locale_type_eng),
             selected = selected == LocaleType.ENG,
             textStyle = textStyle,
-            contentPadding = contentPadding
+            contentPadding = contentPadding,
+            selectedContainerColor = selectedContainerColor,
+            contentColor = contentColor,
         )
 
     }
@@ -73,15 +80,17 @@ private fun LocaleItem(
     selected: Boolean,
     modifier: Modifier = Modifier,
     textStyle: TextStyle = FillsaTheme.typography.buttonXSmallBold,
-    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 2.dp)
+    contentPadding: PaddingValues = PaddingValues(horizontal = 8.dp, vertical = 2.dp),
+    selectedContainerColor: Color = colorResource(R.color.white),
+    contentColor: Color = colorResource(R.color.gray_700),
 ) {
     Text(
         type,
         style = textStyle,
-        color = colorResource(R.color.gray_700),
+        color = contentColor,
         modifier = modifier
             .background(
-                color = if (selected) colorResource(R.color.white)
+                color = if (selected) selectedContainerColor
                 else Color.Transparent,
                 shape = RoundedCornerShape(99.dp)
             )
