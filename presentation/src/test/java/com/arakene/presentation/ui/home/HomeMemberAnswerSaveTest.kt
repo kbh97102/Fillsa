@@ -93,6 +93,27 @@ class HomeMemberAnswerSaveTest {
         assertFalse(refreshed.currentWindow!!.selectedDay!!.completed)
     }
 
+    @Test fun `daily refresh with missing questions preserves weekly questions after answer save`() {
+        val start = begin()
+        val saved = start.coordinator.completePost(orchestration, auth, start.request!!, answerResponse)
+        val refresh = saved.coordinator.captureRefresh(saved.state, start.request!!)
+        val daily = weeklyFixture.days.last().copy(
+            questionKo = null,
+            questionEn = null,
+            answer = "서버 답변",
+            answeredAt = "2026-09-03 14:01:15",
+        )
+
+        val refreshed = saved.coordinator.completeRefresh(saved.state, auth, refresh, daily)
+
+        assertEquals("오늘 무엇을 기록하고 싶나요?", refreshed.currentWindow!!.selectedDay!!.questionKo)
+        assertEquals("What would you like to write today?", refreshed.currentWindow!!.selectedDay!!.questionEn)
+        assertEquals("서버 답변", refreshed.currentWindow!!.selectedDay!!.answer)
+        assertEquals("2026-09-03 14:01:15", refreshed.currentWindow!!.selectedDay!!.answeredAt)
+        assertEquals("오늘 무엇을 기록하고 싶나요?", refreshed.cachedWindows.values.single().selectedDay!!.questionKo)
+        assertEquals("What would you like to write today?", refreshed.cachedWindows.values.single().selectedDay!!.questionEn)
+    }
+
     @Test fun `save A then select B patches only A in current window and cache`() {
         val start = begin()
         val selected = acceptHomeMemberSelection(orchestration, memberState.window.select(LocalDate.parse("2026-09-02"))!!)

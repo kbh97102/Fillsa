@@ -165,6 +165,8 @@ internal data class HomeMemberAnswerCoordinator(
         val currentRevisions = state.mutationRevisions[request.target] ?: HomeMemberMutationRevisions()
         return state.patchDay(request.target) { currentDay ->
             response.copy(
+                questionKo = response.questionKo ?: currentDay.questionKo,
+                questionEn = response.questionEn ?: currentDay.questionEn,
                 likeYn = if (currentRevisions.like > refresh.mutationRevisions.like) currentDay.likeYn else response.likeYn,
                 imagePath = if (currentRevisions.image > refresh.mutationRevisions.image) currentDay.imagePath else response.imagePath,
             )
