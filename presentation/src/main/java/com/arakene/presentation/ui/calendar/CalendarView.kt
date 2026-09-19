@@ -38,6 +38,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalConfiguration
 import com.arakene.presentation.util.HomeAnswerUiState
+import com.arakene.presentation.util.IsDarkMode
 
 @Composable
 fun CalendarView(
@@ -164,6 +165,7 @@ fun CalendarView(
 @Composable
 private fun CalendarHeader(onHome: () -> Unit, onProfile: () -> Unit) {
     val streak = StreakProvider.current
+    val darkMode = IsDarkMode.current
     Row(
         modifier = Modifier.fillMaxWidth().height(50.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -171,6 +173,7 @@ private fun CalendarHeader(onHome: () -> Unit, onProfile: () -> Unit) {
         CalendarFigmaAsset(
             fileName = "home_logo.svg",
             modifier = Modifier.size(width = 60.dp, height = 27.dp).noEffectClickable(click = onHome),
+            darkMode = darkMode,
             assetSet = "home",
         )
         Spacer(Modifier.weight(1f))
@@ -190,6 +193,7 @@ private fun CalendarHeader(onHome: () -> Unit, onProfile: () -> Unit) {
         CalendarFigmaAsset(
             fileName = "home_profile.svg",
             modifier = Modifier.padding(start = 12.dp).size(24.dp).noEffectClickable(click = onProfile),
+            darkMode = darkMode,
             assetSet = "home",
         )
     }
