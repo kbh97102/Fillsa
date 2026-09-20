@@ -18,10 +18,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
-import okhttp3.internal.wait
 
 @Composable
 fun IntroduceIndicatorSection(
@@ -46,14 +46,39 @@ fun IntroduceIndicatorSection(
         }
 
         Text(
-            modifier = Modifier.padding(top = 30.dp),
-            text = stringResource(R.string.introduce_title),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = if (currentPage == 1) 25.dp else 30.dp),
+            text = stringResource(
+                when (currentPage) {
+                    0 -> R.string.introduce_title_1
+                    1 -> R.string.introduce_title_2
+                    else -> R.string.introduce_title_3
+                }
+            ),
             style = FillsaTheme.typography.heading4,
-            color = if (darkMode){
+            color = if (darkMode) {
                 Color.White
             } else {
                 Color.Black
-            }
+            },
+            textAlign = TextAlign.Center
+        )
+
+        Text(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 4.dp),
+            text = stringResource(
+                when (currentPage) {
+                    0 -> R.string.introduce_subtitle_1
+                    1 -> R.string.introduce_subtitle_2
+                    else -> R.string.introduce_subtitle_3
+                }
+            ),
+            style = FillsaTheme.typography.body3,
+            color = if (darkMode) Color.White else Color.Black,
+            textAlign = TextAlign.Center
         )
 
     }

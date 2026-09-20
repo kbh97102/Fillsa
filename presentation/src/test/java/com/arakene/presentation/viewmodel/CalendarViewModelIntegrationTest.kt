@@ -5,6 +5,7 @@ import com.arakene.domain.responses.AnswerResponse
 import com.arakene.domain.responses.MemberMonthlyQuoteResponse
 import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberQuotesData
+import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.domain.responses.MonthlySummaryData
 import com.arakene.domain.usecase.calendar.GetMonthlyQuotesNonMemberUseCase
 import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
@@ -12,6 +13,7 @@ import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
 import com.arakene.domain.usecase.db.GetTodayLocalStreakInfoUseCase
 import com.arakene.domain.usecase.home.GetMemberQuoteDayUseCase
+import com.arakene.domain.usecase.home.GetMemberWeeklyQuotesUseCase
 import com.arakene.domain.usecase.home.SaveQuoteAnswerUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.CommonError
@@ -47,23 +49,54 @@ class CalendarViewModelIntegrationTest {
     @After fun tearDown() { viewModel?.viewModelScope?.cancel() }
 
     @Test
-    fun `member month loads once and SelectDay is cache-only`() = runTest {
-        val home = CountingHomeRepository()
+    fun `member selecting current day fetches weekly detail and merges missing question into monthly cache`() = runTest {
+        val home = CountingHomeRepository().apply {
+            weeklyResult = ApiResult.Success(
+                MemberWeeklyQuoteResponse(
+                    startDate = "2026-09-02",
+                    endDate = "2026-09-08",
+                    days = listOf(
+                        MemberQuoteDay(
+                            date = "2026-09-08",
+                            dayOfWeek = "TUESDAY",
+                            state = "done",
+                            dailyQuoteSeq = 42,
+                            korQuote = "오늘",
+                            engQuote = "Today",
+                            korAuthor = "작가",
+                            engAuthor = "Author",
+                            authorUrl = null,
+                            questionKo = "오늘의 질문",
+                            questionEn = "Question of the day",
+                            answer = null,
+                            answeredAt = null,
+                            likeYn = "Y",
+                            imagePath = "https://example.com/image.png",
+                            completed = true,
+                        )
+                    ),
+                ),
+            )
+        }
         val calendar = CountingCalendarRepository().apply { memberResult = ApiResult.Success(monthly()) }
         val vm = createViewModel(home, calendar, CountingLocalRepository(loggedIn = true))
+        vm.selectedDay.value = day("2026-09-08")
         runCurrent()
         vm.handleContract(CommonEffect.Refresh)
         advanceUntilIdle()
         assertEquals(1, calendar.events.count { it.startsWith("member-monthly:") })
         assertEquals(0, home.networkCallCount)
 
-        vm.handleContract(CalendarAction.SelectDay(day("2026-09-07")))
-        runCurrent()
+        vm.handleContract(CalendarAction.SelectDay(day("2026-09-08")))
+        advanceUntilIdle()
 
         assertEquals(1, calendar.events.size)
-        assertEquals(0, home.networkCallCount)
-        assertEquals(emptyList<String>(), home.events)
-        assertEquals("2026-09-07", vm.selectedDay.value.date.toString())
+        assertEquals(listOf("weekly:2026-09-08"), home.events)
+        assertEquals(
+            "오늘의 질문",
+            vm.data.value!!.memberQuotes.single { it.quoteDate == "2026-09-08" }.questionKo,
+        )
+        assertEquals("2026-09-08", vm.selectedDay.value.date.toString())
     }
 
     @Test
@@ -86,8 +119,15 @@ class CalendarViewModelIntegrationTest {
         vm.handleContract(CalendarAction.RecordAnswer)
         advanceUntilIdle()
 
-        assertEquals(2, home.networkCallCount)
-        assertEquals(listOf("answer:42:내 답변", "member-daily:2026-09-08"), home.events)
+        assertEquals(3, home.networkCallCount)
+        assertEquals(
+            listOf(
+                "weekly:2026-09-08",
+                "answer:42:내 답변",
+                "member-daily:2026-09-08",
+            ),
+            home.events,
+        )
         val after = vm.data.value!!
         val quote = after.memberQuotes.single { it.quoteDate == "2026-09-08" }
         assertEquals(initial.monthlySummary, after.monthlySummary)
@@ -180,7 +220,7 @@ class CalendarViewModelIntegrationTest {
     ) = CalendarViewModel(
         GetQuotesMonthlyUseCase(calendar), GetLocalQuoteListUseCase(local), GetLoginStatusUseCase(local),
         GetMonthlyQuotesNonMemberUseCase(calendar), GetTodayLocalStreakInfoUseCase(local),
-        SaveQuoteAnswerUseCase(home), GetMemberQuoteDayUseCase(home),
+        SaveQuoteAnswerUseCase(home), GetMemberQuoteDayUseCase(home), GetMemberWeeklyQuotesUseCase(home),
     ).also { viewModel = it }
 
     private fun day(date: String) = CalendarDay(LocalDate.parse(date), DayPosition.MonthDate)
@@ -191,7 +231,7 @@ class CalendarViewModelIntegrationTest {
             MemberQuotesData(
                 dailyQuoteSeq = 42, quoteDate = "2026-09-08", quote = "오늘", author = "작가",
                 completed = true, likeYnString = "Y", todayCompleted = true,
-                questionKo = "질문", questionEn = "Question", answer = null, answeredAt = null,
+                questionKo = null, questionEn = null, answer = null, answeredAt = null,
                 imagePath = "https://example.com/image.png",
             ),
         ),

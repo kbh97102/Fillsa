@@ -21,6 +21,15 @@ UI 작업을 받으면 다음 순서로 준비한다.
    - Figma MCP로 추출한 전체 프레임 기준 이미지의 경로 또는 재현 가능한 참조 정보. 루트 배경, 상태 표시줄, 안전 영역, 제스처/내비게이션 영역을 포함한다.
 3. Figma MCP로 대상 프레임과 하위 계층을 확인하고, 검증에 쓸 전체 프레임 기준 이미지를 추출한다. 기준 이미지는 구현 전에 확보한다.
 4. 한 프레임에 여러 상태가 있으면 각각을 검증 대상으로 목록화한다. 예: light/dark, 로그인/비로그인, 선택/비선택, 팝업 표시 상태.
+5. Android Studio에서 프로젝트가 열린 상태인지 Android CLI로 확인한다.
+
+```bash
+android studio check
+```
+
+- `Fillsa`가 `READY`여야 Compose Preview 검증을 시작할 수 있다.
+- `android`가 PATH에 없으면 `~/.local/bin/android`를 사용한다.
+- Android Studio가 열려 있지 않거나 프로젝트가 `READY`가 아니면 Preview 검증은 `Blocked`로 기록하고, Preview 없이 컴포넌트 통과를 선언하지 않는다.
 
 Figma URL·노드 ID·기준 이미지 중 하나라도 없으면 이 게이트는 실패다. 구현이나 추정으로 진행하지 말고 필요한 정보를 요청한다.
 
@@ -40,17 +49,36 @@ Figma URL·노드 ID·기준 이미지 중 하나라도 없으면 이 게이트�
 
 개발 순서는 하위·독립 컴포넌트부터 상위 컨테이너와 화면 조립 순서로 진행한다. ViewModel의 UI state·action·effect 경계도 이 UI 책임에 맞추되, 구조를 이유로 Figma 결과를 바꾸지 않는다.
 
-각 컴포넌트는 구현 직후 해당 Figma 영역과 먼저 비교·수정한다. 개별 검증을 통과하지 않은 컴포넌트를 화면에 조립한 뒤 전체 화면 검증으로 넘기지 않는다.
+각 컴포넌트는 구현 직후 Android CLI로 Compose Preview를 렌더링하고 해당 Figma 영역과 먼저 비교·수정한다. 개별 검증을 통과하지 않은 컴포넌트를 화면에 조립한 뒤 전체 화면 검증으로 넘기지 않는다.
+
+### Compose Preview 검증
+
+- 대상 컴포넌트 또는 화면에는 검증할 Figma 상태마다 결정적 `@Preview`를 둔다. `widthDp`, `heightDp`, `uiMode`, `locale`, `fontScale`을 대상 조건에 맞추고, 네트워크·현재 시각·사용자 저장 데이터에 의존하지 않는 fixture state를 사용한다.
+- Preview 전용 UI를 따로 복제하지 않는다. Preview는 production composable에 상태와 callback만 주입한다.
+- 다음 명령으로 이미지와 semantics를 함께 확인한다.
+
+```bash
+android studio render-compose-preview \
+  <compose-file-path> <preview-composable-name> \
+  --project Fillsa \
+  --output-image-file=<persistent-preview-png-path> \
+  --print-semantics
+```
+
+- 출력 이미지는 `docs/design-qa/artifacts/<date>-<screen>-<topic>/`처럼 재검증 가능한 프로젝트 경로에 저장한다.
+- Preview로 레이아웃, 문구, 이미지, 색상, typography, light/dark 및 정적 표시 상태를 먼저 검증한다.
+- Preview는 실제 시스템 바, 제스처/내비게이션 영역, IME, 권한 UI, Android 버전별 동작, navigation transition, 런타임 리소스 선택을 최종 증명하지 않는다. 이 항목과 전체 조립 화면은 실제 기기 또는 에뮬레이터 캡처로 검증한다.
 
 ## 4. 검증과 수정 루프
 
 검증은 매 라운드에서 다음 순서를 지킨다.
 
-1. Figma 기준 이미지와 같은 대상 기기 크기·밀도·API 레벨·색상 모드·언어·상태로 Android 화면의 **전체 프레임**을 캡처한다. 기준·런타임 이미지 모두 루트 배경, 상태 표시줄, 안전 영역, 제스처/내비게이션 영역을 포함한다.
-2. 영향을 받은 컴포넌트를 각각 비교한다.
-3. 컴포넌트를 조립한 화면 전체를 오버레이 또는 나란히 비교한다. 크롭 경계를 기록하고 시스템 표면 색상·상태/내비게이션 바 아이콘 모양도 Figma와 비교한다.
-4. 불일치를 화면 문서와 QA 기록에 구체적으로 남긴다. 대상 노드/컴포넌트, 차이, 수정 위치, 수정 결과를 포함한다.
-5. 불일치가 있으면 해당 컴포넌트를 수정하고 1번부터 재검증한다.
+1. 영향을 받은 각 컴포넌트와 화면 상태의 Compose Preview를 Android CLI로 렌더링하고 Figma의 대응 영역과 비교한다.
+2. Preview에서 확인한 문구, 이미지, 정렬, 여백, 크기, 색상, typography, 표시 상태의 불일치를 먼저 수정한다.
+3. 하위 Preview가 통과하면 Figma 기준 이미지와 같은 대상 기기 크기·밀도·API 레벨·색상 모드·언어·상태로 Android 화면의 **전체 프레임**을 캡처한다. 기준·런타임 이미지 모두 루트 배경, 상태 표시줄, 안전 영역, 제스처/내비게이션 영역을 포함한다.
+4. 영향을 받은 컴포넌트와 조립 화면 전체를 오버레이 또는 나란히 비교한다. 크롭 경계를 기록하고 시스템 표면 색상·상태/내비게이션 바 아이콘 모양도 Figma와 비교한다.
+5. 불일치를 화면 문서와 QA 기록에 구체적으로 남긴다. 대상 노드/컴포넌트, Preview 명령·이미지, 런타임 캡처, 차이, 수정 위치, 수정 결과를 포함한다.
+6. 불일치가 있으면 해당 컴포넌트를 수정하고 1번부터 재검증한다.
 
 비교 항목은 최소한 다음을 포함한다.
 
@@ -64,6 +92,7 @@ Figma URL·노드 ID·기준 이미지 중 하나라도 없으면 이 게이트�
 ### 최대 5회 규칙
 
 - 최초 구현 후 비교를 **1차 검증**으로 센다. 수정 후 수행하는 완전한 재비교가 2~5차 검증이다.
+- 한 차수는 영향을 받은 Preview 재검증과 전체 조립 런타임 재검증을 모두 포함한다. Preview만 확인한 시도는 차수 완료나 최종 통과로 세지 않는다.
 - 한 차수의 통과 조건은 영향을 받은 컴포넌트와 조립 화면 전체에서 모두 불일치가 없는 것이다.
 - `Pass`는 전체 조립 런타임 프레임 캡처와 Figma 기준의 비교가 기록된 경우에만 가능하다. 헤드리스 환경, 도달 불가 상태 등으로 캡처할 수 없으면 `Blocked`이며, 자산·빌드·부분 비교를 `Pass` 또는 최종 승인으로 기록하지 않는다.
 - 5차 검증 뒤에도 차이가 있으면 작업을 완료로 표시하지 않는다. 남은 차이, 원인, 시도한 수정, Figma 기준을 QA 기록에 남기고 사용자에게 다음 판단을 요청한다.
@@ -83,6 +112,9 @@ QA 기록에는 아래를 반드시 남긴다.
 - Target frames/nodes: <node ID and name>
 - Reference image(s): <path or reproducible Figma MCP output>
 - Full-frame reference: <path; root background/status bar/safe area/gesture or navigation area included>
+- Preview command: <android studio render-compose-preview command>
+- Preview image(s): <persistent project path; one per target state>
+- Preview conditions: <widthDp, heightDp, uiMode, locale, fontScale, fixture state>
 - Runtime target: <device/emulator, resolution or dp size, density, API level, color mode, locale, state>
 - Capture platform/device/emulator: <platform and device/emulator>
 
@@ -95,6 +127,7 @@ QA 기록에는 아래를 반드시 남긴다.
 | Scope | Difference | Fix | Result |
 |---|---|---|---|
 
+- Preview comparison: <Figma area / Preview image, exact differences>
 - Comparison: <overlay / side-by-side, crop boundaries, exact differences>
 
 ## Final assembled-screen result

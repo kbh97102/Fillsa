@@ -11,6 +11,7 @@ import com.arakene.domain.usecase.calendar.GetMonthlyQuotesNonMemberUseCase
 import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.home.GetMemberQuoteDayUseCase
+import com.arakene.domain.usecase.home.GetMemberWeeklyQuotesUseCase
 import com.arakene.domain.usecase.home.SaveQuoteAnswerUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.presentation.model.CalendarAnswerCoordinator
@@ -53,6 +54,7 @@ class CalendarViewModel @Inject constructor(
     private val getTodayLocalStreakInfoUseCase: GetTodayLocalStreakInfoUseCase,
     private val saveQuoteAnswerUseCase: SaveQuoteAnswerUseCase,
     private val getMemberQuoteDayUseCase: GetMemberQuoteDayUseCase,
+    private val getMemberWeeklyQuotesUseCase: GetMemberWeeklyQuotesUseCase,
 
 ) : BaseViewModel() {
 
@@ -108,6 +110,7 @@ class CalendarViewModel @Inject constructor(
                         answerCoordinator.answerFor(selection.state) else guestAnswers[calendarAction.target.date] ?: selection.state.answer
                     isAnswerEditExplicit = selection.state.isAnswerEditExplicit
                 }
+                refreshSelectedDayQuestion(calendarAction.target.date)
             }
 
             is CalendarAction.ChangeAnswer -> {
@@ -213,6 +216,32 @@ class CalendarViewModel @Inject constructor(
 
     private fun changeDayToTargetMonth(yearMonth: YearMonth) {
         handleAction(CalendarAction.SelectDay(CalendarDay(LocalDate.of(yearMonth.year, yearMonth.month, 1), DayPosition.InDate)))
+    }
+
+    private fun refreshSelectedDayQuestion(date: LocalDate) {
+        val token = authCoordinator.capture() ?: return
+        if (!token.context.isLoggedIn) return
+        val target = data.value?.memberQuotes?.firstOrNull { it.quoteDate == date.toString() } ?: return
+        viewModelScope.launch {
+            val result = getMemberWeeklyQuotesUseCase(date.toString())
+            observeCurrentAuth()
+            if (!authCoordinator.accepts(token)) return@launch
+            val detail = (result as? ApiResult.Success)?.data?.days
+                ?.firstOrNull { it.date == date.toString() && it.dailyQuoteSeq == target.dailyQuoteSeq }
+                ?: return@launch
+            if (detail.date != date.toString() || detail.dailyQuoteSeq != target.dailyQuoteSeq) return@launch
+            val current = data.value ?: return@launch
+            data.value = current.copy(memberQuotes = current.memberQuotes.map { quote ->
+                if (quote.quoteDate == detail.date && quote.dailyQuoteSeq == detail.dailyQuoteSeq) {
+                    quote.copy(
+                        questionKo = detail.questionKo ?: quote.questionKo,
+                        questionEn = detail.questionEn ?: quote.questionEn,
+                    )
+                } else {
+                    quote
+                }
+            })
+        }
     }
 
     private fun monthState() = CalendarMonthState(data.value, selectedDay.value.date, answerUiState, monthlyRevision, isAnswerEditExplicit)

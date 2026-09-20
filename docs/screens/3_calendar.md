@@ -60,7 +60,7 @@
 - 회원 답변 저장은 Home과 같은 answer UseCase를 사용한다. POST 성공 시 선택 월간 레코드의 `answer`·`answeredAt`만 메모리에서 갱신하고, 같은 날짜 daily GET을 best-effort로 호출해 서버 상태를 재조정한다. 보조 refresh 실패는 POST 성공 상태를 되돌리지 않으며 완료 상태, streak, 월간 summary를 변경하지 않는다.
 - 정상적인 access token 갱신은 Calendar 회원 세대를 바꾸거나 진행 중 answer POST를 폐기하지 않는다. 명시적인 로그인 상태 전환만 기존 월 projection과 요청 세대를 무효화한다.
 - 비회원은 monthly/daily/answer 회원 API를 호출하지 않고 기존 v1 월간 조회, 로컬 좋아요·필사, 질문 답변 session-only 동작을 유지한다.
-- 비회원 질문은 기존 디자인 문구를 유지한다. 회원 질문이 API에서 누락되어도 비회원 문구로 대체하지 않는다. 답변 입력·기록·수정 상태는 `CalendarViewModel`이 소유하며 날짜 선택은 추가 조회 없이 월 캐시에서 투영한다.
+- 비회원 질문은 기존 디자인 문구를 유지한다. 회원은 날짜 선택 시 weekly API를 조회하고 해당 날짜의 `questionKo`/`questionEn`을 월 캐시에 병합한다. weekly 응답에서 질문이 누락되어도 비회원 문구로 대체하지 않는다. 답변 입력·기록·수정 상태는 `CalendarViewModel`이 소유한다.
 - Calendar의 복사/공유는 기존 로컬 동작을 유지한다. 좋아요/이미지 버튼의 기존 선택 날짜 Home 이동 계약도 이번 리뉴얼 API 연결에서 바꾸지 않는다.
 - Figma의 합성 달력에는 `2025. 03`과 실제 달력 산술이 맞지 않고 기본 프레임에 17 중복/21 누락이 있다. Production은 실제 날짜 산술을 유지하고, 정확한 Figma 대조용 process-local fixture만 명시적 visual cell map을 사용한다.
 - Figma는 합성 날짜의 요일도 잘못 표시한다(3월 22일 `(금)`, 3월 21일 `(목)`). Production과 fixture는 실제 `LocalDate` 요일인 `(토)`/`(금)`을 유지하며 거짓 요일 data를 주입하지 않는다.

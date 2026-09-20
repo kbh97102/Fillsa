@@ -13,8 +13,9 @@
 각 QA 기록은 다음 섹션을 포함한다.
 
 - `Reference`: Figma URL, 대상 프레임/노드, 기준 이미지, Android 런타임 대상
+- `Preview evidence`: Android CLI 명령, 대상 `@Preview`, 크기·테마·locale·상태, 프로젝트에 보존한 렌더 이미지
 - `Component inventory`: 컴포넌트·Figma 노드·대상 상태·최종 결과
 - `Validation rounds`: 라운드별 차이, 수정, 결과
 - `Final assembled-screen result`: 최종 런타임 캡처, 통과 또는 5회 후 차단 결과, 남은 차이
 
-기준 이미지와 런타임 캡처는 재검증 가능한 프로젝트 경로 또는 유지되는 외부 산출물 경로를 기록한다.
+기준 이미지, Preview 렌더, 런타임 캡처는 재검증 가능한 프로젝트 경로 또는 유지되는 외부 산출물 경로를 기록한다. Preview 렌더는 컴포넌트 중간 증거이며, 최종 `Pass`에는 전체 조립 런타임 캡처가 필요하다.

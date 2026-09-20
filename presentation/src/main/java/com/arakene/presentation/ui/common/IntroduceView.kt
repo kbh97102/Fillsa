@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.common
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -7,13 +8,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,9 +46,10 @@ import kotlinx.coroutines.launch
 fun IntroduceView(
     navigate: Navigate,
     modifier: Modifier = Modifier,
+    initialPage: Int = 0,
 ) {
 
-    val pagerState = rememberPagerState { 3 }
+    val pagerState = rememberPagerState(initialPage = initialPage) { 3 }
 
     val isLastPage by remember(pagerState.currentPage) {
         mutableStateOf(pagerState.currentPage == pagerState.pageCount - 1)
@@ -53,64 +59,80 @@ fun IntroduceView(
         navigate(Screens.Home())
     }
 
-    Column(
+    Box(
         modifier = modifier
             .fillMaxSize()
             .background(getBackgroundColor())
     ) {
+        Column(modifier = Modifier.fillMaxWidth()) {
+            Spacer(modifier = Modifier.height(6.dp))
 
-        // Skip
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 9.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Image(
-                painter = painterResource(R.drawable.icn_arrow),
-                contentDescription = null,
+            // Skip
+            Row(
                 modifier = Modifier
-                    .padding(start = 15.dp)
-                    .noEffectClickable {
-                        navigate(Screens.Home())
-                    },
-                colorFilter = ColorFilter.tint(color = FillsaTheme.colorScheme.onBackground1)
-            )
+                    .fillMaxWidth()
+                    .height(50.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.icn_arrow),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .padding(start = 15.dp)
+                        .size(32.dp)
+                        .noEffectClickable {
+                            navigate(Screens.Home())
+                        },
+                    colorFilter = ColorFilter.tint(color = FillsaTheme.colorScheme.onBackground1)
+                )
 
-            Text(
-                stringResource(R.string.skip),
-                style = FillsaTheme.typography.body3,
-                color = FillsaTheme.colorScheme.onBackground1,
-                textDecoration = TextDecoration.Underline,
-                modifier = Modifier
-                    .padding(end = 20.dp)
-                    .noEffectClickable {
-                        navigate(Screens.Home())
-                    }
-            )
+                Text(
+                    stringResource(R.string.skip),
+                    style = FillsaTheme.typography.body3,
+                    color = FillsaTheme.colorScheme.onBackground1,
+                    textDecoration = TextDecoration.Underline,
+                    modifier = Modifier
+                        .padding(end = 20.dp)
+                        .noEffectClickable {
+                            navigate(Screens.Home())
+                        }
+                )
+            }
+
+            Column(modifier = Modifier.padding(horizontal = 20.dp)) {
+                // Indicator
+                IntroduceIndicatorSection(
+                    currentPage = pagerState.currentPage
+                )
+
+                Spacer(
+                    modifier = Modifier.height(
+                        if (pagerState.currentPage == 1) 40.dp else 35.dp
+                    )
+                )
+
+                // Images
+                IndicatorImageSection(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(430.dp),
+                    pagerState = pagerState
+                )
+            }
         }
 
-        Column(modifier = Modifier.padding(horizontal = 20.dp)) {
-            // Indicator
-            IntroduceIndicatorSection(
-                currentPage = pagerState.currentPage
-            )
-
-            // Images
-            IndicatorImageSection(
-                modifier = Modifier
-                    .weight(1f),
-                pagerState = pagerState
-            )
-
-            // Button
-            OkButton(isLastPage = isLastPage, navigate = navigate, scrollTo = {
+        // Button
+        OkButton(
+            isLastPage = isLastPage,
+            navigate = navigate,
+            scrollTo = {
                 pagerState.animateScrollToPage(pagerState.currentPage + 1)
-            })
-        }
-
-
+            },
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(horizontal = 20.dp)
+        )
     }
 
 }
@@ -129,7 +151,8 @@ private fun OkButton(
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .padding(bottom = 30.dp)
+            .padding(bottom = 5.dp)
+            .height(50.dp)
             .background(
                 color = when (darkMode) {
                     true -> if (isLastPage) {
@@ -146,7 +169,6 @@ private fun OkButton(
                 },
                 shape = MaterialTheme.shapes.small
             )
-            .padding(vertical = 15.dp)
             .noEffectClickable {
                 if (isLastPage) {
                     navigate(Screens.Home())
@@ -171,10 +193,53 @@ private fun OkButton(
     }
 }
 
-@Preview
+@Preview(
+    name = "Onboarding guide 1 dark",
+    widthDp = 360,
+    heightDp = 672,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    locale = "ko",
+    fontScale = 1f
+)
 @Composable
-private fun Preview() {
-    IntroduceView(
-        navigate = {}
-    )
+private fun IntroducePage1DarkPreview() {
+    IntroduceDarkPreview(page = 0)
+}
+
+@Preview(
+    name = "Onboarding guide 2 dark",
+    widthDp = 360,
+    heightDp = 672,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    locale = "ko",
+    fontScale = 1f
+)
+@Composable
+private fun IntroducePage2DarkPreview() {
+    IntroduceDarkPreview(page = 1)
+}
+
+@Preview(
+    name = "Onboarding guide 3 dark",
+    widthDp = 360,
+    heightDp = 672,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    locale = "ko",
+    fontScale = 1f
+)
+@Composable
+private fun IntroducePage3DarkPreview() {
+    IntroduceDarkPreview(page = 2)
+}
+
+@Composable
+private fun IntroduceDarkPreview(page: Int) {
+    FillsaTheme(darkTheme = true) {
+        CompositionLocalProvider(IsDarkMode provides true) {
+            IntroduceView(
+                navigate = {},
+                initialPage = page
+            )
+        }
+    }
 }
