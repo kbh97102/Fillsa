@@ -54,6 +54,7 @@
 | Week strip | `3204:2435` | 선택일을 오른쪽 끝으로 둔 7일과 실제 완료 필사 marker | `HomeDateWeekSection` | 부분 통과(runtime selected); completion data Blocked |
 | Locale toggle | `2929:19887` (light Home `2929:13611`, dark Home `3039:26574`) | 텍스트와 패딩으로 측정되는 한/A 선택 토글; 선택 배경과 텍스트 정렬 | shared `LocaleSwitch` in `FigmaHomeContent` | 컴포넌트 통과(physical dark runtime, 한/영 상태); 전체 Home 수용 상태는 기존 Blocked 유지 |
 | Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
+| Quote loading | 사용자 승인 예외(Figma/MCP 없음) | 명언 요청 중 카드 배경 중앙에 기본 `CircularProgressIndicator` 표시 | `HomeQuoteCard` / `HomeViewModel.quoteLoadState` | light/dark Preview 통과; 사용자 런타임 확인 예정 |
 | Quote action row | `2929:15503` | copy/share/like/image actions with current like visual state | `HomeQuoteActionRow` | 부분 통과(빌드) |
 | Prompt response | `3087:29376`, `3139:1399`, `3087:29378`, `3110:34293` | 200-grapheme 입력, 회원 answer POST 성공 후 snackbar·done/edit 상태, 비회원 session 기록; 명언 필사 route와 분리 | `HomePromptAnswerSection` / `HomeViewModel` | 부분 통과(exact done/snackbar 통과; focus full keyboard 미확보); 회원 API binding은 별도 연동 범위 |
 | Global bottom navigation/ad | `3087:29254`; Calendar instance `3087:29220`; ad reference `2929:29249` is unavailable | Figma 3 × 120dp tabs; Android shared navigation도 Home/Calendar/My page 3탭 사용. 광고는 live surface 유지 | scaffold / `BottomNavigationBar` | navigation 통과; 광고 정책은 별도 범위 |
@@ -80,3 +81,9 @@
 `3087:29254`는 Home/Calendar/My page 3개 탭(각 120 × 60dp, 32dp icon), 선택 `#5C65FF`, 비선택 `#212121`을 정의합니다. Android `BottomNavigationBar`도 2026-09-16부터 같은 3등분 구조와 기존 32dp local vector를 사용합니다. QuoteList destination은 Calendar 집계에서 진입하는 하위 route로 남지만 전역 하단 bar와 표시 대상 route에서는 제외합니다. 광고는 기존 live `SingleLineAdSection` 정책을 유지하며 이번 navigation 변경 범위에 포함하지 않습니다.
 
 Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#616161` border/divider(주 divider 55%), white primary text, `#E0E0E0` action label, `#9E9E9E` muted text를 `HomeColorPalette`로 해석합니다. calendar와 selected/completed weekday, `#5C65FF` CTA는 Figma 상태대로 유지합니다. 정확한 dark SVG는 `presentation/src/main/assets/figma/home-night/`의 logo/profile/wave/search/copy/share/like/camera 8종이며 SVG가 density-independent이므로 Figma의 60/24/16/320dp Compose 크기로 렌더합니다. calendar/write/badge/streak SVG는 Figma dark bytes가 light와 동일해 기존 `assets/figma/home/`을 재사용합니다.
+
+### 2026-09-20 명언 로딩 표시
+
+- 사용자가 이 상태에 한해 Figma/MCP 없이 기본 원형 로딩 표시를 사용하도록 승인했다.
+- `HomeViewModel.quoteLoadState == Loading`인 동안 명언 카드 배경은 유지하고 중앙에 Compose 기본 `CircularProgressIndicator`를 표시한다.
+- QA 기록: [2026-09-20 Home quote loading QA](../design-qa/2026-09-20-android-home-quote-loading-qa.md).

@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -27,6 +28,7 @@ import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -54,6 +56,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import coil3.compose.AsyncImage
@@ -209,6 +212,7 @@ internal fun FigmaHomeContent(
     date: LocalDate,
     quote: String,
     author: String,
+    isQuoteLoading: Boolean,
     selectedLocale: LocaleType,
     isLike: Boolean,
     backgroundImageUrl: String,
@@ -311,6 +315,7 @@ internal fun FigmaHomeContent(
                 HomeQuoteCard(
                     quote = quote,
                     author = author,
+                    isLoading = isQuoteLoading,
                     canGoNext = canGoNext,
                     onQuote = onQuote,
                     onAuthor = onAuthor,
@@ -560,6 +565,7 @@ private fun HomeWeekStrip(
 private fun HomeQuoteCard(
     quote: String,
     author: String,
+    isLoading: Boolean,
     canGoNext: Boolean,
     onQuote: () -> Unit,
     onAuthor: () -> Unit,
@@ -603,36 +609,82 @@ private fun HomeQuoteCard(
             contentScale = ContentScale.FillBounds,
             darkMode = darkMode,
         )
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(start = 10.dp, top = 25.dp, end = 10.dp, bottom = 13.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Text(
-                text = quote,
-                style = FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall),
-                color = palette.primaryText,
-                textAlign = TextAlign.Center,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.fillMaxWidth(),
+        if (isLoading) {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+                color = HomePrimary,
             )
-            Spacer(Modifier.weight(1f))
-            Row(
-                modifier = Modifier.noEffectClickable(click = onAuthor),
-                verticalAlignment = Alignment.CenterVertically,
+        } else {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(start = 10.dp, top = 25.dp, end = 10.dp, bottom = 13.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    author,
-                    style = FillsaTheme.typography.body4,
+                    text = quote,
+                    style = FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall),
                     color = palette.primaryText,
-                    textDecoration = TextDecoration.Underline,
+                    textAlign = TextAlign.Center,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.fillMaxWidth(),
                 )
-                FigmaAsset("home_search.svg", Modifier.padding(start = 2.dp).size(16.dp), darkMode = darkMode)
+                Spacer(Modifier.weight(1f))
+                Row(
+                    modifier = Modifier.noEffectClickable(click = onAuthor),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Text(
+                        author,
+                        style = FillsaTheme.typography.body4,
+                        color = palette.primaryText,
+                        textDecoration = TextDecoration.Underline,
+                    )
+                    FigmaAsset("home_search.svg", Modifier.padding(start = 2.dp).size(16.dp), darkMode = darkMode)
+                }
             }
         }
     }
+}
+
+@Preview(name = "Home quote loading light", widthDp = 320, heightDp = 150, locale = "ko", fontScale = 1f)
+@Composable
+private fun HomeQuoteLoadingLightPreview() {
+    FillsaTheme {
+        HomeQuoteLoadingPreview(darkMode = false)
+    }
+}
+
+@Preview(
+    name = "Home quote loading dark",
+    widthDp = 320,
+    heightDp = 150,
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    locale = "ko",
+    fontScale = 1f,
+)
+@Composable
+private fun HomeQuoteLoadingDarkPreview() {
+    FillsaTheme(darkTheme = true) {
+        HomeQuoteLoadingPreview(darkMode = true)
+    }
+}
+
+@Composable
+private fun HomeQuoteLoadingPreview(darkMode: Boolean) {
+    HomeQuoteCard(
+        quote = "",
+        author = "",
+        isLoading = true,
+        canGoNext = false,
+        onQuote = {},
+        onAuthor = {},
+        onPreviousQuote = {},
+        onNextQuote = {},
+        palette = homeColorPalette(darkMode),
+        darkMode = darkMode,
+    )
 }
 
 @Composable

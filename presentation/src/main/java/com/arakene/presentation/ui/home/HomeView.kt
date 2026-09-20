@@ -320,6 +320,7 @@ fun HomeView(
         date = date,
         quote = quote,
         author = author,
+        isQuoteLoading = homeQaFixture == null && viewModel.quoteLoadState == HomeQuoteLoadState.Loading,
         selectedLocale = selectedLocale,
         isLike = isLike,
         backgroundImageUrl = displayedBackgroundImageUrl,
