@@ -51,7 +51,7 @@
 |---|---|---|---|---|
 | Header | `2929:15476` | Figma logo, current streak, profile navigation | `FigmaHomeContent` | 부분 통과(exact-size positive default, genuine 0 warning/tooltip); unknown/null은 tooltip 미노출 |
 | Month calendar | `2929:15667`, `2929:16221`, `3139:1501` | `YYYY.MM` selector와 inline month popup, 월/연도 탐색 및 날짜 선택 | `HomeDateWeekSection` / `HomeInlineCalendar` | 통과(exact-size runtime open/select-close) |
-| Week strip | `3204:2435` | 선택일을 오른쪽 끝으로 둔 7일과 실제 완료 필사 marker | `HomeDateWeekSection` | 부분 통과(runtime selected); completion data Blocked |
+| Week strip | `3204:2435` | 월 카드와 9dp 간격, 선택일을 오른쪽 끝으로 둔 7일과 실제 완료 필사 marker | `HomeDateWeekSection` | 간격 Preview 통과; completion data Blocked |
 | Locale toggle | `2929:19887` (light Home `2929:13611`, dark Home `3039:26574`) | 텍스트와 패딩으로 측정되는 한/A 선택 토글; 선택 배경과 텍스트 정렬 | shared `LocaleSwitch` in `FigmaHomeContent` | 컴포넌트 통과(physical dark runtime, 한/영 상태); 전체 Home 수용 상태는 기존 Blocked 유지 |
 | Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
 | Quote loading | 사용자 승인 예외(Figma/MCP 없음) | 명언 요청 중 카드 배경 중앙에 기본 `CircularProgressIndicator` 표시 | `HomeQuoteCard` / `HomeViewModel.quoteLoadState` | light/dark Preview 통과; 사용자 런타임 확인 예정 |
@@ -87,3 +87,9 @@ Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#61616
 - 사용자가 이 상태에 한해 Figma/MCP 없이 기본 원형 로딩 표시를 사용하도록 승인했다.
 - `HomeViewModel.quoteLoadState == Loading`인 동안 명언 카드 배경은 유지하고 중앙에 Compose 기본 `CircularProgressIndicator`를 표시한다.
 - QA 기록: [2026-09-20 Home quote loading QA](../design-qa/2026-09-20-android-home-quote-loading-qa.md).
+
+### 2026-09-20 상단 날짜 간격 수정
+
+- Figma Home `2929:13556`에서 월 카드 `2929:15667`은 x=20..93, 주간 날짜 `3204:2435`는 x=102부터 시작한다.
+- 월 카드와 주간 날짜 사이의 수평 간격을 기존 5dp에서 Figma 기준 9dp로 수정한다. 주간 날짜는 남은 폭에 Figma 좌우 끝 좌표대로 분배한다.
+- QA 기록: [2026-09-20 Home date spacing QA](../design-qa/2026-09-20-android-home-date-spacing-qa.md).

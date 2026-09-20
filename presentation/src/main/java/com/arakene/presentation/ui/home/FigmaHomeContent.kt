@@ -478,10 +478,15 @@ private fun HomeDateWeekSection(
             .fillMaxWidth()
             .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(5.dp),
     ) {
         HomeMonthCalendar(date = date, isOpen = isCalendarOpen, onCalendar = onCalendar)
-        HomeWeekStrip(days = weekDays, onWeekDaySelected = onWeekDaySelected, palette = palette)
+        Spacer(Modifier.width(9.dp))
+        HomeWeekStrip(
+            days = weekDays,
+            onWeekDaySelected = onWeekDaySelected,
+            palette = palette,
+            modifier = Modifier.weight(1f),
+        )
     }
 }
 
@@ -512,8 +517,12 @@ private fun HomeWeekStrip(
     days: List<HomeWeekDayState>,
     onWeekDaySelected: (LocalDate) -> Unit,
     palette: HomeColorPalette,
+    modifier: Modifier = Modifier,
 ) {
-    Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
+    Row(
+        modifier = modifier,
+        horizontalArrangement = Arrangement.SpaceBetween,
+    ) {
         days.forEach { day ->
             val presentation = homeWeekDayPresentation(day)
             Box(
@@ -558,6 +567,28 @@ private fun HomeWeekStrip(
                 }
             }
         }
+    }
+}
+
+@Preview(name = "Home date spacing light", widthDp = 360, heightDp = 50, locale = "ko", fontScale = 1f)
+@Composable
+private fun HomeDateWeekSpacingPreview() {
+    val selectedDate = LocalDate.of(2026, 8, 16)
+    FillsaTheme {
+        HomeDateWeekSection(
+            date = selectedDate,
+            weekDays = (10..16).map { day ->
+                HomeWeekDayState(
+                    date = LocalDate.of(2026, 8, day),
+                    isSelected = day == 16,
+                    isCompleted = day == 10 || day == 11,
+                )
+            },
+            isCalendarOpen = false,
+            onCalendar = {},
+            onWeekDaySelected = {},
+            palette = homeColorPalette(darkMode = false),
+        )
     }
 }
 
