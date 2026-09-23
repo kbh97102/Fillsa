@@ -53,11 +53,11 @@ import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.HomeRuntimeQaFixture
+import com.arakene.presentation.util.GlobalLoadingState
 import com.arakene.presentation.util.logError
 import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -202,9 +202,7 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
-            val globalLoadingState = remember { MutableStateFlow(false) }
-
-            val loadingState by globalLoadingState.collectAsState()
+            val globalLoadingState = remember { GlobalLoadingState() }
 
             val dialogData = remember {
                 DialogDataHolder()
@@ -297,7 +295,7 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         CircleLoadingSpinner(
-                            isLoading = loadingState
+                            isLoading = globalLoadingState.isLoading
                         )
                     }
                 }

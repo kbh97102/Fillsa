@@ -14,6 +14,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.domain.responses.MemberQuotesResponse
@@ -21,6 +22,7 @@ import com.arakene.presentation.ui.home.HomeTopSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.Contract
+import com.arakene.presentation.util.BindGlobalLoading
 import com.arakene.presentation.util.HandlePagingError
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.Navigate
@@ -38,6 +40,8 @@ fun QuoteListView(
     val state by viewModel.state.collectAsStateWithLifecycle()
 
     val paging = viewModel.quoteListFlow.collectAsLazyPagingItems()
+
+    BindGlobalLoading(paging.loadState.refresh is LoadState.Loading)
 
     HandlePagingError(
         paging = paging,

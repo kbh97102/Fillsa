@@ -167,7 +167,7 @@ class CalendarViewModel @Inject constructor(
             val requestDate = yearMonth.format(dateFormatter)
             if (token.context.isLoggedIn) {
                 val answerRevision = answerCoordinator.revision
-                val response = getQuotesMonthlyUseCase(requestDate)
+                val response = withLoading { getQuotesMonthlyUseCase(requestDate) }
                 observeCurrentAuth()
                 if (!authCoordinator.accepts(token) || requestId != loadRevision) return@launch
                 getResponse(response)?.let {
@@ -183,7 +183,7 @@ class CalendarViewModel @Inject constructor(
     private suspend fun getQuotesMonthlyNonMember(yearMonth: String, requestId: Long, token: HomeAuthBoundRequestToken) {
             val localData = getLocalQuoteListUseCase()
             val localStreakData = getTodayLocalStreakInfoUseCase()
-            val response = getMonthlyQuotesNonMemberUseCase(yearMonth)
+            val response = withLoading { getMonthlyQuotesNonMemberUseCase(yearMonth) }
             observeCurrentAuth()
             if (!authCoordinator.accepts(token) || requestId != loadRevision) return
             getResponse(response)?.let { quotes ->
@@ -297,7 +297,7 @@ class CalendarViewModel @Inject constructor(
             val result = saveQuoteAnswerUseCase(request.target.dailyQuoteSeq, start.answer.draft)
             observeCurrentAuth()
             if (!authCoordinator.accepts(token)) return@launch
-            val response = getResponse(result, useLoading = false)
+            val response = getResponse(result)
             val post = answerCoordinator.completePost(monthState(), authCoordinator, request, response)
             answerCoordinator = post.coordinator
             applyMonthState(post.state)

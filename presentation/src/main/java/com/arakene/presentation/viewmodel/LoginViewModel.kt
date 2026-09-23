@@ -272,7 +272,8 @@ class LoginViewModel @Inject constructor(
             syncData = syncData
         )
 
-        getResponse(loginUseCase(request))?.let { data ->
+        val loginResult = withLoading { loginUseCase(request) }
+        getResponse(loginResult)?.let { data ->
             setAccessTokenUseCase(data.accessToken)
             setRefreshTokenUseCase(data.refreshToken)
             isProcessing.value = true

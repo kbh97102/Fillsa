@@ -15,10 +15,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
@@ -59,7 +58,6 @@ import com.arakene.presentation.R
 import com.arakene.presentation.model.HomeMemberQuoteWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -74,8 +72,24 @@ import java.time.format.DateTimeFormatter
 typealias Navigate = (Screens) -> Unit
 
 
-val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
+val LocalLoadingState = compositionLocalOf<GlobalLoadingState> {
     error("No loading state provided")
+}
+
+@Composable
+fun BindGlobalLoading(isLoading: Boolean) {
+    val globalLoadingState = LocalLoadingState.current
+    val owner = remember { Any() }
+
+    LaunchedEffect(isLoading) {
+        globalLoadingState.set(owner, isLoading)
+    }
+
+    DisposableEffect(owner) {
+        onDispose {
+            globalLoadingState.set(owner, false)
+        }
+    }
 }
 
 @Composable
@@ -116,16 +130,7 @@ fun getDayOfWeekEnglish(dateStr: String): String {
 
 @Composable
 inline fun <reified VM : BaseViewModel> rememberBaseViewModel(): VM {
-    val viewModel = hiltViewModel<VM>()
-    val loadingState = LocalLoadingState.current
-
-    val isLoading by viewModel.isLoading.collectAsState()
-
-    LaunchedEffect(isLoading) {
-        loadingState.value = isLoading
-    }
-
-    return viewModel
+    return hiltViewModel<VM>()
 }
 
 fun DayOfWeek.toKoreanShort(): String = when (this) {

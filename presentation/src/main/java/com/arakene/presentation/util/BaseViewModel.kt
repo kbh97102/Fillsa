@@ -7,7 +7,6 @@ import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.CommonError
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -37,9 +36,7 @@ abstract class BaseViewModel : ViewModel() {
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
 
-    fun setLoading(loading: Boolean) {
-        _isLoading.value = loading
-    }
+    private var activeLoadingRequests = 0
 
     init {
         viewModelScope.launch {
@@ -92,28 +89,28 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
-    protected suspend fun <T> getResponse(response: ApiResult<T>, useLoading: Boolean = true): T? {
-        isProcessing.value = true
-        setLoading(true)
-        viewModelScope.launch {
-            delay(250)
-            // TODO: 검증 필요
-            if (isProcessing.value) {
-                if (useLoading) {
-                    setLoading(true)
-                }
-            }
+    protected suspend fun <T> withLoading(block: suspend () -> T): T {
+        activeLoadingRequests += 1
+        _isLoading.value = true
+
+        return try {
+            block()
+        } finally {
+            activeLoadingRequests = (activeLoadingRequests - 1).coerceAtLeast(0)
+            _isLoading.value = activeLoadingRequests > 0
         }
+    }
+
+    protected suspend fun <T> getResponse(response: ApiResult<T>): T? {
+        isProcessing.value = true
         return when (response) {
             is ApiResult.Success -> {
                 isProcessing.value = false
-                setLoading(false)
                 response.data
             }
 
             is ApiResult.Fail -> {
                 isProcessing.value = false
-                setLoading(false)
                 _error.emit(response.error)
                 null
             }

@@ -349,7 +349,7 @@ class HomeViewModel @Inject constructor(
         launchAuthBound(token) save@{
             val apiResult = saveQuoteAnswerUseCase(request.target.dailyQuoteSeq, request.answer.draft)
             if (!authBoundCoordinator.accepts(token)) return@save
-            val response = getResponse(apiResult, useLoading = false)
+            val response = getResponse(apiResult)
             if (!authBoundCoordinator.accepts(token)) return@save
             val result = memberAnswerCoordinator.completePost(memberOrchestration, authBoundCoordinator, request, response)
             memberAnswerCoordinator = result.coordinator
@@ -435,7 +435,7 @@ class HomeViewModel @Inject constructor(
                 postUploadImageUseCase(
                     dailyQuoteSeq = mutation.second.dailyQuoteSeq,
                     imageFile = file ?: return@upload
-                ), useLoading = false
+                )
             )?.let {
                 if (!authBoundCoordinator.accepts(mutation.first)) return@let
                 if (mutation.first.context.isLoggedIn) {
@@ -481,8 +481,7 @@ class HomeViewModel @Inject constructor(
                                     command = HomeAuthBoundCommand.DeleteImage(target.dailyQuoteSeq),
                                 ) ?: return@launchAuthBound
                                 getResponse(
-                                    deleteUploadImageUseCase(command.dailyQuoteSeq),
-                                    useLoading = false
+                                    deleteUploadImageUseCase(command.dailyQuoteSeq)
                                 )?.let {
                                     if (!authBoundCoordinator.accepts(requestToken)) return@let
                                     if (requestToken.context.isLoggedIn) {
@@ -765,7 +764,7 @@ class HomeViewModel @Inject constructor(
         val requestId = memberOrchestration.latestRequestId
         memberWindowRequestJob?.cancel()
         memberWindowRequestJob = launchAuthBound(requestToken) request@{
-            val apiResult = getMemberWeeklyQuotesUseCase(endDate)
+            val apiResult = withLoading { getMemberWeeklyQuotesUseCase(endDate) }
             if (!authBoundCoordinator.accepts(requestToken)) return@request
             if (!shouldAcceptHomeMemberQuoteResponse(requestId, memberOrchestration.latestRequestId)) return@request
             val response = getResponse(apiResult)
@@ -898,7 +897,8 @@ class HomeViewModel @Inject constructor(
         val localList = getLocalQuoteListUseCase()
 
 
-        val quote = getResponse(getDailyQuoteNoTokenUseCase(date))
+        val quoteResult = withLoading { getDailyQuoteNoTokenUseCase(date) }
+        val quote = getResponse(quoteResult)
         if (!authBoundCoordinator.accepts(requestToken)) return@guestQuote
         if (requestedQuoteDate != requestedDate) return@guestQuote
 
