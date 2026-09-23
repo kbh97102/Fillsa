@@ -10,8 +10,6 @@ import java.io.File
 
 interface HomeRepository {
 
-    suspend fun testErrorCode(code: Int): ApiResult<Unit>
-
     suspend fun getDailyQuoteNoToken(quoteDate: String): ApiResult<DailyQuotaNoToken>
 
     suspend fun getDailyQuote(quoteDate: String): ApiResult<DailyQuoteDto>

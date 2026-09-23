@@ -49,7 +49,6 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalDialogDataHolder
-import com.arakene.presentation.util.LoginEffect
 import com.arakene.presentation.util.LoginErrorException
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.action.LoginAction
@@ -83,10 +82,6 @@ fun LoginView(
 
     val lifeCycle = LocalLifecycleOwner.current
 
-    var testClickCount by remember {
-        mutableStateOf(0)
-    }
-
     HandleViewEffect(
         viewModel.effect,
         lifeCycle
@@ -100,9 +95,6 @@ fun LoginView(
                 uriHandler.openUri(effect.uri)
             }
 
-            is LoginEffect.Move -> {
-                navigate(Screens.Home())
-            }
         }
     }
 
@@ -155,16 +147,7 @@ fun LoginView(
 
         Image(
             modifier = Modifier
-                .padding(top = 154.dp)
-                .noEffectClickable {
-
-                    testClickCount++
-
-                    if (testClickCount >= 5) {
-                        viewModel.testLoginMethod()
-                    }
-
-                },
+                .padding(top = 154.dp),
             painter = if (darkMode) {
                 painterResource(R.drawable.icn_login_logo_dark)
             } else {
@@ -431,5 +414,4 @@ private fun LoginButtonPreview() {
         onClick = {}
     )
 }
-
 
