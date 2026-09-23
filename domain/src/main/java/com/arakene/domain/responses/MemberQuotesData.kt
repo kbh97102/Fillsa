@@ -25,7 +25,31 @@ data class MemberQuotesData(
     val likeYnString: String,     // "Y" 또는 "N"
 
     @SerializedName("todayCompleted")
-    val todayCompleted: Boolean
+    val todayCompleted: Boolean,
+
+    @SerializedName("engQuote")
+    val engQuote: String? = null,
+
+    @SerializedName("engAuthor")
+    val engAuthor: String? = null,
+
+    @SerializedName("authorUrl")
+    val authorUrl: String? = null,
+
+    @SerializedName("questionKo")
+    val questionKo: String? = null,
+
+    @SerializedName("questionEn")
+    val questionEn: String? = null,
+
+    @SerializedName("answer")
+    val answer: String? = null,
+
+    @SerializedName("answeredAt")
+    val answeredAt: String? = null,
+
+    @SerializedName("imagePath")
+    val imagePath: String? = null
 ) {
     val likeYn get() = YN.getYN(likeYnString)
 

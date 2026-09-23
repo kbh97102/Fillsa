@@ -13,12 +13,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.common.HeaderSection
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.BindGlobalLoading
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.MyPageScreens
@@ -35,6 +37,8 @@ fun NoticeView(
 ) {
 
     val data = viewModel.getNotice.collectAsLazyPagingItems()
+
+    BindGlobalLoading(data.loadState.refresh is LoadState.Loading)
 
     val lifeCycle = LocalLifecycleOwner.current
 

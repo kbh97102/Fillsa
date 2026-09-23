@@ -18,12 +18,12 @@ val secretsFile = Properties().apply {
 
 android {
     namespace = "com.arakene.fillsa"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.arakene.fillsa"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
 
         manifestPlaceholders["KAKAO_NATIVE_APP_KEY"] = secretsFile["KAKAO_KEY"].toString()
         manifestPlaceholders["ADS_ID"] = secretsFile["ADS_ID"].toString()

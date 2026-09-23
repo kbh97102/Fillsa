@@ -9,7 +9,8 @@ import com.arakene.domain.usecase.common.GetDarkModeTypeUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetUserNameUseCase
 import com.arakene.domain.usecase.common.LogoutUseCase
-import com.arakene.domain.usecase.common.SetAlarmUsageUseCase
+import com.arakene.domain.usecase.common.SetDailyNotificationEnabledUseCase
+import com.arakene.domain.usecase.common.RestoreDailyNotificationScheduleUseCase
 import com.arakene.domain.usecase.common.SetDarkModeTypeUseCase
 import com.arakene.domain.usecase.home.GetImageUriUseCase
 import com.arakene.domain.util.DarkModeType
@@ -19,8 +20,6 @@ import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.action.MyPageAction
 import com.arakene.presentation.util.Screens
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,8 +30,9 @@ class MyPageViewModel @Inject constructor(
     private val deleteResignUseCase: DeleteResignUseCase,
     private val logoutUseCase: LogoutUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
-    private val setAlarmUsageUseCase: SetAlarmUsageUseCase,
+    private val setDailyNotificationEnabledUseCase: SetDailyNotificationEnabledUseCase,
     private val getAlarmUsageUseCase: GetAlarmUsageUseCase,
+    private val restoreDailyNotificationScheduleUseCase: RestoreDailyNotificationScheduleUseCase,
     private val getUserNameUseCase: GetUserNameUseCase,
     private val getImageUriUseCase: GetImageUriUseCase,
     private val setDarkModeTypeUseCase: SetDarkModeTypeUseCase,
@@ -85,14 +85,12 @@ class MyPageViewModel @Inject constructor(
     }
 
     fun checkAlarmState() = viewModelScope.launch {
-        getAlarmUsage.distinctUntilChanged().collectLatest {
-            // TODO: 알림 수용 여부
-        }
+        restoreDailyNotificationScheduleUseCase()
     }
 
     private fun updateAlarmUsage(usage: Boolean) {
         viewModelScope.launch {
-            setAlarmUsageUseCase(usage)
+            setDailyNotificationEnabledUseCase(usage)
         }
     }
 

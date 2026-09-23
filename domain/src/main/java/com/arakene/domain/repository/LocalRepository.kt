@@ -9,7 +9,7 @@ import com.arakene.domain.util.DarkModeType
 import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 
-interface LocalRepository {
+interface LocalRepository : DailyNotificationPreferenceRepository {
 
     fun getLocalQuoteForWidget(): Flow<DailyQuoteDto?>
     suspend fun setLocalQuoteForWidget(data: DailyQuotaNoToken)
@@ -25,9 +25,7 @@ interface LocalRepository {
     fun getLoginStatus(): Flow<Boolean>
     suspend fun isFirstOpen(): Flow<Boolean>
     suspend fun setFirstOpen(value: Boolean)
-    suspend fun setAlarm(value: Boolean)
     suspend fun setName(value: String)
-    fun getAlarm(): Flow<Boolean>
     fun getName(): Flow<String>
     fun isAlarmPermissionRequestedBefore(): Flow<Boolean>
     suspend fun setAlarmPermissionRequestedBefore(requested: Boolean)

@@ -2,12 +2,16 @@ package com.arakene.data.network
 
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.MemoRequest
+import com.arakene.domain.requests.AnswerRequest
 import com.arakene.domain.requests.TypingQuoteRequest
+import com.arakene.domain.responses.AnswerResponse
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.MemberMonthlyQuoteResponse
+import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberQuoteImageResponse
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.MemberTypingQuoteResponse
+import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
 import com.arakene.domain.responses.WritingStatusDto
 import okhttp3.MultipartBody
@@ -27,6 +31,22 @@ interface FillsaApi {
     suspend fun getDailyQuote(
         @Query("quoteDate") quoteDate: String
     ): Response<DailyQuoteDto>
+
+    @GET(ApiEndPoint.GET_MEMBER_WEEKLY_QUOTES)
+    suspend fun getWeeklyQuotes(
+        @Query("endDate") endDate: String? = null
+    ): Response<MemberWeeklyQuoteResponse>
+
+    @GET(ApiEndPoint.GET_MEMBER_DAILY_QUOTE_V2)
+    suspend fun getMemberQuoteDay(
+        @Query("quoteDate") quoteDate: String
+    ): Response<MemberQuoteDay>
+
+    @POST(ApiEndPoint.POST_ANSWER)
+    suspend fun postAnswer(
+        @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
+        @Body body: AnswerRequest
+    ): Response<AnswerResponse>
 
     @POST(ApiEndPoint.POST_LIKE)
     suspend fun postLike(

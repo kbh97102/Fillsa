@@ -77,7 +77,6 @@ fun SnackbarContent(
         Text(
             message,
             color = FillsaTheme.colorScheme.onToastMessage1,
-            modifier = Modifier.padding(start = 8.dp),
             style = if (multipleLine) {
                 FillsaTheme.typography.body3
             } else {

@@ -23,6 +23,7 @@ import com.arakene.data.util.TokenProvider
 import com.arakene.domain.repository.AdRepository
 import com.arakene.domain.repository.CalendarRepository
 import com.arakene.domain.repository.CommonRepository
+import com.arakene.domain.repository.DailyNotificationPreferenceRepository
 import com.arakene.domain.repository.HomeRepository
 import com.arakene.domain.repository.ListRepository
 import com.arakene.domain.repository.LocalRepository
@@ -46,6 +47,7 @@ class RepositoryModule {
     }
 
     @Provides
+    @Singleton
     fun provideLocalRepository(
         dataStore: DataStore<Preferences>,
         tokenProvider: TokenProvider,
@@ -55,6 +57,11 @@ class RepositoryModule {
     ): LocalRepository {
         return LocalRepositoryImpl(dataStore, tokenProvider, dao, widgetDao, streakInfoDao)
     }
+
+    @Provides
+    fun provideDailyNotificationPreferenceRepository(
+        localRepository: LocalRepository
+    ): DailyNotificationPreferenceRepository = localRepository
 
     @Provides
     fun provideHomeRepository(api: FillsaApi, noTokenApi: FillsaNoTokenApi): HomeRepository {

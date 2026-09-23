@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.pager.HorizontalPager
@@ -52,6 +53,9 @@ import com.arakene.presentation.util.saveBitmapToCache
 import com.arakene.presentation.util.saveBitmapToGallery
 import com.arakene.presentation.viewmodel.ShareViewModel
 import kotlinx.coroutines.launch
+
+internal fun sharePagerMaxHeight(darkMode: Boolean): androidx.compose.ui.unit.Dp? =
+    481.dp.takeIf { darkMode }
 
 @Composable
 fun ShareView(
@@ -113,8 +117,9 @@ fun ShareView(
                 Modifier
                     .weight(1f)
                     .background(getBackgroundColor()),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                val bottomGap = if (darkMode) 24.dp else 50.dp
 
                 Text(
                     stringResource(R.string.share_title),
@@ -130,11 +135,18 @@ fun ShareView(
                 HorizontalPager(
                     state = state,
                     modifier = Modifier
-                        .weight(1f)
-                        .padding(vertical = 30.dp),
+                        .then(
+                            sharePagerMaxHeight(darkMode)?.let { maxHeight ->
+                                Modifier.weight(1f, fill = false).heightIn(max = maxHeight)
+                            } ?: Modifier.weight(1f)
+                        )
+                        .padding(
+                            top = if (darkMode) 51.dp else 30.dp,
+                            bottom = 30.dp,
+                        ),
                     beyondViewportPageCount = 1,
                     pageSpacing = 20.dp,
-                    contentPadding = PaddingValues(horizontal = 60.dp)
+                    contentPadding = PaddingValues(horizontal = if (darkMode) 45.dp else 60.dp)
                 ) { page ->
 
                     val color by remember(page) {
@@ -204,8 +216,7 @@ fun ShareView(
                         }
 
                     },
-                    modifier = Modifier
-                        .padding(bottom = 50.dp)
+                    modifier = Modifier.padding(bottom = bottomGap)
                 )
             }
         }
@@ -246,7 +257,8 @@ private fun ShareBottomSection(
             onClick = {
                 saveOnClick()
             },
-            textColor = FillsaTheme.colorScheme.onBackground1
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = if (darkMode) colorResource(R.color.gray_600) else Color.White,
         )
 
         ShareButton(
@@ -261,7 +273,8 @@ private fun ShareBottomSection(
             onClick = {
                 copyOnClick()
             },
-            textColor = FillsaTheme.colorScheme.onBackground1
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = if (darkMode) colorResource(R.color.gray_600) else Color.White,
         )
 
         ShareButton(
@@ -270,7 +283,8 @@ private fun ShareBottomSection(
             onClick = {
                 shareOnClick()
             },
-            textColor = FillsaTheme.colorScheme.onBackground1
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = Color.Transparent,
         )
     }
 }
@@ -281,7 +295,8 @@ private fun ShareButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    textColor: Color = colorResource(R.color.white)
+    textColor: Color = colorResource(R.color.white),
+    backgroundColor: Color = Color.White,
 ) {
     Column(
         modifier = modifier
@@ -290,7 +305,7 @@ private fun ShareButton(
         Box(
             modifier = Modifier
                 .size(48.dp)
-                .background(color = Color.White, shape = CircleShape),
+                .background(color = backgroundColor, shape = CircleShape),
             contentAlignment = Alignment.Center
         ) {
 

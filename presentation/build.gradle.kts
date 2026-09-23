@@ -18,11 +18,11 @@ val secretsFile = Properties().apply {
 
 android {
     namespace = "com.arakene.presentation"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
 
         buildConfigField("String", "kakao_key", secretsFile["KAKAO_KEY"].toString())
         buildConfigField("String", "google_key", secretsFile["GOOGLE_KEY"].toString())
@@ -60,6 +60,7 @@ dependencies {
     implementation(libs.androidx.hilt.common)
     implementation(libs.androidx.work.runtime.ktx)
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
@@ -83,6 +84,7 @@ dependencies {
 
     implementation(platform(libs.firebase.bom))
     implementation(libs.coil)
+    implementation(libs.coil.svg)
     implementation(libs.coil.network)
 
     implementation(libs.paging.compose)

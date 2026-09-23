@@ -31,7 +31,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.arakene.domain.util.DarkModeType
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.presentation.ui.BottomNavigationBar
+import com.arakene.presentation.ui.shouldShowMainBottomNavigation
+import com.arakene.presentation.ui.calendar.CalendarRuntimeQaFixture
+import com.arakene.presentation.ui.calendar.CalendarRuntimeQaState
+import com.arakene.presentation.ui.calendar.LocalCalendarRuntimeQaFixture
 import com.arakene.presentation.ui.common.CircleLoadingSpinner
 import com.arakene.presentation.ui.common.DialogSection
 import com.arakene.presentation.ui.common.GeneralDialogs
@@ -40,17 +45,19 @@ import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
+import com.arakene.presentation.util.LocalHomeRuntimeQaFixture
 import com.arakene.presentation.util.LocalLoadingState
 import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.SnackbarContent
 import com.arakene.presentation.util.StreakProvider
+import com.arakene.presentation.util.HomeRuntimeQaFixture
+import com.arakene.presentation.util.GlobalLoadingState
 import com.arakene.presentation.util.logError
 import com.arakene.presentation.viewmodel.MainActivityViewModel
 import com.arakene.presentation.viewmodel.SplashViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.MutableStateFlow
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -64,7 +71,76 @@ class MainActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
-        mainActivityViewModel.initWidgetData()
+        val homeQaStreakOverride = if (BuildConfig.DEBUG && intent.hasExtra(EXTRA_HOME_QA_STREAK)) {
+            intent.getIntExtra(EXTRA_HOME_QA_STREAK, 0)
+        } else {
+            null
+        }
+        val homeQaDarkModeOverride = if (BuildConfig.DEBUG && intent.hasExtra(EXTRA_HOME_QA_DARK_MODE)) {
+            intent.getBooleanExtra(EXTRA_HOME_QA_DARK_MODE, false)
+        } else {
+            null
+        }
+        val homeQaHideAd = BuildConfig.DEBUG && intent.getBooleanExtra(EXTRA_HOME_QA_HIDE_AD, false)
+        val homeQaShowRecordedAnswer = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_RECORDED_ANSWER,
+            false
+        )
+        val homeQaShowSelectedImageState = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_SELECTED_IMAGE,
+            false
+        )
+        val homeQaShowImageDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_IMAGE_DIALOG,
+            false
+        )
+        val homeQaUseLongImageText = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_LONG_IMAGE_TEXT,
+            false
+        )
+        val homeQaShowTemplateDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_TEMPLATE_DIALOG,
+            false
+        )
+        val homeQaShowLoginDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_LOGIN_DIALOG,
+            false
+        )
+        val homeQaShowMultilineDialog = BuildConfig.DEBUG && intent.getBooleanExtra(
+            EXTRA_HOME_QA_MULTILINE_DIALOG,
+            false
+        )
+        val homeQaFixture = if (BuildConfig.DEBUG && intent.getBooleanExtra(EXTRA_HOME_QA_FIXTURE, false)) {
+            HomeRuntimeQaFixture(
+                quote = if (homeQaUseLongImageText) {
+                    "사랑이라는 선물은 억지로 줄 수 없고 받아들여지기를 기다릴 뿐이며, 오래 마음에 담아 둔 문장은 여러 줄로 이어져도 온전히 읽을 수 있어야 합니다. 화면의 글자 크기가 커지거나 문장이 훨씬 길어져도 저자와 이미지 변경, 확인 버튼은 가려지지 않아야 합니다. 기록하고 싶은 생각이 계속 이어지는 날에는 문장이 화면 한 장을 넘을 수 있습니다. 이때에도 글은 스크롤해 끝까지 읽고, 하단 동작은 언제든 선택할 수 있어야 합니다. 아주 긴 인용문이 여러 문단처럼 이어져 중앙 영역의 높이를 완전히 넘더라도 상단의 삭제 동작과 하단의 이미지 변경 및 확인 동작은 고정된 자리를 지켜야 합니다. 사용자는 내용을 천천히 위로 밀어 마지막 문장과 글쓴이까지 확인한 뒤 안전하게 확인 버튼을 누를 수 있어야 합니다."
+                } else {
+                    "사랑이라는 선물은 억지로 줄 수 없고 받아들여지기를 기다릴 뿐이다."
+                },
+                author = if (homeQaUseLongImageText) {
+                    "아주 긴 이름을 가진 글쓴이 존 우든과 함께 기록한 또 다른 공동 저자"
+                } else {
+                    "존우든"
+                },
+                showRecordedAnswer = homeQaShowRecordedAnswer,
+                showSelectedImageState = homeQaShowSelectedImageState,
+                showImageDialog = homeQaShowImageDialog,
+                showTemplateDialog = homeQaShowTemplateDialog,
+                showLoginDialog = homeQaShowLoginDialog,
+                showMultilineDialog = homeQaShowMultilineDialog,
+            )
+        } else {
+            null
+        }
+
+        val calendarQaFixture = if (BuildConfig.DEBUG) {
+            CalendarRuntimeQaState.fromLaunchValue(intent.getStringExtra(EXTRA_CALENDAR_QA_STATE))
+                ?.let(::CalendarRuntimeQaFixture)
+        } else {
+            null
+        }
+
+        if (calendarQaFixture == null) mainActivityViewModel.initWidgetData()
 //        mainActivityViewModel.getPopupGeneral()
 
 
@@ -77,19 +153,24 @@ class MainActivity : ComponentActivity() {
 
             val systemDarkMode = isSystemInDarkTheme()
 
-            val isDarkMode by remember(darkModeType) {
+            val isDarkMode by remember(darkModeType, homeQaDarkModeOverride, calendarQaFixture) {
                 mutableStateOf(
-                    when (darkModeType) {
+                    if (calendarQaFixture != null) false else homeQaDarkModeOverride ?: when (darkModeType) {
                         DarkModeType.DARK -> true
                         DarkModeType.LIGHT -> false
                         DarkModeType.SYSTEM -> systemDarkMode
-                    }
+                    },
                 )
             }
 
             val streakCount by remember {
                 mainActivityViewModel.streakCount
             }
+            val providedStreak = calendarQaFixture?.let {
+                MemberStreakResponse(currentStreak = 100, isTodayWritten = false)
+            } ?: homeQaStreakOverride?.let { streak ->
+                MemberStreakResponse(currentStreak = streak, isTodayWritten = false)
+            } ?: streakCount
 
             LaunchedEffect(streakCount) {
                 logError("업데이트 되는거니? $streakCount")
@@ -109,15 +190,19 @@ class MainActivity : ComponentActivity() {
 
             val currentDestination by navController.currentBackStackEntryAsState()
 
+            val isOnboardingGuide = currentDestination?.destination?.route?.contains(
+                Screens.OnBoardingGuide.routeString
+            ) == true
+            val isCalendarScreen = currentDestination?.destination?.route?.substringBefore("?") ==
+                Screens.Calendar::class.qualifiedName
+
             val displayBottomBar by remember(currentDestination) {
                 mutableStateOf(
-                    shouldShowBottomBar(currentDestination?.destination?.route)
+                    shouldShowMainBottomNavigation(currentDestination?.destination?.route)
                 )
             }
 
-            val globalLoadingState = remember { MutableStateFlow(false) }
-
-            val loadingState by globalLoadingState.collectAsState()
+            val globalLoadingState = remember { GlobalLoadingState() }
 
             val dialogData = remember {
                 DialogDataHolder()
@@ -126,10 +211,13 @@ class MainActivity : ComponentActivity() {
             val isLogged by viewModel.isLogged.collectAsState(false)
 
             val shouldShowAd by viewModel.shouldShowAd.collectAsState()
+            val displayAd = shouldShowAd && !homeQaHideAd && calendarQaFixture == null
 
             LaunchedEffect(currentDestination) {
-                viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
-                mainActivityViewModel.updateStreakInfo(currentDestination?.destination?.route)
+                if (calendarQaFixture == null) {
+                    viewModel.updateAdVisibilityByRoute(currentDestination?.destination?.route)
+                    mainActivityViewModel.updateStreakInfo(currentDestination?.destination?.route)
+                }
             }
 
             FillsaTheme(darkTheme = isDarkMode) {
@@ -138,8 +226,10 @@ class MainActivity : ComponentActivity() {
                     LocalDialogDataHolder provides dialogData,
                     LocalLoadingState provides globalLoadingState,
                     LocalMoveHolder provides navController,
+                    LocalHomeRuntimeQaFixture provides homeQaFixture,
+                    LocalCalendarRuntimeQaFixture provides calendarQaFixture,
                     IsDarkMode provides isDarkMode,
-                    StreakProvider provides streakCount
+                    StreakProvider provides providedStreak
                 ) {
 
                     Box(
@@ -171,15 +261,19 @@ class MainActivity : ComponentActivity() {
                                     BottomNavigationBar(
                                         isLogged = isLogged,
                                         navController = navController,
-                                        displayAd = shouldShowAd,
-                                        displayBottomBar = displayBottomBar
+                                        displayAd = displayAd,
+                                        displayBottomBar = displayBottomBar,
+                                        // A Calendar visual fixture must stay process-local and nonnetwork.
+                                        navigationEnabled = calendarQaFixture == null,
                                     )
                                 },
-                                containerColor = if (isDarkMode) colorResource(R.color.gray_700) else if (currentDestination?.destination?.route?.contains(
-                                        "Splash"
-                                    ) == true
-                                ) colorResource(R.color.white) else colorResource(R.color.primary),
-                                contentWindowInsets = if (shouldShowAd) {
+                                containerColor = when {
+                                    isDarkMode -> colorResource(R.color.gray_700)
+                                    isOnboardingGuide -> colorResource(R.color.white)
+                                    currentDestination?.destination?.route?.contains("Splash") == true -> colorResource(R.color.white)
+                                    else -> colorResource(R.color.primary)
+                                },
+                                contentWindowInsets = if (displayAd || isCalendarScreen) {
                                     WindowInsets.statusBars
                                 } else {
                                     ScaffoldDefaults.contentWindowInsets
@@ -191,13 +285,17 @@ class MainActivity : ComponentActivity() {
                                     modifier = Modifier
                                         .padding(paddingValues),
                                     navController = navController,
-                                    startDestination = Screens.Splash,
+                                    startDestination = when {
+                                        calendarQaFixture != null -> Screens.Calendar
+                                        homeQaFixture != null -> Screens.Home()
+                                        else -> Screens.Splash
+                                    },
                                     logoutEvent = logoutEvent
                                 )
                             }
                         }
                         CircleLoadingSpinner(
-                            isLoading = loadingState
+                            isLoading = globalLoadingState.isLoading
                         )
                     }
                 }
@@ -209,13 +307,18 @@ class MainActivity : ComponentActivity() {
         installSplashScreen()
     }
 
-    private fun shouldShowBottomBar(route: String?): Boolean {
-
-        return route?.substringBefore("?") in setOf(
-            Screens.Home::class.qualifiedName,
-            Screens.QuoteList::class.qualifiedName,
-            Screens.Calendar::class.qualifiedName,
-            Screens.MyPage::class.qualifiedName
-        )
+    private companion object {
+        const val EXTRA_HOME_QA_STREAK = "com.arakene.fillsa.extra.HOME_QA_STREAK"
+        const val EXTRA_HOME_QA_DARK_MODE = "com.arakene.fillsa.extra.HOME_QA_DARK_MODE"
+        const val EXTRA_HOME_QA_HIDE_AD = "com.arakene.fillsa.extra.HOME_QA_HIDE_AD"
+        const val EXTRA_HOME_QA_FIXTURE = "com.arakene.fillsa.extra.HOME_QA_FIXTURE"
+        const val EXTRA_HOME_QA_RECORDED_ANSWER = "com.arakene.fillsa.extra.HOME_QA_RECORDED_ANSWER"
+        const val EXTRA_HOME_QA_SELECTED_IMAGE = "com.arakene.fillsa.extra.HOME_QA_SELECTED_IMAGE"
+        const val EXTRA_HOME_QA_IMAGE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_IMAGE_DIALOG"
+        const val EXTRA_HOME_QA_LONG_IMAGE_TEXT = "com.arakene.fillsa.extra.HOME_QA_LONG_IMAGE_TEXT"
+        const val EXTRA_HOME_QA_TEMPLATE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_TEMPLATE_DIALOG"
+        const val EXTRA_HOME_QA_LOGIN_DIALOG = "com.arakene.fillsa.extra.HOME_QA_LOGIN_DIALOG"
+        const val EXTRA_HOME_QA_MULTILINE_DIALOG = "com.arakene.fillsa.extra.HOME_QA_MULTILINE_DIALOG"
+        const val EXTRA_CALENDAR_QA_STATE = "com.arakene.fillsa.extra.CALENDAR_QA_STATE"
     }
 }

@@ -15,10 +15,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.compositionLocalOf
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshotFlow
@@ -51,12 +50,14 @@ import androidx.navigation.compose.rememberNavController
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.arakene.domain.responses.MemberStreakResponse
+import com.arakene.domain.responses.MemberQuoteDay
+import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.domain.util.CommonError
 import com.arakene.domain.util.CommonErrorWrappedException
 import com.arakene.presentation.R
+import com.arakene.presentation.model.HomeMemberQuoteWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -71,8 +72,24 @@ import java.time.format.DateTimeFormatter
 typealias Navigate = (Screens) -> Unit
 
 
-val LocalLoadingState = compositionLocalOf<MutableStateFlow<Boolean>> {
+val LocalLoadingState = compositionLocalOf<GlobalLoadingState> {
     error("No loading state provided")
+}
+
+@Composable
+fun BindGlobalLoading(isLoading: Boolean) {
+    val globalLoadingState = LocalLoadingState.current
+    val owner = remember { Any() }
+
+    LaunchedEffect(isLoading) {
+        globalLoadingState.set(owner, isLoading)
+    }
+
+    DisposableEffect(owner) {
+        onDispose {
+            globalLoadingState.set(owner, false)
+        }
+    }
 }
 
 @Composable
@@ -113,16 +130,7 @@ fun getDayOfWeekEnglish(dateStr: String): String {
 
 @Composable
 inline fun <reified VM : BaseViewModel> rememberBaseViewModel(): VM {
-    val viewModel = hiltViewModel<VM>()
-    val loadingState = LocalLoadingState.current
-
-    val isLoading by viewModel.isLoading.collectAsState()
-
-    LaunchedEffect(isLoading) {
-        loadingState.value = isLoading
-    }
-
-    return viewModel
+    return hiltViewModel<VM>()
 }
 
 fun DayOfWeek.toKoreanShort(): String = when (this) {
@@ -187,6 +195,56 @@ val LocalDialogDataHolder = compositionLocalOf { DialogDataHolder() }
 val LocalMoveHolder = compositionLocalOf<NavHostController?> { null }
 val StreakProvider = compositionLocalOf<MemberStreakResponse?> { null }
 
+internal data class HomeRuntimeQaFixture(
+    val quote: String,
+    val author: String,
+    val showRecordedAnswer: Boolean = false,
+    val showSelectedImageState: Boolean = false,
+    val showImageDialog: Boolean = false,
+    val showTemplateDialog: Boolean = false,
+    val showLoginDialog: Boolean = false,
+    val showMultilineDialog: Boolean = false,
+) {
+    /** Uses the same server-day window consumed by authenticated production Home. */
+    val memberWindow: HomeMemberQuoteWindow by lazy {
+        val dates = (10..16).map { LocalDate.of(2026, 8, it) }
+        HomeMemberQuoteWindow.from(
+            MemberWeeklyQuoteResponse(
+                startDate = dates.first().toString(),
+                endDate = dates.last().toString(),
+                days = dates.mapIndexed { index, date ->
+                    val selected = index == dates.lastIndex
+                    val completed = index < 2
+                    MemberQuoteDay(
+                        date = date.toString(),
+                        dayOfWeek = date.dayOfWeek.name,
+                        state = when {
+                            selected -> "today"
+                            completed -> "done"
+                            else -> "past"
+                        },
+                        dailyQuoteSeq = 9_100 + index,
+                        korQuote = quote,
+                        engQuote = quote,
+                        korAuthor = author,
+                        engAuthor = author,
+                        authorUrl = null,
+                        questionKo = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?",
+                        questionEn = "Have you ever accepted someone's kindness much later?",
+                        answer = if (selected && showRecordedAnswer) "기록한 답변" else null,
+                        answeredAt = if (selected && showRecordedAnswer) "2026-08-16 12:00:00" else null,
+                        likeYn = if (selected && showSelectedImageState) "Y" else "N",
+                        imagePath = if (selected && showSelectedImageState) "qa-resource://registered-image" else null,
+                        completed = completed,
+                    )
+                },
+            ),
+        )
+    }
+}
+
+internal val LocalHomeRuntimeQaFixture = staticCompositionLocalOf<HomeRuntimeQaFixture?> { null }
+
 val IsDarkMode = staticCompositionLocalOf { false }
 
 
@@ -202,9 +260,7 @@ fun copyToClipboard(
         val copyText = "$quote - $author"
         clipBoard.setClipEntry(ClipEntry(ClipData.newPlainText(copyText, copyText)))
 
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.S_V2) {
-            snackbarHostState.showSnackbar(context.getString(R.string.copied))
-        }
+        snackbarHostState.showSnackbar(context.getString(R.string.copied))
     }
 }
 

@@ -10,3 +10,8 @@
 # 개인적인 목표
 1차는 안드로이드 네이티브로 운영 배포
 2차는 플러터 or iOS 네이티브 개발해서 크로스 플랫폼 운영배포가 목표
+
+## UI 개편 문서
+
+- [Figma 기반 UI 개편 워크플로우](docs/ui-redesign-workflow.md)
+- [화면별 UI 기획](docs/planning.md)

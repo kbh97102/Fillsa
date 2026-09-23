@@ -8,6 +8,12 @@ object ApiEndPoint {
 
     const val GET_DAILY_QUOTE = "/api/v1/member-quotes/daily"
 
+    const val GET_MEMBER_DAILY_QUOTE_V2 = "/api/v2/member-quotes/daily"
+
+    const val GET_MEMBER_WEEKLY_QUOTES = "/api/v2/member-quotes/weekly"
+
+    const val POST_ANSWER = "/api/v2/member-quotes/{dailyQuoteSeq}/answer"
+
     const val POST_LIKE = "/api/v1/member-quotes/{dailyQuoteSeq}/like"
 
     const val POST_UPLOAD_IMAGE = "/api/v1/member-quotes/{dailyQuoteSeq}/images"
@@ -26,7 +32,7 @@ object ApiEndPoint {
 
     const val UPDATE_ACCESS_TOKEN = "/api/v1/auth/refresh"
 
-    const val POST_TYPING = "/api/v1/member-quotes/{dailyQuoteSeq}/typing"
+    const val POST_TYPING = "/api/v2/member-quotes/{dailyQuoteSeq}/typing"
 
     const val GET_TYPING = "/api/v1/member-quotes/{dailyQuoteSeq}/typing"
 

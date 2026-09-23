@@ -1,0 +1,95 @@
+# Home
+
+## Android 구성
+
+- Compose 위치: `presentation/ui/home/`
+- 상태 관리: `HomeViewModel`, `TypingViewModel`, `ShareViewModel`
+- 범위: 오늘의 명언, 필사, 이미지·공유, 홈 내 달력 요약
+
+## Figma UI 기준
+
+- Figma URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-13556
+- 대상 프레임/노드: light `2929:13556` (`2.home`), dark `3039:26518` (`2.home`). Parent section `2929:9603` is not a render target.
+- 대상 기기/프레임 크기: Figma export 360 × 821 px; light root `#FFEFCC`, dark root `#212121`. (The supplied 360 × 720 description conflicts with the authoritative node export; QA uses the export.)
+- 검증 상태: **Blocked** — `wm size 945x2155` (420 dpi)로 logical 360 × 821dp exact-size component capture를 확보했다. clean light/dark positive default, genuine-zero warning/tooltip, inline calendar open/select-close, question done/edit와 completion snackbar는 확인했고 app-wide navigation은 2026-09-16에 Figma 3탭으로 정렬했다. full soft keyboard, authenticated image, 실제 completed-writing marker, live-ad/static-ad 차이 때문에 assembled-screen acceptance는 계속 Blocked다. 컴포넌트별 검증은 부분 통과일 수 있으나 화면 최종 결과는 Partial/Pass가 아니다.
+- 기준 이미지: `docs/design-qa/assets/home-figma-2929-13556/reference-full.png`
+- QA 기록: `docs/design-qa/2026-09-07-android-home-interactions-qa.md`
+- Dark root 상세 명세: `docs/screens/2_home_dark.md` (root `2929:9603`, 상태별 render node와 기준 이미지)
+
+### 2026-09-07 Home 상호작용 구현 계약
+
+- 상위 범위: `2929:17193` (`2. home`, SECTION)
+- 기본 Home: `2929:13556`; Dark Home: `3039:26518`
+- 월 선택 기본/열림: `2929:15667` / `2929:16221`; 달력 열림 화면 `3139:1501`
+- 달력 popup: 본체 `2929:16227`; 이전 월 `2929:16229`; 연도 `2929:16232`; 월 `2929:16236`; 다음 월 `2929:16240`; 요일 `2929:16243`; 날짜 grid `2929:16258`
+- 주간 날짜: `3204:2435`. 현재/선택 날짜가 오른쪽 끝에 오도록 7일을 노출하고 과거 방향 탐색을 지원한다.
+- 질문 set: `3087:29377`; 기본 `3087:29376`; focus `3139:1399`; done `3087:29378`
+- 질문 flow: `3110:33782`; 기록 전 `3110:33783`; 기록 중 `3110:34152`; 저장 toast `3110:34293`; 기록 후 `3110:34438`
+- 연속 필사 안내: 화면 `2929:18871`; group `2929:19015`; tooltip `2929:19016`; Calendar link `2929:19017`
+- 이미지 flow: `3223:5107`; 등록 전 `3223:4982`; 등록 후 `3223:4647`; 보기 `3223:4773`; 대체 보기 `2929:19326`; 삭제 확인 `2929:19488`
+- 복사 toast: 화면 `2929:19645`, toast `2929:19773`; 좋아요 선택 `2929:19784`
+- 구현 범위 밖 연결 화면: 필사 `2929:17920`, 공유 `2929:18239`/`2929:18543`, 로그인 modal `2929:19027`. 기존 route만 유지한다.
+- 기준 캡처: `docs/design-qa/assets/home-figma-2929-17193/2026-09-07/`
+
+#### 상태와 동작
+
+1. 월 영역 탭은 전체 Calendar route로 즉시 이동하지 않고 Home 위의 `248×335dp` 달력 popup을 토글한다. 외부 탭은 닫기, 날짜 선택은 Home 날짜 갱신·명언 재조회·popup 닫기를 수행한다.
+2. 연속 필사 수가 0일 때 상태 아이콘 탭은 안내 tooltip을 표시한다. 외부 탭은 닫고, `나의 필사현황 보기`는 기존 Calendar route로 이동한다.
+3. 회원 최초 진입은 `GET /api/v2/member-quotes/weekly`를 `endDate` 없이 호출한다. 서버 응답의 `days`는 주간 날짜, 선택 명언 카드, 질문·답변, 좋아요·이미지, 완료 표시의 단일 원천이다. 같은 주간 창 안의 날짜 탭과 카드 스와이프는 캐시된 `days`만 선택하고 네트워크를 호출하지 않으며, 창 경계에서만 현재 `endDate`에 ±7일을 적용해 weekly를 다시 호출한다.
+4. 회원 질문 CTA는 명언 필사 route로 이동하지 않는다. 200 grapheme 이내이고 공백만이 아닌 답변을 `POST /api/v2/member-quotes/{dailyQuoteSeq}/answer`로 저장한다. 성공 전에는 done/edit 상태나 `답변을 기록했어요.` snackbar를 표시하지 않는다. POST 성공 시 응답의 `answer`·`answeredAt`을 선택 주간 메모리 레코드에 반영하고 기존 snackbar를 표시한 뒤, 같은 날짜의 `GET /api/v2/member-quotes/daily?quoteDate=`를 best-effort로 호출해 서버 상태를 재조정한다. 이 보조 refresh가 실패해도 POST 성공 상태를 되돌리지 않는다.
+5. 비회원은 weekly/daily/answer 회원 API를 호출하지 않는다. 기존 v1 일간 조회, 로컬 좋아요·필사, 질문 답변의 session-only 동작을 유지한다.
+6. 회원 completed weekday는 `state == "done"` 또는 `completed == true`인 서버 날짜만 사용하며, 답변 유무는 완료 표시 조건이 아니다. 비회원은 기존 `GetAllStreakInfoUseCase`의 실제 완료 필사 날짜를 사용한다.
+7. 이미지 등록/보기/변경/삭제, 복사 snackbar, 좋아요 선택의 기존 domain/API 연결을 보존한다. 타이핑 GET은 v1을 유지하고 타이핑 POST만 v2를 유지한다.
+8. 앱 전역 하단 bar는 Figma대로 Home/Calendar/My page 3탭을 사용한다. QuoteList route는 Calendar에서 진입하는 하위 화면으로 유지하고 하단 bar에는 노출하지 않는다.
+9. access token 문자열 갱신은 회원 세션 교체로 취급하지 않는다. Home resume은 선택 상태를 기준으로 서버/로컬 projection을 다시 읽고, 명시적인 로그아웃 후 로그인 상태 전환만 기존 회원 cache와 진행 중 요청을 무효화한다.
+10. 같은 날짜를 다시 선택하면 저장 전 질문 draft를 보존한다. 같은 명언에 대한 연속 좋아요 요청은 순서대로 전송하고 최신 사용자 선택만 화면과 주간 cache에 확정한다.
+11. 회원 inline calendar의 오늘·선택 가능일·다음 달 이동 상한은 최초 weekly 응답의 서버 anchor를 따른다. 비회원은 기존 기기 날짜 기준을 유지한다.
+12. `BuildConfig.DEBUG`의 Home QA fixture는 날짜·월·답변·좋아요·이미지 상호작용을 process-local 상태로만 처리하고 production API mutation을 실행하지 않는다.
+
+### 컴포넌트 분해
+| 컴포넌트 | Figma 노드 | 책임 | 조립 위치 | 검증 상태 |
+|---|---|---|---|---|
+| Header | `2929:15476` | Figma logo, current streak, profile navigation | `FigmaHomeContent` | 부분 통과(exact-size positive default, genuine 0 warning/tooltip); unknown/null은 tooltip 미노출 |
+| Month calendar | `2929:15667`, `2929:16221`, `3139:1501` | `YYYY.MM` selector와 inline month popup, 월/연도 탐색 및 날짜 선택 | `HomeDateWeekSection` / `HomeInlineCalendar` | 통과(exact-size runtime open/select-close) |
+| Week strip | `3204:2435` | 월 카드와 9dp 간격, 선택일을 오른쪽 끝으로 둔 7일과 실제 완료 필사 marker | `HomeDateWeekSection` | 간격 Preview 통과; completion data Blocked |
+| Locale toggle | `2929:19887` (light Home `2929:13611`, dark Home `3039:26574`) | 텍스트와 패딩으로 측정되는 한/A 선택 토글; 선택 배경과 텍스트 정렬 | shared `LocaleSwitch` in `FigmaHomeContent` | 컴포넌트 통과(physical dark runtime, 한/영 상태); 전체 Home 수용 상태는 기존 Blocked 유지 |
+| Quote card | `2929:13642` | selected quote, author/search opens existing Wikipedia URI, right/left date-bounded swipe actions | `HomeQuoteCard` | 부분 통과(빌드) |
+| Quote loading | 사용자 승인 예외(Figma/MCP 없음) | 명언 요청 중 카드 배경 중앙에 기본 `CircularProgressIndicator` 표시 | `HomeQuoteCard` / `HomeViewModel.quoteLoadState` | light/dark Preview 통과; 사용자 런타임 확인 예정 |
+| Quote action row | `2929:15503` | copy/share/like/image actions with current like visual state | `HomeQuoteActionRow` | 부분 통과(빌드) |
+| Prompt response | `3087:29376`, `3139:1399`, `3087:29378`, `3110:34293` | 200-grapheme 입력, 회원 answer POST 성공 후 snackbar·done/edit 상태, 비회원 session 기록; 명언 필사 route와 분리 | `HomePromptAnswerSection` / `HomeViewModel` | 부분 통과(exact done/snackbar 통과; focus full keyboard 미확보); 회원 API binding은 별도 연동 범위 |
+| Global bottom navigation/ad | `3087:29254`; Calendar instance `3087:29220`; ad reference `2929:29249` is unavailable | Figma 3 × 120dp tabs; Android shared navigation도 Home/Calendar/My page 3탭 사용. 광고는 live surface 유지 | scaffold / `BottomNavigationBar` | navigation 통과; 광고 정책은 별도 범위 |
+| Dark palette/assets | `3039:26518` | dark root/card/input/text/divider plus night SVG variants | `FigmaHomeContent` / `assets/figma/home-night/` | 부분 통과(exact-size positive default clean capture) |
+
+회원 Home 질문 답변은 선택 날짜의 `questionKo`/`questionEn`, `answer`, `answeredAt`을 weekly/daily 응답에서 읽고 answer API로 저장한다. 선택 날짜가 바뀌면 날짜별 draft/recorded-answer를 원자적으로 교체하며, `dailyQuoteSeq == null`인 날짜에서는 답변을 포함한 mutation을 실행하지 않는다. 비회원만 기존 `HomeViewModel` session state로 기록/수정 상태와 snackbar를 유지하며 Typing으로 전달하지 않는다. 기존 quote 필사와 memo v1 API 필드는 신규 회원 Home·Calendar에서 재사용하지 않는다.
+
+### 2026-09-08 회원 질문 저장 연결
+
+- 범위: 위 light `2929:13556`의 질문 기본 `3087:29376`, focus `3139:1399`, done `3087:29378`, 저장 toast `3110:34293`.
+- `HomeMemberAnswerCoordinator`가 원래 날짜·dailyQuoteSeq·계정 세대·요청 revision을 보관한다. 저장 중 중복 입력/제출을 막고, POST 성공 시 서버 답변과 기록 시간을 현재/캐시 주간 데이터에 반영한다. 후속 daily refresh는 동일 origin/auth/revision에만 적용하며 실패 시 POST 결과를 유지한다.
+- 이미 연결된 `questionKo`/`questionEn`의 LocaleType 표시를 유지한다. Compose 변경은 저장 중 입력 readOnly 및 버튼 클릭 차단뿐이며 레이아웃·색·문구·계층은 변경하지 않는다.
+- QA 기록: [2026-09-08 Home answer integration QA](../design-qa/2026-09-08-android-home-answer-integration-qa.md). 단위 테스트와 코드 범위 검증은 비최종 증거이며, 전체 조립 화면의 runtime/Figma 최종 수용은 부모 작업자 검증 대기다.
+- 2026-09-13 안정화 검증은 token renewal 중 POST 수용, resume refresh, 같은 날짜 draft 보존, 좋아요 최신 의도 직렬화, 서버 anchor 달력 경계, QA fixture 무네트워크 정책을 포함한다. 정확한 Gradle 명령과 결과는 위 QA 기록과 `docs/planning.md`에 남긴다.
+
+### 2026-09-19 Home locale toggle 패딩 수정
+
+- Figma 컴포넌트: `2929:19887` (`Toggle_off_S`), light Home 인스턴스 `2929:13611`, dark Home 인스턴스 `3039:26574`.
+- 기준은 고정 폭/높이나 균등 `weight`가 아니라 텍스트 측정값과 패딩의 합이다. 항목 패딩은 좌우 `8dp`, 상하 `2dp`; 외곽 패딩은 시작 `4dp`, 상하 `3dp`다.
+- Home 전용 `FigmaLocaleToggle`을 제거하고 shared `LocaleSwitch`를 색상·패딩 파라미터로 재사용한다. 기존 Typing/Quote detail 호출의 기본 보라색 스타일과 패딩은 유지한다.
+- Home 색상은 outer `#FFCB5C`, selected `#FFFFFF`, text `#212121`을 사용한다.
+- QA 기록: [2026-09-19 Home locale toggle QA](../design-qa/2026-09-19-android-home-locale-toggle-qa.md).
+
+`3087:29254`는 Home/Calendar/My page 3개 탭(각 120 × 60dp, 32dp icon), 선택 `#5C65FF`, 비선택 `#212121`을 정의합니다. Android `BottomNavigationBar`도 2026-09-16부터 같은 3등분 구조와 기존 32dp local vector를 사용합니다. QuoteList destination은 Calendar 집계에서 진입하는 하위 route로 남지만 전역 하단 bar와 표시 대상 route에서는 제외합니다. 광고는 기존 live `SingleLineAdSection` 정책을 유지하며 이번 navigation 변경 범위에 포함하지 않습니다.
+
+Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#616161` border/divider(주 divider 55%), white primary text, `#E0E0E0` action label, `#9E9E9E` muted text를 `HomeColorPalette`로 해석합니다. calendar와 selected/completed weekday, `#5C65FF` CTA는 Figma 상태대로 유지합니다. 정확한 dark SVG는 `presentation/src/main/assets/figma/home-night/`의 logo/profile/wave/search/copy/share/like/camera 8종이며 SVG가 density-independent이므로 Figma의 60/24/16/320dp Compose 크기로 렌더합니다. calendar/write/badge/streak SVG는 Figma dark bytes가 light와 동일해 기존 `assets/figma/home/`을 재사용합니다.
+
+### 2026-09-20 명언 로딩 표시
+
+- 사용자가 이 상태에 한해 Figma/MCP 없이 기본 원형 로딩 표시를 사용하도록 승인했다.
+- `HomeViewModel.quoteLoadState == Loading`인 동안 명언 카드 배경은 유지하고 중앙에 Compose 기본 `CircularProgressIndicator`를 표시한다.
+- QA 기록: [2026-09-20 Home quote loading QA](../design-qa/2026-09-20-android-home-quote-loading-qa.md).
+
+### 2026-09-20 상단 날짜 간격 수정
+
+- Figma Home `2929:13556`에서 월 카드 `2929:15667`은 x=20..93, 주간 날짜 `3204:2435`는 x=102부터 시작한다.
+- 월 카드와 주간 날짜 사이의 수평 간격을 기존 5dp에서 Figma 기준 9dp로 수정한다. 주간 날짜는 남은 폭에 Figma 좌우 끝 좌표대로 분배한다.
+- QA 기록: [2026-09-20 Home date spacing QA](../design-qa/2026-09-20-android-home-date-spacing-qa.md).

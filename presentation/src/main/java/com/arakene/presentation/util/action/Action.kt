@@ -5,6 +5,7 @@ import com.arakene.domain.responses.MemberQuotesResponse
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.LocaleType
 import com.kizitonwose.calendar.core.CalendarDay
+import java.time.LocalDate
 import java.time.YearMonth
 
 
@@ -40,6 +41,9 @@ sealed interface LoginAction : Action {
 sealed interface HomeAction : Action {
     data object ClickNext : HomeAction
     data object ClickBefore : HomeAction
+    data class SelectWeekDay(val date: LocalDate) : HomeAction
+    data object LoadPreviousWindow : HomeAction
+    data object LoadNextWindow : HomeAction
     data object ClickLike : HomeAction
     data object ClickQuote : HomeAction
     data class ClickImage(val isLogged: Boolean, val quote: String, val author: String) : HomeAction
@@ -47,6 +51,15 @@ sealed interface HomeAction : Action {
     data class ClickChangeImage(val uri: String) : HomeAction
     data object ClickDeleteImage : HomeAction
     data object ClickCalendar : HomeAction
+    data class SelectHomeDate(val date: LocalDate) : HomeAction
+    data object DismissHomeCalendar : HomeAction
+    data class ChangeHomeMonth(val month: YearMonth) : HomeAction
+    data object ClickStreakStatus : HomeAction
+    data object DismissStreakTooltip : HomeAction
+    data object ClickStreakCalendar : HomeAction
+    data class ChangeAnswer(val answer: String) : HomeAction
+    data object RecordAnswer : HomeAction
+    data object EditAnswer : HomeAction
 }
 
 sealed interface TypingAction : Action {
@@ -73,6 +86,9 @@ sealed interface TypingAction : Action {
 
 
 sealed interface CalendarAction : Action {
+    data class ChangeAnswer(val answer: String) : CalendarAction
+    data object RecordAnswer : CalendarAction
+    data object EditAnswer : CalendarAction
     data class ChangeMonth(
         val target: YearMonth
     ) : CalendarAction

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -18,23 +19,35 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.LifecycleResumeEffect
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.ui.theme.ImageSection
+import com.arakene.presentation.model.HomeMemberFlowState
+import com.arakene.presentation.model.toDailyQuoteDto
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.DialogData
+import com.arakene.presentation.util.DialogLayoutMode
+import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.DoubleBackPressHandler
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.HomeEffect
+import com.arakene.presentation.util.HomeAnswerRecordedSnackbar
+import com.arakene.presentation.util.HomeAnswerUiState
+import com.arakene.presentation.util.HomeQuoteLoadState
 import com.arakene.presentation.util.ImageDialogDataHolder
 import com.arakene.presentation.util.LocalDialogDataHolder
+import com.arakene.presentation.util.LocalHomeRuntimeQaFixture
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.Screens
@@ -46,8 +59,12 @@ import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.util.uriToCacheFile
 import com.arakene.presentation.viewmodel.HomeViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.util.YN
 import java.time.LocalDate
+import java.time.YearMonth
 
 @Composable
 fun HomeView(
@@ -63,6 +80,7 @@ fun HomeView(
     }
 
     val context = LocalContext.current
+    val uriHandler = LocalUriHandler.current
 
     val scope = rememberCoroutineScope()
 
@@ -70,30 +88,51 @@ fun HomeView(
 
     val isLogged by viewModel.isLogged.collectAsState(false)
 
-    val date by rememberSaveable {
+    val viewModelDate by rememberSaveable {
         viewModel.date
     }
 
     var selectedLocale by remember {
         mutableStateOf(LocaleType.KOR)
     }
+    val homeQaFixture = LocalHomeRuntimeQaFixture.current
+    var fixtureDate by remember(homeQaFixture) {
+        mutableStateOf(homeQaFixture?.memberWindow?.selectedDate)
+    }
+    var fixtureDisplayedMonth by remember(homeQaFixture) {
+        mutableStateOf(homeQaFixture?.memberWindow?.selectedDate?.let(YearMonth::from))
+    }
+    var fixtureCalendarOpen by remember(homeQaFixture) { mutableStateOf(false) }
+    val date = fixtureDate ?: viewModelDate
+    val qaMemberWindow = homeQaFixture?.memberWindow?.select(date) ?: homeQaFixture?.memberWindow
+    val qaSelectedDay = qaMemberWindow?.selectedDay
+    val displayedQuota = qaSelectedDay?.toDailyQuoteDto() ?: viewModel.currentQuota
 
-    val quote by remember(viewModel.currentQuota, selectedLocale) {
+    LaunchedEffect(homeQaFixture?.showRecordedAnswer) {
+        if (homeQaFixture?.showRecordedAnswer == true) {
+            snackbarHostState.showSnackbar(
+                message = HomeAnswerRecordedSnackbar,
+                duration = SnackbarDuration.Indefinite,
+            )
+        }
+    }
+
+    val quote by remember(displayedQuota, selectedLocale) {
         mutableStateOf(
             if (selectedLocale == LocaleType.KOR) {
-                viewModel.currentQuota.korQuote ?: ""
+                displayedQuota.korQuote ?: ""
             } else {
-                viewModel.currentQuota.engQuote ?: ""
+                displayedQuota.engQuote ?: ""
             }
         )
     }
 
-    val author by remember(viewModel.currentQuota, selectedLocale) {
+    val author by remember(displayedQuota, selectedLocale) {
         mutableStateOf(
             if (selectedLocale == LocaleType.KOR) {
-                viewModel.currentQuota.korAuthor ?: ""
+                displayedQuota.korAuthor ?: ""
             } else {
-                viewModel.currentQuota.engAuthor ?: ""
+                displayedQuota.engAuthor ?: ""
             }
         )
     }
@@ -104,19 +143,64 @@ fun HomeView(
         ImageDialogDataHolder()
     }
 
+    val qaImageUri = if (homeQaFixture?.showSelectedImageState == true || homeQaFixture?.showImageDialog == true) {
+        "android.resource://${context.packageName}/${com.arakene.presentation.R.drawable.home_registered_image_fixture}"
+    } else {
+        null
+    }
+    val displayedBackgroundImageUrl = qaImageUri ?: backgroundImageUrl
+
+    LaunchedEffect(homeQaFixture?.showImageDialog, homeQaFixture?.showTemplateDialog) {
+        if (homeQaFixture?.showImageDialog == true || homeQaFixture?.showTemplateDialog == true) {
+            imageDialogDataHolder.quote = homeQaFixture.quote
+            imageDialogDataHolder.author = homeQaFixture.author
+            imageDialogDataHolder.show = true
+        }
+    }
+
+    LaunchedEffect(homeQaFixture?.showLoginDialog) {
+        if (homeQaFixture?.showLoginDialog == true) {
+            dialogDataHolder.data = DialogData.Builder()
+                .title("로그인 후 사용하실 수 있습니다.")
+                .layoutMode(DialogLayoutMode.HomeDarkMeasured)
+                .okText("로그인 하기")
+                .onClick { navigate(Screens.Login(isOnBoarding = true)) }
+                .build()
+            dialogDataHolder.show = true
+        }
+    }
+
+    LaunchedEffect(homeQaFixture?.showMultilineDialog) {
+        if (homeQaFixture?.showMultilineDialog == true) {
+            dialogDataHolder.data = DialogData.Builder()
+                .title("요청을 처리하는 중 여러 문제가 발생했습니다.\n잠시 후 다시 시도해 주세요.")
+                .body("네트워크 상태를 확인한 뒤 다시 시도해 주세요. 문제가 계속되면 고객센터에 문의해 주세요.")
+                .singleButton(true)
+                .build()
+            dialogDataHolder.show = true
+        }
+    }
+
     DoubleBackPressHandler(
         onExit = {
             (context as? Activity)?.finishAffinity()
         }
     )
 
-    LaunchedEffect(requestDate) {
-        if (requestDate != null) {
-            viewModel.handleContract(HomeEffect.SetDate(requestDate))
-            viewModel.handleContract(HomeEffect.Refresh(requestDate))
-        } else {
-            viewModel.handleContract(HomeEffect.Refresh(date))
+    LaunchedEffect(homeQaFixture) {
+        if (homeQaFixture != null) {
+            val qaDate = homeQaFixture.memberWindow.selectedDate
+            viewModel.handleContract(HomeEffect.SetDate(qaDate))
+            viewModel.currentQuota = homeQaFixture.memberWindow.selectedDay!!.toDailyQuoteDto()
+            viewModel.quoteLoadState = HomeQuoteLoadState.Loaded
         }
+    }
+
+    LifecycleResumeEffect(requestDate, homeQaFixture) {
+        if (homeQaFixture == null) {
+            viewModel.initialRefresh(requestDate)
+        }
+        onPauseOrDispose { }
     }
 
     HandleViewEffect(
@@ -147,6 +231,7 @@ fun HomeView(
             }
 
             is HomeEffect.ProcessImage -> {
+                if (homeQaFixture != null) return@HandleViewEffect
                 val file = withContext(Dispatchers.IO) {
                     uriToCacheFile(context = context, uri = it.uri.toUri())?.let { file ->
                         resizeImageToMaxSize(
@@ -160,119 +245,167 @@ fun HomeView(
         }
     }
 
-    val isLike by remember {
+    val storedIsLike by remember {
         viewModel.isLike
     }
+    val isLike = qaSelectedDay?.let { it.likeYn == YN.Y.type } ?: storedIsLike
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(FillsaTheme.colorScheme.background)
-            .padding(horizontal = 20.dp)
-    ) {
+    val completedDates = viewModel.completedDates
+    val memberWindow = qaMemberWindow ?: viewModel.memberQuoteWindow
+    val weekDays = if (memberWindow != null) {
+        homeMemberWeekDayStates(memberWindow)
+    } else {
+        homeWeekDayStates(selectedDate = date, completedDates = completedDates)
+    }
+    val defaultQuestion = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?"
+    val question = if (memberWindow != null) {
+        val memberState = HomeMemberFlowState.from(memberWindow)
+        if (selectedLocale == LocaleType.KOR) {
+            memberState.questionKo.orEmpty()
+        } else {
+            memberState.questionEn.orEmpty()
+        }
+    } else {
+        defaultQuestion
+    }
+    val isCalendarOpen = if (homeQaFixture != null) fixtureCalendarOpen else viewModel.isCalendarOpen
+    val displayedMonth = fixtureDisplayedMonth ?: viewModel.displayedMonth
+    val calendarReferenceDate = qaMemberWindow?.endDate
+        ?: viewModel.memberAnchorEndDate
+        ?: memberWindow?.endDate
+        ?: DateCondition.currentDay()
+    val isStreakTooltipOpen = viewModel.isStreakTooltipOpen
+    val answerUiState = if (qaMemberWindow != null) {
+        HomeMemberFlowState.from(qaMemberWindow).answer
+    } else {
+        viewModel.answerUiState
+    }
 
-        if (imageDialogDataHolder.show) {
-            ImageDialog(
-                author = imageDialogDataHolder.author,
-                quote = imageDialogDataHolder.quote,
-                onDismiss = {
-                    imageDialogDataHolder.show = false
-                },
-                uploadImage = {
-                    viewModel.handleContract(
-                        HomeAction.ClickChangeImage(
-                            uri = it.toString()
-                        )
-                    )
-                },
-                backgroundImageUrl = backgroundImageUrl,
-                deleteOnClick = {
+    if (imageDialogDataHolder.show) {
+        ImageDialog(
+            author = imageDialogDataHolder.author,
+            quote = imageDialogDataHolder.quote,
+            onDismiss = { imageDialogDataHolder.show = false },
+            uploadImage = {
+                if (homeQaFixture == null) {
+                    viewModel.handleContract(HomeAction.ClickChangeImage(uri = it.toString()))
+                }
+            },
+            backgroundImageUrl = displayedBackgroundImageUrl,
+            showDeleteAction = displayedBackgroundImageUrl.isNotEmpty() || homeQaFixture?.showTemplateDialog == true,
+            deleteOnClick = {
+                imageDialogDataHolder.show = false
+                if (homeQaFixture == null) {
                     viewModel.handleContract(HomeAction.ClickDeleteImage)
-                }
-            )
-        }
-
-        HomeTopSection(
-            navigate = navigate
-        )
-
-        Row(
-            modifier = Modifier.padding(top = 20.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(20.dp)
-        ) {
-            CalendarSection(
-                date = date,
-                modifier = Modifier
-                    .weight(1f)
-                    .noEffectClickable {
-                        viewModel.handleContract(HomeAction.ClickCalendar)
+                } else {
+                    scope.launch {
+                        withFrameNanos { }
+                        dialogDataHolder.data = DialogData.Builder()
+                            .title("이미지를 삭제하시겠습니까?")
+                            .body("삭제 후 이미지를 되돌릴 수 없습니다. 😢")
+                            .layoutMode(DialogLayoutMode.HomeDarkMeasured)
+                            .reversed(true)
+                            .cancelText("삭제하기")
+                            .okText("취소")
+                            .cancelOnClick { }
+                            .build()
+                        dialogDataHolder.show = true
                     }
-            )
-
-            ImageSection(
-                isLogged = isLogged,
-                modifier = Modifier.weight(1f),
-                imageUri = backgroundImageUrl,
-                onClick = {
-                    viewModel.handleContract(
-                        HomeAction.ClickImage(
-                            isLogged = isLogged,
-                            author = author,
-                            quote = quote
-                        )
-                    )
                 }
-            )
-        }
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-            LocaleSwitch(
-                selected = selectedLocale,
-                setSelected = {
-                    selectedLocale = it
-                },
-                modifier = Modifier.padding(top = 20.dp)
-            )
-        }
-
-        DailyQuotaSection(
-            text = quote,
-            author = author,
-            next = {
-                viewModel.handleContract(HomeAction.ClickNext)
-            },
-            before = {
-                viewModel.handleContract(HomeAction.ClickBefore)
-            },
-            navigate = {
-                viewModel.handleContract(HomeAction.ClickQuote)
-            },
-            date = date,
-            modifier = Modifier.padding(top = 20.dp)
-        )
-
-        InteractionButtonSection(
-            copy = {
-                copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author)
-            },
-            share = {
-                viewModel.handleContract(
-                    HomeAction.ClickShare(
-                        author = author,
-                        quote = quote
-                    )
-                )
-            },
-            isLike = isLike,
-            setIsLike = {
-                viewModel.handleContract(HomeAction.ClickLike)
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 28.dp)
+            }
         )
     }
+
+    FigmaHomeContent(
+        date = date,
+        quote = quote,
+        author = author,
+        isQuoteLoading = homeQaFixture == null && viewModel.quoteLoadState == HomeQuoteLoadState.Loading,
+        selectedLocale = selectedLocale,
+        isLike = isLike,
+        backgroundImageUrl = displayedBackgroundImageUrl,
+        weekDays = weekDays,
+        question = question,
+        isCalendarOpen = isCalendarOpen,
+        displayedMonth = displayedMonth,
+        calendarReferenceDate = calendarReferenceDate,
+        isStreakTooltipOpen = isStreakTooltipOpen,
+        answerUiState = answerUiState,
+        canGoNext = date.isBefore(calendarReferenceDate),
+        onLocaleChanged = { selectedLocale = it },
+        onHome = { navigate(Screens.Home()) },
+        onProfile = { navigate(Screens.MyPage) },
+        onCalendar = {
+            if (homeQaFixture != null) {
+                fixtureCalendarOpen = !fixtureCalendarOpen
+                fixtureDisplayedMonth = YearMonth.from(date)
+            } else viewModel.handleContract(HomeAction.ClickCalendar)
+        },
+        onDismissCalendar = {
+            if (homeQaFixture != null) fixtureCalendarOpen = false
+            else viewModel.handleContract(HomeAction.DismissHomeCalendar)
+        },
+        onMonthChanged = {
+            if (homeQaFixture != null) fixtureDisplayedMonth = it
+            else viewModel.handleContract(HomeAction.ChangeHomeMonth(it))
+        },
+        onDateSelected = {
+            if (homeQaFixture != null) {
+                fixtureDate = it
+                fixtureDisplayedMonth = YearMonth.from(it)
+                fixtureCalendarOpen = false
+            } else viewModel.handleContract(HomeAction.SelectHomeDate(it))
+        },
+        onWeekDaySelected = {
+            if (homeQaFixture != null) fixtureDate = it
+            else viewModel.handleContract(HomeAction.SelectWeekDay(it))
+        },
+        onStreakStatus = { viewModel.handleContract(HomeAction.ClickStreakStatus) },
+        onDismissStreakTooltip = { viewModel.handleContract(HomeAction.DismissStreakTooltip) },
+        onStreakCalendar = { viewModel.handleContract(HomeAction.ClickStreakCalendar) },
+        onQuote = {
+            if (homeQaFixture != null) {
+                navigate(
+                    Screens.DailyQuote(
+                        DailyQuoteDto(
+                            quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+                            author = "존 우든",
+                        )
+                    )
+                )
+            } else {
+                viewModel.handleContract(HomeAction.ClickQuote)
+            }
+        },
+        onAnswerChanged = { if (homeQaFixture == null) viewModel.handleContract(HomeAction.ChangeAnswer(it)) },
+        onRecordAnswer = { if (homeQaFixture == null) viewModel.handleContract(HomeAction.RecordAnswer) },
+        onEditAnswer = { if (homeQaFixture == null) viewModel.handleContract(HomeAction.EditAnswer) },
+        onAuthor = { uriHandler.openUri(homeAuthorUri(author)) },
+        onPreviousQuote = {
+            if (homeQaFixture != null) {
+                val target = date.minusDays(1)
+                if (target in homeQaFixture.memberWindow.visibleDates) fixtureDate = target
+            } else viewModel.handleContract(HomeAction.LoadPreviousWindow)
+        },
+        onNextQuote = {
+            if (homeQaFixture != null) {
+                val target = date.plusDays(1)
+                if (target in homeQaFixture.memberWindow.visibleDates) fixtureDate = target
+            } else viewModel.handleContract(HomeAction.LoadNextWindow)
+        },
+        onCopy = { copyToClipboard(context, scope, clipboard, snackbarHostState, quote, author) },
+        onShare = {
+            viewModel.handleContract(HomeAction.ClickShare(author = author, quote = quote))
+        },
+        onLike = {
+            if (homeQaFixture == null) viewModel.handleContract(HomeAction.ClickLike)
+        },
+        onImage = {
+            viewModel.handleContract(
+                HomeAction.ClickImage(isLogged = isLogged, author = author, quote = quote)
+            )
+        }
+    )
 
 }
 

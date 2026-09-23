@@ -86,7 +86,7 @@ fun TypingQuoteBodySection(
             }
         },
         textStyle = FillsaTheme.typography.body1,
-        cursorBrush = SolidColor(Color.Black),
+        cursorBrush = SolidColor(rightTextColor),
         modifier = modifier.fillMaxWidth(),
         interactionSource = interactionSource,
         decorationBox = { inner ->

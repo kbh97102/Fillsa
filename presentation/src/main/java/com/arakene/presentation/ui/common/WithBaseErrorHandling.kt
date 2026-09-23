@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.common
 
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -15,6 +16,7 @@ import androidx.navigation.NavHostController
 import com.arakene.domain.util.CommonError
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.BaseViewModel
+import com.arakene.presentation.util.BindGlobalLoading
 import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.DialogDataHolder
 import com.arakene.presentation.util.HandleError
@@ -23,6 +25,7 @@ import com.arakene.presentation.util.LocalMoveHolder
 import com.arakene.presentation.util.LocalSnackbarHost
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypographyEnum
+import com.arakene.presentation.util.sessionExpirationDestination
 import com.arakene.presentation.util.showCustomSnackbar
 import kotlinx.coroutines.launch
 import kotlin.system.exitProcess
@@ -38,6 +41,9 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val context = LocalContext.current
+    val isLoading by viewModel.isLoading.collectAsState()
+
+    BindGlobalLoading(isLoading)
 
     var displayUpdateDialog by remember {
         mutableStateOf(false)
@@ -48,10 +54,19 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
     HandleError(
         viewModel.error,
         lifecycleOwner
-    ) {
-        when (it) {
+    ) errorHandler@{ error ->
+        sessionExpirationDestination(error)?.let { destination ->
+            logoutEvent()
+            moveScreen?.navigate(destination) {
+                popUpTo(0) { inclusive = true }
+                launchSingleTop = true
+            }
+            return@errorHandler
+        }
+
+        when (error) {
             is CommonError.ApiFail -> {
-                when (it.errorResponse.errorCode) {
+                when (error.errorResponse.errorCode) {
 
                     1005, 1006 -> {
                         dialogDataHolder.apply {
@@ -97,7 +112,7 @@ inline fun <reified VM : BaseViewModel> WithBaseErrorHandling(
                         dialogDataHolder.apply {
                             data = DialogData.Builder()
                                 .singleButton(true)
-                                .title(it.errorResponse.message.ifEmpty { "요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요." })
+                                .title(error.errorResponse.message.ifEmpty { "요청을 처리할 수 없습니다. 잠시 후 다시 시도해 주세요." })
                                 .build()
                         }.run {
                             show = true

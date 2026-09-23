@@ -147,7 +147,7 @@ fun LoginView(
 
         Image(
             modifier = Modifier
-                .padding(top = 154.dp),
+                .padding(top = if (darkMode) 88.dp else 154.dp),
             painter = if (darkMode) {
                 painterResource(R.drawable.icn_login_logo_dark)
             } else {
@@ -161,7 +161,7 @@ fun LoginView(
             stringResource(R.string.login_description),
             style = FillsaTheme.typography.body2,
             color = FillsaTheme.colorScheme.onBackground1,
-            modifier = Modifier.padding(top = 80.dp),
+            modifier = Modifier.padding(top = if (darkMode) 50.dp else 80.dp),
         )
 
         // 카카오
@@ -414,4 +414,3 @@ private fun LoginButtonPreview() {
         onClick = {}
     )
 }
-

@@ -127,7 +127,8 @@ class TypingViewModel @Inject constructor(
             val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
 
             if (loginStatus) {
-                getResponse(getTypingUseCase(seq))?.let { response ->
+                val typingResult = withLoading { getTypingUseCase(seq) }
+                getResponse(typingResult)?.let { response ->
                     savedEngTyping.value = response.typingEngQuote ?: ""
                     savedKorTyping.value = response.typingKorQuote ?: ""
                     isLike.value = YN.getYN(response.likeYn) == YN.Y
