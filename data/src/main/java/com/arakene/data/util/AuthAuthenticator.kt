@@ -3,7 +3,6 @@ package com.arakene.data.util
 import android.util.Log
 import com.arakene.domain.requests.TokenRefreshRequest
 import com.arakene.domain.responses.ErrorResponse
-import com.arakene.domain.usecase.common.EmitTokenExpiredUseCase
 import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase

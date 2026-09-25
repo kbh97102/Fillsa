@@ -9,7 +9,6 @@ import com.arakene.data.util.safeApi
 import com.arakene.domain.repository.ListRepository
 import com.arakene.domain.requests.MemoRequest
 import com.arakene.domain.responses.MemberQuotesResponse
-import com.arakene.domain.responses.SimpleIntResponse
 import com.arakene.domain.util.ApiResult
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
