@@ -15,7 +15,6 @@ import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
 import com.arakene.domain.usecase.db.GetTodayLocalStreakInfoUseCase
 import com.arakene.domain.usecase.db.InsertStreakInfoUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
-import com.arakene.domain.usecase.db.UpdateLocalQuoteUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostTypingUseCase

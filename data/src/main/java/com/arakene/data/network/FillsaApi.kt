@@ -13,7 +13,6 @@ import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.MemberTypingQuoteResponse
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
-import com.arakene.domain.responses.WritingStatusDto
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.Body

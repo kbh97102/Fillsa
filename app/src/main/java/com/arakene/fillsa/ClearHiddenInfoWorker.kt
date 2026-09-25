@@ -6,7 +6,6 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.arakene.domain.usecase.common.CheckYesterdayStreakUseCase
 import com.arakene.domain.usecase.db.ClearAllHiddenPopUpUseCase
-import com.arakene.domain.usecase.db.GetYesterdayStreakInfoUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import java.time.LocalDate
