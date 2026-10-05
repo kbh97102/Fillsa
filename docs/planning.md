@@ -17,6 +17,7 @@ Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에�
 | [5_1_notice.md](screens/5_1_notice.md) | 공지사항 | `presentation/ui/mypage`, `MyPageViewModel` |
 | [5_2_inform.md](screens/5_2_inform.md) | 알림 설정·회원 탈퇴 | `presentation/ui/mypage`, `MyPageViewModel` |
 | [5_3_theme.md](screens/5_3_theme.md) | 테마 | `presentation/ui/mypage/ThemeDialog.kt`, `MyPageViewModel` |
+| [6_widget.md](screens/6_widget.md) | 홈 화면 위젯 | `app/widget/ui`, `MyWidgetConfigScreen` |
 
 ## 문서 작성 규칙
 

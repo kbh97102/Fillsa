@@ -6,10 +6,10 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -31,12 +31,16 @@ import com.arakene.presentation.viewmodel.MyPageViewModel
 fun NoticeView(
     onBackPress: () -> Unit,
     navigate: Navigate,
+    onEmptyChanged: (Boolean) -> Unit = {},
     modifier: Modifier = Modifier,
     darkMode: Boolean = IsDarkMode.current,
     viewModel: MyPageViewModel = hiltViewModel()
 ) {
 
     val data = viewModel.getNotice.collectAsLazyPagingItems()
+    val isEmpty = data.itemCount == 0
+
+    SideEffect { onEmptyChanged(isEmpty) }
 
     BindGlobalLoading(data.loadState.refresh is LoadState.Loading)
 
@@ -62,7 +66,9 @@ fun NoticeView(
         modifier = modifier
             .fillMaxSize()
             .background(
-                if (darkMode) {
+                if (isEmpty) {
+                    FillsaTheme.colorScheme.background
+                } else if (darkMode) {
                     colorResource(R.color.gray_600)
                 } else {
                     colorResource(R.color.yellow01)
@@ -77,7 +83,7 @@ fun NoticeView(
         )
 
         Box(modifier = Modifier.padding(horizontal = 20.dp)) {
-            if (data.itemCount == 0) {
+            if (isEmpty) {
                 EmptyNoticeSection()
             } else {
                 NoticeListSection(
@@ -98,15 +104,4 @@ fun NoticeView(
 
     }
 
-}
-
-@Preview
-@Composable
-private fun NoticeViewPreview() {
-    FillsaTheme {
-        NoticeView(
-            onBackPress = {},
-            navigate = {}
-        )
-    }
 }

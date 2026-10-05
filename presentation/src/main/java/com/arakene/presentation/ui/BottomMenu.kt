@@ -61,6 +61,7 @@ fun BottomNavigationBar(
     isLogged: Boolean,
     displayAd: Boolean,
     displayBottomBar: Boolean,
+    noticeEmpty: Boolean = false,
     navController: NavHostController,
     navigationEnabled: Boolean = true,
     dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
@@ -134,6 +135,7 @@ fun BottomNavigationBar(
             SingleLineAdSection(
                 currentRoute = currentRoute ?: "",
                 refresh = displayBottomBar,
+                noticeEmpty = noticeEmpty,
             )
         }
     }

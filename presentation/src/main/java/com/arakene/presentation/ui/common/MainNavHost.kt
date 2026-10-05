@@ -43,6 +43,7 @@ fun MainNavHost(
     navController: NavHostController,
     startDestination: Screens,
     logoutEvent: () -> Unit,
+    onNoticeEmptyChanged: (Boolean) -> Unit = {},
     modifier: Modifier = Modifier
 ) {
 
@@ -247,6 +248,7 @@ fun MainNavHost(
         composable<MyPageScreens.Notice> {
             WithBaseErrorHandling<MyPageViewModel>(logoutEvent = updatedLogoutEvent) {
                 NoticeView(
+                    onEmptyChanged = onNoticeEmptyChanged,
                     onBackPress = {
                         navController.popBackStack()
                     },

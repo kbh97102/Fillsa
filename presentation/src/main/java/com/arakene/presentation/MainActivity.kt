@@ -19,6 +19,7 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -27,6 +28,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
@@ -163,6 +165,11 @@ class MainActivity : ComponentActivity() {
                 )
             }
 
+            SideEffect {
+                WindowCompat.getInsetsController(window, window.decorView)
+                    .isAppearanceLightStatusBars = !isDarkMode
+            }
+
             val streakCount by remember {
                 mainActivityViewModel.streakCount
             }
@@ -181,6 +188,7 @@ class MainActivity : ComponentActivity() {
             val snackbarHostState = remember { SnackbarHostState() }
 
             val navController = rememberNavController()
+            val noticeEmptyState = remember { mutableStateOf(false) }
 
             val logoutEvent = remember {
                 {
@@ -263,6 +271,7 @@ class MainActivity : ComponentActivity() {
                                         navController = navController,
                                         displayAd = displayAd,
                                         displayBottomBar = displayBottomBar,
+                                        noticeEmpty = noticeEmptyState.value,
                                         // A Calendar visual fixture must stay process-local and nonnetwork.
                                         navigationEnabled = calendarQaFixture == null,
                                     )
@@ -290,7 +299,8 @@ class MainActivity : ComponentActivity() {
                                         homeQaFixture != null -> Screens.Home()
                                         else -> Screens.Splash
                                     },
-                                    logoutEvent = logoutEvent
+                                    logoutEvent = logoutEvent,
+                                    onNoticeEmptyChanged = { noticeEmptyState.value = it }
                                 )
                             }
                         }

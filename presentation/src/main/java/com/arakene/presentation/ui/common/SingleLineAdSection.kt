@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.common
 
+import android.content.res.Configuration
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.Image
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -21,7 +23,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -31,6 +32,7 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.viewinterop.AndroidView
@@ -55,6 +57,7 @@ fun SingleLineAdSection(
     currentRoute: String,
     modifier: Modifier = Modifier,
     refresh: Boolean = false,
+    noticeEmpty: Boolean = false,
     darkMode: Boolean = IsDarkMode.current
 ) {
 
@@ -62,18 +65,8 @@ fun SingleLineAdSection(
 
     val adState by viewModel.adState.collectAsStateWithLifecycle()
 
-    val backgroundColor by remember(currentRoute, darkMode) {
-        mutableIntStateOf(
-            when {
-                currentRoute.contains(MyPageScreens.Notice.routeString) || currentRoute.contains(
-                    MyPageScreens.NoticeDetail().routeString
-                )
-                    -> if (darkMode) R.color.gray_600 else R.color.yellow01
-
-                else -> if (darkMode) R.color.gray_700 else R.color.primary
-            }
-        )
-    }
+    val backgroundColor = singleLineAdBackgroundRes(currentRoute, darkMode, noticeEmpty)
+    val isNoticeRoute = currentRoute.contains(MyPageScreens.Notice.routeString)
 
     LaunchedEffect(refresh) {
         if (refresh) {
@@ -104,12 +97,9 @@ fun SingleLineAdSection(
             MaterialTheme(
                 colorScheme = modifiedColorScheme
             ) {
-
-                Row(
-                    modifier = modifier
-                        .fillMaxWidth()
-                        .background(colorResource(backgroundColor)),
-                    horizontalArrangement = Arrangement.Center
+                SingleLineAdSurface(
+                    backgroundColor = colorResource(backgroundColor),
+                    modifier = if (isNoticeRoute) modifier.heightIn(min = 35.dp) else modifier
                 ) {
                     SingleLineAdContent(
                         ads, modifier = Modifier
@@ -122,7 +112,68 @@ fun SingleLineAdSection(
 
         }
 
-        else -> {}
+        else -> {
+            if (isNoticeRoute) {
+                SingleLineAdSurface(
+                    backgroundColor = colorResource(backgroundColor),
+                    modifier = modifier.height(35.dp),
+                    content = {}
+                )
+            }
+        }
+    }
+}
+
+internal fun singleLineAdBackgroundRes(
+    currentRoute: String,
+    darkMode: Boolean,
+    noticeEmpty: Boolean
+): Int = when {
+    noticeEmpty && currentRoute.contains(MyPageScreens.Notice.routeString) &&
+        !currentRoute.contains(MyPageScreens.NoticeDetail().routeString) ->
+        if (darkMode) R.color.gray_700 else R.color.primary
+
+    currentRoute.contains(MyPageScreens.Notice.routeString) ||
+        currentRoute.contains(MyPageScreens.NoticeDetail().routeString) ->
+        if (darkMode) R.color.gray_600 else R.color.yellow01
+
+    else -> if (darkMode) R.color.gray_700 else R.color.primary
+}
+
+@Composable
+internal fun SingleLineAdSurface(
+    backgroundColor: Color,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit
+) {
+    Row(
+        modifier = modifier.fillMaxWidth().background(backgroundColor),
+        horizontalArrangement = Arrangement.Center,
+        content = { content() }
+    )
+}
+
+@Preview(name = "Notice empty ad light", widthDp = 360, heightDp = 35, uiMode = Configuration.UI_MODE_NIGHT_NO, locale = "ko", fontScale = 1f)
+@Composable
+private fun NoticeEmptyAdLightPreview() {
+    FillsaTheme(darkTheme = false) {
+        SingleLineAdSurface(
+            backgroundColor = colorResource(singleLineAdBackgroundRes(MyPageScreens.Notice.routeString, false, true)),
+            modifier = Modifier.height(35.dp),
+            content = {}
+        )
+    }
+}
+
+@Preview(name = "Notice empty ad dark", widthDp = 360, heightDp = 35, uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "ko", fontScale = 1f)
+@Composable
+private fun NoticeEmptyAdDarkPreview() {
+    FillsaTheme(darkTheme = true) {
+        SingleLineAdSurface(
+            backgroundColor = colorResource(singleLineAdBackgroundRes(MyPageScreens.Notice.routeString, true, true)),
+            modifier = Modifier.height(35.dp),
+            content = {}
+        )
     }
 }
 

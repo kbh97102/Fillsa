@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Fillsa QA 결과 보고서 · 2026-10-05</title>
+  <style>
+    :root { --ink:#172033; --muted:#627087; --line:#dce2ee; --paper:#fff; --base:#f5f7fc; --blue:#5d66fe; --blue-soft:#eceeff; --amber:#9b6500; --amber-soft:#fff4d8; --green:#126b4d; --green-soft:#e1f5ed; --red:#9b3940; --red-soft:#ffeced; }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; background:var(--base); color:var(--ink); font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR",sans-serif; }
+    a { color:#424bd0; text-underline-offset:3px; }
+    a:hover { color:#222aa6; }
+    button { font:inherit; }
+    .topbar { background:#172033; color:#fff; padding:17px max(24px,calc((100vw - 1400px)/2)); display:flex; align-items:center; justify-content:space-between; gap:16px; }
+    .brand { font-weight:800; letter-spacing:.01em; }
+    .topbar small { color:#c3ccdf; }
+    .shell { max-width:1400px; margin:auto; padding:32px 24px 72px; display:grid; grid-template-columns:225px minmax(0,1fr); gap:28px; }
+    .toc { align-self:start; position:sticky; top:20px; background:var(--paper); border:1px solid var(--line); border-radius:18px; padding:20px; box-shadow:0 8px 28px #17203308; }
+    .toc strong { display:block; font-size:13px; color:var(--muted); margin-bottom:10px; letter-spacing:.06em; }
+    .toc a { display:block; padding:7px 10px; border-radius:9px; text-decoration:none; color:var(--ink); font-size:14px; }
+    .toc a:hover { background:var(--blue-soft); color:#3239b5; }
+    main { min-width:0; }
+    section { scroll-margin-top:24px; margin-bottom:28px; }
+    .hero { background:linear-gradient(125deg,#fff 50%,#e7eaff); border:1px solid var(--line); border-radius:24px; padding:36px; box-shadow:0 12px 34px #1720330a; }
+    .eyebrow { text-transform:uppercase; letter-spacing:.13em; color:#454ed9; font-weight:800; font-size:12px; margin:0 0 8px; }
+    h1 { font-size:clamp(29px,3vw,42px); line-height:1.2; letter-spacing:-.045em; margin:0 0 14px; }
+    h2 { font-size:25px; letter-spacing:-.035em; line-height:1.3; margin:0 0 16px; }
+    h3 { font-size:18px; letter-spacing:-.02em; margin:0 0 8px; }
+    p { margin:0 0 12px; }
+    .lead { max-width:790px; font-size:17px; color:#3c4960; }
+    .meta { color:var(--muted); font-size:13px; }
+    .metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; margin-top:26px; }
+    .metric { padding:16px; background:#fff; border:1px solid var(--line); border-radius:14px; }
+    .metric b { display:block; font-size:26px; line-height:1.1; }
+    .metric span { color:var(--muted); font-size:13px; }
+    .panel { background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:28px; box-shadow:0 8px 28px #17203308; }
+    .section-head { display:flex; justify-content:space-between; align-items:baseline; gap:14px; flex-wrap:wrap; }
+    .section-head p { color:var(--muted); font-size:14px; }
+    .badges { display:flex; flex-wrap:wrap; gap:7px; }
+    .badge { display:inline-block; font-size:12px; font-weight:800; line-height:1.4; padding:5px 9px; border-radius:999px; white-space:nowrap; }
+    .badge.progress { background:var(--amber-soft); color:var(--amber); }
+    .badge.todo { background:#e9edf4; color:#46546e; }
+    .badge.done { background:var(--green-soft); color:var(--green); }
+    .badge.blocked { background:var(--red-soft); color:var(--red); }
+    .status-list { display:grid; gap:10px; }
+    .status-item { border:1px solid var(--line); border-radius:14px; padding:17px 18px; }
+    .status-item .title-row { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+    .status-item h3 { margin:0; }
+    .status-item p { color:#46536a; margin:7px 0 0; font-size:14px; }
+    .status-item .next { margin-top:9px; padding-top:9px; border-top:1px solid #e8ecf4; color:#29374d; }
+    .action-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .action { border:1px solid var(--line); border-radius:15px; padding:18px; background:#fff; }
+    .action .num { display:inline-grid; place-items:center; width:27px; height:27px; border-radius:9px; background:var(--blue-soft); color:#424bd0; font-weight:900; font-size:13px; margin-bottom:10px; }
+    .action p { color:#4b5870; font-size:14px; margin:0; }
+    .action strong { display:block; margin-bottom:5px; }
+    .callout { background:var(--blue-soft); border-left:4px solid var(--blue); padding:14px 17px; border-radius:0 12px 12px 0; color:#364188; font-size:14px; margin-top:15px; }
+    .evidence-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; }
+    figure { margin:0; border:1px solid var(--line); border-radius:15px; overflow:hidden; background:#f9faff; }
+    figure img { display:block; width:100%; height:auto; cursor:zoom-in; }
+    figcaption { padding:11px 14px; font-size:13px; color:#4c5870; background:#fff; border-top:1px solid var(--line); }
+    .subhead { margin:25px 0 12px; }
+    .shots { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
+    .shots img { aspect-ratio:1/2; object-fit:cover; object-position:top; }
+    .legend { color:var(--muted); font-size:13px; margin:4px 0 16px; }
+    .result-boxes { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .result { border:1px solid var(--line); border-radius:15px; padding:18px; }
+    .result.success { background:#f0faf5; }
+    .result.fail { background:#fff6f2; }
+    .result p { color:#48546b; font-size:14px; }
+    .result img { width:100%; background:white; border:1px solid var(--line); border-radius:9px; margin-top:8px; }
+    code, pre { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+    code { font-size:.9em; background:#edf0f7; padding:1px 4px; border-radius:4px; overflow-wrap:anywhere; }
+    pre { overflow:auto; background:#172033; color:#edf1ff; padding:17px; border-radius:12px; font-size:12px; line-height:1.6; margin:12px 0; }
+    pre code { background:none; padding:0; color:inherit; }
+    .steps { margin:0; padding-left:22px; }
+    .steps li { padding:4px 0 4px 7px; }
+    .steps li::marker { color:#4b55dc; font-weight:800; }
+    .fine { color:var(--muted); font-size:13px; }
+    footer { color:var(--muted); font-size:13px; padding-top:12px; }
+    dialog { width:min(95vw,1150px); max-height:94vh; border:0; border-radius:16px; padding:16px; box-shadow:0 20px 90px #0008; }
+    dialog::backdrop { background:#101827d9; }
+    dialog img { display:block; max-width:100%; max-height:calc(94vh - 76px); margin:auto; object-fit:contain; }
+    dialog .dialog-head { display:flex; align-items:center; justify-content:space-between; gap:15px; margin-bottom:10px; }
+    dialog button { border:1px solid var(--line); border-radius:9px; padding:5px 12px; background:#fff; cursor:pointer; }
+    @media (max-width:1050px) { .shell { grid-template-columns:1fr; } .toc { position:static; display:flex; flex-wrap:wrap; gap:2px; } .toc strong { width:100%; } .metrics { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:700px) { .shell { padding:16px 12px 50px; } .hero,.panel { padding:21px; border-radius:17px; } .topbar { padding:12px 16px; } .topbar small { display:none; } .evidence-grid,.result-boxes,.action-grid { grid-template-columns:1fr; } .shots { grid-template-columns:repeat(2,minmax(0,1fr)); } .status-item .title-row { align-items:flex-start; } }
+    @media print { body { background:#fff; } .topbar,.toc,dialog { display:none; } .shell { display:block; padding:0; } .panel,.hero { box-shadow:none; break-inside:avoid; } a { color:inherit; } .evidence-grid { grid-template-columns:repeat(2,1fr); } }
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="brand">Fillsa · QA 결과 보고서</div><small>2026-10-05 · 로컬 작업 트리 / 운영 배포 전</small></header>
+  <div class="shell">
+    <nav class="toc" aria-label="보고서 목차">
+      <strong>목차</strong>
+      <a href="#overview">요약</a><a href="#status">항목별 판정</a><a href="#actions">추가 작업에 필요한 자료</a><a href="#evidence">이미지 비교</a><a href="#preview">Android CLI Preview</a><a href="#next">다음 검증 순서</a>
+    </nav>
+    <main>
+      <section id="overview" class="hero">
+        <p class="eyebrow">QA checklist · progress report</p>
+        <h1>수정은 진행됐고,<br>최종 확인은 남았습니다</h1>
+        <p class="lead">테마 팝업과 공지사항의 Figma 차이를 고쳐 에뮬레이터에서 부분 대조했습니다. 아래 비교 이미지를 누르면 크게 볼 수 있습니다. 운영 증거와 새 Compose Preview가 확보되기 전에는 미완료 항목을 <em>Completed</em>로 옮기지 않습니다.</p>
+        <p class="meta">기준: <a href="../ui-redesign-workflow.md">UI 개편 워크플로우</a> · 빌드 <code>:app:assembleDebug</code> 통과 · 2026-10-05 Notion 상태 재조회</p>
+        <div class="metrics" aria-label="진행 현황"><div class="metric"><b>2</b><span>기존 Completed 유지</span></div><div class="metric"><b>5</b><span>검증이 남은 항목</span></div><div class="metric"><b>2</b><span>UI 부분 비교 진행</span></div><div class="metric"><b>1</b><span>기존 CLI Preview 렌더링 성공</span></div></div>
+      </section>
+
+      <section id="status" class="panel">
+        <div class="section-head"><h2>항목별 판정</h2><p><a href="https://app.notion.com/p/QA-Checklist-20fe639fc7a4801896aacef91539661e">Notion QA Checklist 열기 ↗</a></p></div>
+        <div class="status-list">
+          <div class="status-item"><div class="title-row"><h3><a href="https://app.notion.com/p/276e639fc7a480f78ef7f0ce85525ad5">테마 선택 팝업 크기조정 ↗</a></h3><span class="badge progress">In progress</span></div><p>20sp 글자·30dp 간격, 라이트 선택 아이콘과 다크 테두리를 Figma에 맞췄습니다. 에뮬레이터에서 팝업 크기와 선택 저장을 부분 확인했습니다.</p><p class="next"><strong>남은 확인:</strong> 새 Preview, 로그인된 전체 화면, 광고·dim·시스템 UI 비교. <a href="2026-10-04-theme-dialog-qa.md">상세 QA</a></p></div>
+          <div class="status-item"><div class="title-row"><h3><a href="https://app.notion.com/p/25de639fc7a480d48d47ea7d07663793">공지사항 광고 배경색상 ↗</a></h3><span class="badge progress">In progress</span></div><p>목록·상세·빈 상태의 light/dark 배경색 표본을 Figma와 대조했습니다. 빈 상태 배치와 다크 상태 표시줄 아이콘도 수정했습니다.</p><p class="next"><strong>남은 확인:</strong> 새 Preview와 실제 공지·광고 데이터가 들어간 전체 화면의 수용 기준. <a href="2026-10-04-notice-ad-background-qa.md">상세 QA</a></p></div>
+          <div class="status-item"><div class="title-row"><h3><a href="https://app.notion.com/p/2b5e639fc7a480e49107c81bd535132d">팝업 디자인 ↗</a></h3><span class="badge progress">In progress</span></div><p>기존 Figma QA 노드 <code>2554:2201</code>는 팝업 사례 사진이 담긴 섹션입니다. 구현 기준인 v3.0 디자인 프레임은 아직 확인되지 않았습니다.</p><p class="next"><strong>남은 확인:</strong> 정확한 v3.0 프레임·표시 조건과 운영 빌드 캡처. <a href="../superpowers/plans/2026-10-04-popup-production-verification.md">검증 계획</a></p></div>
+          <div class="status-item"><div class="title-row"><h3><a href="https://app.notion.com/p/276e639fc7a48077a891fcea28baf4e1">위젯 디자인 ↗</a></h3><span class="badge progress">In progress</span></div><p>제공된 Figma 섹션에서 2×2·4×2 위젯 변형을 정리했습니다. 운영 런처 및 구성 화면은 아직 캡처하지 않았습니다.</p><p class="next"><strong>남은 확인:</strong> 선택 미리보기 테두리 Figma 프레임, 운영 빌드와 런처 캡처. <a href="2026-10-04-widget-production-qa.md">상세 QA</a></p></div>
+          <div class="status-item"><div class="title-row"><h3><a href="https://app.notion.com/p/26be639fc7a48046b4afe4cfb5bf0d98">로그인 시간 만료 반복 ↗</a></h3><span class="badge todo">Not started</span></div><p>코드에는 빈 refresh token 방어와 401/403의 세션 삭제·로그인 이동 경로가 있습니다. 하루 뒤·재설치 직후의 반복 현상이 실제로 해결됐는지는 확인하지 못했습니다.</p><p class="next"><strong>남은 확인:</strong> 재현 단계와 운영 로그·캡처. <a href="2026-10-04-session-expiration-recheck-qa.md">조사 기록</a></p></div>
+        </div>
+        <p class="fine" style="margin-top:14px">앞서 Completed로 옮긴 <strong>연속필사 안내</strong>와 <strong>테마 추가</strong>는 이번 Notion 재조회에서도 Completed입니다. 이번 보고서로 바꾼 Notion 상태는 없습니다.</p>
+      </section>
+
+      <section id="actions" class="panel">
+        <div class="section-head"><h2>추가 작업에 필요한 자료</h2><p>받는 즉시 해당 항목부터 검증할 수 있습니다</p></div>
+        <div class="action-grid">
+          <div class="action"><span class="num">01</span><strong>팝업 v3.0의 정확한 Figma 노드</strong><p>팝업이 실제로 표시된 디자인 프레임 URL·노드 ID와 표시 경로를 알려주세요. 현재 QA 사진만으로는 구현 기준을 확정할 수 없습니다.</p></div>
+          <div class="action"><span class="num">02</span><strong>위젯 선택 상태 디자인</strong><p>위젯 설정 화면에서 선택된 2×2/4×2 미리보기 테두리가 보이는 Figma 프레임 URL·노드 ID가 필요합니다.</p></div>
+          <div class="action"><span class="num">03</span><strong>같은 상태를 만들 테스트 자료</strong><p>테마의 로그인 상태를 재현할 테스트 계정 접근 방법, 공지 예시 데이터 또는 실제 공지·광고 내용을 어떤 기준으로 비교할지 알려주세요. 비밀번호는 보고서에 적지 마세요.</p></div>
+          <div class="action"><span class="num">04</span><strong>운영 재현 정보</strong><p>검증할 운영 앱 버전/빌드, 팝업과 위젯의 기기·진입 경로, 로그인 만료가 반복된 시각·단계·로그가 필요합니다.</p></div>
+        </div>
+        <div class="callout"><strong>Android Studio 확인:</strong> 새 Preview를 계속 검증하려면 Studio에서 저장되지 않은 편집이 있는지 확인하고 프로젝트 소스를 동기화하거나 다시 열어야 합니다. CLI 자체는 기존 Preview를 정상 렌더링했습니다.</div>
+      </section>
+
+      <section id="evidence" class="panel">
+        <div class="section-head"><h2>결과물 이미지 비교</h2><p>각 이미지: 왼쪽 Figma / 오른쪽 Android</p></div>
+        <p class="legend">이미지를 클릭하면 원본 크기로 확대합니다. 비교에 사용한 Android 캡처는 API 35, 160dpi, 360×634 또는 360×720px의 별도 QA 에뮬레이터에서 촬영했습니다.</p>
+        <h3 class="subhead">테마 팝업</h3>
+        <div class="evidence-grid">
+          <figure><img data-zoom src="artifacts/2026-10-05-runtime/compare-theme-light.png" alt="라이트 테마 팝업 Figma와 Android 비교" loading="lazy"><figcaption><strong>Light</strong> · 선택 라디오와 팝업 크기 부분 일치. 배경은 Figma 로그인 / Android 비회원.</figcaption></figure>
+          <figure><img data-zoom src="artifacts/2026-10-05-runtime/compare-theme-dark.png" alt="다크 테마 팝업 Figma와 Android 비교" loading="lazy"><figcaption><strong>Dark</strong> · 테두리와 팝업 크기 부분 일치. Dialog dim·광고·전체 화면 차이 잔존.</figcaption></figure>
+        </div>
+        <h3 class="subhead">공지사항 빈 상태</h3>
+        <div class="evidence-grid">
+          <figure><img data-zoom src="artifacts/2026-10-05-runtime/compare-notice-light-empty.png" alt="라이트 공지 빈 상태 Figma와 Android 비교" loading="lazy"><figcaption><strong>Light</strong> · 아이콘·문구 위치와 배경색 부분 일치. 실제 광고 문구는 다름.</figcaption></figure>
+          <figure><img data-zoom src="artifacts/2026-10-05-runtime/compare-notice-dark-empty.png" alt="다크 공지 빈 상태 Figma와 Android 비교" loading="lazy"><figcaption><strong>Dark</strong> · 빈 상태 배치·배경색 부분 일치. 광고 미수신 및 OS 아이콘 구성 차이.</figcaption></figure>
+        </div>
+        <h3 class="subhead">실제 공지 데이터의 목록·상세</h3>
+        <p class="legend">배경색 표본은 Figma와 일치합니다. 실제 공지 제목·본문·날짜는 Figma 예시와 다릅니다.</p>
+        <div class="shots">
+          <figure><img data-zoom src="artifacts/2026-10-05-runtime/notice-light-list-live-360x720.png" alt="라이트 공지 목록 실제 데이터" loading="lazy"><figcaption>Light · 목록</figcaption></figure>
+          <figure><img data-zoom src="artifacts/2026-10-05-runtime/notice-light-detail-live-360x720.png" alt="라이트 공지 상세 실제 데이터" loading="lazy"><figcaption>Light · 상세</figcaption></figure>
+          <figure><img data-zoom src="artifacts/2026-10-05-runtime/notice-dark-list-live-360x720.png" alt="다크 공지 목록 실제 데이터" loading="lazy"><figcaption>Dark · 목록</figcaption></figure>
+          <figure><img data-zoom src="artifacts/2026-10-05-runtime/notice-dark-detail-live-360x720.png" alt="다크 공지 상세 실제 데이터" loading="lazy"><figcaption>Dark · 상세</figcaption></figure>
+        </div>
+      </section>
+
+      <section id="preview" class="panel">
+        <div class="section-head"><h2>Android CLI Compose Preview</h2><span class="badge blocked">수정 컴포넌트 검증 대기</span></div>
+        <p>Android Studio Quail 1의 <code>android studio check</code> 결과 Fillsa는 <code>READY</code>였습니다. 같은 렌더링 기능으로 기존 Preview는 성공했고, 이번에 추가한 Preview는 Studio에서 선언을 찾지 못했습니다.</p>
+        <div class="result-boxes">
+          <div class="result success"><h3>기존 Preview · 렌더링 성공</h3><p><code>MyPageItemPreview</code> 이미지 1080×157px 및 <code>공지사항</code> semantics를 확인했습니다. CLI 기능 대조군이며 이번 수정의 통과 증거는 아닙니다.</p><img data-zoom src="artifacts/2026-10-05-runtime/preview-cli-control-mypage-item.png" alt="CLI로 렌더링한 기존 MyPageItemPreview"></div>
+          <div class="result fail"><h3>신규 Preview · 요소 탐색 실패</h3><p><code>ThemeItemLightPreview</code>, <code>ThemeDialogLightPreview</code>, <code>NoticeEmptyAdLightPreview</code> 모두 <code>Failed to find preview element</code>를 출력하고 PNG를 만들지 않았습니다.</p><p><code>find-declaration</code>도 새 함수를 찾지 못했으며 <code>analyze-file</code>은 이전 소스의 경고를 반환했습니다. Studio 소스 인덱스 동기화가 필요합니다.</p></div>
+        </div>
+        <details style="margin-top:18px"><summary style="cursor:pointer;font-weight:700">실행 명령 보기</summary><pre><code>~/.local/bin/android studio check
+
+~/.local/bin/android studio render-compose-preview \
+  presentation/src/main/java/com/arakene/presentation/ui/mypage/MyPageItem.kt \
+  MyPageItemPreview --project Fillsa --pid 2279 \
+  --output-image-file=docs/design-qa/artifacts/2026-10-05-runtime/preview-cli-control-mypage-item.png \
+  --print-semantics
+
+~/.local/bin/android studio render-compose-preview \
+  presentation/src/main/java/com/arakene/presentation/ui/mypage/ThemeDialog.kt \
+  ThemeItemLightPreview --project Fillsa --print-semantics</code></pre><p class="fine">실패 명령도 출력상 종료 코드가 0이므로 오류 메시지와 이미지 파일 생성 여부를 함께 확인했습니다. 명령 전체와 결과는 <a href="2026-10-05-qa-result-report.md">Markdown 원본 보고서</a>에 있습니다.</p></details>
+      </section>
+
+      <section id="next" class="panel">
+        <h2>다음 검증 순서</h2>
+        <ol class="steps"><li>Studio가 최신 소스를 읽도록 동기화하고 테마·공지 하위 Preview 이미지와 semantics를 다시 얻습니다.</li><li>하위 컴포넌트를 Figma 영역과 대조해 남은 차이를 수정합니다.</li><li>로그인·공지·광고 조건을 맞춘 전체 런타임 프레임을 다시 비교합니다.</li><li>팝업·위젯·로그인 만료의 운영 증거를 각각 확인하고, 조건을 모두 충족한 항목만 Notion Completed로 옮깁니다.</li></ol>
+        <div class="callout">이 보고서의 이미지 비교는 <strong>부분 검증 증거</strong>입니다. Figma 전체 조립 화면과 일치한다는 최종 판정은 아직 없습니다.</div>
+      </section>
+      <footer>자료: <a href="2026-10-05-qa-result-report.md">Markdown 원본</a> · <a href="../screens/5_3_theme.md">테마 화면 문서</a> · <a href="../screens/5_1_notice.md">공지 화면 문서</a> · 작성일 2026-10-05</footer>
+    </main>
+  </div>
+  <dialog id="imageDialog" aria-label="비교 이미지 확대"><div class="dialog-head"><strong id="imageTitle"></strong><button id="closeDialog" type="button">닫기 ✕</button></div><img id="imageFull" alt="확대 이미지"></dialog>
+  <script>
+    const dialog = document.getElementById('imageDialog');
+    document.querySelectorAll('img[data-zoom]').forEach(img => img.addEventListener('click', () => {
+      document.getElementById('imageFull').src = img.src;
+      document.getElementById('imageFull').alt = img.alt;
+      document.getElementById('imageTitle').textContent = img.alt;
+      dialog.showModal();
+    }));
+    document.getElementById('closeDialog').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => { if (event.target === dialog) dialog.close(); });
+  </script>
+</body>
+</html>
