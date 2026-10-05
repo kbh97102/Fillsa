@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fillsa Android · 전역 스피너 적용 범위</title>
+  <style>
+    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", "Malgun Gothic", sans-serif; background: #f5f5f8; color: #20212a; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1120px; margin: 0 auto; padding: 48px 24px 80px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(30px, 4vw, 46px); letter-spacing: -.045em; line-height: 1.2; margin-bottom: 18px; }
+    h2 { font-size: 24px; letter-spacing: -.035em; margin-bottom: 16px; }
+    h3 { font-size: 17px; margin-bottom: 9px; }
+    p { line-height: 1.65; }
+    a { color: #4a55de; }
+    .eyebrow { color: #5963db; font-size: 13px; font-weight: 750; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 12px; }
+    .lead { font-size: 18px; max-width: 760px; color: #4a4c59; }
+    .meta { font-size: 13px; color: #6a6c78; margin: 24px 0 0; }
+    .card { background: #fff; border: 1px solid #e5e5ec; border-radius: 20px; box-shadow: 0 8px 30px rgba(29, 31, 58, .04); padding: 28px; margin-top: 24px; }
+    .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 30px; }
+    .metric { padding: 22px; border-radius: 18px; background: #fff; border: 1px solid #e5e5ec; }
+    .metric strong { display: block; font-size: 34px; letter-spacing: -.055em; color: #5963ed; }
+    .metric span { display: block; margin-top: 4px; color: #535560; font-size: 14px; }
+    .verdict { border-left: 5px solid #6570fa; background: #f0f1ff; padding: 19px 22px; border-radius: 8px 16px 16px 8px; margin-top: 24px; line-height: 1.6; }
+    .verdict strong { display: block; margin-bottom: 4px; }
+    .media-grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(260px, .65fr); gap: 24px; align-items: start; }
+    video { display: block; width: 100%; max-height: 560px; background: #15151a; border-radius: 14px; }
+    .caption { font-size: 13px; color: #696b76; margin: 12px 0 0; }
+    .note { padding: 18px; background: #faf6e8; border-radius: 14px; color: #594c21; font-size: 14px; line-height: 1.6; }
+    .reference { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+    figure { margin: 0; }
+    figure img { display: block; width: 100%; max-height: 490px; object-fit: contain; background: #f6f6f8; border: 1px solid #ececf1; border-radius: 12px; }
+    figcaption { margin-top: 9px; color: #656773; font-size: 13px; line-height: 1.5; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { padding: 13px 12px; text-align: left; vertical-align: top; border-bottom: 1px solid #ebebf0; line-height: 1.5; }
+    th { color: #51535d; background: #f8f8fb; font-size: 12px; white-space: nowrap; }
+    td:first-child { font-weight: 650; min-width: 135px; }
+    .tag { display: inline-block; border-radius: 999px; padding: 4px 9px; font-size: 12px; font-weight: 700; white-space: nowrap; }
+    .yes { color: #3557af; background: #edf2ff; }
+    .no { color: #8b5c27; background: #fff2dc; }
+    .muted { color: #686a76; }
+    .sources { padding-left: 20px; margin-bottom: 0; line-height: 1.9; font-size: 14px; }
+    @media (max-width: 740px) { main { padding: 30px 15px 60px; } .summary, .media-grid, .reference { grid-template-columns: 1fr; } .card { padding: 20px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">Android UI 조사 · 2026.10.04</p>
+    <h1>전역 스피너는 모든 화면에 적용됐을까?</h1>
+    <p class="lead">오버레이는 앱 최상위에 한 번 배치돼 있습니다. 실제로 스피너를 켜는 로딩 상태는 등록된 모든 화면에 연결돼 있지는 않습니다.</p>
+    <p class="meta">범위: <code>MainNavHost</code>에 등록된 14개 경로 · 코드 조사와 에뮬레이터 녹화 · 앱 코드 변경 없음</p>
+  </header>
+
+  <section class="summary" aria-label="조사 요약">
+    <div class="metric"><strong>14/14</strong><span>전역 오버레이가 덮을 수 있는 등록 경로</span></div>
+    <div class="metric"><strong>6/14</strong><span>화면 자체에 직접 로딩 연결이 있는 경로</span></div>
+    <div class="metric"><strong>8/14</strong><span>직접 로딩 연결이 확인되지 않은 경로</span></div>
+  </section>
+
+  <div class="verdict" role="note">
+    <strong>결론: 부분 적용</strong>
+    Login, Home, DailyQuote, Calendar의 지정 API 요청과 QuoteList, Notice의 Paging refresh에서 전역 스피너를 켭니다. 나머지 경로는 오버레이 아래에 표시될 수 있지만, 해당 화면에서 로딩을 직접 등록하는 코드는 확인되지 않았습니다.
+  </div>
+
+  <section class="card" aria-labelledby="video-title">
+    <h2 id="video-title">실제 기기 녹화</h2>
+    <div class="media-grid">
+      <div>
+        <video controls playsinline preload="metadata" poster="artifacts/2026-10-04-global-spinner-coverage/runtime-calendar-error-poster.png" aria-label="Calendar 월 변경 확인 영상">
+          <source src="artifacts/2026-10-04-global-spinner-coverage/runtime-calendar-past-month.mp4" type="video/mp4">
+          브라우저가 MP4 영상을 지원하지 않습니다.
+        </video>
+        <p class="caption">Medium_Phone_API_35 · 비회원 · 360×720dp · Calendar 월 변경 시도 · 2026.10.04 녹화</p>
+      </div>
+      <aside class="note">
+        <h3>영상 판독</h3>
+        <p>이번 녹화에서는 API 오류 대화상자가 표시됐습니다. 따라서 이 영상은 Calendar 스피너의 정상 표시를 입증하지 않습니다.</p>
+        <p>영상은 한 화면의 한 상태만 보여 줍니다. 아래 적용 범위 표는 실제 영상 확인 결과와 구분해 코드 경로를 기준으로 작성했습니다.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="prior-title">
+    <h2 id="prior-title">기존 시각 QA 증거</h2>
+    <p class="muted">2026.09.21의 별도 QA에서 Figma 기준 화면과 지연된 Home API의 실제 스피너 화면을 기록했습니다. 이는 현재 모든 화면의 기능 동작을 증명하는 자료는 아닙니다.</p>
+    <div class="reference">
+      <figure>
+        <img src="assets/global-loading-spinner-2929-6086/reference-full.png" alt="Figma 전역 스피너 전체 프레임 기준 이미지">
+        <figcaption><a href="https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X/%E2%9C%92%EF%B8%8F%ED%95%84%EC%82%AC?node-id=2929-6086">Figma 전체 프레임 기준 · 노드 2929:6086</a></figcaption>
+      </figure>
+      <figure>
+        <img src="artifacts/2026-09-21-global-loading-spinner/runtime-home.png" alt="기존 QA의 Home 전역 스피너 런타임 캡처">
+        <figcaption>기존 QA의 Home 런타임 캡처 · Pixel 9 API 35 · 2026.09.21</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="matrix-title">
+    <h2 id="matrix-title">화면별 연결 현황</h2>
+    <p class="muted">“직접 연결”은 해당 경로의 ViewModel 요청에 <code>withLoading</code>이 있거나 화면에서 Paging <code>refresh</code>를 <code>BindGlobalLoading</code>에 전달하는 경우입니다. 공통 오버레이의 존재만으로 화면의 모든 작업이 로딩 표시 대상이 되지는 않습니다.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>등록 경로</th><th>직접 연결</th><th>현재 코드에서 스피너를 켜는 경우</th></tr></thead>
+        <tbody>
+          <tr><td>Splash</td><td><span class="tag no">없음</span></td><td>진입 경로에 직접 연결 없음</td></tr>
+          <tr><td>Login</td><td><span class="tag yes">있음</span></td><td>로그인 제출 API</td></tr>
+          <tr><td>OnBoardingGuide</td><td><span class="tag no">없음</span></td><td>직접 연결 없음</td></tr>
+          <tr><td>Home</td><td><span class="tag yes">있음</span></td><td>회원 주간 인용문, 비회원 날짜별 인용문 API</td></tr>
+          <tr><td>DailyQuote</td><td><span class="tag yes">조건부</span></td><td>로그인 회원의 Typing 인용문 조회 · 비회원은 로컬 조회</td></tr>
+          <tr><td>Share</td><td><span class="tag no">없음</span></td><td>직접 연결 없음</td></tr>
+          <tr><td>QuoteList</td><td><span class="tag yes">있음</span></td><td>Paging refresh · append/prepend 제외</td></tr>
+          <tr><td>QuoteDetail</td><td><span class="tag no">없음</span></td><td>직접 연결 없음</td></tr>
+          <tr><td>MemoInsert</td><td><span class="tag no">없음</span></td><td>직접 연결 없음</td></tr>
+          <tr><td>Calendar</td><td><span class="tag yes">있음</span></td><td>회원·비회원 월별 인용문 API</td></tr>
+          <tr><td>MyPage</td><td><span class="tag no">없음</span></td><td>직접 연결 없음</td></tr>
+          <tr><td>Notice</td><td><span class="tag yes">있음</span></td><td>Paging refresh · append/prepend 제외</td></tr>
+          <tr><td>Alert</td><td><span class="tag no">없음</span></td><td>직접 연결 없음</td></tr>
+          <tr><td>NoticeDetail</td><td><span class="tag no">없음</span></td><td>직접 연결 없음</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card" aria-labelledby="how-title">
+    <h2 id="how-title">연결 구조와 검증 범위</h2>
+    <p><code>BaseViewModel.withLoading</code> → <code>WithBaseErrorHandling</code> 또는 화면의 <code>BindGlobalLoading</code> → owner 기반 <code>GlobalLoadingState</code> → <code>MainActivity</code>의 <code>CircleLoadingSpinner</code> 순서로 표시됩니다. 스피너는 전체 화면 dim과 중앙 인디케이터로 구성됩니다.</p>
+    <p>기존 QA 기록은 Home 화면의 시각 결과를 통과로 기록했으며, 입력 차단·동시 요청·화면 이탈·Paging append 등 기능 검증은 사용자 확인 대기로 남겼습니다. 이번 조사는 모든 화면의 실제 기능 통과 판정이 아닙니다.</p>
+    <ul class="sources">
+      <li><a href="../../presentation/src/main/java/com/arakene/presentation/MainActivity.kt">MainActivity · 루트 오버레이</a>, <a href="../../presentation/src/main/java/com/arakene/presentation/ui/common/MainNavHost.kt">MainNavHost · 14개 등록 경로</a></li>
+      <li><a href="../../presentation/src/main/java/com/arakene/presentation/util/BaseViewModel.kt">BaseViewModel · withLoading</a>, <a href="../../presentation/src/main/java/com/arakene/presentation/util/GlobalLoadingState.kt">GlobalLoadingState · owner 집계</a></li>
+      <li><a href="../../presentation/src/main/java/com/arakene/presentation/ui/common/WithBaseErrorHandling.kt">WithBaseErrorHandling · ViewModel 바인딩</a>, <a href="../../presentation/src/main/java/com/arakene/presentation/util/ComposeExtension.kt">ComposeExtension · BindGlobalLoading</a></li>
+      <li><a href="2026-09-21-android-global-loading-spinner-qa.md">기존 전역 스피너 QA 기록</a>, <a href="../screens/common.md">공통 UI 문서</a></li>
+    </ul>
+  </section>
+</main>
+</body>
+</html>

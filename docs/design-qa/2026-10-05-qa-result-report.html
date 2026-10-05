@@ -90,7 +90,7 @@
   </style>
 </head>
 <body>
-  <header class="topbar"><div class="brand">Fillsa · QA 결과 보고서</div><small>2026-10-05 · 로컬 작업 트리 / 운영 배포 전</small></header>
+  <header class="topbar"><div class="brand">Fillsa · QA 결과 보고서</div><small>2026-10-05 · 스테이지 후보 1.0.30 (24) / 운영 확인 전</small></header>
   <div class="shell">
     <nav class="toc" aria-label="보고서 목차">
       <strong>목차</strong>
@@ -101,7 +101,7 @@
         <p class="eyebrow">QA checklist · progress report</p>
         <h1>수정은 진행됐고,<br>최종 확인은 남았습니다</h1>
         <p class="lead">테마 팝업과 공지사항의 Figma 차이를 고쳐 에뮬레이터에서 부분 대조했습니다. 아래 비교 이미지를 누르면 크게 볼 수 있습니다. 운영 증거와 새 Compose Preview가 확보되기 전에는 미완료 항목을 <em>Completed</em>로 옮기지 않습니다.</p>
-        <p class="meta">기준: <a href="../ui-redesign-workflow.md">UI 개편 워크플로우</a> · 빌드 <code>:app:assembleDebug</code> 통과 · 2026-10-05 Notion 상태 재조회</p>
+        <p class="meta">기준: <a href="../ui-redesign-workflow.md">UI 개편 워크플로우</a> · UI 변경 커밋 <code>0c2a953</code> · 스테이지 후보 1.0.30 (24) 로컬 빌드 · 2026-10-05 Notion 상태 재조회</p>
         <div class="metrics" aria-label="진행 현황"><div class="metric"><b>2</b><span>기존 Completed 유지</span></div><div class="metric"><b>5</b><span>검증이 남은 항목</span></div><div class="metric"><b>2</b><span>UI 부분 비교 진행</span></div><div class="metric"><b>1</b><span>기존 CLI Preview 렌더링 성공</span></div></div>
       </section>
 
@@ -130,7 +130,7 @@
 
       <section id="evidence" class="panel">
         <div class="section-head"><h2>결과물 이미지 비교</h2><p>각 이미지: 왼쪽 Figma / 오른쪽 Android</p></div>
-        <p class="legend">이미지를 클릭하면 원본 크기로 확대합니다. 비교에 사용한 Android 캡처는 API 35, 160dpi, 360×634 또는 360×720px의 별도 QA 에뮬레이터에서 촬영했습니다.</p>
+        <p class="legend">이미지를 클릭하면 원본 크기로 확대합니다. 비교에 사용한 Android 캡처는 이전 디버그 1.0.29 (23)을 API 35, 160dpi, 360×634 또는 360×720px의 별도 QA 에뮬레이터에서 촬영했습니다. 1.0.30 (24)의 스테이지 런타임 QA는 아직 수행하지 않았습니다.</p>
         <h3 class="subhead">테마 팝업</h3>
         <div class="evidence-grid">
           <figure><img data-zoom src="artifacts/2026-10-05-runtime/compare-theme-light.png" alt="라이트 테마 팝업 Figma와 Android 비교" loading="lazy"><figcaption><strong>Light</strong> · 선택 라디오와 팝업 크기 부분 일치. 배경은 Figma 로그인 / Android 비회원.</figcaption></figure>
