@@ -20,11 +20,13 @@ import com.arakene.data.repository.TokenRepositoryImpl
 import com.arakene.data.repository.TypingRepositoryImpl
 import com.arakene.data.util.AdCacheManagerImpl
 import com.arakene.data.util.TokenProvider
+import com.arakene.fillsa.FirebaseInstallationIdProvider
 import com.arakene.domain.repository.AdRepository
 import com.arakene.domain.repository.CalendarRepository
 import com.arakene.domain.repository.CommonRepository
 import com.arakene.domain.repository.DailyNotificationPreferenceRepository
 import com.arakene.domain.repository.HomeRepository
+import com.arakene.domain.repository.InstallationIdProvider
 import com.arakene.domain.repository.ListRepository
 import com.arakene.domain.repository.LocalRepository
 import com.arakene.domain.repository.LoginRepository
@@ -40,6 +42,10 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class RepositoryModule {
+
+    @Provides
+    @Singleton
+    fun provideInstallationIdProvider(): InstallationIdProvider = FirebaseInstallationIdProvider()
 
     @Provides
     fun provideLoginRepository(api: FillsaNoTokenApi): LoginRepository {

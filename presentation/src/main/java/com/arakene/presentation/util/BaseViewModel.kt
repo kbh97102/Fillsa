@@ -89,6 +89,10 @@ abstract class BaseViewModel : ViewModel() {
         }
     }
 
+    protected suspend fun emitError(error: CommonError) {
+        _error.emit(error)
+    }
+
     protected suspend fun <T> withLoading(block: suspend () -> T): T {
         activeLoadingRequests += 1
         _isLoading.value = true

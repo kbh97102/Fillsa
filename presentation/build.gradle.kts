@@ -24,6 +24,8 @@ android {
         minSdk = 28
         targetSdk = 36
 
+        manifestPlaceholders["appAuthRedirectScheme"] = "com.arakene.fillsa"
+
         buildConfigField("String", "kakao_key", secretsFile["KAKAO_KEY"].toString())
         buildConfigField("String", "google_key", secretsFile["GOOGLE_KEY"].toString())
         buildConfigField("String", "ad_native_prod", secretsFile["AD_MOB_NATIVE_PROD"].toString())
@@ -37,6 +39,9 @@ android {
         compose = true
         buildConfig = true
         viewBinding = true
+    }
+    testOptions {
+        unitTests.isReturnDefaultValues = true
     }
 }
 
@@ -54,7 +59,6 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.googleid)
-    implementation(libs.firebase.installations.ktx)
     implementation(libs.androidx.exifinterface)
     implementation(libs.androidx.glance.appwidget)
     implementation(libs.androidx.hilt.common)

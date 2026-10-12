@@ -13,10 +13,10 @@ import androidx.work.WorkerFactory
 import androidx.work.WorkerParameters
 import androidx.work.testing.WorkManagerTestInitHelper
 import com.arakene.fillsa.widget.DailyQuoteWorker
-import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.usecase.db.SetLocalQuoteForWidgetUseCase
-import com.arakene.domain.usecase.home.GetDailyQuoteUseCase
+import com.arakene.domain.usecase.home.GetDailyQuoteNoTokenUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.CommonError
 import io.mockk.coEvery
@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit
 class ExampleInstrumentedTest {
 
     private lateinit var appContext: Context
-    private lateinit var getDailyQuoteUseCase: GetDailyQuoteUseCase
+    private lateinit var getDailyQuoteUseCase: GetDailyQuoteNoTokenUseCase
     private lateinit var setLocalQuoteForWidgetUseCase: SetLocalQuoteForWidgetUseCase
     private lateinit var worker: DailyQuoteWorker
 
@@ -75,7 +75,7 @@ class ExampleInstrumentedTest {
     @Test
     fun doWork_should_return_SUCCESS_when_API_call_is_successful() = runTest {
         // Arrange
-        val quote = DailyQuoteDto("Test quote", "Author")
+        val quote = DailyQuotaNoToken(1, "Test quote", null, "Author", null, null)
         coEvery { getDailyQuoteUseCase(any()) } returns ApiResult.Success(quote)
         coEvery { setLocalQuoteForWidgetUseCase(any()) } returns Unit
 
@@ -92,7 +92,7 @@ class ExampleInstrumentedTest {
     @Test
     fun workManager_delay_test() = runTest {
         // Arrange
-        val quote = DailyQuoteDto("Test quote", "Author")
+        val quote = DailyQuotaNoToken(1, "Test quote", null, "Author", null, null)
         coEvery { getDailyQuoteUseCase(any()) } returns ApiResult.Success(quote)
         coEvery { setLocalQuoteForWidgetUseCase(any()) } returns Unit
 
@@ -157,7 +157,7 @@ class ExampleInstrumentedTest {
 
 
 class TestWorkerFactory(
-    private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
+    private val getDailyQuoteUseCase: GetDailyQuoteNoTokenUseCase,
     private val setLocalQuoteForWidgetUseCase: SetLocalQuoteForWidgetUseCase
 ) : WorkerFactory() {
     override fun createWorker(

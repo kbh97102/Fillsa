@@ -11,6 +11,8 @@ import com.arakene.domain.requests.LoginRequest
 import com.arakene.domain.requests.MemoRequest
 import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.requests.UserData
+import com.arakene.domain.repository.InstallationIdProvider
+import com.arakene.domain.util.CommonError
 import com.arakene.domain.usecase.LoginUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
 import com.arakene.domain.usecase.common.SetRefreshTokenUseCase
@@ -23,11 +25,9 @@ import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.action.LoginAction
 import com.arakene.presentation.util.Screens
-import com.google.firebase.installations.FirebaseInstallations
 import com.kakao.sdk.user.UserApiClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.suspendCancellableCoroutine
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -48,7 +48,8 @@ class LoginViewModel @Inject constructor(
     private val setImageUriUseCase: SetImageUriUseCase,
     private val setUserNameUseCase: SetUserNameUseCase,
     private val getLocalQuoteListUseCase: GetLocalQuoteListUseCase,
-    private val clearLocalDataUseCase: ClearLocalDataUseCase
+    private val clearLocalDataUseCase: ClearLocalDataUseCase,
+    private val installationIdProvider: InstallationIdProvider
 ) : BaseViewModel() {
 
     override fun handleAction(action: Action) {
@@ -213,14 +214,11 @@ class LoginViewModel @Inject constructor(
         isOnBoarding: Boolean
     ) = viewModelScope.launch {
 
-        val fid = suspendCancellableCoroutine<String> { cont ->
-            FirebaseInstallations.getInstance().id
-                .addOnSuccessListener { fid ->
-                    cont.resume(fid)
-                }.addOnFailureListener {
-                    it.printStackTrace()
-                    cont.resume("")
-                }
+        val fid = runCatching { installationIdProvider.getId() }
+            .getOrNull()?.takeIf { it.isNotBlank() }
+        if (fid == null) {
+            emitError(CommonError.NetworkError)
+            return@launch
         }
 
         val syncData = getLocalQuoteListUseCase()
@@ -247,8 +245,8 @@ class LoginViewModel @Inject constructor(
                     deviceId = fid,
                     osType = "ANDROID",
                     appVersion = appVersion,
-                    osVersion = Build.VERSION.RELEASE,
-                    deviceModel = Build.MODEL
+                    osVersion = Build.VERSION.RELEASE.orEmpty(),
+                    deviceModel = Build.MODEL.orEmpty()
                 ),
                 userData = UserData(
                     oAuthProvider = provider,

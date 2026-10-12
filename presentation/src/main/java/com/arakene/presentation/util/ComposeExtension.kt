@@ -59,8 +59,6 @@ import com.arakene.presentation.model.HomeMemberQuoteWindow
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
@@ -172,17 +170,11 @@ fun HandleViewEffect(
 fun HandleError(
     effect: Flow<CommonError>,
     lifecycleOwner: LifecycleOwner,
-    compositionScope: CoroutineScope = rememberCoroutineScope(),
     effectHandler: suspend (CommonError) -> Unit
 ) = LaunchedEffect(effect, lifecycleOwner) {
-
-    lifecycleOwner.lifecycleScope.launch {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            effect
-                .onEach {
-                    effectHandler(it)
-                }
-                .launchIn(compositionScope)
+    lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+        effect.collect {
+            effectHandler(it)
         }
     }
 }

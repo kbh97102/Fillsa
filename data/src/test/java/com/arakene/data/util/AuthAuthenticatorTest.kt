@@ -3,9 +3,17 @@ package com.arakene.data.util
 import androidx.paging.PagingData
 import com.arakene.domain.model.StreakInfo
 import com.arakene.domain.repository.LocalRepository
+import com.arakene.domain.repository.InstallationIdProvider
 import com.arakene.domain.repository.TokenRepository
 import com.arakene.domain.requests.LocalQuoteInfo
+import com.arakene.domain.requests.DeviceData
+import com.arakene.domain.requests.LoginData
+import com.arakene.domain.requests.LoginRequest
 import com.arakene.domain.requests.TokenRefreshRequest
+import com.arakene.domain.requests.UserData
+import com.arakene.data.network.FillsaNoTokenApi
+import com.arakene.data.network.TokenApi
+import com.arakene.data.repository.TokenRepositoryImpl
 import com.arakene.domain.responses.DailyQuotaNoToken
 import com.arakene.domain.responses.DailyQuoteDto
 import com.arakene.domain.responses.TokenInfo
@@ -18,14 +26,171 @@ import com.arakene.domain.util.YN
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import okhttp3.Protocol
+import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.Response
 import okhttp3.ResponseBody.Companion.toResponseBody
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
+import com.google.gson.JsonParser
+import kotlinx.coroutines.runBlocking
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Test
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class AuthAuthenticatorTest {
+
+    @Test
+    fun loginThenExpiredRequest_refreshesWithSameInstallationIdAndRetriesOnce() = runBlocking {
+        val server = MockWebServer()
+        server.start()
+        try {
+            server.enqueue(MockResponse().setResponseCode(200).setBody(
+                """{"accessToken":"old-access-token","refreshToken":"old-refresh-token","memberSeq":1,"nickname":"tester","profileImageUrl":""}"""
+            ))
+            server.enqueue(MockResponse().setResponseCode(401).setBody(
+                """{"timestamp":"","httpStatus":401,"errorCode":3003,"message":"expired"}"""
+            ))
+            server.enqueue(MockResponse().setResponseCode(200).setBody(
+                """{"accessToken":"new-access-token","refreshToken":"new-refresh-token"}"""
+            ))
+            server.enqueue(MockResponse().setResponseCode(200).setBody("ok"))
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(server.url("/"))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val login = retrofit.create(FillsaNoTokenApi::class.java).login(
+                LoginRequest(
+                    LoginData(
+                        DeviceData("fid-test-123", "ANDROID", "1.0.30", "16", "Pixel"),
+                        UserData("GOOGLE", "oauth-test-id", "tester", "")
+                    ),
+                    emptyList()
+                )
+            ).body()!!
+            val local = FakeLocalRepository(refreshToken = "")
+            local.setAccessToken(login.accessToken)
+            local.setRefreshToken(login.refreshToken)
+
+            val tokenRepository = TokenRepositoryImpl(retrofit.create(TokenApi::class.java))
+            val authenticator = AuthAuthenticator(
+                UpdateTokenUseCase(tokenRepository),
+                GetRefreshTokenUseCase(local),
+                SetRefreshTokenUseCase(local),
+                SetAccessTokenUseCase(local),
+                FakeInstallationIdProvider("fid-test-123")
+            )
+            val client = OkHttpClient.Builder().authenticator(authenticator).build()
+            client.newCall(
+                Request.Builder().url(server.url("/protected"))
+                    .header("Authorization", "Bearer ${login.accessToken}").build()
+            ).execute().use { assertEquals(200, it.code) }
+
+            val loginRequest = server.takeRequest()
+            val firstProtected = server.takeRequest()
+            val refreshRequest = server.takeRequest()
+            val retryProtected = server.takeRequest()
+            assertEquals("/api/v1/auth/login", loginRequest.path)
+            assertEquals("/protected", firstProtected.path)
+            assertEquals("/api/v1/auth/refresh", refreshRequest.path)
+            assertEquals("/protected", retryProtected.path)
+            val loginId = JsonParser.parseString(loginRequest.body.readUtf8()).asJsonObject
+                .getAsJsonObject("loginData").getAsJsonObject("deviceData").get("deviceId").asString
+            val refresh = JsonParser.parseString(refreshRequest.body.readUtf8()).asJsonObject
+            assertEquals("fid-test-123", loginId)
+            assertEquals(loginId, refresh.get("deviceId").asString)
+            assertEquals("old-refresh-token", refresh.get("refreshToken").asString)
+            assertEquals("Bearer old-access-token", firstProtected.getHeader("Authorization"))
+            assertEquals("Bearer new-access-token", retryProtected.getHeader("Authorization"))
+            assertEquals("new-access-token", local.savedAccessToken)
+            assertEquals("new-refresh-token", local.savedRefreshToken)
+            assertEquals(4, server.requestCount)
+        } finally {
+            server.shutdown()
+        }
+    }
+
+    @Test
+    fun rejectedRefresh_doesNotRetryProtectedRequestAgain() {
+        val server = MockWebServer()
+        server.start()
+        try {
+            server.enqueue(MockResponse().setResponseCode(401).setBody(
+                """{"timestamp":"","httpStatus":401,"errorCode":3003,"message":"expired"}"""
+            ))
+            server.enqueue(MockResponse().setResponseCode(403).setBody("{}"))
+            val retrofit = Retrofit.Builder()
+                .baseUrl(server.url("/"))
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+            val local = FakeLocalRepository(refreshToken = "expired-refresh-token")
+            val authenticator = AuthAuthenticator(
+                UpdateTokenUseCase(TokenRepositoryImpl(retrofit.create(TokenApi::class.java))),
+                GetRefreshTokenUseCase(local),
+                SetRefreshTokenUseCase(local),
+                SetAccessTokenUseCase(local),
+                FakeInstallationIdProvider("fid-test-123")
+            )
+            val client = OkHttpClient.Builder().authenticator(authenticator).build()
+
+            client.newCall(Request.Builder().url(server.url("/protected")).build()).execute().use {
+                assertEquals(401, it.code)
+            }
+
+            assertEquals("/protected", server.takeRequest().path)
+            val refresh = server.takeRequest()
+            assertEquals("/api/v1/auth/refresh", refresh.path)
+            assertEquals("fid-test-123", JsonParser.parseString(refresh.body.readUtf8())
+                .asJsonObject.get("deviceId").asString)
+            assertEquals(2, server.requestCount)
+            assertEquals("", local.savedAccessToken)
+            assertEquals("", local.savedRefreshToken)
+        } finally {
+            server.shutdown()
+        }
+    }
+
+    @Test
+    fun authenticate_sendsInstallationIdWhenRefreshingToken() {
+        val tokenRepository = FakeTokenRepository()
+        val localRepository = FakeLocalRepository(refreshToken = "old-refresh-token")
+        val authenticator = AuthAuthenticator(
+            updateTokenUseCase = UpdateTokenUseCase(tokenRepository),
+            getRefreshTokenUseCase = GetRefreshTokenUseCase(localRepository),
+            setRefreshTokenUseCase = SetRefreshTokenUseCase(localRepository),
+            setAccessTokenUseCase = SetAccessTokenUseCase(localRepository),
+            installationIdProvider = FakeInstallationIdProvider("fid-test-123")
+        )
+
+        val retryRequest = authenticator.authenticate(route = null, response = unauthorizedResponse())
+
+        assertEquals("fid-test-123", tokenRepository.lastRequest?.deviceId)
+        assertEquals("old-refresh-token", tokenRepository.lastRequest?.refreshToken)
+        assertEquals("Bearer new-access-token", retryRequest?.header("Authorization"))
+        assertEquals("new-access-token", localRepository.savedAccessToken)
+        assertEquals("new-refresh-token", localRepository.savedRefreshToken)
+    }
+
+    @Test
+    fun authenticate_doesNotRefreshWhenInstallationIdIsBlank() {
+        val tokenRepository = FakeTokenRepository()
+        val localRepository = FakeLocalRepository(refreshToken = "old-refresh-token")
+        val authenticator = AuthAuthenticator(
+            updateTokenUseCase = UpdateTokenUseCase(tokenRepository),
+            getRefreshTokenUseCase = GetRefreshTokenUseCase(localRepository),
+            setRefreshTokenUseCase = SetRefreshTokenUseCase(localRepository),
+            setAccessTokenUseCase = SetAccessTokenUseCase(localRepository),
+            installationIdProvider = FakeInstallationIdProvider("")
+        )
+
+        val retryRequest = authenticator.authenticate(route = null, response = unauthorizedResponse())
+
+        assertNull(retryRequest)
+        assertEquals(0, tokenRepository.updateAccessTokenCallCount)
+    }
 
     @Test
     fun authenticate_doesNotRequestRefreshToken_whenStoredRefreshTokenIsBlank() {
@@ -35,7 +200,8 @@ class AuthAuthenticatorTest {
             updateTokenUseCase = UpdateTokenUseCase(tokenRepository),
             getRefreshTokenUseCase = GetRefreshTokenUseCase(localRepository),
             setRefreshTokenUseCase = SetRefreshTokenUseCase(localRepository),
-            setAccessTokenUseCase = SetAccessTokenUseCase(localRepository)
+            setAccessTokenUseCase = SetAccessTokenUseCase(localRepository),
+            installationIdProvider = FakeInstallationIdProvider("fid-test-123")
         )
 
         val retryRequest = authenticator.authenticate(
@@ -59,23 +225,30 @@ class AuthAuthenticatorTest {
             .protocol(Protocol.HTTP_1_1)
             .code(401)
             .message("Unauthorized")
-            .body("".toResponseBody())
+            .body("""{"timestamp":"","httpStatus":401,"errorCode":3003,"message":"expired"}""".toResponseBody())
             .build()
     }
 }
 
+private class FakeInstallationIdProvider(private val id: String) : InstallationIdProvider {
+    override suspend fun getId(): String = id
+}
+
 private class FakeTokenRepository : TokenRepository {
     var updateAccessTokenCallCount = 0
+    var lastRequest: TokenRefreshRequest? = null
 
     override suspend fun updateAccessToken(request: TokenRefreshRequest): TokenInfo? {
         updateAccessTokenCallCount++
+        lastRequest = request
         return TokenInfo(accessToken = "new-access-token", refreshToken = "new-refresh-token")
     }
 }
 
 private class FakeLocalRepository(
-    private val refreshToken: String
+    refreshToken: String
 ) : LocalRepository {
+    private var currentRefreshToken = refreshToken
     var savedAccessToken = ""
     var savedRefreshToken = ""
 
@@ -87,9 +260,10 @@ private class FakeLocalRepository(
 
     override suspend fun setRefreshToken(token: String) {
         savedRefreshToken = token
+        currentRefreshToken = token
     }
 
-    override suspend fun getRefreshToken(): String = refreshToken
+    override suspend fun getRefreshToken(): String = currentRefreshToken
 
     override fun getLocalQuoteForWidget(): Flow<DailyQuoteDto?> = flowOf(null)
     override suspend fun setLocalQuoteForWidget(data: DailyQuotaNoToken) = Unit

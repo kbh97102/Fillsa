@@ -84,6 +84,7 @@ dependencies {
     implementation(libs.retrofit.gson)
     implementation(libs.datastore)
     implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.installations.ktx)
 
     implementation(libs.room.runtime)
     ksp(libs.room.compiler)

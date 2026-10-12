@@ -4,7 +4,6 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.AnswerResponse
 import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
-import com.arakene.domain.usecase.TestErrorCodeUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetStreakCountUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
@@ -283,7 +282,7 @@ class HomeViewModelIntegrationTest {
             GetMemberQuoteDayUseCase(home), SaveQuoteAnswerUseCase(home), GetLoginStatusUseCase(local),
             PostLikeUseCase(home), PostUploadImageUseCase(home), DeleteUploadImageUseCase(home),
             UpdateLocalQuoteLikeUseCase(local), GetLocalQuoteListUseCase(local), FindLocalQuoteByIdUseCase(local),
-            AddLocalQuoteUseCase(local), TestErrorCodeUseCase(home),
+            AddLocalQuoteUseCase(local),
             GetStreakCountUseCase(local, CountingCommonRepository()), GetAllStreakInfoUseCase(local),
         ).also { viewModel = it }
 

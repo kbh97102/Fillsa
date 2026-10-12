@@ -65,10 +65,6 @@ internal class CountingHomeRepository : HomeRepository {
         events += event
     }
 
-    override suspend fun testErrorCode(code: Int): ApiResult<Unit> {
-        record("test-error:$code")
-        return ApiResult.Success(Unit)
-    }
     override suspend fun getDailyQuoteNoToken(quoteDate: String): ApiResult<DailyQuotaNoToken> {
         record("guest-daily:$quoteDate")
         return guestDailyResult

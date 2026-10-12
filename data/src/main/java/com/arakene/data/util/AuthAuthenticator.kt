@@ -2,6 +2,7 @@ package com.arakene.data.util
 
 import android.util.Log
 import com.arakene.domain.requests.TokenRefreshRequest
+import com.arakene.domain.repository.InstallationIdProvider
 import com.arakene.domain.responses.ErrorResponse
 import com.arakene.domain.usecase.common.GetRefreshTokenUseCase
 import com.arakene.domain.usecase.common.SetAccessTokenUseCase
@@ -20,6 +21,7 @@ class AuthAuthenticator @Inject constructor(
     private val getRefreshTokenUseCase: GetRefreshTokenUseCase,
     private val setRefreshTokenUseCase: SetRefreshTokenUseCase,
     private val setAccessTokenUseCase: SetAccessTokenUseCase,
+    private val installationIdProvider: InstallationIdProvider,
 ) : Authenticator {
 
     override fun authenticate(route: Route?, response: Response): Request? {
@@ -48,9 +50,12 @@ class AuthAuthenticator @Inject constructor(
                 return@runBlocking null
             }
 
+            val deviceId = runCatching { installationIdProvider.getId() }
+                .getOrNull()?.takeIf { it.isNotBlank() } ?: return@runBlocking null
+
             updateTokenUseCase(
                 TokenRefreshRequest(
-                    deviceId = "",
+                    deviceId = deviceId,
                     refreshToken = refreshToken
                 )
             ).also { tokenInfo ->
