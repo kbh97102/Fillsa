@@ -1,0 +1,7 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1712)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1712)
+    View (left: 0, top: 0, right: 945, bottom: 1712)
+      View (left: 0, top: 0, right: 945, bottom: 1712)
+        View (left: 0, top: 0, right: 945, bottom: 1712)
+          TextView (left: 307, top: 580, right: 640, bottom: 628) text="나만의 필사로 채우다,"
+

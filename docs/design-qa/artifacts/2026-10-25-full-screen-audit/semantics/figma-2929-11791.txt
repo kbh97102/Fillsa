@@ -1,0 +1,38 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1606)
+          View (left: 53, top: 0, right: 892, bottom: 1606)
+            View (left: 389, top: 3, right: 557, bottom: 129)
+            View (left: 53, top: 157, right: 892, bottom: 458)
+              View (left: 53, top: 181, right: 892, bottom: 307)
+                View (left: 183, top: 181, right: 309, bottom: 307)
+                TextView (left: 311, top: 219, right: 714, bottom: 269) text="로그인 후 사용해 주세요!"
+              View (left: 53, top: 331, right: 892, bottom: 457)
+                TextView (left: 419, top: 369, right: 527, bottom: 419) text="로그인"
+            View (left: 53, top: 490, right: 892, bottom: 647)
+              View (left: 49, top: 506, right: 175, bottom: 632)
+              TextView (left: 159, top: 544, right: 303, bottom: 594) text="공지사항"
+              View (left: 766, top: 506, right: 892, bottom: 632)
+            View (left: 53, top: 679, right: 892, bottom: 836)
+              View (left: 49, top: 695, right: 175, bottom: 821)
+              TextView (left: 159, top: 733, right: 231, bottom: 783) text="알림"
+              View (left: 766, top: 695, right: 892, bottom: 821)
+            View (left: 53, top: 868, right: 892, bottom: 1025)
+              View (left: 49, top: 884, right: 175, bottom: 1010)
+              TextView (left: 159, top: 922, right: 231, bottom: 972) text="테마"
+              View (left: 766, top: 884, right: 892, bottom: 1010)
+            TextView (left: 85, top: 1112, right: 157, bottom: 1162) text="버전"
+            TextView (left: 755, top: 1112, right: 860, bottom: 1162) text="1.0.31"
+        View (left: 0, top: 1606, right: 945, bottom: 1764)
+          View (left: 0, top: 1606, right: 315, bottom: 1764)
+            TextView (left: 116, top: 1706, right: 199, bottom: 1744) text="Home"
+            View (left: 0, top: 1606, right: 315, bottom: 1764)
+          View (left: 315, top: 1606, right: 630, bottom: 1764)
+            TextView (left: 410, top: 1706, right: 536, bottom: 1744) text="Calendar"
+            View (left: 315, top: 1606, right: 630, bottom: 1764)
+          View (left: 630, top: 1606, right: 945, bottom: 1764)
+            TextView (left: 728, top: 1706, right: 848, bottom: 1744) text="My page"
+            View (left: 630, top: 1606, right: 945, bottom: 1764)
+

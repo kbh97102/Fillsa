@@ -1,0 +1,7 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        ProgressBar (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 326, top: 736, right: 620, bottom: 1030)
+

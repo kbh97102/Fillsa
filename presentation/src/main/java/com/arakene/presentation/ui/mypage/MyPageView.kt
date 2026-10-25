@@ -69,6 +69,30 @@ fun MyPageView(
         popBackStack()
     }
 
+    MyPageContent(isLogged, userName, imagePath, currentDarkModeType,
+        viewModel::handleContract, viewModel::setDarkModeType, modifier, darkMode)
+
+}
+
+@Preview
+@Composable
+private fun MyPageViewPreview() {
+    FillsaTheme {
+        MyPageView(
+            navigate = {},
+            popBackStack = {}
+        )
+    }
+}
+
+@Composable
+internal fun MyPageContent(
+    isLogged: Boolean, userName: String, imagePath: String,
+    currentDarkModeType: DarkModeType, onAction: (com.arakene.presentation.util.Contract) -> Unit,
+    onThemeChange: (DarkModeType) -> Unit, modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current,
+    versionOverride: String? = null,
+) {
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -90,7 +114,7 @@ fun MyPageView(
                 contentDescription = null,
                 modifier = Modifier
                     .noEffectClickable {
-                        viewModel.handleContract(CommonEffect.Move(Screens.Home()))
+                        onAction(CommonEffect.Move(Screens.Home()))
                     })
         }
 
@@ -101,7 +125,7 @@ fun MyPageView(
             userName = userName,
             imagePath = imagePath,
             loginEvent = {
-                viewModel.handleContract(MyPageAction.Login)
+                onAction(MyPageAction.Login)
             }
         )
 
@@ -110,7 +134,7 @@ fun MyPageView(
             image = painterResource(R.drawable.icn_info),
             text = stringResource(R.string.notice),
             onClick = {
-                viewModel.handleContract(CommonEffect.Move(MyPageScreens.Notice))
+                onAction(CommonEffect.Move(MyPageScreens.Notice))
             },
             modifier = Modifier.padding(top = 12.dp)
         )
@@ -120,7 +144,7 @@ fun MyPageView(
             image = painterResource(R.drawable.icn_bell),
             text = stringResource(R.string.alert),
             onClick = {
-                viewModel.handleContract(CommonEffect.Move(MyPageScreens.Alert))
+                onAction(CommonEffect.Move(MyPageScreens.Alert))
             },
             modifier = Modifier.padding(top = 12.dp)
         )
@@ -146,7 +170,7 @@ fun MyPageView(
                     displayThemeDialog = false
                 },
                 changeThemeToDarkMode = {
-                    viewModel.setDarkModeType(it)
+                    onThemeChange(it)
                 },
                 currentDarkModeType = currentDarkModeType
             )
@@ -154,22 +178,11 @@ fun MyPageView(
 
         // version + logout
         MyPageBottomButtonSection(
+            versionOverride = versionOverride,
             modifier = modifier.padding(top = 20.dp),
             isLogged = isLogged,
             logout = {
-                viewModel.handleContract(MyPageAction.Logout)
+                onAction(MyPageAction.Logout)
             })
-    }
-
-}
-
-@Preview
-@Composable
-private fun MyPageViewPreview() {
-    FillsaTheme {
-        MyPageView(
-            navigate = {},
-            popBackStack = {}
-        )
     }
 }

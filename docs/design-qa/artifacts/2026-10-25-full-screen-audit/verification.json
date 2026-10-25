@@ -1,0 +1,52 @@
+{
+  "command": "JAVA_HOME=<Android Studio JBR> ./gradlew :app:compileDebugKotlin :presentation:compileReleaseKotlin :presentation:testDebugUnitTest --console=plain",
+  "result": "BUILD SUCCESSFUL",
+  "unitTests": {
+    "tests": 135,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "log": "docs/design-qa/artifacts/2026-10-25-full-screen-audit/logs/compile-and-tests.log",
+  "runtimeBuild": "Installed 1.0.31(25); supplementary, not rebuilt audit source",
+  "uiFinalApproval": false,
+  "reportChecks": [
+    {
+      "name": "150 cards",
+      "ok": true
+    },
+    {
+      "name": "feature filter",
+      "ok": true
+    },
+    {
+      "name": "theme filter",
+      "ok": true
+    },
+    {
+      "name": "search filter",
+      "ok": true
+    },
+    {
+      "name": "localStorage persistence",
+      "ok": true
+    },
+    {
+      "name": "JSON export",
+      "ok": true
+    }
+  ],
+  "localLinks": {
+    "checked": 957,
+    "missing": 0
+  },
+  "visualReport": {
+    "desktop": "1440×1200, My Page Figma/Android pair visually inspected",
+    "mobile": "390×1000, no horizontal overflow, aligned image captions visually inspected",
+    "screenshots": [
+      "docs/design-qa/artifacts/2026-10-25-full-screen-audit/report-desktop.png",
+      "docs/design-qa/artifacts/2026-10-25-full-screen-audit/report-mobile.png"
+    ]
+  },
+  "gitDiffCheck": "passed"
+}

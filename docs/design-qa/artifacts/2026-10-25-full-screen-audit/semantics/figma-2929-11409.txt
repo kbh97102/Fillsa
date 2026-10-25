@@ -1,0 +1,12 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 0, top: 13, right: 945, bottom: 139)
+            View (left: 0, top: 13, right: 105, bottom: 139)
+            TextView (left: 110, top: 45, right: 290, bottom: 108) text="공지사항"
+          View (left: 53, top: 152, right: 892, bottom: 1764)
+            View (left: 368, top: 638, right: 578, bottom: 848)
+            TextView (left: 257, top: 911, right: 689, bottom: 974) text="공지사항이 없습니다."
+

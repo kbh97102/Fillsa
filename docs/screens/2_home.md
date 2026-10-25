@@ -126,6 +126,7 @@ Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#61616
 - 검증: API 35 / 360×720dp / density 160 / ko / fontScale 1. 컴포넌트 결정적 Preview → 전체 화면 런타임. QA 기록: [시스템 연월 선택기](../design-qa/2026-10-25-home-year-month-qa.md).
 - 후속 결과: 기능 구현 및 검증 완료. 단위 테스트160개/계측4개 통과, Preview Light·Dark 및 Release APK 에뮬레이터 전체 프레임 확인. 기존 달력의 Figma 외형 차이는 남아 있어 전체 UI 최종 승인은 미완료. [화면 포함 HTML 결과](../design-qa/2026-10-25-home-year-month-report.html).
 
+
 ## 2026-10-25 홈 달력 연도·월 버튼 디자인 수정
 
 - Figma: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-16228
@@ -136,3 +137,40 @@ Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#61616
 - 원인: 아이콘을 Unicode 글리프로 대체해 기준선에 따라 정렬이 어긋나며, 버튼 치수·간격도 Figma와 다름.
 - 검증 상태: 요청한 아이콘·중앙 정렬 수정 적용. 헤더/달력 Light·Dark CLI Preview 4개, API35 에뮬레이터 전체 프레임 및 시스템 선택기, 계측 테스트4개 확인. 기존 달력 본문·팝업 위치·플랫폼 영역 차이로 전체 화면 최종 Figma 승인은 미완료. 기존 전체 비교 HTML/증거는 보존했다.
 - QA 기록: [홈 달력 헤더 디자인](../design-qa/2026-10-25-home-calendar-header-qa.md).
+
+## 전체 화면 대조 · 2026-10-25
+
+- 기준 페이지: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-3720
+- 범위: 현재 production UI 재사용 Preview. 시각 수정은 사용자 검토 후 별도 작업.
+- 조건: ko, fontScale 1.0, Light/Dark, 고정 fixture. Preview는 시스템 바·IME를 포함한 최종 승인이 아님.
+- QA 기록: [전체 화면 대조 보고서](../design-qa/2026-10-25-full-screen-audit.html)
+- 상태·크기·원본 이미지: [screen-map.json](../design-qa/artifacts/2026-10-25-full-screen-audit/screen-map.json)
+
+| 대상 노드 | production 컴포넌트 | 상태 / 책임 | 검증 상태 |
+|---|---|---|---|
+| 3039:26518 | FigmaHomeContent | 2.home · Dark | 조사 중 |
+| 3139:1753 | FigmaHomeContent | 2.home · Dark | 조사 중 |
+| 3039:26778 | FigmaHomeContent | 2.home · Dark | 조사 중 |
+| 3039:26996 | FigmaHomeContent | 2.home · Dark | 조사 중 |
+| 3039:27295 | FigmaHomeContent | 2.home · Dark | 조사 중 |
+| 3039:28098 | FigmaHomeContent | calendar · Dark | 조사 중 |
+| 3136:1198 | FigmaHomeContent | Dark · 02 · 답변 기록 중 · Dark | 조사 중 |
+| 3139:910 | FigmaHomeContent | Dark · 01 · 답변 기록 전 · Dark | 조사 중 |
+| 3139:1061 | FigmaHomeContent | Dark · 03 · 답변 기록 후-toast · Dark | 조사 중 |
+| 3139:1238 | FigmaHomeContent | Dark · 04 · 답변 기록 후 · Dark | 조사 중 |
+| 2929:13556 | FigmaHomeContent | 2.home · Light | 조사 중 |
+| 3139:1501 | FigmaHomeContent | 2.home · Light | 조사 중 |
+| 2929:18871 | FigmaHomeContent | 2.home · Light | 조사 중 |
+| 2929:15668 | FigmaHomeContent | calendar · Light | 조사 중 |
+| 2929:19645 | FigmaHomeContent | toast_copy · Light | 조사 중 |
+| 2929:19784 | FigmaHomeContent | like_press · Light | 조사 중 |
+| 3110:33783 | FigmaHomeContent | 01 · 답변 기록 전 · Light | 조사 중 |
+| 3110:34293 | FigmaHomeContent | 03 · 답변 기록 후-toast · Light | 조사 중 |
+| 3110:34438 | FigmaHomeContent | 04 · 답변 기록 후 · Light | 조사 중 |
+| 3110:34152 | FigmaHomeContent | 02 · 답변 기록 중 · Light | 조사 중 |
+| 3039:26980 | FigmaHomeContent | Description · Dark | 조사 중 |
+| 3039:28626 | FigmaHomeContent | weekday · Dark | 조사 중 |
+| 3139:1453 | FigmaHomeContent | question-dark · Dark | 조사 중 |
+| 2929:18625 | FigmaHomeContent | Description · Light | 조사 중 |
+| 2929:17172 | FigmaHomeContent | weekday · Light | 조사 중 |
+| 3087:29377 | FigmaHomeContent | question · Light | 조사 중 |

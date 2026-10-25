@@ -1,0 +1,647 @@
+[
+  {
+    "id": "figma-2929-3723",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/LoginScreenAuditPreviews.kt",
+    "function": "AuditFigma29293723"
+  },
+  {
+    "id": "figma-2929-4324",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/OnboardingAuditPreviews.kt",
+    "function": "AuditFigma29294324"
+  },
+  {
+    "id": "figma-3088-30089",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/OnboardingAuditPreviews.kt",
+    "function": "AuditFigma308830089"
+  },
+  {
+    "id": "figma-3088-30215",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/OnboardingAuditPreviews.kt",
+    "function": "AuditFigma308830215"
+  },
+  {
+    "id": "figma-3088-30412",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/OnboardingAuditPreviews.kt",
+    "function": "AuditFigma308830412"
+  },
+  {
+    "id": "figma-2929-5815",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/LoginScreenAuditPreviews.kt",
+    "function": "AuditFigma29295815"
+  },
+  {
+    "id": "figma-2929-5948",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/OnboardingAuditPreviews.kt",
+    "function": "AuditFigma29295948"
+  },
+  {
+    "id": "figma-3110-31987",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/OnboardingAuditPreviews.kt",
+    "function": "AuditFigma311031987"
+  },
+  {
+    "id": "figma-3110-32112",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/OnboardingAuditPreviews.kt",
+    "function": "AuditFigma311032112"
+  },
+  {
+    "id": "figma-3110-32359",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/OnboardingAuditPreviews.kt",
+    "function": "AuditFigma311032359"
+  },
+  {
+    "id": "figma-2929-5969",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29295969"
+  },
+  {
+    "id": "figma-2929-5975",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29295975"
+  },
+  {
+    "id": "figma-2929-6086",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296086"
+  },
+  {
+    "id": "figma-2929-6181",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296181"
+  },
+  {
+    "id": "figma-2929-6187",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296187"
+  },
+  {
+    "id": "figma-2929-6283",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296283"
+  },
+  {
+    "id": "figma-2929-6397",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296397"
+  },
+  {
+    "id": "figma-2929-6502",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296502"
+  },
+  {
+    "id": "figma-2929-6626",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296626"
+  },
+  {
+    "id": "figma-2929-6747",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296747"
+  },
+  {
+    "id": "figma-3051-899",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CalendarAuditPreviews.kt",
+    "function": "AuditFigma3051899"
+  },
+  {
+    "id": "figma-3051-1130",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CalendarAuditPreviews.kt",
+    "function": "AuditFigma30511130"
+  },
+  {
+    "id": "figma-3039-24906",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CalendarAuditPreviews.kt",
+    "function": "AuditFigma303924906"
+  },
+  {
+    "id": "figma-3039-28370",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CalendarAuditPreviews.kt",
+    "function": "AuditFigma303928370"
+  },
+  {
+    "id": "figma-3039-26518",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma303926518"
+  },
+  {
+    "id": "figma-3139-1753",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma31391753"
+  },
+  {
+    "id": "figma-3039-26778",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma303926778"
+  },
+  {
+    "id": "figma-3039-26996",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma303926996"
+  },
+  {
+    "id": "figma-3039-27295",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma303927295"
+  },
+  {
+    "id": "figma-3136-1198",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma31361198"
+  },
+  {
+    "id": "figma-3139-910",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma3139910"
+  },
+  {
+    "id": "figma-3139-1061",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma31391061"
+  },
+  {
+    "id": "figma-3139-1238",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma31391238"
+  },
+  {
+    "id": "figma-3087-28815",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma308728815"
+  },
+  {
+    "id": "figma-2929-9764",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma29299764"
+  },
+  {
+    "id": "figma-2929-9801",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma29299801"
+  },
+  {
+    "id": "figma-2929-9844",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma29299844"
+  },
+  {
+    "id": "figma-2929-9884",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma29299884"
+  },
+  {
+    "id": "figma-2929-9931",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/LoginScreenAuditPreviews.kt",
+    "function": "AuditFigma29299931"
+  },
+  {
+    "id": "figma-2929-10788",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/LoginScreenAuditPreviews.kt",
+    "function": "AuditFigma292910788"
+  },
+  {
+    "id": "figma-2929-10850",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910850"
+  },
+  {
+    "id": "figma-2929-10884",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910884"
+  },
+  {
+    "id": "figma-3223-5985",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma32235985"
+  },
+  {
+    "id": "figma-3223-6126",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma32236126"
+  },
+  {
+    "id": "figma-3223-6435",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma32236435"
+  },
+  {
+    "id": "figma-3223-6600",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma32236600"
+  },
+  {
+    "id": "figma-3223-6912",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma32236912"
+  },
+  {
+    "id": "figma-2929-11031",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/MyPageAuditPreviews.kt",
+    "function": "AuditFigma292911031"
+  },
+  {
+    "id": "figma-2929-11102",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/MyPageAuditPreviews.kt",
+    "function": "AuditFigma292911102"
+  },
+  {
+    "id": "figma-2936-20033",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/PreferencesStateAuditPreviews.kt",
+    "function": "AuditFigma293620033"
+  },
+  {
+    "id": "figma-2929-11178",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/PreferencesStateAuditPreviews.kt",
+    "function": "AuditFigma292911178"
+  },
+  {
+    "id": "figma-2929-11260",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/PreferencesStateAuditPreviews.kt",
+    "function": "AuditFigma292911260"
+  },
+  {
+    "id": "figma-2929-11314",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/PreferencesStateAuditPreviews.kt",
+    "function": "AuditFigma292911314"
+  },
+  {
+    "id": "figma-2929-11354",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/NoticeScreenAuditPreviews.kt",
+    "function": "AuditFigma292911354"
+  },
+  {
+    "id": "figma-2929-11389",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/NoticeScreenAuditPreviews.kt",
+    "function": "AuditFigma292911389"
+  },
+  {
+    "id": "figma-2929-11409",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/NoticeScreenAuditPreviews.kt",
+    "function": "AuditFigma292911409"
+  },
+  {
+    "id": "figma-2929-11435",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/PreferencesStateAuditPreviews.kt",
+    "function": "AuditFigma292911435"
+  },
+  {
+    "id": "figma-2929-11489",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/PreferencesStateAuditPreviews.kt",
+    "function": "AuditFigma292911489"
+  },
+  {
+    "id": "figma-2929-11529",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/NoticeScreenAuditPreviews.kt",
+    "function": "AuditFigma292911529"
+  },
+  {
+    "id": "figma-2929-11568",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/NoticeScreenAuditPreviews.kt",
+    "function": "AuditFigma292911568"
+  },
+  {
+    "id": "figma-2929-11588",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/NoticeScreenAuditPreviews.kt",
+    "function": "AuditFigma292911588"
+  },
+  {
+    "id": "figma-2929-11613",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/MyPageAuditPreviews.kt",
+    "function": "AuditFigma292911613"
+  },
+  {
+    "id": "figma-2929-11694",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/PreferencesStateAuditPreviews.kt",
+    "function": "AuditFigma292911694"
+  },
+  {
+    "id": "figma-2929-11791",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/MyPageAuditPreviews.kt",
+    "function": "AuditFigma292911791"
+  },
+  {
+    "id": "figma-2936-20153",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/PreferencesStateAuditPreviews.kt",
+    "function": "AuditFigma293620153"
+  },
+  {
+    "id": "figma-2985-21952",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CalendarAuditPreviews.kt",
+    "function": "AuditFigma298521952"
+  },
+  {
+    "id": "figma-2985-22510",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CalendarAuditPreviews.kt",
+    "function": "AuditFigma298522510"
+  },
+  {
+    "id": "figma-2987-23282",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma298723282"
+  },
+  {
+    "id": "figma-2987-22796",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CalendarAuditPreviews.kt",
+    "function": "AuditFigma298722796"
+  },
+  {
+    "id": "figma-2929-13556",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma292913556"
+  },
+  {
+    "id": "figma-3139-1501",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma31391501"
+  },
+  {
+    "id": "figma-2929-18871",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma292918871"
+  },
+  {
+    "id": "figma-2929-19645",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma292919645"
+  },
+  {
+    "id": "figma-2929-19784",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma292919784"
+  },
+  {
+    "id": "figma-3110-33783",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma311033783"
+  },
+  {
+    "id": "figma-3110-34293",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma311034293"
+  },
+  {
+    "id": "figma-3110-34438",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma311034438"
+  },
+  {
+    "id": "figma-3110-34152",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/HomeAuditPreviews.kt",
+    "function": "AuditFigma311034152"
+  },
+  {
+    "id": "figma-3223-4982",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma32234982"
+  },
+  {
+    "id": "figma-3223-4647",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma32234647"
+  },
+  {
+    "id": "figma-3223-4773",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma32234773"
+  },
+  {
+    "id": "figma-2929-19326",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma292919326"
+  },
+  {
+    "id": "figma-2929-19488",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ImageScreenAuditPreviews.kt",
+    "function": "AuditFigma292919488"
+  },
+  {
+    "id": "figma-2929-17920",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma292917920"
+  },
+  {
+    "id": "figma-2929-18239",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918239"
+  },
+  {
+    "id": "figma-2929-18278",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma292918278"
+  },
+  {
+    "id": "figma-2988-23906",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma298823906"
+  },
+  {
+    "id": "figma-2988-23962",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma298823962"
+  },
+  {
+    "id": "figma-2988-24015",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma298824015"
+  },
+  {
+    "id": "figma-2929-18449",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/LoginScreenAuditPreviews.kt",
+    "function": "AuditFigma292918449"
+  },
+  {
+    "id": "figma-2929-18543",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918543"
+  },
+  {
+    "id": "figma-2929-19027",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/LoginScreenAuditPreviews.kt",
+    "function": "AuditFigma292919027"
+  },
+  {
+    "id": "figma-2929-6610",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296610"
+  },
+  {
+    "id": "figma-2929-6732",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296732"
+  },
+  {
+    "id": "figma-2929-6856",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/CommonScreenAuditPreviews.kt",
+    "function": "AuditFigma29296856"
+  },
+  {
+    "id": "figma-2929-10923",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910923"
+  },
+  {
+    "id": "figma-2929-10927",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910927"
+  },
+  {
+    "id": "figma-2929-10931",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910931"
+  },
+  {
+    "id": "figma-2929-10936",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910936"
+  },
+  {
+    "id": "figma-2929-10968",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910941"
+  },
+  {
+    "id": "figma-2929-10949",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910949"
+  },
+  {
+    "id": "figma-2929-10963",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910963"
+  },
+  {
+    "id": "figma-2929-10954",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292910968"
+  },
+  {
+    "id": "figma-2929-10996",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma292910996"
+  },
+  {
+    "id": "figma-3025-24578",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma302524578"
+  },
+  {
+    "id": "figma-3025-24618",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma302524618"
+  },
+  {
+    "id": "figma-2988-24099",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma298824099"
+  },
+  {
+    "id": "figma-2988-24127",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma298824127"
+  },
+  {
+    "id": "figma-3025-24232",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/TypingScreenAuditPreviews.kt",
+    "function": "AuditFigma302524232"
+  },
+  {
+    "id": "figma-2929-18577",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918577"
+  },
+  {
+    "id": "figma-2929-18581",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918581"
+  },
+  {
+    "id": "figma-2929-18585",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918585"
+  },
+  {
+    "id": "figma-2929-18589",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918589"
+  },
+  {
+    "id": "figma-2929-18615",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918593"
+  },
+  {
+    "id": "figma-2929-18601",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918601"
+  },
+  {
+    "id": "figma-2929-18611",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918611"
+  },
+  {
+    "id": "figma-2929-18605",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/ShareAuditPreviews.kt",
+    "function": "AuditFigma292918615"
+  },
+  {
+    "id": "android-quotelistcontent-light",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/RecordScreenAuditPreviews.kt",
+    "function": "AuditAndroidQuotelistcontentLight"
+  },
+  {
+    "id": "android-quotelistcontent-dark",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/RecordScreenAuditPreviews.kt",
+    "function": "AuditAndroidQuotelistcontentDark"
+  },
+  {
+    "id": "android-quotedetailcontent-light",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/RecordScreenAuditPreviews.kt",
+    "function": "AuditAndroidQuotedetailcontentLight"
+  },
+  {
+    "id": "android-quotedetailcontent-dark",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/RecordScreenAuditPreviews.kt",
+    "function": "AuditAndroidQuotedetailcontentDark"
+  },
+  {
+    "id": "android-memoinsertcontent-light",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/RecordScreenAuditPreviews.kt",
+    "function": "AuditAndroidMemoinsertcontentLight"
+  },
+  {
+    "id": "android-memoinsertcontent-dark",
+    "file": "presentation/src/debug/java/com/arakene/presentation/ui/audit/RecordScreenAuditPreviews.kt",
+    "function": "AuditAndroidMemoinsertcontentDark"
+  },
+  {
+    "id": "android-mywidgetconfigscreen-light",
+    "file": "app/src/debug/java/com/arakene/fillsa/widget/ui/WidgetAuditPreviews.kt",
+    "function": "WidgetConfigLightAudit"
+  },
+  {
+    "id": "android-mywidgetconfigscreen-dark",
+    "file": "app/src/debug/java/com/arakene/fillsa/widget/ui/WidgetAuditPreviews.kt",
+    "function": "WidgetConfigDarkAudit"
+  },
+  {
+    "id": "android-widgetpreview2x2-light",
+    "file": "app/src/debug/java/com/arakene/fillsa/widget/ui/WidgetAuditPreviews.kt",
+    "function": "Widget2x2LightAudit"
+  },
+  {
+    "id": "android-widgetpreview2x2-dark",
+    "file": "app/src/debug/java/com/arakene/fillsa/widget/ui/WidgetAuditPreviews.kt",
+    "function": "Widget2x2DarkAudit"
+  },
+  {
+    "id": "android-widgetpreview4x2-light",
+    "file": "app/src/debug/java/com/arakene/fillsa/widget/ui/WidgetAuditPreviews.kt",
+    "function": "Widget4x2LightAudit"
+  },
+  {
+    "id": "android-widgetpreview4x2-dark",
+    "file": "app/src/debug/java/com/arakene/fillsa/widget/ui/WidgetAuditPreviews.kt",
+    "function": "Widget4x2DarkAudit"
+  }
+]

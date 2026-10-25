@@ -2,6 +2,7 @@ package com.arakene.domain.repository
 
 import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.MemberTypingQuoteResponse
+import com.arakene.domain.responses.TypingSaveResponse
 import com.arakene.domain.util.ApiResult
 
 interface TypingRepository {
@@ -10,5 +11,5 @@ interface TypingRepository {
     suspend fun postTyping(
         dailyQuoteSeq: Int,
         request: TypingQuoteRequest
-    ): ApiResult<Int>
+    ): ApiResult<TypingSaveResponse>
 }

@@ -1,0 +1,16 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 788)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 788)
+    View (left: 0, top: 0, right: 945, bottom: 788)
+      View (left: 0, top: 0, right: 945, bottom: 788)
+        View (left: 0, top: 0, right: 945, bottom: 788)
+          View (left: 85, top: 95, right: 860, bottom: 694)
+            View (left: 410, top: 90, right: 536, bottom: 216)
+            TextView (left: 85, top: 242, right: 860, bottom: 305) text="알림 수신 안내"
+            TextView (left: 85, top: 337, right: 860, bottom: 450) text="알림을 켜면 매일 오전 9시에\n오늘의 필사를 받아보실 수 있습니다."
+            View (left: 85, top: 566, right: 456, bottom: 694)
+              TextView (left: 235, top: 605, right: 307, bottom: 655) text="취소"
+              Button (left: 85, top: 566, right: 456, bottom: 694)
+            View (left: 488, top: 566, right: 860, bottom: 694)
+              TextView (left: 638, top: 605, right: 710, bottom: 655) text="확인"
+              Button (left: 488, top: 566, right: 860, bottom: 694)
+

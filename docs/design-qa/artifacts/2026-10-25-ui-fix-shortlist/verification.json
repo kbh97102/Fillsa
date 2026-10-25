@@ -1,0 +1,43 @@
+{
+  "report": "2026-10-25-ui-fix-shortlist",
+  "groups": 8,
+  "uiCandidates": 5,
+  "conditionalCandidates": 3,
+  "representativeComparisons": 19,
+  "embeddedImages": 36,
+  "localLinkChecks": 89,
+  "missingLinks": [],
+  "originalFilesUnchanged": 415,
+  "originalHtmlSha256": "a7f6075ccc6cd19e17e1d9864cefbd95065e6f416f691b731d1313a9902af171",
+  "browserChecks": [
+    {
+      "name": "8 groups / 19 evidence entries",
+      "ok": true
+    },
+    {
+      "name": "5 UI candidates",
+      "ok": true
+    },
+    {
+      "name": "3 conditional candidates",
+      "ok": true
+    },
+    {
+      "name": "search",
+      "ok": true
+    },
+    {
+      "name": "separate decision storage",
+      "ok": true
+    },
+    {
+      "name": "export contains shortlist and decision",
+      "ok": true
+    }
+  ],
+  "visualReview": {
+    "desktop": "1440×1200, inspected",
+    "mobile": "390×1100, inspected; no horizontal overflow"
+  },
+  "appCodeChanged": false
+}

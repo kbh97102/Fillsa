@@ -79,9 +79,6 @@ fun ImageDialog(
         }
     )
 
-    val maxDialogHeight = (LocalConfiguration.current.screenHeightDp - 48).dp
-    val textScrollState = rememberScrollState()
-    val textLayout = imageDialogTextLayout(darkMode)
 
     Dialog(
         properties = DialogProperties(usePlatformDefaultWidth = false),
@@ -89,171 +86,193 @@ fun ImageDialog(
             onDismiss()
         }
     ) {
+        ImageDialogContent(
+            quote = quote,
+            author = author,
+            backgroundImageUrl = backgroundImageUrl,
+            onDismiss = onDismiss,
+            onChooseImage = { galleryLauncher.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)) },
+            deleteOnClick = deleteOnClick,
+            showDeleteAction = showDeleteAction,
+            darkMode = darkMode
+        )
+    }
 
-        Box(
+}
+
+/** Shared production content, also rendered without a platform window in deterministic previews. */
+@Composable
+internal fun ImageDialogContent(
+    quote: String,
+    author: String,
+    backgroundImageUrl: String,
+    onDismiss: () -> Unit,
+    onChooseImage: () -> Unit,
+    deleteOnClick: () -> Unit,
+    showDeleteAction: Boolean = backgroundImageUrl.isNotEmpty(),
+    darkMode: Boolean = IsDarkMode.current,
+) {
+    val maxDialogHeight = (LocalConfiguration.current.screenHeightDp - 48).dp
+    val textScrollState = rememberScrollState()
+    val textLayout = imageDialogTextLayout(darkMode)
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .then(
+                if (darkMode) {
+                    Modifier.heightIn(min = 373.dp, max = maxDialogHeight)
+                } else {
+                    Modifier.wrapContentHeight()
+                }
+            )
+            .shadow(if (darkMode) 23.dp else 0.dp, RoundedCornerShape(12.dp))
+            .clip(RoundedCornerShape(12.dp))
+    ) {
+
+        if (backgroundImageUrl.isEmpty()) {
+            Image(
+                painterResource(R.drawable.img_share_background_1),
+                contentDescription = null,
+                modifier = Modifier.matchParentSize(),
+                contentScale = ContentScale.Crop
+            )
+        } else {
+            CustomAsyncImage(
+                imagePath = backgroundImageUrl,
+                modifier = Modifier.matchParentSize(),
+            )
+        }
+
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
                 .then(
                     if (darkMode) {
                         Modifier.heightIn(min = 373.dp, max = maxDialogHeight)
                     } else {
-                        Modifier.wrapContentHeight()
+                        Modifier
                     }
                 )
-                .shadow(if (darkMode) 23.dp else 0.dp, RoundedCornerShape(12.dp))
-                .clip(RoundedCornerShape(12.dp))
+                .padding(horizontal = 12.dp, vertical = 20.dp),
+            verticalArrangement = if (darkMode) Arrangement.SpaceBetween else Arrangement.Top,
         ) {
 
-            if (backgroundImageUrl.isEmpty()) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
-                    painterResource(R.drawable.img_share_background_1),
-                    contentDescription = null,
-                    modifier = Modifier.matchParentSize(),
-                    contentScale = ContentScale.Crop
-                )
-            } else {
-                CustomAsyncImage(
-                    imagePath = backgroundImageUrl,
-                    modifier = Modifier.matchParentSize(),
-                )
+                    painterResource(R.drawable.icn_close_black), contentDescription = null,
+                    modifier = Modifier.noEffectClickable {
+                        onDismiss()
+                    })
+
+                if (showDeleteAction) {
+                    Text(
+                        modifier = Modifier
+                            .padding(start = 8.dp)
+                            .noEffectClickable {
+                                deleteOnClick()
+                            },
+                        text = stringResource(R.string.delete),
+                        style = FillsaTheme.typography.body2,
+                        color = colorResource(R.color.gray_700),
+                        textDecoration = TextDecoration.Underline
+                    )
+                }
             }
 
-            Column(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .then(
-                        if (darkMode) {
-                            Modifier.heightIn(min = 373.dp, max = maxDialogHeight)
+                        if (textLayout == ImageDialogTextLayout.BoundedScrollable) {
+                            Modifier.weight(1f, fill = false)
                         } else {
-                            Modifier
+                            Modifier.padding(top = 90.dp)
                         }
-                    )
-                    .padding(horizontal = 12.dp, vertical = 20.dp),
-                verticalArrangement = if (darkMode) Arrangement.SpaceBetween else Arrangement.Top,
+                    ),
+                contentAlignment = Alignment.Center,
             ) {
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Image(
-                        painterResource(R.drawable.icn_close_black), contentDescription = null,
-                        modifier = Modifier.noEffectClickable {
-                            onDismiss()
-                        })
-
-                    if (showDeleteAction) {
-                        Text(
-                            modifier = Modifier
-                                .padding(start = 8.dp)
-                                .noEffectClickable {
-                                    deleteOnClick()
-                                },
-                            text = stringResource(R.string.delete),
-                            style = FillsaTheme.typography.body2,
-                            color = colorResource(R.color.gray_700),
-                            textDecoration = TextDecoration.Underline
-                        )
-                    }
-                }
-
-                Box(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .then(
                             if (textLayout == ImageDialogTextLayout.BoundedScrollable) {
-                                Modifier.weight(1f, fill = false)
+                                Modifier.verticalScroll(textScrollState)
                             } else {
-                                Modifier.padding(top = 90.dp)
+                                Modifier
                             }
                         ),
-                    contentAlignment = Alignment.Center,
                 ) {
-                    Column(
+                    Text(
+                        quote,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        style = if (darkMode) {
+                            FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall)
+                        } else {
+                            FillsaTheme.typography.body2
+                        },
+                        color = colorResource(R.color.gray_700)
+                    )
+
+                    Text(
+                        author,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .then(
-                                if (textLayout == ImageDialogTextLayout.BoundedScrollable) {
-                                    Modifier.verticalScroll(textScrollState)
-                                } else {
-                                    Modifier
-                                }
-                            ),
-                    ) {
-                        Text(
-                            quote,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            style = if (darkMode) {
-                                FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall)
-                            } else {
-                                FillsaTheme.typography.body2
-                            },
-                            color = colorResource(R.color.gray_700)
-                        )
-
-                        Text(
-                            author,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(top = 12.dp),
-                            textAlign = TextAlign.Center,
-                            style = if (darkMode) {
-                                FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall)
-                            } else {
-                                FillsaTheme.typography.body2
-                            },
-                            color = colorResource(R.color.gray_700),
-                            textDecoration = if (darkMode) TextDecoration.Underline else TextDecoration.None,
-                        )
-                    }
+                            .padding(top = 12.dp),
+                        textAlign = TextAlign.Center,
+                        style = if (darkMode) {
+                            FillsaTheme.typography.quote.copy(fontFamily = gangwoneduall)
+                        } else {
+                            FillsaTheme.typography.body2
+                        },
+                        color = colorResource(R.color.gray_700),
+                        textDecoration = if (darkMode) TextDecoration.Underline else TextDecoration.None,
+                    )
                 }
+            }
 
-                Row(
-                    modifier = Modifier.padding(top = if (darkMode) 0.dp else 86.dp),
-                    verticalAlignment = Alignment.CenterVertically
+            Row(
+                modifier = Modifier.padding(top = if (darkMode) 0.dp else 86.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Button(
+                    shape = MaterialTheme.shapes.small,
+                    colors = MaterialTheme.colorScheme.defaultButtonColors,
+                    onClick = {},
+                    contentPadding = PaddingValues(horizontal = 17.dp, vertical = 15.dp)
                 ) {
-                    Button(
-                        shape = MaterialTheme.shapes.small,
-                        colors = MaterialTheme.colorScheme.defaultButtonColors,
-                        onClick = {},
-                        contentPadding = PaddingValues(horizontal = 17.dp, vertical = 15.dp)
-                    ) {
-                        Text(
-                            stringResource(R.string.change_image),
-                            style = FillsaTheme.typography.buttonMediumBold,
-                            color = colorResource(R.color.gray_700),
-                            modifier = Modifier.noEffectClickable {
-                                galleryLauncher.launch(
-                                    PickVisualMediaRequest(
-                                        ActivityResultContracts.PickVisualMedia.ImageOnly
-                                    )
-                                )
-                            }
-                        )
-                    }
-
-                    Button(
-                        shape = MaterialTheme.shapes.small,
-                        colors = MaterialTheme.colorScheme.defaultButtonColors,
-                        onClick = onDismiss,
-                        contentPadding = PaddingValues(vertical = 15.dp),
-                        modifier = Modifier
-                            .weight(1f)
-                            .padding(start = 10.dp)
-                    ) {
-                        Text(
-                            stringResource(R.string.ok),
-                            style = FillsaTheme.typography.buttonMediumBold,
-                            color = colorResource(R.color.gray_700),
-                        )
-                    }
+                    Text(
+                        stringResource(R.string.change_image),
+                        style = FillsaTheme.typography.buttonMediumBold,
+                        color = colorResource(R.color.gray_700),
+                        modifier = Modifier.noEffectClickable {
+                            onChooseImage()
+                        }
+                    )
                 }
 
+                Button(
+                    shape = MaterialTheme.shapes.small,
+                    colors = MaterialTheme.colorScheme.defaultButtonColors,
+                    onClick = onDismiss,
+                    contentPadding = PaddingValues(vertical = 15.dp),
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 10.dp)
+                ) {
+                    Text(
+                        stringResource(R.string.ok),
+                        style = FillsaTheme.typography.buttonMediumBold,
+                        color = colorResource(R.color.gray_700),
+                    )
+                }
             }
 
         }
 
     }
-
 }
 
 

@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fillsa Android 회원 실기기 기능 QA · 2026-10-13</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif; color: #25243a; background: #f6f5f1; }
+    * { box-sizing: border-box; }
+    body { margin: 0; line-height: 1.65; }
+    main { max-width: 1120px; margin: auto; padding: 28px 20px 80px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; margin-bottom: 12px; }
+    h2 { font-size: 1.45rem; margin: 0 0 18px; }
+    h3 { font-size: 1.05rem; margin-bottom: 8px; }
+    p, li { font-size: 15px; }
+    a { color: #444fd7; }
+    .eyebrow { color: #535edf; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: 12px; }
+    .lead { max-width: 850px; color: #5d5b6c; font-size: 17px; }
+    .hero, section { background: #fff; border: 1px solid #e6e4ef; border-radius: 20px; box-shadow: 0 7px 25px #302a5b0a; }
+    .hero { padding: 34px; background: linear-gradient(125deg, #fff9eb, #f3f1ff); }
+    section { margin-top: 20px; padding: 28px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+    .chip { border: 1px solid #d8d5ec; border-radius: 99px; padding: 6px 12px; background: #fff; font-size: 13px; font-weight: 700; }
+    .summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 20px; }
+    .summary div { padding: 18px; border-radius: 14px; background: #fff; border: 1px solid #e5e2f3; }
+    .summary strong { display: block; font-size: 25px; color: #5059e8; }
+    .summary span { font-size: 13px; color: #615f6e; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 650px; }
+    th, td { padding: 12px 10px; text-align: left; vertical-align: top; border-bottom: 1px solid #e9e8ef; font-size: 14px; }
+    th { background: #f7f6fc; color: #444357; }
+    .pass { color: #08795b; font-weight: 800; }
+    .watch { color: #b26016; font-weight: 800; }
+    .pending { color: #656273; font-weight: 800; }
+    .callout { border-left: 4px solid #e8a140; background: #fff9ed; padding: 18px 20px; border-radius: 0 12px 12px 0; }
+    .timeline { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0; list-style: none; }
+    .timeline li { border: 1px solid #e6e4ef; border-radius: 12px; padding: 14px; }
+    .timeline b { display: block; color: #5059e8; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(205px, 1fr)); gap: 15px; }
+    figure { margin: 0; border: 1px solid #e5e2ed; border-radius: 14px; overflow: hidden; background: #faf9fd; }
+    figure a { display: block; }
+    figure img { display: block; width: 100%; height: 280px; object-fit: contain; background: #eae8ef; }
+    figcaption { padding: 10px 12px; font-size: 13px; }
+    ul { padding-left: 20px; margin-bottom: 0; }
+    @media (max-width: 720px) { .summary, .timeline { grid-template-columns: 1fr; } .hero, section { padding: 22px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header class="hero">
+    <div class="eyebrow">Android · 회원 실기기 기능 QA</div>
+    <h1>로그인 상태에서 주요 기능 점검</h1>
+    <p class="lead">2026년 10월 13일 연결된 실기기의 기존 설치본으로 기능을 직접 조작했다. 사용자가 Google 로그인을 완료한 상태에서 시작했고, 로그아웃은 수행하지 않았다.</p>
+    <div class="chips">
+      <span class="chip">Galaxy SM-S938N · Android API 37</span>
+      <span class="chip">설치 앱 1.0.31 (25)</span>
+      <span class="chip">실제 회원 계정 · api.fillsa.com</span>
+      <span class="chip">앱 재실행·로그인 유지 확인</span>
+    </div>
+    <div class="summary">
+      <div><strong>13개</strong><span>회원 주요 기능 경로 확인</span></div>
+      <div><strong>2건</strong><span>수정·재검증이 필요한 현상</span></div>
+      <div><strong>0회</strong><span>로그아웃·탈퇴·외부 메시지 전송</span></div>
+    </div>
+  </header>
+
+  <section>
+    <h2>실행 결과</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>기능</th><th>실기기에서 확인한 동작</th><th>판정</th></tr></thead>
+        <tbody>
+          <tr><td>회원 세션</td><td>로그인된 My Page를 확인했다. 앱 강제 종료 후 재실행해도 로그인과 회원 답변이 유지됐다.</td><td class="pass">통과</td></tr>
+          <tr><td>Home 문구·날짜</td><td>10월 13일과 11일 문구 이동, 한국어·영어 전환을 확인했다.</td><td class="pass">통과</td></tr>
+          <tr><td>Home 답변</td><td>10월 13일 답변 기록→수정→앱 재실행 후 유지, 10월 11일 캘린더 답변의 Home 동기화를 확인했다.</td><td class="pass">통과</td></tr>
+          <tr><td>회원 필사 저장</td><td>10월 11일 영어 원문 전체 입력 후 저장했다. 완료 팝업과 Home 복귀, 캘린더 완료 건수 2→3을 확인했다.</td><td class="pass">통과</td></tr>
+          <tr><td>미완료 필사</td><td>10월 13일 빈 입력으로 저장했을 때 미완료 안내가 떴다. ‘필사하기’와 ‘취소’ 모두 입력 화면으로 돌아왔다. 서버 완료 기록은 생성하지 않았다.</td><td class="pass">통과</td></tr>
+          <tr><td>저자 링크</td><td>Home에서 한국어 저자명 ‘플로렌스 나이팅게일’을 누르면 Chrome의 영어 위키백과로 이동하지만, 해당 문서는 존재하지 않는다는 안내가 나온다.</td><td class="watch">결함</td></tr>
+          <tr><td>캘린더</td><td>완료·좋아요 표시, 날짜 선택, 질문·문구·답변을 확인했다. 10월 11일 좋아요는 켰다가 해제해 건수 1→0을 확인했다.</td><td class="pass">통과</td></tr>
+          <tr><td>기록 목록·필터</td><td>전체 목록, 좋아요만 보기, 10월 11~13일 날짜 범위 적용과 해당 기록 표시를 확인했다.</td><td class="pass">통과</td></tr>
+          <tr><td>메모</td><td>10월 11일 메모 입력 후 목록에 메모 표기가 생겼고, 앱 재실행 뒤 상세에 본문이 남았다.</td><td class="pass">통과</td></tr>
+          <tr><td>공유</td><td>배경 선택 화면에서 이미지 저장·복사 성공 메시지와 Android 공유 시트 진입을 확인했다. 외부 앱의 전송 버튼은 누르지 않았다.</td><td class="pass">통과</td></tr>
+          <tr><td>이미지 등록</td><td>QA 전용 체크 패턴 이미지를 사진 선택기에서 골라 등록했다. ‘이미지 보기’에 반영된 뒤 삭제까지 확인했다.</td><td class="pass">통과</td></tr>
+          <tr><td>My Page</td><td>공지 3건의 목록·상세, 알림 켜기/끄기와 재진입 후 상태 유지, 라이트·다크·시스템 테마 적용을 확인했다.</td><td class="pass">통과</td></tr>
+          <tr><td>회원 위젯</td><td>실기기 런처의 2×2 위젯에서 오늘 문구를 확인했다. 탭으로 앱 실행, 영어 전환과 큰 글자 적용을 확인했다.</td><td class="pass">통과</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>추적할 현상 1: Home 완료 표시 갱신 지연</h2>
+    <div class="callout">
+      <p><strong>10월 11일 필사를 완료한 직후 Home 주간 날짜에는 불꽃 표시가 없었다.</strong> 같은 시점 캘린더에는 완료 표시와 완료 건수 3이 보였다. 첫 앱 재실행 후에도 Home 표시가 빠졌지만, 이후 앱을 다시 열었을 때 표시됐다. 현재는 표시가 일치한다.</p>
+      <p>서버 반영 시간과 Home 주간 데이터 갱신 조건 중 어느 쪽이 원인인지는 이번 관찰만으로 확정할 수 없다. 다음 신규 완료 건에서 저장 직후·화면 왕복·재실행 시각별로 다시 재현해야 한다.</p>
+    </div>
+    <ol class="timeline">
+      <li><b>19:25 전후</b>10월 11일 필사 완료, 캘린더는 불꽃 3건 표시</li>
+      <li><b>19:37</b>앱 재실행 후 Home 11일 불꽃 없음</li>
+      <li><b>19:54</b>이후 앱 진입 시 Home 11일 불꽃 표시</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>결함 2: 한국어 저자 링크가 없는 문서로 이동</h2>
+    <div class="callout">
+      <p>10월 13일 Home의 저자 아이콘을 누르면 브라우저에서 <code>en.wikipedia.org/wiki/플로렌스_나이팅게일</code> 경로가 열리고 “Wikipedia does not have an article with this exact name”이 표시된다.</p>
+      <p>앱의 <code>getWikipediaUriString</code>은 화면에 표시한 저자 이름을 <code>https://wikipedia.org/wiki/</code> 뒤에 붙인다. 브라우저에서 영어 위키백과로 이동한 결과와 맞는다. 해당 문구 데이터가 가진 저자 URL의 값과 다른 저자명에서의 재현 범위는 아직 확인하지 않았다.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>아직 확인하지 않은 조건</h2>
+    <ul>
+      <li>Google 로그인 요청과 토큰 발급 본문, device UUID: 이미 로그인된 기기에서 시작해 로그인 과정을 다시 실행하지 않았다.</li>
+      <li>토큰 만료 후 자동 재발급 및 장시간 사용: 이번 실기기 조작 시간 안에는 만료 상황이 오지 않았다.</li>
+      <li>오전 9시 실제 알림 수신, 알림 권한 거부·재허용, 위젯의 다음 날 자동 갱신.</li>
+      <li>위젯 4×2 실물 크기, 네트워크 오류·서버 실패·오프라인 복구, 모든 공유 배경별 저장.</li>
+      <li>외부 메신저 최종 전송, 계정 탈퇴, 로그아웃. 로그아웃은 사용자 요청에 따라 제외했다.</li>
+      <li>Figma와의 시각적 일치 여부는 이번 기능 QA의 판정 대상이 아니다.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>테스트 후 계정·기기 상태</h2>
+    <p><strong>계정에 남은 QA 데이터:</strong> 10월 11일 필사 완료, 10월 13일 답변 <code>QA_check_2026-10-13_edited</code>, 10월 11일 답변 <code>QA_calendar_2026-10-11</code>, 10월 11일 메모 <code>QA_memo_2026-10-11</code>. 이 앱의 API 주소는 <code>api.fillsa.com</code>이므로 실제 계정 기록이다.</p>
+    <p><strong>복원한 상태:</strong> 10월 11일 좋아요 해제, 알림 켜짐, 라이트 테마, 위젯 설정의 한국어·중간 글자 크기. 등록한 QA 사진은 앱에서 삭제했고, 테스트용 런처 위젯·기기 사진·공유 저장 이미지는 제거했다. 로그인은 유지했다.</p>
+    <p>테스트 중 광고 SDK의 안내 팝업이 하단 탭을 가렸다. 팝업을 닫은 뒤 해당 동작을 다시 수행했다. 이 팝업을 앱 기능 실패로 분류하지 않았다.</p>
+  </section>
+
+  <section>
+    <h2>화면 증거</h2>
+    <p>개인 프로필과 기존 계정 사진이 들어간 화면, 인증 토큰과 원본 로그는 보고서에 넣지 않았다. 이미지를 누르면 원본 크기로 볼 수 있다.</p>
+    <div class="gallery">
+      <figure><a href="artifacts/2026-10-13-member-device/answer-after-restart.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/answer-after-restart.png" alt="앱 재실행 뒤 유지된 회원 답변"></a><figcaption>앱 재실행 후 회원 답변</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/typing-completed.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/typing-completed.png" alt="회원 필사 완료 결과"></a><figcaption>회원 필사 완료 팝업</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/typing-empty.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/typing-empty.png" alt="빈 필사 입력 저장 시 미완료 안내"></a><figcaption>빈 입력 저장의 미완료 안내</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/author-link-missing-article.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/author-link-missing-article.png" alt="한국어 저자 링크가 없는 위키백과 문서로 열림"></a><figcaption>한국어 저자 링크 결함</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/calendar-after-typing.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/calendar-after-typing.png" alt="캘린더 완료 건수 증가"></a><figcaption>캘린더 완료 3건</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/date-filter.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/date-filter.png" alt="회원 기록 날짜와 좋아요 필터"></a><figcaption>기록 날짜·좋아요 필터</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/memo-persisted.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/memo-persisted.png" alt="앱 재실행 뒤 유지된 메모"></a><figcaption>재실행 후 메모 유지</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/image-uploaded.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/image-uploaded.png" alt="QA 체크 패턴 사진이 이미지 등록 팝업에 적용됨"></a><figcaption>QA 이미지 등록</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/calendar-like-restored.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/calendar-like-restored.png" alt="좋아요 해제 후 캘린더 건수 0"></a><figcaption>좋아요 해제 후 0건</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/alert-on-restored.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/alert-on-restored.png" alt="알림 설정 켜짐으로 복원"></a><figcaption>알림 켜짐 복원</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/home-week-delayed.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/home-week-delayed.png" alt="완료 직후 Home 11일 불꽃 누락"></a><figcaption>초기 Home 11일 불꽃 누락</figcaption></figure>
+      <figure><a href="artifacts/2026-10-13-member-device/home-week-later.png"><img loading="lazy" src="artifacts/2026-10-13-member-device/home-week-later.png" alt="이후 Home 11일 불꽃 반영"></a><figcaption>이후 Home 11일 불꽃 반영</figcaption></figure>
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,20 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 18, top: 1, right: 144, bottom: 127)
+          View (left: 737, top: 1, right: 895, bottom: 127)
+            TextView (left: 763, top: 42, right: 794, bottom: 86) text="한"
+            TextView (left: 846, top: 42, right: 869, bottom: 86) text="A"
+          View (left: 53, top: 202, right: 892, bottom: 1764)
+            EditText (left: 53, top: 202, right: 892, bottom: 344)
+              TextView (left: 53, top: 202, right: 892, bottom: 344) text="상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+            View (left: 22, top: 1639, right: 148, bottom: 1764)
+            View (left: 190, top: 1639, right: 316, bottom: 1764)
+            View (left: 358, top: 1639, right: 484, bottom: 1764)
+              View (left: 358, top: 1639, right: 484, bottom: 1764)
+            View (left: 704, top: 1639, right: 892, bottom: 1764)
+              TextView (left: 736, top: 1680, right: 860, bottom: 1724) text="저장하기"
+              Button (left: 704, top: 1649, right: 892, bottom: 1754)
+

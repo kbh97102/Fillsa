@@ -29,8 +29,6 @@ import androidx.core.net.toUri
 fun UpdateDialog(
     onDismiss: () -> Unit
 ) {
-    val context = LocalContext.current
-
     Dialog(
         onDismissRequest = {
             onDismiss()
@@ -40,48 +38,60 @@ fun UpdateDialog(
             usePlatformDefaultWidth = false
         )
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
-                .clip(MaterialTheme.shapes.small)
-                .background(FillsaTheme.colorScheme.backgroundContainer)
-                .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Image(
-                painter = painterResource(R.drawable.icn_warning),
-                contentDescription = null,
-                modifier = Modifier.padding(bottom = 12.dp)
-            )
+        UpdateDialogContent(
+            onDismiss = onDismiss
+        )
+    }
+}
 
-            Text(
-                "필사 앱 업데이트 안내",
-                textAlign = TextAlign.Center,
-                style = FillsaTheme.typography.heading4,
-                modifier = Modifier.padding(bottom = 12.dp),
-                color = FillsaTheme.colorScheme.onBackground1
-            )
-            Text(
-                "최적의 사용 환경을 위해 최신 버전의 앱으로 업데이트 해주세요.",
-                textAlign = TextAlign.Center,
-                style = FillsaTheme.typography.body2,
-                modifier = Modifier.padding(bottom = 24.dp),
-                color = FillsaTheme.colorScheme.onBackground1
-            )
+/** Shared production content, also rendered without a platform window in deterministic previews. */
+@Composable
+internal fun UpdateDialogContent(
+    onDismiss: () -> Unit
+) {
+    val context = LocalContext.current
 
-            PositiveButton(
-                "앱 업데이트",
-                onClick = {
-                    val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = ("market://details?id=" + context.packageName).toUri()
-                    context.startActivity(intent)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .clip(MaterialTheme.shapes.small)
+            .background(FillsaTheme.colorScheme.backgroundContainer)
+            .padding(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Image(
+            painter = painterResource(R.drawable.icn_warning),
+            contentDescription = null,
+            modifier = Modifier.padding(bottom = 12.dp)
+        )
 
-                    onDismiss()
-                },
-                modifier = Modifier.fillMaxWidth()
-            )
-        }
+        Text(
+            "필사 앱 업데이트 안내",
+            textAlign = TextAlign.Center,
+            style = FillsaTheme.typography.heading4,
+            modifier = Modifier.padding(bottom = 12.dp),
+            color = FillsaTheme.colorScheme.onBackground1
+        )
+        Text(
+            "최적의 사용 환경을 위해 최신 버전의 앱으로 업데이트 해주세요.",
+            textAlign = TextAlign.Center,
+            style = FillsaTheme.typography.body2,
+            modifier = Modifier.padding(bottom = 24.dp),
+            color = FillsaTheme.colorScheme.onBackground1
+        )
+
+        PositiveButton(
+            "앱 업데이트",
+            onClick = {
+                val intent = Intent(Intent.ACTION_VIEW)
+                intent.data = ("market://details?id=" + context.packageName).toUri()
+                context.startActivity(intent)
+
+                onDismiss()
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
 }
 

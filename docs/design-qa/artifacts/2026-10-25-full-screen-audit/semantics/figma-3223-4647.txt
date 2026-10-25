@@ -1,0 +1,80 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 2029)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 2029)
+    View (left: 0, top: 0, right: 945, bottom: 2029)
+      View (left: 0, top: 0, right: 945, bottom: 2029)
+        View (left: 0, top: 0, right: 945, bottom: 1871)
+          View (left: 0, top: 0, right: 945, bottom: 1871)
+            ScrollView (left: 0, top: 131, right: 945, bottom: 1871)
+              View (left: 53, top: 134, right: 245, bottom: 260)
+                View (left: 68, top: 181, right: 100, bottom: 213)
+                TextView (left: 105, top: 178, right: 231, bottom: 216) text="2026.08"
+              View (left: 246, top: 134, right: 337, bottom: 260)
+                TextView (left: 293, top: 178, right: 325, bottom: 216) text="10"
+              View (left: 285, top: 131, right: 332, bottom: 178)
+              View (left: 337, top: 134, right: 427, bottom: 260)
+                TextView (left: 386, top: 178, right: 414, bottom: 216) text="11"
+              View (left: 376, top: 131, right: 423, bottom: 178)
+              View (left: 427, top: 134, right: 518, bottom: 260)
+                TextView (left: 474, top: 178, right: 506, bottom: 216) text="12"
+              View (left: 518, top: 134, right: 609, bottom: 260)
+                TextView (left: 564, top: 178, right: 597, bottom: 216) text="13"
+              View (left: 609, top: 134, right: 699, bottom: 260)
+                TextView (left: 655, top: 178, right: 688, bottom: 216) text="14"
+              View (left: 699, top: 134, right: 790, bottom: 260)
+                TextView (left: 745, top: 178, right: 778, bottom: 216) text="15"
+              View (left: 790, top: 134, right: 916, bottom: 260)
+                TextView (left: 836, top: 178, right: 869, bottom: 216) text="16"
+              TextView (left: 53, top: 317, right: 390, bottom: 361) text="아래 글을 필사해주세요."
+              View (left: 751, top: 276, right: 884, bottom: 400)
+                TextView (left: 772, top: 320, right: 799, bottom: 358) text="한"
+                TextView (left: 841, top: 320, right: 863, bottom: 358) text="A"
+              View (left: 53, top: 400, right: 892, bottom: 794)
+                View (left: 53, top: 400, right: 892, bottom: 794)
+                TextView (left: 79, top: 466, right: 866, bottom: 577) text="사랑이라는 선물은 억지로 줄 수 없고 받아들여지기를 기다릴 뿐이다."
+                View (left: 409, top: 676, right: 537, bottom: 802)
+                  TextView (left: 409, top: 720, right: 490, bottom: 758) text="존우든"
+                  View (left: 495, top: 718, right: 537, bottom: 760)
+              View (left: 0, top: 812, right: 225, bottom: 938)
+                View (left: 59, top: 854, right: 101, bottom: 896)
+                TextView (left: 112, top: 856, right: 166, bottom: 894) text="복사"
+              View (left: 164, top: 812, right: 228, bottom: 938)
+              View (left: 228, top: 812, right: 454, bottom: 938)
+                View (left: 288, top: 854, right: 330, bottom: 896)
+                TextView (left: 341, top: 856, right: 395, bottom: 894) text="공유"
+              View (left: 393, top: 812, right: 457, bottom: 938)
+              View (left: 457, top: 812, right: 683, bottom: 938)
+                View (left: 503, top: 854, right: 545, bottom: 896)
+                TextView (left: 556, top: 856, right: 637, bottom: 894) text="좋아요"
+              View (left: 622, top: 812, right: 686, bottom: 938)
+              View (left: 686, top: 812, right: 945, bottom: 938)
+                View (left: 702, top: 838, right: 776, bottom: 912)
+                TextView (left: 787, top: 856, right: 930, bottom: 894) text="이미지 보기"
+              View (left: 0, top: 869, right: 945, bottom: 995)
+              TextView (left: 53, top: 972, right: 216, bottom: 1016) text="오늘의 질문"
+              TextView (left: 53, top: 1027, right: 744, bottom: 1071) text="누군가의 호의를 한참 뒤에야 받아들인 적 있나요?"
+              View (left: 53, top: 1082, right: 892, bottom: 1539)
+                EditText (left: 82, top: 1111, right: 863, bottom: 1510)
+                  View (left: 82, top: 1111, right: 863, bottom: 1510)
+                  TextView (left: 82, top: 1111, right: 863, bottom: 1510) text="오늘의 질문을 보고 떠오른 생각을 자유롭게 기록해보세요."
+                  View (left: 82, top: 1111, right: 863, bottom: 1510)
+              TextView (left: 53, top: 1547, right: 892, bottom: 1585) text="0 / 200"
+              View (left: 53, top: 1611, right: 892, bottom: 1742)
+                View (left: 53, top: 1611, right: 892, bottom: 1742)
+                View (left: 308, top: 1653, right: 355, bottom: 1700)
+                TextView (left: 366, top: 1652, right: 638, bottom: 1702) text="내 답변 기록하기"
+            View (left: 0, top: 0, right: 945, bottom: 131)
+              View (left: 53, top: 3, right: 211, bottom: 129)
+              View (left: 627, top: 39, right: 680, bottom: 92)
+              TextView (left: 685, top: 41, right: 797, bottom: 91) text="100일"
+              View (left: 798, top: 3, right: 924, bottom: 129)
+        View (left: 0, top: 1871, right: 945, bottom: 2029)
+          View (left: 0, top: 1871, right: 315, bottom: 2029)
+            TextView (left: 116, top: 1971, right: 199, bottom: 2009) text="Home"
+            View (left: 0, top: 1871, right: 315, bottom: 2029)
+          View (left: 315, top: 1871, right: 630, bottom: 2029)
+            TextView (left: 410, top: 1971, right: 536, bottom: 2009) text="Calendar"
+            View (left: 315, top: 1871, right: 630, bottom: 2029)
+          View (left: 630, top: 1871, right: 945, bottom: 2029)
+            TextView (left: 728, top: 1971, right: 848, bottom: 2009) text="My page"
+            View (left: 630, top: 1871, right: 945, bottom: 2029)
+

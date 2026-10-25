@@ -1,0 +1,8 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 403, top: 765, right: 542, bottom: 896)
+          TextView (left: 164, top: 949, right: 782, bottom: 999) text="좌우로 움직여 이미지를 선택해주세요."
+

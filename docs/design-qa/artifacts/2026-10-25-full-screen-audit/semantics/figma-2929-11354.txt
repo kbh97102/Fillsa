@@ -1,0 +1,25 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 0, top: 13, right: 945, bottom: 139)
+            View (left: 0, top: 13, right: 105, bottom: 139)
+            TextView (left: 110, top: 45, right: 290, bottom: 108) text="공지사항"
+          View (left: 53, top: 194, right: 892, bottom: 1573)
+            View (left: 53, top: 194, right: 892, bottom: 449)
+              TextView (left: 53, top: 194, right: 238, bottom: 238) text="2025.03.03"
+              TextView (left: 53, top: 264, right: 892, bottom: 420) text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the in"
+            View (left: 53, top: 475, right: 892, bottom: 730)
+              TextView (left: 53, top: 475, right: 238, bottom: 519) text="2025.03.03"
+              TextView (left: 53, top: 545, right: 892, bottom: 701) text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the in"
+            View (left: 53, top: 756, right: 892, bottom: 1011)
+              TextView (left: 53, top: 756, right: 238, bottom: 800) text="2025.03.03"
+              TextView (left: 53, top: 826, right: 892, bottom: 982) text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the in"
+            View (left: 53, top: 1037, right: 892, bottom: 1292)
+              TextView (left: 53, top: 1037, right: 238, bottom: 1081) text="2025.03.03"
+              TextView (left: 53, top: 1107, right: 892, bottom: 1263) text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the in"
+            View (left: 53, top: 1318, right: 892, bottom: 1573)
+              TextView (left: 53, top: 1318, right: 238, bottom: 1362) text="2025.03.03"
+              TextView (left: 53, top: 1388, right: 892, bottom: 1544) text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the in"
+

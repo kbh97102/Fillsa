@@ -1,0 +1,33 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1890)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1890)
+    View (left: 0, top: 0, right: 945, bottom: 1890)
+      View (left: 0, top: 0, right: 945, bottom: 1890)
+        View (left: 22, top: 3, right: 148, bottom: 129)
+        TextView (left: 142, top: 34, right: 232, bottom: 97) text="위젯"
+        View (left: 53, top: 137, right: 892, bottom: 263)
+          TextView (left: 53, top: 175, right: 197, bottom: 225) text="예시화면"
+          View (left: 798, top: 137, right: 924, bottom: 263)
+        View (left: 343, top: 321, right: 603, bottom: 623)
+          View (left: 411, top: 321, right: 537, bottom: 447)
+            TextView (left: 418, top: 374, right: 529, bottom: 393) text="100일 연속 필사중"
+          TextView (left: 343, top: 406, right: 603, bottom: 431) text="오늘 필사하는 것을 잊으셨나요?"
+          View (left: 389, top: 429, right: 557, bottom: 555)
+        TextView (left: 379, top: 636, right: 566, bottom: 699) text="비율(2x2)"
+        View (left: 179, top: 773, right: 766, bottom: 1118)
+          View (left: 179, top: 750, right: 347, bottom: 876)
+          TextView (left: 347, top: 794, right: 489, bottom: 832) text="오늘의 문장"
+          View (left: 597, top: 750, right: 750, bottom: 876)
+            TextView (left: 597, top: 800, right: 750, bottom: 825) text="100일 연속 필사중"
+          TextView (left: 179, top: 881, right: 766, bottom: 967) text="진정한 용기는 두려움 속에서도 행동하는 것이다."
+          TextView (left: 395, top: 980, right: 551, bottom: 1018) text="-넬슨 만델라"
+        TextView (left: 379, top: 1152, right: 566, bottom: 1215) text="비율(4x2)"
+        View (left: 53, top: 1274, right: 892, bottom: 1400)
+          TextView (left: 53, top: 1312, right: 197, bottom: 1362) text="언어설정"
+          View (left: 798, top: 1274, right: 924, bottom: 1400)
+        View (left: 53, top: 1408, right: 892, bottom: 1534)
+          TextView (left: 53, top: 1446, right: 244, bottom: 1496) text="텍스트 크기"
+          View (left: 798, top: 1408, right: 924, bottom: 1534)
+        View (left: 53, top: 1709, right: 892, bottom: 1837)
+          TextView (left: 437, top: 1748, right: 509, bottom: 1798) text="확인"
+          Button (left: 53, top: 1709, right: 892, bottom: 1837)
+

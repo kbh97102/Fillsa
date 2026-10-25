@@ -1,0 +1,159 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 2764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 2764)
+    View (left: 0, top: 0, right: 945, bottom: 2764)
+      View (left: 0, top: 0, right: 945, bottom: 2764)
+        View (left: 0, top: 0, right: 945, bottom: 2606)
+          ScrollView (left: 0, top: 0, right: 945, bottom: 2606)
+            View (left: 53, top: 19, right: 211, bottom: 145)
+            View (left: 627, top: 55, right: 680, bottom: 108)
+            TextView (left: 685, top: 57, right: 797, bottom: 107) text="100일"
+            View (left: 798, top: 19, right: 924, bottom: 145)
+            View (left: 53, top: 173, right: 892, bottom: 1213)
+              View (left: 63, top: 171, right: 189, bottom: 297)
+                View (left: 94, top: 202, right: 157, bottom: 265)
+                View (left: 94, top: 202, right: 157, bottom: 265)
+              TextView (left: 341, top: 194, right: 604, bottom: 273) text="2025. 03"
+              View (left: 757, top: 171, right: 883, bottom: 297)
+                View (left: 788, top: 202, right: 851, bottom: 265)
+                View (left: 788, top: 202, right: 851, bottom: 265)
+              TextView (left: 53, top: 320, right: 148, bottom: 407) text="일"
+              TextView (left: 177, top: 320, right: 272, bottom: 407) text="월"
+              TextView (left: 301, top: 320, right: 396, bottom: 407) text="화"
+              TextView (left: 425, top: 320, right: 520, bottom: 407) text="수"
+              TextView (left: 549, top: 320, right: 644, bottom: 407) text="목"
+              TextView (left: 673, top: 320, right: 768, bottom: 407) text="금"
+              TextView (left: 797, top: 320, right: 892, bottom: 407) text="토"
+              View (left: 38, top: 407, right: 162, bottom: 533)
+                TextView (left: 78, top: 422, right: 123, bottom: 485) text="27"
+              View (left: 162, top: 407, right: 286, bottom: 533)
+                TextView (left: 201, top: 422, right: 248, bottom: 485) text="28"
+              View (left: 286, top: 407, right: 410, bottom: 533)
+                TextView (left: 325, top: 422, right: 372, bottom: 485) text="29"
+              View (left: 410, top: 407, right: 534, bottom: 533)
+                TextView (left: 449, top: 422, right: 496, bottom: 485) text="30"
+              View (left: 534, top: 407, right: 658, bottom: 533)
+                TextView (left: 576, top: 422, right: 618, bottom: 485) text="31"
+              View (left: 658, top: 407, right: 782, bottom: 533)
+                TextView (left: 711, top: 422, right: 730, bottom: 485) text="1"
+              View (left: 782, top: 407, right: 908, bottom: 533)
+                TextView (left: 833, top: 422, right: 857, bottom: 485) text="2"
+              View (left: 38, top: 538, right: 162, bottom: 664)
+                TextView (left: 88, top: 553, right: 113, bottom: 616) text="3"
+              View (left: 162, top: 538, right: 286, bottom: 664)
+                TextView (left: 212, top: 553, right: 237, bottom: 616) text="4"
+              View (left: 286, top: 538, right: 410, bottom: 664)
+                TextView (left: 337, top: 553, right: 361, bottom: 616) text="5"
+              View (left: 410, top: 538, right: 534, bottom: 664)
+                TextView (left: 460, top: 553, right: 485, bottom: 616) text="6"
+              View (left: 534, top: 538, right: 658, bottom: 664)
+                TextView (left: 585, top: 553, right: 608, bottom: 616) text="7"
+              View (left: 658, top: 538, right: 782, bottom: 664)
+                TextView (left: 708, top: 553, right: 733, bottom: 616) text="8"
+              View (left: 782, top: 538, right: 908, bottom: 664)
+                TextView (left: 832, top: 553, right: 857, bottom: 616) text="9"
+              View (left: 38, top: 669, right: 162, bottom: 795)
+                TextView (left: 80, top: 684, right: 121, bottom: 747) text="10"
+              View (left: 162, top: 669, right: 286, bottom: 795)
+                TextView (left: 207, top: 684, right: 243, bottom: 747) text="11"
+              View (left: 286, top: 669, right: 410, bottom: 795)
+                TextView (left: 328, top: 684, right: 369, bottom: 747) text="12"
+              View (left: 410, top: 669, right: 534, bottom: 795)
+                TextView (left: 452, top: 684, right: 494, bottom: 747) text="13"
+              View (left: 534, top: 669, right: 658, bottom: 795)
+                TextView (left: 576, top: 684, right: 618, bottom: 747) text="14"
+              View (left: 658, top: 669, right: 782, bottom: 795)
+                TextView (left: 700, top: 684, right: 741, bottom: 747) text="15"
+              View (left: 782, top: 669, right: 908, bottom: 795)
+                TextView (left: 824, top: 684, right: 866, bottom: 747) text="16"
+              View (left: 38, top: 797, right: 162, bottom: 928)
+                TextView (left: 81, top: 805, right: 121, bottom: 868) text="17"
+              View (left: 162, top: 797, right: 286, bottom: 928)
+                TextView (left: 204, top: 805, right: 246, bottom: 868) text="18"
+                View (left: 190, top: 863, right: 222, bottom: 895)
+                View (left: 227, top: 863, right: 259, bottom: 895)
+              View (left: 286, top: 797, right: 410, bottom: 928)
+                TextView (left: 328, top: 805, right: 370, bottom: 868) text="19"
+                View (left: 314, top: 863, right: 346, bottom: 895)
+                View (left: 351, top: 863, right: 383, bottom: 895)
+              View (left: 410, top: 797, right: 534, bottom: 928)
+                TextView (left: 450, top: 805, right: 496, bottom: 868) text="20"
+                View (left: 438, top: 863, right: 470, bottom: 895)
+                View (left: 475, top: 863, right: 507, bottom: 895)
+              View (left: 534, top: 797, right: 658, bottom: 928)
+                TextView (left: 576, top: 805, right: 617, bottom: 868) text="21"
+                View (left: 562, top: 863, right: 594, bottom: 895)
+                View (left: 599, top: 863, right: 631, bottom: 895)
+              View (left: 658, top: 797, right: 782, bottom: 928)
+                TextView (left: 698, top: 805, right: 744, bottom: 868) text="22"
+              View (left: 782, top: 797, right: 908, bottom: 928)
+                TextView (left: 821, top: 805, right: 868, bottom: 868) text="23"
+              View (left: 38, top: 931, right: 162, bottom: 1057)
+                TextView (left: 77, top: 946, right: 124, bottom: 1009) text="24"
+              View (left: 162, top: 931, right: 286, bottom: 1057)
+                TextView (left: 202, top: 946, right: 248, bottom: 1009) text="25"
+              View (left: 286, top: 931, right: 410, bottom: 1057)
+                TextView (left: 325, top: 946, right: 372, bottom: 1009) text="26"
+              View (left: 410, top: 931, right: 534, bottom: 1057)
+                TextView (left: 450, top: 946, right: 495, bottom: 1009) text="27"
+              View (left: 534, top: 931, right: 658, bottom: 1057)
+                TextView (left: 573, top: 946, right: 620, bottom: 1009) text="28"
+              View (left: 658, top: 931, right: 782, bottom: 1057)
+                TextView (left: 697, top: 946, right: 744, bottom: 1009) text="29"
+              View (left: 782, top: 931, right: 908, bottom: 1057)
+                TextView (left: 821, top: 946, right: 868, bottom: 1009) text="30"
+              View (left: 38, top: 1062, right: 162, bottom: 1188)
+                TextView (left: 80, top: 1077, right: 122, bottom: 1140) text="31"
+              View (left: 162, top: 1062, right: 286, bottom: 1188)
+              View (left: 286, top: 1062, right: 410, bottom: 1188)
+              View (left: 410, top: 1062, right: 534, bottom: 1188)
+              View (left: 534, top: 1062, right: 658, bottom: 1188)
+              View (left: 658, top: 1062, right: 782, bottom: 1188)
+              View (left: 782, top: 1062, right: 908, bottom: 1188)
+            View (left: 716, top: 1198, right: 892, bottom: 1324)
+              View (left: 716, top: 1240, right: 758, bottom: 1282)
+              TextView (left: 769, top: 1239, right: 791, bottom: 1283) text="4"
+              View (left: 817, top: 1240, right: 859, bottom: 1282)
+              TextView (left: 870, top: 1239, right: 892, bottom: 1283) text="4"
+            View (left: 53, top: 1325, right: 892, bottom: 1674)
+              TextView (left: 107, top: 1372, right: 163, bottom: 1435) text="21"
+              TextView (left: 110, top: 1448, right: 159, bottom: 1486) text="(금)"
+              TextView (left: 216, top: 1375, right: 866, bottom: 1475) text="영광은 먼지와 땀과 피로 얼굴이 얼룩진 채 경기장에 서 있는 사람의 것이다."
+              View (left: 53, top: 1500, right: 892, bottom: 1626)
+              View (left: 53, top: 1556, right: 237, bottom: 1682)
+                View (left: 92, top: 1598, right: 134, bottom: 1640)
+                TextView (left: 145, top: 1600, right: 199, bottom: 1638) text="복사"
+              View (left: 176, top: 1556, right: 240, bottom: 1682)
+              View (left: 240, top: 1556, right: 424, bottom: 1682)
+                View (left: 279, top: 1598, right: 321, bottom: 1640)
+                TextView (left: 332, top: 1600, right: 386, bottom: 1638) text="공유"
+              View (left: 363, top: 1556, right: 427, bottom: 1682)
+              View (left: 427, top: 1556, right: 611, bottom: 1682)
+                View (left: 452, top: 1598, right: 494, bottom: 1640)
+                TextView (left: 505, top: 1600, right: 586, bottom: 1638) text="좋아요"
+              View (left: 550, top: 1556, right: 614, bottom: 1682)
+              View (left: 614, top: 1556, right: 892, bottom: 1682)
+                View (left: 655, top: 1598, right: 697, bottom: 1640)
+                TextView (left: 708, top: 1600, right: 851, bottom: 1638) text="이미지 등록"
+            TextView (left: 53, top: 1703, right: 216, bottom: 1747) text="오늘의 질문"
+            TextView (left: 53, top: 1771, right: 744, bottom: 1815) text="누군가의 호의를 한참 뒤에야 받아들인 적 있나요?"
+            View (left: 53, top: 1828, right: 892, bottom: 2285)
+              EditText (left: 85, top: 1870, right: 860, bottom: 2256)
+                View (left: 85, top: 1870, right: 860, bottom: 2256)
+                TextView (left: 85, top: 1870, right: 860, bottom: 2256) text="오늘의 질문을 보고 떠오른 생각을 자유롭게 기록해보세요."
+                View (left: 85, top: 1870, right: 860, bottom: 2256)
+            TextView (left: 53, top: 2293, right: 892, bottom: 2331) text="0 / 200"
+            View (left: 53, top: 2357, right: 892, bottom: 2488)
+              View (left: 53, top: 2357, right: 892, bottom: 2488)
+              View (left: 308, top: 2399, right: 355, bottom: 2446)
+              TextView (left: 366, top: 2398, right: 638, bottom: 2448) text="내 답변 기록하기"
+        View (left: 0, top: 2606, right: 945, bottom: 2764)
+          View (left: 0, top: 2606, right: 315, bottom: 2764)
+            TextView (left: 116, top: 2706, right: 199, bottom: 2744) text="Home"
+            View (left: 0, top: 2606, right: 315, bottom: 2764)
+          View (left: 315, top: 2606, right: 630, bottom: 2764)
+            TextView (left: 410, top: 2706, right: 536, bottom: 2744) text="Calendar"
+            View (left: 315, top: 2606, right: 630, bottom: 2764)
+          View (left: 630, top: 2606, right: 945, bottom: 2764)
+            TextView (left: 728, top: 2706, right: 848, bottom: 2744) text="My page"
+            View (left: 630, top: 2606, right: 945, bottom: 2764)
+

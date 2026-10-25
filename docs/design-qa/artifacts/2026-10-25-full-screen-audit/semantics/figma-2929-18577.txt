@@ -1,0 +1,8 @@
+ComposeViewAdapter (left: 0, top: 0, right: 709, bottom: 1050)
+  ComposeView (left: 0, top: 0, right: 709, bottom: 1050)
+    View (left: 0, top: 0, right: 709, bottom: 1050)
+      View (left: 0, top: 0, right: 709, bottom: 1050)
+        View (left: 0, top: 0, right: 709, bottom: 1050)
+        TextView (left: 34, top: 419, right: 675, bottom: 530) text="상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+        TextView (left: 34, top: 583, right: 675, bottom: 631) text="존 우든"
+

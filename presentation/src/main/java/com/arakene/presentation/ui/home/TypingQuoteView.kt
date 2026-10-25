@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -41,9 +40,6 @@ import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil3.compose.AsyncImage
-import coil3.request.ImageRequest
-import coil3.svg.SvgDecoder
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.domain.responses.DailyQuoteDto
@@ -53,6 +49,7 @@ import com.arakene.presentation.ui.theme.defaultButtonColors
 import com.arakene.presentation.util.CommonAction
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.DialogDataHolder
+import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.LocalDialogDataHolder
@@ -65,8 +62,6 @@ import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
 import com.arakene.presentation.viewmodel.TypingViewModel
-
-internal fun typingDecorationVisible(darkMode: Boolean): Boolean = darkMode
 
 @Composable
 fun TypingQuoteView(
@@ -127,6 +122,7 @@ fun TypingQuoteView(
     val scope = rememberCoroutineScope()
 
     val keyboardController = LocalSoftwareKeyboardController.current
+    var typingResultDialog by remember { mutableStateOf<DialogData?>(null) }
 
     val updateBackEvent by rememberUpdatedState({
         if (homeQaFixture == null) {
@@ -155,7 +151,7 @@ fun TypingQuoteView(
 
         when (it) {
             is CommonEffect.Move -> {
-                navigate(it.screen)
+                if (it.screen is Screens.Home) backOnClick() else navigate(it.screen)
             }
 
             is CommonEffect.PopBackStack -> {
@@ -171,89 +167,21 @@ fun TypingQuoteView(
             }
 
             is CommonEffect.ShowDialog -> {
-                dialogDataHolder.data = it.dialogData
-                dialogDataHolder.show = true
+                if (it.dialogData.typingResultKind != null) {
+                    typingResultDialog = it.dialogData
+                } else {
+                    dialogDataHolder.data = it.dialogData
+                    dialogDataHolder.show = true
+                }
             }
         }
     }
 
-    Column(
-        modifier = Modifier
-            .background(
-                if (darkMode) {
-                    colorResource(R.color.gray_700)
-                } else {
-                    colorResource(R.color.white)
-                }
-            )
-            .noEffectClickable {
-                focusManager.clearFocus()
-            }) {
-        TypingQuoteTopSection(
-            locale = localeType,
-            setLocale = {
-                localeType = it
-            },
-            onBackClick = { viewModel.handleContract(CommonAction.PopBackStack) },
-            modifier = Modifier.padding(horizontal = 15.dp)
-        )
-
-        Column(
-            modifier = Modifier
-                .padding(horizontal = 20.dp)
-                .padding(top = if (darkMode) 6.dp else 20.dp)
-                .noEffectClickable {
-                    typingSectionFocusRequester.requestFocus()
-                    keyboardController?.show()
-                }
-        ) {
-            if (typingDecorationVisible(darkMode)) {
-                AsyncImage(
-                    model = remember(context) {
-                        ImageRequest.Builder(context)
-                            .data("file:///android_asset/figma/typing/typing_handwriting_dark.svg")
-                            .decoderFactory(SvgDecoder.Factory())
-                            .build()
-                    },
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(60.dp)
-                        .align(Alignment.CenterHorizontally),
-                )
-                Text(
-                    text = "오늘의 문장을 따라 써주세요.",
-                    style = FillsaTheme.typography.subtitle1,
-                    color = colorResource(R.color.purple01),
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                )
-                Spacer(Modifier.padding(top = 20.dp))
-            }
-            TypingQuoteBodySection(
-                modifier = Modifier.focusRequester(focusRequester = typingSectionFocusRequester),
-                quote = if (localeType == LocaleType.KOR) {
-                    data.korQuote ?: ""
-                } else {
-                    data.engQuote ?: ""
-                },
-                write = if (localeType == LocaleType.KOR) {
-                    korTyping
-                } else {
-                    engTyping
-                },
-                setWrite = {
-                    if (localeType == LocaleType.KOR) {
-                        korTyping = it
-                    } else {
-                        engTyping = it
-                    }
-                },
-                localeType = localeType
-            )
-
-            Spacer(Modifier.weight(1f))
-
-            TypingQuoteBottomSection(
-                saveOnClick = {
+    TypingQuoteContent(data, korTyping, engTyping, localeType, isLike, darkMode,
+        onLocaleChanged = { localeType = it },
+        onWriteChanged = { if (localeType == LocaleType.KOR) korTyping = it else engTyping = it },
+        onBack = { viewModel.handleContract(CommonAction.PopBackStack) },
+        onSave = {
                     if (homeQaFixture == null) {
                         viewModel.handleContract(
                             TypingAction.Save(
@@ -266,7 +194,7 @@ fun TypingQuoteView(
                         )
                     }
                 },
-                shareOnClick = {
+        onShare = {
                     viewModel.handleContract(
                         CommonEffect.Move(
                             Screens.Share(
@@ -284,7 +212,7 @@ fun TypingQuoteView(
                         )
                     )
                 },
-                copyOnClick = {
+        onCopy = {
                     copyToClipboard(
                         context = context,
                         clipBoard = clipBoard,
@@ -302,8 +230,7 @@ fun TypingQuoteView(
                         snackbarHostState = snackbarHostState
                     )
                 },
-                like = isLike,
-                setLike = {
+        onLikeChanged = {
                     // TODO: 어떻게 관리하는게 mvi 패턴을 더 잘 사용하는 걸까 너무 갇히는건가
                     isLike = !isLike
                     if (homeQaFixture == null) {
@@ -314,10 +241,24 @@ fun TypingQuoteView(
                             )
                         )
                     }
-                },
-            )
+                }
+    )
 
-        }
+    typingResultDialog?.let { result ->
+        TypingResultDialog(
+            kind = result.typingResultKind!!,
+            title = result.title,
+            darkMode = darkMode,
+            onConfirm = {
+                typingResultDialog = null
+                result.onClick?.invoke()
+            },
+            onCancel = {
+                typingResultDialog = null
+                result.cancelOnClick?.invoke()
+            },
+            onDismiss = { typingResultDialog = null },
+        )
     }
 
 }
@@ -426,4 +367,77 @@ private fun TypingQuoteViewPreview() {
         navigate = {},
         backOnClick = {}
     )
+}
+
+
+@Composable
+internal fun TypingQuoteContent(
+    data: DailyQuoteDto, korTyping: TextFieldValue, engTyping: TextFieldValue,
+    localeType: LocaleType, isLike: Boolean, darkMode: Boolean,
+    onLocaleChanged: (LocaleType) -> Unit, onWriteChanged: (TextFieldValue) -> Unit,
+    onBack: () -> Unit, onSave: () -> Unit, onShare: () -> Unit, onCopy: () -> Unit,
+    onLikeChanged: (Boolean) -> Unit,
+) {
+    val focusManager = LocalFocusManager.current
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val typingSectionFocusRequester = remember { FocusRequester() }
+    Column(
+        modifier = Modifier
+            .background(
+                if (darkMode) {
+                    colorResource(R.color.gray_600)
+                } else {
+                    colorResource(R.color.white)
+                }
+            )
+            .noEffectClickable {
+                focusManager.clearFocus()
+            }) {
+        TypingQuoteTopSection(
+            locale = localeType,
+            setLocale = {
+                onLocaleChanged(it)
+            },
+            onBackClick = { onBack() },
+            modifier = Modifier.padding(horizontal = 15.dp)
+        )
+
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 20.dp)
+                .padding(top = 28.dp)
+                .noEffectClickable {
+                    typingSectionFocusRequester.requestFocus()
+                    keyboardController?.show()
+                }
+        ) {
+            TypingQuoteBodySection(
+                modifier = Modifier.focusRequester(focusRequester = typingSectionFocusRequester),
+                quote = if (localeType == LocaleType.KOR) {
+                    data.korQuote ?: ""
+                } else {
+                    data.engQuote ?: ""
+                },
+                write = if (localeType == LocaleType.KOR) {
+                    korTyping
+                } else {
+                    engTyping
+                },
+                setWrite = onWriteChanged,
+                localeType = localeType
+            )
+
+            Spacer(Modifier.weight(1f))
+
+            TypingQuoteBottomSection(
+                saveOnClick = onSave,
+                shareOnClick = onShare,
+                copyOnClick = onCopy,
+                like = isLike,
+                setLike = onLikeChanged,
+            )
+
+        }
+    }
+
 }

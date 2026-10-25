@@ -1,0 +1,17 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 18, top: 19, right: 144, bottom: 145)
+          TextView (left: 767, top: 19, right: 893, bottom: 145) text="건너뛰기"
+          View (left: 53, top: 91, right: 326, bottom: 217)
+          View (left: 337, top: 91, right: 609, bottom: 217)
+          View (left: 620, top: 91, right: 892, bottom: 217)
+          TextView (left: 53, top: 226, right: 892, bottom: 289) text="한 글자씩 내 속도로 필사해요."
+          TextView (left: 53, top: 300, right: 892, bottom: 344) text="한글과 영어 문장을 바꿔가며 필사할 수 있어요."
+          View (left: 53, top: 449, right: 892, bottom: 1578)
+            View (left: 95, top: 449, right: 851, bottom: 1578)
+          View (left: 53, top: 1620, right: 892, bottom: 1751)
+            TextView (left: 437, top: 1661, right: 509, bottom: 1711) text="다음"
+

@@ -25,3 +25,23 @@ Figma의 선택 항목은 20px Pretendard Regular, 항목 간격 30px, 팝업 �
 | `ThemeItem` | `2929:11240`, `2929:11246`, `2929:11251`; 다크 `2929:11771`, `2929:11776`, `2929:11782` | 라이트·다크·시스템 선택 항목과 라디오 표시 | `ThemeDialog` | 에뮬레이터 부분 비교, Preview 대기 |
 | `PositiveButton` | `2929:11258`, `2929:11789` | 선택 확정 | `ThemeDialog` | 미검증 |
 | `ThemeDialog` | `2929:11237`, `2929:11768` | 세 항목 배치와 팝업 표면 | `MyPageView` | 에뮬레이터 부분 비교, 전체 화면 대기 |
+
+
+## 전체 화면 대조 · 2026-10-25
+
+- 기준 페이지: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-3720
+- 범위: 현재 production UI 재사용 Preview. 시각 수정은 사용자 검토 후 별도 작업.
+- 조건: ko, fontScale 1.0, Light/Dark, 고정 fixture. Preview는 시스템 바·IME를 포함한 최종 승인이 아님.
+- QA 기록: [전체 화면 대조 보고서](../design-qa/2026-10-25-full-screen-audit.html)
+- 상태·크기·원본 이미지: [screen-map.json](../design-qa/artifacts/2026-10-25-full-screen-audit/screen-map.json)
+
+| 대상 노드 | production 컴포넌트 | 상태 / 책임 | 검증 상태 |
+|---|---|---|---|
+| 2936:20033 | AlertContent | modal_delete ID · Light | 조사 중 |
+| 2929:11178 | ThemeDialogContent | 5-3. theme · Light | 조사 중 |
+| 2929:11260 | AlertContent | 5-2. inform · Light | 조사 중 |
+| 2929:11314 | AlertContent | list-2 · Light | 조사 중 |
+| 2929:11435 | AlertContent | 5-2. inform · Dark | 조사 중 |
+| 2929:11489 | AlertContent | list-2 · Dark | 조사 중 |
+| 2929:11694 | ThemeDialogContent | 5-3. theme · Dark | 조사 중 |
+| 2936:20153 | AlertContent | modal_delete ID · Dark | 조사 중 |

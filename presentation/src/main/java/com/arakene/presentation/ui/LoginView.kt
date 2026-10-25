@@ -131,46 +131,8 @@ fun LoginView(
             }
         }
 
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .background(FillsaTheme.colorScheme.background)
-            .padding(horizontal = 20.dp)
-    ) {
-
-        if (isOnboarding) {
-            LoginOnBoardingTopSection(
-                popBackStack = popBackStack
-            )
-        }
-
-        Image(
-            modifier = Modifier
-                .padding(top = if (darkMode) 88.dp else 154.dp),
-            painter = if (darkMode) {
-                painterResource(R.drawable.icn_login_logo_dark)
-            } else {
-                painterResource(R.drawable.icn_login_logo)
-            },
-            contentDescription = null
-        )
-
-
-        Text(
-            stringResource(R.string.login_description),
-            style = FillsaTheme.typography.body2,
-            color = FillsaTheme.colorScheme.onBackground1,
-            modifier = Modifier.padding(top = if (darkMode) 50.dp else 80.dp),
-        )
-
-        // 카카오
-        LoginButton(
-            icon = painterResource(R.drawable.icn_kakao),
-            text = stringResource(R.string.login_kakao),
-            backgroundColor = colorResource(R.color.kakao_yellow),
-            modifier = Modifier.padding(top = 12.dp),
-            onClick = {
+    LoginContent(darkMode, isOnboarding, popBackStack,
+        onKakao = {
                 if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
                     UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
                         if (error == null) {
@@ -209,16 +171,8 @@ fun LoginView(
                     }.run { show = true }
                 }
 
-            }
-        )
-
-        // 구글
-        LoginButton(
-            icon = painterResource(R.drawable.icn_google),
-            text = stringResource(R.string.login_google),
-            backgroundColor = colorResource(R.color.google_gray),
-            modifier = Modifier.padding(top = 16.dp),
-            onClick = {
+            },
+        onGoogle = {
                 val serviceConfig = AuthorizationServiceConfiguration(
                     "https://accounts.google.com/o/oauth2/v2/auth".toUri(), // auth endpoint
                     "https://oauth2.googleapis.com/token".toUri()            // token endpoint
@@ -236,35 +190,16 @@ fun LoginView(
                 val authIntent = authService.getAuthorizationRequestIntent(authRequest)
                 launcher.launch(authIntent)
             },
-        )
-
-        // 비회원
-        if (!isOnboarding) {
-            LoginButton(
-                icon = painterResource(R.drawable.icn_pencil),
-                text = stringResource(R.string.login_non_member),
-                backgroundColor = colorResource(R.color.white),
-                onClick = {
+        onGuest = {
                     viewModel.handleContract(LoginAction.ClickNonMember)
                 },
-                modifier = Modifier.padding(top = 16.dp)
-            )
-        }
-
-        // 이용약관 및 개인정보 처리방침
-        LoginDescriptionText(
-            text = stringResource(R.string.login_agreement),
-            modifier = Modifier
-                .padding(top = 12.dp, bottom = 50.dp)
-                .fillMaxWidth(),
-            termsOfUse = {
+        onTerms = {
                 viewModel.handleContract(LoginAction.ClickTermsOfUse)
             },
-            privacyPolicy = {
+        onPrivacy = {
                 viewModel.handleContract(LoginAction.ClickPrivacyPolicy)
             }
-        )
-    }
+    )
 
 }
 
@@ -413,4 +348,86 @@ private fun LoginButtonPreview() {
         backgroundColor = Color.Yellow,
         onClick = {}
     )
+}
+
+
+@Composable
+internal fun LoginContent(
+    darkMode: Boolean, isOnboarding: Boolean, popBackStack: () -> Unit,
+    onKakao: () -> Unit, onGoogle: () -> Unit, onGuest: () -> Unit,
+    onTerms: () -> Unit, onPrivacy: () -> Unit,
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(FillsaTheme.colorScheme.background)
+            .padding(horizontal = 20.dp)
+    ) {
+
+        if (isOnboarding) {
+            LoginOnBoardingTopSection(
+                popBackStack = popBackStack
+            )
+        }
+
+        Image(
+            modifier = Modifier
+                .padding(top = if (darkMode) 88.dp else 154.dp),
+            painter = if (darkMode) {
+                painterResource(R.drawable.icn_login_logo_dark)
+            } else {
+                painterResource(R.drawable.icn_login_logo)
+            },
+            contentDescription = null
+        )
+
+
+        Text(
+            stringResource(R.string.login_description),
+            style = FillsaTheme.typography.body2,
+            color = FillsaTheme.colorScheme.onBackground1,
+            modifier = Modifier.padding(top = if (darkMode) 50.dp else 80.dp),
+        )
+
+        // 카카오
+        LoginButton(
+            icon = painterResource(R.drawable.icn_kakao),
+            text = stringResource(R.string.login_kakao),
+            backgroundColor = colorResource(R.color.kakao_yellow),
+            modifier = Modifier.padding(top = 12.dp),
+            onClick = onKakao
+        )
+
+        // 구글
+        LoginButton(
+            icon = painterResource(R.drawable.icn_google),
+            text = stringResource(R.string.login_google),
+            backgroundColor = colorResource(R.color.google_gray),
+            modifier = Modifier.padding(top = 16.dp),
+            onClick = onGoogle,
+        )
+
+        // 비회원
+        if (!isOnboarding) {
+            LoginButton(
+                icon = painterResource(R.drawable.icn_pencil),
+                text = stringResource(R.string.login_non_member),
+                backgroundColor = colorResource(R.color.white),
+                onClick = onGuest,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+        }
+
+        // 이용약관 및 개인정보 처리방침
+        LoginDescriptionText(
+            text = stringResource(R.string.login_agreement),
+            modifier = Modifier
+                .padding(top = 12.dp, bottom = 50.dp)
+                .fillMaxWidth(),
+            termsOfUse = onTerms,
+            privacyPolicy = onPrivacy
+        )
+    }
+
 }

@@ -69,6 +69,132 @@ fun ShareView(
 
     val uiState by viewModel.uiState.collectAsState()
 
+    ShareContent(quote, author, popBackStack, uiState.descriptionShouldVisible,
+        { viewModel.handleContract(ShareAction.ClickDescription) }, snackbarHostState, darkMode)
+
+}
+
+@Composable
+private fun ShareBottomSection(
+    saveOnClick: () -> Unit,
+    copyOnClick: () -> Unit,
+    shareOnClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    darkMode: Boolean = IsDarkMode.current
+) {
+
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(50.dp)
+    ) {
+        ShareButton(
+            image = painterResource(
+                if (darkMode) {
+                    R.drawable.icn_savel_dark
+                } else {
+                    R.drawable.icn_save_black
+                }
+            ),
+            text = stringResource(R.string.download),
+            onClick = {
+                saveOnClick()
+            },
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = if (darkMode) colorResource(R.color.gray_600) else Color.White,
+        )
+
+        ShareButton(
+            image = painterResource(
+                if (darkMode) {
+                    R.drawable.icn_copy_dark
+                } else {
+                    R.drawable.icn_copy_black
+                }
+            ),
+            text = stringResource(R.string.copy),
+            onClick = {
+                copyOnClick()
+            },
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = if (darkMode) colorResource(R.color.gray_600) else Color.White,
+        )
+
+        ShareButton(
+            image = painterResource(R.drawable.icn_kakao_circle),
+            text = stringResource(R.string.kakao_talk),
+            onClick = {
+                shareOnClick()
+            },
+            textColor = FillsaTheme.colorScheme.onBackground1,
+            backgroundColor = Color.Transparent,
+        )
+    }
+}
+
+@Composable
+private fun ShareButton(
+    image: Painter,
+    text: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    textColor: Color = colorResource(R.color.white),
+    backgroundColor: Color = Color.White,
+) {
+    Column(
+        modifier = modifier
+            .noEffectClickable { onClick() }, horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .background(color = backgroundColor, shape = CircleShape),
+            contentAlignment = Alignment.Center
+        ) {
+
+            Image(
+                painter = image, contentDescription = null
+            )
+        }
+
+        Text(
+            text,
+            color = textColor,
+            style = FillsaTheme.typography.body3,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+}
+
+
+@Composable
+@Preview
+private fun ShareBottomSectionPreview() {
+    ShareBottomSection(
+        shareOnClick = {},
+        copyOnClick = {},
+        saveOnClick = {}
+    )
+}
+
+@Composable
+@Preview
+private fun ShareViewPreview() {
+    ShareView(
+        quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+        author = "존 우든",
+        popBackStack = {}
+    )
+}
+
+
+@Composable
+internal fun ShareContent(
+    quote: String, author: String, popBackStack: () -> Unit,
+    descriptionShouldVisible: Boolean, onDescriptionClick: () -> Unit,
+    snackbarHostState: SnackbarHostState = LocalSnackbarHost.current,
+    darkMode: Boolean = IsDarkMode.current,
+) {
     val imageList = remember {
         listOf(
             R.drawable.img_share_background_1,
@@ -220,126 +346,13 @@ fun ShareView(
                 )
             }
         }
-        if (uiState.descriptionShouldVisible) {
+        if (descriptionShouldVisible) {
             ShareDescription(
                 modifier = Modifier.noEffectClickable {
-                    viewModel.handleContract(ShareAction.ClickDescription)
+                    onDescriptionClick()
                 }
             )
         }
     }
 
-}
-
-@Composable
-private fun ShareBottomSection(
-    saveOnClick: () -> Unit,
-    copyOnClick: () -> Unit,
-    shareOnClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    darkMode: Boolean = IsDarkMode.current
-) {
-
-    Row(
-        modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(50.dp)
-    ) {
-        ShareButton(
-            image = painterResource(
-                if (darkMode) {
-                    R.drawable.icn_savel_dark
-                } else {
-                    R.drawable.icn_save_black
-                }
-            ),
-            text = stringResource(R.string.download),
-            onClick = {
-                saveOnClick()
-            },
-            textColor = FillsaTheme.colorScheme.onBackground1,
-            backgroundColor = if (darkMode) colorResource(R.color.gray_600) else Color.White,
-        )
-
-        ShareButton(
-            image = painterResource(
-                if (darkMode) {
-                    R.drawable.icn_copy_dark
-                } else {
-                    R.drawable.icn_copy_black
-                }
-            ),
-            text = stringResource(R.string.copy),
-            onClick = {
-                copyOnClick()
-            },
-            textColor = FillsaTheme.colorScheme.onBackground1,
-            backgroundColor = if (darkMode) colorResource(R.color.gray_600) else Color.White,
-        )
-
-        ShareButton(
-            image = painterResource(R.drawable.icn_kakao_circle),
-            text = stringResource(R.string.kakao_talk),
-            onClick = {
-                shareOnClick()
-            },
-            textColor = FillsaTheme.colorScheme.onBackground1,
-            backgroundColor = Color.Transparent,
-        )
-    }
-}
-
-@Composable
-private fun ShareButton(
-    image: Painter,
-    text: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    textColor: Color = colorResource(R.color.white),
-    backgroundColor: Color = Color.White,
-) {
-    Column(
-        modifier = modifier
-            .noEffectClickable { onClick() }, horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .size(48.dp)
-                .background(color = backgroundColor, shape = CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-
-            Image(
-                painter = image, contentDescription = null
-            )
-        }
-
-        Text(
-            text,
-            color = textColor,
-            style = FillsaTheme.typography.body3,
-            modifier = Modifier.padding(top = 8.dp)
-        )
-    }
-}
-
-
-@Composable
-@Preview
-private fun ShareBottomSectionPreview() {
-    ShareBottomSection(
-        shareOnClick = {},
-        copyOnClick = {},
-        saveOnClick = {}
-    )
-}
-
-@Composable
-@Preview
-private fun ShareViewPreview() {
-    ShareView(
-        quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
-        author = "존 우든",
-        popBackStack = {}
-    )
 }

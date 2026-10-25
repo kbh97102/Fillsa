@@ -23,13 +23,14 @@ import com.arakene.presentation.util.noEffectClickable
 fun MyPageBottomButtonSection(
     isLogged: Boolean,
     logout: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    versionOverride: String? = null,
 ) {
 
     val context = LocalContext.current
 
-    val version = remember {
-        context.packageManager.getPackageInfo(context.packageName, 0)
+    val version = remember(versionOverride) {
+        versionOverride ?: context.packageManager.getPackageInfo(context.packageName, 0)
             .versionName.toString()
     }
 

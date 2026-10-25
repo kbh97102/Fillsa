@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fillsa Android 비회원 기능 QA · 2026-10-13</title>
+  <style>
+    :root { color-scheme: light; font-family: -apple-system, BlinkMacSystemFont, "Noto Sans KR", sans-serif; color: #24232e; background: #f6f3ed; }
+    * { box-sizing: border-box; }
+    body { margin: 0; }
+    main { max-width: 1120px; margin: 0 auto; padding: 34px 22px 80px; }
+    h1 { font-size: clamp(28px, 4vw, 42px); line-height: 1.2; margin: 10px 0 12px; }
+    h2 { font-size: 21px; margin: 0 0 18px; }
+    p { line-height: 1.65; }
+    a { color: #494bcf; }
+    .eyebrow { margin: 0; color: #5657c8; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+    .lead { max-width: 760px; margin: 0; color: #55535f; }
+    .meta { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 28px; }
+    .meta span { background: #fff; border: 1px solid #e2dfd9; border-radius: 999px; padding: 7px 12px; font-size: 13px; }
+    .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 32px; }
+    .summary div { border-radius: 18px; background: #fff; border: 1px solid #e2dfd9; padding: 20px; }
+    .summary strong { display: block; font-size: 30px; margin-bottom: 4px; }
+    .summary span { color: #62606b; font-size: 14px; }
+    .summary .pass strong { color: #3f4ed6; }
+    .notice { background: #fff7e8; border: 1px solid #e8d7b9; border-radius: 18px; padding: 20px 22px; margin-bottom: 32px; }
+    .notice h2 { margin-bottom: 8px; }
+    .notice ul { margin: 0; padding-left: 20px; line-height: 1.7; }
+    .toolbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+    .toolbar h2 { margin: 0; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+    article { min-width: 0; background: #fff; border: 1px solid #e2dfd9; border-radius: 18px; overflow: hidden; }
+    .card-body { padding: 17px 18px 12px; }
+    .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    h3 { font-size: 18px; margin: 0; }
+    .badge { flex: none; font-size: 12px; font-weight: 800; border-radius: 999px; padding: 5px 9px; background: #e8edff; color: #3945b8; }
+    article p { font-size: 14px; color: #56535e; margin: 12px 0; }
+    .shots { display: flex; gap: 8px; overflow-x: auto; padding: 0 18px 16px; }
+    .shots a { display: block; flex: 0 0 95px; text-decoration: none; color: #55535f; font-size: 11px; text-align: center; }
+    .shots img { display: block; width: 95px; height: 150px; object-fit: cover; object-position: top; border-radius: 9px; border: 1px solid #ddd9d5; margin-bottom: 5px; background: #eee; }
+    .shots a:hover img, .shots a:focus-visible img { outline: 3px solid #5961e8; }
+    .plain { padding: 0 18px 16px; color: #77727f; font-size: 12px; }
+    footer { border-top: 1px solid #ddd9d3; padding-top: 24px; margin-top: 36px; color: #5d5a65; font-size: 14px; }
+    footer p { margin: 8px 0; }
+    @media (max-width: 700px) { .summary { grid-template-columns: 1fr; } .grid { grid-template-columns: 1fr; } main { padding: 24px 14px 60px; } }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="eyebrow">Fillsa · Android QA</p>
+    <h1>비회원 기능 테스트</h1>
+    <p class="lead">Android API 35 에뮬레이터에서 첫 실행부터 필사, 기록, 공유, 설정, 위젯까지 직접 조작했습니다. 각 캡처를 누르면 원본 크기로 볼 수 있습니다.</p>
+    <div class="meta"><span>2026-10-13</span><span>360 × 720 에뮬레이터</span><span>로컬 Release APK 1.0.31 (25)</span><span>원격 stage 바이너리 검증 아님</span></div>
+  </header>
+
+  <section class="summary" aria-label="결과 요약">
+    <div class="pass"><strong>14</strong><span>주요 비회원 경로 확인</span></div>
+    <div><strong>부분</strong><span>전체 세부 상태 검증</span></div>
+    <div><strong>3</strong><span>시간·외부 앱 조건이 필요한 확인</span></div>
+  </section>
+
+  <section class="notice">
+    <h2>남은 검증</h2>
+    <ul>
+      <li>오전 9시 알림 수신, 위젯의 다음 날 자동 갱신, 카카오톡이 설치된 기기로 전달은 이번 에뮬레이터 실행에서 확인하지 못했습니다.</li>
+      <li>알림 권한 거부·재허용, 위젯 4×2와 글자 크기별 표시, 캘린더 최초·최종 월, 연속 필사 0일 안내, 나머지 공유 배경 6개도 미검증입니다.</li>
+      <li>회원 OAuth와 실제 서버 저장은 테스트 계정이 없어 별도 단계입니다.</li>
+      <li>비회원 답변은 사용자 결정에 따라 앱 세션 동안 유지하며, Home과 캘린더에서 각각 유지합니다.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="scenarios">
+    <div class="toolbar"><h2 id="scenarios">기능별 결과</h2></div>
+    <div class="grid">
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>첫 실행과 온보딩</h3><span class="badge">확인</span></div><p>알림 권한 허용, 비회원 진입, 건너뛰기와 3단계 전체 진행 모두 Home으로 연결됐습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-onboarding-first.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-onboarding-first.png" alt="온보딩 1단계">1단계</a><a href="artifacts/2026-10-13-functional-regression/guest-onboarding-second.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-onboarding-second.png" alt="온보딩 2단계">2단계</a><a href="artifacts/2026-10-13-functional-regression/guest-onboarding-third.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-onboarding-third.png" alt="온보딩 3단계">3단계</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>Home 날짜와 언어</h3><span class="badge">확인</span></div><p>주간 날짜와 월 선택 팝업을 사용해 9월 30일로 이동했고, 문구의 한국어·영어 전환을 확인했습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-home-sept30.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-home-sept30.png" alt="9월 30일 Home">9월 이동</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>필사 미완료와 임시 입력</h3><span class="badge">확인</span></div><p>빈 입력과 일부 입력의 저장에서 미완료 팝업이 떴습니다. 영어 임시 입력은 뒤로 나갔다가 재진입해 영어 탭을 열면 유지됐습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-incomplete-popup.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-incomplete-popup.png" alt="빈 입력 미완료 팝업">빈 입력</a><a href="artifacts/2026-10-13-functional-regression/guest-typing-partial-result.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-typing-partial-result.png" alt="일부 입력 미완료 팝업">일부 입력</a><a href="artifacts/2026-10-13-functional-regression/guest-typing-draft-persisted.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-typing-draft-persisted.png" alt="재진입 뒤 유지된 영어 입력">재진입</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>필사 완료와 재진입</h3><span class="badge">확인</span></div><p>영어 원문을 모두 입력하고 저장하면 완료 팝업이 떴습니다. 재진입과 앱 재시작 후에도 문구와 1일 연속 기록이 유지됐습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-completed-popup.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-completed-popup.png" alt="필사 완료 팝업">완료 팝업</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>좋아요</h3><span class="badge">확인</span></div><p>Home에서 상태가 바뀌고 목록에도 반영됐습니다. 앱 재시작 후에도 유지됐고, 필사 화면에서 누른 좋아요도 Home에 반영됐습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-home-liked.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-home-liked.png" alt="좋아요 상태의 Home">Home 좋아요</a><a href="artifacts/2026-10-13-functional-regression/guest-typing-like.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-typing-like.png" alt="필사 화면 좋아요">필사 좋아요</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>오늘의 답변</h3><span class="badge">정책 확인</span></div><p>비회원 답변은 Home에서 기록·수정 후 바로 반영되고 앱 재시작 후 사라졌습니다. 사용자가 현재 세션만 유지하는 정책을 확정했습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-answer-recorded.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-answer-recorded.png" alt="기록 직후 답변">기록 직후</a><a href="artifacts/2026-10-13-functional-regression/guest-home-answer-edited.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-home-answer-edited.png" alt="수정 뒤 답변">수정 후</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>캘린더</h3><span class="badge">확인</span></div><p>필사 완료일과 좋아요 표시, 날짜별 문구와 질문을 확인했습니다. 캘린더 답변 기록·수정 후 날짜를 바꿨다가 돌아와도 유지됐습니다. 사용자 결정에 따라 Home 답변과는 별도로 유지합니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-calendar-selected.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-calendar-selected.png" alt="선택된 날짜의 캘린더">날짜 선택</a><a href="artifacts/2026-10-13-functional-regression/guest-calendar-answer-edited.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-calendar-answer-edited.png" alt="캘린더 답변 수정 후 재선택">답변 수정</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>기록 목록과 메모</h3><span class="badge">확인</span></div><p>날짜 범위 변경, 비좋아요 기록 표시, 좋아요 필터의 빈 결과를 확인했습니다. 메모 저장은 재시작 후 유지되고, 비우면 목록 표시가 사라졌습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-list-unliked.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-list-unliked.png" alt="비좋아요 기록 목록">기록 표시</a><a href="artifacts/2026-10-13-functional-regression/guest-list-liked-filter-empty.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-list-liked-filter-empty.png" alt="좋아요 필터의 빈 결과">필터 결과</a><a href="artifacts/2026-10-13-functional-regression/guest-memo-after-restart.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-memo-after-restart.png" alt="재시작 후 유지된 메모">메모 유지</a><a href="artifacts/2026-10-13-functional-regression/guest-memo-cleared.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-memo-cleared.png" alt="메모 삭제 후 목록">메모 삭제</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>문구 공유</h3><span class="badge">부분 확인</span></div><p>클립보드 복사, 이미지 저장 성공과 MediaStore 파일 생성, Android 공유 시트 표시를 확인했습니다. 필사 화면에서도 공유 화면으로 이동했고 다른 배경을 골라 저장했습니다. 8가지 중 두 배경만 저장 확인했습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-share-save.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-share-save.png" alt="이미지 저장 성공">첫 배경</a><a href="artifacts/2026-10-13-functional-regression/guest-share-second-background-save.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-share-second-background-save.png" alt="다른 배경 이미지 저장 성공">다른 배경</a><a href="artifacts/2026-10-13-functional-regression/guest-system-share.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-system-share.png" alt="시스템 공유 시트">공유 시트</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>회원 전용 진입 안내</h3><span class="badge">확인</span></div><p>비회원의 이미지 등록 시 로그인 안내가 표시되고, My Page 로그인 버튼은 OAuth 선택 화면을 열었습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-login-entry.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-login-entry.png" alt="로그인 선택 화면">로그인 진입</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>My Page와 공지</h3><span class="badge">확인</span></div><p>비회원 카드와 앱 버전, 공지 3건의 목록과 각 상세 본문을 확인했습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-my-page.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-my-page.png" alt="비회원 My Page">My Page</a><a href="artifacts/2026-10-13-functional-regression/guest-notice-detail.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-notice-detail.png" alt="첫 공지 상세">첫 공지</a><a href="artifacts/2026-10-13-functional-regression/guest-notice-second-detail.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-notice-second-detail.png" alt="둘째 공지 상세">둘째 공지</a><a href="artifacts/2026-10-13-functional-regression/guest-notice-third-detail.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-notice-third-detail.png" alt="셋째 공지 상세">셋째 공지</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>알림 설정</h3><span class="badge">설정 확인</span></div><p>켜짐에서 꺼짐으로 바꾼 뒤 재진입해 꺼짐 유지를 확인하고, 다시 켜짐으로 복구했습니다. 실제 수신은 예약 시각 확인이 필요합니다.</p></div><div class="plain">수동 재진입으로 확인 · 예약 시각의 수신은 미확인</div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>테마</h3><span class="badge">확인</span></div><p>시스템·다크·라이트 선택이 적용됐습니다. 다크는 재시작 후에도 유지됐고, 마지막에 시스템 설정으로 복구했습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-my-page-dark.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-my-page-dark.png" alt="다크 테마 My Page">다크</a><a href="artifacts/2026-10-13-functional-regression/guest-my-page-light.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-my-page-light.png" alt="라이트 테마 My Page">라이트</a></div></article>
+      <article data-status="pass"><div class="card-body"><div class="card-head"><h3>위젯</h3><span class="badge">기본 동작 확인</span></div><p>런처에 2×2 위젯을 추가하고 오늘 문구 표시와 앱 실행을 확인했습니다. 설정에서 영어를 선택하자 문구가 갱신됐고, 마지막에 한국어로 복구했습니다.</p></div><div class="shots"><a href="artifacts/2026-10-13-functional-regression/guest-widget-added.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-widget-added.png" alt="런처에 추가된 위젯">위젯 추가</a><a href="artifacts/2026-10-13-functional-regression/guest-widget-english.png"><img loading="lazy" src="artifacts/2026-10-13-functional-regression/guest-widget-english.png" alt="영어로 바뀐 위젯">언어 변경</a></div></article>
+    </div>
+  </section>
+  <footer>
+    <p><strong>테스트 환경:</strong> 이 결과는 커밋되지 않은 필사 저장 응답 수정과 필사 결과 화면 작업을 포함한 로컬 Release APK에서 얻었습니다. 회원 저장 성공의 실제 서버 검증 결과는 아닙니다.</p>
+    <p><strong>테스트 데이터:</strong> 전체 온보딩 확인 전에 앱 데이터를 초기화했고, 이후 필터 검증용 기록과 추가 좋아요·답변·임시 입력을 만들었습니다. 현재 에뮬레이터 데이터는 초기 상태가 아닙니다. 광고 SDK 안내가 하단 탭을 덮을 때는 안내를 닫고 재실행했습니다.</p>
+    <p>자동 테스트 명령과 상세 판정은 <a href="2026-10-13-android-functional-regression-qa.md">전체 QA 기록</a>에 있습니다.</p>
+  </footer>
+</main>
+</body>
+</html>

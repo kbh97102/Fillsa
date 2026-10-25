@@ -49,66 +49,93 @@ fun DialogWIthImage(
             dismissOnClickOutside = false
         )
     ) {
+        DialogWIthImageContent(
+            title = title,
+            body = body,
+            drawableId = drawableId,
+            positiveOnClick = positiveOnClick,
+            dismiss = dismiss,
+            positiveText = positiveText,
+            negativeText = negativeText,
+            negativeOnClick = negativeOnClick,
+            reversed = reversed,
+            titleTextStyle = titleTextStyle,
+            singleButton = singleButton
+        )
+    }
+}
 
-        Column(
+/** Shared production content, also rendered without a platform window in deterministic previews. */
+@Composable
+internal fun DialogWIthImageContent(
+    title: String,
+    body: String,
+    drawableId: Int,
+    positiveOnClick: () -> Unit,
+    dismiss: () -> Unit,
+    positiveText: String = "확인",
+    negativeText: String = "취소",
+    negativeOnClick: () -> Unit = {},
+    reversed: Boolean = false,
+    titleTextStyle: TypographyEnum = TypographyEnum.Subtitle1,
+    singleButton: Boolean = false
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .clip(MaterialTheme.shapes.small)
+            .background(FillsaTheme.colorScheme.backgroundContainer)
+            .padding(12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Image(
+            painter = painterResource(drawableId),
+            contentDescription = null,
+            modifier = Modifier.padding(vertical = 10.dp)
+        )
+
+        Text(
+            title,
+            style = FillsaTheme.typography.getStyle(titleTextStyle),
+            color = FillsaTheme.colorScheme.onBackground1,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
-                .clip(MaterialTheme.shapes.small)
-                .background(FillsaTheme.colorScheme.backgroundContainer)
-                .padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
+                .padding(top = 12.dp),
+            textAlign = TextAlign.Center,
+        )
 
-            Image(
-                painter = painterResource(drawableId),
-                contentDescription = null,
-                modifier = Modifier.padding(vertical = 10.dp)
-            )
-
+        if (body.isNotEmpty()) {
             Text(
-                title,
-                style = FillsaTheme.typography.getStyle(titleTextStyle),
+                body,
+                style = FillsaTheme.typography.body2,
                 color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 12.dp),
                 textAlign = TextAlign.Center,
             )
-
-            if (body.isNotEmpty()) {
-                Text(
-                    body,
-                    style = FillsaTheme.typography.body2,
-                    color = FillsaTheme.colorScheme.onBackground1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 12.dp),
-                    textAlign = TextAlign.Center,
-                )
-            }
-
-            if (singleButton) {
-                DialogSingleButton(
-                    modifier = Modifier.padding(top = 44.dp),
-                    buttonText = positiveText,
-                    onClick = positiveOnClick,
-                    dismiss = dismiss,
-                )
-            } else {
-                DialogTwoButton(
-                    reversed,
-                    negativeOnClick = negativeOnClick,
-                    positiveOnClick = positiveOnClick,
-                    dismiss = dismiss,
-                    negativeText = negativeText,
-                    positiveText = positiveText,
-                    modifier = Modifier.padding(top = 44.dp)
-                )
-            }
-
         }
 
+        if (singleButton) {
+            DialogSingleButton(
+                modifier = Modifier.padding(top = 44.dp),
+                buttonText = positiveText,
+                onClick = positiveOnClick,
+                dismiss = dismiss,
+            )
+        } else {
+            DialogTwoButton(
+                reversed,
+                negativeOnClick = negativeOnClick,
+                positiveOnClick = positiveOnClick,
+                dismiss = dismiss,
+                negativeText = negativeText,
+                positiveText = positiveText,
+                modifier = Modifier.padding(top = 44.dp)
+            )
+        }
 
     }
 }

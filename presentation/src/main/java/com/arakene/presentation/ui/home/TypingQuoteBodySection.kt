@@ -1,5 +1,7 @@
 package com.arakene.presentation.ui.home
 
+import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import com.arakene.presentation.util.IsDarkMode
@@ -134,13 +136,30 @@ fun TypingQuoteBodySection(
 }
 
 
+@Preview(widthDp = 320, heightDp = 70, locale = "ko", fontScale = 1f, uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-@Preview(showBackground = true)
-private fun TypingQuoteBodySectionPreview() {
-    TypingQuoteBodySection(
-        quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
-        write = TextFieldValue(),
-        setWrite = {},
-        localeType = LocaleType.KOR
-    )
+private fun TypingQuoteBodyLightPreview() = FillsaTheme(darkTheme = false) {
+    Box(Modifier.background(Color.White)) {
+        TypingQuoteBodySection(
+            quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+            write = TextFieldValue(),
+            setWrite = {},
+            localeType = LocaleType.KOR,
+            darkMode = false,
+        )
+    }
+}
+
+@Preview(widthDp = 320, heightDp = 70, locale = "ko", fontScale = 1f, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun TypingQuoteBodyDarkPreview() = FillsaTheme(darkTheme = true) {
+    Box(Modifier.background(colorResource(R.color.gray_700))) {
+        TypingQuoteBodySection(
+            quote = "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+            write = TextFieldValue(),
+            setWrite = {},
+            localeType = LocaleType.KOR,
+            darkMode = true,
+        )
+    }
 }

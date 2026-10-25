@@ -1,0 +1,3013 @@
+{
+  "fileKey": "VdFocqyqTgevMVCQxwAQ2X",
+  "pageId": "2929:3720",
+  "pageName": "리뉴얼 ver.1.0",
+  "source": "Figma get_metadata",
+  "totalNodes": 7426,
+  "sections": [
+    {
+      "type": "section",
+      "id": "2929:3721",
+      "name": "리뉴얼 ver.1.0(26.08~)",
+      "width": 32494,
+      "height": 8690,
+      "parentId": "2929:3720",
+      "sectionPath": []
+    },
+    {
+      "type": "section",
+      "id": "2929:3722",
+      "name": "0-1. 온보딩-로그인",
+      "width": 2379,
+      "height": 3369,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:4845",
+      "name": "0-1. 온보딩-로그인[Dark]",
+      "width": 2379,
+      "height": 3369,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:5968",
+      "name": "loading, error",
+      "width": 1266,
+      "height": 1920,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:6180",
+      "name": "loading, error[Dark]",
+      "width": 1270,
+      "height": 1920,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:6396",
+      "name": "etc.",
+      "width": 1266,
+      "height": 1920,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:6625",
+      "name": "etc.[Dark]",
+      "width": 1270,
+      "height": 1920,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:6874",
+      "name": "3. calendar[Dark]",
+      "width": 2390,
+      "height": 3369,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:9603",
+      "name": "2. home[Dark]",
+      "width": 4586,
+      "height": 7550,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "3136:863",
+      "name": "오늘의 질문 인터랙션 · Dark mode",
+      "width": 1907,
+      "height": 1096,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "3223:5589",
+      "name": "이미지등록",
+      "width": 2451,
+      "height": 1096,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:11030",
+      "name": "5. my page",
+      "width": 2800,
+      "height": 3369,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:11434",
+      "name": "5. my page[Dark]",
+      "width": 2800,
+      "height": 3369,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:13366",
+      "name": "3. calendar",
+      "width": 2390,
+      "height": 3369,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "2929:17193",
+      "name": "2. home",
+      "width": 4632,
+      "height": 7550,
+      "parentId": "2929:3721",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "3110:33782",
+      "name": "오늘의 질문 인터랙션",
+      "width": 1907,
+      "height": 1096,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "3223:5107",
+      "name": "이미지등록",
+      "width": 2408,
+      "height": 1096,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "section",
+      "id": "3387:2448",
+      "name": "Apple",
+      "width": 23488,
+      "height": 5438,
+      "parentId": "2929:3720",
+      "sectionPath": []
+    },
+    {
+      "type": "section",
+      "id": "3387:2449",
+      "name": "Google",
+      "width": 23488,
+      "height": 5438,
+      "parentId": "2929:3720",
+      "sectionPath": []
+    }
+  ],
+  "screenCandidates": [
+    {
+      "type": "frame",
+      "id": "2929:3723",
+      "name": "1.login",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:3722",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:3722",
+          "name": "0-1. 온보딩-로그인"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:4254",
+      "name": "1.login-apple",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:3722",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:3722",
+          "name": "0-1. 온보딩-로그인"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:4324",
+      "name": "0.onboarding",
+      "width": 360,
+      "height": 700,
+      "parentId": "2929:3722",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:3722",
+          "name": "0-1. 온보딩-로그인"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3088:30089",
+      "name": "0.onboarding_new_01",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:3722",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:3722",
+          "name": "0-1. 온보딩-로그인"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3088:30215",
+      "name": "0.onboarding_new_02",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:3722",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:3722",
+          "name": "0-1. 온보딩-로그인"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3088:30412",
+      "name": "0.onboarding_new_03",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:3722",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:3722",
+          "name": "0-1. 온보딩-로그인"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:5815",
+      "name": "1.login_dark",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:4845",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:4845",
+          "name": "0-1. 온보딩-로그인[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:5878",
+      "name": "1.login_dark-apple",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:4845",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:4845",
+          "name": "0-1. 온보딩-로그인[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:5948",
+      "name": "0.onboarding_dark",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:4845",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:4845",
+          "name": "0-1. 온보딩-로그인[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3110:31987",
+      "name": "0.onboarding_guide01",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:4845",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:4845",
+          "name": "0-1. 온보딩-로그인[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3110:32112",
+      "name": "0.onboarding_guide03",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:4845",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:4845",
+          "name": "0-1. 온보딩-로그인[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3110:32359",
+      "name": "0.onboarding_guide02",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:4845",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:4845",
+          "name": "0-1. 온보딩-로그인[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:5969",
+      "name": "loading",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:5968",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:5968",
+          "name": "loading, error"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:5975",
+      "name": "error_popup",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:5968",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:5968",
+          "name": "loading, error"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6086",
+      "name": "loading-dim 예시",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:5968",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:5968",
+          "name": "loading, error"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6181",
+      "name": "loading",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:6180",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6180",
+          "name": "loading, error[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6187",
+      "name": "loading-dim 예시",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:6180",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6180",
+          "name": "loading, error[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6283",
+      "name": "error_popup",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:6180",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6180",
+          "name": "loading, error[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6397",
+      "name": "update_popup",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:6396",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6396",
+          "name": "etc."
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6502",
+      "name": "알림_popup",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:6396",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6396",
+          "name": "etc."
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6626",
+      "name": "update_popup",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:6625",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6625",
+          "name": "etc.[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6747",
+      "name": "알림_popup",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:6625",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6625",
+          "name": "etc.[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3051:899",
+      "name": "3. calendar_리뉴얼[Dark]_답변 미작성",
+      "width": 360,
+      "height": 1101,
+      "parentId": "2929:6874",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6874",
+          "name": "3. calendar[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3051:1130",
+      "name": "3. calendar_리뉴얼[Dark]_답변 작성 완료",
+      "width": 360,
+      "height": 1101,
+      "parentId": "2929:6874",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6874",
+          "name": "3. calendar[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:24906",
+      "name": "3. calendar_리뉴얼[Dark]_HTML 승인본",
+      "width": 360,
+      "height": 816,
+      "parentId": "2929:6874",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6874",
+          "name": "3. calendar[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:28370",
+      "name": "3. calendar_리뉴얼[Dark]_HTML 승인본",
+      "width": 360,
+      "height": 816,
+      "parentId": "2929:6874",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6874",
+          "name": "3. calendar[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:26518",
+      "name": "2.home",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3139:1753",
+      "name": "2.home",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:26778",
+      "name": "2.home",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:26996",
+      "name": "2.home",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:27295",
+      "name": "2.home",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:28098",
+      "name": "calendar",
+      "width": 358,
+      "height": 486,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3136:1198",
+      "name": "Dark · 02 · 답변 기록 중",
+      "width": 360,
+      "height": 821,
+      "parentId": "3136:863",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3136:863",
+          "name": "오늘의 질문 인터랙션 · Dark mode"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3139:910",
+      "name": "Dark · 01 · 답변 기록 전",
+      "width": 360,
+      "height": 821,
+      "parentId": "3136:863",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3136:863",
+          "name": "오늘의 질문 인터랙션 · Dark mode"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3139:1061",
+      "name": "Dark · 03 · 답변 기록 후-toast",
+      "width": 360,
+      "height": 821,
+      "parentId": "3136:863",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3136:863",
+          "name": "오늘의 질문 인터랙션 · Dark mode"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3139:1238",
+      "name": "Dark · 04 · 답변 기록 후",
+      "width": 360,
+      "height": 821,
+      "parentId": "3136:863",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3136:863",
+          "name": "오늘의 질문 인터랙션 · Dark mode"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3087:28815",
+      "name": "2-3. write-to be",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:9764",
+      "name": "2-3. write_저장하기 누른 후",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:9801",
+      "name": "2-3. write",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:9844",
+      "name": "2-3. write",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:9884",
+      "name": "2-3. write",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:9931",
+      "name": "2-1. modal_login",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10788",
+      "name": "1.login_dark",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10850",
+      "name": "2-4. img_share",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10884",
+      "name": "2-4.first_img_share",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3223:5985",
+      "name": "1.이미지-등록전",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5589",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3223:5589",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3223:6126",
+      "name": "2.이미지-등록후",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5589",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3223:5589",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3223:6435",
+      "name": "3.이미지 보기",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5589",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3223:5589",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3223:6600",
+      "name": "3.이미지 보기",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5589",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3223:5589",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3223:6912",
+      "name": "img_check/delete",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5589",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        },
+        {
+          "id": "3223:5589",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11031",
+      "name": "5. my page_login",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11102",
+      "name": "5. my page_login",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2936:20033",
+      "name": "modal_delete ID",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11178",
+      "name": "5-3. \btheme",
+      "width": 360,
+      "height": 634,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11260",
+      "name": "5-2. inform",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11314",
+      "name": "list-2",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11354",
+      "name": "5-1. notice",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11389",
+      "name": "5-1. notice_detail",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11409",
+      "name": "5-1. notice_non",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11030",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11030",
+          "name": "5. my page"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11435",
+      "name": "5-2. inform",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11489",
+      "name": "list-2",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11529",
+      "name": "5-1. notice",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11568",
+      "name": "5-1. notice_detail",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11588",
+      "name": "5-1. notice_non",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11613",
+      "name": "5. my page_login",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11694",
+      "name": "5-3. \btheme",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:11791",
+      "name": "5. my page_login",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2936:20153",
+      "name": "modal_delete ID",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:11434",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:11434",
+          "name": "5. my page[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2985:21952",
+      "name": "3. calendar",
+      "width": 360,
+      "height": 816,
+      "parentId": "2929:13366",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:13366",
+          "name": "3. calendar"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2985:22510",
+      "name": "3. calendar",
+      "width": 360,
+      "height": 1101,
+      "parentId": "2929:13366",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:13366",
+          "name": "3. calendar"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2987:23282",
+      "name": "이미지 보기",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:13366",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:13366",
+          "name": "3. calendar"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2987:22796",
+      "name": "3. calendar",
+      "width": 360,
+      "height": 1101,
+      "parentId": "2929:13366",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:13366",
+          "name": "3. calendar"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:13556",
+      "name": "2.home",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3139:1501",
+      "name": "2.home",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18871",
+      "name": "2.home",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:15668",
+      "name": "calendar",
+      "width": 358,
+      "height": 486,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:19645",
+      "name": "toast_copy",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:19784",
+      "name": "like_press",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3110:33783",
+      "name": "01 · 답변 기록 전",
+      "width": 360,
+      "height": 821,
+      "parentId": "3110:33782",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3110:33782",
+          "name": "오늘의 질문 인터랙션"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3110:34293",
+      "name": "03 · 답변 기록 후-toast",
+      "width": 360,
+      "height": 821,
+      "parentId": "3110:33782",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3110:33782",
+          "name": "오늘의 질문 인터랙션"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3110:34438",
+      "name": "04 · 답변 기록 후",
+      "width": 360,
+      "height": 821,
+      "parentId": "3110:33782",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3110:33782",
+          "name": "오늘의 질문 인터랙션"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3110:34152",
+      "name": "02 · 답변 기록 중",
+      "width": 360,
+      "height": 821,
+      "parentId": "3110:33782",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3110:33782",
+          "name": "오늘의 질문 인터랙션"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3223:4982",
+      "name": "1.이미지-등록전",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5107",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3223:5107",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3223:4647",
+      "name": "2.이미지-등록후",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5107",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3223:5107",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3223:4773",
+      "name": "3.이미지 보기",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5107",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3223:5107",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:19326",
+      "name": "3.이미지 보기",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5107",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3223:5107",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:19488",
+      "name": "img_check/delete",
+      "width": 360,
+      "height": 821,
+      "parentId": "3223:5107",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        },
+        {
+          "id": "3223:5107",
+          "name": "이미지등록"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:17920",
+      "name": "2-3. write-as is",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18239",
+      "name": "2-4.first_img_share",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18278",
+      "name": "2-3. write_저장하기 누른 후",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2988:23906",
+      "name": "2-3. write",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2988:23962",
+      "name": "2-3. write",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2988:24015",
+      "name": "2-3. write",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18449",
+      "name": "1.login",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18543",
+      "name": "2-4. img_share",
+      "width": 360,
+      "height": 720,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:19027",
+      "name": "2-1. modal_login",
+      "width": 360,
+      "height": 821,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    }
+  ],
+  "standaloneCandidates": [
+    {
+      "type": "frame",
+      "id": "2929:6610",
+      "name": "notice_popup",
+      "width": 320,
+      "height": 231,
+      "parentId": "2929:6396",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6396",
+          "name": "etc."
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6732",
+      "name": "notice_popup",
+      "width": 320,
+      "height": 231,
+      "parentId": "2929:6625",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6625",
+          "name": "etc.[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:6856",
+      "name": "notice_popup",
+      "width": 320,
+      "height": 231,
+      "parentId": "2929:6625",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:6625",
+          "name": "etc.[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:26980",
+      "name": "Description",
+      "width": 320,
+      "height": 293,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3039:28626",
+      "name": "weekday",
+      "width": 273,
+      "height": 172,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10923",
+      "name": "01_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10927",
+      "name": "02_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10931",
+      "name": "03_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10936",
+      "name": "10_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10941",
+      "name": "08_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10945",
+      "name": "09_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10949",
+      "name": "04_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10954",
+      "name": "06_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10963",
+      "name": "05_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10968",
+      "name": "07_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:10996",
+      "name": "Modal_type01_2-1",
+      "width": 320,
+      "height": 245,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3025:24578",
+      "name": "Modal_type01_2-1",
+      "width": 320,
+      "height": 245,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3025:24618",
+      "name": "Modal_type01_2-1",
+      "width": 320,
+      "height": 245,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3139:1453",
+      "name": "question-dark",
+      "width": 1303,
+      "height": 391,
+      "parentId": "2929:9603",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:9603",
+          "name": "2. home[Dark]"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18625",
+      "name": "Description",
+      "width": 320,
+      "height": 293,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:17172",
+      "name": "weekday",
+      "width": 311,
+      "height": 172,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3087:29377",
+      "name": "question",
+      "width": 1303,
+      "height": 408,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2988:24099",
+      "name": "notice_popup",
+      "width": 320,
+      "height": 243,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2988:24127",
+      "name": "notice_popup",
+      "width": 320,
+      "height": 243,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3025:24232",
+      "name": "notice_popup",
+      "width": 320,
+      "height": 243,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18577",
+      "name": "01_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18581",
+      "name": "02_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18585",
+      "name": "03_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18589",
+      "name": "10_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18593",
+      "name": "08_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18597",
+      "name": "09_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18601",
+      "name": "04_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18605",
+      "name": "06_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18611",
+      "name": "05_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2929:18615",
+      "name": "07_share.img",
+      "width": 270,
+      "height": 400,
+      "parentId": "2929:17193",
+      "sectionPath": [
+        {
+          "id": "2929:3721",
+          "name": "리뉴얼 ver.1.0(26.08~)"
+        },
+        {
+          "id": "2929:17193",
+          "name": "2. home"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "2980:967",
+      "name": "Fillsa Character / SVG Assets v2",
+      "width": 1840,
+      "height": 1128,
+      "parentId": "2929:3720",
+      "sectionPath": []
+    },
+    {
+      "type": "frame",
+      "id": "3313:1266",
+      "name": "AppStore-01",
+      "width": 1320,
+      "height": 2868,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3313:2915",
+      "name": "AppStore-02",
+      "width": 1320,
+      "height": 2868,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3313:2934",
+      "name": "AppStore-03",
+      "width": 1320,
+      "height": 2868,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3387:1556",
+      "name": "AppStore-04",
+      "width": 1320,
+      "height": 2868,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3313:2947",
+      "name": "AppStore-05",
+      "width": 1320,
+      "height": 2868,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3326:1265",
+      "name": "ipad-01",
+      "width": 2064,
+      "height": 2752,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3326:1266",
+      "name": "ipad-02",
+      "width": 2064,
+      "height": 2752,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3326:1269",
+      "name": "ipad-03",
+      "width": 2064,
+      "height": 2752,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3387:1645",
+      "name": "ipad-04",
+      "width": 2064,
+      "height": 2752,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3387:1660",
+      "name": "ipad-05",
+      "width": 2064,
+      "height": 2752,
+      "parentId": "3387:2448",
+      "sectionPath": [
+        {
+          "id": "3387:2448",
+          "name": "Apple"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3313:2953",
+      "name": "GooglePlay-01",
+      "width": 1080,
+      "height": 1920,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3313:2959",
+      "name": "GooglePlay-02",
+      "width": 1080,
+      "height": 1920,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3313:2978",
+      "name": "GooglePlay-03",
+      "width": 1080,
+      "height": 1920,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3387:1579",
+      "name": "GooglePlay-04",
+      "width": 1080,
+      "height": 1920,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3387:1588",
+      "name": "GooglePlay-05",
+      "width": 1080,
+      "height": 1920,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3315:2998",
+      "name": "GooglePlay1024×500",
+      "width": 1024,
+      "height": 500,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3326:1272",
+      "name": "GoogleTablet-01",
+      "width": 2560,
+      "height": 1440,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3326:1273",
+      "name": "GoogleTablet-02",
+      "width": 2560,
+      "height": 1440,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3326:1276",
+      "name": "GoogleTablet-03",
+      "width": 2560,
+      "height": 1440,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3387:2434",
+      "name": "GoogleTablet-04",
+      "width": 2560,
+      "height": 1440,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    },
+    {
+      "type": "frame",
+      "id": "3326:1278",
+      "name": "GoogleTablet-05",
+      "width": 2560,
+      "height": 1440,
+      "parentId": "3387:2449",
+      "sectionPath": [
+        {
+          "id": "3387:2449",
+          "name": "Google"
+        }
+      ]
+    }
+  ]
+}

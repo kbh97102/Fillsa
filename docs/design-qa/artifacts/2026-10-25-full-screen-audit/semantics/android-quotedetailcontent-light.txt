@@ -1,0 +1,20 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 53, top: 0, right: 892, bottom: 1764)
+          View (left: 32, top: 13, right: 158, bottom: 139)
+          TextView (left: 163, top: 45, right: 253, bottom: 108) text="메모"
+          ScrollView (left: 53, top: 152, right: 892, bottom: 1764)
+            View (left: 720, top: 135, right: 881, bottom: 261)
+              TextView (left: 746, top: 176, right: 777, bottom: 220) text="한"
+              TextView (left: 829, top: 176, right: 855, bottom: 220) text="A"
+            View (left: 79, top: 350, right: 866, bottom: 545)
+              TextView (left: 79, top: 350, right: 866, bottom: 457) text="상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+              TextView (left: 79, top: 457, right: 866, bottom: 583) text="존 우든"
+            View (left: 53, top: 651, right: 892, bottom: 1764)
+              View (left: 6, top: 613, right: 132, bottom: 739)
+              TextView (left: 96, top: 651, right: 168, bottom: 701) text="메모"
+              View (left: 79, top: 748, right: 866, bottom: 1764)
+                TextView (left: 79, top: 748, right: 243, bottom: 792) text="기록한 메모"
+

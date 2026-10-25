@@ -2,6 +2,14 @@
 
 Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에서 관리한다. 모든 UI 변경은 [Figma 기반 UI 개편 워크플로우](ui-redesign-workflow.md)를 따른다.
 
+## 전체 화면 대조 계획 · 2026-10-25
+
+- 기준: Figma `리뉴얼 ver.1.0` 페이지 `2929:3720`. 기능·상태별 기준 이미지를 새로 추출하여 현재 앱 Preview와 매칭한다.
+- [HTML 계획·비교 보고서](design-qa/2026-10-25-full-screen-audit.html) — 단계별로 같은 파일에 결과를 누적한다.
+- [세부 실행 계획](superpowers/plans/2026-10-25-full-screen-figma-audit.md).
+- 현재: 구조 조사·계획 작성. 화면 후보96개와 별도 노드 후보57개, 앱 route14개와 직접 Preview 함수79개를 수집했다. 최종 비교 대상 수·시각 차이는 미확정이다.
+- UI 수정 대상은 보고서를 검토한 사용자의 결정으로 확정한다.
+
 ## 화면별 기획 문서
 
 | 파일 | 화면 | Android 구현 위치 |
@@ -11,6 +19,7 @@ Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에�
 | [0_onboarding_guide.md](screens/0_onboarding_guide.md) | 온보딩 가이드 | `presentation/ui/common/IntroduceView.kt` |
 | [1_login.md](screens/1_login.md) | 로그인 | `presentation/ui/LoginView.kt`, `LoginViewModel` |
 | [2_home.md](screens/2_home.md) | Home | `presentation/ui/home`, `HomeViewModel`, `TypingViewModel`, `ShareViewModel` |
+| [2_typing.md](screens/2_typing.md) | 필사 입력·저장 결과 | `presentation/ui/home/TypingQuoteView.kt`, `TypingViewModel` |
 | [3_calendar.md](screens/3_calendar.md) | Calendar | `presentation/ui/calendar`, `CalendarViewModel` |
 | [4_list.md](screens/4_list.md) | List·상세·메모 | `presentation/ui/quotelist`, `ListViewModel` |
 | [5_mypage.md](screens/5_mypage.md) | My Page | `presentation/ui/mypage`, `MyPageViewModel` |
@@ -41,3 +50,9 @@ Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에�
 - 전체 회귀: `./gradlew test --console=plain` — 272 tests, failures 0, errors 0, skipped 0.
 - 조립 검증: `./gradlew :app:assembleDebug :app:assembleRelease -x :app:uploadCrashlyticsMappingFileRelease --console=plain` — Debug/Release 모두 성공.
 - 주의: 위 제외 옵션을 적용하기 전 최초 combined Release 조립에서는 저장소의 기존 Gradle 연결에 의해 `:app:uploadCrashlyticsMappingFileRelease`가 한 번 자동 실행됐다. 수동 업로드는 아니며 이후 검증에서는 해당 task를 제외해 재실행하지 않았다.
+
+## 전체 화면 대조 산출물 (2026-10-25)
+
+- [대조 HTML 보고서](design-qa/2026-10-25-full-screen-audit.html): Figma 원본과 Android CLI Preview, 차이/한계 및 사용자 결정 내보내기.
+- [공유 화면 문서](screens/2_share.md), [이미지 등록·보기 문서](screens/2_image.md) 추가.
+- Preview fixture는 debug source set에만 있으며 기존 production content를 호출한다. 앱 시각 수정/배포/Notion 수정은 별도 사용자 결정 사항이다.

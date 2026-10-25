@@ -1,0 +1,17 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 18, top: 19, right: 144, bottom: 145)
+          TextView (left: 767, top: 19, right: 893, bottom: 145) text="건너뛰기"
+          View (left: 53, top: 91, right: 326, bottom: 217)
+          View (left: 337, top: 91, right: 609, bottom: 217)
+          View (left: 620, top: 91, right: 892, bottom: 217)
+          TextView (left: 53, top: 239, right: 892, bottom: 302) text="매일, 나를 위한 문장을 만나요."
+          TextView (left: 53, top: 313, right: 892, bottom: 357) text="잠시 멈추고 오늘의 질문에 답변하는 시간을 가져요."
+          View (left: 53, top: 449, right: 892, bottom: 1578)
+            View (left: 95, top: 449, right: 851, bottom: 1578)
+          View (left: 53, top: 1620, right: 892, bottom: 1751)
+            TextView (left: 437, top: 1661, right: 509, bottom: 1711) text="다음"
+

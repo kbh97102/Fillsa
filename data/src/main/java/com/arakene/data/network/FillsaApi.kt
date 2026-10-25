@@ -11,6 +11,7 @@ import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberQuoteImageResponse
 import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.MemberTypingQuoteResponse
+import com.arakene.domain.responses.TypingSaveResponse
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.domain.responses.PageResponseMemberQuotesResponse
 import okhttp3.MultipartBody
@@ -94,7 +95,7 @@ interface FillsaApi {
     suspend fun postTyping(
         @Path("dailyQuoteSeq") dailyQuoteSeq: Int,
         @Body body: TypingQuoteRequest
-    ): Response<Int>
+    ): Response<TypingSaveResponse>
 
     @GET(ApiEndPoint.GET_TYPING)
     suspend fun getTyping(

@@ -1,0 +1,18 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 53, top: 0, right: 892, bottom: 1764)
+          View (left: 236, top: 231, right: 709, bottom: 625)
+          TextView (left: 53, top: 756, right: 892, bottom: 869) text="로그인 후, 나만의 필사를 안전하게 저장할 수 있습니다."
+          View (left: 53, top: 903, right: 892, bottom: 1029)
+            View (left: 221, top: 903, right: 347, bottom: 1029)
+            TextView (left: 345, top: 944, right: 702, bottom: 988) text="카카오 계정으로 시작하기"
+          View (left: 53, top: 1076, right: 892, bottom: 1202)
+            View (left: 237, top: 1076, right: 363, bottom: 1202)
+            TextView (left: 360, top: 1117, right: 686, bottom: 1161) text="구글 계정으로 시작하기"
+          View (left: 53, top: 1250, right: 892, bottom: 1376)
+            View (left: 256, top: 1250, right: 382, bottom: 1376)
+            TextView (left: 379, top: 1291, right: 666, bottom: 1335) text="비회원으로 시작하기"
+          TextView (left: 53, top: 1411, right: 892, bottom: 1511) text="로그인 시, 이용약관 및 개인정보 처리방침에 동의하는 것으로 간주됩니다."
+

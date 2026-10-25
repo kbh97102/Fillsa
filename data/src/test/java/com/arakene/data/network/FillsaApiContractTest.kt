@@ -1,7 +1,9 @@
 package com.arakene.data.network
 
+import com.arakene.data.repository.TypingRepositoryImpl
 import com.arakene.domain.requests.AnswerRequest
 import com.arakene.domain.requests.TypingQuoteRequest
+import com.arakene.domain.util.ApiResult
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import kotlinx.coroutines.runBlocking
@@ -10,6 +12,7 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import retrofit2.Retrofit
@@ -98,17 +101,22 @@ class FillsaApiContractTest {
     }
 
     @Test
-    fun postTyping_usesV2Route() = runBlocking {
-        enqueueJson("1")
+    fun postTyping_acceptsSuccessfulObjectResponse() = runBlocking {
+        enqueueJson("""{"memberQuoteSeq":7350633,"completedChanged":false,"todayCompletedChanged":false}""")
 
-        api.postTyping(
+        val result = TypingRepositoryImpl(api).postTyping(
             dailyQuoteSeq = 42,
-            body = TypingQuoteRequest(
+            request = TypingQuoteRequest(
                 typingKorQuote = "한국어",
                 typingEngQuote = "English"
             )
         )
 
+        assertTrue(result is ApiResult.Success)
+        val saved = (result as ApiResult.Success).data
+        assertEquals(7350633, saved.memberQuoteSeq)
+        assertFalse(saved.completedChanged)
+        assertFalse(saved.todayCompletedChanged)
         val request = server.takeRequest()
         assertEquals("POST", request.method)
         assertEquals("/api/v2/member-quotes/42/typing", request.path)

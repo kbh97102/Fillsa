@@ -107,8 +107,13 @@ class ExampleInstrumentedTest {
         workManager.enqueue(request).result.get()
         // Tells the WorkManager test framework that initial delays are now met.
         testDriver?.setInitialDelayMet(request.id)
-        val workInfo = workManager.getWorkInfoById(request.id).get()
-        assert(workInfo?.state == WorkInfo.State.SUCCEEDED)
+        var workInfo: WorkInfo? = null
+        for (attempt in 0 until 100) {
+            workInfo = workManager.getWorkInfoById(request.id).get()
+            if (workInfo?.state == WorkInfo.State.SUCCEEDED) break
+            Thread.sleep(50)
+        }
+        assertTrue("worker state: ${workInfo?.state}", workInfo?.state == WorkInfo.State.SUCCEEDED)
 
         coVerify(exactly = 1) { getDailyQuoteUseCase(any()) }
         coVerify(exactly = 1) { setLocalQuoteForWidgetUseCase(quote) }

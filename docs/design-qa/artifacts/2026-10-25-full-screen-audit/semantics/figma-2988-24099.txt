@@ -1,0 +1,10 @@
+ComposeViewAdapter (left: 0, top: 0, right: 840, bottom: 638)
+  ComposeView (left: 0, top: 0, right: 840, bottom: 638)
+    View (left: 0, top: 0, right: 840, bottom: 638)
+      View (left: 0, top: 0, right: 840, bottom: 638)
+        View (left: 0, top: 0, right: 840, bottom: 638)
+          View (left: 263, top: 53, right: 578, bottom: 368)
+          TextView (left: 102, top: 376, right: 739, bottom: 439) text="오늘도 이어서 필사를 해주세요!"
+          View (left: 32, top: 479, right: 809, bottom: 608)
+            TextView (left: 385, top: 519, right: 457, bottom: 569) text="확인"
+

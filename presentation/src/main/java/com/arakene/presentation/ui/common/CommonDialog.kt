@@ -59,90 +59,123 @@ fun CommonDialog(
             dismissOnClickOutside = false
         )
     ) {
-
-        val hasBody = body.isNotEmpty()
-        val measuredHomeDialog = shouldUseMeasuredHomeDialog(
+        CommonDialogContent(
+            title = title,
+            positiveOnClick = positiveOnClick,
+            dismiss = dismiss,
+            positiveText = positiveText,
+            negativeText = negativeText,
+            negativeOnClick = negativeOnClick,
+            reversed = reversed,
+            body = body,
+            titleTextStyle = titleTextStyle,
+            bodyTextStyle = bodyTextStyle,
+            singleButton = singleButton,
             layoutMode = layoutMode,
-            darkMode = darkMode,
-            fontScale = androidx.compose.ui.platform.LocalDensity.current.fontScale,
+            darkMode = darkMode
         )
-        Column(
+    }
+}
+
+/** Shared production content, also rendered without a platform window in deterministic previews. */
+@Composable
+internal fun CommonDialogContent(
+    title: String,
+    positiveOnClick: () -> Unit,
+    dismiss: () -> Unit,
+    positiveText: String = "확인",
+    negativeText: String = "취소",
+    negativeOnClick: () -> Unit = {},
+    reversed: Boolean = false,
+    body: String = "",
+    titleTextStyle: TypographyEnum = TypographyEnum.Heading4,
+    bodyTextStyle: TypographyEnum = TypographyEnum.Body2,
+    singleButton: Boolean = false,
+    layoutMode: DialogLayoutMode = DialogLayoutMode.Content,
+    darkMode: Boolean = IsDarkMode.current,
+) {
+    val hasBody = body.isNotEmpty()
+    val measuredHomeDialog = shouldUseMeasuredHomeDialog(
+        layoutMode = layoutMode,
+        darkMode = darkMode,
+        fontScale = androidx.compose.ui.platform.LocalDensity.current.fontScale,
+    )
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp)
+            .then(
+                if (measuredHomeDialog) {
+                    Modifier.height(if (hasBody) 165.dp else 181.dp)
+                } else {
+                    Modifier
+                }
+            )
+            .clip(RoundedCornerShape(8.dp))
+            .background(FillsaTheme.colorScheme.backgroundContainer)
+            .then(
+                if (measuredHomeDialog) {
+                    Modifier.border(1.dp, FillsaTheme.colorScheme.outline, RoundedCornerShape(8.dp))
+                } else {
+                    Modifier
+                }
+            )
+            .padding(12.dp)
+    ) {
+
+        Text(
+            title,
+            style = FillsaTheme.typography.getStyle(
+                if (measuredHomeDialog && !hasBody) TypographyEnum.Subtitle1 else titleTextStyle
+            ),
+            color = FillsaTheme.colorScheme.onBackground1,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp)
-                .then(
-                    if (measuredHomeDialog) {
-                        Modifier.height(if (hasBody) 165.dp else 181.dp)
-                    } else {
-                        Modifier
+                .padding(
+                    top = when {
+                        !measuredHomeDialog -> 52.dp
+                        hasBody -> 11.dp
+                        else -> 39.dp
                     }
-                )
-                .clip(RoundedCornerShape(8.dp))
-                .background(FillsaTheme.colorScheme.backgroundContainer)
-                .then(
-                    if (measuredHomeDialog) {
-                        Modifier.border(1.dp, FillsaTheme.colorScheme.outline, RoundedCornerShape(8.dp))
-                    } else {
-                        Modifier
-                    }
-                )
-                .padding(12.dp)
-        ) {
-
-            Text(
-                title,
-                style = FillsaTheme.typography.getStyle(
-                    if (measuredHomeDialog && !hasBody) TypographyEnum.Subtitle1 else titleTextStyle
                 ),
+            textAlign = TextAlign.Center,
+        )
+
+        if (body.isNotEmpty()) {
+            Text(
+                body,
+                style = FillsaTheme.typography.getStyle(bodyTextStyle),
                 color = FillsaTheme.colorScheme.onBackground1,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        top = when {
-                            !measuredHomeDialog -> 52.dp
-                            hasBody -> 11.dp
-                            else -> 39.dp
-                        }
-                    ),
+                    .padding(top = 2.dp),
                 textAlign = TextAlign.Center,
             )
+        }
 
-            if (body.isNotEmpty()) {
-                Text(
-                    body,
-                    style = FillsaTheme.typography.getStyle(bodyTextStyle),
-                    color = FillsaTheme.colorScheme.onBackground1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 2.dp),
-                    textAlign = TextAlign.Center,
+        if (singleButton) {
+            DialogSingleButton(
+                modifier = Modifier.padding(top = 44.dp),
+                buttonText = positiveText,
+                onClick = positiveOnClick,
+                dismiss = dismiss
+            )
+        } else {
+            DialogTwoButton(
+                reversed,
+                negativeOnClick = negativeOnClick,
+                positiveOnClick = positiveOnClick,
+                dismiss = dismiss,
+                negativeText = negativeText,
+                positiveText = positiveText,
+                modifier = Modifier.padding(
+                    top = when {
+                        !measuredHomeDialog -> 44.dp
+                        hasBody -> 25.dp
+                        else -> 44.dp
+                    }
                 )
-            }
-
-            if (singleButton) {
-                DialogSingleButton(
-                    modifier = Modifier.padding(top = 44.dp),
-                    buttonText = positiveText,
-                    onClick = positiveOnClick,
-                    dismiss = dismiss
-                )
-            } else {
-                DialogTwoButton(
-                    reversed,
-                    negativeOnClick = negativeOnClick,
-                    positiveOnClick = positiveOnClick,
-                    dismiss = dismiss,
-                    negativeText = negativeText,
-                    positiveText = positiveText,
-                    modifier = Modifier.padding(
-                        top = when {
-                            !measuredHomeDialog -> 44.dp
-                            hasBody -> 25.dp
-                            else -> 44.dp
-                        }
-                    )
-                )
-            }
+            )
         }
     }
 }

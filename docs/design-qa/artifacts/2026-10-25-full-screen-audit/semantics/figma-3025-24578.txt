@@ -1,0 +1,15 @@
+ComposeViewAdapter (left: 0, top: 0, right: 840, bottom: 643)
+  ComposeView (left: 0, top: 0, right: 840, bottom: 643)
+    View (left: 0, top: 0, right: 840, bottom: 643)
+      View (left: 0, top: 0, right: 840, bottom: 643)
+        View (left: 0, top: 0, right: 840, bottom: 643)
+          View (left: 338, top: 131, right: 536, bottom: 343)
+          View (left: 237, top: 33, right: 402, bottom: 198)
+          View (left: 362, top: 188, right: 488, bottom: 314)
+          View (left: 364, top: 206, right: 490, bottom: 332)
+          View (left: 458, top: 101, right: 584, bottom: 227)
+          View (left: 277, top: 41, right: 448, bottom: 211)
+          TextView (left: 265, top: 378, right: 575, bottom: 441) text="연속 필사 완료!"
+          View (left: 32, top: 481, right: 809, bottom: 610)
+            TextView (left: 385, top: 521, right: 457, bottom: 571) text="확인"
+

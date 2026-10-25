@@ -19,7 +19,6 @@ import com.arakene.domain.usecase.home.GetTypingUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostTypingUseCase
 import com.arakene.domain.util.YN
-import com.arakene.presentation.R
 import com.arakene.presentation.util.Action
 import com.arakene.presentation.util.BaseViewModel
 import com.arakene.presentation.util.CommonEffect
@@ -27,6 +26,7 @@ import com.arakene.presentation.util.DialogData
 import com.arakene.presentation.util.Effect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.TypingEffect
+import com.arakene.presentation.util.TypingResultKind
 import com.arakene.presentation.util.action.TypingAction
 import com.arakene.presentation.util.getDayOfWeekEnglish
 import com.arakene.presentation.util.logError
@@ -36,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import java.util.concurrent.atomic.AtomicBoolean
 
 @HiltViewModel
 class TypingViewModel @Inject constructor(
@@ -52,6 +53,7 @@ class TypingViewModel @Inject constructor(
 ) : BaseViewModel() {
 
     private var streakResponse: MemberStreakResponse? = null
+    private val saving = AtomicBoolean(false)
 
     var isLike = mutableStateOf(false)
 
@@ -148,126 +150,113 @@ class TypingViewModel @Inject constructor(
         dailyQuoteDto: DailyQuoteDto,
         likeYn: Boolean,
         useSaveSnackBar: Boolean = false,
-        isDarkMode: Boolean = false
     ) {
+        if (!saving.compareAndSet(false, true)) return
         CoroutineScope(Dispatchers.IO).launch {
-            val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
-            val isComplete =
-                korTyping == dailyQuoteDto.korQuote || engTyping == dailyQuoteDto.engQuote
-            if (!loginStatus) {
+            try {
+                val loginStatus = getLoginStateUseCase().firstOrNull() ?: false
+                val isComplete =
+                    (dailyQuoteDto.korQuote?.isNotBlank() == true && korTyping == dailyQuoteDto.korQuote) ||
+                        (dailyQuoteDto.engQuote?.isNotBlank() == true && engTyping == dailyQuoteDto.engQuote)
+                if (!loginStatus) {
 
-                if (korTyping.isEmpty() && engTyping.isEmpty()) {
+                    val emptyDraft = korTyping.isEmpty() && engTyping.isEmpty() && !likeYn
+                    if (emptyDraft) {
 
-                    val data = getLocalQuoteUseCase(dailyQuoteDto.dailyQuoteSeq)
+                        val data = getLocalQuoteUseCase(dailyQuoteDto.dailyQuoteSeq)
 
-                    if (data != null) {
-                        if (data.memo.isEmpty() && data.likeYn == YN.N.type) {
-                            deleteLocalQuoteUseCase(dailyQuoteDto.dailyQuoteSeq)
-                            return@launch
+                        if (data != null) {
+                            if (data.memo.isEmpty() && data.likeYn == YN.N.type) {
+                                deleteLocalQuoteUseCase(dailyQuoteDto.dailyQuoteSeq)
+                            }
+                        }
+                        if (!useSaveSnackBar) return@launch
+                    }
+
+                    if (isComplete) {
+                        logError("Save start in typingViewModel")
+                        setTodayTypingComplete()
+                    }
+
+                    if (!emptyDraft) addLocalQuoteUseCase(
+                        LocalQuoteInfo(
+                            memo = "",
+                            korAuthor = dailyQuoteDto.korAuthor ?: "",
+                            korQuote = dailyQuoteDto.korQuote ?: "",
+                            engQuote = dailyQuoteDto.engQuote ?: "",
+                            engAuthor = dailyQuoteDto.engAuthor ?: "",
+                            korTyping = korTyping,
+                            engTyping = engTyping,
+                            dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
+                            likeYn = if (likeYn) {
+                                YN.Y.type
+                            } else {
+                                YN.N.type
+                            },
+                            date = dailyQuoteDto.quoteDate,
+                            dayOfWeek = getDayOfWeekEnglish(dateStr = dailyQuoteDto.quoteDate)
+                        )
+                    )
+                } else {
+                    val saved = getResponse(postTypingUseCase(
+                        dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
+                        request = TypingQuoteRequest(
+                            typingKorQuote = korTyping,
+                            typingEngQuote = engTyping
+                        )
+                    ))
+                    if (saved == null) return@launch
+                }
+
+                if (useSaveSnackBar) {
+
+                    when {
+                        // 연속 필사 완료
+                        isComplete && (streakResponse?.currentStreak ?: 0) > 0 -> {
+                            emitEffect(
+                                CommonEffect.ShowDialog(
+                                    DialogData.Builder()
+                                        .title("연속 필사 완료!")
+                                        .typingResultKind(TypingResultKind.Streak)
+                                        .singleButton(true)
+                                        .okText("확인")
+                                        .onClick { emitEffect(CommonEffect.Move(Screens.Home())) }
+                                        .build()
+                                )
+                            )
+                        }
+                        // 필사 완료
+                        isComplete -> {
+                            emitEffect(
+                                CommonEffect.ShowDialog(
+                                    DialogData.Builder()
+                                        .title("오늘도 이어서 필사를 해주세요!")
+                                        .typingResultKind(TypingResultKind.Continue)
+                                        .singleButton(true)
+                                        .okText("확인")
+                                        .onClick { emitEffect(CommonEffect.Move(Screens.Home())) }
+                                        .build()
+                                )
+                            )
+                        }
+                        // 필사 미완료
+                        !isComplete -> {
+                            emitEffect(
+                                CommonEffect.ShowDialog(
+                                    DialogData.Builder()
+                                        .title("필사가 완료되지 않았어요.")
+                                        .typingResultKind(TypingResultKind.Incomplete)
+                                        .singleButton(false)
+                                        .okText("필사하기")
+                                        .build()
+                                )
+                            )
                         }
                     }
+
                 }
-
-                if (isComplete) {
-                    logError("Save start in typingViewModel")
-                    setTodayTypingComplete()
-                }
-
-                addLocalQuoteUseCase(
-                    LocalQuoteInfo(
-                        memo = "",
-                        korAuthor = dailyQuoteDto.korAuthor ?: "",
-                        korQuote = dailyQuoteDto.korQuote ?: "",
-                        engQuote = dailyQuoteDto.engQuote ?: "",
-                        engAuthor = dailyQuoteDto.engAuthor ?: "",
-                        korTyping = korTyping,
-                        engTyping = engTyping,
-                        dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
-                        likeYn = if (likeYn) {
-                            YN.Y.type
-                        } else {
-                            YN.N.type
-                        },
-                        date = dailyQuoteDto.quoteDate,
-                        dayOfWeek = getDayOfWeekEnglish(dateStr = dailyQuoteDto.quoteDate)
-                    )
-                )
-            } else {
-                postTypingUseCase(
-                    dailyQuoteSeq = dailyQuoteDto.dailyQuoteSeq,
-                    request = TypingQuoteRequest(
-                        typingKorQuote = korTyping,
-                        typingEngQuote = engTyping
-                    )
-                )
-            }
-
-            if (useSaveSnackBar) {
-
-                when {
-                    // 연속 필사 완료
-                    isComplete && (streakResponse?.currentStreak ?: 0) > 0 -> {
-                        emitEffect(
-                            CommonEffect.ShowDialog(
-                                DialogData.Builder()
-                                    .title("연속 필사 완료!")
-                                    .drawableId(R.drawable.icn_today_complete)
-                                    .singleButton(true)
-                                    .okText("확인")
-                                    .build()
-                            )
-                        )
-                    }
-                    // 필사 완료
-                    isComplete -> {
-                        emitEffect(
-                            CommonEffect.ShowDialog(
-                                DialogData.Builder()
-                                    .title("필사 완료!")
-                                    .drawableId(R.drawable.icn_thumb_up)
-                                    .singleButton(true)
-                                    .okText("확인")
-                                    .build()
-                            )
-                        )
-                    }
-                    // 필사 미완료
-                    !isComplete -> {
-                        emitEffect(
-                            CommonEffect.ShowDialog(
-                                DialogData.Builder()
-                                    .title("필사가 완료되지 않았어요 :(")
-                                    .drawableId(
-                                        if (isDarkMode) {
-                                            R.drawable.icn_today_not_complete_night
-                                        } else {
-                                            R.drawable.icn_today_not_complete
-                                        }
-                                    )
-                                    .singleButton(false)
-                                    .okText("필사하기")
-                                    .onClick {
-                                        emitEffect(
-                                            CommonEffect.Move(
-                                                Screens.DailyQuote(
-                                                    dailyQuoteDto
-                                                )
-                                            )
-                                        )
-                                    }
-                                    .build()
-                            )
-                        )
-                    }
-                }
-
-//                viewModelScope.launch {
-//                    emitEffect(
-//                        CommonEffect.ShowSnackBar(
-//                            message = "저장되었습니다."
-//                        )
-//                    )
-//                }
+            } finally {
+                saving.set(false)
             }
         }
 

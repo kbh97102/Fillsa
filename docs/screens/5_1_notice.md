@@ -26,3 +26,21 @@
 | `NoticeDetailView` 본문 | `2929:11395`–`2929:11401`, `2929:11569`–`2929:11579` | 상세 내용 | `NoticeDetailView` | 미검증 |
 | `EmptyNoticeSection` | `2929:11409`, `2929:11588`의 중앙 빈 상태 | 목록이 없는 상태 | `NoticeView` | 에뮬레이터 부분 비교, Preview 대기 |
 | `SingleLineAdSection` 배경 | `2929:11383`, `2929:11403`, `2929:11428`, `2929:11562`, `2929:11582`, `2929:11607` | 상태별 광고 띠 색 | `BottomNavigationBar` | 6개 상태의 배경 표본 일치, Preview·전체 화면 대기 |
+
+
+## 전체 화면 대조 · 2026-10-25
+
+- 기준 페이지: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-3720
+- 범위: 현재 production UI 재사용 Preview. 시각 수정은 사용자 검토 후 별도 작업.
+- 조건: ko, fontScale 1.0, Light/Dark, 고정 fixture. Preview는 시스템 바·IME를 포함한 최종 승인이 아님.
+- QA 기록: [전체 화면 대조 보고서](../design-qa/2026-10-25-full-screen-audit.html)
+- 상태·크기·원본 이미지: [screen-map.json](../design-qa/artifacts/2026-10-25-full-screen-audit/screen-map.json)
+
+| 대상 노드 | production 컴포넌트 | 상태 / 책임 | 검증 상태 |
+|---|---|---|---|
+| 2929:11354 | NoticeContent | 5-1. notice · Light | 조사 중 |
+| 2929:11389 | NoticeDetailView | 5-1. notice_detail · Light | 조사 중 |
+| 2929:11409 | NoticeContent | 5-1. notice_non · Light | 조사 중 |
+| 2929:11529 | NoticeContent | 5-1. notice · Dark | 조사 중 |
+| 2929:11568 | NoticeDetailView | 5-1. notice_detail · Dark | 조사 중 |
+| 2929:11588 | NoticeContent | 5-1. notice_non · Dark | 조사 중 |

@@ -1,0 +1,12 @@
+ComposeViewAdapter (left: 0, top: 0, right: 840, bottom: 643)
+  ComposeView (left: 0, top: 0, right: 840, bottom: 643)
+    View (left: 0, top: 0, right: 840, bottom: 643)
+      View (left: 0, top: 0, right: 840, bottom: 643)
+        View (left: 0, top: 0, right: 840, bottom: 643)
+          View (left: 263, top: 55, right: 578, bottom: 370)
+          TextView (left: 153, top: 378, right: 687, bottom: 441) text="필사가 완료되지 않았어요."
+          View (left: 31, top: 481, right: 404, bottom: 610)
+            TextView (left: 182, top: 521, right: 254, bottom: 571) text="취소"
+          View (left: 436, top: 481, right: 809, bottom: 610)
+            TextView (left: 551, top: 521, right: 695, bottom: 571) text="필사하기"
+

@@ -1,0 +1,18 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 32, top: 13, right: 158, bottom: 139)
+          TextView (left: 163, top: 45, right: 253, bottom: 108) text="알림"
+          View (left: 53, top: 152, right: 892, bottom: 407)
+            TextView (left: 53, top: 194, right: 325, bottom: 244) text="오늘의 필사 알림"
+            TextView (left: 53, top: 265, right: 755, bottom: 365) text="매일 오전 9시에 새로운 문장 알림을 받을 수 있습니다."
+            View (left: 755, top: 217, right: 892, bottom: 343)
+              View (left: 787, top: 218, right: 913, bottom: 344)
+                View (left: 787, top: 218, right: 913, bottom: 344)
+              View (left: 755, top: 238, right: 892, bottom: 322)
+          View (left: 53, top: 552, right: 892, bottom: 678)
+            TextView (left: 53, top: 588, right: 197, bottom: 638) text="탈퇴하기"
+            View (left: 803, top: 552, right: 929, bottom: 678)
+

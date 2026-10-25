@@ -117,6 +117,18 @@ fun AlertView(
         }
     }
 
+    AlertContent(selected, isLogged, viewModel::handleContract, modifier, darkMode, dialogDataHolder)
+
+}
+
+@Composable
+internal fun AlertContent(
+    selected: Boolean, isLogged: Boolean,
+    onAction: (com.arakene.presentation.util.Contract) -> Unit,
+    modifier: Modifier = Modifier, darkMode: Boolean = IsDarkMode.current,
+    dialogDataHolder: DialogDataHolder = LocalDialogDataHolder.current,
+) {
+    val context = LocalContext.current
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -126,14 +138,14 @@ fun AlertView(
             modifier = Modifier.padding(horizontal = 20.dp),
             text = stringResource(R.string.alert),
             onBackPress = {
-                viewModel.handleContract(CommonAction.PopBackStack)
+                onAction(CommonAction.PopBackStack)
             }
         )
 
         AlertSwitchSection(
             selected = selected,
             setSelected = {
-                viewModel.handleContract(MyPageAction.ClickAlarmUsage(usage = it))
+                onAction(MyPageAction.ClickAlarmUsage(usage = it))
             }
         )
 
@@ -160,7 +172,7 @@ fun AlertView(
                             .okText(context.getString(R.string.cancel))
                             .cancelText(context.getString(R.string.resign))
                             .cancelOnClick {
-                                viewModel.handleContract(MyPageAction.Resign)
+                                onAction(MyPageAction.Resign)
                             }
                             .build()
 
@@ -186,5 +198,4 @@ fun AlertView(
         }
 
     }
-
 }

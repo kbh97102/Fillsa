@@ -91,38 +91,7 @@ fun QuoteDetailView(
         )
     }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(FillsaTheme.colorScheme.background)
-            .padding(horizontal = 20.dp)
-    ) {
-
-        // 탑 영역, 뒤로가기 , 메모 텍스트
-        HeaderSection(text = stringResource(R.string.memo), onBackPress = {
-            viewModel.handleContract(CommonAction.PopBackStack)
-        })
-
-        QuoteDetailContentSection(
-            imagePath = imagePath,
-            localeType = localeType,
-            setLocaleType = {
-                localeType = it
-            },
-            quote = quote,
-            author = author,
-            memo = memo,
-            clickMemo = {
-                viewModel.handleContract(
-                    QuoteListAction.ClickMemo(
-                        memberQuoteSeq = memberQuoteSeq,
-                        savedMemo = memo
-                    )
-                )
-            }
-        )
-
-    }
+    QuoteDetailContent(quote, author, memo, imagePath, localeType, { localeType = it }, memberQuoteSeq, viewModel::handleContract)
 
 }
 
@@ -141,4 +110,44 @@ private fun MemoViewPreview() {
         onBackPress = {},
         imagePath = ""
     )
+}
+
+@Composable
+internal fun QuoteDetailContent(
+    quote: String, author: String, memo: String, imagePath: String,
+    localeType: LocaleType, onLocaleChanged: (LocaleType) -> Unit,
+    memberQuoteSeq: String, onAction: (com.arakene.presentation.util.Contract) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(FillsaTheme.colorScheme.background)
+            .padding(horizontal = 20.dp)
+    ) {
+
+        // 탑 영역, 뒤로가기 , 메모 텍스트
+        HeaderSection(text = stringResource(R.string.memo), onBackPress = {
+            onAction(CommonAction.PopBackStack)
+        })
+
+        QuoteDetailContentSection(
+            imagePath = imagePath,
+            localeType = localeType,
+            setLocaleType = {
+                onLocaleChanged(it)
+            },
+            quote = quote,
+            author = author,
+            memo = memo,
+            clickMemo = {
+                onAction(
+                    QuoteListAction.ClickMemo(
+                        memberQuoteSeq = memberQuoteSeq,
+                        savedMemo = memo
+                    )
+                )
+            }
+        )
+
+    }
 }

@@ -1,0 +1,9 @@
+ComposeViewAdapter (left: 0, top: 0, right: 286, bottom: 302)
+  ComposeView (left: 0, top: 0, right: 286, bottom: 302)
+    View (left: 0, top: 0, right: 286, bottom: 302)
+      View (left: 13, top: 0, right: 273, bottom: 302)
+        View (left: 81, top: 0, right: 207, bottom: 126)
+          TextView (left: 88, top: 53, right: 199, bottom: 72) text="100일 연속 필사중"
+        TextView (left: 13, top: 85, right: 273, bottom: 110) text="오늘 필사하는 것을 잊으셨나요?"
+        View (left: 59, top: 108, right: 227, bottom: 234)
+

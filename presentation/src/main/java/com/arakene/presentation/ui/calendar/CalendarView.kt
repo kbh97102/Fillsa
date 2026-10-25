@@ -94,72 +94,9 @@ fun CalendarView(
         }
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize()
-            .background(FillsaTheme.colorScheme.background)
-            .verticalScroll(rememberScrollState())
-            .padding(horizontal = 20.dp)
-            .offset(y = 6.dp),
-    ) {
-        CalendarHeader(
-            onHome = { if (qaFixture == null) navigate(Screens.Home()) },
-            onProfile = { if (qaFixture == null) navigate(Screens.MyPage) },
-        )
-        CalendarSection(
-            memberQuotes = data?.memberQuotes ?: emptyList(),
-            changeMonth = {
-                if (qaFixture == null) viewModel.handleContract(CalendarAction.ChangeMonth(it))
-            },
-            selectDay = {
-                if (qaFixture == null) viewModel.handleContract(CalendarAction.SelectDay(it))
-            },
-            selectedDay = selectedDay,
-            qaState = qaFixture?.state,
-            modifier = Modifier.padding(top = 10.dp),
-        )
-        CalendarCountSection(
-            typingCount = data?.monthlySummary?.typingCount ?: 0,
-            likeCount = data?.monthlySummary?.likeCount ?: 0,
-            modifier = Modifier.padding(top = 10.dp),
-            countOnClick = {
-                if (qaFixture == null) viewModel.handleContract(CalendarAction.ClickCount)
-            },
-        )
-        CalendarQuoteSection(
-            quoteData = selectedQuote,
-            selectedDay = selectedDay,
-            presentation = selectedDayPresentation,
-            answerState = answerState,
-            onAnswerChanged = { if (qaFixture == null) viewModel.handleContract(CalendarAction.ChangeAnswer(it)) },
-            onRecordAnswer = { if (qaFixture == null) viewModel.handleContract(CalendarAction.RecordAnswer) },
-            onEditAnswer = { if (qaFixture == null) viewModel.handleContract(CalendarAction.EditAnswer) },
-            onCopy = {
-                if (qaFixture == null) {
-                    selectedQuote?.let {
-                        copyToClipboard(context, scope, clipboard, snackbarHost, it.quote, it.author)
-                    }
-                }
-            },
-            onShare = {
-                if (qaFixture == null) {
-                    selectedQuote?.let { navigate(Screens.Share(it.quote, it.author)) }
-                }
-            },
-            // Calendar has no independent action contract; these retain the established
-            // selected-date Home flow, where like/image behavior already exists.
-            onLike = {
-                if (qaFixture == null) viewModel.handleContract(CalendarAction.ClickBottomQuote)
-            },
-            onImage = {
-                if (qaFixture == null) viewModel.handleContract(CalendarAction.ClickBottomQuote)
-            },
-            onOpenQuote = {
-                if (qaFixture == null) viewModel.handleContract(CalendarAction.ClickBottomQuote)
-            },
-            modifier = Modifier.padding(top = if (selectedDayPresentation.completed) 16.dp else 12.dp),
-        )
-        Spacer(Modifier.height(16.dp))
-    }
+    CalendarContent(data, selectedDay, selectedQuote, selectedDayPresentation, answerState,
+        navigate, viewModel::handleContract, qaFixture)
+
 }
 
 @Composable
@@ -196,5 +133,88 @@ private fun CalendarHeader(onHome: () -> Unit, onProfile: () -> Unit) {
             darkMode = darkMode,
             assetSet = "home",
         )
+    }
+}
+
+
+@Composable
+internal fun CalendarContent(
+    data: com.arakene.domain.responses.MemberMonthlyQuoteResponse?,
+    selectedDay: com.kizitonwose.calendar.core.CalendarDay,
+    selectedQuote: com.arakene.domain.responses.MemberQuotesData?,
+    selectedDayPresentation: CalendarSelectedDayPresentation,
+    answerState: HomeAnswerUiState, navigate: Navigate,
+    onAction: (com.arakene.presentation.util.Contract) -> Unit,
+    qaFixture: CalendarRuntimeQaFixture? = null,
+) {
+    val context = LocalContext.current
+    val clipboard = LocalClipboard.current
+    val scope = rememberCoroutineScope()
+    val snackbarHost = LocalSnackbarHost.current
+    Column(
+        modifier = Modifier.fillMaxSize()
+            .background(FillsaTheme.colorScheme.background)
+            .verticalScroll(rememberScrollState())
+            .padding(horizontal = 20.dp)
+            .offset(y = 6.dp),
+    ) {
+        CalendarHeader(
+            onHome = { if (qaFixture == null) navigate(Screens.Home()) },
+            onProfile = { if (qaFixture == null) navigate(Screens.MyPage) },
+        )
+        CalendarSection(
+            memberQuotes = data?.memberQuotes ?: emptyList(),
+            changeMonth = {
+                if (qaFixture == null) onAction(CalendarAction.ChangeMonth(it))
+            },
+            selectDay = {
+                if (qaFixture == null) onAction(CalendarAction.SelectDay(it))
+            },
+            selectedDay = selectedDay,
+            qaState = qaFixture?.state,
+            modifier = Modifier.padding(top = 10.dp),
+        )
+        CalendarCountSection(
+            typingCount = data?.monthlySummary?.typingCount ?: 0,
+            likeCount = data?.monthlySummary?.likeCount ?: 0,
+            modifier = Modifier.padding(top = 10.dp),
+            countOnClick = {
+                if (qaFixture == null) onAction(CalendarAction.ClickCount)
+            },
+        )
+        CalendarQuoteSection(
+            quoteData = selectedQuote,
+            selectedDay = selectedDay,
+            presentation = selectedDayPresentation,
+            answerState = answerState,
+            onAnswerChanged = { if (qaFixture == null) onAction(CalendarAction.ChangeAnswer(it)) },
+            onRecordAnswer = { if (qaFixture == null) onAction(CalendarAction.RecordAnswer) },
+            onEditAnswer = { if (qaFixture == null) onAction(CalendarAction.EditAnswer) },
+            onCopy = {
+                if (qaFixture == null) {
+                    selectedQuote?.let {
+                        copyToClipboard(context, scope, clipboard, snackbarHost, it.quote, it.author)
+                    }
+                }
+            },
+            onShare = {
+                if (qaFixture == null) {
+                    selectedQuote?.let { navigate(Screens.Share(it.quote, it.author)) }
+                }
+            },
+            // Calendar has no independent action contract; these retain the established
+            // selected-date Home flow, where like/image behavior already exists.
+            onLike = {
+                if (qaFixture == null) onAction(CalendarAction.ClickBottomQuote)
+            },
+            onImage = {
+                if (qaFixture == null) onAction(CalendarAction.ClickBottomQuote)
+            },
+            onOpenQuote = {
+                if (qaFixture == null) onAction(CalendarAction.ClickBottomQuote)
+            },
+            modifier = Modifier.padding(top = if (selectedDayPresentation.completed) 16.dp else 12.dp),
+        )
+        Spacer(Modifier.height(16.dp))
     }
 }

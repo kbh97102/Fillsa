@@ -1,0 +1,51 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1538)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1538)
+    View (left: 0, top: 0, right: 945, bottom: 1538)
+      View (left: 0, top: 0, right: 945, bottom: 1538)
+        View (left: 0, top: 0, right: 945, bottom: 1380)
+          View (left: 53, top: 0, right: 892, bottom: 1380)
+            View (left: 389, top: 3, right: 557, bottom: 129)
+            View (left: 53, top: 157, right: 892, bottom: 366)
+              View (left: 106, top: 196, right: 839, bottom: 327)
+                View (left: 106, top: 196, right: 237, bottom: 327)
+                  View (left: 106, top: 196, right: 237, bottom: 327)
+                TextView (left: 279, top: 237, right: 743, bottom: 287) text="닉네임 or 연동된 계정 이름?"
+            View (left: 53, top: 398, right: 892, bottom: 555)
+              View (left: 49, top: 414, right: 175, bottom: 540)
+              View (left: 766, top: 414, right: 892, bottom: 540)
+            View (left: 53, top: 587, right: 892, bottom: 744)
+              View (left: 49, top: 603, right: 159, bottom: 729)
+              TextView (left: 159, top: 669, right: 231, bottom: 685) text="알림"
+              View (left: 766, top: 603, right: 892, bottom: 729)
+            View (left: 53, top: 776, right: 892, bottom: 933)
+              View (left: 49, top: 792, right: 175, bottom: 918)
+              TextView (left: 159, top: 830, right: 231, bottom: 842) text="테마"
+              View (left: 766, top: 792, right: 892, bottom: 918)
+            TextView (left: 85, top: 1020, right: 157, bottom: 1070) text="버전"
+            TextView (left: 755, top: 1020, right: 860, bottom: 1070) text="1.0.31"
+            TextView (left: 85, top: 1100, right: 229, bottom: 1226) text="로그아웃"
+          View (left: 0, top: 0, right: 945, bottom: 1380)
+            View (left: 85, top: 432, right: 860, bottom: 970)
+              View (left: 85, top: 401, right: 860, bottom: 527)
+                TextView (left: 85, top: 432, right: 220, bottom: 495) text="라이트"
+                View (left: 766, top: 401, right: 892, bottom: 527)
+              View (left: 85, top: 543, right: 860, bottom: 669)
+                TextView (left: 85, top: 574, right: 175, bottom: 637) text="다크"
+                View (left: 766, top: 543, right: 892, bottom: 669)
+              View (left: 85, top: 685, right: 860, bottom: 811)
+                TextView (left: 85, top: 716, right: 220, bottom: 779) text="시스템"
+                View (left: 766, top: 685, right: 892, bottom: 811)
+              View (left: 85, top: 842, right: 860, bottom: 970)
+                TextView (left: 437, top: 881, right: 509, bottom: 931) text="확인"
+                Button (left: 85, top: 842, right: 860, bottom: 970)
+        View (left: 0, top: 1380, right: 945, bottom: 1538)
+          View (left: 0, top: 1380, right: 315, bottom: 1538)
+            TextView (left: 116, top: 1480, right: 199, bottom: 1518) text="Home"
+            View (left: 0, top: 1380, right: 315, bottom: 1538)
+          View (left: 315, top: 1380, right: 630, bottom: 1538)
+            TextView (left: 410, top: 1480, right: 536, bottom: 1518) text="Calendar"
+            View (left: 315, top: 1380, right: 630, bottom: 1538)
+          View (left: 630, top: 1380, right: 945, bottom: 1538)
+            TextView (left: 728, top: 1480, right: 848, bottom: 1518) text="My page"
+            View (left: 630, top: 1380, right: 945, bottom: 1538)
+

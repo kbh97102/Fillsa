@@ -1,0 +1,17 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 18, top: 19, right: 144, bottom: 145)
+          TextView (left: 767, top: 19, right: 893, bottom: 145) text="건너뛰기"
+          View (left: 53, top: 91, right: 326, bottom: 217)
+          View (left: 337, top: 91, right: 609, bottom: 217)
+          View (left: 620, top: 91, right: 892, bottom: 217)
+          TextView (left: 53, top: 239, right: 892, bottom: 302) text="꾸준히 필사하여 기록을 쌓아요."
+          TextView (left: 53, top: 313, right: 892, bottom: 357) text="달력에서 필사, 좋아요, 연속기록을 확인할 수 있어요."
+          View (left: 53, top: 449, right: 892, bottom: 1578)
+            View (left: 105, top: 449, right: 840, bottom: 1578)
+          View (left: 53, top: 1620, right: 892, bottom: 1751)
+            TextView (left: 360, top: 1661, right: 586, bottom: 1711) text="필사 시작하기"
+

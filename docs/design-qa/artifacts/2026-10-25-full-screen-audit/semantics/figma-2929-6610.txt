@@ -1,0 +1,13 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 788)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 788)
+    View (left: 0, top: 0, right: 945, bottom: 788)
+      View (left: 0, top: 0, right: 945, bottom: 788)
+        View (left: 0, top: 0, right: 945, bottom: 788)
+          View (left: 85, top: 147, right: 860, bottom: 641)
+            View (left: 410, top: 116, right: 536, bottom: 242)
+            TextView (left: 252, top: 242, right: 693, bottom: 305) text="필사 앱 업데이트 안내"
+            TextView (left: 85, top: 337, right: 860, bottom: 450) text="최적의 사용 환경을 위해 최신 버전의 앱으로 업데이트 해주세요."
+            View (left: 85, top: 513, right: 860, bottom: 641)
+              TextView (left: 378, top: 552, right: 568, bottom: 602) text="앱 업데이트"
+              Button (left: 85, top: 513, right: 860, bottom: 641)
+

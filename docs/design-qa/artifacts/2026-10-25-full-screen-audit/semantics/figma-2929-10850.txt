@@ -1,0 +1,31 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 39, top: 3, right: 906, bottom: 129)
+          View (left: 18, top: 3, right: 144, bottom: 129)
+        View (left: 0, top: 132, right: 945, bottom: 1764)
+          TextView (left: 257, top: 132, right: 689, bottom: 195) text="배경을 선택해주세요."
+          TextView (left: 181, top: 195, right: 765, bottom: 245) text="필사한 문장이 이미지로 저장됩니다."
+          View (left: 0, top: 379, right: 945, bottom: 1429)
+            View (left: 118, top: 379, right: 827, bottom: 1429)
+              View (left: 118, top: 379, right: 827, bottom: 1429)
+              TextView (left: 152, top: 798, right: 793, bottom: 909) text="상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+              TextView (left: 152, top: 962, right: 793, bottom: 1010) text="존 우든"
+            View (left: 880, top: 379, right: 945, bottom: 1429)
+              View (left: 880, top: 379, right: 945, bottom: 1429)
+              TextView (left: 914, top: 798, right: 945, bottom: 909) text="상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+              TextView (left: 914, top: 962, right: 945, bottom: 1010) text="존 우든"
+          View (left: 153, top: 1508, right: 279, bottom: 1699)
+            View (left: 153, top: 1508, right: 279, bottom: 1634)
+              View (left: 153, top: 1508, right: 279, bottom: 1634)
+            TextView (left: 185, top: 1655, right: 247, bottom: 1699) text="저장"
+          View (left: 410, top: 1508, right: 536, bottom: 1699)
+            View (left: 410, top: 1508, right: 536, bottom: 1634)
+              View (left: 410, top: 1508, right: 536, bottom: 1634)
+            TextView (left: 442, top: 1655, right: 504, bottom: 1699) text="복사"
+          View (left: 667, top: 1508, right: 793, bottom: 1699)
+            View (left: 667, top: 1508, right: 793, bottom: 1634)
+              View (left: 667, top: 1508, right: 793, bottom: 1634)
+            TextView (left: 668, top: 1655, right: 792, bottom: 1699) text="카카오톡"
+

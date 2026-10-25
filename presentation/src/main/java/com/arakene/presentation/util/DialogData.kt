@@ -12,6 +12,8 @@ enum class DialogLayoutMode {
     HomeDarkMeasured,
 }
 
+enum class TypingResultKind { Continue, Streak, Incomplete }
+
 @Stable
 class DialogData private constructor() {
 
@@ -27,6 +29,7 @@ class DialogData private constructor() {
     var drawableId = -1
     var singleButton = false
     var layoutMode = DialogLayoutMode.Content
+    var typingResultKind: TypingResultKind? = null
 
 
 
@@ -47,6 +50,7 @@ class DialogData private constructor() {
         fun drawableId(drawableId: Int) = apply { data.drawableId = drawableId }
         fun singleButton(isSingleButton: Boolean) = apply { data.singleButton = isSingleButton }
         fun layoutMode(mode: DialogLayoutMode) = apply { data.layoutMode = mode }
+        fun typingResultKind(kind: TypingResultKind) = apply { data.typingResultKind = kind }
 
         fun build(): DialogData = data
 

@@ -157,6 +157,17 @@ fun SplashView(
         }
     }
 
+    SplashContent(composition, lottieState.progress, darkTheme)
+
+
+}
+
+
+@Composable
+internal fun SplashContent(
+    composition: com.airbnb.lottie.LottieComposition?, progress: Float,
+    darkTheme: Boolean = IsDarkMode.current,
+) {
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -182,12 +193,10 @@ fun SplashView(
 
             LottieAnimation(
                 composition = composition,
-                progress = { lottieState.progress },
+                progress = { progress },
                 safeMode = true,
                 modifier = Modifier.size(192.dp)
             )
         }
     }
-
-
 }

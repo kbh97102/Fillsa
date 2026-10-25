@@ -1,0 +1,12 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 0, top: 0, right: 945, bottom: 1764)
+          View (left: 0, top: 13, right: 945, bottom: 139)
+            View (left: 0, top: 13, right: 105, bottom: 139)
+            TextView (left: 110, top: 45, right: 290, bottom: 108) text="공지사항"
+          TextView (left: 53, top: 194, right: 436, bottom: 244) text="2.0 버전 업데이트 공지"
+          TextView (left: 53, top: 270, right: 238, bottom: 314) text="2025.03.03"
+          TextView (left: 53, top: 396, right: 892, bottom: 944) text="사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다.사용성 향상을 위한 업데이트를 실시했습니다."
+

@@ -72,13 +72,46 @@ fun QuoteListView(
         }
     }
 
+    QuoteListContent(state, paging, navigate, viewModel::handleContract)
+
+}
+
+@Composable
+private fun QuoteListSection(
+    paging: LazyPagingItems<MemberQuotesResponse>,
+    handleContract: (Contract) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    if (paging.itemCount == 0) {
+        QuoteListEmptySection(
+            modifier = modifier
+        )
+    } else {
+
+        QuoteListSection(
+            modifier = modifier.padding(top = 10.dp),
+            list = paging,
+            onClick = {
+                handleContract(QuoteListAction.ClickItem(it))
+            }
+        )
+    }
+}
+
+
+@Composable
+internal fun QuoteListContent(
+    state: com.arakene.presentation.util.state.QuoteListState,
+    paging: LazyPagingItems<MemberQuotesResponse>, navigate: Navigate,
+    onAction: (Contract) -> Unit,
+) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .background(FillsaTheme.colorScheme.background)
             .padding(horizontal = 20.dp)
             .noEffectClickable {
-                viewModel.handleContract(QuoteListAction.ClickOutside)
+                onAction(QuoteListAction.ClickOutside)
             }
     ) {
 
@@ -95,7 +128,7 @@ fun QuoteListView(
                     modifier = Modifier
                         .padding(top = 20.dp)
                         .noEffectClickable {
-                            viewModel.handleContract(QuoteListAction.ClickDateSection)
+                            onAction(QuoteListAction.ClickDateSection)
                         }
                 )
             }.firstOrNull()?.measure(constraints)
@@ -104,7 +137,7 @@ fun QuoteListView(
                 DurationCalendarSection(
                     startDate = state.startDate,
                     endDate = state.endDate,
-                    selectDate = viewModel::handleContract,
+                    selectDate = onAction,
                     displayCalendar = state.displayCalendar,
                     modifier = Modifier.padding(top = 10.dp)
                 )
@@ -115,7 +148,7 @@ fun QuoteListView(
                     modifier = Modifier.padding(top = 20.dp),
                     isLike = state.likeFilter,
                     setIsLike = {
-                        viewModel.handleContract(QuoteListAction.UpdateLikeFilter(it))
+                        onAction(QuoteListAction.UpdateLikeFilter(it))
                     }
                 )
             }.firstOrNull()?.measure(constraints)
@@ -128,7 +161,7 @@ fun QuoteListView(
                 QuoteListSection(
                     paging,
                     handleContract = {
-                        viewModel.handleContract(it)
+                        onAction(it)
                     }
                 )
             }.firstOrNull()
@@ -156,27 +189,5 @@ fun QuoteListView(
             }
         }
 
-    }
-}
-
-@Composable
-private fun QuoteListSection(
-    paging: LazyPagingItems<MemberQuotesResponse>,
-    handleContract: (Contract) -> Unit,
-    modifier: Modifier = Modifier
-) {
-    if (paging.itemCount == 0) {
-        QuoteListEmptySection(
-            modifier = modifier
-        )
-    } else {
-
-        QuoteListSection(
-            modifier = modifier.padding(top = 10.dp),
-            list = paging,
-            onClick = {
-                handleContract(QuoteListAction.ClickItem(it))
-            }
-        )
     }
 }

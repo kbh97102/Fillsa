@@ -83,6 +83,18 @@ fun MemoInsertView(
         }
     }
 
+    MemoInsertContent(memo, { memo = it }, popBackStack, { viewModel.handleContract(CommonAction.PopBackStack) }, darkMode)
+
+}
+
+@Composable
+internal fun MemoInsertContent(
+    memo: String, onMemoChanged: (String) -> Unit, popBackStack: (String) -> Unit,
+    onBack: () -> Unit, darkMode: Boolean = IsDarkMode.current,
+) {
+    val black = colorResource(R.color.gray_700)
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val typingSectionFocusRequester = remember { FocusRequester() }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -105,7 +117,7 @@ fun MemoInsertView(
             contentDescription = null,
             modifier = Modifier
                 .padding(vertical = 9.dp)
-                .noEffectClickable { viewModel.handleContract(CommonAction.PopBackStack) },
+                .noEffectClickable { onBack() },
             colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
         )
 
@@ -117,7 +129,7 @@ fun MemoInsertView(
                     .weight(1f),
                 value = memo,
                 onValueChange = {
-                    memo = it
+                    onMemoChanged(it)
                 },
                 textStyle = FillsaTheme.typography.body1
                     .copy(
@@ -167,5 +179,4 @@ fun MemoInsertView(
         }
 
     }
-
 }

@@ -27,3 +27,35 @@
 - track은 `#D3D5FF`, 진행 arc는 `#5C65FF`, stroke는 12dp, 끝은 round cap이다.
 - 로딩 중 하위 화면 입력을 차단하고 접근성에는 indeterminate progress로 노출한다.
 - 화면 진입 시 발생하는 Home, Calendar, Typing, Login API와 QuoteList/Notice 최초 Paging refresh에 전역 로딩을 연결한다. 좋아요·답변·이미지·메모·광고처럼 화면 전환과 무관한 background/mutation 요청은 전역 overlay 범위에서 제외한다.
+
+
+## 전체 화면 대조 · 2026-10-25
+
+- 기준 페이지: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-3720
+- 범위: 현재 production UI 재사용 Preview. 시각 수정은 사용자 검토 후 별도 작업.
+- 조건: ko, fontScale 1.0, Light/Dark, 고정 fixture. Preview는 시스템 바·IME를 포함한 최종 승인이 아님.
+- QA 기록: [전체 화면 대조 보고서](../design-qa/2026-10-25-full-screen-audit.html)
+- 상태·크기·원본 이미지: [screen-map.json](../design-qa/artifacts/2026-10-25-full-screen-audit/screen-map.json)
+
+| 대상 노드 | production 컴포넌트 | 상태 / 책임 | 검증 상태 |
+|---|---|---|---|
+| 2929:5969 | CommonDialog | loading · Light | 조사 중 |
+| 2929:5975 | CommonDialog | error_popup · Light | 조사 중 |
+| 2929:6086 | CommonDialog | loading-dim 예시 · Light | 조사 중 |
+| 2929:6181 | CommonDialog | loading · Dark | 조사 중 |
+| 2929:6187 | CommonDialog | loading-dim 예시 · Dark | 조사 중 |
+| 2929:6283 | CommonDialog | error_popup · Dark | 조사 중 |
+| 2929:6397 | CommonDialog | update_popup · Light | 조사 중 |
+| 2929:6502 | CommonDialog | 알림_popup · Light | 조사 중 |
+| 2929:6626 | CommonDialog | update_popup · Dark | 조사 중 |
+| 2929:6747 | CommonDialog | 알림_popup · Dark | 조사 중 |
+| 2929:6610 | CommonDialog | notice_popup · Light | 조사 중 |
+| 2929:6732 | CommonDialog | notice_popup · Dark | 조사 중 |
+| 2929:6856 | CommonDialog | notice_popup · Dark | 조사 중 |
+
+### 팝업 Preview 표시 경계
+
+- `CommonDialogContent`, `DialogWIthImageContent`, `UpdateDialogContent`를 실제 Dialog의 content로 분리해 재사용한다. 런타임 DialogProperties와 callback은 유지한다.
+- `2929:5975/6283` → 네트워크 오류 `DialogWIthImageContent`; `2929:6397/6626/6610/6732` → `UpdateDialogContent`; `2929:6502/6747/6856` → 알림 안내 `DialogWIthImageContent`.
+- 로딩 프레임은 `CircleLoadingSpinner`, 로그인/탈퇴/이미지 삭제 팝업은 `CommonDialogContent`에 대응한다. 위 초기 후보 표의 일괄 CommonDialog 표기보다 이 연결과 최종 JSON을 우선한다.
+- Preview의 dim 0.6은 비교용 창 배경 근사치다. 실제 OS 창/그림자/시스템 바는 최종 검증을 별도로 수행한다.

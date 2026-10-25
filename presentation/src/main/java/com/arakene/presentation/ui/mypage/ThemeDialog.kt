@@ -70,7 +70,7 @@ fun ThemeDialog(
 }
 
 @Composable
-private fun ThemeDialogContent(
+internal fun ThemeDialogContent(
     selectedDarkModeType: DarkModeType,
     onSelect: (DarkModeType) -> Unit,
     onConfirm: () -> Unit,

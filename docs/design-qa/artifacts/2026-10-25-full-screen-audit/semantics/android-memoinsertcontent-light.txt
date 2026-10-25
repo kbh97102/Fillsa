@@ -1,0 +1,12 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 39, top: 0, right: 906, bottom: 1764)
+          View (left: 18, top: 3, right: 144, bottom: 129)
+          EditText (left: 52, top: 185, right: 422, bottom: 1606) text="기록한 메모"
+            View (left: 52, top: 154, right: 422, bottom: 280)
+          View (left: 52, top: 1623, right: 209, bottom: 1749)
+            TextView (left: 84, top: 1664, right: 177, bottom: 1708) text="나가기"
+            Button (left: 52, top: 1633, right: 209, bottom: 1738)
+

@@ -5,6 +5,7 @@ import com.arakene.data.util.safeApi
 import com.arakene.domain.repository.TypingRepository
 import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.MemberTypingQuoteResponse
+import com.arakene.domain.responses.TypingSaveResponse
 import com.arakene.domain.util.ApiResult
 import javax.inject.Inject
 
@@ -21,7 +22,7 @@ class TypingRepositoryImpl @Inject constructor(
     override suspend fun postTyping(
         dailyQuoteSeq: Int,
         request: TypingQuoteRequest
-    ): ApiResult<Int> {
+    ): ApiResult<TypingSaveResponse> {
         return safeApi {
             api.postTyping(dailyQuoteSeq, request)
         }

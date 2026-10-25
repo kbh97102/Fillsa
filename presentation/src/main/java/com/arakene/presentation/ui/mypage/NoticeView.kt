@@ -62,6 +62,18 @@ fun NoticeView(
     }
 
 
+    NoticeContent(data, viewModel::handleContract, modifier, darkMode)
+
+}
+
+
+@Composable
+internal fun NoticeContent(
+    data: androidx.paging.compose.LazyPagingItems<com.arakene.domain.responses.NoticeResponse>,
+    onAction: (com.arakene.presentation.util.Contract) -> Unit,
+    modifier: Modifier = Modifier, darkMode: Boolean = IsDarkMode.current,
+) {
+    val isEmpty = data.itemCount == 0
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -79,7 +91,7 @@ fun NoticeView(
         HeaderSection(
             modifier = Modifier.background(FillsaTheme.colorScheme.background),
             text = stringResource(R.string.notice),
-            onBackPress = { viewModel.handleContract(CommonAction.PopBackStack) }
+            onBackPress = { onAction(CommonAction.PopBackStack) }
         )
 
         Box(modifier = Modifier.padding(horizontal = 20.dp)) {
@@ -90,7 +102,7 @@ fun NoticeView(
                     modifier = Modifier.padding(top = 16.dp),
                     data = data,
                     onClick = {
-                        viewModel.handleContract(
+                        onAction(
                             CommonEffect.Move(
                                 MyPageScreens.NoticeDetail(
                                     it
@@ -103,5 +115,4 @@ fun NoticeView(
         }
 
     }
-
 }

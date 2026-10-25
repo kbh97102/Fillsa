@@ -1,0 +1,11 @@
+ComposeViewAdapter (left: 0, top: 0, right: 643, bottom: 302)
+  ComposeView (left: 0, top: 0, right: 643, bottom: 302)
+    View (left: 0, top: 0, right: 643, bottom: 302)
+      View (left: 21, top: 21, right: 622, bottom: 281)
+        View (left: 21, top: 0, right: 189, bottom: 124)
+        TextView (left: 189, top: 42, right: 331, bottom: 80) text="오늘의 문장"
+        View (left: 453, top: 0, right: 606, bottom: 124)
+          TextView (left: 453, top: 48, right: 606, bottom: 73) text="100일 연속 필사중"
+        TextView (left: 28, top: 129, right: 616, bottom: 167) text="진정한 용기는 두려움 속에서도 행동하는 것이다."
+        TextView (left: 244, top: 180, right: 400, bottom: 218) text="-넬슨 만델라"
+

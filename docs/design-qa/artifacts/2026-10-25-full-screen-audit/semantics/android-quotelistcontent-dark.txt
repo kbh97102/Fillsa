@@ -1,0 +1,28 @@
+ComposeViewAdapter (left: 0, top: 0, right: 945, bottom: 1764)
+  ComposeView (left: 0, top: 0, right: 945, bottom: 1764)
+    View (left: 0, top: 0, right: 945, bottom: 1764)
+      View (left: 0, top: 0, right: 945, bottom: 1764)
+        View (left: 53, top: 0, right: 892, bottom: 1764)
+          View (left: 53, top: 3, right: 892, bottom: 129)
+            View (left: 53, top: 3, right: 221, bottom: 129)
+            View (left: 798, top: 3, right: 924, bottom: 129)
+            View (left: 607, top: 0, right: 733, bottom: 124)
+            TextView (left: 696, top: 36, right: 808, bottom: 86) text="100일"
+          View (left: 53, top: 174, right: 892, bottom: 300)
+            View (left: 59, top: 174, right: 185, bottom: 300)
+            TextView (left: 174, top: 212, right: 636, bottom: 262) text="2026.08.01 - 2026.08.16"
+            View (left: 756, top: 174, right: 882, bottom: 300)
+          View (left: 636, top: 311, right: 892, bottom: 431)
+            View (left: 600, top: 311, right: 726, bottom: 431)
+            TextView (left: 700, top: 349, right: 808, bottom: 399) text="좋아요"
+            View (left: 798, top: 311, right: 924, bottom: 437)
+              View (left: 798, top: 311, right: 924, bottom: 437)
+          View (left: 53, top: 431, right: 892, bottom: 1764)
+            View (left: 53, top: 431, right: 446, bottom: 855)
+              View (left: 124, top: 419, right: 375, bottom: 545)
+                TextView (left: 129, top: 463, right: 295, bottom: 501) text="2026.08.16"
+                TextView (left: 321, top: 463, right: 370, bottom: 501) text="(일)"
+              View (left: 53, top: 533, right: 446, bottom: 855)
+              View (left: 53, top: 533, right: 446, bottom: 855)
+              TextView (left: 79, top: 559, right: 420, bottom: 776) text="상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+
