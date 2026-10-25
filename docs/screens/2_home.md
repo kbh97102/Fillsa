@@ -125,3 +125,14 @@ Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#61616
 - 확인 전에는 달력을 변경하지 않는다. 확인하면 표시 월만 바꾸고 달력은 유지한다. 경계 연도에서는 유효한 월만 제공하며 이전 월이 범위를 벗어나면 가까운 경계로 맞춘다. 날짜 선택 동작은 기존 경로를 사용한다.
 - 검증: API 35 / 360×720dp / density 160 / ko / fontScale 1. 컴포넌트 결정적 Preview → 전체 화면 런타임. QA 기록: [시스템 연월 선택기](../design-qa/2026-10-25-home-year-month-qa.md).
 - 후속 결과: 기능 구현 및 검증 완료. 단위 테스트160개/계측4개 통과, Preview Light·Dark 및 Release APK 에뮬레이터 전체 프레임 확인. 기존 달력의 Figma 외형 차이는 남아 있어 전체 UI 최종 승인은 미완료. [화면 포함 HTML 결과](../design-qa/2026-10-25-home-year-month-report.html).
+
+## 2026-10-25 홈 달력 연도·월 버튼 디자인 수정
+
+- Figma: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-16228
+- 대상: Light 헤더 `2929:16228`, Dark 헤더 `3039:28108`; 조립 프레임 Light `3139:1501` / Dark `3139:1753` (360×821).
+- 기준 이미지/명세: `docs/design-qa/artifacts/2026-10-25-home-calendar-header/figma-header-{light,dark}.{png,txt}` 및 `figma-full-{light,dark}.png`.
+- 컴포넌트: `HomeCalendarHeader`(224×32, 양쪽 이전/다음 버튼), `HomeCalendarSelector`(연도 65×32, 월 63×32, 간격 6), 원본 chevron 16×16 / 12×12.
+- 대상 상태: Light/Dark, 이전·다음 월 활성/비활성, 연도·월 버튼으로 시스템 선택기 진입·확인·취소. 고정 Preview 2026-08 / 선택일 2026-08-16 / 상한 2026-10-25, ko, fontScale 1.
+- 원인: 아이콘을 Unicode 글리프로 대체해 기준선에 따라 정렬이 어긋나며, 버튼 치수·간격도 Figma와 다름.
+- 검증 상태: 요청한 아이콘·중앙 정렬 수정 적용. 헤더/달력 Light·Dark CLI Preview 4개, API35 에뮬레이터 전체 프레임 및 시스템 선택기, 계측 테스트4개 확인. 기존 달력 본문·팝업 위치·플랫폼 영역 차이로 전체 화면 최종 Figma 승인은 미완료. 기존 전체 비교 HTML/증거는 보존했다.
+- QA 기록: [홈 달력 헤더 디자인](../design-qa/2026-10-25-home-calendar-header-qa.md).

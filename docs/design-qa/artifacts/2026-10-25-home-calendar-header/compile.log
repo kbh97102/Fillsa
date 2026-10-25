@@ -1,0 +1,64 @@
+Starting a Gradle Daemon, 1 incompatible Daemon could not be reused, use --status for details
+
+> Configure project :compose-util
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/compose-util/build.gradle.kts:27:19: 'jvmTarget: String' is deprecated. Please migrate to the compilerOptions DSL. More details are here: https://kotl.in/u1r8ln
+
+> Configure project :data
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/data/build.gradle.kts:22:9: 'targetSdk: Int?' is deprecated. Will be removed from library DSL in v9.0. Use testOptions.targetSdk or/and lint.targetSdk instead
+
+> Configure project :domain
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/domain/build.gradle.kts:13:9: 'targetSdk: Int?' is deprecated. Will be removed from library DSL in v9.0. Use testOptions.targetSdk or/and lint.targetSdk instead
+
+> Configure project :presentation
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/build.gradle.kts:25:9: 'targetSdk: Int?' is deprecated. Will be removed from library DSL in v9.0. Use testOptions.targetSdk or/and lint.targetSdk instead
+The google-services Gradle plugin needs to be applied on a project with com.android.application or com.android.dynamic-feature.
+
+> Task :compose-util:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compose-util:preBuild UP-TO-DATE
+> Task :compose-util:preDebugBuild UP-TO-DATE
+> Task :compose-util:generateDebugResValues UP-TO-DATE
+> Task :compose-util:generateDebugResources UP-TO-DATE
+> Task :compose-util:packageDebugResources UP-TO-DATE
+> Task :compose-util:parseDebugLocalResources UP-TO-DATE
+> Task :compose-util:generateDebugRFile UP-TO-DATE
+> Task :compose-util:javaPreCompileDebug UP-TO-DATE
+> Task :domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:preBuild UP-TO-DATE
+> Task :domain:preDebugBuild UP-TO-DATE
+> Task :domain:generateDebugBuildConfig UP-TO-DATE
+> Task :domain:generateDebugResValues UP-TO-DATE
+> Task :domain:generateDebugResources UP-TO-DATE
+> Task :domain:packageDebugResources UP-TO-DATE
+> Task :domain:parseDebugLocalResources UP-TO-DATE
+> Task :domain:generateDebugRFile UP-TO-DATE
+> Task :domain:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:preBuild UP-TO-DATE
+> Task :presentation:preDebugBuild UP-TO-DATE
+> Task :presentation:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :presentation:generateDebugResValues UP-TO-DATE
+> Task :presentation:generateDebugResources
+> Task :presentation:packageDebugResources
+> Task :presentation:generateDebugBuildConfig UP-TO-DATE
+> Task :compose-util:compileDebugKotlin
+> Task :compose-util:compileDebugJavaWithJavac NO-SOURCE
+> Task :compose-util:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:parseDebugLocalResources
+> Task :domain:compileDebugKotlin
+> Task :presentation:dataBindingGenBaseClassesDebug
+> Task :domain:compileDebugJavaWithJavac
+> Task :domain:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:generateDebugRFile
+> Task :presentation:kspDebugKotlin
+> Task :presentation:kaptGenerateStubsDebugKotlin
+> Task :presentation:kaptDebugKotlin SKIPPED
+
+> Task :presentation:compileDebugKotlin
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/ListViewModel.kt:78:7 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/LoginViewModel.kt:90:13 'when' is exhaustive so 'else' is redundant here.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/LoginViewModel.kt:281:29 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Date?'.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/MyPageViewModel.kt:81:13 'when' is exhaustive so 'else' is redundant here.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/TypingViewModel.kt:109:13 'when' is exhaustive so 'else' is redundant here.
+
+BUILD SUCCESSFUL in 26s
+29 actionable tasks: 11 executed, 18 up-to-date

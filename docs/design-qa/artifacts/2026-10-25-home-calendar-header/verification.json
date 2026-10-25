@@ -1,0 +1,19 @@
+{
+  "requestScope": "Home inline calendar header icons and alignment",
+  "preview": "4 previews rendered and inspected: header / calendar × Light / Dark",
+  "runtime": "emulator-5554 API35, 360x821 px/dp, density160, ko, fontScale1, guest; Light/Dark and year/month picker inspected",
+  "instrumentation": "HomeYearMonthDialogTest: OK (4 tests)",
+  "builds": [
+    "presentation Debug and Release Kotlin",
+    "app Debug and Release APK",
+    "presentation Debug AndroidTest APK"
+  ],
+  "originalReportFilesUnchanged": 415,
+  "sourceHashes": {
+    "presentation/src/main/java/com/arakene/presentation/ui/home/HomeInlineCalendar.kt": "02406ab458c89ed5aea81ac4a0fe7437d86434d5bd0743f8552a19f64f644758",
+    "app/build/outputs/apk/release/app-release.apk": "b70a4f3b2f8514a480331a1a3b217420b1188488a5ac5f36aad053f5c84accd5"
+  },
+  "finalFullScreenFigmaAcceptance": "Blocked: pre-existing calendar body, placement, platform bars and live data/ad differences outside requested header scope",
+  "previewCacheFix": "Backed up 26 obsolete HomeInlineCalendar Fast Preview overlay classes; CLI then loaded current Gradle outputs",
+  "runtimeSettingsRestored": "night=no; wm size=360x720; density remains160"
+}

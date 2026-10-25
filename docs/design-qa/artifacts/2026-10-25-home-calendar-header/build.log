@@ -1,0 +1,224 @@
+
+> Configure project :presentation
+The google-services Gradle plugin needs to be applied on a project with com.android.application or com.android.dynamic-feature.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :compose-util:preBuild UP-TO-DATE
+> Task :compose-util:preDebugBuild UP-TO-DATE
+> Task :compose-util:writeDebugAarMetadata UP-TO-DATE
+> Task :data:preBuild UP-TO-DATE
+> Task :data:preDebugBuild UP-TO-DATE
+> Task :data:writeDebugAarMetadata UP-TO-DATE
+> Task :domain:preBuild UP-TO-DATE
+> Task :domain:preDebugBuild UP-TO-DATE
+> Task :domain:writeDebugAarMetadata UP-TO-DATE
+> Task :presentation:preBuild UP-TO-DATE
+> Task :presentation:preDebugBuild UP-TO-DATE
+> Task :presentation:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:injectCrashlyticsMappingFileIdDebug UP-TO-DATE
+> Task :app:processDebugGoogleServices UP-TO-DATE
+> Task :compose-util:generateDebugResValues UP-TO-DATE
+> Task :compose-util:generateDebugResources UP-TO-DATE
+> Task :compose-util:packageDebugResources UP-TO-DATE
+> Task :data:generateDebugResValues UP-TO-DATE
+> Task :data:generateDebugResources UP-TO-DATE
+> Task :data:packageDebugResources UP-TO-DATE
+> Task :domain:generateDebugResValues UP-TO-DATE
+> Task :domain:generateDebugResources UP-TO-DATE
+> Task :domain:packageDebugResources UP-TO-DATE
+> Task :presentation:generateDebugResValues UP-TO-DATE
+> Task :presentation:generateDebugResources UP-TO-DATE
+> Task :presentation:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:mergeDebugResources
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :compose-util:extractDeepLinksDebug UP-TO-DATE
+> Task :compose-util:processDebugManifest UP-TO-DATE
+> Task :data:extractDeepLinksDebug UP-TO-DATE
+> Task :data:processDebugManifest UP-TO-DATE
+> Task :domain:extractDeepLinksDebug UP-TO-DATE
+> Task :domain:processDebugManifest UP-TO-DATE
+> Task :presentation:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:processDebugManifest UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :compose-util:compileDebugLibraryResources UP-TO-DATE
+> Task :compose-util:parseDebugLocalResources UP-TO-DATE
+> Task :compose-util:generateDebugRFile UP-TO-DATE
+> Task :data:compileDebugLibraryResources UP-TO-DATE
+> Task :data:parseDebugLocalResources UP-TO-DATE
+> Task :data:generateDebugRFile UP-TO-DATE
+> Task :domain:compileDebugLibraryResources UP-TO-DATE
+> Task :domain:parseDebugLocalResources UP-TO-DATE
+> Task :domain:generateDebugRFile UP-TO-DATE
+> Task :presentation:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:generateDebugRFile UP-TO-DATE
+> Task :data:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:generateDebugBuildConfig UP-TO-DATE
+> Task :domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:generateDebugBuildConfig UP-TO-DATE
+> Task :domain:compileDebugKotlin UP-TO-DATE
+> Task :domain:javaPreCompileDebug UP-TO-DATE
+> Task :domain:compileDebugJavaWithJavac UP-TO-DATE
+> Task :presentation:compileDebugLibraryResources
+> Task :domain:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:javaPreCompileDebug UP-TO-DATE
+> Task :compose-util:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compose-util:compileDebugKotlin UP-TO-DATE
+> Task :compose-util:javaPreCompileDebug UP-TO-DATE
+> Task :compose-util:compileDebugJavaWithJavac NO-SOURCE
+> Task :compose-util:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :compose-util:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :domain:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :presentation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :presentation:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :presentation:generateDebugBuildConfig UP-TO-DATE
+> Task :presentation:kspDebugKotlin UP-TO-DATE
+> Task :presentation:kaptGenerateStubsDebugKotlin UP-TO-DATE
+> Task :presentation:kaptDebugKotlin SKIPPED
+> Task :presentation:compileDebugKotlin UP-TO-DATE
+> Task :presentation:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:compileDebugJavaWithJavac
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:mergeDebugShaders UP-TO-DATE
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :compose-util:mergeDebugShaders UP-TO-DATE
+> Task :compose-util:compileDebugShaders NO-SOURCE
+> Task :compose-util:generateDebugAssets UP-TO-DATE
+> Task :compose-util:mergeDebugAssets UP-TO-DATE
+> Task :data:mergeDebugShaders UP-TO-DATE
+> Task :data:compileDebugShaders NO-SOURCE
+> Task :data:generateDebugAssets UP-TO-DATE
+> Task :data:mergeDebugAssets UP-TO-DATE
+> Task :domain:mergeDebugShaders UP-TO-DATE
+> Task :domain:compileDebugShaders NO-SOURCE
+> Task :domain:generateDebugAssets UP-TO-DATE
+> Task :domain:mergeDebugAssets UP-TO-DATE
+> Task :presentation:mergeDebugShaders UP-TO-DATE
+> Task :presentation:compileDebugShaders NO-SOURCE
+> Task :presentation:generateDebugAssets UP-TO-DATE
+> Task :presentation:mergeDebugAssets
+> Task :presentation:transformDebugClassesWithAsm
+> Task :app:mergeDebugAssets
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:compressDebugAssets
+> Task :compose-util:processDebugJavaRes UP-TO-DATE
+> Task :domain:processDebugJavaRes UP-TO-DATE
+> Task :presentation:processDebugJavaRes UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :presentation:bundleLibCompileToJarDebug
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :presentation:bundleLibRuntimeToJarDebug
+> Task :domain:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :compose-util:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+> Task :compose-util:mergeDebugJniLibFolders UP-TO-DATE
+> Task :compose-util:mergeDebugNativeLibs NO-SOURCE
+> Task :compose-util:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :data:mergeDebugJniLibFolders UP-TO-DATE
+> Task :data:mergeDebugNativeLibs NO-SOURCE
+> Task :data:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :domain:mergeDebugJniLibFolders UP-TO-DATE
+> Task :domain:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :app:mergeDebugNativeLibs UP-TO-DATE
+> Task :app:stripDebugDebugSymbols UP-TO-DATE
+> Task :app:validateSigningDebug UP-TO-DATE
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+> Task :presentation:preDebugAndroidTestBuild UP-TO-DATE
+> Task :presentation:dataBindingMergeDependencyArtifactsDebugAndroidTest UP-TO-DATE
+> Task :presentation:generateDebugAndroidTestResValues UP-TO-DATE
+> Task :presentation:generateDebugAndroidTestResources UP-TO-DATE
+> Task :presentation:bundleLibRuntimeToDirDebug
+> Task :app:processDebugResources
+
+> Task :data:kspDebugKotlin
+w: [ksp] Schema export directory was not provided to the annotation processor so Room cannot export the schema. You can either provide `room.schemaLocation` annotation processor argument by applying the Room Gradle plugin (id 'androidx.room') OR set exportSchema to false.
+
+> Task :presentation:mergeDebugAndroidTestResources
+> Task :presentation:dataBindingGenBaseClassesDebugAndroidTest UP-TO-DATE
+> Task :presentation:processDebugAndroidTestManifest UP-TO-DATE
+> Task :presentation:generateDebugAndroidTestBuildConfig UP-TO-DATE
+> Task :presentation:checkDebugAndroidTestAarMetadata UP-TO-DATE
+> Task :presentation:mapDebugAndroidTestSourceSetPaths
+> Task :presentation:javaPreCompileDebugAndroidTest UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestShaders UP-TO-DATE
+> Task :presentation:compileDebugAndroidTestShaders NO-SOURCE
+> Task :presentation:generateDebugAndroidTestAssets UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestAssets
+> Task :presentation:desugarDebugAndroidTestFileDependencies UP-TO-DATE
+> Task :presentation:compressDebugAndroidTestAssets
+> Task :presentation:checkDebugAndroidTestDuplicateClasses UP-TO-DATE
+> Task :presentation:mergeExtDexDebugAndroidTest UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestJniLibFolders UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestNativeLibs UP-TO-DATE
+> Task :presentation:stripDebugAndroidTestDebugSymbols UP-TO-DATE
+> Task :presentation:validateSigningDebugAndroidTest UP-TO-DATE
+> Task :presentation:writeDebugAndroidTestSigningConfigVersions UP-TO-DATE
+> Task :data:kaptGenerateStubsDebugKotlin
+> Task :data:kaptDebugKotlin
+> Task :presentation:processDebugAndroidTestResources
+> Task :data:compileDebugKotlin
+> Task :presentation:kspDebugAndroidTestKotlin
+> Task :data:compileDebugJavaWithJavac
+> Task :data:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :data:processDebugJavaRes UP-TO-DATE
+> Task :data:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :presentation:kaptGenerateStubsDebugAndroidTestKotlin
+> Task :presentation:kaptDebugAndroidTestKotlin SKIPPED
+> Task :presentation:compileDebugAndroidTestKotlin
+> Task :presentation:compileDebugAndroidTestJavaWithJavac
+> Task :presentation:hiltAggregateDepsDebugAndroidTest UP-TO-DATE
+> Task :presentation:hiltJavaCompileDebugAndroidTest NO-SOURCE
+> Task :presentation:processDebugAndroidTestJavaRes UP-TO-DATE
+> Task :presentation:transformDebugAndroidTestClassesWithAsm
+> Task :presentation:dexBuilderDebugAndroidTest
+> Task :presentation:mergeDebugAndroidTestJavaResource
+> Task :presentation:mergeProjectDexDebugAndroidTest
+> Task :app:kspDebugKotlin
+> Task :app:kaptGenerateStubsDebugKotlin
+> Task :app:kaptDebugKotlin
+
+> Task :app:compileDebugKotlin
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/app/src/main/java/com/arakene/fillsa/modules/DBModule.kt:66:30 The corresponding parameter in the supertype 'Migration' is named 'db'. This may cause problems when calling this function with named arguments.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/app/src/main/java/com/arakene/fillsa/modules/DBModule.kt:101:30 The corresponding parameter in the supertype 'Migration' is named 'db'. This may cause problems when calling this function with named arguments.
+
+> Task :app:compileDebugJavaWithJavac
+> Task :app:hiltAggregateDepsDebug UP-TO-DATE
+> Task :app:hiltJavaCompileDebug
+> Task :app:processDebugJavaRes
+> Task :app:transformDebugClassesWithAsm
+> Task :presentation:mergeDebugAndroidTestGlobalSynthetics UP-TO-DATE
+> Task :app:mergeLibDexDebug
+> Task :app:mergeDebugJavaResource
+> Task :app:dexBuilderDebug
+> Task :app:mergeDebugGlobalSynthetics UP-TO-DATE
+> Task :presentation:mergeLibDexDebugAndroidTest
+> Task :app:mergeProjectDexDebug
+> Task :presentation:packageDebugAndroidTest
+> Task :presentation:createDebugAndroidTestApkListingFileRedirect UP-TO-DATE
+> Task :presentation:assembleDebugAndroidTest
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+
+BUILD SUCCESSFUL in 16s
+171 actionable tasks: 46 executed, 125 up-to-date

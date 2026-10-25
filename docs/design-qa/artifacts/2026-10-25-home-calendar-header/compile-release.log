@@ -1,0 +1,53 @@
+
+> Configure project :presentation
+The google-services Gradle plugin needs to be applied on a project with com.android.application or com.android.dynamic-feature.
+
+> Task :compose-util:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compose-util:preBuild UP-TO-DATE
+> Task :compose-util:preReleaseBuild UP-TO-DATE
+> Task :compose-util:generateReleaseResValues UP-TO-DATE
+> Task :compose-util:generateReleaseResources UP-TO-DATE
+> Task :compose-util:packageReleaseResources UP-TO-DATE
+> Task :compose-util:parseReleaseLocalResources UP-TO-DATE
+> Task :compose-util:generateReleaseRFile UP-TO-DATE
+> Task :compose-util:javaPreCompileRelease UP-TO-DATE
+> Task :domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:preBuild UP-TO-DATE
+> Task :domain:preReleaseBuild UP-TO-DATE
+> Task :domain:generateReleaseBuildConfig UP-TO-DATE
+> Task :domain:generateReleaseResValues UP-TO-DATE
+> Task :domain:generateReleaseResources UP-TO-DATE
+> Task :domain:packageReleaseResources UP-TO-DATE
+> Task :domain:parseReleaseLocalResources UP-TO-DATE
+> Task :domain:generateReleaseRFile UP-TO-DATE
+> Task :domain:javaPreCompileRelease UP-TO-DATE
+> Task :presentation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:preBuild UP-TO-DATE
+> Task :presentation:preReleaseBuild UP-TO-DATE
+> Task :presentation:dataBindingMergeDependencyArtifactsRelease UP-TO-DATE
+> Task :presentation:generateReleaseResValues UP-TO-DATE
+> Task :presentation:generateReleaseResources
+> Task :presentation:packageReleaseResources
+> Task :presentation:generateReleaseBuildConfig UP-TO-DATE
+> Task :presentation:parseReleaseLocalResources
+> Task :presentation:dataBindingGenBaseClassesRelease
+> Task :presentation:generateReleaseRFile
+> Task :compose-util:compileReleaseKotlin
+> Task :compose-util:compileReleaseJavaWithJavac NO-SOURCE
+> Task :compose-util:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :domain:compileReleaseKotlin
+> Task :domain:compileReleaseJavaWithJavac
+> Task :domain:bundleLibCompileToJarRelease UP-TO-DATE
+> Task :presentation:kspReleaseKotlin
+> Task :presentation:kaptGenerateStubsReleaseKotlin
+> Task :presentation:kaptReleaseKotlin SKIPPED
+
+> Task :presentation:compileReleaseKotlin
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/ListViewModel.kt:78:7 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/LoginViewModel.kt:90:13 'when' is exhaustive so 'else' is redundant here.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/LoginViewModel.kt:281:29 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Date?'.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/MyPageViewModel.kt:81:13 'when' is exhaustive so 'else' is redundant here.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/TypingViewModel.kt:109:13 'when' is exhaustive so 'else' is redundant here.
+
+BUILD SUCCESSFUL in 8s
+29 actionable tasks: 11 executed, 18 up-to-date

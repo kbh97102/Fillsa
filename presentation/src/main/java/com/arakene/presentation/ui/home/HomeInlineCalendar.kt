@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
@@ -21,9 +22,17 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.PlatformTextStyle
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -31,6 +40,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.arakene.presentation.R
 import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.ui.theme.FillsaTheme
 import com.arakene.presentation.util.DateCondition
@@ -104,30 +115,14 @@ internal fun HomeInlineCalendar(
             .border(1.dp, Color(0xFFE7E1D6), RoundedCornerShape(10.dp))
             // Consume empty-area taps so the sibling backdrop does not dismiss the calendar.
             .pointerInput(Unit) { detectTapGestures { } }
-            .padding(horizontal = 13.dp, vertical = 11.dp),
+            .padding(12.dp),
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().height(37.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            HomeCalendarArrow("‹", enabled = displayedMonth > DateCondition.startMonth) {
-                onMonthChanged(displayedMonth.minusMonths(1))
-            }
-            Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                HomeCalendarSelector(displayedMonth.year.toString(), width = 65.dp.takeIf { darkMode }, darkMode = darkMode) {
-                    isMonthPickerOpen = true
-                }
-                HomeCalendarSelector(
-                    displayedMonth.monthValue.toString().padStart(2, '0'),
-                    width = 61.dp.takeIf { darkMode },
-                    darkMode = darkMode,
-                ) { isMonthPickerOpen = true }
-            }
-            HomeCalendarArrow("›", enabled = isHomeCalendarNextMonthEnabled(displayedMonth, referenceDate)) {
-                onMonthChanged(displayedMonth.plusMonths(1))
-            }
-        }
+        HomeCalendarHeader(
+            displayedMonth = displayedMonth,
+            referenceDate = referenceDate,
+            onMonthChanged = onMonthChanged,
+            onSelectYearMonth = { isMonthPickerOpen = true },
+        )
         Row(modifier = Modifier.fillMaxWidth().padding(top = if (darkMode) 16.dp else 8.dp)) {
             listOf("일", "월", "화", "수", "목", "금", "토").forEach { day ->
                 Text(
@@ -180,33 +175,102 @@ internal fun HomeInlineCalendar(
 }
 
 @Composable
-private fun HomeCalendarArrow(label: String, enabled: Boolean, onClick: () -> Unit) {
-    Text(
-        text = label,
-        style = FillsaTheme.typography.subtitle1,
-        color = if (enabled) Color(0xFF212121) else Color(0xFFBDBDBD),
-        textAlign = TextAlign.Center,
-        modifier = Modifier.size(28.dp).noEffectClickable(enable = enabled, click = onClick),
-    )
+private fun HomeCalendarHeader(
+    displayedMonth: YearMonth,
+    referenceDate: LocalDate,
+    onMonthChanged: (YearMonth) -> Unit,
+    onSelectYearMonth: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth().height(32.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        HomeCalendarArrow(R.drawable.home_calendar_chevron_left, "이전 달",
+            enabled = displayedMonth > DateCondition.startMonth) {
+            onMonthChanged(displayedMonth.minusMonths(1))
+        }
+        Row(
+            modifier = Modifier.weight(1f),
+            horizontalArrangement = Arrangement.spacedBy(6.dp, Alignment.CenterHorizontally),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            HomeCalendarSelector(displayedMonth.year.toString(), 65.dp, TextAlign.Center, onSelectYearMonth)
+            HomeCalendarSelector(displayedMonth.monthValue.toString().padStart(2, '0'), 63.dp, TextAlign.Start, onSelectYearMonth)
+        }
+        HomeCalendarArrow(R.drawable.home_calendar_chevron_right, "다음 달",
+            enabled = isHomeCalendarNextMonthEnabled(displayedMonth, referenceDate)) {
+            onMonthChanged(displayedMonth.plusMonths(1))
+        }
+    }
 }
 
 @Composable
-private fun HomeCalendarSelector(value: String, width: Dp?, darkMode: Boolean, onClick: () -> Unit) {
+private fun HomeCalendarArrow(icon: Int, description: String, enabled: Boolean, onClick: () -> Unit) {
+    Box(
+        modifier = Modifier.size(32.dp)
+            .noEffectClickable(enable = enabled, click = onClick)
+            .semantics { role = Role.Button },
+        contentAlignment = Alignment.Center,
+    ) {
+        Image(
+            painter = painterResource(icon),
+            contentDescription = description,
+            modifier = Modifier.size(16.dp).alpha(if (enabled) 1f else 0.3f),
+        )
+    }
+}
+
+@Composable
+private fun HomeCalendarSelector(value: String, width: Dp, textAlign: TextAlign, onClick: () -> Unit) {
     Row(
         modifier = Modifier
-            .then(width?.let { Modifier.width(it) } ?: Modifier)
-            .height(31.dp)
-            .clip(RoundedCornerShape(7.dp))
+            .width(width)
+            .height(32.dp)
+            .shadow(1.dp, RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(8.dp))
             .background(Color.White)
-            .border(1.dp, Color(0xFFE7E1D6), RoundedCornerShape(7.dp))
+            .border(1.dp, Color(0xFFE5E5E5), RoundedCornerShape(8.dp))
             .noEffectClickable(click = onClick)
             .semantics { role = Role.Button }
-            .padding(horizontal = 10.dp),
+            .padding(start = 8.dp, end = 4.dp),
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        val style = if (darkMode) FillsaTheme.typography.body3 else FillsaTheme.typography.body4
-        Text(value, style = style, color = Color(0xFF212121))
-        Text("⌄", style = style, color = Color(0xFF77736D), modifier = Modifier.padding(start = 4.dp))
+        Text(
+            text = value,
+            style = TextStyle(
+                fontFamily = FontFamily(Font(R.font.inter_variable, FontWeight.Medium)),
+                fontWeight = FontWeight.Medium,
+                fontSize = 14.sp,
+                lineHeight = 20.sp,
+                platformStyle = PlatformTextStyle(includeFontPadding = false),
+            ),
+            color = Color(0xFF0A0A0A),
+            textAlign = textAlign,
+            maxLines = 1,
+            modifier = Modifier.weight(1f),
+        )
+        Image(
+            painter = painterResource(R.drawable.home_calendar_chevron_down),
+            contentDescription = null,
+            modifier = Modifier.size(12.dp),
+        )
+    }
+}
+
+@Preview(widthDp = 224, heightDp = 36, locale = "ko", fontScale = 1f, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_NO, showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun HomeCalendarHeaderLightPreview() {
+    FillsaTheme {
+        HomeCalendarHeader(YearMonth.of(2026, 8), LocalDate.of(2026, 10, 25), {}, {})
+    }
+}
+
+@Preview(widthDp = 224, heightDp = 36, locale = "ko", fontScale = 1f, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES, showBackground = true, backgroundColor = 0xFFFFFFFF)
+@Composable
+private fun HomeCalendarHeaderDarkPreview() {
+    FillsaTheme(darkTheme = true) {
+        HomeCalendarHeader(YearMonth.of(2026, 8), LocalDate.of(2026, 10, 25), {}, {})
     }
 }
 

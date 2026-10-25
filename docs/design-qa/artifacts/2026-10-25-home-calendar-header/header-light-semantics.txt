@@ -1,0 +1,17 @@
+ComposeViewAdapter (left: 0, top: 0, right: 588, bottom: 95)
+  ComposeView (left: 0, top: 0, right: 588, bottom: 95)
+    View (left: 0, top: 0, right: 588, bottom: 95)
+      View (left: 0, top: 0, right: 105, bottom: 95)
+        View (left: 21, top: 27, right: 63, bottom: 69)
+        Button (left: 0, top: 6, right: 84, bottom: 90)
+      View (left: 118, top: 0, right: 289, bottom: 95)
+        TextView (left: 139, top: 26, right: 235, bottom: 71) text="2026"
+        View (left: 199, top: 0, right: 305, bottom: 95)
+        Button (left: 118, top: 6, right: 289, bottom: 90)
+      View (left: 305, top: 0, right: 470, bottom: 95)
+        TextView (left: 326, top: 26, right: 416, bottom: 71) text="08"
+        View (left: 380, top: 0, right: 483, bottom: 95)
+        Button (left: 305, top: 6, right: 470, bottom: 90)
+      View (left: 483, top: 0, right: 588, bottom: 95)
+        View (left: 525, top: 27, right: 567, bottom: 69)
+        Button (left: 504, top: 6, right: 588, bottom: 90)
