@@ -1,0 +1,207 @@
+
+> Configure project :presentation
+The google-services Gradle plugin needs to be applied on a project with com.android.application or com.android.dynamic-feature.
+
+> Task :app:clean
+> Task :compose-util:clean
+> Task :data:clean
+> Task :domain:clean
+> Task :presentation:clean
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateDebugBuildConfig
+> Task :compose-util:preBuild UP-TO-DATE
+> Task :compose-util:preDebugBuild UP-TO-DATE
+> Task :data:preBuild UP-TO-DATE
+> Task :data:preDebugBuild UP-TO-DATE
+> Task :compose-util:writeDebugAarMetadata
+> Task :domain:preBuild UP-TO-DATE
+> Task :domain:preDebugBuild UP-TO-DATE
+> Task :data:writeDebugAarMetadata
+> Task :presentation:preBuild UP-TO-DATE
+> Task :presentation:preDebugBuild UP-TO-DATE
+> Task :domain:writeDebugAarMetadata
+> Task :presentation:writeDebugAarMetadata
+> Task :app:generateDebugResValues
+> Task :app:injectCrashlyticsMappingFileIdDebug
+> Task :app:processDebugGoogleServices
+> Task :compose-util:generateDebugResValues
+> Task :compose-util:generateDebugResources
+> Task :compose-util:packageDebugResources
+> Task :data:generateDebugResValues
+> Task :data:generateDebugResources
+> Task :app:checkDebugAarMetadata
+> Task :data:packageDebugResources
+> Task :domain:generateDebugResValues
+> Task :domain:generateDebugResources
+> Task :domain:packageDebugResources
+> Task :presentation:generateDebugResValues
+> Task :presentation:generateDebugResources
+> Task :presentation:packageDebugResources
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources
+> Task :app:packageDebugResources
+> Task :app:createDebugCompatibleScreenManifests
+> Task :app:extractDeepLinksDebug
+> Task :compose-util:extractDeepLinksDebug
+> Task :app:parseDebugLocalResources
+> Task :data:extractDeepLinksDebug
+> Task :compose-util:processDebugManifest
+> Task :domain:extractDeepLinksDebug
+> Task :data:processDebugManifest
+> Task :presentation:extractDeepLinksDebug
+> Task :domain:processDebugManifest
+> Task :presentation:processDebugManifest
+> Task :compose-util:compileDebugLibraryResources
+> Task :app:mergeDebugResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :compose-util:parseDebugLocalResources
+> Task :data:compileDebugLibraryResources
+> Task :compose-util:generateDebugRFile
+> Task :app:processDebugManifestForPackage
+> Task :data:parseDebugLocalResources
+> Task :domain:compileDebugLibraryResources
+> Task :domain:parseDebugLocalResources
+> Task :data:generateDebugRFile
+> Task :data:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:generateDebugBuildConfig
+> Task :domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:generateDebugRFile
+> Task :domain:generateDebugBuildConfig
+> Task :presentation:parseDebugLocalResources
+> Task :domain:javaPreCompileDebug
+> Task :presentation:generateDebugRFile
+> Task :presentation:compileDebugLibraryResources
+> Task :data:javaPreCompileDebug
+> Task :compose-util:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compose-util:javaPreCompileDebug
+> Task :presentation:dataBindingMergeDependencyArtifactsDebug
+> Task :presentation:generateDebugBuildConfig
+> Task :presentation:dataBindingGenBaseClassesDebug
+> Task :presentation:javaPreCompileDebug
+> Task :app:mergeDebugShaders
+> Task :app:compileDebugShaders NO-SOURCE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:javaPreCompileDebug
+> Task :compose-util:mergeDebugShaders
+> Task :compose-util:compileDebugShaders NO-SOURCE
+> Task :compose-util:generateDebugAssets UP-TO-DATE
+> Task :compose-util:mergeDebugAssets
+> Task :data:mergeDebugShaders
+> Task :data:compileDebugShaders NO-SOURCE
+> Task :data:generateDebugAssets UP-TO-DATE
+> Task :data:mergeDebugAssets
+> Task :domain:mergeDebugShaders
+> Task :domain:compileDebugShaders NO-SOURCE
+> Task :domain:generateDebugAssets UP-TO-DATE
+> Task :domain:mergeDebugAssets
+> Task :presentation:mergeDebugShaders
+> Task :presentation:compileDebugShaders NO-SOURCE
+> Task :presentation:generateDebugAssets UP-TO-DATE
+> Task :presentation:mergeDebugAssets
+> Task :app:mergeDebugAssets
+> Task :app:desugarDebugFileDependencies
+> Task :app:compressDebugAssets
+> Task :app:mergeDebugJniLibFolders
+> Task :compose-util:mergeDebugJniLibFolders
+> Task :compose-util:mergeDebugNativeLibs NO-SOURCE
+> Task :compose-util:copyDebugJniLibsProjectOnly
+> Task :data:mergeDebugJniLibFolders
+> Task :data:mergeDebugNativeLibs NO-SOURCE
+> Task :data:copyDebugJniLibsProjectOnly
+> Task :domain:mergeDebugJniLibFolders
+> Task :domain:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:copyDebugJniLibsProjectOnly
+> Task :presentation:mergeDebugJniLibFolders
+> Task :presentation:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:copyDebugJniLibsProjectOnly
+> Task :app:validateSigningDebug
+> Task :app:writeDebugAppMetadata
+> Task :app:writeDebugSigningConfigVersions
+> Task :presentation:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:mergeDebugNativeLibs
+> Task :app:checkDebugDuplicateClasses
+> Task :presentation:javaPreCompileDebugUnitTest
+> Task :presentation:generateDebugUnitTestStubRFile
+> Task :app:stripDebugDebugSymbols
+> Task :domain:compileDebugKotlin
+> Task :compose-util:compileDebugKotlin
+> Task :domain:compileDebugJavaWithJavac
+> Task :compose-util:compileDebugJavaWithJavac NO-SOURCE
+> Task :compose-util:bundleLibCompileToJarDebug
+> Task :compose-util:bundleLibRuntimeToJarDebug
+> Task :compose-util:processDebugJavaRes
+> Task :domain:bundleLibCompileToJarDebug
+> Task :domain:bundleLibRuntimeToJarDebug
+> Task :domain:processDebugJavaRes
+> Task :compose-util:bundleLibRuntimeToDirDebug
+> Task :domain:bundleLibRuntimeToDirDebug
+> Task :app:processDebugResources
+
+> Task :data:kspDebugKotlin
+w: [ksp] Schema export directory was not provided to the annotation processor so Room cannot export the schema. You can either provide `room.schemaLocation` annotation processor argument by applying the Room Gradle plugin (id 'androidx.room') OR set exportSchema to false.
+
+> Task :data:kaptGenerateStubsDebugKotlin
+> Task :data:kaptDebugKotlin
+> Task :data:compileDebugKotlin
+> Task :data:compileDebugJavaWithJavac
+> Task :data:processDebugJavaRes
+> Task :data:bundleLibCompileToJarDebug
+> Task :data:bundleLibRuntimeToJarDebug
+> Task :data:bundleLibRuntimeToDirDebug
+> Task :presentation:kspDebugKotlin
+> Task :presentation:kaptGenerateStubsDebugKotlin
+> Task :presentation:kaptDebugKotlin SKIPPED
+> Task :app:mergeExtDexDebug
+
+> Task :presentation:compileDebugKotlin
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/ListViewModel.kt:78:7 This declaration needs opt-in. Its usage should be marked with '@kotlinx.coroutines.ExperimentalCoroutinesApi' or '@OptIn(kotlinx.coroutines.ExperimentalCoroutinesApi::class)'
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/LoginViewModel.kt:90:13 'when' is exhaustive so 'else' is redundant here.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/LoginViewModel.kt:281:29 Only safe (?.) or non-null asserted (!!.) calls are allowed on a nullable receiver of type 'Date?'.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/MyPageViewModel.kt:81:13 'when' is exhaustive so 'else' is redundant here.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/src/main/java/com/arakene/presentation/viewmodel/TypingViewModel.kt:109:13 'when' is exhaustive so 'else' is redundant here.
+
+> Task :presentation:compileDebugJavaWithJavac
+> Task :presentation:processDebugJavaRes
+> Task :presentation:transformDebugClassesWithAsm
+> Task :presentation:bundleLibRuntimeToJarDebug
+> Task :presentation:bundleLibCompileToJarDebug
+> Task :presentation:bundleLibRuntimeToDirDebug
+> Task :presentation:kspDebugUnitTestKotlin
+> Task :presentation:kaptGenerateStubsDebugUnitTestKotlin
+> Task :presentation:kaptDebugUnitTestKotlin SKIPPED
+> Task :presentation:compileDebugUnitTestKotlin
+> Task :presentation:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :presentation:hiltAggregateDepsDebugUnitTest
+> Task :presentation:hiltJavaCompileDebugUnitTest NO-SOURCE
+> Task :presentation:processDebugUnitTestJavaRes
+> Task :presentation:transformDebugUnitTestClassesWithAsm
+> Task :app:kspDebugKotlin
+> Task :presentation:testDebugUnitTest
+> Task :app:kaptGenerateStubsDebugKotlin
+> Task :app:kaptDebugKotlin
+> Task :app:mergeLibDexDebug
+
+> Task :app:compileDebugKotlin
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/app/src/main/java/com/arakene/fillsa/modules/DBModule.kt:66:30 The corresponding parameter in the supertype 'Migration' is named 'db'. This may cause problems when calling this function with named arguments.
+w: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/app/src/main/java/com/arakene/fillsa/modules/DBModule.kt:101:30 The corresponding parameter in the supertype 'Migration' is named 'db'. This may cause problems when calling this function with named arguments.
+
+> Task :app:compileDebugJavaWithJavac
+> Task :app:hiltAggregateDepsDebug
+> Task :app:hiltJavaCompileDebug
+> Task :app:processDebugJavaRes
+> Task :app:transformDebugClassesWithAsm
+> Task :app:dexBuilderDebug
+> Task :app:mergeDebugGlobalSynthetics
+> Task :app:mergeProjectDexDebug
+> Task :app:mergeDebugJavaResource
+> Task :app:packageDebug
+> Task :app:createDebugApkListingFileRedirect
+> Task :app:assembleDebug
+
+BUILD SUCCESSFUL in 20s
+149 actionable tasks: 149 executed

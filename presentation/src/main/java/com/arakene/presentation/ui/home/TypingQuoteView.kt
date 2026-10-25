@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.home
 
+import android.content.res.Configuration
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -10,13 +11,16 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,6 +36,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -320,6 +325,7 @@ private fun TypingQuoteTopSection(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .height(50.dp)
             .padding(vertical = 7.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
@@ -334,13 +340,16 @@ private fun TypingQuoteTopSection(
             colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
         )
 
-        LocaleSwitch(
-            selected = locale,
-            setSelected = setLocale,
-            contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp),
-            textStyle = FillsaTheme.typography.buttonSmallNormal,
-            rootPadding = PaddingValues(horizontal = 4.dp, vertical = 3.dp)
-        )
+        // Approved Preview exclusion: Fast Preview emits an incompatible LocaleSwitch call.
+        if (!LocalInspectionMode.current) {
+            LocaleSwitch(
+                selected = locale,
+                setSelected = setLocale,
+                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp),
+                textStyle = FillsaTheme.typography.buttonSmallNormal,
+                rootPadding = PaddingValues(horizontal = 4.dp, vertical = 3.dp)
+            )
+        }
 
     }
 
@@ -357,16 +366,27 @@ private fun TypingQuoteTopSectionPreview() {
     )
 }
 
+@Preview(widthDp = 360, heightDp = 672, locale = "ko", fontScale = 1f,
+    uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
-@Preview
-private fun TypingQuoteViewPreview() {
-    TypingQuoteView(
-        DailyQuoteDto(
-            quote = "Live as if you were to die tomorrow."
-        ),
-        navigate = {},
-        backOnClick = {}
-    )
+private fun TypingQuoteLightPreview() = TypingQuotePreview(darkMode = false)
+
+@Preview(widthDp = 360, heightDp = 672, locale = "ko", fontScale = 1f,
+    uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun TypingQuoteDarkPreview() = TypingQuotePreview(darkMode = true)
+
+@Composable
+private fun TypingQuotePreview(darkMode: Boolean) = FillsaTheme(darkTheme = darkMode) {
+    CompositionLocalProvider(IsDarkMode provides darkMode) {
+        TypingQuoteContent(
+            data = DailyQuoteDto("상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."),
+            korTyping = TextFieldValue("상황을 가장 잘 "), engTyping = TextFieldValue(),
+            localeType = LocaleType.KOR, isLike = false, darkMode = darkMode,
+            onLocaleChanged = {}, onWriteChanged = {}, onBack = {}, onSave = {},
+            onShare = {}, onCopy = {}, onLikeChanged = {},
+        )
+    }
 }
 
 
@@ -385,7 +405,7 @@ internal fun TypingQuoteContent(
         modifier = Modifier
             .background(
                 if (darkMode) {
-                    colorResource(R.color.gray_600)
+                    colorResource(R.color.gray_700)
                 } else {
                     colorResource(R.color.white)
                 }
@@ -405,12 +425,16 @@ internal fun TypingQuoteContent(
         Column(
             modifier = Modifier
                 .padding(horizontal = 20.dp)
-                .padding(top = 28.dp)
                 .noEffectClickable {
                     typingSectionFocusRequester.requestFocus()
                     keyboardController?.show()
                 }
         ) {
+            TypingQuoteGuide(
+                modifier = Modifier.align(Alignment.CenterHorizontally).widthIn(max = 296.dp)
+            )
+            Spacer(Modifier.height(20.dp))
+
             TypingQuoteBodySection(
                 modifier = Modifier.focusRequester(focusRequester = typingSectionFocusRequester),
                 quote = if (localeType == LocaleType.KOR) {

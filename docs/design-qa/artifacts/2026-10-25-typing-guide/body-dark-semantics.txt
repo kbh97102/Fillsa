@@ -1,0 +1,6 @@
+ComposeViewAdapter (left: 0, top: 0, right: 840, bottom: 184)
+  ComposeView (left: 0, top: 0, right: 840, bottom: 184)
+    View (left: 0, top: 0, right: 840, bottom: 184)
+      View (left: 0, top: 0, right: 840, bottom: 184)
+        EditText (left: 0, top: 0, right: 840, bottom: 158)
+          TextView (left: 0, top: 0, right: 840, bottom: 158) text="상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."

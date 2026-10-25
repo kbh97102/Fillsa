@@ -1,0 +1,455 @@
+const imgIconArrow = "https://www.figma.com/api/mcp/asset/c90021bf-f2d7-4533-aaca-7ad559e5394c.svg";
+const imgRectangle = "https://www.figma.com/api/mcp/asset/6021643a-9905-4907-8d8f-29a30399cc51.svg";
+const imgSignal = "https://www.figma.com/api/mcp/asset/a7b880ca-2e97-4e9f-b61f-ec9adc958061.svg";
+const imgWifi = "https://www.figma.com/api/mcp/asset/0e34104a-da4e-42ac-adbe-3ba1a2dd13a2.svg";
+const imgGroup = "https://www.figma.com/api/mcp/asset/1fbdd40e-cce6-42a1-87d7-1ce8daad67e3.svg";
+const imgRectangle4 = "https://www.figma.com/api/mcp/asset/bd9605e9-827b-4efb-b4c1-b3dde7f7b660.svg";
+const imgLine3 = "https://www.figma.com/api/mcp/asset/3497e483-0502-4994-b2aa-dc59b5465872.svg";
+const imgLine4 = "https://www.figma.com/api/mcp/asset/88b8e80f-2a4f-417b-b70e-480466cc73d1.svg";
+const imgEllipse1 = "https://www.figma.com/api/mcp/asset/00becc44-f726-4350-a12e-4ef0f16d0c85.svg";
+const imgEllipse2 = "https://www.figma.com/api/mcp/asset/1d19e166-3e16-4b2e-ab76-b29617e2cb90.svg";
+const imgEllipse4 = "https://www.figma.com/api/mcp/asset/57e17362-c12f-4bc4-bbc4-c204f1b11f47.svg";
+const imgLine5 = "https://www.figma.com/api/mcp/asset/271f4624-12f6-41ad-859c-b41dbb633a4f.svg";
+const imgLine6 = "https://www.figma.com/api/mcp/asset/2ca65356-f2d6-4f67-94d9-c9b4bdb7ada0.svg";
+const imgVector1 = "https://www.figma.com/api/mcp/asset/652ce805-d0f9-4e21-8050-e6575cef95fc.svg";
+const imgPolygon1 = "https://www.figma.com/api/mcp/asset/b38d8668-c752-45c8-96b6-d276eebb192e.svg";
+const imgLine7 = "https://www.figma.com/api/mcp/asset/60c7de30-1920-4fcd-9585-f672f578dd91.svg";
+const imgRectangle25 = "https://www.figma.com/api/mcp/asset/c427cf47-8fb2-40e9-805b-d66cb6fa5418.svg";
+const imgEllipse5 = "https://www.figma.com/api/mcp/asset/fc5b68e6-13f7-46a1-bcaa-55c65b19d73b.svg";
+const imgGroup1 = "https://www.figma.com/api/mcp/asset/1cbb268b-dc3c-4aa9-9f65-57a0e24dbf5e.svg";
+const imgGroup1000007479 = "https://www.figma.com/api/mcp/asset/0b044a4f-97d7-4416-b5ac-d4b517573bad.svg";
+const imgMdiLightHeart = "https://www.figma.com/api/mcp/asset/ddfc717d-8d6c-45d9-98d4-e40becb14b2e.svg";
+const imgCharacterLightStateHandwriting = "https://www.figma.com/api/mcp/asset/ce4745cd-7a7b-425f-93e5-bb87356b90f3.svg";
+
+export default function Component23WriteToBe() {
+  return (
+    <div className="bg-[#212121] relative size-full" data-node-id="3087:28815" data-name="2-3. write-to be">
+      <div className="absolute h-[50px] left-0 overflow-clip top-[30px] w-[360px]" data-node-id="3087:28818" data-name="top_mobile">
+        <div className="absolute flex items-center justify-center left-[15px] size-[32px] top-[9px]" data-node-id="3087:28819">
+          <div className="flex-none rotate-180">
+            <div className="relative size-[32px]" data-name="icon_arrow">
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgIconArrow} />
+            </div>
+          </div>
+        </div>
+        <div className="-translate-x-1/2 absolute bg-[#d3d5ff] h-[36px] left-[calc(50%+130px)] overflow-clip rounded-[100px] top-[7px] w-[70px]" data-node-id="3087:28821" data-name="Toggle_off_S">
+          <div className="-translate-x-1/2 absolute bg-white h-[30px] left-[calc(50%-14px)] overflow-clip rounded-[100px] top-[3px] w-[34px]" data-node-id="3087:28822" data-name="Toggle_off_S">
+            <p className="[word-break:break-word] absolute font-['Pretendard:Bold'] leading-[normal] left-[calc(50%-6px)] not-italic text-[#212121] text-[14px] top-[calc(50%-8px)] whitespace-nowrap" data-node-id="3087:28823">
+              한
+            </p>
+          </div>
+          <p className="[word-break:break-word] absolute font-['Pretendard:Bold'] leading-[normal] left-[47px] not-italic text-[#212121] text-[14px] top-[calc(50%-8px)] whitespace-nowrap" data-node-id="3087:28824">
+            A
+          </p>
+        </div>
+      </div>
+      <div className="-translate-x-1/2 absolute h-[20px] left-1/2 top-[10px] w-[360px]" data-node-id="3087:28825" data-name="iOS/statusbar">
+        <div className="absolute contents right-[4.5px] top-[4.16px]" data-node-id="I3087:28825;4887:20504" data-name="battery">
+          <div className="absolute h-[11.5px] right-[4.5px] top-[4.16px] w-[24.5px]" data-node-id="I3087:28825;4887:20505" data-name="Rectangle">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgRectangle} />
+          </div>
+          <div className="absolute bg-black h-[7.667px] right-[9px] rounded-[1.6px] top-[6.08px] w-[18px]" data-node-id="I3087:28825;4887:20506" data-name="Rectangle" />
+        </div>
+        <div className="-translate-x-1/2 absolute contents left-[calc(50%+1.01px)] top-[3px]" data-node-id="I3087:28825;4887:20507" data-name="center">
+          <p className="-translate-x-1/2 [word-break:break-word] absolute font-['SF_Pro_Text:Semibold'] leading-[14px] left-[calc(50%+0.51px)] not-italic text-[12px] text-center text-white top-[3px] w-[49px]" data-node-id="I3087:28825;4887:20508">
+            9:41 AM
+          </p>
+        </div>
+        <div className="absolute contents left-[5px] top-[4px]" data-node-id="I3087:28825;4887:20509" data-name="container">
+          <div className="absolute h-[10px] left-[5px] top-[5px] w-[17px]" data-node-id="I3087:28825;4887:20510" data-name="signal">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgSignal} />
+          </div>
+          <div className="absolute h-[10.966px] left-[30px] top-[4px] w-[15.272px]" data-node-id="I3087:28825;4887:20511" data-name="wifi">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgWifi} />
+          </div>
+        </div>
+      </div>
+      <div className="-translate-x-1/2 absolute bg-white bottom-0 h-[323px] left-1/2 overflow-clip w-[360px]" data-node-id="3087:28826" data-name="Darkmode Keypad (Responsive)">
+        <div className="absolute bg-[#1c1f28] h-[323px] left-0 top-0 w-[375px]" data-node-id="3087:28827" data-name="Keypad" />
+        <div className="absolute bg-[rgba(217,217,217,0.05)] inset-[83.73%_70.55%_2.03%_20.65%] rounded-[5px]" data-node-id="3087:28828" />
+        <div className="absolute contents inset-[86.67%_74.19%_10.36%_24.19%]" data-node-id="3087:28829" data-name="Group">
+          <div className="absolute inset-[86.67%_74.19%_10.36%_24.19%]" data-node-id="3087:28830" data-name="Group">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup} />
+          </div>
+        </div>
+        <div className="absolute bg-[rgba(217,217,217,0.05)] inset-[65.94%_0.53%_19.81%_85.6%] opacity-0 rounded-[5px]" data-node-id="3087:28833" />
+        <div className="absolute inset-[69.97%_3.55%_24.02%_90.67%]" data-node-id="3087:28834">
+          <div className="absolute inset-[0_0_0_2.74%]">
+            <img alt="" className="block max-w-none size-full" src={imgRectangle4} />
+          </div>
+        </div>
+        <div className="absolute flex inset-[71.76%_4.88%_25.74%_93.27%] items-center justify-center" data-node-id="3087:28835" style={{ containerType: "size" }}>
+          <div className="flex-none h-[hypot(-9.54272cqw,9.54272cqh)] rotate-[50.49deg] skew-x-[10.98deg] w-[hypot(100cqw,100cqh)]">
+            <div className="relative size-full">
+              <div className="absolute inset-[-1px_0_0_0]">
+                <img alt="" className="block max-w-none size-full" src={imgLine3} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="absolute flex inset-[71.85%_4.7%_25.65%_93.44%] items-center justify-center" data-node-id="3087:28836" style={{ containerType: "size" }}>
+          <div className="flex-none h-[hypot(9.54272cqw,9.54272cqh)] rotate-[-50.49deg] skew-x-[-10.98deg] w-[hypot(100cqw,-100cqh)]">
+            <div className="relative size-full">
+              <div className="absolute inset-[-1px_0_0_0]">
+                <img alt="" className="block max-w-none size-full" src={imgLine4} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid h-[46px] left-[115px] rounded-[5px] top-[270px] w-[164px]" data-node-id="3087:28837" data-name="Space" />
+        <div className="absolute bg-[rgba(217,217,217,0.05)] inset-[83.73%_80.64%_2.03%_10.56%] rounded-[5px]" data-node-id="3087:28838" />
+        <div className="absolute inset-[89.36%_82.59%_5.68%_13.15%]" data-node-id="3087:28839">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse1} />
+        </div>
+        <div className="absolute inset-[91.02%_85.2%_8.48%_14.4%]" data-node-id="3087:28840">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse2} />
+        </div>
+        <div className="absolute inset-[91.02%_84.09%_8.48%_15.51%]" data-node-id="3087:28841">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse2} />
+        </div>
+        <div className="absolute inset-[91.64%_83.93%_6.73%_14.4%]" data-node-id="3087:28842">
+          <div className="absolute inset-[59.64%_1.35%_0_1.6%]">
+            <img alt="" className="block max-w-none size-full" src={imgEllipse4} />
+          </div>
+        </div>
+        <div className="absolute flex inset-[90.71%_8.65%_7.29%_89.87%] items-center justify-center" data-node-id="3087:28843" style={{ containerType: "size" }}>
+          <div className="flex-none h-[hypot(11.9284cqw,11.9284cqh)] rotate-[-50.49deg] skew-x-[-10.98deg] w-[hypot(100cqw,-100cqh)]">
+            <div className="relative size-full">
+              <div className="absolute inset-[-1px_0_0_0]">
+                <img alt="" className="block max-w-none size-full" src={imgLine5} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="absolute flex inset-[92.57%_8.92%_5.43%_89.6%] items-center justify-center" data-node-id="3087:28844" style={{ containerType: "size" }}>
+          <div className="flex-none h-[hypot(-11.9284cqw,11.9284cqh)] rotate-[50.49deg] skew-x-[10.98deg] w-[hypot(100cqw,100cqh)]">
+            <div className="relative size-full">
+              <div className="absolute inset-[-1px_0_0_0]">
+                <img alt="" className="block max-w-none size-full" src={imgLine6} />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="absolute inset-[88.85%_4.8%_7.43%_89.87%]" data-node-id="3087:28845">
+          <div className="absolute inset-[-4.17%_-2.53%_-4.17%_-2.6%]">
+            <img alt="" className="block max-w-none size-full" src={imgVector1} />
+          </div>
+        </div>
+        <div className="absolute bg-[rgba(217,217,217,0.05)] inset-[65.94%_88.53%_19.81%_2.67%] rounded-[5px]" data-node-id="3087:28846" />
+        <div className="absolute inset-[69.04%_89.89%_24.44%_4%]" data-node-id="3087:28847">
+          <div className="absolute inset-[3.7%_4.04%_0_4.04%]">
+            <img alt="" className="block max-w-none size-full" src={imgPolygon1} />
+          </div>
+        </div>
+        <div className="absolute inset-[76.74%_91.56%_23.26%_5.67%]" data-node-id="3087:28848">
+          <div className="absolute inset-[-1px_0_0_0]">
+            <img alt="" className="block max-w-none size-full" src={imgLine7} />
+          </div>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_90.64%_70.99%_0.56%] rounded-[5px]" data-node-id="3087:28849" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_93.7%_74.34%_4.07%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28850">
+          <p className="leading-[normal]">1</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_80.64%_70.99%_10.56%] rounded-[5px]" data-node-id="3087:28851" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_83.52%_74.34%_13.61%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28852">
+          <p className="leading-[normal]">2</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_70.64%_70.99%_20.56%] rounded-[5px]" data-node-id="3087:28853" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_73.52%_74.34%_23.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28854">
+          <p className="leading-[normal]">3</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_60.64%_70.99%_30.56%] rounded-[5px]" data-node-id="3087:28855" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_63.43%_74.34%_33.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28856">
+          <p className="leading-[normal]">4</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_50.64%_70.99%_40.56%] rounded-[5px]" data-node-id="3087:28857" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_53.52%_74.34%_43.61%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28858">
+          <p className="leading-[normal]">5</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_40.64%_70.99%_50.56%] rounded-[5px]" data-node-id="3087:28859" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_43.52%_74.34%_53.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28860">
+          <p className="leading-[normal]">6</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_30.64%_70.99%_60.56%] rounded-[5px]" data-node-id="3087:28861" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.15%_33.61%_74.22%_63.7%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28862">
+          <p className="leading-[normal]">7</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_20.64%_70.99%_70.56%] rounded-[5px]" data-node-id="3087:28863" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_23.52%_74.34%_73.61%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28864">
+          <p className="leading-[normal]">8</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_10.64%_70.99%_80.56%] rounded-[5px]" data-node-id="3087:28865" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_13.43%_74.34%_83.61%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28866">
+          <p className="leading-[normal]">9</p>
+        </div>
+        <div className="absolute bg-[#393941] border border-[#212121] border-solid inset-[14.77%_0.64%_70.99%_90.56%] rounded-[5px]" data-node-id="3087:28867" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[18.02%_3.43%_74.34%_93.61%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28868">
+          <p className="leading-[normal]">0</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_90.64%_55.72%_0.56%] rounded-[5px]" data-node-id="3087:28869" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.92%_93.06%_55.44%_3.33%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28870">
+          <p className="leading-[normal]">Q</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[32.04%_93.7%_63.08%_3.89%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28871">
+          <p className="leading-[normal]">%</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_80.64%_55.72%_10.56%] rounded-[5px]" data-node-id="3087:28872" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.92%_82.78%_55.44%_12.78%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28873">
+          <p className="leading-[normal]">W</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[32.04%_84.26%_63.08%_14.35%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28874">
+          <p className="leading-[normal]">^</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_70.64%_55.72%_20.56%] rounded-[5px]" data-node-id="3087:28875" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.92%_73.7%_55.44%_23.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28876">
+          <p className="leading-[normal]">E</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[32.04%_73.98%_63.08%_23.98%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28877">
+          <p className="leading-[normal]">~</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_60.64%_55.72%_30.56%] rounded-[5px]" data-node-id="3087:28878" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.92%_63.7%_55.44%_33.33%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28879">
+          <p className="leading-[normal]">R</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[32.04%_64.44%_63.08%_34.54%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28880">
+          <p className="leading-[normal]">|</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_50.64%_55.72%_40.56%] rounded-[5px]" data-node-id="3087:28881" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.67%_53.43%_55.69%_43.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28882">
+          <p className="leading-[normal]">T</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[31.79%_54.44%_63.33%_44.44%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28883">
+          <p className="leading-[normal]">[</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_40.64%_55.72%_50.56%] rounded-[5px]" data-node-id="3087:28884" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.67%_43.33%_55.69%_53.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28885">
+          <p className="leading-[normal]">Y</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[31.79%_44.26%_63.33%_54.63%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28886">
+          <p className="leading-[normal]">]</p>
+        </div>
+        <div className="absolute inset-[30.04%_30.64%_55.72%_60.56%]" data-node-id="3087:28887">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgRectangle25} />
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.67%_33.06%_55.69%_63.43%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28888">
+          <p className="leading-[normal]">U</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[31.79%_33.98%_63.33%_63.98%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28889">
+          <p className="leading-[normal]">{`<`}</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_20.64%_55.72%_70.56%] rounded-[5px]" data-node-id="3087:28890" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.67%_24.26%_55.69%_74.44%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28891">
+          <p className="leading-[normal]">I</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[31.79%_23.98%_63.33%_73.98%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28892">
+          <p className="leading-[normal]">{`>`}</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_10.64%_55.72%_80.56%] rounded-[5px]" data-node-id="3087:28893" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.67%_13.24%_55.69%_83.15%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28894">
+          <p className="leading-[normal]">O</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[32.04%_14.44%_63.08%_84.44%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28895">
+          <p className="leading-[normal]">{`{`}</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[30.04%_0.64%_55.72%_90.56%] rounded-[5px]" data-node-id="3087:28896" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[36.67%_3.52%_55.69%_93.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28897">
+          <p className="leading-[normal]">P</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[32.04%_4.44%_63.08%_94.44%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28898">
+          <p className="leading-[normal]">{`}`}</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_5.64%_37.82%_85.56%] rounded-[5px]" data-node-id="3087:28899" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.82%_8.8%_37.55%_88.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28900">
+          <p className="leading-[normal]">L</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.94%_9.26%_45.18%_89.63%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28901">
+          <p className="leading-[normal]">)</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_15.64%_37.82%_75.56%] rounded-[5px]" data-node-id="3087:28902" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.57%_18.61%_37.8%_78.33%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28903">
+          <p className="leading-[normal]">K</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.94%_19.54%_45.18%_79.35%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28904">
+          <p className="leading-[normal]">(</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_25.64%_37.82%_65.56%] rounded-[5px]" data-node-id="3087:28905" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.57%_28.43%_37.8%_68.98%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28906">
+          <p className="leading-[normal]">J</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.69%_28.89%_45.43%_69.07%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28907">
+          <p className="leading-[normal]">=</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_35.64%_37.82%_55.56%] rounded-[5px]" data-node-id="3087:28908" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.57%_38.15%_37.8%_58.33%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28909">
+          <p className="leading-[normal]">H</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.69%_38.89%_45.43%_59.07%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28910">
+          <p className="leading-[normal]">+</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_45.64%_37.82%_45.56%] rounded-[5px]" data-node-id="3087:28911" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.57%_48.24%_37.8%_48.24%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28912">
+          <p className="leading-[normal]">G</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.81%_49.17%_45.31%_49.44%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28913">
+          <p className="leading-[normal]">-</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_55.64%_37.82%_35.56%] rounded-[5px]" data-node-id="3087:28914" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.57%_58.7%_37.8%_38.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28915">
+          <p className="leading-[normal]">F</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.81%_59.26%_45.31%_39.26%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28916">
+          <p className="leading-[normal]">*</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_65.64%_37.82%_25.56%] rounded-[5px]" data-node-id="3087:28917" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.57%_68.33%_37.8%_28.33%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28918">
+          <p className="leading-[normal]">D</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.81%_69.07%_45.31%_28.98%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28919">
+          <p className="leading-[normal]">{`&`}</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_75.64%_37.82%_15.56%] rounded-[5px]" data-node-id="3087:28920" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.57%_78.52%_37.8%_18.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28921">
+          <p className="leading-[normal]">S</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.81%_79.07%_45.31%_18.98%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28922">
+          <p className="leading-[normal]">#</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[47.93%_85.64%_37.82%_5.56%] rounded-[5px]" data-node-id="3087:28923" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[54.57%_88.33%_37.8%_8.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28924">
+          <p className="leading-[normal]">A</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[49.81%_88.52%_45.31%_8.7%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28925">
+          <p className="leading-[normal]">@</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[65.83%_75.64%_19.93%_15.56%] rounded-[5px]" data-node-id="3087:28926" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[72.47%_78.52%_19.9%_18.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28927">
+          <p className="leading-[normal]">Z</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[67.83%_79.35%_27.28%_19.26%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28928">
+          <p className="leading-[normal]">_</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[65.83%_65.64%_19.93%_25.56%] rounded-[5px]" data-node-id="3087:28929" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[72.47%_68.43%_19.9%_28.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28930">
+          <p className="leading-[normal]">X</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[67.83%_69.07%_27.28%_29.26%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28931">
+          <p className="leading-[normal]">₹</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[65.83%_55.64%_19.93%_35.56%] rounded-[5px]" data-node-id="3087:28932" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[72.47%_58.24%_19.9%_38.33%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28933">
+          <p className="leading-[normal]">C</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[67.58%_59.35%_27.53%_39.44%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28934">
+          <p className="leading-[normal]">“</p>
+        </div>
+        <div className="absolute h-[130px] left-[492px] top-[526px] w-[96px]" data-node-id="3087:28935" data-name="V" />
+        <div className="absolute h-[130px] left-[600px] top-[526px] w-[96px]" data-node-id="3087:28936" data-name="B" />
+        <div className="absolute h-[130px] left-[708px] top-[526px] w-[96px]" data-node-id="3087:28937" data-name="N" />
+        <div className="absolute h-[130px] left-[816px] top-[669px] w-[96px]" data-node-id="3087:28938" data-name="Component 1" />
+        <div className="absolute h-[130px] left-[6px] top-[669px] w-[96px]" data-node-id="3087:28939" data-name="Numbers" />
+        <div className="absolute h-[130px] left-[816px] top-[526px] w-[96px]" data-node-id="3087:28940" data-name="M" />
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[65.83%_45.64%_19.93%_45.56%] rounded-[5px]" data-node-id="3087:28941" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[72.47%_48.33%_19.9%_48.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28942">
+          <p className="leading-[normal]">V</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[67.58%_49.63%_27.53%_49.72%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28943">
+          <p className="leading-[normal]">‘</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[65.83%_35.64%_19.93%_55.56%] rounded-[5px]" data-node-id="3087:28944" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[72.47%_38.43%_19.9%_58.52%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28945">
+          <p className="leading-[normal]">B</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[67.58%_39.54%_27.53%_59.63%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28946">
+          <p className="leading-[normal]">:</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[65.83%_25.64%_19.93%_65.56%] rounded-[5px]" data-node-id="3087:28947" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[72.47%_28.24%_19.9%_68.24%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28948">
+          <p className="leading-[normal]">N</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[67.58%_29.63%_27.53%_69.54%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28949">
+          <p className="leading-[normal]">;</p>
+        </div>
+        <div className="absolute bg-[rgba(217,217,217,0.05)] inset-[83.73%_15.64%_2.03%_75.56%] rounded-[5px]" data-node-id="3087:28950" />
+        <div className="absolute inset-[95.37%_19.81%_4.13%_79.81%]" data-node-id="3087:28951">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgEllipse5} />
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[85.36%_17.57%_4.11%_78.43%] justify-center leading-[0] not-italic text-[#797980] text-[14px]" data-node-id="3087:28952">
+          <p className="leading-[normal]">,!?</p>
+        </div>
+        <div className="absolute bg-[rgba(217,217,217,0.05)] inset-[83.73%_90.64%_2.03%_0.56%] rounded-[5px]" data-node-id="3087:28953" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[88.54%_92.02%_6.81%_2.14%] justify-center leading-[0] not-italic text-[12px] text-white whitespace-nowrap" data-node-id="3087:28954">
+          <p className="leading-[normal]">123</p>
+        </div>
+        <div className="absolute bg-[#393943] border border-[#212121] border-solid inset-[65.83%_15.64%_19.93%_75.56%] rounded-[5px]" data-node-id="3087:28955" />
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[72.47%_17.78%_19.9%_78.06%] justify-center leading-[0] not-italic text-[18px] text-white" data-node-id="3087:28956">
+          <p className="leading-[normal]">M</p>
+        </div>
+        <div className="[word-break:break-word] absolute flex flex-col font-['Inter:Regular'] font-normal inset-[67.58%_19.35%_27.53%_79.54%] justify-center leading-[0] not-italic text-[#797980] text-[12px]" data-node-id="3087:28957">
+          <p className="leading-[normal]">/</p>
+        </div>
+        <p className="[word-break:break-word] absolute font-['Inter:Regular'] font-normal inset-[93.5%_74.67%_4.33%_24.8%] leading-[normal] not-italic text-[6px] text-white" data-node-id="3087:28958">
+          ,
+        </p>
+      </div>
+      <div className="absolute bg-[#212121] h-[50px] left-0 overflow-clip top-[359px] w-[360px]" data-node-id="3087:28959">
+        <div className="absolute content-stretch flex items-center justify-between left-[20px] top-[6px] w-[320px]" data-node-id="3087:28960">
+          <div className="content-stretch flex gap-[40px] items-center relative shrink-0" data-node-id="3087:28961">
+            <div className="overflow-clip relative shrink-0 size-[24px]" data-node-id="3087:28962" data-name="icon_copy-text">
+              <div className="absolute inset-[10%]" data-node-id="3087:28963" data-name="Group">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup1} />
+              </div>
+            </div>
+            <div className="overflow-clip relative shrink-0 size-[24px]" data-node-id="3087:28966" data-name="share">
+              <div className="absolute inset-[10.42%_18.75%_10.42%_14.58%]" data-node-id="3087:28967">
+                <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgGroup1000007479} />
+              </div>
+            </div>
+            <div className="relative shrink-0 size-[24px]" data-node-id="3087:28971" data-name="mdi-light:heart">
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgMdiLightHeart} />
+            </div>
+          </div>
+          <div className="bg-white border border-solid border-white content-stretch flex items-center justify-center overflow-clip px-[12px] py-[8px] relative rounded-[8px] shrink-0" data-node-id="3087:28973" data-name="Btn02_default_Small">
+            <div className="[word-break:break-word] flex flex-col font-['Pretendard:Regular'] justify-center leading-[0] not-italic overflow-hidden relative shrink-0 text-[#212121] text-[14px] text-ellipsis whitespace-nowrap" data-node-id="3087:28974">
+              <p className="leading-[21px] overflow-hidden text-ellipsis">저장하기</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="absolute content-stretch flex flex-col gap-[20px] items-center left-[20px] top-[80px] w-[320px]" data-node-id="3087:28983">
+        <div className="content-stretch flex flex-col items-center relative shrink-0 w-[296px]" data-node-id="3087:28984">
+          <div className="relative shrink-0 size-[60px]" data-node-id="3087:28985" data-name="Character/Light/State=Handwriting">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCharacterLightStateHandwriting} />
+          </div>
+          <div className="[word-break:break-word] flex flex-col font-['Pretendard:Bold'] justify-center leading-[0] min-w-full not-italic overflow-hidden relative shrink-0 text-[#5c65ff] text-[16px] text-center text-ellipsis w-[min-content] whitespace-nowrap" data-node-id="3087:29001">
+            <p className="leading-[24px] overflow-hidden text-ellipsis">오늘의 문장을 따라 써주세요.</p>
+          </div>
+        </div>
+        <p className="[word-break:break-word] font-['Pretendard:Regular'] leading-[0] min-w-full not-italic relative shrink-0 text-[#212121] text-[0px] text-center w-[min-content]" data-node-id="3087:29005">
+          <span className="leading-[30px] text-[#ffcb5c] text-[20px]">{`상황을 가장 잘 `}</span>
+          <span className="leading-[30px] text-[#cacaca] text-[20px]">활용하는 사람이 가장 좋은 상황을 맞는다.</span>
+        </p>
+      </div>
+    </div>
+  );
+}
+
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+
+These styles are contained in the design: grey scale/700: #212121, Body03: Font(family: "Pretendard", style: Regular, size: 14, weight: 400, lineHeight: 21, letterSpacing: 0), dark-character: , light/background/background: #FFEFCC, light/primary/primary container: #5C65FF, Subtitle1: Font(family: "Pretendard", style: Bold, size: 16, weight: 700, lineHeight: 24, letterSpacing: 0), Body01: Font(family: "Pretendard", style: Regular, size: 20, weight: 400, lineHeight: 30, letterSpacing: 0).
+
+Component descriptions: The following components have usage descriptions or documentation links defined in Figma. These descriptions provide important context about the intended usage, best practices, and any constraints for each component. Follow these guidelines when implementing or using these components.
+
+## Type=below iphone6, black=True
+**Node ID:** 15:13
+
+for iOS in general (ipad, iphones below 8)
+
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

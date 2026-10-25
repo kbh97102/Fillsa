@@ -1,5 +1,22 @@
 # 필사 입력·저장 결과
 
+## 필사 입력 안내 복원 · 2026-10-25
+
+- 사용자 승인: 현재 페이지의 필사 입력 화면에 맞춰 캐릭터·안내·본문 간격과 다크 배경 수정.
+- Preview 예외 승인: 이번 수정 대상이 아닌 언어 전환 스위치(`LocaleSwitch`)는 사용자의 요청으로 필사 화면 Preview에서 제외한다. 런타임에는 그대로 표시하며, Preview 비교에서 해당 영역은 평가하지 않는다.
+- Figma: [Light 2929:17920](https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920), [Dark 3087:28815](https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815).
+- 조건: 360×720, 한국어, fontScale 1.0, Light/Dark, 입력 전·입력 중·IME 열림/닫힘. 기존 승인된 Android 시스템 바·키보드 및 서비스 문장 차이는 유지.
+- 기준 이미지: [Light](../design-qa/artifacts/2026-10-25-typing-guide/figma-light.png), [Dark](../design-qa/artifacts/2026-10-25-typing-guide/figma-dark.png).
+- QA 기록: [필사 안내 복원 QA](../design-qa/2026-10-25-typing-guide-qa.md).
+- 최종 결과: [필사 화면 수정 결과 HTML](../design-qa/2026-10-25-typing-ui-result.html). 최신 APK의 Light/Dark·IME 열림/닫힘 실행 화면 재확인 완료.
+- 구현·클린 빌드·저장 테스트 6개 및 안내/본문 Preview 통과. 에뮬레이터 Light/Dark·IME 캡처 확보. 사용자 승인으로 언어 전환 스위치를 제외한 라이트·다크 조립 Preview 렌더링·대조를 완료했다. 언어 전환 스위치 자체는 이번 Preview 검증 범위 밖이다. 아래 과거 결과 팝업의 완료 기록은 이번 입력 화면의 완료 판단에 사용하지 않는다.
+
+| 컴포넌트 | Figma 범위 | 상태·책임 | 조립 위치 | 검증 상태 |
+|---|---|---|---|---|
+| TypingQuoteGuide | 3087:28754 / 3087:28984 | 60×60 원본 캐릭터, 안내 문구 Pretendard Bold 16/24, #5C65FF, 중앙 정렬 | TypingQuoteContent 상단과 본문 사이 | 하위 Preview 통과 |
+| 안내·입력 본문 | 3087:28772 / 3087:28983 | 안내 아래 20dp, 본문 320dp 폭 | TypingQuoteContent | 본문·조립 Preview 통과(스위치 제외 승인) |
+| 전체 화면 | 2929:17920 / 3087:28815 | Light #FFFFFF / Dark #212121, IME에 따른 가용 높이 | TypingQuoteView | 런타임 확인, 조립 Preview 통과(스위치 제외 승인) |
+
 ## Figma UI 기준
 
 - Figma URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2988-23906

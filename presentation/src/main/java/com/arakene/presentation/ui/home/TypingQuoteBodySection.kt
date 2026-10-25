@@ -24,6 +24,8 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.LineHeightStyle
+import androidx.compose.ui.text.style.TextMotion
 import androidx.compose.ui.tooling.preview.Preview
 import com.arakene.presentation.R
 import com.arakene.presentation.ui.theme.FillsaTheme
@@ -43,6 +45,14 @@ fun TypingQuoteBodySection(
     val gray = colorResource(R.color.gray_ca)
     val black = colorResource(R.color.gray_700)
     val red = Color.Red
+    val textStyle = FillsaTheme.typography.body1.copy(
+        // Preserve fractional glyph widths so wrapping matches Figma across screen densities.
+        textMotion = TextMotion.Animated,
+        lineHeightStyle = LineHeightStyle(
+            alignment = LineHeightStyle.Alignment.Center,
+            trim = LineHeightStyle.Trim.None,
+        ),
+    )
     val rightTextColor = if (darkMode) {
         colorResource(R.color.yellow02)
     } else {
@@ -87,7 +97,7 @@ fun TypingQuoteBodySection(
                 setWrite(it)
             }
         },
-        textStyle = FillsaTheme.typography.body1,
+        textStyle = textStyle,
         cursorBrush = SolidColor(rightTextColor),
         modifier = modifier.fillMaxWidth(),
         interactionSource = interactionSource,
@@ -119,7 +129,7 @@ fun TypingQuoteBodySection(
 
                 Text(
                     text = annotated,
-                    style = FillsaTheme.typography.body1,
+                    style = textStyle,
                     modifier = Modifier
                         .cursorBlinking(
                             value = write,

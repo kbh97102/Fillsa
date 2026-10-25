@@ -1,0 +1,4 @@
+ComposeViewAdapter (left: 0, top: 0, right: 1080, bottom: 131)
+  ComposeView (left: 0, top: 0, right: 1080, bottom: 131)
+    View (left: 0, top: 0, right: 1080, bottom: 131)
+      View (left: 0, top: 3, right: 105, bottom: 129)
