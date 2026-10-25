@@ -93,3 +93,35 @@ Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#61616
 - Figma Home `2929:13556`에서 월 카드 `2929:15667`은 x=20..93, 주간 날짜 `3204:2435`는 x=102부터 시작한다.
 - 월 카드와 주간 날짜 사이의 수평 간격을 기존 5dp에서 Figma 기준 9dp로 수정한다. 주간 날짜는 남은 폭에 Figma 좌우 끝 좌표대로 분배한다.
 - QA 기록: [2026-09-20 Home date spacing QA](../design-qa/2026-09-20-android-home-date-spacing-qa.md).
+
+
+## 2026-10-25 신규 QA: 연도·월 선택
+
+- QA: https://www.notion.so/3ffe639fc7a48005b57ff2fe3eeeb952
+- Figma: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-16221 (선택기 연도 2929:16232, 월 2929:16236); 전체 Light 3139:1501 / Dark 3139:1753.
+- 분석 보고서: [QA 원문·원인·해결 계획](../design-qa/2026-10-25-android-new-qa-report.html#calendar).
+- 현재 상태: 원인 분석 완료, 앱 수정 미실시. 기존 문서의 달력 통과는 open/select-close 경로에 한정된다. 연도/월 직접 선택은 이번 에뮬레이터에서 실패했다.
+- 원인: HomeCalendarSelector에 클릭/선택 목록 상태가 없고, 달력 내부 비클릭 영역의 탭이 배경 dismiss 레이어로 전달되어 닫힌다. 연도·월·내부 여백 탭 각각 재현, 이전 월 화살표는 정상.
+- 계획: 선택기와 목록 상태를 기존 onMonthChanged에 연결하고 내부/외부 터치 경계를 분리한다. 회원 서버 기준일과 2025-06 하한을 유지한다.
+- 추가 디자인 필요: 연도/월 목록이 펼쳐진 상태와 경계 연도에서의 월 처리·닫기 순서. 확인한 컴포넌트 세트 2929:15668에는 Default/Open만 있으며 열린 하위 목록은 확보하지 못했다.
+- 검증 대상: Light/Dark, 연도/월 목록, 경계 월, 내부/외부 탭, 날짜 확정. 결정적 컴포넌트 Preview → 전체 프레임 대조 후 완료 판단.
+
+
+### 제공 페이지 추가 조사 · 2026-10-25
+
+- 사용자 제공 페이지: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2438-3437 (`v. 3.0`). 기존 QA의 달력 선택기는 같은 파일의 `리뉴얼 ver.1.0`(2929:3720)에 있다.
+- 조사: v3 노드 14,194개 및 Home/필사 안내·프로토타입 확인, 리뉴얼 노드 11,722개에서 관련 이름 검색 후 달력 세트/선택기 자식·reactions 확인. 열린 연도/월 목록을 찾지 못했다. 전체 파일의 타 버전까지 없다고 단정하지 않는다.
+- 닫힌 선택기 규격: 연도 2929:16232 = 65×32, 월 2929:16236 = 63×32, 버튼 간격6, radius8, border1 #E5E5E5, white. Chevron12×12 원본 확보. 텍스트 반환값 Inter Medium14/20 #0A0A0A(토큰 바인딩은 구현 시 재확인).
+- 선택기는 FRAME이고 reactions=[], 숫자 wrapper와 chevron만 포함한다. `calendar` 세트 Default/Open은 달력 열림 여부이며 연도/월 목록 확장 variant가 아니다.
+- [추출 보고서](../design-qa/2026-10-25-android-new-qa-report.html#figma-extraction), [조사 JSON](../design-qa/artifacts/2026-10-25-android-new-qa/figma-page-extraction.json), [화살표 SVG](../design-qa/artifacts/2026-10-25-android-new-qa/calendar-chevron-down.svg).
+- 앱 구현 미실시. 열린 목록 디자인·경계 월 처리·닫기 규칙의 추가 결정 필요 상태 유지.
+
+### 연도·월 시스템 선택기 적용 · 2026-10-25
+
+- 사용자 승인: 연도·월 선택은 우선 시스템 기본 다이얼로그 사용. 이 열린 상태는 Figma 예외이며 별도 디자인 요청 없이 진행한다.
+- Figma 기준: 위 2929:16232 / 2929:16236 선택 버튼과 전체 3139:1501 / 3139:1753. 기준 이미지 `../design-qa/artifacts/2026-10-25-android-new-qa/figma-calendar.png`.
+- 컴포넌트: `HomeCalendarSelector`(연도/월 진입), `HomeYearMonthDialog`(시스템 AlertDialog + NumberPicker 2개), `HomeInlineCalendar`(내부 터치 경계). Home에 조립한다.
+- 상태: Light/Dark, 선택/확인/취소/뒤로가기, 시작 월 2025-06 및 회원 서버 기준일/비회원 오늘 상한, 내부 빈 공간/외부 탭.
+- 확인 전에는 달력을 변경하지 않는다. 확인하면 표시 월만 바꾸고 달력은 유지한다. 경계 연도에서는 유효한 월만 제공하며 이전 월이 범위를 벗어나면 가까운 경계로 맞춘다. 날짜 선택 동작은 기존 경로를 사용한다.
+- 검증: API 35 / 360×720dp / density 160 / ko / fontScale 1. 컴포넌트 결정적 Preview → 전체 화면 런타임. QA 기록: [시스템 연월 선택기](../design-qa/2026-10-25-home-year-month-qa.md).
+- 후속 결과: 기능 구현 및 검증 완료. 단위 테스트160개/계측4개 통과, Preview Light·Dark 및 Release APK 에뮬레이터 전체 프레임 확인. 기존 달력의 Figma 외형 차이는 남아 있어 전체 UI 최종 승인은 미완료. [화면 포함 HTML 결과](../design-qa/2026-10-25-home-year-month-report.html).

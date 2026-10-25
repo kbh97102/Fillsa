@@ -2,6 +2,7 @@ package com.arakene.presentation.ui.home
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,10 +15,19 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -74,7 +84,17 @@ internal fun HomeInlineCalendar(
     darkMode: Boolean = IsDarkMode.current,
     modifier: Modifier = Modifier,
 ) {
+    var isMonthPickerOpen by rememberSaveable { mutableStateOf(false) }
     val days = homeMonthGrid(displayedMonth, selectedDate, referenceDate)
+    if (isMonthPickerOpen) {
+        HomeYearMonthDialog(
+            displayedMonth = displayedMonth,
+            lastMonth = YearMonth.from(referenceDate),
+            darkMode = darkMode,
+            onConfirm = onMonthChanged,
+            onDismiss = { isMonthPickerOpen = false },
+        )
+    }
     Column(
         modifier = modifier
             .width(248.dp)
@@ -82,6 +102,8 @@ internal fun HomeInlineCalendar(
             .clip(RoundedCornerShape(10.dp))
             .background(Color(0xFFFFFDFC))
             .border(1.dp, Color(0xFFE7E1D6), RoundedCornerShape(10.dp))
+            // Consume empty-area taps so the sibling backdrop does not dismiss the calendar.
+            .pointerInput(Unit) { detectTapGestures { } }
             .padding(horizontal = 13.dp, vertical = 11.dp),
     ) {
         Row(
@@ -93,12 +115,14 @@ internal fun HomeInlineCalendar(
                 onMonthChanged(displayedMonth.minusMonths(1))
             }
             Row(horizontalArrangement = Arrangement.spacedBy(5.dp)) {
-                HomeCalendarSelector(displayedMonth.year.toString(), width = 65.dp.takeIf { darkMode }, darkMode = darkMode)
+                HomeCalendarSelector(displayedMonth.year.toString(), width = 65.dp.takeIf { darkMode }, darkMode = darkMode) {
+                    isMonthPickerOpen = true
+                }
                 HomeCalendarSelector(
                     displayedMonth.monthValue.toString().padStart(2, '0'),
                     width = 61.dp.takeIf { darkMode },
                     darkMode = darkMode,
-                )
+                ) { isMonthPickerOpen = true }
             }
             HomeCalendarArrow("›", enabled = isHomeCalendarNextMonthEnabled(displayedMonth, referenceDate)) {
                 onMonthChanged(displayedMonth.plusMonths(1))
@@ -167,7 +191,7 @@ private fun HomeCalendarArrow(label: String, enabled: Boolean, onClick: () -> Un
 }
 
 @Composable
-private fun HomeCalendarSelector(value: String, width: Dp?, darkMode: Boolean) {
+private fun HomeCalendarSelector(value: String, width: Dp?, darkMode: Boolean, onClick: () -> Unit) {
     Row(
         modifier = Modifier
             .then(width?.let { Modifier.width(it) } ?: Modifier)
@@ -175,6 +199,8 @@ private fun HomeCalendarSelector(value: String, width: Dp?, darkMode: Boolean) {
             .clip(RoundedCornerShape(7.dp))
             .background(Color.White)
             .border(1.dp, Color(0xFFE7E1D6), RoundedCornerShape(7.dp))
+            .noEffectClickable(click = onClick)
+            .semantics { role = Role.Button }
             .padding(horizontal = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -182,4 +208,16 @@ private fun HomeCalendarSelector(value: String, width: Dp?, darkMode: Boolean) {
         Text(value, style = style, color = Color(0xFF212121))
         Text("⌄", style = style, color = Color(0xFF77736D), modifier = Modifier.padding(start = 4.dp))
     }
+}
+
+@Preview(widthDp = 248, heightDp = 335, locale = "ko", fontScale = 1f, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_NO)
+@Composable
+private fun HomeInlineCalendarLightPreview() {
+    FillsaTheme { HomeInlineCalendar(YearMonth.of(2026, 8), LocalDate.of(2026, 8, 16), LocalDate.of(2026, 8, 16), {}, {}, darkMode = false) }
+}
+
+@Preview(widthDp = 248, heightDp = 335, locale = "ko", fontScale = 1f, uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
+@Composable
+private fun HomeInlineCalendarDarkPreview() {
+    FillsaTheme(darkTheme = true) { HomeInlineCalendar(YearMonth.of(2026, 8), LocalDate.of(2026, 8, 16), LocalDate.of(2026, 8, 16), {}, {}, darkMode = true) }
 }

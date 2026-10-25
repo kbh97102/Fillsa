@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-25",
+  "device": "emulator-5554",
+  "api": 35,
+  "resolution": "360x720",
+  "densityDpi": 160,
+  "appVersion": "1.0.31",
+  "versionCode": 25,
+  "source": "stage 4934a13 + pre-existing uncommitted changes",
+  "apkSourceIdentityVerified": false,
+  "appModifiedThisTask": false,
+  "reproduction": [
+    {
+      "action": "tap year",
+      "coordinate": [
+        116,
+        150
+      ],
+      "result": "calendar closed"
+    },
+    {
+      "action": "tap month",
+      "coordinate": [
+        174,
+        150
+      ],
+      "result": "calendar closed"
+    },
+    {
+      "action": "tap inner blank",
+      "coordinate": [
+        245,
+        425
+      ],
+      "result": "calendar closed"
+    },
+    {
+      "action": "tap previous month",
+      "coordinate": [
+        47,
+        150
+      ],
+      "result": "calendar stayed open; month changed to 09"
+    },
+    {
+      "action": "open typing",
+      "result": "character and guide text absent"
+    }
+  ],
+  "htmlVerification": {
+    "embeddedImages": 16,
+    "internalLinks": "verified",
+    "visualInspection": [
+      "desktop overview",
+      "typing original evidence section"
+    ]
+  },
+  "notionAnalysisAppendedAndReadBack": true,
+  "implementationStatus": "not implemented; analysis and solution plan only",
+  "figmaPageExtraction": {
+    "suppliedPage": "2438:3437 / v. 3.0",
+    "qaMatchingPage": "2929:3720 / 리뉴얼 ver.1.0",
+    "guideSvgDownloaded": true,
+    "guideLightDarkBytesIdentical": true,
+    "expandedYearMonthDesignFound": false,
+    "appModified": false
+  }
+}

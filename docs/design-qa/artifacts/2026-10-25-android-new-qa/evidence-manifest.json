@@ -1,0 +1,177 @@
+[
+  {
+    "file": "analysis-results.json",
+    "sha256": "bea4b892cada07ee1c2fbef243bd67798e1fe7886e1d53f6dccb5474ac064dd8",
+    "bytes": 1563
+  },
+  {
+    "file": "calendar-chevron-down.svg",
+    "sha256": "6bcf2ec66c61b232f59c86db499bcf98f0875977d2145811f319dfce494d09e0",
+    "bytes": 314
+  },
+  {
+    "file": "figma-calendar.png",
+    "sha256": "fff163aa5a676672bf9b66e9793fc491b666ccef4082f9028bc65bc8f5900e31",
+    "bytes": 14532
+  },
+  {
+    "file": "figma-guide-dark.png",
+    "sha256": "0d18cbb5f26445598df9ed03b71c149e7e75170a0a566594aa7fc6749376268e",
+    "bytes": 6124
+  },
+  {
+    "file": "figma-guide-light.png",
+    "sha256": "7b79b7829cd71e523ccb37e3d50a1538d092a1f7dbd0f1da8b85d6885fbe0468",
+    "bytes": 5576
+  },
+  {
+    "file": "figma-page-extraction.json",
+    "sha256": "60c63feed80b4c8e9ba32b02a0193c4d6616fad028850d9c63d27371eb71190f",
+    "bytes": 25877
+  },
+  {
+    "file": "figma-typing-dark.png",
+    "sha256": "3826a2bb073f4a76b689bad77deca25b1099ef06d2acbafd8246711c86997cd6",
+    "bytes": 34080
+  },
+  {
+    "file": "figma-typing-light.png",
+    "sha256": "6c8819f4015427e833e047adb7bcf8b78a8bbb655146560f7ef36870d1fa8231",
+    "bytes": 32418
+  },
+  {
+    "file": "figma-v3-typing-dark.png",
+    "sha256": "914e07b87423e4607669a7ebc46f1bd198331dac21286b7aee9a5e3c5e74504e",
+    "bytes": 28259
+  },
+  {
+    "file": "figma-v3-typing-light.png",
+    "sha256": "eacfd306964ede5528c0426acb22068df1a8cd9a7e54438bdb3b7b6fe1915652",
+    "bytes": 27719
+  },
+  {
+    "file": "figma-year-month-closed.png",
+    "sha256": "f589acbd78b7d8105372223da9965b72c74b63d8300d127aa824763eafb1c880",
+    "bytes": 2000
+  },
+  {
+    "file": "notion-calendar-1-display.jpg",
+    "sha256": "75eb7766aba7949ea380af62946467637181e28d4a7f427b66f4d8d3c920ddb5",
+    "bytes": 380841
+  },
+  {
+    "file": "notion-calendar-1.heic",
+    "sha256": "5dba7b56597c965e6e9044bee2fd572650bafd75c9fdb262b326b16c90d3bf9d",
+    "bytes": 1388776
+  },
+  {
+    "file": "notion-calendar-original.md",
+    "sha256": "6851f9bd08ec1ef8cc3eb5e3f517680b455d98030d653ac9464c85a621726d3e",
+    "bytes": 64
+  },
+  {
+    "file": "notion-typing-1-display.jpg",
+    "sha256": "f65e337b8cdac0ea8fbab51aec7348f5a8fbbde1cd789fa065f890e36b18ab75",
+    "bytes": 386383
+  },
+  {
+    "file": "notion-typing-1.heic",
+    "sha256": "4355af8ffbe85777fbb993e1d626ffdaddf3731c79cfdc21655b491b81776f60",
+    "bytes": 1465471
+  },
+  {
+    "file": "notion-typing-2-display.jpg",
+    "sha256": "33abebe85f1217571bd8f6add1268456d0412e35ccbe513a347c1b0144cff691",
+    "bytes": 105644
+  },
+  {
+    "file": "notion-typing-2.png",
+    "sha256": "d218ab5b07920b2a45ecf6a8cb81cde3bf7d488d768f3329f88b43f4be1be484",
+    "bytes": 312056
+  },
+  {
+    "file": "notion-typing-3-display.jpg",
+    "sha256": "a52cfc462fcc02c8f65c9aa866a4c1cbe848a8460a99b49f914c8bdba161af20",
+    "bytes": 116525
+  },
+  {
+    "file": "notion-typing-3.png",
+    "sha256": "1c58ff48369ae939315677c4663ace8dbfce51b1d1728aa9b0ea1ae29e89594d",
+    "bytes": 60343
+  },
+  {
+    "file": "notion-typing-original.md",
+    "sha256": "09c165ec7fb213d2890c8bfbd499b0b3eaba779159fc6c3dbd70b7453bf9af4f",
+    "bytes": 295
+  },
+  {
+    "file": "runtime-calendar-blank-tapped.png",
+    "sha256": "0c895c9a0760bbc781ba332c7faf32c61252bddd2b0cb5477a1c1c82824f37b4",
+    "bytes": 50585
+  },
+  {
+    "file": "runtime-calendar-blank-tapped.xml",
+    "sha256": "653752fe25f011a1de23307d20faa6f8caddab37da74e17da89c869ed1ecfcdc",
+    "bytes": 30000
+  },
+  {
+    "file": "runtime-calendar-open.png",
+    "sha256": "b11384d31e58434290d8929e7060eff3e276f1aed8c063b61133da8c5a477c37",
+    "bytes": 44458
+  },
+  {
+    "file": "runtime-calendar-prev-month.png",
+    "sha256": "e1d58ad0db0784ae56a91411744324161e15521f7e17169d7a21e6ebe0f6d0fc",
+    "bytes": 43555
+  },
+  {
+    "file": "runtime-calendar-prev-month.xml",
+    "sha256": "4d88085f92636734352805604ce6e5fc16c0949f380b4e790ef73f832ee25847",
+    "bytes": 53576
+  },
+  {
+    "file": "runtime-month-tapped.png",
+    "sha256": "0c895c9a0760bbc781ba332c7faf32c61252bddd2b0cb5477a1c1c82824f37b4",
+    "bytes": 50585
+  },
+  {
+    "file": "runtime-month-tapped.xml",
+    "sha256": "653752fe25f011a1de23307d20faa6f8caddab37da74e17da89c869ed1ecfcdc",
+    "bytes": 30000
+  },
+  {
+    "file": "runtime-typing-before.png",
+    "sha256": "7a3baf0079fd69ffd3cf80649548a157c45fab21c6ddb794f4ec5f724ed0d711",
+    "bytes": 13696
+  },
+  {
+    "file": "runtime-typing-before.xml",
+    "sha256": "ae7f0ffa6108cd03caec79e775b45f50ab9c556633c28d0610dff49cf28b7f35",
+    "bytes": 7252
+  },
+  {
+    "file": "runtime-typing-ime-before.png",
+    "sha256": "32015264a9d7f9a986c32c9fcb57033e01688188b14c212895a5d62d9b0e200a",
+    "bytes": 35553
+  },
+  {
+    "file": "runtime-year-tapped.png",
+    "sha256": "0c895c9a0760bbc781ba332c7faf32c61252bddd2b0cb5477a1c1c82824f37b4",
+    "bytes": 50585
+  },
+  {
+    "file": "runtime-year-tapped.xml",
+    "sha256": "653752fe25f011a1de23307d20faa6f8caddab37da74e17da89c869ed1ecfcdc",
+    "bytes": 30000
+  },
+  {
+    "file": "typing-guide-dark.svg",
+    "sha256": "defb407ecd15892ac90cffcdb647fe972b835cc66dd402336a9bc07c9f178012",
+    "bytes": 4577
+  },
+  {
+    "file": "typing-guide-light.svg",
+    "sha256": "defb407ecd15892ac90cffcdb647fe972b835cc66dd402336a9bc07c9f178012",
+    "bytes": 4577
+  }
+]

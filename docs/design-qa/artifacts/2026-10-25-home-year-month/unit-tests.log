@@ -1,0 +1,175 @@
+
+> Configure project :presentation
+The google-services Gradle plugin needs to be applied on a project with com.android.application or com.android.dynamic-feature.
+
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateDebugBuildConfig UP-TO-DATE
+> Task :compose-util:preBuild UP-TO-DATE
+> Task :compose-util:preDebugBuild UP-TO-DATE
+> Task :compose-util:writeDebugAarMetadata UP-TO-DATE
+> Task :data:preBuild UP-TO-DATE
+> Task :data:preDebugBuild UP-TO-DATE
+> Task :data:writeDebugAarMetadata UP-TO-DATE
+> Task :domain:preBuild UP-TO-DATE
+> Task :domain:preDebugBuild UP-TO-DATE
+> Task :domain:writeDebugAarMetadata UP-TO-DATE
+> Task :presentation:preBuild UP-TO-DATE
+> Task :presentation:preDebugBuild UP-TO-DATE
+> Task :presentation:writeDebugAarMetadata UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:generateDebugResValues UP-TO-DATE
+> Task :app:injectCrashlyticsMappingFileIdDebug UP-TO-DATE
+> Task :app:processDebugGoogleServices UP-TO-DATE
+> Task :compose-util:generateDebugResValues UP-TO-DATE
+> Task :compose-util:generateDebugResources UP-TO-DATE
+> Task :compose-util:packageDebugResources UP-TO-DATE
+> Task :data:generateDebugResValues UP-TO-DATE
+> Task :data:generateDebugResources UP-TO-DATE
+> Task :data:packageDebugResources UP-TO-DATE
+> Task :domain:generateDebugResValues UP-TO-DATE
+> Task :domain:generateDebugResources UP-TO-DATE
+> Task :domain:packageDebugResources UP-TO-DATE
+> Task :presentation:generateDebugResValues UP-TO-DATE
+> Task :presentation:generateDebugResources UP-TO-DATE
+> Task :presentation:packageDebugResources UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :compose-util:extractDeepLinksDebug UP-TO-DATE
+> Task :compose-util:processDebugManifest UP-TO-DATE
+> Task :data:extractDeepLinksDebug UP-TO-DATE
+> Task :data:processDebugManifest UP-TO-DATE
+> Task :domain:extractDeepLinksDebug UP-TO-DATE
+> Task :domain:processDebugManifest UP-TO-DATE
+> Task :presentation:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:processDebugManifest UP-TO-DATE
+> Task :app:mergeDebugResources
+> Task :app:processDebugMainManifest
+> Task :app:processDebugManifest
+> Task :compose-util:compileDebugLibraryResources UP-TO-DATE
+> Task :compose-util:parseDebugLocalResources UP-TO-DATE
+> Task :compose-util:generateDebugRFile UP-TO-DATE
+> Task :data:compileDebugLibraryResources UP-TO-DATE
+> Task :data:parseDebugLocalResources UP-TO-DATE
+> Task :data:generateDebugRFile UP-TO-DATE
+> Task :domain:compileDebugLibraryResources UP-TO-DATE
+> Task :app:processDebugManifestForPackage
+> Task :domain:parseDebugLocalResources UP-TO-DATE
+> Task :domain:generateDebugRFile UP-TO-DATE
+> Task :presentation:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:generateDebugRFile UP-TO-DATE
+> Task :data:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :data:generateDebugBuildConfig UP-TO-DATE
+> Task :domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:generateDebugBuildConfig UP-TO-DATE
+> Task :domain:compileDebugKotlin UP-TO-DATE
+> Task :domain:javaPreCompileDebug UP-TO-DATE
+> Task :domain:compileDebugJavaWithJavac UP-TO-DATE
+> Task :domain:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :data:kspDebugKotlin UP-TO-DATE
+> Task :data:kaptGenerateStubsDebugKotlin UP-TO-DATE
+> Task :data:kaptDebugKotlin UP-TO-DATE
+> Task :data:compileDebugKotlin UP-TO-DATE
+> Task :data:javaPreCompileDebug UP-TO-DATE
+> Task :data:compileDebugJavaWithJavac UP-TO-DATE
+> Task :data:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :compose-util:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compose-util:compileDebugKotlin UP-TO-DATE
+> Task :compose-util:javaPreCompileDebug UP-TO-DATE
+> Task :compose-util:compileDebugJavaWithJavac NO-SOURCE
+> Task :compose-util:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :compose-util:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :domain:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :presentation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :presentation:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :presentation:generateDebugBuildConfig UP-TO-DATE
+> Task :presentation:javaPreCompileDebug UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :data:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :app:preDebugUnitTestBuild UP-TO-DATE
+> Task :app:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :compose-util:processDebugJavaRes UP-TO-DATE
+> Task :data:processDebugJavaRes UP-TO-DATE
+> Task :domain:processDebugJavaRes UP-TO-DATE
+> Task :compose-util:preDebugUnitTestBuild UP-TO-DATE
+> Task :compose-util:generateDebugUnitTestStubRFile UP-TO-DATE
+> Task :compose-util:compileDebugUnitTestKotlin NO-SOURCE
+> Task :compose-util:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :compose-util:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :compose-util:processDebugUnitTestJavaRes NO-SOURCE
+> Task :compose-util:testDebugUnitTest NO-SOURCE
+> Task :data:preDebugUnitTestBuild UP-TO-DATE
+> Task :data:generateDebugUnitTestStubRFile UP-TO-DATE
+> Task :data:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :domain:preDebugUnitTestBuild UP-TO-DATE
+> Task :domain:generateDebugUnitTestStubRFile UP-TO-DATE
+> Task :presentation:kspDebugKotlin
+> Task :domain:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :presentation:preDebugUnitTestBuild UP-TO-DATE
+> Task :presentation:generateDebugUnitTestStubRFile UP-TO-DATE
+> Task :presentation:javaPreCompileDebugUnitTest UP-TO-DATE
+> Task :presentation:kaptGenerateStubsDebugKotlin
+> Task :presentation:kaptDebugKotlin SKIPPED
+> Task :data:kspDebugUnitTestKotlin
+> Task :app:processDebugResources
+> Task :domain:compileDebugUnitTestKotlin
+> Task :domain:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :domain:processDebugUnitTestJavaRes UP-TO-DATE
+> Task :data:kaptGenerateStubsDebugUnitTestKotlin
+> Task :presentation:compileDebugKotlin
+> Task :domain:testDebugUnitTest
+> Task :presentation:compileDebugJavaWithJavac UP-TO-DATE
+> Task :presentation:processDebugJavaRes UP-TO-DATE
+> Task :presentation:transformDebugClassesWithAsm
+> Task :presentation:bundleLibRuntimeToJarDebug
+> Task :presentation:bundleLibCompileToJarDebug
+> Task :data:kaptDebugUnitTestKotlin
+> Task :presentation:kspDebugUnitTestKotlin
+> Task :presentation:kaptGenerateStubsDebugUnitTestKotlin UP-TO-DATE
+> Task :presentation:kaptDebugUnitTestKotlin SKIPPED
+> Task :presentation:compileDebugUnitTestKotlin UP-TO-DATE
+> Task :presentation:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :presentation:hiltAggregateDepsDebugUnitTest UP-TO-DATE
+> Task :presentation:hiltJavaCompileDebugUnitTest NO-SOURCE
+> Task :presentation:processDebugUnitTestJavaRes UP-TO-DATE
+> Task :presentation:transformDebugUnitTestClassesWithAsm
+> Task :app:kspDebugKotlin
+> Task :data:compileDebugUnitTestKotlin
+> Task :presentation:testDebugUnitTest
+> Task :data:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :data:processDebugUnitTestJavaRes UP-TO-DATE
+> Task :app:kaptGenerateStubsDebugKotlin
+> Task :data:testDebugUnitTest
+> Task :app:kaptDebugKotlin
+> Task :app:compileDebugKotlin
+> Task :app:compileDebugJavaWithJavac UP-TO-DATE
+> Task :app:hiltAggregateDepsDebug UP-TO-DATE
+> Task :app:hiltJavaCompileDebug UP-TO-DATE
+> Task :app:processDebugJavaRes UP-TO-DATE
+> Task :app:bundleDebugClassesToCompileJar
+> Task :app:transformDebugClassesWithAsm
+> Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:kspDebugUnitTestKotlin
+> Task :app:kaptGenerateStubsDebugUnitTestKotlin
+
+> Task :app:kaptDebugUnitTestKotlin
+warning: The following options were not recognized by any processor: '[dagger.fastInit, dagger.hilt.android.internal.disableAndroidSuperclassValidation, dagger.hilt.android.internal.projectType, dagger.hilt.internal.useAggregatingRootProcessor, kapt.kotlin.generated]'
+
+> Task :app:compileDebugUnitTestKotlin
+> Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
+> Task :app:hiltAggregateDepsDebugUnitTest UP-TO-DATE
+> Task :app:hiltJavaCompileDebugUnitTest NO-SOURCE
+> Task :app:processDebugUnitTestJavaRes UP-TO-DATE
+> Task :app:transformDebugUnitTestClassesWithAsm
+> Task :app:testDebugUnitTest
+w: Detected multiple Kotlin daemon sessions at
+
+BUILD SUCCESSFUL in 16s
+131 actionable tasks: 35 executed, 96 up-to-date

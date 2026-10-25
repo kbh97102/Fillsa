@@ -1,0 +1,977 @@
+{
+  "date": "2026-10-25",
+  "suppliedPage": {
+    "id": "2438:3437",
+    "name": "v. 3.0",
+    "url": "https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2438-3437",
+    "nodeCount": 14194,
+    "typingLight": "2438:12875",
+    "typingDark": "2438:10034",
+    "guidePresent": false
+  },
+  "qaMatchingPage": {
+    "id": "2929:3720",
+    "name": "리뉴얼 ver.1.0",
+    "typingLight": "2929:17920",
+    "typingDark": "3087:28815"
+  },
+  "scans": [
+    {
+      "page": "리뉴얼 ver.1.0",
+      "total": 11722,
+      "matches": [
+        {
+          "id": "I3139:1861;3039:28109",
+          "name": "Previous month",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1861;3039:28108",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1861;3039:28112",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1861;3039:28111",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1861;3039:28113",
+          "name": "Month",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1861;3039:28112",
+            "name": "Dropdown"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1861;3039:28116",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1861;3039:28111",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1861;3039:28117",
+          "name": "Month",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1861;3039:28116",
+            "name": "Dropdown"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1861;3039:28120",
+          "name": "Previous month",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1861;3039:28108",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "3039:28109",
+          "name": "Previous month",
+          "type": "FRAME",
+          "parent": {
+            "id": "3039:28108",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "3039:28112",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "parent": {
+            "id": "3039:28111",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "3039:28113",
+          "name": "Month",
+          "type": "FRAME",
+          "parent": {
+            "id": "3039:28112",
+            "name": "Dropdown"
+          },
+          "reactions": []
+        },
+        {
+          "id": "3039:28116",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "parent": {
+            "id": "3039:28111",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "3039:28117",
+          "name": "Month",
+          "type": "FRAME",
+          "parent": {
+            "id": "3039:28116",
+            "name": "Dropdown"
+          },
+          "reactions": []
+        },
+        {
+          "id": "3039:28120",
+          "name": "Previous month",
+          "type": "FRAME",
+          "parent": {
+            "id": "3039:28108",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1585;2929:16229",
+          "name": "Previous month",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1585;2929:16228",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1585;2929:16232",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1585;2929:16231",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1585;2929:16233",
+          "name": "Month",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1585;2929:16232",
+            "name": "Dropdown"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1585;2929:16236",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1585;2929:16231",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1585;2929:16237",
+          "name": "Month",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1585;2929:16236",
+            "name": "Dropdown"
+          },
+          "reactions": []
+        },
+        {
+          "id": "I3139:1585;2929:16240",
+          "name": "Previous month",
+          "type": "FRAME",
+          "parent": {
+            "id": "I3139:1585;2929:16228",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "2929:16229",
+          "name": "Previous month",
+          "type": "FRAME",
+          "parent": {
+            "id": "2929:16228",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "2929:16232",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "parent": {
+            "id": "2929:16231",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "2929:16233",
+          "name": "Month",
+          "type": "FRAME",
+          "parent": {
+            "id": "2929:16232",
+            "name": "Dropdown"
+          },
+          "reactions": []
+        },
+        {
+          "id": "2929:16236",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "parent": {
+            "id": "2929:16231",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        },
+        {
+          "id": "2929:16237",
+          "name": "Month",
+          "type": "FRAME",
+          "parent": {
+            "id": "2929:16236",
+            "name": "Dropdown"
+          },
+          "reactions": []
+        },
+        {
+          "id": "2929:16240",
+          "name": "Previous month",
+          "type": "FRAME",
+          "parent": {
+            "id": "2929:16228",
+            "name": "Wrapper"
+          },
+          "reactions": []
+        }
+      ],
+      "inspect": [
+        {
+          "id": "2929:15668",
+          "name": "calendar",
+          "type": "COMPONENT_SET",
+          "children": [
+            {
+              "id": "2929:15667",
+              "name": "Property 1=Default",
+              "type": "COMPONENT"
+            },
+            {
+              "id": "2929:16221",
+              "name": "Property 1=open",
+              "type": "COMPONENT"
+            }
+          ]
+        },
+        {
+          "id": "2929:16232",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "reactions": [],
+          "children": [
+            {
+              "id": "2929:16233",
+              "name": "Month",
+              "type": "FRAME"
+            },
+            {
+              "id": "2929:16235",
+              "name": "lucide/chevron-down",
+              "type": "INSTANCE"
+            }
+          ]
+        },
+        {
+          "id": "2929:16236",
+          "name": "Dropdown",
+          "type": "FRAME",
+          "reactions": [],
+          "children": [
+            {
+              "id": "2929:16237",
+              "name": "Month",
+              "type": "FRAME"
+            },
+            {
+              "id": "2929:16239",
+              "name": "lucide/chevron-down",
+              "type": "INSTANCE"
+            }
+          ]
+        },
+        {
+          "id": "3087:28754",
+          "name": "Frame 1000007600",
+          "type": "FRAME",
+          "reactions": [],
+          "children": [
+            {
+              "id": "3087:28737",
+              "name": "Character/Light/State=Handwriting",
+              "type": "FRAME"
+            },
+            {
+              "id": "3087:28753",
+              "name": "오늘의 문장을 따라 써주세요.",
+              "type": "TEXT"
+            }
+          ]
+        },
+        {
+          "id": "3087:28984",
+          "name": "Frame 1000007600",
+          "type": "FRAME",
+          "reactions": [],
+          "children": [
+            {
+              "id": "3087:28985",
+              "name": "Character/Light/State=Handwriting",
+              "type": "FRAME"
+            },
+            {
+              "id": "3087:29001",
+              "name": "오늘의 문장을 따라 써주세요.",
+              "type": "TEXT"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "page": "v. 3.0",
+      "data": [
+        {
+          "id": "2438:12017",
+          "reactions": [
+            {
+              "id": "2438:12018",
+              "name": "2.home",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:16006",
+              "name": "2.home",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:12239",
+              "name": "2-2. img_check/upload",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:12313",
+              "name": "2-2. img_check/delete",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:12382",
+              "name": "2-2. img(default)_check/upload",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:12457",
+              "name": "2-5. toast_copy",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:12559",
+              "name": "2-5. like_press",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:12651",
+              "name": "2-1. modal_login",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:12716",
+              "name": "2-3. write-as is",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:12875",
+              "name": "2-3. write-to be",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:13035",
+              "name": "2-4.first_img_share",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:13074",
+              "name": "2-3. write_저장하기 누른 후",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2527:1329",
+              "name": "2-3. write",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2527:1394",
+              "name": "2-3. write",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2527:1463",
+              "name": "2-3. write",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:13111",
+              "name": "1.login",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:13172",
+              "name": "2-4(1). img_share",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:13198",
+              "name": "2-4. img_share",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            }
+          ],
+          "guidance": [
+            {
+              "id": "I2480:1210;203:72",
+              "text": "연속 필사를 완료해 주세요!"
+            },
+            {
+              "id": "2480:1216",
+              "text": "나의 필사현황 보기"
+            },
+            {
+              "id": "2438:13064",
+              "text": "필사한 문장이 이미지로 저장됩니다."
+            },
+            {
+              "id": "2527:1388",
+              "text": "오늘도 이어서 필사를 해주세요!"
+            },
+            {
+              "id": "2527:1457",
+              "text": "연속 필사 완료!"
+            },
+            {
+              "id": "2527:1524",
+              "text": "필사가 완료되지 않았어요 :("
+            },
+            {
+              "id": "2527:1531",
+              "text": "필사하기"
+            },
+            {
+              "id": "2438:13114",
+              "text": "로그인 후, 나만의 필사를 안전하게 저장할 수 있습니다."
+            },
+            {
+              "id": "2438:13153",
+              "text": "나만의 필사로 채우다,"
+            },
+            {
+              "id": "2438:13222",
+              "text": "필사한 문장이 이미지로 저장됩니다."
+            },
+            {
+              "id": "I2627:1170;312:1031",
+              "text": " \n연속 필사를 하지 않았을 때\n아이콘 터치 > 안내 문구가 노출됩니다.\n다른 영역을 터치하면 안내 문구는 사라집니다."
+            },
+            {
+              "id": "I2480:1226;312:1031",
+              "text": " \n텍스트형 버튼\n터치 > 캘린더 화면으로 이동합니다.\n"
+            },
+            {
+              "id": "2527:1257",
+              "text": "연속 필사 완료!"
+            },
+            {
+              "id": "2527:1273",
+              "text": "필사가 완료되지 않았어요 :("
+            },
+            {
+              "id": "2527:1280",
+              "text": "필사하기"
+            },
+            {
+              "id": "2527:1293",
+              "text": "오늘도 이어서 필사를 해주세요!"
+            }
+          ],
+          "components": []
+        },
+        {
+          "id": "2438:10033",
+          "reactions": [
+            {
+              "id": "2438:10034",
+              "name": "2-3. write-to be",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10194",
+              "name": "2-3. write_저장하기 누른 후",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2527:1682",
+              "name": "2-3. write",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2527:1745",
+              "name": "2-3. write",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2527:1809",
+              "name": "2-3. write",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10233",
+              "name": "2-1. modal_login",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10333",
+              "name": "2-2. img_check/delete",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10434",
+              "name": "2-2. img_check/upload",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10540",
+              "name": "2-2. img(default)_check/upload",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10647",
+              "name": "2.home",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:16463",
+              "name": "2.home",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10728",
+              "name": "2.home",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10809",
+              "name": "2-5. toast_copy",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10900",
+              "name": "2-5. like_press",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:10986",
+              "name": "1.login_dark",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:11041",
+              "name": "2-4. img_share",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            },
+            {
+              "id": "2438:11075",
+              "name": "2-4.first_img_share",
+              "reactions": [
+                {
+                  "action": null,
+                  "actions": [],
+                  "trigger": {
+                    "type": "ON_DRAG"
+                  }
+                }
+              ]
+            }
+          ],
+          "guidance": [
+            {
+              "id": "2527:1739",
+              "text": "오늘도 이어서 필사를 해주세요!"
+            },
+            {
+              "id": "2527:1803",
+              "text": "연속 필사 완료!"
+            },
+            {
+              "id": "2527:1866",
+              "text": "필사가 완료되지 않았어요 :("
+            },
+            {
+              "id": "2527:1873",
+              "text": "필사하기"
+            },
+            {
+              "id": "I2512:1169;203:72",
+              "text": "연속 필사를 완료해 주세요!"
+            },
+            {
+              "id": "2512:1170",
+              "text": "나의 필사현황 보기"
+            },
+            {
+              "id": "2438:10989",
+              "text": "로그인 후, 나만의 필사를 안전하게 저장할 수 있습니다."
+            },
+            {
+              "id": "2438:11025",
+              "text": "나만의 필사로 채우다,"
+            },
+            {
+              "id": "2438:11061",
+              "text": "필사한 문장이 이미지로 저장됩니다."
+            },
+            {
+              "id": "2438:11096",
+              "text": "필사한 문장이 이미지로 저장됩니다."
+            },
+            {
+              "id": "2527:1616",
+              "text": "필사가 완료되지 않았어요 :("
+            },
+            {
+              "id": "2527:1623",
+              "text": "필사하기"
+            },
+            {
+              "id": "2527:1634",
+              "text": "오늘도 이어서 필사를 해주세요!"
+            },
+            {
+              "id": "2527:1646",
+              "text": "연속 필사 완료!"
+            },
+            {
+              "id": "I2627:1180;312:1031",
+              "text": " \n연속 필사를 하지 않았을 때\n아이콘 터치 > 안내 문구가 노출됩니다.\n다른 영역을 터치하면 안내 문구는 사라집니다."
+            },
+            {
+              "id": "I2627:1181;312:1031",
+              "text": " \n텍스트형 버튼\n터치 > 캘린더 화면으로 이동합니다.\n"
+            }
+          ],
+          "components": []
+        }
+      ]
+    }
+  ],
+  "assets": [
+    {
+      "name": "typing-guide-light.svg"
+    },
+    {
+      "name": "typing-guide-dark.svg"
+    },
+    {
+      "name": "calendar-chevron-down.svg"
+    }
+  ],
+  "unresolved": [
+    "Expanded year/month list design not found in supplied v3 and renewal page named-node search and inspected calendar variants.",
+    "Year/month Dropdown nodes are FRAME, reactions empty, children only text wrapper and chevron; no linked list component.",
+    "Boundary-year month handling and list dismissal policy require a design or explicit product decision."
+  ]
+}

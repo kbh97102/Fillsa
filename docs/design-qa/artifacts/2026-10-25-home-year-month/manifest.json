@@ -1,0 +1,130 @@
+{
+  "calendar-dark.png": {
+    "bytes": 39696,
+    "sha256": "7621b3f92a1e2ab522c291805b7699fdaf419f8381dfdbe02ce921ca38b3ad3e"
+  },
+  "calendar-dark-semantics.txt": {
+    "bytes": 7113,
+    "sha256": "a346cac93b04209fb190415e979b646e2447aa97f960efdad05934dd1ae5d182"
+  },
+  "picker-light-semantics.txt": {
+    "bytes": 828,
+    "sha256": "a0081babc1f0101043fa3bee8086805ce43fa610be66d466a04a55b0580dda9e"
+  },
+  "figma-full-light.png": {
+    "bytes": 47165,
+    "sha256": "60d84c276be0cf4332fd24cd0a0e63e48339c2b79af3d4170689065fdde5db59"
+  },
+  "runtime-confirm-august.xml": {
+    "bytes": 58741,
+    "sha256": "1bdba22f118e0658707ac7c8abc056a520393b918ec657185d609cb47c79ff5b"
+  },
+  "runtime-confirm-august.png": {
+    "bytes": 44613,
+    "sha256": "91e55ee4f701f7a15b6f9bf3275bec7cf661a78c978e02cf4a4aa7c60cb263de"
+  },
+  "runtime-picker-august.xml": {
+    "bytes": 7256,
+    "sha256": "03d2bbee1b4b382a1fd8fb6933741900c8d934f8c3b6de46213a90dbec126ef6"
+  },
+  "runtime-picker-august.png": {
+    "bytes": 39010,
+    "sha256": "7eff9106f6acf7dbfdd9999301b6cc172294c1c60926af8a6597213fa986b9e3"
+  },
+  "runtime-cancel-keeps-august.png": {
+    "bytes": 44613,
+    "sha256": "91e55ee4f701f7a15b6f9bf3275bec7cf661a78c978e02cf4a4aa7c60cb263de"
+  },
+  "runtime-dark-outside-closes-calendar.xml": {
+    "bytes": 30005,
+    "sha256": "ded09a2ac3af31fe57a1bc4efb8431421422c4986d2fa934411a3aa7b610ce48"
+  },
+  "runtime-dark-outside-closes-calendar.png": {
+    "bytes": 49070,
+    "sha256": "0d4aed937cbcf083f6ac482348b123971825e8ca196d6137f760efbda99185e7"
+  },
+  "runtime-cancel-keeps-august.xml": {
+    "bytes": 58741,
+    "sha256": "1bdba22f118e0658707ac7c8abc056a520393b918ec657185d609cb47c79ff5b"
+  },
+  "unit-tests.log": {
+    "bytes": 8633,
+    "sha256": "fc6b6aca4efaadc73ed095b4a54c02b82669f2709d6e2fa1d6cb00a37ef26b41"
+  },
+  "picker-light.png": {
+    "bytes": 10766,
+    "sha256": "180c4d0160d616b54e2d2da39a7c9420a498a810f5be195106430ffd98274ff8"
+  },
+  "picker-dark-semantics.txt": {
+    "bytes": 828,
+    "sha256": "a0081babc1f0101043fa3bee8086805ce43fa610be66d466a04a55b0580dda9e"
+  },
+  "release-build.log": {
+    "bytes": 12890,
+    "sha256": "6e7f29c578a4a6f98a38d7ba87a73d3276f2becae1a6e36be87c67d3691271cd"
+  },
+  "runtime-date-selected.xml": {
+    "bytes": 30066,
+    "sha256": "8f1c0fb8afe74c087521c53cce7141f170d557b0f0323013fb0c821d6712a7e6"
+  },
+  "runtime-date-selected.png": {
+    "bytes": 54968,
+    "sha256": "efa7b13e68c6477294a5e5bf9bbed67eabb4eda49f7a9e288b5708fdb75cc6ab"
+  },
+  "regression-after.log": {
+    "bytes": 7623,
+    "sha256": "130244052f4d510e55bae87db3e7468aae636a9f55ea661c7b069d5f4ddb995f"
+  },
+  "calendar-light.png": {
+    "bytes": 35504,
+    "sha256": "56132a46d590c5f8519eb223d366ec7c81723c0b6071772c457a0a80ed618c31"
+  },
+  "calendar-light-semantics.txt": {
+    "bytes": 7109,
+    "sha256": "298fada73e282d6e3263f32d3f09e1540a85b0aa423dfc1bcb90ab9cd52e0d1b"
+  },
+  "regression-before.log": {
+    "bytes": 8479,
+    "sha256": "95164709756f9a5d7a0c8cc84ff6af154c2e42dc1081cd6edaf62db858c6d497"
+  },
+  "instrumentation-results.xml": {
+    "bytes": 1084,
+    "sha256": "abdbd7670e95bb534540a2542fca6ef379cde97000a2c5c0d041ffda0593ad2f"
+  },
+  "verification.json": {
+    "bytes": 452,
+    "sha256": "760316eca65adfc215e01d041e86484822fdf5685fa2782f84e172e7f05b20f4"
+  },
+  "runtime-dark-inside-keeps-calendar.xml": {
+    "bytes": 58739,
+    "sha256": "b76c46fe6ae6626b6d5b1fe3bdc7438e62b80e206d90e38ebf8bc691e5fcbde4"
+  },
+  "runtime-dark-inside-keeps-calendar.png": {
+    "bytes": 46259,
+    "sha256": "dfa82c4bab1516f40ccb03eef92760666a20cba5427ccaf597745aad86f228d8"
+  },
+  "runtime-picker-dark.xml": {
+    "bytes": 7256,
+    "sha256": "03d2bbee1b4b382a1fd8fb6933741900c8d934f8c3b6de46213a90dbec126ef6"
+  },
+  "runtime-picker-dark.png": {
+    "bytes": 36155,
+    "sha256": "44d95da15205117b2caf0689d214a0edc045e8df6f456642741e5e33a7b6ef43"
+  },
+  "picker-dark.png": {
+    "bytes": 10576,
+    "sha256": "9a94e2da328a15935f3e51ee5780cd3fffc5580732dcc81acfe2422cc4c850b3"
+  },
+  "figma-full-dark.png": {
+    "bytes": 37211,
+    "sha256": "c5f82c40487e6470225490bd8106f7415ccc3bbee98dfcbcc0801fd6b94f8fa5"
+  },
+  "runtime-picker-light.png": {
+    "bytes": 38302,
+    "sha256": "16e98b04cab78bf147f3d0b98b8a3a3c4bf7b48c9fba1037f08d61027d003fa8"
+  },
+  "runtime-picker-light.xml": {
+    "bytes": 6934,
+    "sha256": "992679a52785e8dab970f8e6cbbb11c92422429c6a7a77b7aef5829a80c5b252"
+  }
+}

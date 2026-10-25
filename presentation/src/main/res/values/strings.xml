@@ -57,4 +57,9 @@
     <string name="splash_logo_text">나만의 필사로 채우다,</string>
     <string name="close">닫기</string>
     <string name="dismiss_today">오늘 그만 보기</string>
+    <string name="select_year_month">연도·월 선택</string>
+    <string name="calendar_year">연도</string>
+    <string name="calendar_month">월</string>
+    <string name="calendar_year_value">%1$d년</string>
+    <string name="calendar_month_value">%1$d월</string>
 </resources>

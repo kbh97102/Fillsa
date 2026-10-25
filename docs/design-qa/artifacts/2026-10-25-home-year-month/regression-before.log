@@ -1,0 +1,159 @@
+Starting a Gradle Daemon (subsequent builds will be faster)
+
+> Configure project :presentation
+The google-services Gradle plugin needs to be applied on a project with com.android.application or com.android.dynamic-feature.
+
+> Task :compose-util:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :compose-util:preBuild UP-TO-DATE
+> Task :compose-util:preDebugBuild UP-TO-DATE
+> Task :compose-util:generateDebugResValues UP-TO-DATE
+> Task :compose-util:generateDebugResources UP-TO-DATE
+> Task :compose-util:packageDebugResources UP-TO-DATE
+> Task :compose-util:parseDebugLocalResources UP-TO-DATE
+> Task :compose-util:generateDebugRFile UP-TO-DATE
+> Task :compose-util:compileDebugKotlin UP-TO-DATE
+> Task :compose-util:javaPreCompileDebug UP-TO-DATE
+> Task :compose-util:compileDebugJavaWithJavac NO-SOURCE
+> Task :compose-util:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :domain:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :domain:preBuild UP-TO-DATE
+> Task :domain:preDebugBuild UP-TO-DATE
+> Task :domain:generateDebugBuildConfig UP-TO-DATE
+> Task :domain:generateDebugResValues UP-TO-DATE
+> Task :domain:generateDebugResources UP-TO-DATE
+> Task :domain:packageDebugResources UP-TO-DATE
+> Task :domain:parseDebugLocalResources UP-TO-DATE
+> Task :domain:generateDebugRFile UP-TO-DATE
+> Task :domain:compileDebugKotlin UP-TO-DATE
+> Task :domain:javaPreCompileDebug UP-TO-DATE
+> Task :domain:compileDebugJavaWithJavac UP-TO-DATE
+> Task :domain:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:preBuild UP-TO-DATE
+> Task :presentation:preDebugBuild UP-TO-DATE
+> Task :presentation:generateDebugResValues UP-TO-DATE
+> Task :presentation:generateDebugResources UP-TO-DATE
+> Task :presentation:packageDebugResources UP-TO-DATE
+> Task :presentation:parseDebugLocalResources UP-TO-DATE
+> Task :presentation:generateDebugRFile UP-TO-DATE
+> Task :compose-util:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :domain:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :presentation:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :presentation:dataBindingMergeDependencyArtifactsDebug UP-TO-DATE
+> Task :presentation:dataBindingGenBaseClassesDebug UP-TO-DATE
+> Task :presentation:generateDebugBuildConfig UP-TO-DATE
+> Task :presentation:kspDebugKotlin UP-TO-DATE
+> Task :presentation:kaptGenerateStubsDebugKotlin UP-TO-DATE
+> Task :presentation:kaptDebugKotlin SKIPPED
+> Task :presentation:compileDebugKotlin UP-TO-DATE
+> Task :presentation:javaPreCompileDebug UP-TO-DATE
+> Task :presentation:compileDebugJavaWithJavac UP-TO-DATE
+> Task :presentation:transformDebugClassesWithAsm UP-TO-DATE
+> Task :presentation:bundleLibCompileToJarDebug UP-TO-DATE
+> Task :presentation:preDebugAndroidTestBuild UP-TO-DATE
+> Task :presentation:dataBindingMergeDependencyArtifactsDebugAndroidTest UP-TO-DATE
+> Task :presentation:generateDebugAndroidTestResValues UP-TO-DATE
+> Task :presentation:generateDebugAndroidTestResources UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestResources UP-TO-DATE
+> Task :presentation:dataBindingGenBaseClassesDebugAndroidTest UP-TO-DATE
+> Task :compose-util:extractDeepLinksDebug UP-TO-DATE
+> Task :compose-util:processDebugManifest UP-TO-DATE
+> Task :domain:extractDeepLinksDebug UP-TO-DATE
+> Task :domain:processDebugManifest UP-TO-DATE
+> Task :presentation:extractDeepLinksDebug UP-TO-DATE
+> Task :presentation:processDebugManifest UP-TO-DATE
+> Task :presentation:processDebugAndroidTestManifest UP-TO-DATE
+> Task :presentation:generateDebugAndroidTestBuildConfig UP-TO-DATE
+> Task :compose-util:compileDebugLibraryResources UP-TO-DATE
+> Task :domain:compileDebugLibraryResources UP-TO-DATE
+> Task :compose-util:writeDebugAarMetadata UP-TO-DATE
+> Task :domain:writeDebugAarMetadata UP-TO-DATE
+> Task :presentation:writeDebugAarMetadata UP-TO-DATE
+> Task :presentation:checkDebugAndroidTestAarMetadata UP-TO-DATE
+> Task :presentation:compileDebugLibraryResources UP-TO-DATE
+> Task :presentation:mapDebugAndroidTestSourceSetPaths UP-TO-DATE
+> Task :presentation:processDebugAndroidTestResources UP-TO-DATE
+> Task :presentation:javaPreCompileDebugAndroidTest UP-TO-DATE
+> Task :compose-util:mergeDebugShaders UP-TO-DATE
+> Task :compose-util:compileDebugShaders NO-SOURCE
+> Task :compose-util:generateDebugAssets UP-TO-DATE
+> Task :compose-util:mergeDebugAssets UP-TO-DATE
+> Task :domain:mergeDebugShaders UP-TO-DATE
+> Task :domain:compileDebugShaders NO-SOURCE
+> Task :domain:generateDebugAssets UP-TO-DATE
+> Task :domain:mergeDebugAssets UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestShaders UP-TO-DATE
+> Task :presentation:compileDebugAndroidTestShaders NO-SOURCE
+> Task :presentation:generateDebugAndroidTestAssets UP-TO-DATE
+> Task :presentation:mergeDebugShaders UP-TO-DATE
+> Task :presentation:compileDebugShaders NO-SOURCE
+> Task :presentation:generateDebugAssets UP-TO-DATE
+> Task :presentation:mergeDebugAssets UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestAssets UP-TO-DATE
+> Task :presentation:compressDebugAndroidTestAssets UP-TO-DATE
+> Task :presentation:bundleLibRuntimeToJarDebug UP-TO-DATE
+> Task :presentation:desugarDebugAndroidTestFileDependencies UP-TO-DATE
+> Task :compose-util:processDebugJavaRes UP-TO-DATE
+> Task :domain:processDebugJavaRes UP-TO-DATE
+> Task :presentation:processDebugJavaRes UP-TO-DATE
+> Task :presentation:checkDebugAndroidTestDuplicateClasses UP-TO-DATE
+> Task :presentation:kspDebugAndroidTestKotlin
+> Task :presentation:mergeExtDexDebugAndroidTest UP-TO-DATE
+> Task :presentation:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :domain:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :compose-util:bundleLibRuntimeToDirDebug UP-TO-DATE
+> Task :compose-util:mergeDebugJniLibFolders UP-TO-DATE
+> Task :compose-util:mergeDebugNativeLibs NO-SOURCE
+> Task :compose-util:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :domain:mergeDebugJniLibFolders UP-TO-DATE
+> Task :domain:mergeDebugNativeLibs NO-SOURCE
+> Task :domain:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:mergeDebugJniLibFolders UP-TO-DATE
+> Task :presentation:mergeDebugNativeLibs NO-SOURCE
+> Task :presentation:copyDebugJniLibsProjectOnly UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestJniLibFolders UP-TO-DATE
+> Task :presentation:mergeDebugAndroidTestNativeLibs UP-TO-DATE
+> Task :presentation:stripDebugAndroidTestDebugSymbols UP-TO-DATE
+> Task :presentation:validateSigningDebugAndroidTest UP-TO-DATE
+> Task :presentation:writeDebugAndroidTestSigningConfigVersions UP-TO-DATE
+> Task :presentation:mergeLibDexDebugAndroidTest
+> Task :presentation:kaptGenerateStubsDebugAndroidTestKotlin
+> Task :presentation:kaptDebugAndroidTestKotlin SKIPPED
+> Task :presentation:compileDebugAndroidTestKotlin
+> Task :presentation:compileDebugAndroidTestJavaWithJavac
+> Task :presentation:hiltAggregateDepsDebugAndroidTest UP-TO-DATE
+> Task :presentation:hiltJavaCompileDebugAndroidTest NO-SOURCE
+> Task :presentation:processDebugAndroidTestJavaRes
+> Task :presentation:transformDebugAndroidTestClassesWithAsm
+> Task :presentation:dexBuilderDebugAndroidTest
+> Task :presentation:mergeDebugAndroidTestGlobalSynthetics UP-TO-DATE
+> Task :presentation:mergeProjectDexDebugAndroidTest
+> Task :presentation:mergeDebugAndroidTestJavaResource
+> Task :presentation:packageDebugAndroidTest
+> Task :presentation:createDebugAndroidTestApkListingFileRedirect UP-TO-DATE
+
+> Task :presentation:connectedDebugAndroidTest
+Starting 1 tests on fillsa_qa_20261005(AVD) - 15
+
+com.arakene.presentation.ui.home.HomeYearMonthDialogTest > yearAndMonthOpenPicker_cancelDoesNotChangeMonth_confirmChangesOnlyMonth[fillsa_qa_20261005(AVD) - 15] [31mFAILED [0m
+	androidx.test.espresso.NoMatchingViewException: No views in hierarchy found matching: view.getContentDescription() is "연도"
+
+Tests on fillsa_qa_20261005(AVD) - 15 failed: There was 1 failure(s).
+
+Finished 1 tests on fillsa_qa_20261005(AVD) - 15
+
+> Task :presentation:connectedDebugAndroidTest FAILED
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':presentation:connectedDebugAndroidTest'.
+> There were failing tests. See the report at: file:///Users/gangbohun/AndroidStudioProjects/Fillsa/presentation/build/reports/androidTests/connected/debug/index.html
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 31s
+103 actionable tasks: 12 executed, 91 up-to-date

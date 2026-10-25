@@ -1,0 +1,12 @@
+ComposeViewAdapter (left: 0, top: 0, right: 735, bottom: 473)
+  ComposeView (left: 0, top: 0, right: 735, bottom: 473)
+    View (left: 0, top: 0, right: 735, bottom: 473)
+      ViewFactoryHolder (left: 0, top: 0, right: 735, bottom: 473)
+        LinearLayout (left: 0, top: 0, right: 735, bottom: 473)
+          NumberPicker (left: 0, top: 0, right: 367, bottom: 473)
+            Button (left: 0, top: 0, right: 367, bottom: 173) text="2025년"
+            EditText (left: 0, top: 173, right: 367, bottom: 299) text="2026년"
+          NumberPicker (left: 367, top: 0, right: 735, bottom: 473)
+            Button (left: 367, top: 0, right: 735, bottom: 173) text="7월"
+            EditText (left: 367, top: 173, right: 735, bottom: 299) text="8월"
+            Button (left: 367, top: 299, right: 735, bottom: 473) text="9월"

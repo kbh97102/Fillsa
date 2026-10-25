@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<testsuite name="com.arakene.presentation.ui.home.HomeYearMonthDialogTest" tests="4" failures="0" errors="0" skipped="0" time="14.835" timestamp="2026-10-25T04:40:37" hostname="localhost">
+  <properties>
+    <property name="device" value="fillsa_qa_20261005(AVD) - 15" />
+    <property name="flavor" value="" />
+    <property name="project" value=":presentation" />
+  </properties>
+  <testcase name="changingBoundaryYears_clampsMonthToAvailableRange" classname="com.arakene.presentation.ui.home.HomeYearMonthDialogTest" time="6.316" />
+  <testcase name="yearAndMonthOpenPicker_cancelDoesNotChangeMonth_confirmChangesOnlyMonth" classname="com.arakene.presentation.ui.home.HomeYearMonthDialogTest" time="4.496" />
+  <testcase name="homeCalendar_insideTapKeepsCalendar_andOutsideTapDismisses" classname="com.arakene.presentation.ui.home.HomeYearMonthDialogTest" time="1.642" />
+  <testcase name="sameYearRange_respectsBothBoundaries_andBackCancels" classname="com.arakene.presentation.ui.home.HomeYearMonthDialogTest" time="1.065" />
+</testsuite>
