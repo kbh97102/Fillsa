@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.arakene.presentation.viewmodel.TypingSaveOutcomeTest" tests="6" skipped="0" failures="0" errors="0" timestamp="2026-10-28T11:12:57.332Z" hostname="gangbohuns-MacBook-Pro.local" time="0.7">
+  <properties/>
+  <testcase name="guest empty save shows incomplete popup after deleting an old draft" classname="com.arakene.presentation.viewmodel.TypingSaveOutcomeTest" time="0.018"/>
+  <testcase name="repeated save taps issue one member request" classname="com.arakene.presentation.viewmodel.TypingSaveOutcomeTest" time="0.157"/>
+  <testcase name="completed save popup confirmation returns to Home" classname="com.arakene.presentation.viewmodel.TypingSaveOutcomeTest" time="0.004"/>
+  <testcase name="guest completed save uses the continue writing popup" classname="com.arakene.presentation.viewmodel.TypingSaveOutcomeTest" time="0.01"/>
+  <testcase name="incomplete save offers typing without opening another typing route" classname="com.arakene.presentation.viewmodel.TypingSaveOutcomeTest" time="0.002"/>
+  <testcase name="failed member save never displays a result popup" classname="com.arakene.presentation.viewmodel.TypingSaveOutcomeTest" time="0.508"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

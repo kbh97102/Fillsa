@@ -1,0 +1,447 @@
+{
+  "head": "1d95ff1",
+  "date": "2026-10-28",
+  "unique_previews": 10,
+  "attempts": 12,
+  "final_images": 10,
+  "code_changed": false,
+  "runtime_recaptured": false,
+  "calendar_result": "Differences; no final approval",
+  "typing_result": "Guide/body match at component level; no new final runtime approval",
+  "normalization": "CLI scale 2.625 px/dp; sips resize to declared dp; typing assembled crop [53,131,839,432] resized to [320,164]",
+  "files": [
+    {
+      "file": "calendar-dark-1x.png",
+      "bytes": 29434,
+      "sha256": "7bfceee97e16f6ead4ae7411740c7a546ae231b6708ba36dd0de244c13589162",
+      "pixels": [
+        248,
+        335
+      ]
+    },
+    {
+      "file": "calendar-dark-semantics.txt",
+      "bytes": 7296,
+      "sha256": "b1acf392610b6cd8ccf46674bd10520565543b8b01ecaf52e58dcef4fb49751c"
+    },
+    {
+      "file": "calendar-dark.png",
+      "bytes": 41123,
+      "sha256": "8069c70d172e7e6b6dcd878d25add3ba904f8ebc8bc5fe50e2176c1b9013ce25",
+      "pixels": [
+        651,
+        879
+      ]
+    },
+    {
+      "file": "calendar-header-dark-1x.png",
+      "bytes": 3158,
+      "sha256": "edc41cd946ee03971e7a85012050ed6aff322ea81b832dc1b0daa43b0f46d5af",
+      "pixels": [
+        224,
+        36
+      ]
+    },
+    {
+      "file": "calendar-header-dark-semantics.txt",
+      "bytes": 994,
+      "sha256": "0dc4bf39d9e66e868b4601e571f2e8f9185f40074646af55ee2fc0ce5916dda3"
+    },
+    {
+      "file": "calendar-header-dark.png",
+      "bytes": 6696,
+      "sha256": "c336d6ed6058b98d7ca5ceabf7e6a9e4435eb99fe0b6ffebc559395cb537cd94",
+      "pixels": [
+        588,
+        95
+      ]
+    },
+    {
+      "file": "calendar-header-light-1x.png",
+      "bytes": 3158,
+      "sha256": "edc41cd946ee03971e7a85012050ed6aff322ea81b832dc1b0daa43b0f46d5af",
+      "pixels": [
+        224,
+        36
+      ]
+    },
+    {
+      "file": "calendar-header-light-semantics.txt",
+      "bytes": 994,
+      "sha256": "0dc4bf39d9e66e868b4601e571f2e8f9185f40074646af55ee2fc0ce5916dda3"
+    },
+    {
+      "file": "calendar-header-light.png",
+      "bytes": 6696,
+      "sha256": "c336d6ed6058b98d7ca5ceabf7e6a9e4435eb99fe0b6ffebc559395cb537cd94",
+      "pixels": [
+        588,
+        95
+      ]
+    },
+    {
+      "file": "calendar-light-1x.png",
+      "bytes": 25844,
+      "sha256": "a6a2eb8a53b286419c09f4777cc913d41b590b03a11bb78803e38450adcf0e47",
+      "pixels": [
+        248,
+        335
+      ]
+    },
+    {
+      "file": "calendar-light-semantics.txt",
+      "bytes": 7296,
+      "sha256": "28d066eb7d787ccb985a22de200b2ac6254d47b195c3feaa77efad7825a94894"
+    },
+    {
+      "file": "calendar-light.png",
+      "bytes": 37447,
+      "sha256": "56a9b7631d19926d198fa7bc2c1f09e808329d80548de4445a29abe74dcc9915",
+      "pixels": [
+        651,
+        879
+      ]
+    },
+    {
+      "file": "calendar-meta.xml",
+      "bytes": 11214,
+      "sha256": "5d17d32fe37db53fddf55aa13afe93bc56002918ca74f95554c01d8d7d3319da"
+    },
+    {
+      "file": "figma-calendar-dark-instance.png",
+      "bytes": 14966,
+      "sha256": "90dcd53dd49f61b651e2a0fc9d6d6b185a88d0b9e2c64c2c7234323fb593575a",
+      "pixels": [
+        254,
+        375
+      ]
+    },
+    {
+      "file": "figma-calendar-dark-instance.txt",
+      "bytes": 39679,
+      "sha256": "972c8ffda6c36288ecb9bf3eee611cb6d81a6acf3f442feec33cbbe4973ca35e"
+    },
+    {
+      "file": "figma-calendar-dark.png",
+      "bytes": 13762,
+      "sha256": "3d56b379ddda10b283f8ce521a3011ee4d6aa4395f111a2336fab85ba38ac87f",
+      "pixels": [
+        254,
+        341
+      ]
+    },
+    {
+      "file": "figma-calendar-full-dark.png",
+      "bytes": 37211,
+      "sha256": "c5f82c40487e6470225490bd8106f7415ccc3bbee98dfcbcc0801fd6b94f8fa5",
+      "pixels": [
+        360,
+        821
+      ]
+    },
+    {
+      "file": "figma-calendar-full-light.png",
+      "bytes": 47165,
+      "sha256": "60d84c276be0cf4332fd24cd0a0e63e48339c2b79af3d4170689065fdde5db59",
+      "pixels": [
+        360,
+        821
+      ]
+    },
+    {
+      "file": "figma-calendar-header-dark.png",
+      "bytes": 2122,
+      "sha256": "c12465229c553e5f2490392137753568084f534c3682ed78992459f993f3fd20",
+      "pixels": [
+        224,
+        36
+      ]
+    },
+    {
+      "file": "figma-calendar-header-dark.txt",
+      "bytes": 5440,
+      "sha256": "5b077d6e6b2dca42380b15eacb29fda8fd5443a99b5430e66a1ee0f34f9f22d7"
+    },
+    {
+      "file": "figma-calendar-header-light.png",
+      "bytes": 2122,
+      "sha256": "c12465229c553e5f2490392137753568084f534c3682ed78992459f993f3fd20",
+      "pixels": [
+        224,
+        36
+      ]
+    },
+    {
+      "file": "figma-calendar-header-light.txt",
+      "bytes": 5440,
+      "sha256": "61c7b09156b0d61503b36a35faaea01ac280cb6e1dada6e869ebde4ccbc1f5d9"
+    },
+    {
+      "file": "figma-calendar.png",
+      "bytes": 13087,
+      "sha256": "d2df62a39ce7d0caf3113a6eb5cd60117a5d26c5d58867011b89dd8ef3d1ed1e",
+      "pixels": [
+        254,
+        341
+      ]
+    },
+    {
+      "file": "figma-calendar.txt",
+      "bytes": 37550,
+      "sha256": "24d7e1fc92098560ee6b72fe3f366f86c3bde6f37b9e339c4caeee20f575c73a"
+    },
+    {
+      "file": "figma-typing-body-dark.png",
+      "bytes": 12382,
+      "sha256": "7480d4d77bfcd88d493de0e2c37d40f5b20222e12b5a1fa1aef0090dcb1aef5b",
+      "pixels": [
+        320,
+        164
+      ]
+    },
+    {
+      "file": "figma-typing-body-dark.txt",
+      "bytes": 3018,
+      "sha256": "b87d6e19be37ccb72c56c4fbe196be149f405a2a18d84162811d276bb98050bf"
+    },
+    {
+      "file": "figma-typing-body-light.png",
+      "bytes": 11204,
+      "sha256": "24656bd3849ccd7351277e7f26c3d581766d2b61c5e70eb536dbabbcccaba66a",
+      "pixels": [
+        320,
+        164
+      ]
+    },
+    {
+      "file": "figma-typing-body-light.txt",
+      "bytes": 3003,
+      "sha256": "5149053b38799d711618a50be02cd84bb6e4044b58c75200399b736f3a95c80e"
+    },
+    {
+      "file": "figma-typing-full-dark.png",
+      "bytes": 34080,
+      "sha256": "3826a2bb073f4a76b689bad77deca25b1099ef06d2acbafd8246711c86997cd6",
+      "pixels": [
+        360,
+        720
+      ]
+    },
+    {
+      "file": "figma-typing-full-light.png",
+      "bytes": 32418,
+      "sha256": "6c8819f4015427e833e047adb7bcf8b78a8bbb655146560f7ef36870d1fa8231",
+      "pixels": [
+        360,
+        720
+      ]
+    },
+    {
+      "file": "figma-typing-guide-dark.png",
+      "bytes": 6124,
+      "sha256": "0d18cbb5f26445598df9ed03b71c149e7e75170a0a566594aa7fc6749376268e",
+      "pixels": [
+        296,
+        84
+      ]
+    },
+    {
+      "file": "figma-typing-guide-dark.txt",
+      "bytes": 2276,
+      "sha256": "f131508d61c62d3d6af8106dd1efa7df8dd8046eebc396f12f512f56de5aebd1"
+    },
+    {
+      "file": "figma-typing-guide-light.png",
+      "bytes": 5576,
+      "sha256": "7b79b7829cd71e523ccb37e3d50a1538d092a1f7dbd0f1da8b85d6885fbe0468",
+      "pixels": [
+        296,
+        84
+      ]
+    },
+    {
+      "file": "figma-typing-guide-light.txt",
+      "bytes": 2276,
+      "sha256": "f28b7041fc81ad9367863697547a8b884272b1e73028e450b763cc649a353ed5"
+    },
+    {
+      "file": "preview-commands.json",
+      "bytes": 7190,
+      "sha256": "82898610df5f699029e35901cc430ad41172f927ebc04d95d698cb4366b6b010"
+    },
+    {
+      "file": "typing-body-dark-semantics.txt",
+      "bytes": 434,
+      "sha256": "a2a51eab0fb510b181567747e0abcd38b0b34aa1e02982504004514f0a213dfd"
+    },
+    {
+      "file": "typing-body-dark.png",
+      "bytes": 17503,
+      "sha256": "f6cce58ff73ce7110778e244784e538c484ac764a8f7cf19764940424ace2af8",
+      "pixels": [
+        840,
+        184
+      ]
+    },
+    {
+      "file": "typing-body-light-initial-semantics.txt",
+      "bytes": 9072,
+      "sha256": "bce8b43ddd49d39803efcabeb60267e829def7a6a18ad9c21592190702329d95"
+    },
+    {
+      "file": "typing-body-light-semantics.txt",
+      "bytes": 434,
+      "sha256": "a2a51eab0fb510b181567747e0abcd38b0b34aa1e02982504004514f0a213dfd"
+    },
+    {
+      "file": "typing-body-light.png",
+      "bytes": 14451,
+      "sha256": "0b8973fee0c497d0ed563891980a1925e941f0c64320c811a36b75eb1cfc44dd",
+      "pixels": [
+        840,
+        184
+      ]
+    },
+    {
+      "file": "typing-character.svg",
+      "bytes": 4577,
+      "sha256": "defb407ecd15892ac90cffcdb647fe972b835cc66dd402336a9bc07c9f178012"
+    },
+    {
+      "file": "typing-content-dark-1x.png",
+      "bytes": 24648,
+      "sha256": "5ff0f22a547de09a04950f1fb4a67f5455757e8845f9455655d8b96f34d19b34",
+      "pixels": [
+        320,
+        164
+      ]
+    },
+    {
+      "file": "typing-content-light-1x.png",
+      "bytes": 17461,
+      "sha256": "f589f796ead103ddfa2d4827f54a57ca17d97879d102810c4573434e9729eafe",
+      "pixels": [
+        320,
+        164
+      ]
+    },
+    {
+      "file": "typing-guide-dark-1x.png",
+      "bytes": 10475,
+      "sha256": "2d8ab17aed2bd9982687378c7d379f86eaa469fb7f98d877d0e7d5d8939ff0b6",
+      "pixels": [
+        296,
+        84
+      ]
+    },
+    {
+      "file": "typing-guide-dark-semantics.txt",
+      "bytes": 394,
+      "sha256": "cac9d0a0d96cd97f0e24ba0f99cf4894ec1c223353e73329054e2291e3dbedd5"
+    },
+    {
+      "file": "typing-guide-dark.png",
+      "bytes": 16334,
+      "sha256": "9b6d63c468e059c3d6274df8e0f610855062f207110ffa43404790125fe9d085",
+      "pixels": [
+        777,
+        221
+      ]
+    },
+    {
+      "file": "typing-guide-light-1x.png",
+      "bytes": 8058,
+      "sha256": "cd755ffba7aaa442c15e813454234662807b5c2a376deefd86f6b47d3ea04ebd",
+      "pixels": [
+        296,
+        84
+      ]
+    },
+    {
+      "file": "typing-guide-light-semantics.txt",
+      "bytes": 394,
+      "sha256": "cac9d0a0d96cd97f0e24ba0f99cf4894ec1c223353e73329054e2291e3dbedd5"
+    },
+    {
+      "file": "typing-guide-light.png",
+      "bytes": 15085,
+      "sha256": "2dd9cb4f06f2d27f8ac1ec382e8075fc1b95e803f27b6d7005f4658226ea2cee",
+      "pixels": [
+        777,
+        221
+      ]
+    },
+    {
+      "file": "typing-meta.xml",
+      "bytes": 18371,
+      "sha256": "6313d3c286b1f1543bbac592dde106ab697d3deeeca9d489aa3867b3e56e0b68"
+    },
+    {
+      "file": "typing-screen-dark-initial-semantics.txt",
+      "bytes": 1248,
+      "sha256": "0940adea0c924054d5918bdc6be97a1c64c64b7f8e3f708d9c32ee4ffe0af10d"
+    },
+    {
+      "file": "typing-screen-dark-initial.png",
+      "bytes": 52696,
+      "sha256": "d47f85a57be1099103a3d74efee22c344eb2eff9d82884c49145c6bef958267e",
+      "pixels": [
+        945,
+        1764
+      ]
+    },
+    {
+      "file": "typing-screen-dark-semantics.txt",
+      "bytes": 1248,
+      "sha256": "0940adea0c924054d5918bdc6be97a1c64c64b7f8e3f708d9c32ee4ffe0af10d"
+    },
+    {
+      "file": "typing-screen-dark.png",
+      "bytes": 52696,
+      "sha256": "d47f85a57be1099103a3d74efee22c344eb2eff9d82884c49145c6bef958267e",
+      "pixels": [
+        945,
+        1764
+      ]
+    },
+    {
+      "file": "typing-screen-light-semantics.txt",
+      "bytes": 1248,
+      "sha256": "0940adea0c924054d5918bdc6be97a1c64c64b7f8e3f708d9c32ee4ffe0af10d"
+    },
+    {
+      "file": "typing-screen-light.png",
+      "bytes": 48544,
+      "sha256": "977dd3d953b9c62f8d2b1e60572fa67163782bb83a13de5bc4bca1b601e6fd7e",
+      "pixels": [
+        945,
+        1764
+      ]
+    }
+  ],
+  "report_checks": {
+    "local_links": "passed",
+    "embedded_pngs": "valid",
+    "final_preview_images": 10,
+    "source_changes": false
+  },
+  "reports": [
+    {
+      "file": "2026-10-28-typing-preview-figma.html",
+      "sha256": "6a062d5f4da676ca49d677e170f0b82c2141569997b0f5b3eae2c9ce98cd341e"
+    },
+    {
+      "file": "2026-10-28-calendar-preview-figma.html",
+      "sha256": "c3567dac4831ef3fcccd1dc93f717709d4df91fa80e391f2dab6fd5b3a60e8d3"
+    }
+  ],
+  "report_visual_qa": {
+    "method": "Isolated headless Chrome; desktop1440/narrow500; source comparisons and report layout inspected",
+    "status": "Readable side-by-side comparisons and overlay; no clipping in narrow layout",
+    "captures": [
+      "report-typing-1440.png",
+      "report-typing-500.png",
+      "report-calendar-1440.png"
+    ]
+  }
+}

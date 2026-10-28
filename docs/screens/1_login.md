@@ -1,5 +1,11 @@
 # 로그인
 
+## 로그인 만료 이슈 재검토 · 2026-10-28
+
+- [Android QA 3건 AS-IS / TO-BE 보고서](../design-qa/2026-10-28-android-three-issues-report.html#session). HEAD `1d95ff1`에서 최초 로그인·재발급 기기 ID 공통화와 오류 collector 생명주기 수정 확인.
+- 인증 관련 단위 테스트 12건·오류 lifecycle 계측 1건(API31) 재통과. 실서버 하루 경과·refresh 만료·삭제/재설치·백업 복원은 미검증으로 유지한다.
+- 표준 HTTP401/403의 로그인 이동과 ApiFail 본문 errorCode401/403의 기존 팝업 분기를 구분해야 한다. 추가 코드 변경은 실서버 재현 근거에 따라 결정한다.
+
 ## Android 구성
 
 - Compose 위치: `presentation/ui/LoginView.kt`

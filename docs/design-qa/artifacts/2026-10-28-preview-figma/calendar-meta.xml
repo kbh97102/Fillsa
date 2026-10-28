@@ -1,0 +1,190 @@
+<frame id="2929:16227" name="Calendar" x="0" y="36" width="248" height="335">
+  <frame id="2929:16228" name="Wrapper" x="12" y="12" width="224" height="32">
+    <frame id="2929:16229" name="Previous month" x="0" y="0" width="32" height="32">
+      <instance id="2929:16230" name="lucide/chevron-left" x="8" y="8" width="16" height="16" />
+    </frame>
+    <frame id="2929:16231" name="Wrapper" x="32" y="0" width="160" height="32">
+      <frame id="2929:16232" name="Dropdown" x="13" y="0" width="65" height="32">
+        <frame id="2929:16233" name="Month" x="8" y="6" width="37" height="20">
+          <text id="2929:16234" name="Jun" x="0.5" y="0" width="36" height="20" />
+        </frame>
+        <instance id="2929:16235" name="lucide/chevron-down" x="49" y="10" width="12" height="12" />
+      </frame>
+      <frame id="2929:16236" name="Dropdown" x="84" y="0" width="63" height="32">
+        <frame id="2929:16237" name="Month" x="8" y="6" width="35" height="20">
+          <text id="2929:16238" name="2025" x="0" y="0" width="35" height="20" />
+        </frame>
+        <instance id="2929:16239" name="lucide/chevron-down" x="47" y="10" width="12" height="12" />
+      </frame>
+    </frame>
+    <frame id="2929:16240" name="Previous month" x="192" y="0" width="32" height="32">
+      <instance id="2929:16241" name="lucide/chevron-right" x="8" y="8" width="16" height="16" />
+    </frame>
+  </frame>
+  <frame id="2929:16242" name="Wrapper" x="12" y="60" width="224" height="261">
+    <frame id="2929:16243" name="Days" x="0" y="0" width="224" height="21">
+      <frame id="2929:16244" name="Sunday" x="0" y="0" width="32" height="21">
+        <text id="2929:16245" name="일" x="10" y="2.5" width="12" height="16" />
+      </frame>
+      <frame id="2929:16246" name="Monday" x="32" y="0" width="32" height="21">
+        <text id="2929:16247" name="월" x="10" y="2.5" width="12" height="16" />
+      </frame>
+      <frame id="2929:16248" name="Tuesday" x="64" y="0" width="32" height="21">
+        <text id="2929:16249" name="화" x="10" y="2.5" width="12" height="16" />
+      </frame>
+      <frame id="2929:16250" name="Wednesday" x="96" y="0" width="32" height="21">
+        <text id="2929:16251" name="수" x="10" y="2.5" width="12" height="16" />
+      </frame>
+      <frame id="2929:16252" name="Thursday" x="128" y="0" width="32" height="21">
+        <text id="2929:16253" name="목" x="10" y="2.5" width="12" height="16" />
+      </frame>
+      <frame id="2929:16254" name="Friday" x="160" y="0" width="32" height="21">
+        <text id="2929:16255" name="금" x="10" y="2.5" width="12" height="16" />
+      </frame>
+      <frame id="2929:16256" name="Saturday" x="192" y="0" width="32" height="21">
+        <text id="2929:16257" name="토" x="10" y="2.5" width="12" height="16" />
+      </frame>
+    </frame>
+    <frame id="2929:16258" name="Wrapper" x="0" y="21" width="224" height="240">
+      <frame id="2929:16259" name="Grid" x="0" y="0" width="224" height="40">
+        <frame id="2929:16260" name="Date" x="0" y="8" width="32" height="32">
+          <text id="2929:16261" name="26" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16262" name="Date" x="32" y="8" width="32" height="32">
+          <text id="2929:16263" name="27" x="7.5" y="6" width="17" height="20" />
+        </frame>
+        <frame id="2929:16264" name="Date" x="64" y="8" width="32" height="32">
+          <text id="2929:16265" name="28" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16266" name="Date" x="96" y="8" width="32" height="32">
+          <text id="2929:16267" name="29" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16268" name="Date" x="128" y="8" width="32" height="32">
+          <text id="2929:16269" name="30" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16270" name="Date" x="160" y="8" width="32" height="32">
+          <text id="2929:16271" name="31" x="8" y="6" width="16" height="20" />
+        </frame>
+        <frame id="2929:16272" name="Date" x="192" y="8" width="32" height="32">
+          <text id="2929:16273" name="1" x="12.5" y="6" width="7" height="20" />
+        </frame>
+      </frame>
+      <frame id="2929:16274" name="Grid" x="0" y="40" width="224" height="40">
+        <frame id="2929:16275" name="Date" x="0" y="8" width="32" height="32">
+          <text id="2929:16276" name="2" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16277" name="Date" x="32" y="8" width="32" height="32">
+          <text id="2929:16278" name="3" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16279" name="Date" x="64" y="8" width="32" height="32">
+          <text id="2929:16280" name="4" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16281" name="Date" x="96" y="8" width="32" height="32">
+          <text id="2929:16282" name="5" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16283" name="Date" x="128" y="8" width="32" height="32">
+          <text id="2929:16284" name="6" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16285" name="Date" x="160" y="8" width="32" height="32">
+          <text id="2929:16286" name="7" x="12" y="6" width="8" height="20" />
+        </frame>
+        <frame id="2929:16287" name="Date" x="192" y="8" width="32" height="32">
+          <text id="2929:16288" name="8" x="11.5" y="6" width="9" height="20" />
+        </frame>
+      </frame>
+      <frame id="2929:16289" name="Grid" x="0" y="80" width="224" height="40">
+        <frame id="2929:16290" name="Date" x="0" y="8" width="32" height="32">
+          <text id="2929:16291" name="9" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16292" name="Date" x="32" y="8" width="32" height="32">
+          <text id="2929:16293" name="10" x="8" y="6" width="16" height="20" />
+        </frame>
+        <frame id="2929:16294" name="Date" x="64" y="8" width="32" height="32">
+          <text id="2929:16295" name="11" x="9" y="6" width="14" height="20" />
+        </frame>
+        <frame id="2929:16296" name="Date" x="96" y="8" width="32" height="32">
+          <text id="2929:16297" name="12" x="8.5" y="6" width="15" height="20" />
+        </frame>
+        <frame id="2929:16298" name="Date" x="128" y="8" width="32" height="32">
+          <text id="2929:16299" name="13" x="8" y="6" width="16" height="20" />
+        </frame>
+        <frame id="2929:16300" name="Date" x="160" y="8" width="32" height="32">
+          <text id="2929:16301" name="14" x="8" y="6" width="16" height="20" />
+        </frame>
+        <frame id="2929:16302" name="Date" x="192" y="8" width="32" height="32">
+          <text id="2929:16303" name="15" x="8" y="6" width="16" height="20" />
+        </frame>
+      </frame>
+      <frame id="2929:16304" name="Grid" x="0" y="120" width="224" height="40">
+        <frame id="2929:16305" name="Date" x="0" y="8" width="32" height="32">
+          <text id="2929:16306" name="16" x="8" y="6" width="16" height="20" />
+        </frame>
+        <frame id="2929:16307" name="Date" x="32" y="8" width="32" height="32">
+          <text id="2929:16308" name="17" x="8.5" y="6" width="15" height="20" />
+        </frame>
+        <frame id="2929:16309" name="Date" x="64" y="8" width="32" height="32">
+          <text id="2929:16310" name="18" x="8" y="6" width="16" height="20" />
+        </frame>
+        <frame id="2929:16311" name="Date" x="96" y="8" width="32" height="32">
+          <text id="2929:16312" name="19" x="8" y="6" width="16" height="20" />
+        </frame>
+        <frame id="2929:16313" name="Date" x="128" y="8" width="32" height="32">
+          <text id="2929:16314" name="20" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16315" name="Date" x="160" y="8" width="32" height="32">
+          <text id="2929:16316" name="21" x="8.5" y="6" width="15" height="20" />
+        </frame>
+        <frame id="2929:16317" name="Date" x="192" y="8" width="32" height="32">
+          <text id="2929:16318" name="22" x="7.5" y="6" width="17" height="20" />
+        </frame>
+      </frame>
+      <frame id="2929:16319" name="Grid" x="0" y="160" width="224" height="40">
+        <frame id="2929:16320" name="Date" x="0" y="8" width="32" height="32">
+          <text id="2929:16321" name="23" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16322" name="Date" x="32" y="8" width="32" height="32">
+          <text id="2929:16323" name="24" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16324" name="Date" x="64" y="8" width="32" height="32">
+          <text id="2929:16325" name="25" x="7.5" y="6" width="17" height="20" />
+        </frame>
+        <frame id="2929:16326" name="Date" x="96" y="8" width="32" height="32">
+          <text id="2929:16327" name="26" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16328" name="Date" x="128" y="8" width="32" height="32">
+          <text id="2929:16329" name="27" x="7.5" y="6" width="17" height="20" />
+        </frame>
+        <frame id="2929:16330" name="Date" x="160" y="8" width="32" height="32">
+          <text id="2929:16331" name="28" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16332" name="Date" x="192" y="8" width="32" height="32">
+          <text id="2929:16333" name="29" x="7" y="6" width="18" height="20" />
+        </frame>
+      </frame>
+      <frame id="2929:16334" name="Grid" x="0" y="200" width="224" height="40">
+        <frame id="2929:16335" name="Date" x="0" y="8" width="32" height="32">
+          <text id="2929:16336" name="30" x="7" y="6" width="18" height="20" />
+        </frame>
+        <frame id="2929:16337" name="Date" x="32" y="8" width="32" height="32">
+          <text id="2929:16338" name="31" x="8" y="6" width="16" height="20" />
+        </frame>
+        <frame id="2929:16339" name="Date" x="64" y="8" width="32" height="32">
+          <text id="2929:16340" name="1" x="12.5" y="6" width="7" height="20" />
+        </frame>
+        <frame id="2929:16341" name="Date" x="96" y="8" width="32" height="32">
+          <text id="2929:16342" name="2" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16343" name="Date" x="128" y="8" width="32" height="32">
+          <text id="2929:16344" name="3" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16345" name="Date" x="160" y="8" width="32" height="32">
+          <text id="2929:16346" name="4" x="11.5" y="6" width="9" height="20" />
+        </frame>
+        <frame id="2929:16347" name="Date" x="192" y="8" width="32" height="32">
+          <text id="2929:16348" name="5" x="11.5" y="6" width="9" height="20" />
+        </frame>
+      </frame>
+    </frame>
+  </frame>
+</frame>
+IMPORTANT: After you call this tool, you MUST call get_design_context if trying to implement the design, since this tool only returns metadata. If you do not call get_design_context, the agent will not be able to implement the design.

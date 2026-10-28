@@ -1,0 +1,28 @@
+const imgCharacterLightStateHandwriting = "https://www.figma.com/api/mcp/asset/002f01e2-4f9d-4385-9843-52b4f5606c69.svg";
+
+export default function Frame1000007600() {
+  return (
+    <div className="content-stretch flex flex-col items-center relative size-full" data-node-id="3087:28984">
+      <div className="relative shrink-0 size-[60px]" data-node-id="3087:28985" data-name="Character/Light/State=Handwriting">
+        <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCharacterLightStateHandwriting} />
+      </div>
+      <div className="[word-break:break-word] flex flex-col font-['Pretendard:Bold'] justify-center leading-[0] min-w-full not-italic overflow-hidden relative shrink-0 text-[#5c65ff] text-[16px] text-center text-ellipsis w-[min-content] whitespace-nowrap" data-node-id="3087:29001">
+        <p className="leading-[24px] overflow-hidden text-ellipsis">오늘의 문장을 따라 써주세요.</p>
+      </div>
+    </div>
+  );
+}
+
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+
+These styles are contained in the design: dark-character: , light/background/background: #FFEFCC, light/primary/primary container: #5C65FF, Subtitle1: Font(family: "Pretendard", style: Bold, size: 16, weight: 700, lineHeight: 24, letterSpacing: 0).
+
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

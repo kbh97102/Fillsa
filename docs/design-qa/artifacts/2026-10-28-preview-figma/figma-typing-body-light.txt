@@ -1,0 +1,34 @@
+const imgCharacterLightStateHandwriting = "https://www.figma.com/api/mcp/asset/ac3e4f3c-24ea-4af5-918b-0a698cfb5890.svg";
+
+export default function Frame1000007721() {
+  return (
+    <div className="content-stretch flex flex-col gap-[20px] items-center relative size-full" data-node-id="3087:28772">
+      <div className="content-stretch flex flex-col items-center relative shrink-0 w-[296px]" data-node-id="3087:28754">
+        <div className="relative shrink-0 size-[60px]" data-node-id="3087:28737" data-name="Character/Light/State=Handwriting">
+          <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgCharacterLightStateHandwriting} />
+        </div>
+        <div className="[word-break:break-word] flex flex-col font-['Pretendard:Bold'] justify-center leading-[0] min-w-full not-italic overflow-hidden relative shrink-0 text-[#5c65ff] text-[16px] text-center text-ellipsis w-[min-content] whitespace-nowrap" data-node-id="3087:28753">
+          <p className="leading-[24px] overflow-hidden text-ellipsis">오늘의 문장을 따라 써주세요.</p>
+        </div>
+      </div>
+      <p className="[word-break:break-word] font-['Pretendard:Regular'] leading-[0] min-w-full not-italic relative shrink-0 text-[#212121] text-[0px] text-center w-[min-content]" data-node-id="2929:17923">
+        <span className="leading-[30px] text-[20px]">{`상황을 가장 잘 `}</span>
+        <span className="leading-[30px] text-[#cacaca] text-[20px]">활용하는 사람이 가장 좋은 상황을 맞는다.</span>
+      </p>
+    </div>
+  );
+}
+
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+
+These styles are contained in the design: dark-character: , light/background/background: #FFEFCC, light/primary/primary container: #5C65FF, Subtitle1: Font(family: "Pretendard", style: Bold, size: 16, weight: 700, lineHeight: 24, letterSpacing: 0), grey scale/700: #212121, Body01: Font(family: "Pretendard", style: Regular, size: 20, weight: 400, lineHeight: 30, letterSpacing: 0).
+
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

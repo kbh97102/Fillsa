@@ -1,0 +1,5381 @@
+{
+  "key": "typing",
+  "id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c",
+  "page": {
+    "object": "page",
+    "id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c",
+    "created_time": "2026-10-20T04:26:00.000Z",
+    "last_edited_time": "2026-10-25T04:25:00.000Z",
+    "created_by": {
+      "object": "user",
+      "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+    },
+    "last_edited_by": {
+      "object": "user",
+      "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+    },
+    "cover": null,
+    "icon": null,
+    "parent": {
+      "type": "data_source_id",
+      "data_source_id": "20fe639f-c7a4-81a4-b822-000b5d57112e",
+      "database_id": "20fe639f-c7a4-81e3-824c-cc0d61bdfec6"
+    },
+    "in_trash": false,
+    "is_archived": false,
+    "is_locked": false,
+    "properties": {
+      "Priority": {
+        "id": "Sf%7B%40",
+        "type": "select",
+        "select": {
+          "id": "6e2814ec-c2fc-4917-93e0-3e6550c6cd59",
+          "name": "낮음",
+          "color": "green"
+        }
+      },
+      "날짜": {
+        "id": "XTUK",
+        "type": "date",
+        "date": null
+      },
+      "Date Tested": {
+        "id": "%5BrDe",
+        "type": "created_time",
+        "created_time": "2026-10-20T04:26:00.000Z"
+      },
+      "화면": {
+        "id": "%5B%7DZw",
+        "type": "rich_text",
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "필사 작성 화면",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "필사 작성 화면",
+            "href": null
+          }
+        ]
+      },
+      "신규 QA 알림": {
+        "id": "bPaS",
+        "type": "button",
+        "button": {}
+      },
+      "생성자": {
+        "id": "bcKK",
+        "type": "created_by",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8",
+          "name": "다영 이",
+          "type": "person",
+          "person": {}
+        }
+      },
+      "Device": {
+        "id": "eGhm",
+        "type": "multi_select",
+        "multi_select": [
+          {
+            "id": "]iha",
+            "name": "Android",
+            "color": "blue"
+          },
+          {
+            "id": "wLq\\",
+            "name": "iOS",
+            "color": "purple"
+          }
+        ]
+      },
+      "Status": {
+        "id": "eOK%5E",
+        "type": "status",
+        "status": {
+          "id": "03c4c6fa-78af-41bc-9b9c-837087684ab6",
+          "name": "In progress",
+          "color": "gray"
+        }
+      },
+      "담당자": {
+        "id": "nMPj",
+        "type": "people",
+        "people": [
+          {
+            "object": "user",
+            "id": "90482669-8509-4f73-848d-3eefaf602109",
+            "name": "보훈 강",
+            "type": "person",
+            "person": {}
+          }
+        ]
+      },
+      "Category": {
+        "id": "odvr",
+        "type": "select",
+        "select": {
+          "id": "60f1913c-4a91-4d58-9e88-bf17fe6f1795",
+          "name": "UI",
+          "color": "pink"
+        }
+      },
+      "Checklist": {
+        "id": "title",
+        "type": "title",
+        "title": [
+          {
+            "type": "text",
+            "text": {
+              "content": "필사 작성 화면 >  캐릭터 미적용",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "필사 작성 화면 >  캐릭터 미적용",
+            "href": null
+          }
+        ]
+      }
+    },
+    "url": "https://app.notion.com/p/3ffe639fc7a480269f40daf8cf01f20c",
+    "public_url": null,
+    "archived": false,
+    "request_id": "a3b2d9ef-1625-4298-8178-5a1270c87a21"
+  },
+  "blocks": {
+    "object": "list",
+    "results": [
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-801d-ac24-ed763b1a9f64",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-20T04:27:00.000Z",
+        "last_edited_time": "2026-10-20T04:27:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": true,
+        "in_trash": false,
+        "type": "column_list",
+        "column_list": {},
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81ec-a784-d52097c66736",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS 원인 분석 및 해결 계획 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS 원인 분석 및 해결 계획 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8165-b6e2-c41faa380a86",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "분석일: 2026-10-25 (KST) | 대상: iOS | 코드 기준: Fiilsa 현재 checkout, HEAD 790e92a.\n이번 기록은 원인 분석·해결 계획이다. 앱 코드는 수정하지 않았고 시뮬레이터/실기기·실서버 테스트도 실행하지 않았다. 코드로 확인된 사실과 런타임 확인이 필요한 추론을 구분했다. TCA의 State/Action/Reducer는 Android MVI의 화면 상태/이벤트/ViewModel 처리에 대응하며, View는 Jetpack Compose처럼 상태를 받아 화면을 그리는 부분이다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "분석일: 2026-10-25 (KST) | 대상: iOS | 코드 기준: Fiilsa 현재 checkout, HEAD 790e92a.\n이번 기록은 원인 분석·해결 계획이다. 앱 코드는 수정하지 않았고 시뮬레이터/실기기·실서버 테스트도 실행하지 않았다. 코드로 확인된 사실과 런타임 확인이 필요한 추론을 구분했다. TCA의 State/Action/Reducer는 Android MVI의 화면 상태/이벤트/ViewModel 처리에 대응하며, View는 Jetpack Compose처럼 상태를 받아 화면을 그리는 부분이다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81d7-8086-f0a0008916da",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "원인과 근거",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "원인과 근거",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8196-a1e2-e69a605426d0",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "확인: TypingQuoteView.swift:21–45의 구성은 상단 뒤로가기/언어 전환 → TypingQuoteBodySection → Spacer → 하단 액션이다. topSection(:58–76)에도 캐릭터나 '오늘의 문장을 따라 써주세요.' 문구가 없다. TypingQuoteBodySection은 명언과 입력/커서만 그린다. 자산을 읽지 못한 문제가 아니라 해당 안내 영역이 화면 구성에 빠져 있다.\n현재 2_home.md 타이핑 기획의 상단 설명에도 이 안내 영역이 명시되지 않아 화면 계획 보완이 필요하다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "확인: TypingQuoteView.swift:21–45의 구성은 상단 뒤로가기/언어 전환 → TypingQuoteBodySection → Spacer → 하단 액션이다. topSection(:58–76)에도 캐릭터나 '오늘의 문장을 따라 써주세요.' 문구가 없다. TypingQuoteBodySection은 명언과 입력/커서만 그린다. 자산을 읽지 못한 문제가 아니라 해당 안내 영역이 화면 구성에 빠져 있다.\n현재 2_home.md 타이핑 기획의 상단 설명에도 이 안내 영역이 명시되지 않아 화면 계획 보완이 필요하다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8191-ac0b-c48ccb9a518c",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "해결 방안",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "해결 방안",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-811c-8b0d-c6c47961eb6b",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "최신 Figma의 해당 캐릭터·안내 문구 영역을 확인하고 원본 자산/색상 모드/위치를 화면 문서에 기록한다. TypingQuoteView의 해당 위치에 작은 안내 영역을 추가하거나 기존에 같은 Figma 컴포넌트가 있으면 재사용한다. 정적인 표시이므로 불필요한 TCA 상태나 별도 도메인 기능은 만들지 않는다. 입력창 포커스·한글 조합·언어 전환·저장 흐름을 보존한다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "최신 Figma의 해당 캐릭터·안내 문구 영역을 확인하고 원본 자산/색상 모드/위치를 화면 문서에 기록한다. TypingQuoteView의 해당 위치에 작은 안내 영역을 추가하거나 기존에 같은 Figma 컴포넌트가 있으면 재사용한다. 정적인 표시이므로 불필요한 TCA 상태나 별도 도메인 기능은 만들지 않는다. 입력창 포커스·한글 조합·언어 전환·저장 흐름을 보존한다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8152-9d01-e8f7866db11b",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "영향 범위와 검증 계획",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "영향 범위와 검증 계획",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8117-9945-d8140aefeea3",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "TypingQuoteView, 필요한 Bundle Assets, docs/screens/2_home.md의 타이핑 컴포넌트 목록 및 QA 기록. HomeUITests의 타이핑 fixture와 GlobalLoadingUITests의 키보드 시나리오를 활용해 Light/Dark, 키보드 노출, 작은 화면, 긴 명언, 글자 크기 확대 상태에서 안내와 저장 버튼 가림을 확인한다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "TypingQuoteView, 필요한 Bundle Assets, docs/screens/2_home.md의 타이핑 컴포넌트 목록 및 QA 기록. HomeUITests의 타이핑 fixture와 GlobalLoadingUITests의 키보드 시나리오를 활용해 Light/Dark, 키보드 노출, 작은 화면, 긴 명언, 글자 크기 확대 상태에서 안내와 저장 버튼 가림을 확인한다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81fe-8c93-c245c0f8b061",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Figma 기준 및 확인 사항",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Figma 기준 및 확인 사항",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8141-b603-d4370673847a",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "타이핑 Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920, Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 기존 기준 이미지 docs/design-qa/assets/home-figma/2026-09-20-typing-light-2929-17920.png. 현재 Figma에 QA의 안내 영역이 반영되어 있는지 하위 레이어를 다시 확인한다. Android 캡처/자산은 iOS UI 기준으로 사용하지 않는다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "타이핑 Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920, Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 기존 기준 이미지 docs/design-qa/assets/home-figma/2026-09-20-typing-light-2929-17920.png. 현재 Figma에 QA의 안내 영역이 반영되어 있는지 하위 레이어를 다시 확인한다. Android 캡처/자산은 iOS UI 기준으로 사용하지 않는다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81dd-beb9-d8481152682c",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "미검증 사항과 주의점",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "미검증 사항과 주의점",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-815a-a60e-e6e537b4c74b",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "이 티켓은 Android/iOS 공통이지만 이번 분석 및 후속 작업 범위는 iOS다. 이번 상태 변경은 티켓 전체의 In progress이며 Android 해결·최종 완료를 의미하지 않는다. 실제 키보드/레이아웃 검증은 미실시.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "이 티켓은 Android/iOS 공통이지만 이번 분석 및 후속 작업 범위는 iOS다. 이번 상태 변경은 티켓 전체의 In progress이며 Android 해결·최종 완료를 의미하지 않는다. 실제 키보드/레이아웃 검증은 미실시.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8176-b289-f868bf8d440f",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "구현 시작 전 화면별 기획에 Figma URL·프레임·컴포넌트·상태·QA 기록 링크를 확정한다. Figma 원본 전체 프레임을 확보하고 컴포넌트부터 수정한 뒤 조립 화면을 대조한다. docs/ui-redesign-workflow.md의 최대 5회 검증을 따르며 실제 캡처 대조 전에는 완료/Pass로 바꾸지 않는다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "구현 시작 전 화면별 기획에 Figma URL·프레임·컴포넌트·상태·QA 기록 링크를 확정한다. Figma 원본 전체 프레임을 확보하고 컴포넌트부터 수정한 뒤 조립 화면을 대조한다. docs/ui-redesign-workflow.md의 최대 5회 검증을 따르며 실제 캡처 대조 전에는 완료/Pass로 바꾸지 않는다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8125-b251-c12103477981",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:57:00.000Z",
+        "last_edited_time": "2026-10-25T00:57:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS 구현 진행 및 검증 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS 구현 진행 및 검증 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-814e-bb5a-ec07e4bf1821",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:57:00.000Z",
+        "last_edited_time": "2026-10-25T00:57:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81ae-9065-c4bb78e046b7",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:57:00.000Z",
+        "last_edited_time": "2026-10-25T00:57:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81b8-8c9d-f3c4f38dbe04",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:57:00.000Z",
+        "last_edited_time": "2026-10-25T00:57:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "공통 검증: iPhone 17e iOS 26.4.1에서 자동 테스트 140건 통과. QA 기록: docs/design-qa/2026-10-25-ios-qa.md. Figma 360pt와 런타임 390pt 및 기존 폰트/레이아웃 차이로 전체 화면 최종 수용은 Blocked이며, 티켓 상태는 In progress를 유지한다. 저장 팝업은 별도로 정책 확인 대기.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "공통 검증: iPhone 17e iOS 26.4.1에서 자동 테스트 140건 통과. QA 기록: docs/design-qa/2026-10-25-ios-qa.md. Figma 360pt와 런타임 390pt 및 기존 폰트/레이아웃 차이로 전체 화면 최종 수용은 Blocked이며, 티켓 상태는 In progress를 유지한다. 저장 팝업은 별도로 정책 확인 대기.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8102-8094-ddcd6e210bf2",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T01:13:00.000Z",
+        "last_edited_time": "2026-10-25T01:13:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS 구현 결과 정리 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS 구현 결과 정리 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81cf-8d28-c20e3f6f36ef",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T01:13:00.000Z",
+        "last_edited_time": "2026-10-25T01:13:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.\n검증: 필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.\n검증: 필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-813b-a961-c20e5c32068d",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T01:13:00.000Z",
+        "last_edited_time": "2026-10-25T01:13:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "전체 단위·저장 팝업 UI 회귀: 142건 통과, 실패·skip 0 (Fiilsa-popup-final.xcresult). QA 원문·첨부·원인·수정·검증 결과를 docs/design-qa/2026-10-25-ios-qa-report.html에 정리한다. 시각 검증은 360/390pt 프레임·미등록 폰트·기존 배경 레이아웃 차이로 Blocked. 실계정 OAuth·실서버 v2·이미지 업로드/삭제는 미검증. 상태는 In progress 유지하며 UI 최종 완료를 의미하지 않는다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "전체 단위·저장 팝업 UI 회귀: 142건 통과, 실패·skip 0 (Fiilsa-popup-final.xcresult). QA 원문·첨부·원인·수정·검증 결과를 docs/design-qa/2026-10-25-ios-qa-report.html에 정리한다. 시각 검증은 360/390pt 프레임·미등록 폰트·기존 배경 레이아웃 차이로 Blocked. 실계정 OAuth·실서버 v2·이미지 업로드/삭제는 미검증. 상태는 In progress 유지하며 UI 최종 완료를 의미하지 않는다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-810a-af08-efc16dbb99f2",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Android 원인 분석 및 해결 계획 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Android 원인 분석 및 해결 계획 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81f0-9f93-e830944e49e1",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "상태: Android 원인 분석·해결 방안 문서화 완료. 앱 수정·수정 후 검증 미실시. 이 페이지의 기존 iOS 구현 결과와 별도이며, 공통 티켓 전체 완료를 뜻하지 않습니다. 소스 stage HEAD 4934a13 + 기존 로컬 변경. 기존 설치 Android 1.0.31 (25), emulator-5554, API 35, 360×720px/160dpi에서 안내 누락을 확인했습니다. 설치 APK와 미커밋 소스의 동일성은 미확인입니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "상태: Android 원인 분석·해결 방안 문서화 완료. 앱 수정·수정 후 검증 미실시. 이 페이지의 기존 iOS 구현 결과와 별도이며, 공통 티켓 전체 완료를 뜻하지 않습니다. 소스 stage HEAD 4934a13 + 기존 로컬 변경. 기존 설치 Android 1.0.31 (25), emulator-5554, API 35, 360×720px/160dpi에서 안내 누락을 확인했습니다. 설치 APK와 미커밋 소스의 동일성은 미확인입니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8186-8e2d-f6d379c02140",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "원인: TypingQuoteView.kt:177–212는 TopSection → top padding 28dp → BodySection으로 조립합니다. TopSection은 뒤로가기/언어 전환만, TypingQuoteBodySection은 명언/입력/커서만 표시합니다. 캐릭터 이미지 로딩 실패가 아니라 캐릭터·안내 문구를 그리는 영역 자체가 없습니다. 저장 결과 팝업의 별도 캐릭터는 입력 화면에 연결되지 않았습니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "원인: TypingQuoteView.kt:177–212는 TopSection → top padding 28dp → BodySection으로 조립합니다. TopSection은 뒤로가기/언어 전환만, TypingQuoteBodySection은 명언/입력/커서만 표시합니다. 캐릭터 이미지 로딩 실패가 아니라 캐릭터·안내 문구를 그리는 영역 자체가 없습니다. 저장 결과 팝업의 별도 캐릭터는 입력 화면에 연결되지 않았습니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-817f-8f2d-e306e410fc40",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Figma 직접 확인: Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920 / Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 안내 그룹 Light 3087:28754 / Dark 3087:28984. Handwriting 캐릭터 60×60(3087:28737 / 3087:28985), ‘오늘의 문장을 따라 써주세요.’ Pretendard Bold 16/24, #5C65FF(3087:28753 / 3087:29001). 전체 360×720, 안내·본문 컨테이너 x20/y80/폭320, 안내 이후 본문 간격20.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Figma 직접 확인: Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920 / Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 안내 그룹 Light 3087:28754 / Dark 3087:28984. Handwriting 캐릭터 60×60(3087:28737 / 3087:28985), ‘오늘의 문장을 따라 써주세요.’ Pretendard Bold 16/24, #5C65FF(3087:28753 / 3087:29001). 전체 360×720, 안내·본문 컨테이너 x20/y80/폭320, 안내 이후 본문 간격20.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81df-900e-c75444e367d4",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "해결 계획: 안내만 담당하는 작은 Compose 컴포넌트를 추가하고 TopSection과 BodySection 사이에 조립합니다. Figma 원본 자산을 사용하며 기존 팝업 자산 재사용은 동일성 확인 후 결정합니다. 현재 28dp 여백을 함께 조정해 Figma 위치를 맞춥니다. 정적 표시이므로 새 API·Repository·저장 상태는 필요하지 않습니다. BasicTextField 한글 조합/포커스/커서와 저장 계약은 유지합니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "해결 계획: 안내만 담당하는 작은 Compose 컴포넌트를 추가하고 TopSection과 BodySection 사이에 조립합니다. Figma 원본 자산을 사용하며 기존 팝업 자산 재사용은 동일성 확인 후 결정합니다. 현재 28dp 여백을 함께 조정해 Figma 위치를 맞춥니다. 정적 표시이므로 새 API·Repository·저장 상태는 필요하지 않습니다. BasicTextField 한글 조합/포커스/커서와 저장 계약은 유지합니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8149-b933-d2cca1307fb4",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "검증 계획: 안내 컴포넌트 Light/Dark Preview → 안내+본문 Preview → 360×720 실제 전체 화면 IME 열림/닫힘 비교. 한/영 전환·긴 문장·글자 크기 확대·한글 조합·저장 성공/실패/미완료·Home 복귀를 회귀 확인합니다. 영역 부족으로 Figma에 없는 스크롤/축소가 필요해지는 경우 제품 결정을 확인합니다. 이번에는 새 자동 테스트·Preview 렌더를 실행하지 않았고 증상 재현 캡처만 확보했습니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "검증 계획: 안내 컴포넌트 Light/Dark Preview → 안내+본문 Preview → 360×720 실제 전체 화면 IME 열림/닫힘 비교. 한/영 전환·긴 문장·글자 크기 확대·한글 조합·저장 성공/실패/미완료·Home 복귀를 회귀 확인합니다. 영역 부족으로 Figma에 없는 스크롤/축소가 필요해지는 경우 제품 결정을 확인합니다. 이번에는 새 자동 테스트·Preview 렌더를 실행하지 않았고 증상 재현 캡처만 확보했습니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81fe-8c71-c6a6c95a952f",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#typing. QA 접수 원문과 AOS/iOS/TO-BE 첨부를 보존하고 Android 코드 근거·Figma 원본·재현 캡처·수정 계획을 포함했습니다. 근거 폴더: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 현재 실제 해결 기록은 분석과 계획 수립이며 앱 구현 완료가 아닙니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#typing. QA 접수 원문과 AOS/iOS/TO-BE 첨부를 보존하고 Android 코드 근거·Figma 원본·재현 캡처·수정 계획을 포함했습니다. 근거 폴더: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 현재 실제 해결 기록은 분석과 계획 수립이며 앱 구현 완료가 아닙니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8102-89ce-caea8cadfcb1",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:25:00.000Z",
+        "last_edited_time": "2026-10-25T04:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "제공 페이지 추가 조사 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "제공 페이지 추가 조사 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8151-9ca7-c4014c8a1391",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:25:00.000Z",
+        "last_edited_time": "2026-10-25T04:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "사용자 제공 ‘v. 3.0’ 페이지(2438:3437)의 필사 Light2438:12875 / Dark2438:10034를 캡처했으며 캐릭터와 안내 문구가 없습니다. QA 원문에 대응하는 ‘리뉴얼 ver.1.0’의 기존 기준 2929:17920 / 3087:28815를 유지하고 버전 차이를 보고서에 기록했습니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "사용자 제공 ‘v. 3.0’ 페이지(2438:3437)의 필사 Light2438:12875 / Dark2438:10034를 캡처했으며 캐릭터와 안내 문구가 없습니다. QA 원문에 대응하는 ‘리뉴얼 ver.1.0’의 기존 기준 2929:17920 / 3087:28815를 유지하고 버전 차이를 보고서에 기록했습니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8111-ad38-cc67796c3571",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:25:00.000Z",
+        "last_edited_time": "2026-10-25T04:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "안내 그룹 Light3087:28754 / Dark3087:28984에서 원본 SVG를 추출했습니다. 두 SVG는 width60/height60/viewBox0 0 60 60이고 SHA-256이 동일하여 단일 원본 재사용 가능합니다. 문구 ‘오늘의 문장을 따라 써주세요.’는 Pretendard Bold16/24, #5C65FF, 안내 그룹296×84, 안내 다음 본문 간격20입니다. 자산 및 조사 JSON: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#figma-extraction. 이번에는 자산 추출·문서화까지 했으며 앱 연결·수정 후 검증은 미실시입니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "안내 그룹 Light3087:28754 / Dark3087:28984에서 원본 SVG를 추출했습니다. 두 SVG는 width60/height60/viewBox0 0 60 60이고 SHA-256이 동일하여 단일 원본 재사용 가능합니다. 문구 ‘오늘의 문장을 따라 써주세요.’는 Pretendard Bold16/24, #5C65FF, 안내 그룹296×84, 안내 다음 본문 간격20입니다. 자산 및 조사 JSON: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#figma-extraction. 이번에는 자산 추출·문서화까지 했으며 앱 연결·수정 후 검증은 미실시입니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      }
+    ],
+    "next_cursor": null,
+    "has_more": false,
+    "type": "block",
+    "block": {},
+    "request_id": "7611396a-e8b1-4257-b9e3-0254f7221620"
+  },
+  "comments": {
+    "object": "list",
+    "results": [],
+    "next_cursor": null,
+    "has_more": false,
+    "type": "comment",
+    "comment": {},
+    "request_id": "d073cc00-1f62-4c84-9cbd-8d2bd3441f6f"
+  },
+  "markdown": {
+    "object": "page_markdown",
+    "id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c",
+    "markdown": "<columns>\n\t<column ratio=\"50\">\n\t\t\\[AS-IS\\]\n\t\t- AOS\n\t\t![](typing-1.heic iOS\n\t\t![](typing-2.png ratio=\"50\">\n\t\t\\[TO-BE\\]\n\t\t- 상단 캐릭터 +  ‘오늘의 문장을 따라 써주세요.’\n\t\t![](typing-3.png iOS 원인 분석 및 해결 계획 · 2026-10-25\n분석일: 2026-10-25 (KST) \\| 대상: iOS \\| 코드 기준: Fiilsa 현재 checkout, HEAD 790e92a.<br>이번 기록은 원인 분석·해결 계획이다. 앱 코드는 수정하지 않았고 시뮬레이터/실기기·실서버 테스트도 실행하지 않았다. 코드로 확인된 사실과 런타임 확인이 필요한 추론을 구분했다. TCA의 State/Action/Reducer는 Android MVI의 화면 상태/이벤트/ViewModel 처리에 대응하며, View는 Jetpack Compose처럼 상태를 받아 화면을 그리는 부분이다.\n### 원인과 근거\n확인: TypingQuoteView.swift:21–45의 구성은 상단 뒤로가기/언어 전환 → TypingQuoteBodySection → Spacer → 하단 액션이다. topSection(:58–76)에도 캐릭터나 '오늘의 문장을 따라 써주세요.' 문구가 없다. TypingQuoteBodySection은 명언과 입력/커서만 그린다. 자산을 읽지 못한 문제가 아니라 해당 안내 영역이 화면 구성에 빠져 있다.<br>현재 2_home.md 타이핑 기획의 상단 설명에도 이 안내 영역이 명시되지 않아 화면 계획 보완이 필요하다.\n### 해결 방안\n최신 Figma의 해당 캐릭터·안내 문구 영역을 확인하고 원본 자산/색상 모드/위치를 화면 문서에 기록한다. TypingQuoteView의 해당 위치에 작은 안내 영역을 추가하거나 기존에 같은 Figma 컴포넌트가 있으면 재사용한다. 정적인 표시이므로 불필요한 TCA 상태나 별도 도메인 기능은 만들지 않는다. 입력창 포커스·한글 조합·언어 전환·저장 흐름을 보존한다.\n### 영향 범위와 검증 계획\nTypingQuoteView, 필요한 Bundle Assets, docs/screens/2_home.md의 타이핑 컴포넌트 목록 및 QA 기록. HomeUITests의 타이핑 fixture와 GlobalLoadingUITests의 키보드 시나리오를 활용해 Light/Dark, 키보드 노출, 작은 화면, 긴 명언, 글자 크기 확대 상태에서 안내와 저장 버튼 가림을 확인한다.\n### Figma 기준 및 확인 사항\n타이핑 Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920, Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 기존 기준 이미지 docs/design-qa/assets/home-figma/2026-09-20-typing-light-2929-17920.png. 현재 Figma에 QA의 안내 영역이 반영되어 있는지 하위 레이어를 다시 확인한다. Android 캡처/자산은 iOS UI 기준으로 사용하지 않는다.\n### 미검증 사항과 주의점\n이 티켓은 Android/iOS 공통이지만 이번 분석 및 후속 작업 범위는 iOS다. 이번 상태 변경은 티켓 전체의 In progress이며 Android 해결·최종 완료를 의미하지 않는다. 실제 키보드/레이아웃 검증은 미실시.\n구현 시작 전 화면별 기획에 Figma URL·프레임·컴포넌트·상태·QA 기록 링크를 확정한다. Figma 원본 전체 프레임을 확보하고 컴포넌트부터 수정한 뒤 조립 화면을 대조한다. docs/ui-redesign-workflow.md의 최대 5회 검증을 따르며 실제 캡처 대조 전에는 완료/Pass로 바꾸지 않는다.\n## iOS 구현 진행 및 검증 · 2026-10-25\niOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.\n필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.\n공통 검증: iPhone 17e iOS 26.4.1에서 자동 테스트 140건 통과. QA 기록: docs/design-qa/2026-10-25-ios-qa.md. Figma 360pt와 런타임 390pt 및 기존 폰트/레이아웃 차이로 전체 화면 최종 수용은 Blocked이며, 티켓 상태는 In progress를 유지한다. 저장 팝업은 별도로 정책 확인 대기.\n## iOS 구현 결과 정리 · 2026-10-25\niOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.<br>검증: 필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.\n전체 단위·저장 팝업 UI 회귀: 142건 통과, 실패·skip 0 (Fiilsa-popup-final.xcresult). QA 원문·첨부·원인·수정·검증 결과를 docs/design-qa/2026-10-25-ios-qa-report.html에 정리한다. 시각 검증은 360/390pt 프레임·미등록 폰트·기존 배경 레이아웃 차이로 Blocked. 실계정 OAuth·실서버 v2·이미지 업로드/삭제는 미검증. 상태는 In progress 유지하며 UI 최종 완료를 의미하지 않는다.\n## Android 원인 분석 및 해결 계획 · 2026-10-25\n상태: Android 원인 분석·해결 방안 문서화 완료. 앱 수정·수정 후 검증 미실시. 이 페이지의 기존 iOS 구현 결과와 별도이며, 공통 티켓 전체 완료를 뜻하지 않습니다. 소스 stage HEAD 4934a13 + 기존 로컬 변경. 기존 설치 Android 1.0.31 (25), emulator-5554, API 35, 360×720px/160dpi에서 안내 누락을 확인했습니다. 설치 APK와 미커밋 소스의 동일성은 미확인입니다.\n원인: TypingQuoteView.kt:177–212는 TopSection → top padding 28dp → BodySection으로 조립합니다. TopSection은 뒤로가기/언어 전환만, TypingQuoteBodySection은 명언/입력/커서만 표시합니다. 캐릭터 이미지 로딩 실패가 아니라 캐릭터·안내 문구를 그리는 영역 자체가 없습니다. 저장 결과 팝업의 별도 캐릭터는 입력 화면에 연결되지 않았습니다.\nFigma 직접 확인: Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920 / Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 안내 그룹 Light 3087:28754 / Dark 3087:28984. Handwriting 캐릭터 60×60(3087:28737 / 3087:28985), ‘오늘의 문장을 따라 써주세요.’ Pretendard Bold 16/24, #5C65FF(3087:28753 / 3087:29001). 전체 360×720, 안내·본문 컨테이너 x20/y80/폭320, 안내 이후 본문 간격20.\n해결 계획: 안내만 담당하는 작은 Compose 컴포넌트를 추가하고 TopSection과 BodySection 사이에 조립합니다. Figma 원본 자산을 사용하며 기존 팝업 자산 재사용은 동일성 확인 후 결정합니다. 현재 28dp 여백을 함께 조정해 Figma 위치를 맞춥니다. 정적 표시이므로 새 API·Repository·저장 상태는 필요하지 않습니다. BasicTextField 한글 조합/포커스/커서와 저장 계약은 유지합니다.\n검증 계획: 안내 컴포넌트 Light/Dark Preview → 안내+본문 Preview → 360×720 실제 전체 화면 IME 열림/닫힘 비교. 한/영 전환·긴 문장·글자 크기 확대·한글 조합·저장 성공/실패/미완료·Home 복귀를 회귀 확인합니다. 영역 부족으로 Figma에 없는 스크롤/축소가 필요해지는 경우 제품 결정을 확인합니다. 이번에는 새 자동 테스트·Preview 렌더를 실행하지 않았고 증상 재현 캡처만 확보했습니다.\n보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#typing. QA 접수 원문과 AOS/iOS/TO-BE 첨부를 보존하고 Android 코드 근거·Figma 원본·재현 캡처·수정 계획을 포함했습니다. 근거 폴더: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 현재 실제 해결 기록은 분석과 계획 수립이며 앱 구현 완료가 아닙니다.\n### 제공 페이지 추가 조사 · 2026-10-25\n사용자 제공 ‘v. 3.0’ 페이지(2438:3437)의 필사 Light2438:12875 / Dark2438:10034를 캡처했으며 캐릭터와 안내 문구가 없습니다. QA 원문에 대응하는 ‘리뉴얼 ver.1.0’의 기존 기준 2929:17920 / 3087:28815를 유지하고 버전 차이를 보고서에 기록했습니다.\n안내 그룹 Light3087:28754 / Dark3087:28984에서 원본 SVG를 추출했습니다. 두 SVG는 width60/height60/viewBox0 0 60 60이고 SHA-256이 동일하여 단일 원본 재사용 가능합니다. 문구 ‘오늘의 문장을 따라 써주세요.’는 Pretendard Bold16/24, #5C65FF, 안내 그룹296×84, 안내 다음 본문 간격20입니다. 자산 및 조사 JSON: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#figma-extraction. 이번에는 자산 추출·문서화까지 했으며 앱 연결·수정 후 검증은 미실시입니다.",
+    "truncated": false,
+    "unknown_block_ids": [],
+    "request_id": "80785b3b-72e1-4cb3-bea7-9185fa4015f7"
+  },
+  "queriedAt": "2026-10-28T11:57:34.337Z",
+  "blockLists": {
+    "3ffe639f-c7a4-8026-9f40-daf8cf01f20c": [
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-801d-ac24-ed763b1a9f64",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-20T04:27:00.000Z",
+        "last_edited_time": "2026-10-20T04:27:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": true,
+        "in_trash": false,
+        "type": "column_list",
+        "column_list": {},
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81ec-a784-d52097c66736",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS 원인 분석 및 해결 계획 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS 원인 분석 및 해결 계획 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8165-b6e2-c41faa380a86",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "분석일: 2026-10-25 (KST) | 대상: iOS | 코드 기준: Fiilsa 현재 checkout, HEAD 790e92a.\n이번 기록은 원인 분석·해결 계획이다. 앱 코드는 수정하지 않았고 시뮬레이터/실기기·실서버 테스트도 실행하지 않았다. 코드로 확인된 사실과 런타임 확인이 필요한 추론을 구분했다. TCA의 State/Action/Reducer는 Android MVI의 화면 상태/이벤트/ViewModel 처리에 대응하며, View는 Jetpack Compose처럼 상태를 받아 화면을 그리는 부분이다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "분석일: 2026-10-25 (KST) | 대상: iOS | 코드 기준: Fiilsa 현재 checkout, HEAD 790e92a.\n이번 기록은 원인 분석·해결 계획이다. 앱 코드는 수정하지 않았고 시뮬레이터/실기기·실서버 테스트도 실행하지 않았다. 코드로 확인된 사실과 런타임 확인이 필요한 추론을 구분했다. TCA의 State/Action/Reducer는 Android MVI의 화면 상태/이벤트/ViewModel 처리에 대응하며, View는 Jetpack Compose처럼 상태를 받아 화면을 그리는 부분이다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81d7-8086-f0a0008916da",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "원인과 근거",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "원인과 근거",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8196-a1e2-e69a605426d0",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "확인: TypingQuoteView.swift:21–45의 구성은 상단 뒤로가기/언어 전환 → TypingQuoteBodySection → Spacer → 하단 액션이다. topSection(:58–76)에도 캐릭터나 '오늘의 문장을 따라 써주세요.' 문구가 없다. TypingQuoteBodySection은 명언과 입력/커서만 그린다. 자산을 읽지 못한 문제가 아니라 해당 안내 영역이 화면 구성에 빠져 있다.\n현재 2_home.md 타이핑 기획의 상단 설명에도 이 안내 영역이 명시되지 않아 화면 계획 보완이 필요하다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "확인: TypingQuoteView.swift:21–45의 구성은 상단 뒤로가기/언어 전환 → TypingQuoteBodySection → Spacer → 하단 액션이다. topSection(:58–76)에도 캐릭터나 '오늘의 문장을 따라 써주세요.' 문구가 없다. TypingQuoteBodySection은 명언과 입력/커서만 그린다. 자산을 읽지 못한 문제가 아니라 해당 안내 영역이 화면 구성에 빠져 있다.\n현재 2_home.md 타이핑 기획의 상단 설명에도 이 안내 영역이 명시되지 않아 화면 계획 보완이 필요하다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8191-ac0b-c48ccb9a518c",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "해결 방안",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "해결 방안",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-811c-8b0d-c6c47961eb6b",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "최신 Figma의 해당 캐릭터·안내 문구 영역을 확인하고 원본 자산/색상 모드/위치를 화면 문서에 기록한다. TypingQuoteView의 해당 위치에 작은 안내 영역을 추가하거나 기존에 같은 Figma 컴포넌트가 있으면 재사용한다. 정적인 표시이므로 불필요한 TCA 상태나 별도 도메인 기능은 만들지 않는다. 입력창 포커스·한글 조합·언어 전환·저장 흐름을 보존한다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "최신 Figma의 해당 캐릭터·안내 문구 영역을 확인하고 원본 자산/색상 모드/위치를 화면 문서에 기록한다. TypingQuoteView의 해당 위치에 작은 안내 영역을 추가하거나 기존에 같은 Figma 컴포넌트가 있으면 재사용한다. 정적인 표시이므로 불필요한 TCA 상태나 별도 도메인 기능은 만들지 않는다. 입력창 포커스·한글 조합·언어 전환·저장 흐름을 보존한다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8152-9d01-e8f7866db11b",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "영향 범위와 검증 계획",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "영향 범위와 검증 계획",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8117-9945-d8140aefeea3",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "TypingQuoteView, 필요한 Bundle Assets, docs/screens/2_home.md의 타이핑 컴포넌트 목록 및 QA 기록. HomeUITests의 타이핑 fixture와 GlobalLoadingUITests의 키보드 시나리오를 활용해 Light/Dark, 키보드 노출, 작은 화면, 긴 명언, 글자 크기 확대 상태에서 안내와 저장 버튼 가림을 확인한다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "TypingQuoteView, 필요한 Bundle Assets, docs/screens/2_home.md의 타이핑 컴포넌트 목록 및 QA 기록. HomeUITests의 타이핑 fixture와 GlobalLoadingUITests의 키보드 시나리오를 활용해 Light/Dark, 키보드 노출, 작은 화면, 긴 명언, 글자 크기 확대 상태에서 안내와 저장 버튼 가림을 확인한다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81fe-8c93-c245c0f8b061",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Figma 기준 및 확인 사항",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Figma 기준 및 확인 사항",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8141-b603-d4370673847a",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "타이핑 Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920, Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 기존 기준 이미지 docs/design-qa/assets/home-figma/2026-09-20-typing-light-2929-17920.png. 현재 Figma에 QA의 안내 영역이 반영되어 있는지 하위 레이어를 다시 확인한다. Android 캡처/자산은 iOS UI 기준으로 사용하지 않는다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "타이핑 Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920, Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 기존 기준 이미지 docs/design-qa/assets/home-figma/2026-09-20-typing-light-2929-17920.png. 현재 Figma에 QA의 안내 영역이 반영되어 있는지 하위 레이어를 다시 확인한다. Android 캡처/자산은 iOS UI 기준으로 사용하지 않는다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81dd-beb9-d8481152682c",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "미검증 사항과 주의점",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "미검증 사항과 주의점",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-815a-a60e-e6e537b4c74b",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "이 티켓은 Android/iOS 공통이지만 이번 분석 및 후속 작업 범위는 iOS다. 이번 상태 변경은 티켓 전체의 In progress이며 Android 해결·최종 완료를 의미하지 않는다. 실제 키보드/레이아웃 검증은 미실시.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "이 티켓은 Android/iOS 공통이지만 이번 분석 및 후속 작업 범위는 iOS다. 이번 상태 변경은 티켓 전체의 In progress이며 Android 해결·최종 완료를 의미하지 않는다. 실제 키보드/레이아웃 검증은 미실시.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8176-b289-f868bf8d440f",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:44:00.000Z",
+        "last_edited_time": "2026-10-25T00:44:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "구현 시작 전 화면별 기획에 Figma URL·프레임·컴포넌트·상태·QA 기록 링크를 확정한다. Figma 원본 전체 프레임을 확보하고 컴포넌트부터 수정한 뒤 조립 화면을 대조한다. docs/ui-redesign-workflow.md의 최대 5회 검증을 따르며 실제 캡처 대조 전에는 완료/Pass로 바꾸지 않는다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "구현 시작 전 화면별 기획에 Figma URL·프레임·컴포넌트·상태·QA 기록 링크를 확정한다. Figma 원본 전체 프레임을 확보하고 컴포넌트부터 수정한 뒤 조립 화면을 대조한다. docs/ui-redesign-workflow.md의 최대 5회 검증을 따르며 실제 캡처 대조 전에는 완료/Pass로 바꾸지 않는다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8125-b251-c12103477981",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:57:00.000Z",
+        "last_edited_time": "2026-10-25T00:57:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS 구현 진행 및 검증 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS 구현 진행 및 검증 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-814e-bb5a-ec07e4bf1821",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:57:00.000Z",
+        "last_edited_time": "2026-10-25T00:57:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81ae-9065-c4bb78e046b7",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:57:00.000Z",
+        "last_edited_time": "2026-10-25T00:57:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81b8-8c9d-f3c4f38dbe04",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T00:57:00.000Z",
+        "last_edited_time": "2026-10-25T00:57:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "공통 검증: iPhone 17e iOS 26.4.1에서 자동 테스트 140건 통과. QA 기록: docs/design-qa/2026-10-25-ios-qa.md. Figma 360pt와 런타임 390pt 및 기존 폰트/레이아웃 차이로 전체 화면 최종 수용은 Blocked이며, 티켓 상태는 In progress를 유지한다. 저장 팝업은 별도로 정책 확인 대기.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "공통 검증: iPhone 17e iOS 26.4.1에서 자동 테스트 140건 통과. QA 기록: docs/design-qa/2026-10-25-ios-qa.md. Figma 360pt와 런타임 390pt 및 기존 폰트/레이아웃 차이로 전체 화면 최종 수용은 Blocked이며, 티켓 상태는 In progress를 유지한다. 저장 팝업은 별도로 정책 확인 대기.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8102-8094-ddcd6e210bf2",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T01:13:00.000Z",
+        "last_edited_time": "2026-10-25T01:13:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS 구현 결과 정리 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS 구현 결과 정리 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81cf-8d28-c20e3f6f36ef",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T01:13:00.000Z",
+        "last_edited_time": "2026-10-25T01:13:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.\n검증: 필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.\n검증: 필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-813b-a961-c20e5c32068d",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T01:13:00.000Z",
+        "last_edited_time": "2026-10-25T01:13:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "전체 단위·저장 팝업 UI 회귀: 142건 통과, 실패·skip 0 (Fiilsa-popup-final.xcresult). QA 원문·첨부·원인·수정·검증 결과를 docs/design-qa/2026-10-25-ios-qa-report.html에 정리한다. 시각 검증은 360/390pt 프레임·미등록 폰트·기존 배경 레이아웃 차이로 Blocked. 실계정 OAuth·실서버 v2·이미지 업로드/삭제는 미검증. 상태는 In progress 유지하며 UI 최종 완료를 의미하지 않는다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "전체 단위·저장 팝업 UI 회귀: 142건 통과, 실패·skip 0 (Fiilsa-popup-final.xcresult). QA 원문·첨부·원인·수정·검증 결과를 docs/design-qa/2026-10-25-ios-qa-report.html에 정리한다. 시각 검증은 360/390pt 프레임·미등록 폰트·기존 배경 레이아웃 차이로 Blocked. 실계정 OAuth·실서버 v2·이미지 업로드/삭제는 미검증. 상태는 In progress 유지하며 UI 최종 완료를 의미하지 않는다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-810a-af08-efc16dbb99f2",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_2",
+        "heading_2": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Android 원인 분석 및 해결 계획 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Android 원인 분석 및 해결 계획 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81f0-9f93-e830944e49e1",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "상태: Android 원인 분석·해결 방안 문서화 완료. 앱 수정·수정 후 검증 미실시. 이 페이지의 기존 iOS 구현 결과와 별도이며, 공통 티켓 전체 완료를 뜻하지 않습니다. 소스 stage HEAD 4934a13 + 기존 로컬 변경. 기존 설치 Android 1.0.31 (25), emulator-5554, API 35, 360×720px/160dpi에서 안내 누락을 확인했습니다. 설치 APK와 미커밋 소스의 동일성은 미확인입니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "상태: Android 원인 분석·해결 방안 문서화 완료. 앱 수정·수정 후 검증 미실시. 이 페이지의 기존 iOS 구현 결과와 별도이며, 공통 티켓 전체 완료를 뜻하지 않습니다. 소스 stage HEAD 4934a13 + 기존 로컬 변경. 기존 설치 Android 1.0.31 (25), emulator-5554, API 35, 360×720px/160dpi에서 안내 누락을 확인했습니다. 설치 APK와 미커밋 소스의 동일성은 미확인입니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8186-8e2d-f6d379c02140",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "원인: TypingQuoteView.kt:177–212는 TopSection → top padding 28dp → BodySection으로 조립합니다. TopSection은 뒤로가기/언어 전환만, TypingQuoteBodySection은 명언/입력/커서만 표시합니다. 캐릭터 이미지 로딩 실패가 아니라 캐릭터·안내 문구를 그리는 영역 자체가 없습니다. 저장 결과 팝업의 별도 캐릭터는 입력 화면에 연결되지 않았습니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "원인: TypingQuoteView.kt:177–212는 TopSection → top padding 28dp → BodySection으로 조립합니다. TopSection은 뒤로가기/언어 전환만, TypingQuoteBodySection은 명언/입력/커서만 표시합니다. 캐릭터 이미지 로딩 실패가 아니라 캐릭터·안내 문구를 그리는 영역 자체가 없습니다. 저장 결과 팝업의 별도 캐릭터는 입력 화면에 연결되지 않았습니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-817f-8f2d-e306e410fc40",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "Figma 직접 확인: Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920 / Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 안내 그룹 Light 3087:28754 / Dark 3087:28984. Handwriting 캐릭터 60×60(3087:28737 / 3087:28985), ‘오늘의 문장을 따라 써주세요.’ Pretendard Bold 16/24, #5C65FF(3087:28753 / 3087:29001). 전체 360×720, 안내·본문 컨테이너 x20/y80/폭320, 안내 이후 본문 간격20.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "Figma 직접 확인: Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920 / Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 안내 그룹 Light 3087:28754 / Dark 3087:28984. Handwriting 캐릭터 60×60(3087:28737 / 3087:28985), ‘오늘의 문장을 따라 써주세요.’ Pretendard Bold 16/24, #5C65FF(3087:28753 / 3087:29001). 전체 360×720, 안내·본문 컨테이너 x20/y80/폭320, 안내 이후 본문 간격20.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81df-900e-c75444e367d4",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "해결 계획: 안내만 담당하는 작은 Compose 컴포넌트를 추가하고 TopSection과 BodySection 사이에 조립합니다. Figma 원본 자산을 사용하며 기존 팝업 자산 재사용은 동일성 확인 후 결정합니다. 현재 28dp 여백을 함께 조정해 Figma 위치를 맞춥니다. 정적 표시이므로 새 API·Repository·저장 상태는 필요하지 않습니다. BasicTextField 한글 조합/포커스/커서와 저장 계약은 유지합니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "해결 계획: 안내만 담당하는 작은 Compose 컴포넌트를 추가하고 TopSection과 BodySection 사이에 조립합니다. Figma 원본 자산을 사용하며 기존 팝업 자산 재사용은 동일성 확인 후 결정합니다. 현재 28dp 여백을 함께 조정해 Figma 위치를 맞춥니다. 정적 표시이므로 새 API·Repository·저장 상태는 필요하지 않습니다. BasicTextField 한글 조합/포커스/커서와 저장 계약은 유지합니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8149-b933-d2cca1307fb4",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "검증 계획: 안내 컴포넌트 Light/Dark Preview → 안내+본문 Preview → 360×720 실제 전체 화면 IME 열림/닫힘 비교. 한/영 전환·긴 문장·글자 크기 확대·한글 조합·저장 성공/실패/미완료·Home 복귀를 회귀 확인합니다. 영역 부족으로 Figma에 없는 스크롤/축소가 필요해지는 경우 제품 결정을 확인합니다. 이번에는 새 자동 테스트·Preview 렌더를 실행하지 않았고 증상 재현 캡처만 확보했습니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "검증 계획: 안내 컴포넌트 Light/Dark Preview → 안내+본문 Preview → 360×720 실제 전체 화면 IME 열림/닫힘 비교. 한/영 전환·긴 문장·글자 크기 확대·한글 조합·저장 성공/실패/미완료·Home 복귀를 회귀 확인합니다. 영역 부족으로 Figma에 없는 스크롤/축소가 필요해지는 경우 제품 결정을 확인합니다. 이번에는 새 자동 테스트·Preview 렌더를 실행하지 않았고 증상 재현 캡처만 확보했습니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-81fe-8c71-c6a6c95a952f",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:16:00.000Z",
+        "last_edited_time": "2026-10-25T04:16:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#typing. QA 접수 원문과 AOS/iOS/TO-BE 첨부를 보존하고 Android 코드 근거·Figma 원본·재현 캡처·수정 계획을 포함했습니다. 근거 폴더: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 현재 실제 해결 기록은 분석과 계획 수립이며 앱 구현 완료가 아닙니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#typing. QA 접수 원문과 AOS/iOS/TO-BE 첨부를 보존하고 Android 코드 근거·Figma 원본·재현 캡처·수정 계획을 포함했습니다. 근거 폴더: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 현재 실제 해결 기록은 분석과 계획 수립이며 앱 구현 완료가 아닙니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8102-89ce-caea8cadfcb1",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:25:00.000Z",
+        "last_edited_time": "2026-10-25T04:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "heading_3",
+        "heading_3": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "제공 페이지 추가 조사 · 2026-10-25",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "제공 페이지 추가 조사 · 2026-10-25",
+              "href": null
+            }
+          ],
+          "is_toggleable": false,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8151-9ca7-c4014c8a1391",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:25:00.000Z",
+        "last_edited_time": "2026-10-25T04:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "사용자 제공 ‘v. 3.0’ 페이지(2438:3437)의 필사 Light2438:12875 / Dark2438:10034를 캡처했으며 캐릭터와 안내 문구가 없습니다. QA 원문에 대응하는 ‘리뉴얼 ver.1.0’의 기존 기준 2929:17920 / 3087:28815를 유지하고 버전 차이를 보고서에 기록했습니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "사용자 제공 ‘v. 3.0’ 페이지(2438:3437)의 필사 Light2438:12875 / Dark2438:10034를 캡처했으며 캐릭터와 안내 문구가 없습니다. QA 원문에 대응하는 ‘리뉴얼 ver.1.0’의 기존 기준 2929:17920 / 3087:28815를 유지하고 버전 차이를 보고서에 기록했습니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "404e639f-c7a4-8111-ad38-cc67796c3571",
+        "parent": {
+          "type": "page_id",
+          "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+        },
+        "created_time": "2026-10-25T04:25:00.000Z",
+        "last_edited_time": "2026-10-25T04:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "안내 그룹 Light3087:28754 / Dark3087:28984에서 원본 SVG를 추출했습니다. 두 SVG는 width60/height60/viewBox0 0 60 60이고 SHA-256이 동일하여 단일 원본 재사용 가능합니다. 문구 ‘오늘의 문장을 따라 써주세요.’는 Pretendard Bold16/24, #5C65FF, 안내 그룹296×84, 안내 다음 본문 간격20입니다. 자산 및 조사 JSON: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#figma-extraction. 이번에는 자산 추출·문서화까지 했으며 앱 연결·수정 후 검증은 미실시입니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "안내 그룹 Light3087:28754 / Dark3087:28984에서 원본 SVG를 추출했습니다. 두 SVG는 width60/height60/viewBox0 0 60 60이고 SHA-256이 동일하여 단일 원본 재사용 가능합니다. 문구 ‘오늘의 문장을 따라 써주세요.’는 Pretendard Bold16/24, #5C65FF, 안내 그룹296×84, 안내 다음 본문 간격20입니다. 자산 및 조사 JSON: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#figma-extraction. 이번에는 자산 추출·문서화까지 했으며 앱 연결·수정 후 검증은 미실시입니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      }
+    ],
+    "3ffe639f-c7a4-801d-ac24-ed763b1a9f64": [
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-80ea-85bf-c229cf611311",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-801d-ac24-ed763b1a9f64"
+        },
+        "created_time": "2026-10-20T04:27:00.000Z",
+        "last_edited_time": "2026-10-20T04:28:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": true,
+        "in_trash": false,
+        "type": "column",
+        "column": {
+          "width_ratio": 0.5
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-801d-ac24-ed763b1a9f64"
+        },
+        "created_time": "2026-10-20T04:27:00.000Z",
+        "last_edited_time": "2026-10-20T04:29:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": true,
+        "in_trash": false,
+        "type": "column",
+        "column": {
+          "width_ratio": 0.5
+        },
+        "archived": false
+      }
+    ],
+    "3ffe639f-c7a4-80ea-85bf-c229cf611311": [
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-805e-bd01-f784b970ce9a",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+        },
+        "created_time": "2026-10-20T04:27:00.000Z",
+        "last_edited_time": "2026-10-20T04:27:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "[AS-IS]",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "[AS-IS]",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-80d7-9c45-dd7b510ae76a",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+        },
+        "created_time": "2026-10-20T04:27:00.000Z",
+        "last_edited_time": "2026-10-20T04:28:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "AOS",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "AOS",
+              "href": null
+            }
+          ],
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-800c-965e-db74208dc7f6",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+        },
+        "created_time": "2026-10-20T04:28:00.000Z",
+        "last_edited_time": "2026-10-20T04:28:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "image",
+        "image": {
+          "caption": [],
+          "type": "file",
+          "file": {
+            "url": "typing-1.heic",
+            "expiry_time": "2026-10-28T12:57:54.396Z"
+          }
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-802d-97c3-e2b4865174cd",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+        },
+        "created_time": "2026-10-20T04:28:00.000Z",
+        "last_edited_time": "2026-10-20T04:28:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "iOS",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "iOS",
+              "href": null
+            }
+          ],
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-8066-959b-c7a03fce1f8c",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+        },
+        "created_time": "2026-10-20T04:28:00.000Z",
+        "last_edited_time": "2026-10-20T04:28:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "image",
+        "image": {
+          "caption": [],
+          "type": "file",
+          "file": {
+            "url": "typing-2.png",
+            "expiry_time": "2026-10-28T12:57:54.396Z"
+          }
+        },
+        "archived": false
+      }
+    ],
+    "3ffe639f-c7a4-802b-9e33-e6042e7eba18": [
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-8026-a515-fb55fa9caa36",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18"
+        },
+        "created_time": "2026-10-20T04:27:00.000Z",
+        "last_edited_time": "2026-10-20T04:27:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "[TO-BE]",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "[TO-BE]",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-80d7-abf9-cf5c442c134e",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18"
+        },
+        "created_time": "2026-10-20T04:29:00.000Z",
+        "last_edited_time": "2026-10-20T04:29:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "bulleted_list_item",
+        "bulleted_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "상단 캐릭터 +  ‘오늘의 문장을 따라 써주세요.’",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "상단 캐릭터 +  ‘오늘의 문장을 따라 써주세요.’",
+              "href": null
+            }
+          ],
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-8041-82b0-c877bc0d7d79",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18"
+        },
+        "created_time": "2026-10-20T04:29:00.000Z",
+        "last_edited_time": "2026-10-20T04:29:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "image",
+        "image": {
+          "caption": [],
+          "type": "file",
+          "file": {
+            "url": "typing-3.png",
+            "expiry_time": "2026-10-28T12:57:54.693Z"
+          }
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3ffe639f-c7a4-803b-bf62-fd8f8bd2f3ad",
+        "parent": {
+          "type": "block_id",
+          "block_id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18"
+        },
+        "created_time": "2026-10-20T04:29:00.000Z",
+        "last_edited_time": "2026-10-20T04:29:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      }
+    ]
+  },
+  "allBlocks": [
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-801d-ac24-ed763b1a9f64",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-20T04:27:00.000Z",
+      "last_edited_time": "2026-10-20T04:27:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": true,
+      "in_trash": false,
+      "type": "column_list",
+      "column_list": {},
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81ec-a784-d52097c66736",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "iOS 원인 분석 및 해결 계획 · 2026-10-25",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "iOS 원인 분석 및 해결 계획 · 2026-10-25",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8165-b6e2-c41faa380a86",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "분석일: 2026-10-25 (KST) | 대상: iOS | 코드 기준: Fiilsa 현재 checkout, HEAD 790e92a.\n이번 기록은 원인 분석·해결 계획이다. 앱 코드는 수정하지 않았고 시뮬레이터/실기기·실서버 테스트도 실행하지 않았다. 코드로 확인된 사실과 런타임 확인이 필요한 추론을 구분했다. TCA의 State/Action/Reducer는 Android MVI의 화면 상태/이벤트/ViewModel 처리에 대응하며, View는 Jetpack Compose처럼 상태를 받아 화면을 그리는 부분이다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "분석일: 2026-10-25 (KST) | 대상: iOS | 코드 기준: Fiilsa 현재 checkout, HEAD 790e92a.\n이번 기록은 원인 분석·해결 계획이다. 앱 코드는 수정하지 않았고 시뮬레이터/실기기·실서버 테스트도 실행하지 않았다. 코드로 확인된 사실과 런타임 확인이 필요한 추론을 구분했다. TCA의 State/Action/Reducer는 Android MVI의 화면 상태/이벤트/ViewModel 처리에 대응하며, View는 Jetpack Compose처럼 상태를 받아 화면을 그리는 부분이다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81d7-8086-f0a0008916da",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_3",
+      "heading_3": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "원인과 근거",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "원인과 근거",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8196-a1e2-e69a605426d0",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "확인: TypingQuoteView.swift:21–45의 구성은 상단 뒤로가기/언어 전환 → TypingQuoteBodySection → Spacer → 하단 액션이다. topSection(:58–76)에도 캐릭터나 '오늘의 문장을 따라 써주세요.' 문구가 없다. TypingQuoteBodySection은 명언과 입력/커서만 그린다. 자산을 읽지 못한 문제가 아니라 해당 안내 영역이 화면 구성에 빠져 있다.\n현재 2_home.md 타이핑 기획의 상단 설명에도 이 안내 영역이 명시되지 않아 화면 계획 보완이 필요하다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "확인: TypingQuoteView.swift:21–45의 구성은 상단 뒤로가기/언어 전환 → TypingQuoteBodySection → Spacer → 하단 액션이다. topSection(:58–76)에도 캐릭터나 '오늘의 문장을 따라 써주세요.' 문구가 없다. TypingQuoteBodySection은 명언과 입력/커서만 그린다. 자산을 읽지 못한 문제가 아니라 해당 안내 영역이 화면 구성에 빠져 있다.\n현재 2_home.md 타이핑 기획의 상단 설명에도 이 안내 영역이 명시되지 않아 화면 계획 보완이 필요하다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8191-ac0b-c48ccb9a518c",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_3",
+      "heading_3": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "해결 방안",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "해결 방안",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-811c-8b0d-c6c47961eb6b",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "최신 Figma의 해당 캐릭터·안내 문구 영역을 확인하고 원본 자산/색상 모드/위치를 화면 문서에 기록한다. TypingQuoteView의 해당 위치에 작은 안내 영역을 추가하거나 기존에 같은 Figma 컴포넌트가 있으면 재사용한다. 정적인 표시이므로 불필요한 TCA 상태나 별도 도메인 기능은 만들지 않는다. 입력창 포커스·한글 조합·언어 전환·저장 흐름을 보존한다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "최신 Figma의 해당 캐릭터·안내 문구 영역을 확인하고 원본 자산/색상 모드/위치를 화면 문서에 기록한다. TypingQuoteView의 해당 위치에 작은 안내 영역을 추가하거나 기존에 같은 Figma 컴포넌트가 있으면 재사용한다. 정적인 표시이므로 불필요한 TCA 상태나 별도 도메인 기능은 만들지 않는다. 입력창 포커스·한글 조합·언어 전환·저장 흐름을 보존한다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8152-9d01-e8f7866db11b",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_3",
+      "heading_3": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "영향 범위와 검증 계획",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "영향 범위와 검증 계획",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8117-9945-d8140aefeea3",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "TypingQuoteView, 필요한 Bundle Assets, docs/screens/2_home.md의 타이핑 컴포넌트 목록 및 QA 기록. HomeUITests의 타이핑 fixture와 GlobalLoadingUITests의 키보드 시나리오를 활용해 Light/Dark, 키보드 노출, 작은 화면, 긴 명언, 글자 크기 확대 상태에서 안내와 저장 버튼 가림을 확인한다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "TypingQuoteView, 필요한 Bundle Assets, docs/screens/2_home.md의 타이핑 컴포넌트 목록 및 QA 기록. HomeUITests의 타이핑 fixture와 GlobalLoadingUITests의 키보드 시나리오를 활용해 Light/Dark, 키보드 노출, 작은 화면, 긴 명언, 글자 크기 확대 상태에서 안내와 저장 버튼 가림을 확인한다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81fe-8c93-c245c0f8b061",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_3",
+      "heading_3": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "Figma 기준 및 확인 사항",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "Figma 기준 및 확인 사항",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8141-b603-d4370673847a",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "타이핑 Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920, Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 기존 기준 이미지 docs/design-qa/assets/home-figma/2026-09-20-typing-light-2929-17920.png. 현재 Figma에 QA의 안내 영역이 반영되어 있는지 하위 레이어를 다시 확인한다. Android 캡처/자산은 iOS UI 기준으로 사용하지 않는다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "타이핑 Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920, Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 기존 기준 이미지 docs/design-qa/assets/home-figma/2026-09-20-typing-light-2929-17920.png. 현재 Figma에 QA의 안내 영역이 반영되어 있는지 하위 레이어를 다시 확인한다. Android 캡처/자산은 iOS UI 기준으로 사용하지 않는다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81dd-beb9-d8481152682c",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_3",
+      "heading_3": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "미검증 사항과 주의점",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "미검증 사항과 주의점",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-815a-a60e-e6e537b4c74b",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "이 티켓은 Android/iOS 공통이지만 이번 분석 및 후속 작업 범위는 iOS다. 이번 상태 변경은 티켓 전체의 In progress이며 Android 해결·최종 완료를 의미하지 않는다. 실제 키보드/레이아웃 검증은 미실시.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "이 티켓은 Android/iOS 공통이지만 이번 분석 및 후속 작업 범위는 iOS다. 이번 상태 변경은 티켓 전체의 In progress이며 Android 해결·최종 완료를 의미하지 않는다. 실제 키보드/레이아웃 검증은 미실시.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8176-b289-f868bf8d440f",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:44:00.000Z",
+      "last_edited_time": "2026-10-25T00:44:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "구현 시작 전 화면별 기획에 Figma URL·프레임·컴포넌트·상태·QA 기록 링크를 확정한다. Figma 원본 전체 프레임을 확보하고 컴포넌트부터 수정한 뒤 조립 화면을 대조한다. docs/ui-redesign-workflow.md의 최대 5회 검증을 따르며 실제 캡처 대조 전에는 완료/Pass로 바꾸지 않는다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "구현 시작 전 화면별 기획에 Figma URL·프레임·컴포넌트·상태·QA 기록 링크를 확정한다. Figma 원본 전체 프레임을 확보하고 컴포넌트부터 수정한 뒤 조립 화면을 대조한다. docs/ui-redesign-workflow.md의 최대 5회 검증을 따르며 실제 캡처 대조 전에는 완료/Pass로 바꾸지 않는다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8125-b251-c12103477981",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:57:00.000Z",
+      "last_edited_time": "2026-10-25T00:57:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "iOS 구현 진행 및 검증 · 2026-10-25",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "iOS 구현 진행 및 검증 · 2026-10-25",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-814e-bb5a-ec07e4bf1821",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:57:00.000Z",
+      "last_edited_time": "2026-10-25T00:57:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81ae-9065-c4bb78e046b7",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:57:00.000Z",
+      "last_edited_time": "2026-10-25T00:57:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81b8-8c9d-f3c4f38dbe04",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T00:57:00.000Z",
+      "last_edited_time": "2026-10-25T00:57:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "공통 검증: iPhone 17e iOS 26.4.1에서 자동 테스트 140건 통과. QA 기록: docs/design-qa/2026-10-25-ios-qa.md. Figma 360pt와 런타임 390pt 및 기존 폰트/레이아웃 차이로 전체 화면 최종 수용은 Blocked이며, 티켓 상태는 In progress를 유지한다. 저장 팝업은 별도로 정책 확인 대기.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "공통 검증: iPhone 17e iOS 26.4.1에서 자동 테스트 140건 통과. QA 기록: docs/design-qa/2026-10-25-ios-qa.md. Figma 360pt와 런타임 390pt 및 기존 폰트/레이아웃 차이로 전체 화면 최종 수용은 Blocked이며, 티켓 상태는 In progress를 유지한다. 저장 팝업은 별도로 정책 확인 대기.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8102-8094-ddcd6e210bf2",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T01:13:00.000Z",
+      "last_edited_time": "2026-10-25T01:13:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "iOS 구현 결과 정리 · 2026-10-25",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "iOS 구현 결과 정리 · 2026-10-25",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81cf-8d28-c20e3f6f36ef",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T01:13:00.000Z",
+      "last_edited_time": "2026-10-25T01:13:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.\n검증: 필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "iOS TypingQuoteView에 Figma Light/Dark 원본 60pt 캐릭터와 ‘오늘의 문장을 따라 써주세요.’를 추가했다. Light 배경을 대상 Figma의 흰색으로 맞췄다. 입력 조합 처리 UIViewRepresentable은 유지한다.\n검증: 필사 화면 진입·안내문구 UI 테스트 통과. 한글 키보드가 열린 전체 화면에서 캐릭터·안내·저장 버튼이 보이는 캡처 확보. Android 구현은 이번 작업 범위가 아니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-813b-a961-c20e5c32068d",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T01:13:00.000Z",
+      "last_edited_time": "2026-10-25T01:13:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "전체 단위·저장 팝업 UI 회귀: 142건 통과, 실패·skip 0 (Fiilsa-popup-final.xcresult). QA 원문·첨부·원인·수정·검증 결과를 docs/design-qa/2026-10-25-ios-qa-report.html에 정리한다. 시각 검증은 360/390pt 프레임·미등록 폰트·기존 배경 레이아웃 차이로 Blocked. 실계정 OAuth·실서버 v2·이미지 업로드/삭제는 미검증. 상태는 In progress 유지하며 UI 최종 완료를 의미하지 않는다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "전체 단위·저장 팝업 UI 회귀: 142건 통과, 실패·skip 0 (Fiilsa-popup-final.xcresult). QA 원문·첨부·원인·수정·검증 결과를 docs/design-qa/2026-10-25-ios-qa-report.html에 정리한다. 시각 검증은 360/390pt 프레임·미등록 폰트·기존 배경 레이아웃 차이로 Blocked. 실계정 OAuth·실서버 v2·이미지 업로드/삭제는 미검증. 상태는 In progress 유지하며 UI 최종 완료를 의미하지 않는다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-810a-af08-efc16dbb99f2",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:16:00.000Z",
+      "last_edited_time": "2026-10-25T04:16:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_2",
+      "heading_2": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "Android 원인 분석 및 해결 계획 · 2026-10-25",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "Android 원인 분석 및 해결 계획 · 2026-10-25",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81f0-9f93-e830944e49e1",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:16:00.000Z",
+      "last_edited_time": "2026-10-25T04:16:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "상태: Android 원인 분석·해결 방안 문서화 완료. 앱 수정·수정 후 검증 미실시. 이 페이지의 기존 iOS 구현 결과와 별도이며, 공통 티켓 전체 완료를 뜻하지 않습니다. 소스 stage HEAD 4934a13 + 기존 로컬 변경. 기존 설치 Android 1.0.31 (25), emulator-5554, API 35, 360×720px/160dpi에서 안내 누락을 확인했습니다. 설치 APK와 미커밋 소스의 동일성은 미확인입니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "상태: Android 원인 분석·해결 방안 문서화 완료. 앱 수정·수정 후 검증 미실시. 이 페이지의 기존 iOS 구현 결과와 별도이며, 공통 티켓 전체 완료를 뜻하지 않습니다. 소스 stage HEAD 4934a13 + 기존 로컬 변경. 기존 설치 Android 1.0.31 (25), emulator-5554, API 35, 360×720px/160dpi에서 안내 누락을 확인했습니다. 설치 APK와 미커밋 소스의 동일성은 미확인입니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8186-8e2d-f6d379c02140",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:16:00.000Z",
+      "last_edited_time": "2026-10-25T04:16:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "원인: TypingQuoteView.kt:177–212는 TopSection → top padding 28dp → BodySection으로 조립합니다. TopSection은 뒤로가기/언어 전환만, TypingQuoteBodySection은 명언/입력/커서만 표시합니다. 캐릭터 이미지 로딩 실패가 아니라 캐릭터·안내 문구를 그리는 영역 자체가 없습니다. 저장 결과 팝업의 별도 캐릭터는 입력 화면에 연결되지 않았습니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "원인: TypingQuoteView.kt:177–212는 TopSection → top padding 28dp → BodySection으로 조립합니다. TopSection은 뒤로가기/언어 전환만, TypingQuoteBodySection은 명언/입력/커서만 표시합니다. 캐릭터 이미지 로딩 실패가 아니라 캐릭터·안내 문구를 그리는 영역 자체가 없습니다. 저장 결과 팝업의 별도 캐릭터는 입력 화면에 연결되지 않았습니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-817f-8f2d-e306e410fc40",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:16:00.000Z",
+      "last_edited_time": "2026-10-25T04:16:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "Figma 직접 확인: Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920 / Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 안내 그룹 Light 3087:28754 / Dark 3087:28984. Handwriting 캐릭터 60×60(3087:28737 / 3087:28985), ‘오늘의 문장을 따라 써주세요.’ Pretendard Bold 16/24, #5C65FF(3087:28753 / 3087:29001). 전체 360×720, 안내·본문 컨테이너 x20/y80/폭320, 안내 이후 본문 간격20.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "Figma 직접 확인: Light https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920 / Dark https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815. 안내 그룹 Light 3087:28754 / Dark 3087:28984. Handwriting 캐릭터 60×60(3087:28737 / 3087:28985), ‘오늘의 문장을 따라 써주세요.’ Pretendard Bold 16/24, #5C65FF(3087:28753 / 3087:29001). 전체 360×720, 안내·본문 컨테이너 x20/y80/폭320, 안내 이후 본문 간격20.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81df-900e-c75444e367d4",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:16:00.000Z",
+      "last_edited_time": "2026-10-25T04:16:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "해결 계획: 안내만 담당하는 작은 Compose 컴포넌트를 추가하고 TopSection과 BodySection 사이에 조립합니다. Figma 원본 자산을 사용하며 기존 팝업 자산 재사용은 동일성 확인 후 결정합니다. 현재 28dp 여백을 함께 조정해 Figma 위치를 맞춥니다. 정적 표시이므로 새 API·Repository·저장 상태는 필요하지 않습니다. BasicTextField 한글 조합/포커스/커서와 저장 계약은 유지합니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "해결 계획: 안내만 담당하는 작은 Compose 컴포넌트를 추가하고 TopSection과 BodySection 사이에 조립합니다. Figma 원본 자산을 사용하며 기존 팝업 자산 재사용은 동일성 확인 후 결정합니다. 현재 28dp 여백을 함께 조정해 Figma 위치를 맞춥니다. 정적 표시이므로 새 API·Repository·저장 상태는 필요하지 않습니다. BasicTextField 한글 조합/포커스/커서와 저장 계약은 유지합니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8149-b933-d2cca1307fb4",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:16:00.000Z",
+      "last_edited_time": "2026-10-25T04:16:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "검증 계획: 안내 컴포넌트 Light/Dark Preview → 안내+본문 Preview → 360×720 실제 전체 화면 IME 열림/닫힘 비교. 한/영 전환·긴 문장·글자 크기 확대·한글 조합·저장 성공/실패/미완료·Home 복귀를 회귀 확인합니다. 영역 부족으로 Figma에 없는 스크롤/축소가 필요해지는 경우 제품 결정을 확인합니다. 이번에는 새 자동 테스트·Preview 렌더를 실행하지 않았고 증상 재현 캡처만 확보했습니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "검증 계획: 안내 컴포넌트 Light/Dark Preview → 안내+본문 Preview → 360×720 실제 전체 화면 IME 열림/닫힘 비교. 한/영 전환·긴 문장·글자 크기 확대·한글 조합·저장 성공/실패/미완료·Home 복귀를 회귀 확인합니다. 영역 부족으로 Figma에 없는 스크롤/축소가 필요해지는 경우 제품 결정을 확인합니다. 이번에는 새 자동 테스트·Preview 렌더를 실행하지 않았고 증상 재현 캡처만 확보했습니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-81fe-8c71-c6a6c95a952f",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:16:00.000Z",
+      "last_edited_time": "2026-10-25T04:16:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#typing. QA 접수 원문과 AOS/iOS/TO-BE 첨부를 보존하고 Android 코드 근거·Figma 원본·재현 캡처·수정 계획을 포함했습니다. 근거 폴더: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 현재 실제 해결 기록은 분석과 계획 수립이며 앱 구현 완료가 아닙니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#typing. QA 접수 원문과 AOS/iOS/TO-BE 첨부를 보존하고 Android 코드 근거·Figma 원본·재현 캡처·수정 계획을 포함했습니다. 근거 폴더: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 현재 실제 해결 기록은 분석과 계획 수립이며 앱 구현 완료가 아닙니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8102-89ce-caea8cadfcb1",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:25:00.000Z",
+      "last_edited_time": "2026-10-25T04:25:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "heading_3",
+      "heading_3": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "제공 페이지 추가 조사 · 2026-10-25",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "제공 페이지 추가 조사 · 2026-10-25",
+            "href": null
+          }
+        ],
+        "is_toggleable": false,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8151-9ca7-c4014c8a1391",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:25:00.000Z",
+      "last_edited_time": "2026-10-25T04:25:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "사용자 제공 ‘v. 3.0’ 페이지(2438:3437)의 필사 Light2438:12875 / Dark2438:10034를 캡처했으며 캐릭터와 안내 문구가 없습니다. QA 원문에 대응하는 ‘리뉴얼 ver.1.0’의 기존 기준 2929:17920 / 3087:28815를 유지하고 버전 차이를 보고서에 기록했습니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "사용자 제공 ‘v. 3.0’ 페이지(2438:3437)의 필사 Light2438:12875 / Dark2438:10034를 캡처했으며 캐릭터와 안내 문구가 없습니다. QA 원문에 대응하는 ‘리뉴얼 ver.1.0’의 기존 기준 2929:17920 / 3087:28815를 유지하고 버전 차이를 보고서에 기록했습니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "404e639f-c7a4-8111-ad38-cc67796c3571",
+      "parent": {
+        "type": "page_id",
+        "page_id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c"
+      },
+      "created_time": "2026-10-25T04:25:00.000Z",
+      "last_edited_time": "2026-10-25T04:25:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "안내 그룹 Light3087:28754 / Dark3087:28984에서 원본 SVG를 추출했습니다. 두 SVG는 width60/height60/viewBox0 0 60 60이고 SHA-256이 동일하여 단일 원본 재사용 가능합니다. 문구 ‘오늘의 문장을 따라 써주세요.’는 Pretendard Bold16/24, #5C65FF, 안내 그룹296×84, 안내 다음 본문 간격20입니다. 자산 및 조사 JSON: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#figma-extraction. 이번에는 자산 추출·문서화까지 했으며 앱 연결·수정 후 검증은 미실시입니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "안내 그룹 Light3087:28754 / Dark3087:28984에서 원본 SVG를 추출했습니다. 두 SVG는 width60/height60/viewBox0 0 60 60이고 SHA-256이 동일하여 단일 원본 재사용 가능합니다. 문구 ‘오늘의 문장을 따라 써주세요.’는 Pretendard Bold16/24, #5C65FF, 안내 그룹296×84, 안내 다음 본문 간격20입니다. 자산 및 조사 JSON: docs/design-qa/artifacts/2026-10-25-android-new-qa/. 보고서: docs/design-qa/2026-10-25-android-new-qa-report.html#figma-extraction. 이번에는 자산 추출·문서화까지 했으며 앱 연결·수정 후 검증은 미실시입니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-80ea-85bf-c229cf611311",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-801d-ac24-ed763b1a9f64"
+      },
+      "created_time": "2026-10-20T04:27:00.000Z",
+      "last_edited_time": "2026-10-20T04:28:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": true,
+      "in_trash": false,
+      "type": "column",
+      "column": {
+        "width_ratio": 0.5
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-801d-ac24-ed763b1a9f64"
+      },
+      "created_time": "2026-10-20T04:27:00.000Z",
+      "last_edited_time": "2026-10-20T04:29:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": true,
+      "in_trash": false,
+      "type": "column",
+      "column": {
+        "width_ratio": 0.5
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-805e-bd01-f784b970ce9a",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+      },
+      "created_time": "2026-10-20T04:27:00.000Z",
+      "last_edited_time": "2026-10-20T04:27:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "[AS-IS]",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "[AS-IS]",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-80d7-9c45-dd7b510ae76a",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+      },
+      "created_time": "2026-10-20T04:27:00.000Z",
+      "last_edited_time": "2026-10-20T04:28:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "AOS",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "AOS",
+            "href": null
+          }
+        ],
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-800c-965e-db74208dc7f6",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+      },
+      "created_time": "2026-10-20T04:28:00.000Z",
+      "last_edited_time": "2026-10-20T04:28:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "image",
+      "image": {
+        "caption": [],
+        "type": "file",
+        "file": {
+          "url": "typing-1.heic",
+          "expiry_time": "2026-10-28T12:57:54.396Z"
+        }
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-802d-97c3-e2b4865174cd",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+      },
+      "created_time": "2026-10-20T04:28:00.000Z",
+      "last_edited_time": "2026-10-20T04:28:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "iOS",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "iOS",
+            "href": null
+          }
+        ],
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-8066-959b-c7a03fce1f8c",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-80ea-85bf-c229cf611311"
+      },
+      "created_time": "2026-10-20T04:28:00.000Z",
+      "last_edited_time": "2026-10-20T04:28:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "image",
+      "image": {
+        "caption": [],
+        "type": "file",
+        "file": {
+          "url": "typing-2.png",
+          "expiry_time": "2026-10-28T12:57:54.396Z"
+        }
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-8026-a515-fb55fa9caa36",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18"
+      },
+      "created_time": "2026-10-20T04:27:00.000Z",
+      "last_edited_time": "2026-10-20T04:27:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "[TO-BE]",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "[TO-BE]",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-80d7-abf9-cf5c442c134e",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18"
+      },
+      "created_time": "2026-10-20T04:29:00.000Z",
+      "last_edited_time": "2026-10-20T04:29:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "bulleted_list_item",
+      "bulleted_list_item": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "상단 캐릭터 +  ‘오늘의 문장을 따라 써주세요.’",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "상단 캐릭터 +  ‘오늘의 문장을 따라 써주세요.’",
+            "href": null
+          }
+        ],
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-8041-82b0-c877bc0d7d79",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18"
+      },
+      "created_time": "2026-10-20T04:29:00.000Z",
+      "last_edited_time": "2026-10-20T04:29:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "image",
+      "image": {
+        "caption": [],
+        "type": "file",
+        "file": {
+          "url": "typing-3.png",
+          "expiry_time": "2026-10-28T12:57:54.693Z"
+        }
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3ffe639f-c7a4-803b-bf62-fd8f8bd2f3ad",
+      "parent": {
+        "type": "block_id",
+        "block_id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18"
+      },
+      "created_time": "2026-10-20T04:29:00.000Z",
+      "last_edited_time": "2026-10-20T04:29:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    }
+  ],
+  "commentLists": {
+    "3ffe639f-c7a4-8026-9f40-daf8cf01f20c": [],
+    "3ffe639f-c7a4-801d-ac24-ed763b1a9f64": [],
+    "404e639f-c7a4-81ec-a784-d52097c66736": [],
+    "404e639f-c7a4-81d7-8086-f0a0008916da": [],
+    "404e639f-c7a4-8165-b6e2-c41faa380a86": [],
+    "404e639f-c7a4-8196-a1e2-e69a605426d0": [],
+    "404e639f-c7a4-8191-ac0b-c48ccb9a518c": [],
+    "404e639f-c7a4-811c-8b0d-c6c47961eb6b": [],
+    "404e639f-c7a4-8152-9d01-e8f7866db11b": [],
+    "404e639f-c7a4-8117-9945-d8140aefeea3": [],
+    "404e639f-c7a4-81fe-8c93-c245c0f8b061": [],
+    "404e639f-c7a4-8141-b603-d4370673847a": [],
+    "404e639f-c7a4-81dd-beb9-d8481152682c": [],
+    "404e639f-c7a4-815a-a60e-e6e537b4c74b": [],
+    "404e639f-c7a4-8176-b289-f868bf8d440f": [],
+    "404e639f-c7a4-8125-b251-c12103477981": [],
+    "404e639f-c7a4-814e-bb5a-ec07e4bf1821": [],
+    "404e639f-c7a4-81ae-9065-c4bb78e046b7": [],
+    "404e639f-c7a4-8102-8094-ddcd6e210bf2": [],
+    "404e639f-c7a4-81b8-8c9d-f3c4f38dbe04": [],
+    "404e639f-c7a4-81cf-8d28-c20e3f6f36ef": [],
+    "404e639f-c7a4-813b-a961-c20e5c32068d": [],
+    "404e639f-c7a4-810a-af08-efc16dbb99f2": [],
+    "404e639f-c7a4-8186-8e2d-f6d379c02140": [],
+    "404e639f-c7a4-81f0-9f93-e830944e49e1": [],
+    "404e639f-c7a4-817f-8f2d-e306e410fc40": [],
+    "404e639f-c7a4-8149-b933-d2cca1307fb4": [],
+    "404e639f-c7a4-81df-900e-c75444e367d4": [],
+    "404e639f-c7a4-81fe-8c71-c6a6c95a952f": [],
+    "404e639f-c7a4-8111-ad38-cc67796c3571": [],
+    "404e639f-c7a4-8151-9ca7-c4014c8a1391": [],
+    "404e639f-c7a4-8102-89ce-caea8cadfcb1": [],
+    "3ffe639f-c7a4-80ea-85bf-c229cf611311": [],
+    "3ffe639f-c7a4-802b-9e33-e6042e7eba18": [],
+    "3ffe639f-c7a4-805e-bd01-f784b970ce9a": [],
+    "3ffe639f-c7a4-80d7-9c45-dd7b510ae76a": [],
+    "3ffe639f-c7a4-802d-97c3-e2b4865174cd": [],
+    "3ffe639f-c7a4-800c-965e-db74208dc7f6": [],
+    "3ffe639f-c7a4-8066-959b-c7a03fce1f8c": [],
+    "3ffe639f-c7a4-8026-a515-fb55fa9caa36": [],
+    "3ffe639f-c7a4-80d7-abf9-cf5c442c134e": [],
+    "3ffe639f-c7a4-8041-82b0-c877bc0d7d79": [],
+    "3ffe639f-c7a4-803b-bf62-fd8f8bd2f3ad": []
+  },
+  "commentChecks": [
+    {
+      "id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-801d-ac24-ed763b1a9f64",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81ec-a784-d52097c66736",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81d7-8086-f0a0008916da",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8165-b6e2-c41faa380a86",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8196-a1e2-e69a605426d0",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8191-ac0b-c48ccb9a518c",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-811c-8b0d-c6c47961eb6b",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8152-9d01-e8f7866db11b",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8117-9945-d8140aefeea3",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81fe-8c93-c245c0f8b061",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8141-b603-d4370673847a",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81dd-beb9-d8481152682c",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-815a-a60e-e6e537b4c74b",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8176-b289-f868bf8d440f",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8125-b251-c12103477981",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-814e-bb5a-ec07e4bf1821",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81ae-9065-c4bb78e046b7",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8102-8094-ddcd6e210bf2",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81b8-8c9d-f3c4f38dbe04",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81cf-8d28-c20e3f6f36ef",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-813b-a961-c20e5c32068d",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-810a-af08-efc16dbb99f2",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8186-8e2d-f6d379c02140",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81f0-9f93-e830944e49e1",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-817f-8f2d-e306e410fc40",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8149-b933-d2cca1307fb4",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81df-900e-c75444e367d4",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-81fe-8c71-c6a6c95a952f",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8111-ad38-cc67796c3571",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8151-9ca7-c4014c8a1391",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "404e639f-c7a4-8102-89ce-caea8cadfcb1",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-80ea-85bf-c229cf611311",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-802b-9e33-e6042e7eba18",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-805e-bd01-f784b970ce9a",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-80d7-9c45-dd7b510ae76a",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-802d-97c3-e2b4865174cd",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-800c-965e-db74208dc7f6",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-8066-959b-c7a03fce1f8c",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-8026-a515-fb55fa9caa36",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-80d7-abf9-cf5c442c134e",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-8041-82b0-c877bc0d7d79",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3ffe639f-c7a4-803b-bf62-fd8f8bd2f3ad",
+      "count": 0,
+      "has_more": false
+    }
+  ],
+  "attachments": [
+    {
+      "block_id": "3ffe639f-c7a4-800c-965e-db74208dc7f6",
+      "original_name": "IMG_1538.heic",
+      "file": "typing-1.heic",
+      "display": "typing-1.jpg"
+    },
+    {
+      "block_id": "3ffe639f-c7a4-8066-959b-c7a03fce1f8c",
+      "original_name": "IMG_1537.png",
+      "file": "typing-2.png",
+      "display": "typing-2.png"
+    },
+    {
+      "block_id": "3ffe639f-c7a4-8041-82b0-c877bc0d7d79",
+      "original_name": "스크린샷_2026-10-20_오전_11.29.21.png",
+      "file": "typing-3.png",
+      "display": "typing-3.png"
+    }
+  ]
+}

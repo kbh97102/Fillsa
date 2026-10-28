@@ -1,0 +1,40 @@
+{
+  "retrieved_date": "2026-10-28",
+  "issues": [
+    {
+      "id": "3ffe639f-c7a4-8005-b57f-f2fe3eeeb952",
+      "url": "https://app.notion.com/p/Home-3ffe639fc7a48005b57ff2fe3eeeb952",
+      "created": "2026-10-20T04:21:00.000Z",
+      "edited": "2026-10-28T11:11:00.000Z",
+      "title": "Home >  달력 > 연도/월 선택안됨",
+      "status": "Completed",
+      "devices": [
+        "Android"
+      ],
+      "priority": "낮음"
+    },
+    {
+      "id": "3ffe639f-c7a4-8026-9f40-daf8cf01f20c",
+      "url": "https://app.notion.com/p/3ffe639fc7a480269f40daf8cf01f20c",
+      "created": "2026-10-20T04:26:00.000Z",
+      "edited": "2026-10-25T04:25:00.000Z",
+      "title": "필사 작성 화면 >  캐릭터 미적용",
+      "status": "In progress",
+      "devices": [
+        "Android",
+        "iOS"
+      ],
+      "priority": "낮음"
+    },
+    {
+      "id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98",
+      "url": "https://app.notion.com/p/26be639fc7a48046b4afe4cfb5bf0d98",
+      "created": "2025-09-11T06:11:00.000Z",
+      "edited": "2026-10-12T10:07:00.000Z",
+      "title": "로그인 시간 만료 팝업",
+      "status": "In progress",
+      "devices": [],
+      "priority": null
+    }
+  ]
+}

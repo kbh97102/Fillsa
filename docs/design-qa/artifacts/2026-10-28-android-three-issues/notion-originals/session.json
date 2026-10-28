@@ -1,0 +1,2372 @@
+{
+  "key": "session",
+  "id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98",
+  "page": {
+    "object": "page",
+    "id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98",
+    "created_time": "2025-09-11T06:11:00.000Z",
+    "last_edited_time": "2026-10-12T10:07:00.000Z",
+    "created_by": {
+      "object": "user",
+      "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+    },
+    "last_edited_by": {
+      "object": "user",
+      "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+    },
+    "cover": null,
+    "icon": null,
+    "parent": {
+      "type": "data_source_id",
+      "data_source_id": "20fe639f-c7a4-81a4-b822-000b5d57112e",
+      "database_id": "20fe639f-c7a4-81e3-824c-cc0d61bdfec6"
+    },
+    "in_trash": false,
+    "is_archived": false,
+    "is_locked": false,
+    "properties": {
+      "Priority": {
+        "id": "Sf%7B%40",
+        "type": "select",
+        "select": null
+      },
+      "날짜": {
+        "id": "XTUK",
+        "type": "date",
+        "date": null
+      },
+      "Date Tested": {
+        "id": "%5BrDe",
+        "type": "created_time",
+        "created_time": "2025-09-11T06:11:00.000Z"
+      },
+      "화면": {
+        "id": "%5B%7DZw",
+        "type": "rich_text",
+        "rich_text": []
+      },
+      "신규 QA 알림": {
+        "id": "bPaS",
+        "type": "button",
+        "button": {}
+      },
+      "생성자": {
+        "id": "bcKK",
+        "type": "created_by",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d",
+          "name": "SooJi",
+          "type": "person",
+          "person": {}
+        }
+      },
+      "Device": {
+        "id": "eGhm",
+        "type": "multi_select",
+        "multi_select": []
+      },
+      "Status": {
+        "id": "eOK%5E",
+        "type": "status",
+        "status": {
+          "id": "03c4c6fa-78af-41bc-9b9c-837087684ab6",
+          "name": "In progress",
+          "color": "gray"
+        }
+      },
+      "담당자": {
+        "id": "nMPj",
+        "type": "people",
+        "people": [
+          {
+            "object": "user",
+            "id": "90482669-8509-4f73-848d-3eefaf602109",
+            "name": "보훈 강",
+            "type": "person",
+            "person": {}
+          },
+          {
+            "object": "user",
+            "id": "f583da38-9332-4387-b008-50ce1ab21ba8",
+            "name": "다영 이",
+            "type": "person",
+            "person": {}
+          }
+        ]
+      },
+      "Category": {
+        "id": "odvr",
+        "type": "select",
+        "select": null
+      },
+      "Checklist": {
+        "id": "title",
+        "type": "title",
+        "title": [
+          {
+            "type": "text",
+            "text": {
+              "content": "로그인 시간 만료 팝업",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "로그인 시간 만료 팝업",
+            "href": null
+          }
+        ]
+      }
+    },
+    "url": "https://app.notion.com/p/26be639fc7a48046b4afe4cfb5bf0d98",
+    "public_url": null,
+    "archived": false,
+    "request_id": "5eb4d991-de45-40f7-accc-e797e6abd32f"
+  },
+  "blocks": {
+    "object": "list",
+    "results": [
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80f9-98d7-ec98cb7d2118",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:31:00.000Z",
+        "last_edited_time": "2025-09-11T06:31:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "히스토리",
+                "link": null
+              },
+              "annotations": {
+                "bold": true,
+                "italic": true,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "blue"
+              },
+              "plain_text": "히스토리",
+              "href": null
+            },
+            {
+              "type": "text",
+              "text": {
+                "content": " ",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": true,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "blue"
+              },
+              "plain_text": " ",
+              "href": null
+            },
+            {
+              "type": "mention",
+              "mention": {
+                "type": "page",
+                "page": {
+                  "id": "25ce639f-c7a4-80e9-a5e9-d3aa9e4dd05d"
+                }
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "자동로그인 기능을 추가해보는 건 어떨까요?",
+              "href": "https://app.notion.com/p/25ce639fc7a480e9a5e9d3aa9e4dd05d"
+            },
+            {
+              "type": "text",
+              "text": {
+                "content": " ",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": " ",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80a3-aa24-dc04b5379e9c",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:31:00.000Z",
+        "last_edited_time": "2025-09-11T06:31:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-8062-ab75-c9d761c81d30",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:25:00.000Z",
+        "last_edited_time": "2025-09-11T06:31:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "[내용]\n로그인 시간 만료 팝업이 계속해서 노출되고 있습니다!",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "[내용]\n로그인 시간 만료 팝업이 계속해서 노출되고 있습니다!",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80ec-ba2a-f9b7139cfe23",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:27:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "하루만 지나도 이 팝업이 떠서 확인 부탁드립니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "하루만 지나도 이 팝업이 떠서 확인 부탁드립니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80d4-80ac-f59fe3422000",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:32:00.000Z",
+        "last_edited_time": "2025-09-11T06:32:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "앱 자체적으로 캐시가 쌓이지 않게 하거나, 해결할 수 있는 방법이 있을까요?",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "앱 자체적으로 캐시가 쌓이지 않게 하거나, 해결할 수 있는 방법이 있을까요?",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80f6-97b6-d93943f06e63",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:26:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80b1-934a-df8d347241c0",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:26:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "[시도해본 방법]",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "[시도해본 방법]",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80b3-a8e7-d3d6a7b1211b",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:26:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "numbered_list_item",
+        "numbered_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "데이터 캐시 삭제",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "데이터 캐시 삭제",
+              "href": null
+            }
+          ],
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-8064-ad0c-eb60fdefeace",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:26:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "numbered_list_item",
+        "numbered_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "앱 삭제 후 재설치",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "앱 삭제 후 재설치",
+              "href": null
+            }
+          ],
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-800c-a35b-f75854737071",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:27:00.000Z",
+        "last_edited_time": "2025-09-11T06:27:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80f9-b289-decc4052d7cd",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:25:00.000Z",
+        "last_edited_time": "2025-09-11T06:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80e0-8723-e60975dc9677",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:24:00.000Z",
+        "last_edited_time": "2025-09-11T06:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "image",
+        "image": {
+          "caption": [],
+          "type": "file",
+          "file": {
+            "url": "session-1.png",
+            "expiry_time": "2026-10-28T12:57:33.607Z"
+          }
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3f7e639f-c7a4-815d-817f-c38b760e0fc8",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2026-10-12T10:00:00.000Z",
+        "last_edited_time": "2026-10-12T10:00:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "2026-10-12 Android 인증 경로 수정: 최초 로그인은 Firebase 설치 ID를 전송했으나 토큰 재발급은 deviceId를 빈 값으로 전송하던 문제를 재현·수정했습니다. 화면 재시작 후 동일 만료 오류가 2회 처리되는 현상도 에뮬레이터 테스트로 재현·수정했습니다. 단위/계약 테스트, 실제 Firebase 설치 ID 조회, 에뮬레이터 수명주기 테스트와 debug 빌드는 통과했습니다. 테스트 계정으로 하루 뒤 만료·재설치 시나리오를 확인하기 전이므로 Completed 판정은 보류합니다. 상세 기록: docs/design-qa/2026-10-04-session-expiration-recheck-qa.md",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "2026-10-12 Android 인증 경로 수정: 최초 로그인은 Firebase 설치 ID를 전송했으나 토큰 재발급은 deviceId를 빈 값으로 전송하던 문제를 재현·수정했습니다. 화면 재시작 후 동일 만료 오류가 2회 처리되는 현상도 에뮬레이터 테스트로 재현·수정했습니다. 단위/계약 테스트, 실제 Firebase 설치 ID 조회, 에뮬레이터 수명주기 테스트와 debug 빌드는 통과했습니다. 테스트 계정으로 하루 뒤 만료·재설치 시나리오를 확인하기 전이므로 Completed 판정은 보류합니다. 상세 기록: docs/design-qa/2026-10-04-session-expiration-recheck-qa.md",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3f7e639f-c7a4-81fa-806f-d8a1e6f49163",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2026-10-12T10:07:00.000Z",
+        "last_edited_time": "2026-10-12T10:07:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "2026-10-12 추가 검증(사용자 선택: 목 서버): 로그인 발급→보호 요청 401→토큰 재발급→원 요청 200의 연속 흐름을 확인했습니다. 로그인/재발급의 deviceId가 같고 새 access token으로 한 번 재시도합니다. refresh 403이면 추가 재시도 없이 401을 반환합니다. 이는 클라이언트 동작 검증이며 실제 서버의 하루 뒤·재설치 재현은 포함하지 않습니다. 상세 결과는 저장소 QA 기록에 반영했습니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "2026-10-12 추가 검증(사용자 선택: 목 서버): 로그인 발급→보호 요청 401→토큰 재발급→원 요청 200의 연속 흐름을 확인했습니다. 로그인/재발급의 deviceId가 같고 새 access token으로 한 번 재시도합니다. refresh 403이면 추가 재시도 없이 401을 반환합니다. 이는 클라이언트 동작 검증이며 실제 서버의 하루 뒤·재설치 재현은 포함하지 않습니다. 상세 결과는 저장소 QA 기록에 반영했습니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      }
+    ],
+    "next_cursor": null,
+    "has_more": false,
+    "type": "block",
+    "block": {},
+    "request_id": "902152a4-c40e-4ffc-a50e-95ed22410f6f"
+  },
+  "comments": {
+    "object": "list",
+    "results": [
+      {
+        "object": "comment",
+        "id": "26de639f-c7a4-80c7-b021-001dcb9928a2",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "discussion_id": "e20e639f-c7a4-8288-b9db-83b6ab702706",
+        "created_time": "2025-09-13T07:14:00.000Z",
+        "last_edited_time": "2025-09-13T07:14:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "헉 저도 이거 겪어서 로컬캐시(데이터)까지 다 삭제하니깐 되더라구요..!\n저만 겪는 현상이 아니었군여 ㄷㄷ 이거 원인파악하고 배포주기랑 별개로 바로 적용해야 될것 같네요! cc. ",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "헉 저도 이거 겪어서 로컬캐시(데이터)까지 다 삭제하니깐 되더라구요..!\n저만 겪는 현상이 아니었군여 ㄷㄷ 이거 원인파악하고 배포주기랑 별개로 바로 적용해야 될것 같네요! cc. ",
+            "href": null
+          },
+          {
+            "type": "mention",
+            "mention": {
+              "type": "user",
+              "user": {
+                "object": "user",
+                "id": "90482669-8509-4f73-848d-3eefaf602109",
+                "name": "보훈 강",
+                "type": "person",
+                "person": {}
+              }
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "@보훈 강",
+            "href": null
+          },
+          {
+            "type": "text",
+            "text": {
+              "content": " ",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": " ",
+            "href": null
+          }
+        ],
+        "display_name": {
+          "type": "user",
+          "resolved_name": "다영 이"
+        },
+        "original_content_deleted": false,
+        "has_pending_attachments": false
+      },
+      {
+        "object": "comment",
+        "id": "272e639f-c7a4-80b9-9aed-001d37330b53",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "discussion_id": "e20e639f-c7a4-8288-b9db-83b6ab702706",
+        "created_time": "2025-09-18T02:19:00.000Z",
+        "last_edited_time": "2025-09-18T02:19:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "90482669-8509-4f73-848d-3eefaf602109"
+        },
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "요 에러의 원인을 생각해보니 취소버튼을 누른 경우 로그인 여부가 풀리지 않으면서 다음 API 요청시에도 만료된 상태에서 요청을 해서 발생한것으로 예상하고있습니다\n로그인 만료 팝업에서 취소 버튼을 제거해도 될까요?? 취소버튼이 없는게 더 자연스러울 것 같아요",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "요 에러의 원인을 생각해보니 취소버튼을 누른 경우 로그인 여부가 풀리지 않으면서 다음 API 요청시에도 만료된 상태에서 요청을 해서 발생한것으로 예상하고있습니다\n로그인 만료 팝업에서 취소 버튼을 제거해도 될까요?? 취소버튼이 없는게 더 자연스러울 것 같아요",
+            "href": null
+          }
+        ],
+        "display_name": {
+          "type": "user",
+          "resolved_name": "보훈 강"
+        },
+        "original_content_deleted": false,
+        "has_pending_attachments": false
+      },
+      {
+        "object": "comment",
+        "id": "272e639f-c7a4-80b7-ba99-001d8ce9a0bd",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "discussion_id": "e20e639f-c7a4-8288-b9db-83b6ab702706",
+        "created_time": "2025-09-18T02:21:00.000Z",
+        "last_edited_time": "2025-09-18T02:21:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "저는 해당 에러 발생하는 케이스가 어플을 삭제하고 새로 설치했을때 매번 발생했던 케이스라 말씀하신 경우랑은 달라보여요",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "저는 해당 에러 발생하는 케이스가 어플을 삭제하고 새로 설치했을때 매번 발생했던 케이스라 말씀하신 경우랑은 달라보여요",
+            "href": null
+          }
+        ],
+        "display_name": {
+          "type": "user",
+          "resolved_name": "다영 이"
+        },
+        "original_content_deleted": false,
+        "has_pending_attachments": false
+      }
+    ],
+    "next_cursor": null,
+    "has_more": false,
+    "type": "comment",
+    "comment": {},
+    "request_id": "e81b15a5-f03f-4e21-9af5-f5b992cca60d"
+  },
+  "markdown": {
+    "object": "page_markdown",
+    "id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98",
+    "markdown": "<span color=\"blue\">***히스토리***</span><span color=\"blue\">* *</span><mention-page url=\"https://app.notion.com/p/25ce639fc7a480e9a5e9d3aa9e4dd05d\"/> \n<empty-block/>\n\\[내용\\]<br>로그인 시간 만료 팝업이 계속해서 노출되고 있습니다!\n하루만 지나도 이 팝업이 떠서 확인 부탁드립니다.\n앱 자체적으로 캐시가 쌓이지 않게 하거나, 해결할 수 있는 방법이 있을까요?\n<empty-block/>\n\\[시도해본 방법\\]\n1. 데이터 캐시 삭제\n2. 앱 삭제 후 재설치\n<empty-block/>\n<empty-block/>\n![](session-1.png Android 인증 경로 수정: 최초 로그인은 Firebase 설치 ID를 전송했으나 토큰 재발급은 deviceId를 빈 값으로 전송하던 문제를 재현·수정했습니다. 화면 재시작 후 동일 만료 오류가 2회 처리되는 현상도 에뮬레이터 테스트로 재현·수정했습니다. 단위/계약 테스트, 실제 Firebase 설치 ID 조회, 에뮬레이터 수명주기 테스트와 debug 빌드는 통과했습니다. 테스트 계정으로 하루 뒤 만료·재설치 시나리오를 확인하기 전이므로 Completed 판정은 보류합니다. 상세 기록: docs/design-qa/2026-10-04-session-expiration-recheck-qa.md\n2026-10-12 추가 검증(사용자 선택: 목 서버): 로그인 발급→보호 요청 401→토큰 재발급→원 요청 200의 연속 흐름을 확인했습니다. 로그인/재발급의 deviceId가 같고 새 access token으로 한 번 재시도합니다. refresh 403이면 추가 재시도 없이 401을 반환합니다. 이는 클라이언트 동작 검증이며 실제 서버의 하루 뒤·재설치 재현은 포함하지 않습니다. 상세 결과는 저장소 QA 기록에 반영했습니다.",
+    "truncated": false,
+    "unknown_block_ids": [],
+    "request_id": "ea1c68ef-3d8e-4369-b894-8b929238e145"
+  },
+  "queriedAt": "2026-10-28T11:57:34.329Z",
+  "blockLists": {
+    "26be639f-c7a4-8046-b4af-e4cfb5bf0d98": [
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80f9-98d7-ec98cb7d2118",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:31:00.000Z",
+        "last_edited_time": "2025-09-11T06:31:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "히스토리",
+                "link": null
+              },
+              "annotations": {
+                "bold": true,
+                "italic": true,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "blue"
+              },
+              "plain_text": "히스토리",
+              "href": null
+            },
+            {
+              "type": "text",
+              "text": {
+                "content": " ",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": true,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "blue"
+              },
+              "plain_text": " ",
+              "href": null
+            },
+            {
+              "type": "mention",
+              "mention": {
+                "type": "page",
+                "page": {
+                  "id": "25ce639f-c7a4-80e9-a5e9-d3aa9e4dd05d"
+                }
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "자동로그인 기능을 추가해보는 건 어떨까요?",
+              "href": "https://app.notion.com/p/25ce639fc7a480e9a5e9d3aa9e4dd05d"
+            },
+            {
+              "type": "text",
+              "text": {
+                "content": " ",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": " ",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80a3-aa24-dc04b5379e9c",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:31:00.000Z",
+        "last_edited_time": "2025-09-11T06:31:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-8062-ab75-c9d761c81d30",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:25:00.000Z",
+        "last_edited_time": "2025-09-11T06:31:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "[내용]\n로그인 시간 만료 팝업이 계속해서 노출되고 있습니다!",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "[내용]\n로그인 시간 만료 팝업이 계속해서 노출되고 있습니다!",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80ec-ba2a-f9b7139cfe23",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:27:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "하루만 지나도 이 팝업이 떠서 확인 부탁드립니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "하루만 지나도 이 팝업이 떠서 확인 부탁드립니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80d4-80ac-f59fe3422000",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:32:00.000Z",
+        "last_edited_time": "2025-09-11T06:32:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "앱 자체적으로 캐시가 쌓이지 않게 하거나, 해결할 수 있는 방법이 있을까요?",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "앱 자체적으로 캐시가 쌓이지 않게 하거나, 해결할 수 있는 방법이 있을까요?",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80f6-97b6-d93943f06e63",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:26:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80b1-934a-df8d347241c0",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:26:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "[시도해본 방법]",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "[시도해본 방법]",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80b3-a8e7-d3d6a7b1211b",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:26:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "numbered_list_item",
+        "numbered_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "데이터 캐시 삭제",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "데이터 캐시 삭제",
+              "href": null
+            }
+          ],
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-8064-ad0c-eb60fdefeace",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:26:00.000Z",
+        "last_edited_time": "2025-09-11T06:26:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "numbered_list_item",
+        "numbered_list_item": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "앱 삭제 후 재설치",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "앱 삭제 후 재설치",
+              "href": null
+            }
+          ],
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-800c-a35b-f75854737071",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:27:00.000Z",
+        "last_edited_time": "2025-09-11T06:27:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80f9-b289-decc4052d7cd",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:25:00.000Z",
+        "last_edited_time": "2025-09-11T06:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "26be639f-c7a4-80e0-8723-e60975dc9677",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2025-09-11T06:24:00.000Z",
+        "last_edited_time": "2025-09-11T06:25:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "image",
+        "image": {
+          "caption": [],
+          "type": "file",
+          "file": {
+            "url": "session-1.png",
+            "expiry_time": "2026-10-28T12:57:33.607Z"
+          }
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3f7e639f-c7a4-815d-817f-c38b760e0fc8",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2026-10-12T10:00:00.000Z",
+        "last_edited_time": "2026-10-12T10:00:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "2026-10-12 Android 인증 경로 수정: 최초 로그인은 Firebase 설치 ID를 전송했으나 토큰 재발급은 deviceId를 빈 값으로 전송하던 문제를 재현·수정했습니다. 화면 재시작 후 동일 만료 오류가 2회 처리되는 현상도 에뮬레이터 테스트로 재현·수정했습니다. 단위/계약 테스트, 실제 Firebase 설치 ID 조회, 에뮬레이터 수명주기 테스트와 debug 빌드는 통과했습니다. 테스트 계정으로 하루 뒤 만료·재설치 시나리오를 확인하기 전이므로 Completed 판정은 보류합니다. 상세 기록: docs/design-qa/2026-10-04-session-expiration-recheck-qa.md",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "2026-10-12 Android 인증 경로 수정: 최초 로그인은 Firebase 설치 ID를 전송했으나 토큰 재발급은 deviceId를 빈 값으로 전송하던 문제를 재현·수정했습니다. 화면 재시작 후 동일 만료 오류가 2회 처리되는 현상도 에뮬레이터 테스트로 재현·수정했습니다. 단위/계약 테스트, 실제 Firebase 설치 ID 조회, 에뮬레이터 수명주기 테스트와 debug 빌드는 통과했습니다. 테스트 계정으로 하루 뒤 만료·재설치 시나리오를 확인하기 전이므로 Completed 판정은 보류합니다. 상세 기록: docs/design-qa/2026-10-04-session-expiration-recheck-qa.md",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      },
+      {
+        "object": "block",
+        "id": "3f7e639f-c7a4-81fa-806f-d8a1e6f49163",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "created_time": "2026-10-12T10:07:00.000Z",
+        "last_edited_time": "2026-10-12T10:07:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "last_edited_by": {
+          "object": "user",
+          "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+        },
+        "has_children": false,
+        "in_trash": false,
+        "type": "paragraph",
+        "paragraph": {
+          "rich_text": [
+            {
+              "type": "text",
+              "text": {
+                "content": "2026-10-12 추가 검증(사용자 선택: 목 서버): 로그인 발급→보호 요청 401→토큰 재발급→원 요청 200의 연속 흐름을 확인했습니다. 로그인/재발급의 deviceId가 같고 새 access token으로 한 번 재시도합니다. refresh 403이면 추가 재시도 없이 401을 반환합니다. 이는 클라이언트 동작 검증이며 실제 서버의 하루 뒤·재설치 재현은 포함하지 않습니다. 상세 결과는 저장소 QA 기록에 반영했습니다.",
+                "link": null
+              },
+              "annotations": {
+                "bold": false,
+                "italic": false,
+                "strikethrough": false,
+                "underline": false,
+                "code": false,
+                "color": "default"
+              },
+              "plain_text": "2026-10-12 추가 검증(사용자 선택: 목 서버): 로그인 발급→보호 요청 401→토큰 재발급→원 요청 200의 연속 흐름을 확인했습니다. 로그인/재발급의 deviceId가 같고 새 access token으로 한 번 재시도합니다. refresh 403이면 추가 재시도 없이 401을 반환합니다. 이는 클라이언트 동작 검증이며 실제 서버의 하루 뒤·재설치 재현은 포함하지 않습니다. 상세 결과는 저장소 QA 기록에 반영했습니다.",
+              "href": null
+            }
+          ],
+          "icon": null,
+          "color": "default"
+        },
+        "archived": false
+      }
+    ]
+  },
+  "allBlocks": [
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80f9-98d7-ec98cb7d2118",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:31:00.000Z",
+      "last_edited_time": "2025-09-11T06:31:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "히스토리",
+              "link": null
+            },
+            "annotations": {
+              "bold": true,
+              "italic": true,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "blue"
+            },
+            "plain_text": "히스토리",
+            "href": null
+          },
+          {
+            "type": "text",
+            "text": {
+              "content": " ",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": true,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "blue"
+            },
+            "plain_text": " ",
+            "href": null
+          },
+          {
+            "type": "mention",
+            "mention": {
+              "type": "page",
+              "page": {
+                "id": "25ce639f-c7a4-80e9-a5e9-d3aa9e4dd05d"
+              }
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "자동로그인 기능을 추가해보는 건 어떨까요?",
+            "href": "https://app.notion.com/p/25ce639fc7a480e9a5e9d3aa9e4dd05d"
+          },
+          {
+            "type": "text",
+            "text": {
+              "content": " ",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": " ",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80a3-aa24-dc04b5379e9c",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:31:00.000Z",
+      "last_edited_time": "2025-09-11T06:31:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-8062-ab75-c9d761c81d30",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:25:00.000Z",
+      "last_edited_time": "2025-09-11T06:31:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "[내용]\n로그인 시간 만료 팝업이 계속해서 노출되고 있습니다!",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "[내용]\n로그인 시간 만료 팝업이 계속해서 노출되고 있습니다!",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80ec-ba2a-f9b7139cfe23",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:26:00.000Z",
+      "last_edited_time": "2025-09-11T06:27:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "하루만 지나도 이 팝업이 떠서 확인 부탁드립니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "하루만 지나도 이 팝업이 떠서 확인 부탁드립니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80d4-80ac-f59fe3422000",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:32:00.000Z",
+      "last_edited_time": "2025-09-11T06:32:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "앱 자체적으로 캐시가 쌓이지 않게 하거나, 해결할 수 있는 방법이 있을까요?",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "앱 자체적으로 캐시가 쌓이지 않게 하거나, 해결할 수 있는 방법이 있을까요?",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80f6-97b6-d93943f06e63",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:26:00.000Z",
+      "last_edited_time": "2025-09-11T06:26:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80b1-934a-df8d347241c0",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:26:00.000Z",
+      "last_edited_time": "2025-09-11T06:26:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "[시도해본 방법]",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "[시도해본 방법]",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80b3-a8e7-d3d6a7b1211b",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:26:00.000Z",
+      "last_edited_time": "2025-09-11T06:26:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "numbered_list_item",
+      "numbered_list_item": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "데이터 캐시 삭제",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "데이터 캐시 삭제",
+            "href": null
+          }
+        ],
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-8064-ad0c-eb60fdefeace",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:26:00.000Z",
+      "last_edited_time": "2025-09-11T06:26:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "numbered_list_item",
+      "numbered_list_item": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "앱 삭제 후 재설치",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "앱 삭제 후 재설치",
+            "href": null
+          }
+        ],
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-800c-a35b-f75854737071",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:27:00.000Z",
+      "last_edited_time": "2025-09-11T06:27:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80f9-b289-decc4052d7cd",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:25:00.000Z",
+      "last_edited_time": "2025-09-11T06:25:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "26be639f-c7a4-80e0-8723-e60975dc9677",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2025-09-11T06:24:00.000Z",
+      "last_edited_time": "2025-09-11T06:25:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "5a75f85e-6885-4a49-81fb-394dc6f7896d"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "image",
+      "image": {
+        "caption": [],
+        "type": "file",
+        "file": {
+          "url": "session-1.png",
+          "expiry_time": "2026-10-28T12:57:33.607Z"
+        }
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3f7e639f-c7a4-815d-817f-c38b760e0fc8",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2026-10-12T10:00:00.000Z",
+      "last_edited_time": "2026-10-12T10:00:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "2026-10-12 Android 인증 경로 수정: 최초 로그인은 Firebase 설치 ID를 전송했으나 토큰 재발급은 deviceId를 빈 값으로 전송하던 문제를 재현·수정했습니다. 화면 재시작 후 동일 만료 오류가 2회 처리되는 현상도 에뮬레이터 테스트로 재현·수정했습니다. 단위/계약 테스트, 실제 Firebase 설치 ID 조회, 에뮬레이터 수명주기 테스트와 debug 빌드는 통과했습니다. 테스트 계정으로 하루 뒤 만료·재설치 시나리오를 확인하기 전이므로 Completed 판정은 보류합니다. 상세 기록: docs/design-qa/2026-10-04-session-expiration-recheck-qa.md",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "2026-10-12 Android 인증 경로 수정: 최초 로그인은 Firebase 설치 ID를 전송했으나 토큰 재발급은 deviceId를 빈 값으로 전송하던 문제를 재현·수정했습니다. 화면 재시작 후 동일 만료 오류가 2회 처리되는 현상도 에뮬레이터 테스트로 재현·수정했습니다. 단위/계약 테스트, 실제 Firebase 설치 ID 조회, 에뮬레이터 수명주기 테스트와 debug 빌드는 통과했습니다. 테스트 계정으로 하루 뒤 만료·재설치 시나리오를 확인하기 전이므로 Completed 판정은 보류합니다. 상세 기록: docs/design-qa/2026-10-04-session-expiration-recheck-qa.md",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    },
+    {
+      "object": "block",
+      "id": "3f7e639f-c7a4-81fa-806f-d8a1e6f49163",
+      "parent": {
+        "type": "page_id",
+        "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+      },
+      "created_time": "2026-10-12T10:07:00.000Z",
+      "last_edited_time": "2026-10-12T10:07:00.000Z",
+      "created_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "last_edited_by": {
+        "object": "user",
+        "id": "3bbe639f-c7a4-8194-8bfb-0027fcfbe661"
+      },
+      "has_children": false,
+      "in_trash": false,
+      "type": "paragraph",
+      "paragraph": {
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "2026-10-12 추가 검증(사용자 선택: 목 서버): 로그인 발급→보호 요청 401→토큰 재발급→원 요청 200의 연속 흐름을 확인했습니다. 로그인/재발급의 deviceId가 같고 새 access token으로 한 번 재시도합니다. refresh 403이면 추가 재시도 없이 401을 반환합니다. 이는 클라이언트 동작 검증이며 실제 서버의 하루 뒤·재설치 재현은 포함하지 않습니다. 상세 결과는 저장소 QA 기록에 반영했습니다.",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "2026-10-12 추가 검증(사용자 선택: 목 서버): 로그인 발급→보호 요청 401→토큰 재발급→원 요청 200의 연속 흐름을 확인했습니다. 로그인/재발급의 deviceId가 같고 새 access token으로 한 번 재시도합니다. refresh 403이면 추가 재시도 없이 401을 반환합니다. 이는 클라이언트 동작 검증이며 실제 서버의 하루 뒤·재설치 재현은 포함하지 않습니다. 상세 결과는 저장소 QA 기록에 반영했습니다.",
+            "href": null
+          }
+        ],
+        "icon": null,
+        "color": "default"
+      },
+      "archived": false
+    }
+  ],
+  "commentLists": {
+    "26be639f-c7a4-8046-b4af-e4cfb5bf0d98": [
+      {
+        "object": "comment",
+        "id": "26de639f-c7a4-80c7-b021-001dcb9928a2",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "discussion_id": "e20e639f-c7a4-8288-b9db-83b6ab702706",
+        "created_time": "2025-09-13T07:14:00.000Z",
+        "last_edited_time": "2025-09-13T07:14:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "헉 저도 이거 겪어서 로컬캐시(데이터)까지 다 삭제하니깐 되더라구요..!\n저만 겪는 현상이 아니었군여 ㄷㄷ 이거 원인파악하고 배포주기랑 별개로 바로 적용해야 될것 같네요! cc. ",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "헉 저도 이거 겪어서 로컬캐시(데이터)까지 다 삭제하니깐 되더라구요..!\n저만 겪는 현상이 아니었군여 ㄷㄷ 이거 원인파악하고 배포주기랑 별개로 바로 적용해야 될것 같네요! cc. ",
+            "href": null
+          },
+          {
+            "type": "mention",
+            "mention": {
+              "type": "user",
+              "user": {
+                "object": "user",
+                "id": "90482669-8509-4f73-848d-3eefaf602109",
+                "name": "보훈 강",
+                "type": "person",
+                "person": {}
+              }
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "@보훈 강",
+            "href": null
+          },
+          {
+            "type": "text",
+            "text": {
+              "content": " ",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": " ",
+            "href": null
+          }
+        ],
+        "display_name": {
+          "type": "user",
+          "resolved_name": "다영 이"
+        },
+        "original_content_deleted": false,
+        "has_pending_attachments": false
+      },
+      {
+        "object": "comment",
+        "id": "272e639f-c7a4-80b9-9aed-001d37330b53",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "discussion_id": "e20e639f-c7a4-8288-b9db-83b6ab702706",
+        "created_time": "2025-09-18T02:19:00.000Z",
+        "last_edited_time": "2025-09-18T02:19:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "90482669-8509-4f73-848d-3eefaf602109"
+        },
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "요 에러의 원인을 생각해보니 취소버튼을 누른 경우 로그인 여부가 풀리지 않으면서 다음 API 요청시에도 만료된 상태에서 요청을 해서 발생한것으로 예상하고있습니다\n로그인 만료 팝업에서 취소 버튼을 제거해도 될까요?? 취소버튼이 없는게 더 자연스러울 것 같아요",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "요 에러의 원인을 생각해보니 취소버튼을 누른 경우 로그인 여부가 풀리지 않으면서 다음 API 요청시에도 만료된 상태에서 요청을 해서 발생한것으로 예상하고있습니다\n로그인 만료 팝업에서 취소 버튼을 제거해도 될까요?? 취소버튼이 없는게 더 자연스러울 것 같아요",
+            "href": null
+          }
+        ],
+        "display_name": {
+          "type": "user",
+          "resolved_name": "보훈 강"
+        },
+        "original_content_deleted": false,
+        "has_pending_attachments": false
+      },
+      {
+        "object": "comment",
+        "id": "272e639f-c7a4-80b7-ba99-001d8ce9a0bd",
+        "parent": {
+          "type": "page_id",
+          "page_id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98"
+        },
+        "discussion_id": "e20e639f-c7a4-8288-b9db-83b6ab702706",
+        "created_time": "2025-09-18T02:21:00.000Z",
+        "last_edited_time": "2025-09-18T02:21:00.000Z",
+        "created_by": {
+          "object": "user",
+          "id": "f583da38-9332-4387-b008-50ce1ab21ba8"
+        },
+        "rich_text": [
+          {
+            "type": "text",
+            "text": {
+              "content": "저는 해당 에러 발생하는 케이스가 어플을 삭제하고 새로 설치했을때 매번 발생했던 케이스라 말씀하신 경우랑은 달라보여요",
+              "link": null
+            },
+            "annotations": {
+              "bold": false,
+              "italic": false,
+              "strikethrough": false,
+              "underline": false,
+              "code": false,
+              "color": "default"
+            },
+            "plain_text": "저는 해당 에러 발생하는 케이스가 어플을 삭제하고 새로 설치했을때 매번 발생했던 케이스라 말씀하신 경우랑은 달라보여요",
+            "href": null
+          }
+        ],
+        "display_name": {
+          "type": "user",
+          "resolved_name": "다영 이"
+        },
+        "original_content_deleted": false,
+        "has_pending_attachments": false
+      }
+    ],
+    "26be639f-c7a4-80f9-98d7-ec98cb7d2118": [],
+    "26be639f-c7a4-80a3-aa24-dc04b5379e9c": [],
+    "26be639f-c7a4-8062-ab75-c9d761c81d30": [],
+    "26be639f-c7a4-80ec-ba2a-f9b7139cfe23": [],
+    "26be639f-c7a4-80d4-80ac-f59fe3422000": [],
+    "26be639f-c7a4-80f6-97b6-d93943f06e63": [],
+    "26be639f-c7a4-80b1-934a-df8d347241c0": [],
+    "26be639f-c7a4-80b3-a8e7-d3d6a7b1211b": [],
+    "26be639f-c7a4-8064-ad0c-eb60fdefeace": [],
+    "26be639f-c7a4-800c-a35b-f75854737071": [],
+    "26be639f-c7a4-80f9-b289-decc4052d7cd": [],
+    "26be639f-c7a4-80e0-8723-e60975dc9677": [],
+    "3f7e639f-c7a4-815d-817f-c38b760e0fc8": [],
+    "3f7e639f-c7a4-81fa-806f-d8a1e6f49163": []
+  },
+  "commentChecks": [
+    {
+      "id": "26be639f-c7a4-8046-b4af-e4cfb5bf0d98",
+      "count": 3,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80f9-98d7-ec98cb7d2118",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80a3-aa24-dc04b5379e9c",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-8062-ab75-c9d761c81d30",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80ec-ba2a-f9b7139cfe23",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80d4-80ac-f59fe3422000",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80f6-97b6-d93943f06e63",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80b1-934a-df8d347241c0",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80b3-a8e7-d3d6a7b1211b",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-8064-ad0c-eb60fdefeace",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-800c-a35b-f75854737071",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80f9-b289-decc4052d7cd",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "26be639f-c7a4-80e0-8723-e60975dc9677",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3f7e639f-c7a4-815d-817f-c38b760e0fc8",
+      "count": 0,
+      "has_more": false
+    },
+    {
+      "id": "3f7e639f-c7a4-81fa-806f-d8a1e6f49163",
+      "count": 0,
+      "has_more": false
+    }
+  ],
+  "attachments": [
+    {
+      "block_id": "26be639f-c7a4-80e0-8723-e60975dc9677",
+      "original_name": "image.png",
+      "file": "session-1.png",
+      "display": "session-1.png"
+    }
+  ]
+}

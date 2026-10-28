@@ -1,5 +1,17 @@
 # 필사 입력·저장 결과
 
+## Android CLI Preview / Figma 재대조 · 2026-10-28
+
+- [비교 HTML](../design-qa/2026-10-28-typing-preview-figma.html) · [QA 기록](../design-qa/2026-10-28-typing-preview-figma-qa.md).
+- 안내·본문 Light/Dark는 크기·간격·문구·색상·줄바꿈 비교 일치. 6개 Preview 최종 확보, 첫 리소스 오류/저장 글자 누락은 재시도 후 정상. 새 전체 런타임 승인은 아님.
+- 검증만 수행했으며 앱 소스를 수정하지 않았다. 시스템 영역·IME를 포함한 전체 런타임 검증은 별도다.
+
+## 현재 상태 재검토 · 2026-10-28
+
+- [Android QA 3건 AS-IS / TO-BE 보고서](../design-qa/2026-10-28-android-three-issues-report.html#typing). HEAD `1d95ff1`에 캐릭터·문구·간격 수정이 존재한다. 아래 10/25 후속 검증의 Android 수정 범위 Pass 기록을 기준으로 한다.
+- 최신 Figma Light/Dark 전체 프레임은 10/25 보관본과 바이트 동일. 안내 Light/Dark Preview와 저장 단위 테스트 6건을 다시 확인했다. 공통 Notion의 과거 “앱 연결 미실시” 설명은 현재 Android 상태를 반영하지 않는다.
+- 이번 작업은 분석과 재검증이며 새로운 전체 런타임 승인이나 iOS 완료 판정은 아니다. 기존 Preview 스위치 제외 승인 및 실서버·한글 조합·긴 문장 회귀 한계는 유지한다.
+
 ## 필사 입력 안내 복원 · 2026-10-25
 
 - 사용자 승인: 현재 페이지의 필사 입력 화면에 맞춰 캐릭터·안내·본문 간격과 다크 배경 수정.
@@ -51,7 +63,7 @@
 - 기준: 360×720, Handwriting 캐릭터 60×60, 문구 ‘오늘의 문장을 따라 써주세요.’ Pretendard Bold 16/24, #5C65FF. 안내 다음 본문까지 20. Figma MCP 원본을 2026-10-25 확인했다.
 - 기준 이미지·재현 증거: [근거 폴더](../design-qa/artifacts/2026-10-25-android-new-qa/).
 - 분석 보고서: [QA 원문·원인·해결 계획](../design-qa/2026-10-25-android-new-qa-report.html#typing).
-- 현재 상태: 원인 분석 완료, 앱 수정 미실시. 앞선 저장 결과 팝업의 완료 기록은 이번 입력 화면 안내 영역까지 검증했음을 뜻하지 않는다.
+- 당시 분석 상태(상단 후속 구현·검증 전): 원인 분석 완료, 앱 수정 미실시. 앞선 저장 결과 팝업의 완료 기록만으로 입력 화면 안내 영역까지 검증했다고 판단하지 않았다. 현재 안내 구현·검증 결과는 문서 상단을 따른다.
 - 원인: TypingQuoteView의 TopSection 다음에 바로 BodySection을 배치하여 캐릭터·안내 영역이 없다. 기존 설치 앱에서 누락 재현.
 - 계획: 안내만 표시하는 작은 Compose 컴포넌트를 만들고 Figma 원본 자산을 사용한다. 기존 28dp padding과 조립 간격을 함께 조정하며 입력·저장 계약은 보존한다.
 - 검증 대상: 안내 컴포넌트 Light/Dark, 안내+본문, 360×720 전체 화면 IME 열림/닫힘, 한/영·한글 조합·긴 문장·저장 회귀. Preview와 전체 프레임 대조 전까지 이번 UI는 미완료다.
@@ -63,7 +75,7 @@
 - 안내 그룹(296×84) Light 3087:28754 / Dark 3087:28984의 원본 자산·문구·색상·폰트 추출 완료.
 - 원본 SVG: [Light](../design-qa/artifacts/2026-10-25-android-new-qa/typing-guide-light.svg), [Dark](../design-qa/artifacts/2026-10-25-android-new-qa/typing-guide-dark.svg). 모두 width=60 height=60 viewBox=0 0 60 60. SHA-256 동일(`defb407ecd15892ac90cffcdb647fe972b835cc66dd402336a9bc07c9f178012`)하여 단일 자산으로 재사용 가능.
 - 문구: 오늘의 문장을 따라 써주세요. / Pretendard Bold16, lineHeight24, #5C65FF. 화면 조립 시 안내 아래 본문 간격20.
-- [버전 비교·추출 보고서](../design-qa/2026-10-25-android-new-qa-report.html#figma-extraction). 자산은 QA 근거로 보관했고 production 코드 연결 및 시각 검증은 미실시.
+- [버전 비교·추출 보고서](../design-qa/2026-10-25-android-new-qa-report.html#figma-extraction). 당시에는 자산 추출·보관까지 수행했다. 이후 production 코드 연결과 시각 검증 결과는 문서 상단의 안내 복원 기록을 따른다.
 
 
 ## 전체 화면 대조 · 2026-10-25

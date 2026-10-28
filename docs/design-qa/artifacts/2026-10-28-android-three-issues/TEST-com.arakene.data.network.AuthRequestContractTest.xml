@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.arakene.data.network.AuthRequestContractTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-10-28T11:13:01.372Z" hostname="gangbohuns-MacBook-Pro.local" time="0.184">
+  <properties/>
+  <testcase name="refresh_sendsInstallationAndRefreshToken" classname="com.arakene.data.network.AuthRequestContractTest" time="0.174"/>
+  <testcase name="login_sendsInstallationAndDeviceMetadata" classname="com.arakene.data.network.AuthRequestContractTest" time="0.01"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

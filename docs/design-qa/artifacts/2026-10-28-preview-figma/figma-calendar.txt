@@ -1,0 +1,321 @@
+const imgLucideChevronLeft = "https://www.figma.com/api/mcp/asset/c86ebc65-8a0e-4690-9200-edf2331c9473.svg";
+const imgLucideChevronDown = "https://www.figma.com/api/mcp/asset/99cdaa3f-4153-4657-8f0c-9125587609fe.svg";
+const imgLucideChevronRight = "https://www.figma.com/api/mcp/asset/e6773faf-d01c-4d97-9452-4fecf2d8813d.svg";
+
+export default function Calendar() {
+  return (
+    <div className="bg-[var(--background,white)] border-[length:var(--border-width,1px)] border-[var(--border,#e5e5e5)] border-solid content-stretch drop-shadow-[0px_1px_1.5px_rgba(0,0,0,0.1)] flex flex-col gap-[var(--gap-4,16px)] items-start p-[var(--p-3,12px)] relative rounded-[var(--radius-lg,10px)] size-full" data-node-id="2929:16227" data-name="Calendar">
+      <div className="content-stretch flex items-center justify-between relative shrink-0 w-full" data-node-id="2929:16228" data-name="Wrapper">
+        <div className="content-stretch flex items-center justify-center px-[var(--px-3,12px)] relative rounded-[var(--rounded-md,6px)] shrink-0 size-[32px]" data-node-id="2929:16229" data-name="Previous month">
+          <div className="relative shrink-0 size-[16px]" data-node-id="2929:16230" data-name="lucide/chevron-left">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLucideChevronLeft} />
+          </div>
+        </div>
+        <div className="content-stretch flex gap-[var(--gap-1\,5,6px)] items-center justify-center relative shrink-0 w-[160px]" data-node-id="2929:16231" data-name="Wrapper">
+          <div className="bg-[var(--background,white)] border-[length:var(--border-width,1px)] border-[var(--border,#e5e5e5)] border-solid content-stretch drop-shadow-[0px_1px_1px_rgba(0,0,0,0.1)] flex gap-[var(--gap-1,4px)] h-[32px] items-center pl-[var(--pl-2,8px)] pr-[var(--pr-1,4px)] relative rounded-[var(--radius-md,8px)] shrink-0 w-[65px]" data-node-id="2929:16232" data-name="Dropdown">
+            <div className="content-stretch flex items-center justify-center relative shrink-0 w-[37px]" data-node-id="2929:16233" data-name="Month">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Medium')] font-[var(--weight\/medium,500)] leading-[var(--leading\/5,20px)] not-italic overflow-hidden relative shrink-0 text-[14px] text-[color:var(--foreground,#0a0a0a)] text-ellipsis tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16234">
+                2026
+              </p>
+            </div>
+            <div className="relative shrink-0 size-[12px]" data-node-id="2929:16235" data-name="lucide/chevron-down">
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLucideChevronDown} />
+            </div>
+          </div>
+          <div className="bg-[var(--background,white)] border-[length:var(--border-width,1px)] border-[var(--border,#e5e5e5)] border-solid content-stretch drop-shadow-[0px_1px_1px_rgba(0,0,0,0.1)] flex gap-[var(--gap-1,4px)] h-[32px] items-center pl-[var(--pl-2,8px)] pr-[var(--pr-1,4px)] relative rounded-[var(--radius-md,8px)] shrink-0 w-[63px]" data-node-id="2929:16236" data-name="Dropdown">
+            <div className="content-stretch flex items-center justify-center relative shrink-0 w-[35px]" data-node-id="2929:16237" data-name="Month">
+              <p className="[word-break:break-word] flex-[1_0_0] font-[family-name:var(--family\/sans,'Inter:Medium')] font-[var(--weight\/medium,500)] leading-[var(--leading\/5,20px)] min-w-px not-italic overflow-hidden relative text-[14px] text-[color:var(--foreground,#0a0a0a)] text-ellipsis tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16238">
+                08
+              </p>
+            </div>
+            <div className="relative shrink-0 size-[12px]" data-node-id="2929:16239" data-name="lucide/chevron-down">
+              <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLucideChevronDown} />
+            </div>
+          </div>
+        </div>
+        <div className="content-stretch flex items-center justify-center px-[var(--px-3,12px)] relative rounded-[var(--rounded-md,6px)] shrink-0 size-[32px]" data-node-id="2929:16240" data-name="Previous month">
+          <div className="relative shrink-0 size-[16px]" data-node-id="2929:16241" data-name="lucide/chevron-right">
+            <img alt="" className="absolute block inset-0 max-w-none size-full" src={imgLucideChevronRight} />
+          </div>
+        </div>
+      </div>
+      <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-node-id="2929:16242" data-name="Wrapper">
+        <div className="content-stretch flex items-center relative shrink-0 w-full" data-node-id="2929:16243" data-name="Days">
+          <div className="content-stretch flex h-[21px] items-center justify-center relative rounded-[var(--rounded-md,6px)] shrink-0 w-[32px]" data-node-id="2929:16244" data-name="Sunday">
+            <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/4,16px)] not-italic relative shrink-0 text-[color:var(--muted-foreground,#737373)] text-[length:var(--size\/xs,12px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16245">
+              일
+            </p>
+          </div>
+          <div className="content-stretch flex h-[21px] items-center justify-center relative rounded-[var(--rounded-md,6px)] shrink-0 w-[32px]" data-node-id="2929:16246" data-name="Monday">
+            <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/4,16px)] not-italic relative shrink-0 text-[color:var(--muted-foreground,#737373)] text-[length:var(--size\/xs,12px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16247">
+              월
+            </p>
+          </div>
+          <div className="content-stretch flex h-[21px] items-center justify-center relative rounded-[var(--rounded-md,6px)] shrink-0 w-[32px]" data-node-id="2929:16248" data-name="Tuesday">
+            <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/4,16px)] not-italic relative shrink-0 text-[color:var(--muted-foreground,#737373)] text-[length:var(--size\/xs,12px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16249">
+              화
+            </p>
+          </div>
+          <div className="content-stretch flex h-[21px] items-center justify-center relative rounded-[var(--rounded-md,6px)] shrink-0 w-[32px]" data-node-id="2929:16250" data-name="Wednesday">
+            <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/4,16px)] not-italic relative shrink-0 text-[color:var(--muted-foreground,#737373)] text-[length:var(--size\/xs,12px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16251">
+              수
+            </p>
+          </div>
+          <div className="content-stretch flex h-[21px] items-center justify-center relative rounded-[var(--rounded-md,6px)] shrink-0 w-[32px]" data-node-id="2929:16252" data-name="Thursday">
+            <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/4,16px)] not-italic relative shrink-0 text-[color:var(--muted-foreground,#737373)] text-[length:var(--size\/xs,12px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16253">
+              목
+            </p>
+          </div>
+          <div className="content-stretch flex h-[21px] items-center justify-center relative rounded-[var(--rounded-md,6px)] shrink-0 w-[32px]" data-node-id="2929:16254" data-name="Friday">
+            <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/4,16px)] not-italic relative shrink-0 text-[color:var(--muted-foreground,#737373)] text-[length:var(--size\/xs,12px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16255">
+              금
+            </p>
+          </div>
+          <div className="content-stretch flex h-[21px] items-center justify-center relative rounded-[var(--rounded-md,6px)] shrink-0 w-[32px]" data-node-id="2929:16256" data-name="Saturday">
+            <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/4,16px)] not-italic relative shrink-0 text-[color:var(--muted-foreground,#737373)] text-[length:var(--size\/xs,12px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16257">
+              토
+            </p>
+          </div>
+        </div>
+        <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-node-id="2929:16258" data-name="Wrapper">
+          <div className="content-stretch flex items-start pt-[var(--mt-2,8px)] relative shrink-0 w-full" data-node-id="2929:16259" data-name="Grid">
+            <div className="content-stretch flex items-center justify-center opacity-50 relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16260" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16261">
+                26
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-50 relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16262" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16263">
+                27
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-50 relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16264" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16265">
+                28
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-50 relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16266" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16267">
+                29
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-50 relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16268" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16269">
+                30
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-50 relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16270" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16271">
+                31
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16272" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16273">
+                1
+              </p>
+            </div>
+          </div>
+          <div className="content-stretch flex items-start pt-[var(--mt-2,8px)] relative shrink-0 w-full" data-node-id="2929:16274" data-name="Grid">
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16275" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16276">
+                2
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16277" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16278">
+                3
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16279" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16280">
+                4
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16281" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16282">
+                5
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16283" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16284">
+                6
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16285" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16286">
+                7
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16287" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16288">
+                8
+              </p>
+            </div>
+          </div>
+          <div className="content-stretch flex items-start pt-[var(--mt-2,8px)] relative shrink-0 w-full" data-node-id="2929:16289" data-name="Grid">
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16290" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16291">
+                9
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16292" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16293">
+                10
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16294" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16295">
+                11
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16296" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16297">
+                12
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16298" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16299">
+                13
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16300" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16301">
+                14
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16302" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16303">
+                15
+              </p>
+            </div>
+          </div>
+          <div className="content-stretch flex items-start pt-[var(--mt-2,8px)] relative shrink-0 w-full" data-node-id="2929:16304" data-name="Grid">
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16305" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16306">
+                16
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16307" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16308">
+                17
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16309" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16310">
+                18
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16311" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16312">
+                19
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16313" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16314">
+                20
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16315" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16316">
+                21
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16317" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16318">
+                22
+              </p>
+            </div>
+          </div>
+          <div className="content-stretch flex items-start pt-[var(--mt-2,8px)] relative shrink-0 w-full" data-node-id="2929:16319" data-name="Grid">
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16320" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16321">
+                23
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16322" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16323">
+                24
+              </p>
+            </div>
+            <div className="bg-[var(--primary,#171717)] content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16324" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--primary-foreground,#fafafa)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16325">
+                25
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16326" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16327">
+                26
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16328" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16329">
+                27
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16330" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16331">
+                28
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16332" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16333">
+                29
+              </p>
+            </div>
+          </div>
+          <div className="content-stretch flex items-start pt-[var(--mt-2,8px)] relative shrink-0 w-full" data-node-id="2929:16334" data-name="Grid">
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16335" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16336">
+                30
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16337" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16338">
+                31
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-[calc(var(--opacity:0.5,50)/100)] relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16339" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16340">
+                1
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-[calc(var(--opacity:0.5,50)/100)] relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16341" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16342">
+                2
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-[calc(var(--opacity:0.5,50)/100)] relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16343" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16344">
+                3
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-[calc(var(--opacity:0.5,50)/100)] relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16345" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16346">
+                4
+              </p>
+            </div>
+            <div className="content-stretch flex items-center justify-center opacity-[calc(var(--opacity:0.5,50)/100)] relative rounded-[var(--radius-md,8px)] shrink-0 size-[32px]" data-node-id="2929:16347" data-name="Date">
+              <p className="[word-break:break-word] font-[family-name:var(--family\/sans,'Inter:Regular')] font-[var(--weight\/normal,400)] leading-[var(--leading\/5,20px)] not-italic relative shrink-0 text-[color:var(--foreground,#0a0a0a)] text-[length:var(--size\/sm,14px)] tracking-[var(--tracking\/normal,0px)] whitespace-nowrap" data-node-id="2929:16348">
+                5
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+SUPER CRITICAL: The generated React+Tailwind code MUST be converted to match the target project's technology stack and styling system.
+1. Analyze the target codebase to identify: technology stack, styling approach, component patterns, and design tokens
+2. Convert React syntax to the target framework/library
+3. Transform all Tailwind classes to the target styling system while preserving exact visual design
+4. Follow the project's existing patterns and conventions
+DO NOT install any Tailwind as a dependency unless the user instructs you to do so.
+
+
+Node ids have been added to the code as data attributes, e.g. `data-node-id="1:2"`.
+
+These styles are contained in the design: Text-sm/Medium: Font(family: "family/sans", style: Medium, size: size/sm, weight: weight/medium, lineHeight: leading/5, letterSpacing: tracking/normal), Box Shadow/shadow-xs: Effect(type: DROP_SHADOW, color: #0000001A, offset: (0, 1), radius: 2, spread: 0), Text-xs/Regular: Font(family: "family/sans", style: Regular, size: size/xs, weight: weight/normal, lineHeight: leading/4, letterSpacing: tracking/normal), Text-sm/Regular: Font(family: "family/sans", style: Regular, size: size/sm, weight: weight/normal, lineHeight: leading/5, letterSpacing: tracking/normal), Box Shadow/shadow-sm: Effect(type: DROP_SHADOW, color: #0000001A, offset: (0, 1), radius: 3, spread: 0).
+
+The generated code contains image and SVG URL constants, e.g. const image = 'https://www.figma.com/api/mcp/asset/550e8400-e29b-41d4-a716-446655440000.png'. These URLs are temporary download sources and expire after 7 days. Download each asset into the project with curl -L, then replace its URL in the generated code with a reference to the downloaded asset. Never use the temporary URLs as runtime image sources.

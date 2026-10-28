@@ -1,0 +1,220 @@
+[
+  {
+    "key": "calendar-header-light",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/HomeInlineCalendar.kt",
+      "HomeCalendarHeaderLightPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/calendar-header-light.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "calendar-header-dark",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/HomeInlineCalendar.kt",
+      "HomeCalendarHeaderDarkPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/calendar-header-dark.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "typing-guide-light",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteGuide.kt",
+      "TypingQuoteGuideLightPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/typing-guide-light.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "typing-guide-dark",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteGuide.kt",
+      "TypingQuoteGuideDarkPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/typing-guide-dark.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "calendar-light",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/HomeInlineCalendar.kt",
+      "HomeInlineCalendarLightPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/calendar-light.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "calendar-dark",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/HomeInlineCalendar.kt",
+      "HomeInlineCalendarDarkPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/calendar-dark.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "typing-body-light",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteBodySection.kt",
+      "TypingQuoteBodyLightPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/typing-body-light.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": false,
+    "render_error": true,
+    "outcome": "resource_render_error"
+  },
+  {
+    "key": "typing-body-dark",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteBodySection.kt",
+      "TypingQuoteBodyDarkPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/typing-body-dark.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "typing-screen-light",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteView.kt",
+      "TypingQuoteLightPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/typing-screen-light.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "typing-screen-dark",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteView.kt",
+      "TypingQuoteDarkPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/typing-screen-dark.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "text_missing_in_first_image"
+  },
+  {
+    "key": "typing-body-light",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteBodySection.kt",
+      "TypingQuoteBodyLightPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/typing-body-light.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "attempt": 2,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  },
+  {
+    "key": "typing-screen-dark",
+    "command": [
+      "/Users/gangbohun/.local/bin/android",
+      "studio",
+      "render-compose-preview",
+      "presentation/src/main/java/com/arakene/presentation/ui/home/TypingQuoteView.kt",
+      "TypingQuoteDarkPreview",
+      "--project",
+      "Fillsa",
+      "--output-image-file=/Users/gangbohun/AndroidStudioProjects/Fillsa/docs/design-qa/artifacts/2026-10-28-preview-figma/typing-screen-dark.png",
+      "--print-semantics"
+    ],
+    "exit_code": 0,
+    "attempt": 2,
+    "image_exists": true,
+    "render_error": false,
+    "outcome": "rendered"
+  }
+]

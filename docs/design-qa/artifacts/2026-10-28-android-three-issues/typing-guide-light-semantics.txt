@@ -1,0 +1,7 @@
+ComposeViewAdapter (left: 0, top: 0, right: 777, bottom: 221)
+  ComposeView (left: 0, top: 0, right: 777, bottom: 221)
+    View (left: 0, top: 0, right: 777, bottom: 221)
+      View (left: 0, top: 0, right: 777, bottom: 221)
+        View (left: 310, top: 0, right: 468, bottom: 158)
+        TextView (left: 0, top: 158, right: 777, bottom: 221) text="오늘의 문장을 따라 써주세요."
+

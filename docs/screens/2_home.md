@@ -1,5 +1,11 @@
 # Home
 
+## Android CLI Preview / Figma 재대조 · 2026-10-28
+
+- [비교 HTML](../design-qa/2026-10-28-calendar-preview-figma.html) · [QA 기록](../design-qa/2026-10-28-calendar-preview-figma-qa.md).
+- 달력 헤더 치수·정렬은 일치하나 그림자 차이가 남는다. 본체는 표면색·테두리·요일 간격·날짜 서체·선택 셀 형태 수정 필요. 새 최종 승인 없음.
+- 검증만 수행했으며 앱 소스를 수정하지 않았다. 시스템 영역·IME를 포함한 전체 런타임 검증은 별도다.
+
 ## Android 구성
 
 - Compose 위치: `presentation/ui/home/`
@@ -100,7 +106,7 @@ Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#61616
 - QA: https://www.notion.so/3ffe639fc7a48005b57ff2fe3eeeb952
 - Figma: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-16221 (선택기 연도 2929:16232, 월 2929:16236); 전체 Light 3139:1501 / Dark 3139:1753.
 - 분석 보고서: [QA 원문·원인·해결 계획](../design-qa/2026-10-25-android-new-qa-report.html#calendar).
-- 현재 상태: 원인 분석 완료, 앱 수정 미실시. 기존 문서의 달력 통과는 open/select-close 경로에 한정된다. 연도/월 직접 선택은 이번 에뮬레이터에서 실패했다.
+- 당시 분석 상태(아래 후속 구현 전): 원인 분석 완료, 앱 수정 미실시. 기존 문서의 달력 통과는 open/select-close 경로에 한정됐고 연도/월 직접 선택은 당시 에뮬레이터에서 실패했다. 현재는 아래 시스템 선택기·헤더 수정이 적용돼 있다.
 - 원인: HomeCalendarSelector에 클릭/선택 목록 상태가 없고, 달력 내부 비클릭 영역의 탭이 배경 dismiss 레이어로 전달되어 닫힌다. 연도·월·내부 여백 탭 각각 재현, 이전 월 화살표는 정상.
 - 계획: 선택기와 목록 상태를 기존 onMonthChanged에 연결하고 내부/외부 터치 경계를 분리한다. 회원 서버 기준일과 2025-06 하한을 유지한다.
 - 추가 디자인 필요: 연도/월 목록이 펼쳐진 상태와 경계 연도에서의 월 처리·닫기 순서. 확인한 컴포넌트 세트 2929:15668에는 Default/Open만 있으며 열린 하위 목록은 확보하지 못했다.
@@ -117,6 +123,9 @@ Dark Home은 `3039:26518`의 `#212121` root, `#424242` quote/input card, `#61616
 - 앱 구현 미실시. 열린 목록 디자인·경계 월 처리·닫기 규칙의 추가 결정 필요 상태 유지.
 
 ### 연도·월 시스템 선택기 적용 · 2026-10-25
+
+- 최신 재검토: [2026-10-28 Android QA 3건 AS-IS / TO-BE](../design-qa/2026-10-28-android-three-issues-report.html#calendar). 현재 HEAD에서 연월 선택 계측 4건(API31) 재통과, 헤더 Light/Dark CLI Preview 확인. 전체 달력의 시각 승인 대기는 유지한다.
+- Notion은 10/28 20:11 KST 갱신 후 Completed임을 재조회로 확인했다. 이번 작업에서 Notion 상태를 변경하지 않았으며, 기능 티켓 완료와 위 전체 시각 미승인 기록을 구분한다.
 
 - 사용자 승인: 연도·월 선택은 우선 시스템 기본 다이얼로그 사용. 이 열린 상태는 Figma 예외이며 별도 디자인 요청 없이 진행한다.
 - Figma 기준: 위 2929:16232 / 2929:16236 선택 버튼과 전체 3139:1501 / 3139:1753. 기준 이미지 `../design-qa/artifacts/2026-10-25-android-new-qa/figma-calendar.png`.

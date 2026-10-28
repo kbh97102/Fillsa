@@ -1,0 +1,486 @@
+{
+  "date": "2026-10-28",
+  "head": "1d95ff14bbb40eaed997e7569dbd322e4ff833a0",
+  "branch": "stage",
+  "app_version": "1.0.33 (27)",
+  "unit_suites": [
+    {
+      "name": "com.arakene.data.network.AuthRequestContractTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "com.arakene.data.util.AuthAuthenticatorTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "com.arakene.presentation.ui.home.HomeInlineCalendarStateTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "com.arakene.presentation.util.SessionExpirationTest",
+      "tests": "2",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "com.arakene.presentation.viewmodel.LoginDeviceIdTest",
+      "tests": "3",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    },
+    {
+      "name": "com.arakene.presentation.viewmodel.TypingSaveOutcomeTest",
+      "tests": "6",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0"
+    }
+  ],
+  "instrumentation_suites": [
+    {
+      "name": "com.arakene.presentation.ui.home.HomeYearMonthDialogTest",
+      "tests": "5",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "18.16",
+      "timestamp": "2026-10-28T11:13:56",
+      "hostname": "localhost"
+    }
+  ],
+  "figma_file_comparisons": [
+    {
+      "current": "figma-calendar-light.png",
+      "previous": "2026-10-25-home-calendar-header/figma-full-light.png",
+      "identical_bytes": true
+    },
+    {
+      "current": "figma-calendar-dark.png",
+      "previous": "2026-10-25-home-calendar-header/figma-full-dark.png",
+      "identical_bytes": true
+    },
+    {
+      "current": "figma-typing-light.png",
+      "previous": "2026-10-25-typing-guide/figma-light.png",
+      "identical_bytes": true
+    },
+    {
+      "current": "figma-typing-dark.png",
+      "previous": "2026-10-25-typing-guide/figma-dark.png",
+      "identical_bytes": true
+    }
+  ],
+  "current_instrumentation_device": {
+    "serial": "emulator-5556",
+    "api": 31,
+    "resolution": "1080x2340",
+    "density_dpi": 440,
+    "scope": "isolated Compose instrumented tests, not full-app visual approval"
+  },
+  "report_images": [
+    {
+      "path": "artifacts/2026-10-25-android-new-qa/runtime-year-tapped.png",
+      "width": 360,
+      "height": 720,
+      "sha256": "0c895c9a0760bbc781ba332c7faf32c61252bddd2b0cb5477a1c1c82824f37b4"
+    },
+    {
+      "path": "artifacts/2026-10-25-home-calendar-header/runtime-picker-light.png",
+      "width": 360,
+      "height": 821,
+      "sha256": "e134c7bb42a6a7a05cb1c1fab934bb39418ab1e5b1f94135dfb8237fcb7b87e9"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/figma-calendar-light.png",
+      "width": 360,
+      "height": 821,
+      "sha256": "60d84c276be0cf4332fd24cd0a0e63e48339c2b79af3d4170689065fdde5db59"
+    },
+    {
+      "path": "artifacts/2026-10-25-home-calendar-header/runtime-light.png",
+      "width": 360,
+      "height": 821,
+      "sha256": "2e3a511375dcd98f92507e495901c6af8eef7e8c0e0e34b0d998369a1389d036"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/calendar-header-light.png",
+      "width": 588,
+      "height": 95,
+      "sha256": "c336d6ed6058b98d7ca5ceabf7e6a9e4435eb99fe0b6ffebc559395cb537cd94"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/calendar-header-dark.png",
+      "width": 588,
+      "height": 95,
+      "sha256": "c336d6ed6058b98d7ca5ceabf7e6a9e4435eb99fe0b6ffebc559395cb537cd94"
+    },
+    {
+      "path": "artifacts/2026-10-25-android-new-qa/runtime-typing-ime-before.png",
+      "width": 360,
+      "height": 720,
+      "sha256": "32015264a9d7f9a986c32c9fcb57033e01688188b14c212895a5d62d9b0e200a"
+    },
+    {
+      "path": "artifacts/2026-10-25-typing-guide/runtime-final-light-ime.png",
+      "width": 360,
+      "height": 720,
+      "sha256": "e12e8e082fdb4f5d9aed8a77386624a0897ed4651a76fc201afd005cd15990f0"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/figma-typing-light.png",
+      "width": 360,
+      "height": 720,
+      "sha256": "6c8819f4015427e833e047adb7bcf8b78a8bbb655146560f7ef36870d1fa8231"
+    },
+    {
+      "path": "artifacts/2026-10-25-typing-guide/runtime-final-dark-ime.png",
+      "width": 360,
+      "height": 720,
+      "sha256": "c1ab42c67b0fddd2734185658b6149856c1b98f5fda95dd4935d9d3602673576"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/figma-typing-dark.png",
+      "width": 360,
+      "height": 720,
+      "sha256": "3826a2bb073f4a76b689bad77deca25b1099ef06d2acbafd8246711c86997cd6"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/typing-guide-light.png",
+      "width": 777,
+      "height": 221,
+      "sha256": "2dd9cb4f06f2d27f8ac1ec382e8075fc1b95e803f27b6d7005f4658226ea2cee"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/typing-guide-dark.png",
+      "width": 777,
+      "height": 221,
+      "sha256": "9b6d63c468e059c3d6274df8e0f610855062f207110ffa43404790125fe9d085"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/typing-screen-light.png",
+      "width": 945,
+      "height": 1764,
+      "sha256": "977dd3d953b9c62f8d2b1e60572fa67163782bb83a13de5bc4bca1b601e6fd7e"
+    },
+    {
+      "path": "artifacts/2026-10-28-android-three-issues/typing-screen-dark.png",
+      "width": 945,
+      "height": 1764,
+      "sha256": "d47f85a57be1099103a3d74efee22c344eb2eff9d82884c49145c6bef958267e"
+    }
+  ],
+  "previews": [
+    {
+      "name": "calendar-header-light",
+      "png": "calendar-header-light.png",
+      "semantics": "calendar-header-light-semantics.txt",
+      "exit_code": 0,
+      "size_px": [
+        588,
+        95
+      ],
+      "sha256": "c336d6ed6058b98d7ca5ceabf7e6a9e4435eb99fe0b6ffebc559395cb537cd94"
+    },
+    {
+      "name": "calendar-header-dark",
+      "png": "calendar-header-dark.png",
+      "semantics": "calendar-header-dark-semantics.txt",
+      "exit_code": 0,
+      "size_px": [
+        588,
+        95
+      ],
+      "sha256": "c336d6ed6058b98d7ca5ceabf7e6a9e4435eb99fe0b6ffebc559395cb537cd94"
+    },
+    {
+      "name": "typing-guide-light",
+      "png": "typing-guide-light.png",
+      "semantics": "typing-guide-light-semantics.txt",
+      "exit_code": 0,
+      "size_px": [
+        777,
+        221
+      ],
+      "sha256": "2dd9cb4f06f2d27f8ac1ec382e8075fc1b95e803f27b6d7005f4658226ea2cee"
+    },
+    {
+      "name": "typing-guide-dark",
+      "png": "typing-guide-dark.png",
+      "semantics": "typing-guide-dark-semantics.txt",
+      "exit_code": 0,
+      "size_px": [
+        777,
+        221
+      ],
+      "sha256": "9b6d63c468e059c3d6274df8e0f610855062f207110ffa43404790125fe9d085"
+    },
+    {
+      "name": "typing-screen-light",
+      "png": "typing-screen-light.png",
+      "semantics": "typing-screen-light-semantics.txt",
+      "exit_code": 0,
+      "size_px": [
+        945,
+        1764
+      ],
+      "sha256": "977dd3d953b9c62f8d2b1e60572fa67163782bb83a13de5bc4bca1b601e6fd7e"
+    },
+    {
+      "name": "typing-screen-dark",
+      "png": "typing-screen-dark.png",
+      "semantics": "typing-screen-dark-semantics.txt",
+      "exit_code": 0,
+      "size_px": [
+        945,
+        1764
+      ],
+      "sha256": "d47f85a57be1099103a3d74efee22c344eb2eff9d82884c49145c6bef958267e"
+    }
+  ],
+  "preview_anomalies": [
+    {
+      "preview": "typing-screen-dark",
+      "first_result": "button text missing in image, present in semantics",
+      "retry_result": "text visible; no source change",
+      "first_image": "typing-screen-dark-initial.png",
+      "status": "render-only transient suspected; not proven runtime defect"
+    }
+  ],
+  "report_checks": {
+    "embedded_png_count": 18,
+    "broken_local_links": [],
+    "unique_sections": [
+      "overview",
+      "calendar",
+      "typing",
+      "session",
+      "validation",
+      "assembly-result",
+      "next",
+      "notion-originals",
+      "notion-calendar",
+      "notion-calendar-comments",
+      "notion-typing",
+      "notion-typing-comments",
+      "notion-session",
+      "notion-session-comments"
+    ],
+    "report_sha256": "a6c77874a09f19a08d939d6236394b7b9eb87a8c5df5dfe9251647a964c52c90",
+    "embedded_jpeg_count": 2,
+    "embedded_image_count": 20,
+    "original_text_verbatim_checked": true
+  },
+  "report_visual_qa": {
+    "method": "isolated headless Chrome, temporary browser profile; connected Browser unavailable",
+    "overview_viewport": "1440x1100",
+    "responsive_viewport": "500x1200",
+    "issue_sections": "each section rendered in isolation with identical CSS, 1440x2200",
+    "checked": "overview, calendar, typing, session, responsive overview; embedded comparison images and text readable",
+    "captures": [
+      {
+        "file": "report-calendar.png",
+        "dimensions": [
+          1440,
+          2200
+        ],
+        "sha256": "8b04bf454b174c117ffacf4d30a6aaa24ec6366809cf9b71ef82ca68f02f437f"
+      },
+      {
+        "file": "report-overview-mobile.png",
+        "dimensions": [
+          500,
+          1200
+        ],
+        "sha256": "5e950ee865c570da7dfaf9ebd91c912ce6ba46fc23c220bbc2dab7cb99c4990c"
+      },
+      {
+        "file": "report-overview.png",
+        "dimensions": [
+          1440,
+          1100
+        ],
+        "sha256": "3473131d401129b5fea33c6942bd1850eaf2d40851e5b29ae97f8e2a3258072f"
+      },
+      {
+        "file": "report-session.png",
+        "dimensions": [
+          1440,
+          2200
+        ],
+        "sha256": "14331af3f948445de747d5674c6cf607dae5ced02b65202ee15aa4e59788b34e"
+      },
+      {
+        "file": "report-typing.png",
+        "dimensions": [
+          1440,
+          2200
+        ],
+        "sha256": "9d32e4f03c0d90634aeaf2365db402434874feaea2b6549abbacc8b896a19dd5"
+      }
+    ]
+  },
+  "scope": {
+    "app_source_changed": false,
+    "notion_changed_by_this_task": false,
+    "full_app_runtime_recaptured": false,
+    "current_notion_calendar": "Completed (last edited 2026-10-28T11:11:00Z)"
+  },
+  "notion_originals": {
+    "coverage": [
+      {
+        "issue": "calendar",
+        "blocks": 2,
+        "comment_queries": 3,
+        "comments": 1,
+        "attachments": 1,
+        "snapshot_at": "2026-10-28T11:57:34.308Z"
+      },
+      {
+        "issue": "typing",
+        "blocks": 42,
+        "comment_queries": 43,
+        "comments": 0,
+        "attachments": 3,
+        "snapshot_at": "2026-10-28T11:57:34.337Z"
+      },
+      {
+        "issue": "session",
+        "blocks": 14,
+        "comment_queries": 15,
+        "comments": 3,
+        "attachments": 1,
+        "snapshot_at": "2026-10-28T11:57:34.329Z"
+      }
+    ],
+    "api_limit": "Only unresolved comments; resolved/deleted comments not verifiable. https://developers.notion.com/reference/list-comments",
+    "account_fields_omitted": [
+      "email",
+      "email_verified",
+      "avatar_url"
+    ],
+    "signed_attachment_urls_replaced_with_local_files": true,
+    "files": [
+      {
+        "file": "notion-originals/calendar-1.heic",
+        "bytes": 1388776,
+        "sha256": "5dba7b56597c965e6e9044bee2fd572650bafd75c9fdb262b326b16c90d3bf9d"
+      },
+      {
+        "file": "notion-originals/calendar-1.jpg",
+        "bytes": 1770719,
+        "sha256": "ee2f8d707fc0cd9a0f6257e608dafece7480937833e11babe411401b36a02c3f"
+      },
+      {
+        "file": "notion-originals/calendar.json",
+        "bytes": 14417,
+        "sha256": "f9fccadfb6b46fcf6d9025ecdc0a549da14a0372e88ad8b1e4c83b0259c4a113"
+      },
+      {
+        "file": "notion-originals/session-1.png",
+        "bytes": 215470,
+        "sha256": "e3ca11d2c5f2dfde20e276ff2b60a52e6281ffddd0196944f389f4adcce4e99f"
+      },
+      {
+        "file": "notion-originals/session.json",
+        "bytes": 79980,
+        "sha256": "70bcebc13d8ef0ea7c9c0841ca4881800c56f5b6db31db6e7cbd547971178e45"
+      },
+      {
+        "file": "notion-originals/typing-1.heic",
+        "bytes": 1465471,
+        "sha256": "4355af8ffbe85777fbb993e1d626ffdaddf3731c79cfdc21655b491b81776f60"
+      },
+      {
+        "file": "notion-originals/typing-1.jpg",
+        "bytes": 1807110,
+        "sha256": "cef98f04cb04416d775eea1e134dc902c3b0ba7e81013941244ffa93e2e6faf7"
+      },
+      {
+        "file": "notion-originals/typing-2.png",
+        "bytes": 312056,
+        "sha256": "d218ab5b07920b2a45ecf6a8cb81cde3bf7d488d768f3329f88b43f4be1be484"
+      },
+      {
+        "file": "notion-originals/typing-3.png",
+        "bytes": 60343,
+        "sha256": "1c58ff48369ae939315677c4663ace8dbfce51b1d1728aa9b0ea1ae29e89594d"
+      },
+      {
+        "file": "notion-originals/typing.json",
+        "bytes": 210029,
+        "sha256": "6d6e886a059b2bed4e6d5a1205787238150e23e91fc22cd4436f7f9f13ce5a8e"
+      }
+    ],
+    "visual_qa": {
+      "method": "Isolated headless Chrome with identical report CSS; section captures, not app runtime evidence",
+      "desktop_width": 1440,
+      "narrow_width": 500,
+      "checked": "Calendar source and comment; typing source columns and responsive stacking; session body and three comments; original attachments visible and text readable",
+      "captures": [
+        {
+          "file": "report-notion-calendar-1440.png",
+          "dimensions": [
+            1440,
+            1800
+          ],
+          "sha256": "61a4f6c098bfe029bb11b68b99b2b26a3612e0dccbca355787db1a02138f489c"
+        },
+        {
+          "file": "report-notion-comments-1440.png",
+          "dimensions": [
+            1440,
+            1100
+          ],
+          "sha256": "9bcfc3e4abb3ac9c0c0838ec871143e857f728b6d6680a6f5057dccc56a486a7"
+        },
+        {
+          "file": "report-notion-comments-500.png",
+          "dimensions": [
+            500,
+            1700
+          ],
+          "sha256": "3695de4cac93de5d3408bd6923cfa9d07bea7c9abf7c8a34653197fc2a454392"
+        },
+        {
+          "file": "report-notion-session-1440.png",
+          "dimensions": [
+            1440,
+            2200
+          ],
+          "sha256": "50982ae9b75e7b2dff4d7d575fb2a0fb548a732d517d2225b28487af45c71fa0"
+        },
+        {
+          "file": "report-notion-typing-1440.png",
+          "dimensions": [
+            1440,
+            2200
+          ],
+          "sha256": "2c3b494d22e3b4ef751255ae8189c4017597651493531d452ae8b5a377f64e67"
+        },
+        {
+          "file": "report-notion-typing-500.png",
+          "dimensions": [
+            500,
+            2200
+          ],
+          "sha256": "801a5845bfbcf8d0819d78631ae142ac8d641f24fb7c4d79192baabd92b8732f"
+        }
+      ]
+    }
+  },
+  "preview_comparison_reports": [
+    "2026-10-28-calendar-preview-figma.html",
+    "2026-10-28-typing-preview-figma.html"
+  ]
+}
