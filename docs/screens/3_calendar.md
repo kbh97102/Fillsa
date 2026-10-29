@@ -1,5 +1,9 @@
 # Calendar
 
+## 2026-10-29 In progress 후속 QA
+
+- [좋아요·이미지 등록/보기 Calendar 내부 동작 계획 v1](2026-10-29-calendar-actions-3f4e639f-plan.md). 2026-10-28 Notion Android 댓글에 따라 완료 날짜의 좋아요와 이미지 등록/보기는 선택한 Calendar 날짜 안에서 처리한다. [이번 QA 기록](../design-qa/2026-10-29-calendar-actions-3f4e639f-qa.md)을 참조한다.
+
 ## Figma UI 기준 (2026-09-08 재검토)
 
 - Figma URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X/%E2%9C%92%EF%B8%8F%ED%95%84%EC%82%AC?node-id=2929-13366
@@ -61,7 +65,7 @@
 - 정상적인 access token 갱신은 Calendar 회원 세대를 바꾸거나 진행 중 answer POST를 폐기하지 않는다. 명시적인 로그인 상태 전환만 기존 월 projection과 요청 세대를 무효화한다.
 - 비회원은 monthly/daily/answer 회원 API를 호출하지 않고 기존 v1 월간 조회, 로컬 좋아요·필사, 질문 답변 session-only 동작을 유지한다.
 - 비회원 질문은 기존 디자인 문구를 유지한다. 회원은 날짜 선택 시 weekly API를 조회하고 해당 날짜의 `questionKo`/`questionEn`을 월 캐시에 병합한다. weekly 응답에서 질문이 누락되어도 비회원 문구로 대체하지 않는다. 답변 입력·기록·수정 상태는 `CalendarViewModel`이 소유한다.
-- Calendar의 복사/공유는 기존 로컬 동작을 유지한다. 좋아요/이미지 버튼의 기존 선택 날짜 Home 이동 계약도 이번 리뉴얼 API 연결에서 바꾸지 않는다.
+- Calendar의 복사/공유는 기존 로컬 동작을 유지한다. 완료 날짜의 좋아요는 회원 API 또는 비회원 로컬 저장소를 갱신하고 월간 표시·집계를 반영한다. 이미지 등록/보기는 Calendar에서 이미지 대화상자를 열어 회원 업로드·삭제를 처리하며, 비회원은 기존 로그인 안내를 표시한다. 명언 카드 자체의 Home 진입은 유지한다.
 - Figma의 합성 달력에는 `2025. 03`과 실제 달력 산술이 맞지 않고 기본 프레임에 17 중복/21 누락이 있다. Production은 실제 날짜 산술을 유지하고, 정확한 Figma 대조용 process-local fixture만 명시적 visual cell map을 사용한다.
 - Figma는 합성 날짜의 요일도 잘못 표시한다(3월 22일 `(금)`, 3월 21일 `(목)`). Production과 fixture는 실제 `LocalDate` 요일인 `(토)`/`(금)`을 유지하며 거짓 요일 data를 주입하지 않는다.
 - 답변 있음 원본의 `0 / 200`은 디자인 소스 불일치다. Production 입력은 실제 grapheme count를 유지하고 해당 명시적 fixture만 `0 / 200`을 표시한다.

@@ -84,7 +84,8 @@ fun MainNavHost(
             IntroduceView(
                 navigate = {
                     navController.navigate(it)
-                }
+                },
+                onBack = { navController.popBackStack() },
             )
         }
 

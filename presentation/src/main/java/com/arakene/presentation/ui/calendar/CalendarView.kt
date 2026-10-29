@@ -24,21 +24,29 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.arakene.presentation.ui.theme.FillsaTheme
+import com.arakene.presentation.ui.home.ImageDialog
+import com.arakene.presentation.util.CalendarEffect
 import com.arakene.presentation.util.CommonEffect
 import com.arakene.presentation.util.HandleViewEffect
 import com.arakene.presentation.util.LocalSnackbarHost
+import com.arakene.presentation.util.LocalDialogDataHolder
 import com.arakene.presentation.util.Navigate
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.action.CalendarAction
 import com.arakene.presentation.util.copyToClipboard
 import com.arakene.presentation.util.noEffectClickable
+import com.arakene.presentation.util.uriToCacheFile
+import com.arakene.presentation.util.resizeImageToMaxSize
 import com.arakene.presentation.viewmodel.CalendarViewModel
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalConfiguration
 import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.IsDarkMode
+import androidx.core.net.toUri
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 
 @Composable
 fun CalendarView(
@@ -59,6 +67,8 @@ fun CalendarView(
     val clipboard = LocalClipboard.current
     val scope = rememberCoroutineScope()
     val snackbarHost = LocalSnackbarHost.current
+    val dialogDataHolder = LocalDialogDataHolder.current
+    val imageTarget = viewModel.imageDialogTarget
 
     val registeredImageUri = remember(context.packageName) {
         "android.resource://${context.packageName}/${com.arakene.presentation.R.drawable.home_registered_image_fixture}"
@@ -90,8 +100,34 @@ fun CalendarView(
             when (it) {
                 is CommonEffect.Move -> navigate(it.screen)
                 is CommonEffect.ShowSnackBar -> snackbarHost.showSnackbar(it.message)
+                is CommonEffect.ShowDialog -> {
+                    dialogDataHolder.data = it.dialogData
+                    dialogDataHolder.show = true
+                }
+                is CalendarEffect.ProcessImage -> {
+                    val file = withContext(Dispatchers.IO) {
+                        uriToCacheFile(context, it.uri.toUri())?.let { cached ->
+                            resizeImageToMaxSize(cached, context.cacheDir)
+                        }
+                    }
+                    viewModel.uploadImage(file, it.target)
+                }
             }
         }
+    }
+
+    if (imageTarget != null && qaFixture == null) {
+        val image = data?.memberQuotes?.firstOrNull {
+            it.quoteDate == imageTarget.quoteDate && it.dailyQuoteSeq == imageTarget.dailyQuoteSeq
+        }
+        ImageDialog(
+            quote = imageTarget.quote,
+            author = imageTarget.author,
+            backgroundImageUrl = image?.imagePath.orEmpty(),
+            onDismiss = viewModel::closeImageDialog,
+            uploadImage = { viewModel.handleContract(CalendarAction.ChangeImage(it.toString())) },
+            deleteOnClick = { viewModel.handleContract(CalendarAction.DeleteImage) },
+        )
     }
 
     CalendarContent(data, selectedDay, selectedQuote, selectedDayPresentation, answerState,
@@ -202,13 +238,11 @@ internal fun CalendarContent(
                     selectedQuote?.let { navigate(Screens.Share(it.quote, it.author)) }
                 }
             },
-            // Calendar has no independent action contract; these retain the established
-            // selected-date Home flow, where like/image behavior already exists.
             onLike = {
-                if (qaFixture == null) onAction(CalendarAction.ClickBottomQuote)
+                if (qaFixture == null) onAction(CalendarAction.ClickLike)
             },
             onImage = {
-                if (qaFixture == null) onAction(CalendarAction.ClickBottomQuote)
+                if (qaFixture == null) onAction(CalendarAction.ClickImage)
             },
             onOpenQuote = {
                 if (qaFixture == null) onAction(CalendarAction.ClickBottomQuote)

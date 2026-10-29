@@ -48,7 +48,7 @@ fun IntroduceIndicatorSection(
         Text(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = if (currentPage == 1) 25.dp else 30.dp),
+                .padding(top = 30.dp),
             text = stringResource(
                 when (currentPage) {
                     0 -> R.string.introduce_title_1

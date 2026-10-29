@@ -240,16 +240,13 @@ internal fun ImageDialogContent(
                 Button(
                     shape = MaterialTheme.shapes.small,
                     colors = MaterialTheme.colorScheme.defaultButtonColors,
-                    onClick = {},
+                    onClick = onChooseImage,
                     contentPadding = PaddingValues(horizontal = 17.dp, vertical = 15.dp)
                 ) {
                     Text(
                         stringResource(R.string.change_image),
                         style = FillsaTheme.typography.buttonMediumBold,
                         color = colorResource(R.color.gray_700),
-                        modifier = Modifier.noEffectClickable {
-                            onChooseImage()
-                        }
                     )
                 }
 
@@ -277,16 +274,17 @@ internal fun ImageDialogContent(
 
 
 @Composable
-@Preview
+@Preview(widthDp = 360, heightDp = 720, locale = "ko", uiMode = android.content.res.Configuration.UI_MODE_NIGHT_YES)
 private fun ImageDialogPreview() {
     FillsaTheme {
-        ImageDialog(
-            quote = "123123123123",
-            author = "asdfasdf",
+        ImageDialogContent(
+            quote = "영광은 먼지와 땀과 피로 얼굴이 얼룩진 채 경기장에 서 있는 사람의 것이다.",
+            author = "Fillsa QA",
             onDismiss = {},
-            uploadImage = {},
+            onChooseImage = {},
             backgroundImageUrl = "",
-            deleteOnClick = {}
+            deleteOnClick = {},
+            darkMode = true,
         )
     }
 }

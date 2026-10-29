@@ -1,5 +1,9 @@
 # 온보딩 가이드
 
+## 2026-10-29 In progress 후속 QA
+
+- [Android 제목 위치·뒤로가기·문구 수정 계획 v1](2026-10-29-onboarding-3ffe639f-plan.md)을 승인받아 구현했다. [이번 QA 기록](../design-qa/2026-10-29-onboarding-3ffe639f-qa.md)의 headless Android CLI Preview에서 세 제목 상단 239px과 쉼표 없는 첫 문구를 확인했다. 최신 Figma 조회·실제 뒤로가기 전환은 대기 중이다.
+
 ## Android 구성
 
 - Compose 위치: `presentation/ui/common/IntroduceView.kt`, `IntroduceIndicatorSection.kt`, `IndicatorImageSection.kt`

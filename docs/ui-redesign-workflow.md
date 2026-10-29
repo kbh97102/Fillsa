@@ -55,16 +55,16 @@ Figma URL·노드 ID·기준 이미지 중 하나라도 없으면 이 게이트�
 
 - 대상 컴포넌트 또는 화면에는 검증할 Figma 상태마다 결정적 `@Preview`를 둔다. `widthDp`, `heightDp`, `uiMode`, `locale`, `fontScale`을 대상 조건에 맞추고, 네트워크·현재 시각·사용자 저장 데이터에 의존하지 않는 fixture state를 사용한다.
 - Preview 전용 UI를 따로 복제하지 않는다. Preview는 production composable에 상태와 callback만 주입한다.
-- 다음 명령으로 이미지와 semantics를 함께 확인한다.
+- 현재 소스를 직접 빌드하는 headless Android CLI 명령으로 이미지와 component tree(JSON의 bounds·semantics)를 함께 확인한다. 첫 인수는 대상 모듈, `--fqn`은 `android preview list :presentation`에서 찾은 전체 함수 이름이다.
 
 ```bash
-android studio render-compose-preview \
-  <compose-file-path> <preview-composable-name> \
-  --project Fillsa \
-  --output-image-file=<persistent-preview-png-path> \
-  --print-semantics
+android preview render :presentation \
+  --fqn=<preview-function-FQN> \
+  --component-tree \
+  --output=<persistent-preview-directory>
 ```
 
+- `android preview`가 없는 구버전 CLI는 `android update`로 갱신한다. Studio 연결 방식의 `android studio render-compose-preview`를 쓰는 경우에는 IDE Preview 인덱스가 오래되거나 빈 PNG를 반환할 수 있다. 종료 코드 0만으로 성공을 판단하지 말고 PNG·semantics에서 수정된 문구와 좌표가 반영됐는지 확인한다. 갱신되지 않으면 위 headless 명령으로 재검증한다.
 - 출력 이미지는 `docs/design-qa/artifacts/<date>-<screen>-<topic>/`처럼 재검증 가능한 프로젝트 경로에 저장한다.
 - Preview로 레이아웃, 문구, 이미지, 색상, typography, light/dark 및 정적 표시 상태를 먼저 검증한다.
 - Preview는 실제 시스템 바, 제스처/내비게이션 영역, IME, 권한 UI, Android 버전별 동작, navigation transition, 런타임 리소스 선택을 최종 증명하지 않는다. 이 항목과 전체 조립 화면은 실제 기기 또는 에뮬레이터 캡처로 검증한다.

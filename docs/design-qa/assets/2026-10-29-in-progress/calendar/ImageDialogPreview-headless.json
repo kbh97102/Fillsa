@@ -1,0 +1,611 @@
+{
+  "previewId": "ImageDialogPreview",
+  "methodFQN": "com.arakene.presentation.ui.home.ImageDialogKt.ImageDialogPreview",
+  "width": 945,
+  "height": 1890,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 32,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "FillsaTheme",
+      "bounds": {
+        "left": 53,
+        "top": 0,
+        "right": 892,
+        "bottom": 1890,
+        "width": 839,
+        "height": 1890
+      },
+      "sourceLocation": {
+        "fileName": "ImageDialog.kt",
+        "lineNumber": 279,
+        "packageHash": 1793196193
+      },
+      "children": [
+        {
+          "name": "ImageDialogContent",
+          "bounds": {
+            "left": 53,
+            "top": 0,
+            "right": 892,
+            "bottom": 1890,
+            "width": 839,
+            "height": 1890
+          },
+          "sourceLocation": {
+            "fileName": "ImageDialog.kt",
+            "lineNumber": 280,
+            "packageHash": 1793196193
+          },
+          "children": [
+            {
+              "name": "Box",
+              "bounds": {
+                "left": 53,
+                "top": 0,
+                "right": 892,
+                "bottom": 1890,
+                "width": 839,
+                "height": 1890
+              },
+              "sourceLocation": {
+                "fileName": "ImageDialog.kt",
+                "lineNumber": 119,
+                "packageHash": 1793196193
+              },
+              "children": [
+                {
+                  "name": "Box",
+                  "bounds": {
+                    "left": 53,
+                    "top": 0,
+                    "right": 892,
+                    "bottom": 1890,
+                    "width": 839,
+                    "height": 1890
+                  },
+                  "children": [
+                    {
+                      "name": "Image",
+                      "bounds": {
+                        "left": 53,
+                        "top": 0,
+                        "right": 892,
+                        "bottom": 1890,
+                        "width": 839,
+                        "height": 1890
+                      },
+                      "sourceLocation": {
+                        "fileName": "ImageDialog.kt",
+                        "lineNumber": 135,
+                        "packageHash": 1793196193
+                      },
+                      "modifiers": {
+                        "clip": "true"
+                      }
+                    },
+                    {
+                      "name": "Column",
+                      "bounds": {
+                        "left": 85,
+                        "top": 53,
+                        "right": 860,
+                        "bottom": 926,
+                        "width": 775,
+                        "height": 873
+                      },
+                      "sourceLocation": {
+                        "fileName": "ImageDialog.kt",
+                        "lineNumber": 148,
+                        "packageHash": 1793196193
+                      },
+                      "children": [
+                        {
+                          "name": "Column",
+                          "bounds": {
+                            "left": 85,
+                            "top": 53,
+                            "right": 860,
+                            "bottom": 926,
+                            "width": 775,
+                            "height": 873
+                          },
+                          "children": [
+                            {
+                              "name": "Row",
+                              "bounds": {
+                                "left": 85,
+                                "top": 53,
+                                "right": 148,
+                                "bottom": 116,
+                                "width": 63,
+                                "height": 63
+                              },
+                              "sourceLocation": {
+                                "fileName": "ImageDialog.kt",
+                                "lineNumber": 162,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Image",
+                                  "bounds": {
+                                    "left": 85,
+                                    "top": 53,
+                                    "right": 148,
+                                    "bottom": 116,
+                                    "width": 63,
+                                    "height": 63
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "ImageDialog.kt",
+                                    "lineNumber": 163,
+                                    "packageHash": 1793196193
+                                  },
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "clickable": "enabled=true",
+                                    "clip": "true"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "Box",
+                              "bounds": {
+                                "left": 85,
+                                "top": 362,
+                                "right": 860,
+                                "bottom": 553,
+                                "width": 775,
+                                "height": 191
+                              },
+                              "sourceLocation": {
+                                "fileName": "ImageDialog.kt",
+                                "lineNumber": 184,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Column",
+                                  "bounds": {
+                                    "left": 85,
+                                    "top": 362,
+                                    "right": 860,
+                                    "bottom": 553,
+                                    "width": 775,
+                                    "height": 191
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "ImageDialog.kt",
+                                    "lineNumber": 196,
+                                    "packageHash": 1793196193
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Column",
+                                      "bounds": {
+                                        "left": 85,
+                                        "top": 362,
+                                        "right": 860,
+                                        "bottom": 553,
+                                        "width": 775,
+                                        "height": 191
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 85,
+                                            "top": 362,
+                                            "right": 860,
+                                            "bottom": 473,
+                                            "width": 775,
+                                            "height": 111
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "ImageDialog.kt",
+                                            "lineNumber": 207,
+                                            "packageHash": 1793196193
+                                          },
+                                          "semantics": {
+                                            "text": "영광은 먼지와 땀과 피로 얼굴이 얼룩진 채 경기장에 서 있는 사람의 것이다."
+                                          },
+                                          "parameters": {
+                                            "textAlign": "Center",
+                                            "color": "#FF212121"
+                                          },
+                                          "modifiers": {
+                                            "fill": "Horizontal (1.0)"
+                                          }
+                                        },
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 85,
+                                            "top": 505,
+                                            "right": 860,
+                                            "bottom": 553,
+                                            "width": 775,
+                                            "height": 48
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "ImageDialog.kt",
+                                            "lineNumber": 219,
+                                            "packageHash": 1793196193
+                                          },
+                                          "semantics": {
+                                            "text": "Fillsa QA"
+                                          },
+                                          "parameters": {
+                                            "textAlign": "Center",
+                                            "color": "#FF212121"
+                                          },
+                                          "modifiers": {
+                                            "fill": "Horizontal (1.0)",
+                                            "padding": "start=0.0.dp, top=12.0.dp, end=0.0.dp, bottom=0.0.dp"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "ScrollBy"
+                                      },
+                                      "modifiers": {
+                                        "fill": "Horizontal (1.0)",
+                                        "clip": "true",
+                                        "scroll": "true"
+                                      }
+                                    }
+                                  ],
+                                  "semantics": {
+                                    "actions": "ScrollBy"
+                                  },
+                                  "modifiers": {
+                                    "fill": "Horizontal (1.0)",
+                                    "clip": "true",
+                                    "scroll": "true"
+                                  }
+                                }
+                              ],
+                              "modifiers": {
+                                "fill": "Horizontal (1.0)",
+                                "weight": "1.0"
+                              }
+                            },
+                            {
+                              "name": "Row",
+                              "bounds": {
+                                "left": 85,
+                                "top": 798,
+                                "right": 860,
+                                "bottom": 926,
+                                "width": 775,
+                                "height": 128
+                              },
+                              "sourceLocation": {
+                                "fileName": "ImageDialog.kt",
+                                "lineNumber": 236,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Row",
+                                  "bounds": {
+                                    "left": 85,
+                                    "top": 798,
+                                    "right": 860,
+                                    "bottom": 926,
+                                    "width": 775,
+                                    "height": 128
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Button",
+                                      "bounds": {
+                                        "left": 85,
+                                        "top": 798,
+                                        "right": 365,
+                                        "bottom": 926,
+                                        "width": 280,
+                                        "height": 128
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "ImageDialog.kt",
+                                        "lineNumber": 240,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Surface",
+                                          "bounds": {
+                                            "left": 85,
+                                            "top": 798,
+                                            "right": 365,
+                                            "bottom": 926,
+                                            "width": 280,
+                                            "height": 128
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "Button.kt",
+                                            "lineNumber": 113,
+                                            "packageHash": 1842882507
+                                          },
+                                          "children": [
+                                            {
+                                              "name": "Box",
+                                              "bounds": {
+                                                "left": 85,
+                                                "top": 798,
+                                                "right": 365,
+                                                "bottom": 926,
+                                                "width": 280,
+                                                "height": 128
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "Surface.kt",
+                                                "lineNumber": 210,
+                                                "packageHash": 1842882507
+                                              },
+                                              "children": [
+                                                {
+                                                  "name": "ProvideContentColorTextStyle",
+                                                  "bounds": {
+                                                    "left": 130,
+                                                    "top": 837,
+                                                    "right": 320,
+                                                    "bottom": 887,
+                                                    "width": 190,
+                                                    "height": 50
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "Button.kt",
+                                                    "lineNumber": 136,
+                                                    "packageHash": 1842882507
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "Row",
+                                                      "bounds": {
+                                                        "left": 130,
+                                                        "top": 837,
+                                                        "right": 320,
+                                                        "bottom": 887,
+                                                        "width": 190,
+                                                        "height": 50
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "Button.kt",
+                                                        "lineNumber": 140,
+                                                        "packageHash": 1842882507
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "Text",
+                                                          "bounds": {
+                                                            "left": 130,
+                                                            "top": 837,
+                                                            "right": 320,
+                                                            "bottom": 887,
+                                                            "width": 190,
+                                                            "height": 50
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "ImageDialog.kt",
+                                                            "lineNumber": 246,
+                                                            "packageHash": 1793196193
+                                                          },
+                                                          "semantics": {
+                                                            "text": "이미지 변경"
+                                                          },
+                                                          "parameters": {
+                                                            "color": "#FF212121"
+                                                          }
+                                                        }
+                                                      ]
+                                                    }
+                                                  ],
+                                                  "parameters": {
+                                                    "textStyle": "TextStyle(color=Color(0.0, 0.0, 0.0, 0.0, None), brush=null, alpha=NaN, fontSize=14.0.sp, fontWeight=FontWeight(weight=500), fontStyle=null, fontSynthesis=null, fontFamily=FontFamily.SansSerif, fontFeatureSettings=null, letterSpacing=0.1.sp, baselineShift=null, textGeometricTransform=null, localeList=null, background=Color(0.0, 0.0, 0.0, 0.0, None), textDecoration=null, shadow=null, drawStyle=null, textAlign=Unspecified, textDirection=Unspecified, lineHeight=20.0.sp, textIndent=null, platformStyle=PlatformTextStyle(spanStyle=null, paragraphSyle=PlatformParagraphStyle(includeFontPadding=false, emojiSupportMatch=EmojiSupportMatch.Default)), lineHeightStyle=LineHeightStyle(alignment=LineHeightStyle.Alignment.Center, trim=LineHeightStyle.Trim.None,mode=Mode(value=0)), lineBreak=LineBreak(strategy=Strategy.Unspecified, strictness=Strictness.Unspecified, wordBreak=WordBreak.Unspecified), hyphens=Hyphens.Unspecified, textMotion=null)"
+                                                  }
+                                                }
+                                              ],
+                                              "semantics": {
+                                                "role": "Button",
+                                                "actions": "OnClick"
+                                              },
+                                              "modifiers": {
+                                                "background": "#FFFFFFFF, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                                "clip": "true",
+                                                "clickable": "enabled=true"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "parameters": {
+                                        "contentPadding": "PaddingValues(start=17.0.dp, top=15.0.dp, end=17.0.dp, bottom=15.0.dp)",
+                                        "shape": "RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))"
+                                      }
+                                    },
+                                    {
+                                      "name": "Button",
+                                      "bounds": {
+                                        "left": 391,
+                                        "top": 798,
+                                        "right": 860,
+                                        "bottom": 926,
+                                        "width": 469,
+                                        "height": 128
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "ImageDialog.kt",
+                                        "lineNumber": 253,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Surface",
+                                          "bounds": {
+                                            "left": 391,
+                                            "top": 798,
+                                            "right": 860,
+                                            "bottom": 926,
+                                            "width": 469,
+                                            "height": 128
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "Button.kt",
+                                            "lineNumber": 113,
+                                            "packageHash": 1842882507
+                                          },
+                                          "children": [
+                                            {
+                                              "name": "Box",
+                                              "bounds": {
+                                                "left": 391,
+                                                "top": 798,
+                                                "right": 860,
+                                                "bottom": 926,
+                                                "width": 469,
+                                                "height": 128
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "Surface.kt",
+                                                "lineNumber": 210,
+                                                "packageHash": 1842882507
+                                              },
+                                              "children": [
+                                                {
+                                                  "name": "ProvideContentColorTextStyle",
+                                                  "bounds": {
+                                                    "left": 391,
+                                                    "top": 837,
+                                                    "right": 860,
+                                                    "bottom": 887,
+                                                    "width": 469,
+                                                    "height": 50
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "Button.kt",
+                                                    "lineNumber": 136,
+                                                    "packageHash": 1842882507
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "Row",
+                                                      "bounds": {
+                                                        "left": 391,
+                                                        "top": 837,
+                                                        "right": 860,
+                                                        "bottom": 887,
+                                                        "width": 469,
+                                                        "height": 50
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "Button.kt",
+                                                        "lineNumber": 140,
+                                                        "packageHash": 1842882507
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "Text",
+                                                          "bounds": {
+                                                            "left": 590,
+                                                            "top": 837,
+                                                            "right": 662,
+                                                            "bottom": 887,
+                                                            "width": 72,
+                                                            "height": 50
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "ImageDialog.kt",
+                                                            "lineNumber": 262,
+                                                            "packageHash": 1793196193
+                                                          },
+                                                          "semantics": {
+                                                            "text": "확인"
+                                                          },
+                                                          "parameters": {
+                                                            "color": "#FF212121"
+                                                          }
+                                                        }
+                                                      ]
+                                                    }
+                                                  ],
+                                                  "parameters": {
+                                                    "textStyle": "TextStyle(color=Color(0.0, 0.0, 0.0, 0.0, None), brush=null, alpha=NaN, fontSize=14.0.sp, fontWeight=FontWeight(weight=500), fontStyle=null, fontSynthesis=null, fontFamily=FontFamily.SansSerif, fontFeatureSettings=null, letterSpacing=0.1.sp, baselineShift=null, textGeometricTransform=null, localeList=null, background=Color(0.0, 0.0, 0.0, 0.0, None), textDecoration=null, shadow=null, drawStyle=null, textAlign=Unspecified, textDirection=Unspecified, lineHeight=20.0.sp, textIndent=null, platformStyle=PlatformTextStyle(spanStyle=null, paragraphSyle=PlatformParagraphStyle(includeFontPadding=false, emojiSupportMatch=EmojiSupportMatch.Default)), lineHeightStyle=LineHeightStyle(alignment=LineHeightStyle.Alignment.Center, trim=LineHeightStyle.Trim.None,mode=Mode(value=0)), lineBreak=LineBreak(strategy=Strategy.Unspecified, strictness=Strictness.Unspecified, wordBreak=WordBreak.Unspecified), hyphens=Hyphens.Unspecified, textMotion=null)"
+                                                  }
+                                                }
+                                              ],
+                                              "semantics": {
+                                                "role": "Button",
+                                                "actions": "OnClick"
+                                              },
+                                              "modifiers": {
+                                                "weight": "1.0",
+                                                "padding": "start=10.0.dp, top=0.0.dp, end=0.0.dp, bottom=0.0.dp",
+                                                "background": "#FFFFFFFF, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                                "clip": "true",
+                                                "clickable": "enabled=true"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "parameters": {
+                                        "contentPadding": "PaddingValues(start=0.0.dp, top=15.0.dp, end=0.0.dp, bottom=15.0.dp)",
+                                        "shape": "RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))"
+                                      }
+                                    }
+                                  ],
+                                  "modifiers": {
+                                    "padding": "0.0.dp"
+                                  }
+                                }
+                              ],
+                              "modifiers": {
+                                "padding": "0.0.dp"
+                              }
+                            }
+                          ],
+                          "modifiers": {
+                            "fill": "Horizontal (1.0)",
+                            "height": "373.0.dp..672.0.dp",
+                            "padding": "start=12.0.dp, top=20.0.dp, end=12.0.dp, bottom=20.0.dp"
+                          }
+                        }
+                      ],
+                      "modifiers": {
+                        "fill": "Horizontal (1.0)",
+                        "height": "373.0.dp..672.0.dp",
+                        "padding": "start=12.0.dp, top=20.0.dp, end=12.0.dp, bottom=20.0.dp"
+                      }
+                    }
+                  ],
+                  "modifiers": {
+                    "fill": "Horizontal (1.0)",
+                    "padding": "start=20.0.dp, top=0.0.dp, end=20.0.dp, bottom=0.0.dp",
+                    "height": "373.0.dp..672.0.dp",
+                    "shadow": "elevation=23.0.dp, shape=RoundedCornerShape(topStart = CornerSize(size = 12.0.dp), topEnd = CornerSize(size = 12.0.dp), bottomEnd = CornerSize(size = 12.0.dp), bottomStart = CornerSize(size = 12.0.dp)), clip=true",
+                    "clip": "true"
+                  }
+                }
+              ],
+              "modifiers": {
+                "fill": "Horizontal (1.0)",
+                "padding": "start=20.0.dp, top=0.0.dp, end=20.0.dp, bottom=0.0.dp",
+                "height": "373.0.dp..672.0.dp",
+                "shadow": "elevation=23.0.dp, shape=RoundedCornerShape(topStart = CornerSize(size = 12.0.dp), topEnd = CornerSize(size = 12.0.dp), bottomEnd = CornerSize(size = 12.0.dp), bottomStart = CornerSize(size = 12.0.dp)), clip=true",
+                "clip": "true"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

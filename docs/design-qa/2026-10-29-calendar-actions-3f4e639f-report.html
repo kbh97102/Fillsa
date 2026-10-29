@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendar 액션 Android 후속 QA</title>
+  <style>
+    :root { color-scheme: light; --ink:#182331; --muted:#526174; --line:#dce2e9; --paper:#fff; --accent:#165b50; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#f3f5f7; font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif; }
+    main { max-width:1280px; margin:auto; padding:48px 24px 80px; }
+    header { margin-bottom:28px; }
+    h1 { margin:8px 0 16px; font-size:clamp(28px,4vw,44px); line-height:1.25; }
+    h2 { margin:0 0 16px; font-size:25px; } h3 { margin-top:28px; }
+    a { color:#165caa; overflow-wrap:anywhere; }
+    .eyebrow { color:var(--accent); font-weight:700; letter-spacing:.1em; }
+    .meta, figcaption { color:var(--muted); font-size:14px; }
+    .notice { padding:16px 20px; border-left:4px solid #a96613; background:#fff6e4; }
+    .panel, article { margin-top:24px; padding:28px; background:var(--paper); border:1px solid var(--line); border-radius:16px; }
+    .comparison { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .overview { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+    .overview section { padding:16px; border:1px solid var(--line); border-radius:10px; }
+    .overview h3 { margin:0 0 8px; font-size:17px; }
+    .overview p { margin:0; }
+    .source-body, .comments { overflow-wrap:anywhere; }
+    figure { margin:0; padding:16px; border:1px solid var(--line); border-radius:10px; }
+    figure h3 { font-size:16px; margin:0 0 12px; }
+    img { display:block; max-width:100%; height:auto; margin:0 auto 12px; }
+    .missing { border:1px dashed #bac4d0; padding:24px 12px; color:var(--muted); }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; text-align:left; }
+    th,td { border-bottom:1px solid var(--line); padding:12px; vertical-align:top; }
+    th { background:#f3f6f8; }
+    code { overflow-wrap:anywhere; } pre { white-space:pre-wrap; overflow-wrap:anywhere; padding:16px; background:#f3f6f8; }
+    .status { display:inline-block; border:1px solid var(--line); border-radius:6px; padding:3px 10px; font-weight:600; }
+    @media(max-width:800px) { main { padding:24px 16px 48px; } .comparison, .overview { grid-template-columns:1fr; } .panel, article { padding:20px; } }
+    @media print { body { background:white; } main { padding:0; } .panel,article { border-radius:0; } figure, tr { break-inside:avoid; } }
+  </style>
+</head>
+<body><main>
+  <header>
+    <div class="eyebrow">QA / AS-IS → TO-BE</div>
+    <h1>Calendar 액션 Android 후속 QA</h1>
+    <p>완료 날짜의 좋아요·이미지 등록/보기가 Home으로 이동하던 연결을 분리하고 Calendar 안에서 상태와 이미지 대화상자를 처리한다. 자동 테스트는 통과했고 실연동·최신 Figma 확인은 남았다.</p>
+    <p class="meta">2026-10-29 19:29 KST · Android CLI 1.1.16717390 headless Preview · source HEAD 7d7b915 + 작업 변경</p>
+    <div class="notice">구현 및 자동 검증 진행 완료. 최신 Figma MCP 재인증 오류로 최종 디자인 판정은 Blocked이며, Preview는 실제 화면 전환·시스템 바·IME·실서버 동작을 증명하지 않는다. Notion 상태는 In progress 그대로다.</div>
+  </header>
+  <section class="panel" aria-label="이슈 한눈에 보기">
+    <h2>이슈 한눈에 보기</h2>
+    <div class="overview">
+      <section><h3><a href="#notion-source">원본 이슈</a></h3><p>완료 날짜의 좋아요·이미지 등록·이미지 보기를 누르면 Home으로 이동했다.</p><p class="meta"><a href="#notion-comments">댓글 2건 원문·작성 시각 포함</a></p></section>
+      <section><h3><a href="#issue-cause">이슈 원인</a></h3><p>세 버튼의 콜백이 모두 선택 날짜를 Home으로 보내는 ClickBottomQuote를 호출했다.</p></section>
+      <section><h3><a href="#issue-solution">해결방법</a></h3><p>CalendarAction/CalendarViewModel에 좋아요·이미지 이벤트와 저장 경로를 추가하고 공유 ImageDialog를 Calendar에서 연다. 이미지 변경 버튼 전체를 picker에 연결했다.</p></section>
+      <section><h3><a href="#issue-comparison">AS-IS → TO-BE</a></h3><p>Home 이동 연결 → Calendar 자체 좋아요 저장·이미지 대화상자; 테스트는 이동 effect가 없음을 확인.</p></section>
+    </div>
+  </section>
+  <section class="panel" aria-label="선택 이슈와 승인 범위">
+    <h2>선택 이슈와 승인 범위</h2>
+    <p>계획 v1 · 사용자 발언 “진행하자”로 Android 후속 댓글 범위 승인 · <a href="../screens/2026-10-29-calendar-actions-3f4e639f-plan.md">이슈별 계획</a> · <a href="2026-10-29-calendar-actions-3f4e639f-qa.md">QA 기록</a></p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이슈</th><th>구현</th><th>기능 검증</th><th>UI 검증</th><th>최종 상태</th></tr></thead>
+      <tbody><tr><td>캘린더 &gt; 복사, 공유, 이미지 등록 · <code>3f4e639f-c7a4-80de-8625-cff94440d08d</code></td><td>반영</td><td>ViewModel 단위 테스트 통과, 실연동 미검증</td><td>최신 Figma Blocked</td><td>In progress</td></tr></tbody>
+    </table></div>
+  </section>
+  <!-- One issue per report. Copy this template for each issue and replace every token with verified content. -->
+  <article id="calendar-actions-3f4e639f">
+    <span class="status">최종 UI 검증 Blocked</span>
+    <h2>Calendar 액션 Android 후속 QA</h2>
+    <p><a href="https://app.notion.com/p/3f4e639fc7a480de8625cff94440d08d">Notion QA 원문</a></p>
+    <section id="notion-source">
+      <h3>Notion 원본 이슈</h3>
+      <p class="meta">page ID 3f4e639f-c7a4-80de-8625-cff94440d08d · 생성 2026. 10. 09. 15:22 KST · 최종 수정 2026. 10. 28. 19:52 KST · 재조회 2026-10-29 19:29 KST</p>
+      <table><tbody><tr><td>상태</td><td>In progress</td><td>우선순위</td><td>높음</td></tr><tr><td>Device</td><td>iOS</td><td>Category</td><td>기능</td></tr><tr><td>화면</td><td>미기재</td><td>담당자</td><td>미기재</td></tr></tbody></table>
+      <div class="source-body"><p>본문 블록 없음(조회 결과 <code>&lt;empty-block/&gt;</code>).</p></div>
+      <p>페이지 본문 첨부 없음. 댓글 첨부는 아래 댓글에 별도 보존.</p>
+    </section>
+    <section id="notion-comments">
+      <h3>Notion 댓글</h3>
+      <p class="meta">페이지 댓글 2건 전체 조회 · has_more=false · 재조회 2026-10-29 19:29 KST</p>
+      <div class="comments"><section class="panel"><p class="meta">SooJi · 2026. 10. 09. 15:26 KST · 댓글 ID <code>3f4e639f-c7a4-80b8-8b6c-001d8f216c19</code></p><pre>QA확인링크</pre><p><a href="https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X/%E2%9C%92%EF%B8%8F%ED%95%84%EC%82%AC?node-id=3493-1347&amp;t=OwcNDV3K9kZjrL4q-4">QA확인링크</a></p></section><section class="panel"><p class="meta">SooJi · 2026. 10. 28. 19:59 KST · 댓글 ID <code>407e639f-c7a4-8027-b429-001d64515583</code></p><pre>@보훈 강 보훈님, 안드로이드도 동일 영역에서 아래와 같은 수정이 필요합니다!
+
+캘린더 &gt; 필사했을 때 &gt; 좋아요, 이미지 등록, 이미지 보기 를 누르면 홈 화면으로 이동하고 있습니다.
+
+캘린더 화면 내에서 작동하도록 수정 부탁드립니다.
+(iOS는 정상작동 중!!)</pre></section></div>
+    </section>
+    <h3>문제와 재현 조건</h3>
+    <p>완료 날짜의 좋아요·이미지 등록·이미지 보기를 누르면 Home으로 이동했다. Light 360dp Calendar 필사 완료 날짜, 이미지 없음/있음 상태에서 확인했다. <a href="../screens/2026-10-29-calendar-actions-3f4e639f-plan.md">재현 조건과 승인 범위</a></p>
+    <h3 id="issue-cause">이슈 원인</h3>
+    <p>세 버튼의 콜백이 모두 선택 날짜를 Home으로 보내는 ClickBottomQuote를 호출했다. 실제 탭 캡처는 없지만 세 콜백이 Home 이동 action으로 수렴하는 소스 경로를 확인했다.</p>
+    <h3 id="issue-solution">해결방법과 실제 수정</h3>
+    <p>CalendarAction/CalendarViewModel에 좋아요·이미지 이벤트와 저장 경로를 추가하고 공유 ImageDialog를 Calendar에서 연다. 이미지 변경 버튼 전체를 picker에 연결했다.</p><p>변경: CalendarView.kt, CalendarViewModel.kt, CalendarAction, CalendarEffect, ImageDialog.kt 및 통합 테스트.</p>
+    <h3 id="issue-comparison">수정 전 · 목표 기준 · 수정 후</h3>
+    <div class="comparison">
+      <figure><h3>AS-IS · 수정 전 실제 결과</h3><p class="missing">수정 전 화면 캡처는 수집하지 못했다. 기존 CalendarView의 onLike/onImage → ClickBottomQuote → Screens.Home 코드 경로를 확인했다.</p><figcaption>수정 전 실제 화면 캡처 없음; 소스 경로로 재현. 제보 당시 자료는 Notion 댓글.</figcaption></figure>
+      <figure><h3>Figma · 목표 기준</h3><img src="assets/calendar-figma-2929-13366/2026-09-08/figma-unanswered-2987-22796.png" alt="저장된 Figma 목표 프레임"><figcaption>2026-09-08 Figma 보존 캡처, 노드 2987:22796, 360×1101. 최신 원본 접근 차단.</figcaption></figure>
+      <figure><h3>TO-BE · 수정 후 실제 결과</h3><img src="assets/2026-10-29-in-progress/calendar/AuditFigma298722796-headless.png" alt="수정 후 Android CLI headless Preview"><p><a href="assets/2026-10-29-in-progress/calendar/AuditFigma298522510-headless.png">이미지 있음 상태</a> · <a href="assets/2026-10-29-in-progress/calendar/ImageDialogPreview-headless.png">이미지 대화상자</a> · <a href="assets/2026-10-29-in-progress/calendar/AuditFigma298722796-headless.json">component tree JSON</a></p><figcaption>2026-10-29 19:28 KST, Android CLI 1.1 headless 빌드·렌더, ko·360dp. PNG와 component tree JSON을 함께 보존.</figcaption></figure>
+    </div>
+    <h3>검증 결과</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>검증 항목</th><th>실행 명령·절차·시각</th><th>실제 결과</th><th>증거</th></tr></thead>
+      <tbody><tr><td>Calendar 상태·이동 effect</td><td>CalendarViewModelIntegrationTest, 2026-10-29</td><td>회원/비회원 좋아요·이미지 업로드/삭제 테스트 통과, Home 이동 effect 없음</td><td><a href="2026-10-29-calendar-actions-3f4e639f-qa.md">QA 기록</a></td></tr><tr><td>컴포넌트 Preview</td><td>android preview render :presentation, 2026-10-29 19:28 KST</td><td>Pass: 2개 완료 상태와 공유 이미지 대화상자 렌더</td><td><a href="assets/2026-10-29-in-progress/calendar/ImageDialogPreview-headless.json">JSON</a></td></tr><tr><td>전체 단위 테스트·빌드</td><td>./gradlew :presentation:testDebugUnitTest 및 :app:assembleDebug --offline</td><td>공유 버튼 변경 후 재실행: 138건 통과; Debug build 성공</td><td><a href="2026-10-29-calendar-actions-3f4e639f-qa.md">QA 기록</a></td></tr><tr><td>최신 Figma·실서버</td><td>Figma MCP 재조회; fake 기반 테스트 범위 확인</td><td>Blocked: Figma 재인증 필요; 실계정 API/갤러리 미검증</td><td><a href="2026-10-29-calendar-actions-3f4e639f-qa.md">제한</a></td></tr></tbody>
+    </table></div>
+    <p>액션 행 2상태와 이미지 대화상자 content Preview를 확인했다. 일부 SVG/썸네일은 headless Preview에서 빠져 Figma 일치 판정이 불가능하다. 전체 디자인 Pass를 선언하지 않는다.</p>
+    <h3>남은 항목과 다음 행동</h3>
+    <p>Figma 재인증 후 최신 Calendar/이미지 modal 상태를 확인한다. 회원 실서버 좋아요·이미지 등록/삭제, 갤러리 취소와 재진입 상태는 별도 검증이 필요하다. 현재 Notion 상태 변경은 요청되지 않았다.</p>
+  </article>
+  <footer class="meta"><p><a href="../screens/2026-10-29-calendar-actions-3f4e639f-plan.md">계획 v1</a> · <a href="2026-10-29-calendar-actions-3f4e639f-qa.md">QA 기록</a> · <a href="https://app.notion.com/p/3f4e639fc7a480de8625cff94440d08d">Notion 원본</a></p></footer>
+</main></body>
+</html>

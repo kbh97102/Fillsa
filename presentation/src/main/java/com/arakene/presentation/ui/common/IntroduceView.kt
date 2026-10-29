@@ -45,19 +45,28 @@ import kotlinx.coroutines.launch
 @Composable
 fun IntroduceView(
     navigate: Navigate,
+    onBack: () -> Unit = {},
     modifier: Modifier = Modifier,
     initialPage: Int = 0,
 ) {
 
     val pagerState = rememberPagerState(initialPage = initialPage) { 3 }
+    val scope = rememberCoroutineScope()
 
     val isLastPage by remember(pagerState.currentPage) {
         mutableStateOf(pagerState.currentPage == pagerState.pageCount - 1)
     }
 
-    BackHandler {
-        navigate(Screens.Home())
+    val goBack: () -> Unit = {
+        if (pagerState.currentPage > 0) {
+            if (!pagerState.isScrollInProgress) {
+                scope.launch { pagerState.animateScrollToPage(pagerState.currentPage - 1) }
+            }
+        } else {
+            onBack()
+        }
     }
+    BackHandler(onBack = goBack)
 
     Box(
         modifier = modifier
@@ -81,9 +90,7 @@ fun IntroduceView(
                     modifier = Modifier
                         .padding(start = 15.dp)
                         .size(32.dp)
-                        .noEffectClickable {
-                            navigate(Screens.Home())
-                        },
+                        .noEffectClickable(click = goBack),
                     colorFilter = ColorFilter.tint(color = FillsaTheme.colorScheme.onBackground1)
                 )
 

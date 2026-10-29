@@ -98,6 +98,10 @@ sealed interface CalendarAction : Action {
     ) : CalendarAction
 
     data object ClickBottomQuote : CalendarAction
+    data object ClickLike : CalendarAction
+    data object ClickImage : CalendarAction
+    data class ChangeImage(val uri: String) : CalendarAction
+    data object DeleteImage : CalendarAction
 
     data object ClickCount : CalendarAction
 }

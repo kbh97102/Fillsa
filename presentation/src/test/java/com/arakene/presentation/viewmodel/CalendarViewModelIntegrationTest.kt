@@ -7,22 +7,30 @@ import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
 import com.arakene.domain.responses.MonthlySummaryData
+import com.arakene.domain.responses.MonthlyQuoteResponse
+import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.usecase.calendar.GetMonthlyQuotesNonMemberUseCase
 import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteListUseCase
+import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.db.GetTodayLocalStreakInfoUseCase
 import com.arakene.domain.usecase.home.GetMemberQuoteDayUseCase
 import com.arakene.domain.usecase.home.GetMemberWeeklyQuotesUseCase
 import com.arakene.domain.usecase.home.SaveQuoteAnswerUseCase
+import com.arakene.domain.usecase.home.PostLikeUseCase
+import com.arakene.domain.usecase.home.PostUploadImageUseCase
+import com.arakene.domain.usecase.home.DeleteUploadImageUseCase
 import com.arakene.domain.util.ApiResult
 import com.arakene.domain.util.CommonError
 import com.arakene.presentation.util.CommonEffect
+import com.arakene.presentation.util.CalendarEffect
 import com.arakene.presentation.util.Screens
 import com.arakene.presentation.util.action.CalendarAction
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import java.time.LocalDate
+import java.io.File
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.cancel
@@ -178,6 +186,95 @@ class CalendarViewModelIntegrationTest {
     }
 
     @Test
+    fun `Calendar like updates selected record and monthly count without leaving Calendar`() = runTest {
+        val home = CountingHomeRepository()
+        val calendar = CountingCalendarRepository().apply { memberResult = ApiResult.Success(monthly()) }
+        val vm = createViewModel(home, calendar, CountingLocalRepository(loggedIn = true))
+        val effects = mutableListOf<com.arakene.presentation.util.Effect>()
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { vm.effect.toList(effects) }
+        runCurrent()
+        vm.handleContract(CommonEffect.Refresh)
+        advanceUntilIdle()
+        vm.handleContract(CalendarAction.SelectDay(day("2026-09-08")))
+        runCurrent()
+
+        vm.handleContract(CalendarAction.ClickLike)
+        advanceUntilIdle()
+
+        assertEquals("N", vm.data.value!!.memberQuotes.last().likeYnString)
+        assertEquals(6, vm.data.value!!.monthlySummary.likeCount)
+        assertTrue(home.events.contains("like:42:N"))
+        assertFalse(effects.any { it is CommonEffect.Move })
+    }
+
+    @Test
+    fun `Calendar image upload and delete stay on selected record`() = runTest {
+        val home = CountingHomeRepository()
+        val calendar = CountingCalendarRepository().apply { memberResult = ApiResult.Success(monthly()) }
+        val vm = createViewModel(home, calendar, CountingLocalRepository(loggedIn = true))
+        val effects = mutableListOf<com.arakene.presentation.util.Effect>()
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { vm.effect.toList(effects) }
+        runCurrent()
+        vm.handleContract(CommonEffect.Refresh)
+        advanceUntilIdle()
+        vm.handleContract(CalendarAction.SelectDay(day("2026-09-08")))
+        runCurrent()
+
+        vm.handleContract(CalendarAction.ClickImage)
+        runCurrent()
+        assertEquals(42, vm.imageDialogTarget?.dailyQuoteSeq)
+        vm.handleContract(CalendarAction.ChangeImage("content://image"))
+        runCurrent()
+        val process = effects.filterIsInstance<CalendarEffect.ProcessImage>().single()
+        vm.uploadImage(File("selected-image.jpg"), process.target)
+        advanceUntilIdle()
+        assertEquals("image", vm.data.value!!.memberQuotes.last().imagePath)
+
+        vm.handleContract(CalendarAction.DeleteImage)
+        runCurrent()
+        val confirm = effects.filterIsInstance<CommonEffect.ShowDialog>().last()
+        confirm.dialogData.cancelOnClick?.invoke()
+        advanceUntilIdle()
+        assertEquals("", vm.data.value!!.memberQuotes.last().imagePath)
+        assertTrue(home.events.contains("upload-image:42:selected-image.jpg"))
+        assertTrue(home.events.contains("delete-image:42"))
+        assertFalse(effects.any { it is CommonEffect.Move })
+    }
+
+    @Test
+    fun `guest Calendar like persists locally and image opens login prompt in Calendar`() = runTest {
+        val home = CountingHomeRepository()
+        val calendar = CountingCalendarRepository().apply {
+            guestResult = ApiResult.Success(listOf(MonthlyQuoteResponse(42, "2026-09-08", "오늘", "작가")))
+        }
+        val local = CountingLocalRepository(loggedIn = false).apply {
+            localQuotes = listOf(LocalQuoteInfo(
+                dailyQuoteSeq = 42, korQuote = "오늘", engQuote = "Today",
+                korAuthor = "작가", engAuthor = "Author", korTyping = "완료", engTyping = "",
+                likeYn = "N", memo = "", date = "2026-09-08", dayOfWeek = "TUESDAY",
+            ))
+        }
+        val vm = createViewModel(home, calendar, local)
+        val effects = mutableListOf<com.arakene.presentation.util.Effect>()
+        backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { vm.effect.toList(effects) }
+        runCurrent()
+        vm.handleContract(CommonEffect.Refresh)
+        advanceUntilIdle()
+        vm.handleContract(CalendarAction.SelectDay(day("2026-09-08")))
+        runCurrent()
+
+        vm.handleContract(CalendarAction.ClickLike)
+        advanceUntilIdle()
+        assertEquals("Y", local.localQuotes.single().likeYn)
+        assertEquals("Y", vm.data.value!!.memberQuotes.single().likeYnString)
+        vm.handleContract(CalendarAction.ClickImage)
+        runCurrent()
+        assertTrue(effects.any { it is CommonEffect.ShowDialog })
+        assertFalse(effects.any { it is CommonEffect.Move })
+        assertEquals(0, home.networkCallCount)
+    }
+
+    @Test
     fun `access token renewal during Calendar answer POST preserves the session and accepts the response`() = runTest {
         val postStarted = CompletableDeferred<Unit>()
         val releasePost = CompletableDeferred<Unit>()
@@ -221,6 +318,8 @@ class CalendarViewModelIntegrationTest {
         GetQuotesMonthlyUseCase(calendar), GetLocalQuoteListUseCase(local), GetLoginStatusUseCase(local),
         GetMonthlyQuotesNonMemberUseCase(calendar), GetTodayLocalStreakInfoUseCase(local),
         SaveQuoteAnswerUseCase(home), GetMemberQuoteDayUseCase(home), GetMemberWeeklyQuotesUseCase(home),
+        PostLikeUseCase(home), UpdateLocalQuoteLikeUseCase(local),
+        PostUploadImageUseCase(home), DeleteUploadImageUseCase(home),
     ).also { viewModel = it }
 
     private fun day(date: String) = CalendarDay(LocalDate.parse(date), DayPosition.MonthDate)

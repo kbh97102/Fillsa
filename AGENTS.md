@@ -31,7 +31,7 @@
 
 - Figma 계층과 반복 구조를 기준으로 Compose UI를 컴포넌트 단위로 구현·검증한다.
 - UI 개발 또는 UI 버그 수정 시 Android CLI의 Compose Preview를 열어 영향을 받은 하위 컴포넌트부터 확인한다. `android`가 PATH에 없으면 `~/.local/bin/android`를 사용한다.
-- Preview는 대상 크기·테마·locale·상태를 고정한 결정적 `@Preview`여야 하며, `android studio render-compose-preview` 결과 이미지와 semantics를 Figma와 대조한다.
+- Preview는 대상 크기·테마·locale·상태를 고정한 결정적 `@Preview`여야 한다. 현재 소스를 직접 빌드하는 `android preview render :presentation --fqn=<Preview FQN> --component-tree`의 이미지와 component tree를 Figma와 대조한다. 이 명령이 없는 구버전 CLI는 `android update`로 갱신한다. Studio 연결 방식의 `android studio render-compose-preview`를 사용할 때는 IDE 인덱스가 오래됐을 수 있으므로 종료 코드뿐 아니라 이미지·semantics의 실제 내용도 확인한다.
 - Compose Preview 통과는 컴포넌트 수준의 중간 증거다. 시스템 바, IME, 리소스 qualifier, 화면 전환을 포함한 최종 조립 승인은 동일 조건의 실제 기기 또는 에뮬레이터 전체 프레임 캡처로 별도 검증한다.
 - 하위 컴포넌트 검증을 통과한 뒤에만 상위 컨테이너와 조립 화면 검증으로 진행한다.
 - 영향을 받은 컴포넌트와 조립 화면이 최종 Figma 검증을 통과하고 QA 증거가 기록되기 전에는 UI 작업을 완료로 표시하지 않는다.

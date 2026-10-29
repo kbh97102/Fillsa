@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>온보딩 Android 후속 QA</title>
+  <style>
+    :root { color-scheme: light; --ink:#182331; --muted:#526174; --line:#dce2e9; --paper:#fff; --accent:#165b50; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#f3f5f7; font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif; }
+    main { max-width:1280px; margin:auto; padding:48px 24px 80px; }
+    header { margin-bottom:28px; }
+    h1 { margin:8px 0 16px; font-size:clamp(28px,4vw,44px); line-height:1.25; }
+    h2 { margin:0 0 16px; font-size:25px; } h3 { margin-top:28px; }
+    a { color:#165caa; overflow-wrap:anywhere; }
+    .eyebrow { color:var(--accent); font-weight:700; letter-spacing:.1em; }
+    .meta, figcaption { color:var(--muted); font-size:14px; }
+    .notice { padding:16px 20px; border-left:4px solid #a96613; background:#fff6e4; }
+    .panel, article { margin-top:24px; padding:28px; background:var(--paper); border:1px solid var(--line); border-radius:16px; }
+    .comparison { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .overview { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+    .overview section { padding:16px; border:1px solid var(--line); border-radius:10px; }
+    .overview h3 { margin:0 0 8px; font-size:17px; }
+    .overview p { margin:0; }
+    .source-body, .comments { overflow-wrap:anywhere; }
+    figure { margin:0; padding:16px; border:1px solid var(--line); border-radius:10px; }
+    figure h3 { font-size:16px; margin:0 0 12px; }
+    img { display:block; max-width:100%; height:auto; margin:0 auto 12px; }
+    .missing { border:1px dashed #bac4d0; padding:24px 12px; color:var(--muted); }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; text-align:left; }
+    th,td { border-bottom:1px solid var(--line); padding:12px; vertical-align:top; }
+    th { background:#f3f6f8; }
+    code { overflow-wrap:anywhere; } pre { white-space:pre-wrap; overflow-wrap:anywhere; padding:16px; background:#f3f6f8; }
+    .status { display:inline-block; border:1px solid var(--line); border-radius:6px; padding:3px 10px; font-weight:600; }
+    @media(max-width:800px) { main { padding:24px 16px 48px; } .comparison, .overview { grid-template-columns:1fr; } .panel, article { padding:20px; } }
+    @media print { body { background:white; } main { padding:0; } .panel,article { border-radius:0; } figure, tr { break-inside:avoid; } }
+  </style>
+</head>
+<body><main>
+  <header>
+    <div class="eyebrow">QA / AS-IS → TO-BE</div>
+    <h1>온보딩 Android 후속 QA</h1>
+    <p>세 페이지의 제목 높이, 뒤로가기, 첫 문구 쉼표를 수정했다. 제목·문구는 CLI Preview로 확인했고, 최신 Figma 및 실제 화면 전환은 확인 대기 중이다.</p>
+    <p class="meta">2026-10-29 19:29 KST · Android CLI 1.1.16717390 headless Preview · source HEAD 7d7b915 + 작업 변경</p>
+    <div class="notice">구현 및 자동 검증 진행 완료. 최신 Figma MCP 재인증 오류로 최종 디자인 판정은 Blocked이며, Preview는 실제 화면 전환·시스템 바·IME·실서버 동작을 증명하지 않는다. Notion 상태는 In progress 그대로다.</div>
+  </header>
+  <section class="panel" aria-label="이슈 한눈에 보기">
+    <h2>이슈 한눈에 보기</h2>
+    <div class="overview">
+      <section><h3><a href="#notion-source">원본 이슈</a></h3><p>2페이지 제목만 13px 높고, 뒤로가기 아이콘이 Home으로 이동하며 첫 제목에 쉼표가 있었다.</p><p class="meta"><a href="#notion-comments">댓글 1건 원문·작성 시각 포함</a></p></section>
+      <section><h3><a href="#issue-cause">이슈 원인</a></h3><p>2페이지 전용 25dp padding, 모든 뒤로가기에 연결된 Home 이동, 기존 문자열의 쉼표가 원인이었다.</p></section>
+      <section><h3><a href="#issue-solution">해결방법</a></h3><p>세 페이지 제목 padding을 30dp로 통일하고 pager의 이전 페이지 복귀·첫 페이지 상위 복귀를 연결했다. 첫 제목의 쉼표도 제거했다.</p></section>
+      <section><h3><a href="#issue-comparison">AS-IS → TO-BE</a></h3><p>제목 상단 239/226/239px → 239/239/239px; 쉼표 제거. 실제 뒤로가기 탭은 미검증.</p></section>
+    </div>
+  </section>
+  <section class="panel" aria-label="선택 이슈와 승인 범위">
+    <h2>선택 이슈와 승인 범위</h2>
+    <p>계획 v1 · 사용자 발언 “진행하자”로 Android 후속 댓글 범위 승인 · <a href="../screens/2026-10-29-onboarding-3ffe639f-plan.md">이슈별 계획</a> · <a href="2026-10-29-onboarding-3ffe639f-qa.md">QA 기록</a></p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이슈</th><th>구현</th><th>기능 검증</th><th>UI 검증</th><th>최종 상태</th></tr></thead>
+      <tbody><tr><td>온보딩 화면 안나옴 · <code>3ffe639f-c7a4-805d-b27d-c6ee06e671be</code></td><td>반영</td><td>코드 경로 확인·단위 테스트 통과</td><td>최신 Figma Blocked</td><td>In progress</td></tr></tbody>
+    </table></div>
+  </section>
+  <!-- One issue per report. Copy this template for each issue and replace every token with verified content. -->
+  <article id="onboarding-3ffe639f">
+    <span class="status">최종 UI 검증 Blocked</span>
+    <h2>온보딩 Android 후속 QA</h2>
+    <p><a href="https://app.notion.com/p/3ffe639fc7a4805db27dc6ee06e671be">Notion QA 원문</a></p>
+    <section id="notion-source">
+      <h3>Notion 원본 이슈</h3>
+      <p class="meta">page ID 3ffe639f-c7a4-805d-b27d-c6ee06e671be · 생성 2026. 10. 20. 13:11 KST · 최종 수정 2026. 10. 28. 20:28 KST · 재조회 2026-10-29 19:29 KST</p>
+      <table><tbody><tr><td>상태</td><td>In progress</td><td>우선순위</td><td>중간</td></tr><tr><td>Device</td><td>iOS</td><td>Category</td><td>UI</td></tr><tr><td>화면</td><td>온보딩</td><td>담당자</td><td>보훈 강</td></tr></tbody></table>
+      <div class="source-body"><pre>- 로그인 후 바로 Home 화면 이동
+## iOS 원인 분석 및 해결 계획 · 2026-10-25
+분석일: 2026-10-25 (KST) \| 대상: iOS \| 코드 기준: Fiilsa 현재 checkout, HEAD 790e92a.&lt;br&gt;이번 기록은 원인 분석·해결 계획이다. 앱 코드는 수정하지 않았고 시뮬레이터/실기기·실서버 테스트도 실행하지 않았다. 코드로 확인된 사실과 런타임 확인이 필요한 추론을 구분했다. TCA의 State/Action/Reducer는 Android MVI의 화면 상태/이벤트/ViewModel 처리에 대응하며, View는 Jetpack Compose처럼 상태를 받아 화면을 그리는 부분이다.
+### 원인과 근거
+확인: LoginFeature.swift의 socialLoginCompleted(.success)는 항상 delegate(.moveHome)을 보낸다. AppFeature.swift:224–230은 이를 받아 screen=.main, selectedTab=.home으로 전환한다. 로그인 후 onboardingGuide로 가는 분기가 없다.&lt;br&gt;화면 자체는 존재한다. docs/screens/0_onboarding_guide.md는 2026-10-11 회원 전용 전환으로 프로덕션 스플래시에서 가이드 진입을 제거하고 fixture만 보존했다고 명시한다. docs/screens/0_onboarding.md 및 1_login_member_only_followup_implementation_plan.md도 로그인 성공 후 Home 직행을 규정한다. 가이드 렌더링 실패가 아니라 기존 진입 정책과 새 QA 요구의 차이다.
+### 해결 방안
+1. 노출 정책(최초 로그인 후 1회인지, 모든 로그인 후인지; 설치/사용자 계정 중 어떤 단위인지)을 확정하고 화면 문서를 맞춘다.&lt;br&gt;2. 확정된 정책에 맞게 로그인 성공 후 AppFeature에서 기존 onboardingGuide 화면으로 분기한다. 로그인 확인을 먼저 끝내 회원 전용 접근 원칙을 유지한다.&lt;br&gt;3. 1회 노출 정책이라면 앱 첫 실행 기록과 가이드 완료 기록을 구분하고, 완료/건너뛰기 시점의 저장 정책을 정한다. 기존 onboardingGuideFinished → Home 경로를 재사용한다. 강제 종료·재로그인·계정 전환 시 동작도 같은 정책으로 정한다.
+### 영향 범위와 검증 계획
+LoginFeature의 상위 전달 이벤트, AppFeature의 화면 전환, 필요할 경우 기존 설정 저장 계층, 0_onboarding.md·0_onboarding_guide.md·1_login.md. AppFeatureTests/LoginFeatureTests/OnboardingGuideUITests에서 첫 진입·재진입·로그아웃·미로그인 fixture·완료·건너뛰기를 확인한다.
+### Figma 기준 및 확인 사항
+기존 가이드 Light: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3088-30089 / 3088:30215 / 3088:30412. Dark: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3110-31987 / 3110:32359 / 3110:32112. 화면 기획은 docs/screens/0_onboarding_guide.md. 기존 화면 재사용을 우선하되 로그인 후 노출 빈도는 QA 본문만으로 확정할 수 없다.
+### 미검증 사항과 주의점
+첫 실행 여부는 로그인 여부나 가이드 완료 여부와 다르다. 정책 미확정 상태에서 매 로그인마다 노출하거나 미로그인 사용자를 회원 화면으로 우회시키지 않는다. 실제 앱 재현은 미실시.
+구현 시작 전 화면별 기획에 Figma URL·프레임·컴포넌트·상태·QA 기록 링크를 확정한다. Figma 원본 전체 프레임을 확보하고 컴포넌트부터 수정한 뒤 조립 화면을 대조한다. docs/ui-redesign-workflow.md의 최대 5회 검증을 따르며 실제 캡처 대조 전에는 완료/Pass로 바꾸지 않는다.
+## iOS 구현 진행 및 검증 · 2026-10-25
+사용자 확정: 설치 후 첫 로그인에 1회, 완료·건너뛰기 후 재노출하지 않는다. AppFeature가 회원 진입 시 별도 onboarding_completed 기록을 확인하고, 기존 3페이지 가이드를 연결한다. 완료 기록은 UserDefaults에 저장하고 로그아웃으로 지우지 않는다.
+첫 로그인→가이드→완료→재로그인 홈 이동, 저장소 재생성 후 기록 유지, 로그아웃 뒤 늦은 응답 차단, 미로그인 가이드 건너뛰기 차단 테스트 통과. TCA에서 상태·이벤트를 처리하고 영속 기록은 data/repository 경계를 사용한다.
+공통 검증: iPhone 17e iOS 26.4.1에서 자동 테스트 140건 통과. QA 기록: docs/design-qa/2026-10-25-ios-qa.md. Figma 360pt와 런타임 390pt 및 기존 폰트/레이아웃 차이로 전체 화면 최종 수용은 Blocked이며, 티켓 상태는 In progress를 유지한다. 저장 팝업은 별도로 정책 확인 대기.
+## iOS 구현 결과 정리 · 2026-10-25
+사용자 확정: 설치 후 첫 로그인에 1회, 완료·건너뛰기 후 재노출하지 않는다. AppFeature가 회원 진입 시 별도 onboarding_completed 기록을 확인하고, 기존 3페이지 가이드를 연결한다. 완료 기록은 UserDefaults에 저장하고 로그아웃으로 지우지 않는다.&lt;br&gt;검증: 첫 로그인→가이드→완료→재로그인 홈 이동, 저장소 재생성 후 기록 유지, 로그아웃 뒤 늦은 응답 차단, 미로그인 가이드 건너뛰기 차단 테스트 통과. TCA에서 상태·이벤트를 처리하고 영속 기록은 data/repository 경계를 사용한다.
+전체 단위·저장 팝업 UI 회귀: 142건 통과, 실패·skip 0 (Fiilsa-popup-final.xcresult). QA 원문·첨부·원인·수정·검증 결과를 docs/design-qa/2026-10-25-ios-qa-report.html에 정리한다. 시각 검증은 360/390pt 프레임·미등록 폰트·기존 배경 레이아웃 차이로 Blocked. 실계정 OAuth·실서버 v2·이미지 업로드/삭제는 미검증. 상태는 In progress 유지하며 UI 최종 완료를 의미하지 않는다.</pre></div>
+      <p>페이지 본문 첨부 없음. 댓글 첨부는 아래 댓글에 별도 보존.</p>
+    </section>
+    <section id="notion-comments">
+      <h3>Notion 댓글</h3>
+      <p class="meta">페이지 댓글 1건 전체 조회 · has_more=false · 재조회 2026-10-29 19:29 KST</p>
+      <div class="comments"><section class="panel"><p class="meta">SooJi · 2026. 10. 28. 20:28 KST · 댓글 ID <code>407e639f-c7a4-8045-9637-001d7e15389b</code></p><pre>@보훈 강 현재 온보딩 화면은 적용 되었으나, 아래와 같은 수정 요청사항이 있습니다!
+
+[안드로이드]
+  1. 세 화면의 상단 타이틀 영역 위치가 일정하지 않습니다.( ex. 매일 나를 위한 문장을 만나요, 잠시 멈추고~ 시간을 가져요 있는 부분)
+  2. 뒤로가기 아이콘 선택 &gt; 홈화면으로 이동하고 있음
+→ 직전 화면으로 ‘뒤로가기’가 되도록 수정이 필요합니다.
+
+[iOS]&#32;
+  1. 세 화면에 리뉴얼된 텍스트가 적용되지 않아, 확인 및 수정이 필요합니다.
+  2. 뒤로가기 아이콘 선택 &gt; 홈화면으로 이동하고 있음
+→ 직전 화면으로 ‘뒤로가기’가 되도록 수정이 필요합니다.
+
++) 그리고 텍스트가 피그마에 ‘매일, 나를 위한 문장을 만나요.’라고 되어 있었는데, 문장이 부자연스러워서 매일 뒤 ’ , ’를 뺐습니다. 요 부분도 확인하여 수정 부탁드리겠습니당</pre><p>제보 당시 첨부: <a href="assets/2026-10-29-in-progress/onboarding/notion-comment-407e639f-attachment.png">로컬 보존본</a></p><img src="assets/2026-10-29-in-progress/onboarding/notion-comment-407e639f-attachment.png" alt="Notion 댓글 첨부: 쉼표 없는 온보딩 문구"></section></div>
+    </section>
+    <h3>문제와 재현 조건</h3>
+    <p>2페이지 제목만 13px 높고, 뒤로가기 아이콘이 Home으로 이동하며 첫 제목에 쉼표가 있었다. Dark 360dp 가이드 1·2·3페이지 상태에서 확인했다. <a href="../screens/2026-10-29-onboarding-3ffe639f-plan.md">재현 조건과 승인 범위</a></p>
+    <h3 id="issue-cause">이슈 원인</h3>
+    <p>2페이지 전용 25dp padding, 모든 뒤로가기에 연결된 Home 이동, 기존 문자열의 쉼표가 원인이었다. 제목 위치와 문자열은 수정 전 Preview 및 소스에서 확인했고, 뒤로가기 Home 이동은 코드 경로로 확인했다.</p>
+    <h3 id="issue-solution">해결방법과 실제 수정</h3>
+    <p>세 페이지 제목 padding을 30dp로 통일하고 pager의 이전 페이지 복귀·첫 페이지 상위 복귀를 연결했다. 첫 제목의 쉼표도 제거했다.</p><p>변경: IntroduceView.kt, IntroduceIndicatorSection.kt, MainNavHost.kt, strings.xml.</p>
+    <h3 id="issue-comparison">수정 전 · 목표 기준 · 수정 후</h3>
+    <div class="comparison">
+      <figure><h3>AS-IS · 수정 전 실제 결과</h3><img src="assets/2026-10-29-in-progress/onboarding/fillsa-inprogress-onboarding-page2.png" alt="수정 전 Android CLI Preview"><figcaption>2026-10-29 수정 전 Studio CLI Preview, Dark·ko·360dp. 2페이지 제목 y=226px.</figcaption></figure>
+      <figure><h3>Figma · 목표 기준</h3><img src="artifacts/2026-10-25-full-screen-audit/figma/3110-32359.png" alt="저장된 Figma 목표 프레임"><figcaption>2026-10-25 Figma 보존 캡처, 노드 3110:32359, 360×720. 댓글보다 오래되어 새 문구 기준 아님. 최신 원본 접근 차단.</figcaption></figure>
+      <figure><h3>TO-BE · 수정 후 실제 결과</h3><img src="assets/2026-10-29-in-progress/onboarding/IntroducePage2DarkPreview-headless.png" alt="수정 후 Android CLI headless Preview"><p><a href="assets/2026-10-29-in-progress/onboarding/IntroducePage1DarkPreview-headless.png">1페이지</a> · <a href="assets/2026-10-29-in-progress/onboarding/IntroducePage3DarkPreview-headless.png">3페이지</a> · <a href="assets/2026-10-29-in-progress/onboarding/IntroducePage2DarkPreview-headless.json">component tree JSON</a></p><figcaption>2026-10-29 19:28 KST, Android CLI 1.1 headless 빌드·렌더, ko·360dp. PNG와 component tree JSON을 함께 보존.</figcaption></figure>
+    </div>
+    <h3>검증 결과</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>검증 항목</th><th>실행 명령·절차·시각</th><th>실제 결과</th><th>증거</th></tr></thead>
+      <tbody><tr><td>제목·문구</td><td>android preview render :presentation, 2026-10-29 19:28 KST</td><td>Pass: 3페이지 제목 상단 모두 239px, 쉼표 없음</td><td><a href="assets/2026-10-29-in-progress/onboarding/IntroducePage2DarkPreview-headless.json">JSON</a></td></tr><tr><td>단위 테스트</td><td>./gradlew :presentation:testDebugUnitTest --offline, 2026-10-29</td><td>138건 통과, 0 실패/오류/skip</td><td><a href="2026-10-29-onboarding-3ffe639f-qa.md">QA 기록</a></td></tr><tr><td>최신 Figma·실제 전환</td><td>Figma MCP 재조회; CLI Preview 범위 확인</td><td>Blocked: Figma 재인증 필요. 실제 탭 전환은 Preview로 검증 불가</td><td><a href="2026-10-29-onboarding-3ffe639f-qa.md">제한</a></td></tr></tbody>
+    </table></div>
+    <p>하위 제목 컴포넌트와 조립 3페이지 Preview의 텍스트 y=239px을 확인했다. 최신 Figma 좌표/프로토타입은 조회하지 못해 전체 디자인 Pass를 선언하지 않는다.</p>
+    <h3>남은 항목과 다음 행동</h3>
+    <p>Figma 재인증 후 최신 프레임·첫 페이지 이탈 목적지를 확인하고, 실제 뒤로가기 탭을 별도 검증한다. 현재 Notion 상태 변경은 요청되지 않았다.</p>
+  </article>
+  <footer class="meta"><p><a href="../screens/2026-10-29-onboarding-3ffe639f-plan.md">계획 v1</a> · <a href="2026-10-29-onboarding-3ffe639f-qa.md">QA 기록</a> · <a href="https://app.notion.com/p/3ffe639fc7a4805db27dc6ee06e671be">Notion 원본</a></p></footer>
+</main></body>
+</html>

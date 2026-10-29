@@ -149,7 +149,11 @@ internal class CountingLocalRepository(
     override fun getLocalQuotesPaging(likeYN: YN, startDate: String, endDate: String): Flow<PagingData<LocalQuoteInfo>> =
         flowOf(PagingData.empty())
     override suspend fun updateLocalQuoteMemo(memo: String, seq: Int) = Unit
-    override suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int = 1
+    override suspend fun updateLocalQuoteLike(likeYN: YN, seq: Int): Int {
+        val matches = localQuotes.count { it.dailyQuoteSeq == seq }
+        localQuotes = localQuotes.map { if (it.dailyQuoteSeq == seq) it.copy(likeYn = likeYN.type) else it }
+        return matches
+    }
     override suspend fun getQuoteLocal(seq: Int): LocalQuoteInfo? = localQuotes.firstOrNull { it.dailyQuoteSeq == seq }
     override suspend fun emitTokenExpired(errorCode: String) = Unit
     override fun getTokenExpired(): Flow<String> = flowOf("")
