@@ -1,5 +1,11 @@
 # Calendar
 
+## 2026-11-01 미필사 안내 색상 QA
+
+- [Notion Android 색상 이슈 계획 v1 HTML](2026-11-01-calendar-color-408e639f-plan.html) · [Markdown](2026-11-01-calendar-color-408e639f-plan.md) · [QA 기록](../design-qa/2026-11-01-calendar-color-408e639f-qa.md).
+- Figma Dark 전체 `3039:24906`, 미필사 안내 `3039:25079`, 명언 카드 `3039:25073`. 360×816, ko-KR, Dark, 미필사 날짜 선택. 기준 이미지는 QA 기록에 보관했다.
+- 컴포넌트: `CalendarEmptyDay`(안내), `CalendarQuotePreviewCard`(명언 카드), `CalendarQuoteSection`(조립). 두 하위 컴포넌트의 Dark/Light Preview와 Dark 조립 런타임 캡처에서 대상 색상을 확인했다. 전체 프레임에는 기존 달력 표면·광고/시스템 영역 차이가 남아 최종 Figma Pass는 보류한다. [이번 QA 기록](../design-qa/2026-11-01-calendar-color-408e639f-qa.md).
+
 ## 2026-10-29 In progress 후속 QA
 
 - [좋아요·이미지 등록/보기 Calendar 내부 동작 계획 v1](2026-10-29-calendar-actions-3f4e639f-plan.md). 2026-10-28 Notion Android 댓글에 따라 완료 날짜의 좋아요와 이미지 등록/보기는 선택한 Calendar 날짜 안에서 처리한다. [이번 QA 기록](../design-qa/2026-10-29-calendar-actions-3f4e639f-qa.md)을 참조한다.
