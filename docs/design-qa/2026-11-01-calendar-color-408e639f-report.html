@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Calendar 미필사 안내 색상 QA</title>
+  <style>
+    :root { color-scheme: light; --ink:#182331; --muted:#526174; --line:#dce2e9; --paper:#fff; --accent:#165b50; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#f3f5f7; font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif; }
+    main { max-width:1280px; margin:auto; padding:48px 24px 80px; }
+    header { margin-bottom:28px; }
+    h1 { margin:8px 0 16px; font-size:clamp(28px,4vw,44px); line-height:1.25; }
+    h2 { margin:0 0 16px; font-size:25px; } h3 { margin-top:28px; }
+    a { color:#165caa; overflow-wrap:anywhere; }
+    .eyebrow { color:var(--accent); font-weight:700; letter-spacing:.1em; }
+    .meta, figcaption { color:var(--muted); font-size:14px; }
+    .notice { padding:16px 20px; border-left:4px solid #a96613; background:#fff6e4; }
+    .panel, article { margin-top:24px; padding:28px; background:var(--paper); border:1px solid var(--line); border-radius:16px; }
+    .comparison { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .overview { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+    .overview section { padding:16px; border:1px solid var(--line); border-radius:10px; }
+    .overview h3 { margin:0 0 8px; font-size:17px; }
+    .overview p { margin:0; }
+    .source-body, .comments { overflow-wrap:anywhere; }
+    figure { margin:0; padding:16px; border:1px solid var(--line); border-radius:10px; }
+    figure h3 { font-size:16px; margin:0 0 12px; }
+    img { display:block; max-width:100%; height:auto; margin:0 auto 12px; }
+    .missing { border:1px dashed #bac4d0; padding:24px 12px; color:var(--muted); }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; text-align:left; }
+    th,td { border-bottom:1px solid var(--line); padding:12px; vertical-align:top; }
+    th { background:#f3f6f8; }
+    code { overflow-wrap:anywhere; } pre { white-space:pre-wrap; overflow-wrap:anywhere; padding:16px; background:#f3f6f8; }
+    .status { display:inline-block; border:1px solid var(--line); border-radius:6px; padding:3px 10px; font-weight:600; }
+    @media(max-width:800px) { main { padding:24px 16px 48px; } .comparison, .overview { grid-template-columns:1fr; } .panel, article { padding:20px; } }
+    @media print { body { background:white; } main { padding:0; } .panel,article { border-radius:0; } figure, tr { break-inside:avoid; } }
+  </style>
+</head>
+<body><main>
+  <header>
+    <div class="eyebrow">QA / AS-IS → TO-BE</div>
+    <h1>Calendar 미필사 안내 색상 QA</h1>
+    <p>Android 다크 Calendar의 미필사 안내 문구와 명언 카드 테두리를 Figma 색상으로 수정했다.</p>
+    <p class="meta">2026-11-01 · stage c14b4e6 기반 독립 워크트리 · Android API 35 · 360×816 · ko · Dark</p>
+    <div class="notice">대상 색상 수정과 하위 컴포넌트 검증은 통과했다. 전체 런타임 프레임에는 이번 범위 밖의 달력 표면색, 광고·시스템 영역 차이가 남아 최종 Figma Pass는 보류한다.</div>
+  </header>
+  <section class="panel" aria-label="이슈 한눈에 보기">
+    <h2>이슈 한눈에 보기</h2>
+    <div class="overview">
+      <section><h3><a href="#notion-source">원본 이슈</a></h3><p>Android Calendar의 미필사 영역 색상이 Figma와 다름.</p><p class="meta"><a href="#notion-comments">댓글 1건 확인</a></p></section>
+      <section><h3><a href="#issue-cause">이슈 원인</a></h3><p>다크 안내 문구 2곳에 흰색, 카드 테두리에 테마와 무관한 보라색을 지정했다.</p></section>
+      <section><h3><a href="#issue-solution">해결방법</a></h3><p>세 위치에 기존 yellow02 토큰을 다크 상태에서 적용하고 Light는 유지했다.</p></section>
+      <section><h3><a href="#issue-comparison">AS-IS → TO-BE</a></h3><p>흰 문구·보라 테두리 → Figma의 노란 문구·노란 테두리</p></section>
+    </div>
+  </section>
+  <section class="panel" aria-label="선택 이슈와 승인 범위">
+    <h2>선택 이슈와 승인 범위</h2>
+    <p>사용자 승인: “좋아 세가지 모두 진행, stage로부터 각자의 워크트리를 만들어서 진행하자” (2026-11-01). Android 색상 계획 v1 범위. <a href="../screens/2026-11-01-calendar-color-408e639f-plan.html">HTML 계획</a> · <a href="../screens/2026-11-01-calendar-color-408e639f-plan.md">Markdown 계획</a></p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이슈</th><th>구현</th><th>기능 검증</th><th>UI 검증</th><th>최종 상태</th></tr></thead>
+      <tbody><tr><td>408e639f-c7a4-80da-9407-d6a75c64df65</td><td>완료</td><td>빌드·테스트 통과</td><td>하위 색상 통과, 전체 화면 보류</td><td>부분 검증</td></tr></tbody>
+    </table></div>
+  </section>
+  <!-- One issue per report. Copy this template for each issue and replace every token with verified content. -->
+  <article id="calendar-color">
+    <span class="status">대상 색상 수정 완료 · 전체 Figma Pass 보류</span>
+    <h2>필사하지 않음 &gt; text, area 컬ㄹ러</h2>
+    <p><a href="https://app.notion.com/p/text-area-408e639fc7a480da9407d6a75c64df65">Notion QA 원문</a></p>
+    <section id="notion-source">
+      <h3>Notion 원본 이슈</h3>
+      <p class="meta">page ID 408e639f-c7a4-80da-9407-d6a75c64df65 · 생성 2026-10-29 06:45 UTC · 최근 수정 2026-10-29 07:19 UTC · 재조회 2026-11-01 11:48 UTC</p>
+      <p>원문 속성: Status Not started · Priority 중간 · Device Android · 화면 Calendar · Category UI</p>
+      <div class="source-body"><p>페이지 본문 블록 0건(빈 본문). 증상은 댓글에 기록되어 있다.</p></div>
+      <p>페이지 본문 첨부 없음. 댓글 첨부는 아래에 보존했다.</p>
+    </section>
+    <section id="notion-comments">
+      <h3>Notion 댓글</h3>
+      <p class="meta">페이지 댓글 1건, 다음 커서 없음. 2026-11-01 11:48 UTC 재조회.</p>
+      <div class="comments"><blockquote><p class="meta">SooJi · 2026-10-29 07:19 UTC · 댓글 408e639f-c7a4-8012-a2a1-001d7a139a8d</p><p>안드로이드에서만 해당 영역 컬러가 Figma와 다르게 들어가 있습니다.<br>확인 부탁드려요~<br><br>아래 캡쳐본은 피그마 입니다! 🔗</p><p><a href="https://app.notion.com/p/408e639fc7a480da9407d6a75c64df65?d=757e639fc7a4821e84b48367ffc1d5b0">피그마보기</a> · 제보 당시 Figma 캡처</p><img src="artifacts/2026-11-01-qa-calendar-color/notion-figma-attachment.png" alt="댓글에 첨부된 Figma 캡처"></blockquote></div>
+    </section>
+    <h3>문제와 재현 조건</h3>
+    <p>다크 Calendar에서 필사하지 않은 2025-03-17을 선택한다. 안내 문구와 하단 80dp 명언 카드 테두리를 Figma 3039:25079, 3039:25073과 비교한다. Light 상태는 회귀 범위다.</p>
+    <h3 id="issue-cause">이슈 원인</h3>
+    <p><code>CalendarEmptyDay</code>의 두 Text가 다크일 때 <code>Color.White</code>를 사용했고 <code>CalendarQuotePreviewCard</code>의 border가 항상 <code>purple01</code>이었다. 기존 <code>yellow02</code>가 Figma의 #FFCB5C와 일치한다.</p>
+    <h3 id="issue-solution">해결방법과 실제 수정</h3>
+    <p><code>CalendarQuoteSection.kt</code>에서 다크 안내 문구·카드 테두리에 <code>yellow02</code>를 적용했다. Light는 <code>purple01</code>이다. 결정적 하위 Preview 4개를 추가했다. 실제 앱 검증을 위해 <code>MainActivity.kt</code>의 기존 Calendar QA fixture에서 Dark override를 허용했다. 상태·API·데이터 계약 변경은 없다.</p>
+    <h3 id="issue-comparison">수정 전 · 목표 기준 · 수정 후</h3>
+    <div class="comparison">
+      <figure><h3>AS-IS · 수정 전 실제 결과</h3><img src="artifacts/2026-11-01-qa-calendar-color/android-before-preview.png" alt="수정 전 Calendar 다크 Compose Preview"><figcaption>stage c14b4e6 수정 전 · Android CLI Compose Preview · 360×768 콘텐츠 · Dark · 2025-03-17 fixture. 전체 런타임 캡처는 수정 전 확보하지 못했다.</figcaption></figure>
+      <figure><h3>Figma · 목표 기준</h3><img src="artifacts/2026-11-01-qa-calendar-color/figma-dark-basic-3039-24906.png" alt="Figma Calendar 다크 기본 전체 프레임"><figcaption>Figma VdFocqyqTgevMVCQxwAQ2X / 3039:24906 · 360×816 전체 프레임 · Dark · ko. 안내 3039:25079, 카드 3039:25073.</figcaption></figure>
+      <figure><h3>TO-BE · 수정 후 실제 결과</h3><img src="artifacts/2026-11-01-qa-calendar-color/after-runtime-dark-360x816.png" alt="수정 후 Android 에뮬레이터 전체 캡처"><figcaption>변경 후 Debug 앱 · Medium_Phone_API_35 · API 35 · 360×816 · 160dpi · Dark · ko · fontScale 1.0. 시스템·광고 차이는 남아 있다.</figcaption></figure>
+    </div>
+    <h3>검증 결과</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>검증 항목</th><th>실행 명령·절차·시각</th><th>실제 결과</th><th>증거</th></tr></thead>
+      <tbody><tr><td>기준 테스트</td><td>./gradlew :presentation:testDebugUnitTest</td><td>Pass</td><td>Gradle BUILD SUCCESSFUL</td></tr><tr><td>변경 후 빌드·테스트</td><td>./gradlew :app:assembleDebug :presentation:testDebugUnitTest</td><td>Pass</td><td>Gradle BUILD SUCCESSFUL</td></tr><tr><td>하위 Preview</td><td>android preview render :presentation --fqn=&lt;각 Preview&gt; --component-tree</td><td>Dark 목표색, Light 기존색 확인</td><td><a href="2026-11-01-calendar-color-408e639f-qa.md">QA 기록·이미지·tree</a></td></tr><tr><td>실제 앱 전체 프레임</td><td>adb API 35, 360×816, Dark fixture 캡처</td><td>대상 색상 일치, 화면 전체 차이 잔존</td><td><a href="artifacts/2026-11-01-qa-calendar-color/after-runtime-dark-360x816.png">런타임 캡처</a></td></tr></tbody>
+    </table></div>
+    <h3>UI QA 판정</h3><p>Round 1: 안내·카드 Dark/Light 하위 Preview를 먼저 확인한 뒤 Dark/Light 조립 Preview와 Dark 런타임 전체 프레임을 비교했다. 다크 문구·테두리는 Figma #FFCB5C와 일치한다. 전체 360×816 프레임에는 기존 달력 표면, 광고와 OS 영역 차이가 있다. 이번 이슈의 하위 컴포넌트는 통과, 전체 조립 최종 결과는 보류다. 자세한 비교와 component tree는 <a href="2026-11-01-calendar-color-408e639f-qa.md">QA 기록</a>을 참조한다.</p>
+    <h3>남은 항목과 다음 행동</h3>
+    <p>화면 전체의 기존 Figma 차이는 별도 범위에서 수정·재검증해야 한다. 이번 색상 이슈를 근거로 Notion 상태를 바꾸지 않았다.</p>
+  </article>
+  <footer class="meta"><p><a href="../screens/2026-11-01-calendar-color-408e639f-plan.html">계획 HTML</a> · <a href="../screens/2026-11-01-calendar-color-408e639f-plan.md">계획 Markdown</a> · <a href="2026-11-01-calendar-color-408e639f-qa.md">QA 기록</a></p></footer>
+</main></body>
+</html>

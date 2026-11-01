@@ -1,0 +1,205 @@
+{
+  "previewId": "CalendarEmptyDayLightQaPreview",
+  "methodFQN": "com.arakene.presentation.ui.calendar.CalendarQuoteSectionKt.CalendarEmptyDayLightQaPreview",
+  "width": 840,
+  "height": 263,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 16,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "FillsaTheme",
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 840,
+        "bottom": 263,
+        "width": 840,
+        "height": 263
+      },
+      "sourceLocation": {
+        "fileName": "CalendarQuoteSection.kt",
+        "lineNumber": 190,
+        "packageHash": 540883522
+      },
+      "children": [
+        {
+          "name": "CalendarEmptyDay",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 840,
+            "bottom": 263,
+            "width": 840,
+            "height": 263
+          },
+          "sourceLocation": {
+            "fileName": "CalendarQuoteSection.kt",
+            "lineNumber": 191,
+            "packageHash": 540883522
+          },
+          "children": [
+            {
+              "name": "Row",
+              "bounds": {
+                "left": 0,
+                "top": 0,
+                "right": 840,
+                "bottom": 263,
+                "width": 840,
+                "height": 263
+              },
+              "sourceLocation": {
+                "fileName": "CalendarQuoteSection.kt",
+                "lineNumber": 124,
+                "packageHash": 540883522
+              },
+              "children": [
+                {
+                  "name": "Row",
+                  "bounds": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 840,
+                    "bottom": 263,
+                    "width": 840,
+                    "height": 263
+                  },
+                  "children": [
+                    {
+                      "name": "CalendarFigmaAsset",
+                      "bounds": {
+                        "left": 0,
+                        "top": -18,
+                        "right": 263,
+                        "bottom": 245,
+                        "width": 263,
+                        "height": 263
+                      },
+                      "sourceLocation": {
+                        "fileName": "CalendarQuoteSection.kt",
+                        "lineNumber": 128,
+                        "packageHash": 540883522
+                      },
+                      "children": [
+                        {
+                          "name": "AsyncImage",
+                          "bounds": {
+                            "left": 0,
+                            "top": -18,
+                            "right": 263,
+                            "bottom": 245,
+                            "width": 263,
+                            "height": 263
+                          },
+                          "sourceLocation": {
+                            "fileName": "CalendarFigmaAsset.kt",
+                            "lineNumber": 23,
+                            "packageHash": 540883522
+                          },
+                          "modifiers": {
+                            "size": "100.0.dp"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Column",
+                      "bounds": {
+                        "left": 263,
+                        "top": 70,
+                        "right": 840,
+                        "bottom": 158,
+                        "width": 577,
+                        "height": 88
+                      },
+                      "sourceLocation": {
+                        "fileName": "CalendarQuoteSection.kt",
+                        "lineNumber": 133,
+                        "packageHash": 540883522
+                      },
+                      "children": [
+                        {
+                          "name": "Column",
+                          "bounds": {
+                            "left": 263,
+                            "top": 70,
+                            "right": 840,
+                            "bottom": 158,
+                            "width": 577,
+                            "height": 88
+                          },
+                          "children": [
+                            {
+                              "name": "Text",
+                              "bounds": {
+                                "left": 263,
+                                "top": 62,
+                                "right": 599,
+                                "bottom": 106,
+                                "width": 336,
+                                "height": 44
+                              },
+                              "sourceLocation": {
+                                "fileName": "CalendarQuoteSection.kt",
+                                "lineNumber": 134,
+                                "packageHash": 540883522
+                              },
+                              "semantics": {
+                                "text": "필사하지 않은 날이에요."
+                              },
+                              "parameters": {
+                                "color": "#FF5C65FF"
+                              }
+                            },
+                            {
+                              "name": "Text",
+                              "bounds": {
+                                "left": 263,
+                                "top": 119,
+                                "right": 763,
+                                "bottom": 163,
+                                "width": 500,
+                                "height": 44
+                              },
+                              "sourceLocation": {
+                                "fileName": "CalendarQuoteSection.kt",
+                                "lineNumber": 140,
+                                "packageHash": 540883522
+                              },
+                              "semantics": {
+                                "text": "아래 필사를 선택하여 기록해주세요!"
+                              },
+                              "parameters": {
+                                "color": "#FF5C65FF"
+                              }
+                            }
+                          ],
+                          "modifiers": {
+                            "width": "220.0.dp"
+                          }
+                        }
+                      ],
+                      "modifiers": {
+                        "width": "220.0.dp"
+                      }
+                    }
+                  ],
+                  "modifiers": {
+                    "height": "100.0.dp",
+                    "fill": "Horizontal (1.0)"
+                  }
+                }
+              ],
+              "modifiers": {
+                "height": "100.0.dp",
+                "fill": "Horizontal (1.0)"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

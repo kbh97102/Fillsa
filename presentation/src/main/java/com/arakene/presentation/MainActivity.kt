@@ -157,7 +157,7 @@ class MainActivity : ComponentActivity() {
 
             val isDarkMode by remember(darkModeType, homeQaDarkModeOverride, calendarQaFixture) {
                 mutableStateOf(
-                    if (calendarQaFixture != null) false else homeQaDarkModeOverride ?: when (darkModeType) {
+                    homeQaDarkModeOverride ?: if (calendarQaFixture != null) false else when (darkModeType) {
                         DarkModeType.DARK -> true
                         DarkModeType.LIGHT -> false
                         DarkModeType.SYSTEM -> systemDarkMode

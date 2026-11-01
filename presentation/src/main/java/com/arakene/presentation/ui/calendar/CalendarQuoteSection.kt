@@ -1,5 +1,6 @@
 package com.arakene.presentation.ui.calendar
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +29,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.zIndex
 import com.arakene.domain.responses.MemberQuotesData
 import com.arakene.domain.util.YN
@@ -37,7 +39,9 @@ import com.arakene.presentation.util.IsDarkMode
 import com.arakene.presentation.util.HomeAnswerUiState
 import com.arakene.presentation.util.noEffectClickable
 import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.DayPosition
 import coil3.compose.AsyncImage
+import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -131,13 +135,13 @@ private fun CalendarEmptyDay(darkMode: Boolean) {
                 "필사하지 않은 날이에요.",
                 modifier = Modifier.offset(y = (-3).dp),
                 style = FillsaTheme.typography.subtitle2,
-                color = if (darkMode) Color.White else colorResource(R.color.purple01),
+                color = colorResource(if (darkMode) R.color.yellow02 else R.color.purple01),
             )
             Text(
                 "아래 필사를 선택하여 기록해주세요!",
                 modifier = Modifier.offset(y = 2.dp),
                 style = FillsaTheme.typography.subtitle2,
-                color = if (darkMode) Color.White else colorResource(R.color.purple01),
+                color = colorResource(if (darkMode) R.color.yellow02 else R.color.purple01),
             )
         }
     }
@@ -155,7 +159,7 @@ private fun CalendarQuotePreviewCard(
     Row(
         modifier = modifier.fillMaxWidth().height(quoteCardHeightDp.dp)
             .background(if (darkMode) Color(0xFF424242) else Color.White, RoundedCornerShape(10.dp))
-            .border(1.dp, colorResource(R.color.purple01), RoundedCornerShape(10.dp))
+            .border(1.dp, colorResource(if (darkMode) R.color.yellow02 else R.color.purple01), RoundedCornerShape(10.dp))
             .noEffectClickable(click = onClick)
             .semantics { contentDescription = "선택한 날짜의 필사 문장 열기" },
         verticalAlignment = Alignment.CenterVertically,
@@ -168,6 +172,52 @@ private fun CalendarQuotePreviewCard(
             maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             color = FillsaTheme.colorScheme.onBackground1,
+        )
+    }
+}
+
+@Preview(widthDp = 320, heightDp = 100, uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "ko", fontScale = 1f)
+@Composable
+private fun CalendarEmptyDayDarkQaPreview() {
+    com.arakene.presentation.ui.theme.FillsaTheme(darkTheme = true) {
+        CalendarEmptyDay(darkMode = true)
+    }
+}
+
+@Preview(widthDp = 320, heightDp = 100, uiMode = Configuration.UI_MODE_NIGHT_NO, locale = "ko", fontScale = 1f)
+@Composable
+private fun CalendarEmptyDayLightQaPreview() {
+    com.arakene.presentation.ui.theme.FillsaTheme(darkTheme = false) {
+        CalendarEmptyDay(darkMode = false)
+    }
+}
+
+@Preview(widthDp = 320, heightDp = 80, uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "ko", fontScale = 1f)
+@Composable
+private fun CalendarQuotePreviewCardDarkQaPreview() {
+    com.arakene.presentation.ui.theme.FillsaTheme(darkTheme = true) {
+        CalendarQuotePreviewCard(
+            quoteData = null,
+            selectedDay = CalendarDay(LocalDate.of(2026, 8, 16), DayPosition.MonthDate),
+            quoteCardHeightDp = 80,
+            onClick = {},
+            darkMode = true,
+            modifier = Modifier,
+        )
+    }
+}
+
+@Preview(widthDp = 320, heightDp = 80, uiMode = Configuration.UI_MODE_NIGHT_NO, locale = "ko", fontScale = 1f)
+@Composable
+private fun CalendarQuotePreviewCardLightQaPreview() {
+    com.arakene.presentation.ui.theme.FillsaTheme(darkTheme = false) {
+        CalendarQuotePreviewCard(
+            quoteData = null,
+            selectedDay = CalendarDay(LocalDate.of(2026, 8, 16), DayPosition.MonthDate),
+            quoteCardHeightDp = 80,
+            onClick = {},
+            darkMode = false,
+            modifier = Modifier,
         )
     }
 }

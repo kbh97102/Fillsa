@@ -2,6 +2,10 @@
 
 Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에서 관리한다. 모든 UI 변경은 [Figma 기반 UI 개편 워크플로우](ui-redesign-workflow.md)를 따른다.
 
+## Notion Calendar 미필사 색상 QA · 2026-11-01
+
+- `stage` 기반 독립 워크트리의 [계획 HTML](screens/2026-11-01-calendar-color-408e639f-plan.html), [화면 문서](screens/3_calendar.md), [QA](design-qa/2026-11-01-calendar-color-408e639f-qa.md), [결과 HTML](design-qa/2026-11-01-calendar-color-408e639f-report.html). 다크 안내·테두리 색상 수정과 런타임 확인 완료, 전체 Calendar Figma Pass는 기존 차이로 보류.
+
 ## Android QA 3건 재분석 · 2026-10-28
 
 - [AS-IS / 현재 구현 / TO-BE 보고서](design-qa/2026-10-28-android-three-issues-report.html): 위젯 제외, 홈 연월 선택·필사 캐릭터 안내·로그인 만료 반복.

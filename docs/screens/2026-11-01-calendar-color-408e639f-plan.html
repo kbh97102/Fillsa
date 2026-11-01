@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calendar 미필사 안내 색상 QA 계획 v1</title><style>
+:root{color-scheme:light;--bg:#f5f7f8;--paper:#fff;--ink:#17242b;--muted:#51616b;--line:#dbe2e5;--accent:#2c645b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}
+main{max-width:1180px;margin:auto;padding:40px 20px 72px}header,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:18px}
+.eyebrow{color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+h1{font-size:clamp(27px,4vw,42px);line-height:1.25;margin:10px 0}h2{font-size:23px;line-height:1.3;margin:38px 0 12px;border-top:1px solid var(--line);padding-top:25px}
+h3{font-size:19px}p,li{overflow-wrap:anywhere}a{color:#1760a5}code{background:#eef2f4;border-radius:4px;padding:1px 4px;font-size:.92em}
+.meta{color:var(--muted);font-size:14px}.status{display:inline-block;background:#fff3d6;color:#634607;border:1px solid #f0d182;padding:5px 10px;border-radius:8px;font-weight:700}
+.proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.proof figure{margin:0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fafcfc}
+.proof img{display:block;width:auto;max-width:100%;max-height:420px;margin:auto;object-fit:contain}.proof figcaption{color:var(--muted);font-size:14px;margin-top:10px}
+nav ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 20px;padding-left:20px}.body h1{display:none}.body ul,.body ol{padding-left:25px}.body li{margin:8px 0}
+@media(max-width:760px){main{padding:16px 10px 48px}header,.panel{padding:18px}.proof{grid-template-columns:1fr}.proof img{max-height:360px}nav ul{grid-template-columns:1fr}}
+@media print{body{background:#fff}main{max-width:none;padding:0}header,.panel{border:0;border-radius:0;break-inside:avoid}.proof img{max-height:220px}}
+</style></head>
+<body><main>
+<header><div class="eyebrow">QA 계획 1 / 3</div><h1>Calendar 미필사 안내 색상 QA 계획 v1</h1>
+<p>Calendar 다크 미필사 상태의 안내 글자와 명언 카드 테두리를 Figma 색상에 맞추는 계획</p><p><span class="status">v1 · 승인 · 수정·검증 진행</span></p>
+<p class="meta">Notion QA 이슈별 독립 계획 · 원본 <a href="2026-11-01-calendar-color-408e639f-plan.md">Markdown 계획</a> · 원본 SHA-256 16007b5c781b</p></header>
+<section class="panel"><h2>검토할 기준과 현재 증거</h2><div class="proof"><figure><img src="../design-qa/artifacts/2026-11-01-qa-calendar-color/figma-dark-basic-3039-24906.png" alt="Figma 목표 · Dark 360×816"><figcaption>Figma 목표 · Dark 360×816</figcaption></figure>
+<figure><img src="../design-qa/artifacts/2026-11-01-qa-calendar-color/android-before-preview.png" alt="Android 수정 전 · Compose Preview"><figcaption>Android 수정 전 · Compose Preview</figcaption></figure>
+<figure><img src="../design-qa/artifacts/2026-11-01-qa-calendar-color/notion-figma-attachment.png" alt="Notion 제보 · Figma 첨부"><figcaption>Notion 제보 · Figma 첨부</figcaption></figure></div></section>
+<nav class="panel" aria-label="계획 목차"><h2>계획 목차</h2><ul><li><a href="#section-1">선택·승인 기록</a></li>
+<li><a href="#section-2">원문과 재현 근거</a></li>
+<li><a href="#section-3">원인 분석</a></li>
+<li><a href="#section-4">해결 설계 / TO-BE</a></li>
+<li><a href="#section-5">변경 순서와 검증</a></li>
+<li><a href="#section-6">완료 조건·위험</a></li></ul></nav>
+<article class="panel body"><h1>Calendar 미필사 안내 색상 QA 계획 v1</h1>
+<h2 id="section-1">선택·승인 기록</h2>
+<ul>
+<li>Notion: <a href="https://app.notion.com/p/text-area-408e639fc7a480da9407d6a75c64df65">필사하지 않음 &gt; text, area 컬ㄹ러</a>, <code>408e639f-c7a4-80da-9407-d6a75c64df65</code>.</li>
+<li>Notion 상태/우선순위/기기: Not started / 중간 / Android. 최근 수정: 2026-10-29 07:19 UTC.</li>
+<li>계획 버전/단계: v1 / 승인, 수정·검증 진행.</li>
+<li>구현 승인: 사용자의 2026-11-01 발언 “좋아 세가지 모두 진행, stage로부터 각자의 워크트리를 만들어서 진행하자”. 승인 범위는 이 v1의 Android Calendar 색상 수정·검증·독립 보고이며 <code>stage</code>의 <code>c14b4e6</code>에서 만든 <code>codex/qa-calendar-color-408e639f</code> 워크트리에서 수행한다.</li>
+<li>코드 기준: <code>c14b4e6</code>. 시작 시 기존 미커밋 변경 <code>app/.DS_Store</code>, <code>fastlane/report.xml</code>이 있었으며 이 이슈와 무관하다.</li>
+</ul>
+<h2 id="section-2">원문과 재현 근거</h2>
+<ul>
+<li>본문은 비어 있다. SooJi의 댓글은 Android의 해당 영역 색상이 Figma와 다르다고 제보하고 Figma 캡처를 첨부했다. <a href="../design-qa/artifacts/2026-11-01-qa-calendar-color/notion-figma-attachment.png">제보 캡처</a>.</li>
+<li>대상: Calendar에서 필사하지 않은 날짜를 선택한 다크 상태. Light의 같은 영역은 이번 제보 대상이 아니다.</li>
+<li>AS-IS: 현재 소스를 Android CLI로 <code>AuditFigma303924906</code> Preview 렌더했다. <a href="../design-qa/artifacts/2026-11-01-qa-calendar-color/android-before-preview.png">수정 전 이미지</a>, <a href="../design-qa/artifacts/2026-11-01-qa-calendar-color/android-before-component-tree.json">component tree</a>. 미필사 안내는 흰색이고 아래 명언 카드 테두리는 보라색이다. SVG 캐릭터와 일부 아이콘이 이 Preview에서 비어 있어 해당 자산의 시각 결과는 이 증거로 판단하지 않는다.</li>
+<li>Figma: <a href="https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3039-24906">다크 기본 전체 프레임 <code>3039:24906</code></a>, 360×816, ko-KR, Dark. <a href="../design-qa/artifacts/2026-11-01-qa-calendar-color/figma-dark-basic-3039-24906.png">직접 추출한 전체 기준 이미지</a>. 미필사 안내 <code>3039:25079</code>/문구 <code>3039:25096</code>은 <code>#FFCB5C</code>, 카드 <code>3039:25073</code>/내부 <code>3039:25074</code>는 <code>#424242</code> 바탕과 <code>#FFCB5C</code> 1px 테두리다. Figma design context에서 확인했다.</li>
+<li>재현 순서: 다크 모드의 Calendar에서 필사하지 않은 날짜를 선택하고 미필사 안내와 명언 카드의 색상을 Figma와 비교한다. 동일 조건의 앱 전체 런타임 캡처는 이번 계획 작성 단계에서 새로 확보하지 않았으며 Preview가 현재 코드 불일치를 증명한다.</li>
+</ul>
+<h2 id="section-3">원인 분석</h2>
+<ul>
+<li><code>CalendarQuoteSection.kt</code>의 <code>CalendarEmptyDay</code>는 두 안내 <code>Text</code>에 다크 모드일 때 <code>Color.White</code>를 지정한다.</li>
+<li>같은 파일의 <code>CalendarQuotePreviewCard</code>는 테마와 무관하게 <code>R.color.purple01</code>을 테두리에 지정한다.</li>
+<li><code>R.color.yellow02</code>는 이미 <code>#FFCB5C</code>로 정의되어 있고 다크 테마의 <code>tertiary</code>에도 연결되어 있다. 색상 누락은 자산이나 API 문제가 아니라 두 Compose 색상 분기/지정의 문제다.</li>
+<li>카드 날짜·명언의 흰 텍스트와 <code>#424242</code> 표면은 Figma의 대상 노드와 일치하므로 변경 대상이 아니다.</li>
+</ul>
+<h2 id="section-4">해결 설계 / TO-BE</h2>
+<ul>
+<li>권장안: <code>CalendarEmptyDay</code>의 다크 안내 문구 2개와 <code>CalendarQuotePreviewCard</code>의 다크 테두리에 기존 <code>R.color.yellow02</code>를 사용한다. Light 분기는 현재 보라색을 유지한다.</li>
+<li>컴포넌트 흐름: <code>CalendarQuoteSection</code>이 <code>presentation.completed == false</code>일 때 미필사 안내와 80dp 명언 카드를 조립한다. <code>darkMode</code>를 두 하위 컴포넌트에 전달하는 현재 계약을 그대로 사용한다. 상태·액션·ViewModel·domain/data/API 변경은 없다.</li>
+<li>대안: 화면별 <code>Color(0xFFFFCB5C)</code> 상수를 직접 추가할 수 있으나 기존 동일 토큰과 중복된다. 테마의 공통 <code>tertiary</code>를 사용해도 되지만 이번 컴포넌트의 색상 의도를 명시적으로 유지하려면 기존 리소스가 더 좁은 변경이다.</li>
+<li>경계: 필사 완료 날짜의 카드/액션, Light 미필사 상태, 다른 Calendar 색상, SVG 자산은 이 이슈 범위에서 수정하지 않는다. 공유 색상 토큰의 값은 바꾸지 않는다.</li>
+</ul>
+<h2 id="section-5">변경 순서와 검증</h2>
+<ol>
+<li><code>presentation/ui/calendar/CalendarQuoteSection.kt</code>에서 두 색상 지정만 다크/라이트 조건으로 맞춘다.</li>
+<li>다크 미필사 안내·카드 하위 Preview를 결정적 fixture로 준비해 Figma 노드 <code>3039:25079</code>, <code>3039:25073</code>과 대조한다. 같은 컴포넌트의 Light Preview <code>2985:22183</code>, <code>2985:22145</code>로 회귀 확인한다.</li>
+<li>하위 결과가 맞으면 360×816 다크 Calendar 조립 Preview와 Figma 전체 기준 이미지를 비교하고 component tree를 보관한다. 프로젝트 워크플로우에 따라 동일 조건의 실제 에뮬레이터 전체 프레임도 확인한다. 시스템 바/캐릭터 SVG가 Preview에서 빠지는 문제는 런타임 비교에 기록한다.</li>
+<li>관련 빌드와 Calendar 회귀 검증을 실행하고 <code>docs/design-qa/2026-11-01-calendar-color-408e639f-qa.md</code>에 결과를 기록한다. 결과가 확보되면 이 이슈만의 AS-IS/TO-BE HTML 보고서를 작성한다.</li>
+</ol>
+<h2 id="section-6">완료 조건·위험</h2>
+<ul>
+<li>다크 안내 글자와 카드 테두리가 Figma <code>#FFCB5C</code>이고, Light의 기존 보라색이 유지되어야 한다. 클릭 영역·명언 텍스트·날짜 상태는 변하지 않아야 한다.</li>
+<li>전체 런타임 프레임을 Figma와 비교하지 못하면 UI 최종 Pass로 처리하지 않는다. Figma와 Notion 제보의 기준 버전이 달라지면 구현 전에 차이를 다시 확인한다.</li>
+<li>복구는 이 이슈에서 변경한 색상 분기만 되돌린다. 기존 사용자 변경은 건드리지 않는다.</li>
+<li>제품 결정 질문: 현재 확인한 Figma 노드와 Notion 캡처 사이의 대상 색상 충돌은 없다.</li>
+</ul></article>
+<footer class="meta">계획의 승인 여부는 이슈마다 별도로 기록한다. 이 HTML은 연결된 Markdown v1 계획과 동일한 내용을 표시한다.</footer>
+</main></body></html>

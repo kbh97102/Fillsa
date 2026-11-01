@@ -1,0 +1,223 @@
+{
+  "previewId": "CalendarQuotePreviewCardDarkQaPreview",
+  "methodFQN": "com.arakene.presentation.ui.calendar.CalendarQuoteSectionKt.CalendarQuotePreviewCardDarkQaPreview",
+  "width": 840,
+  "height": 210,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 32,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "FillsaTheme",
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 840,
+        "bottom": 210,
+        "width": 840,
+        "height": 210
+      },
+      "sourceLocation": {
+        "fileName": "CalendarQuoteSection.kt",
+        "lineNumber": 198,
+        "packageHash": 540883522
+      },
+      "children": [
+        {
+          "name": "CalendarQuotePreviewCard",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 840,
+            "bottom": 210,
+            "width": 840,
+            "height": 210
+          },
+          "sourceLocation": {
+            "fileName": "CalendarQuoteSection.kt",
+            "lineNumber": 199,
+            "packageHash": 540883522
+          },
+          "children": [
+            {
+              "name": "Row",
+              "bounds": {
+                "left": 0,
+                "top": 0,
+                "right": 840,
+                "bottom": 210,
+                "width": 840,
+                "height": 210
+              },
+              "sourceLocation": {
+                "fileName": "CalendarQuoteSection.kt",
+                "lineNumber": 159,
+                "packageHash": 540883522
+              },
+              "children": [
+                {
+                  "name": "Row",
+                  "bounds": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 840,
+                    "bottom": 210,
+                    "width": 840,
+                    "height": 210
+                  },
+                  "children": [
+                    {
+                      "name": "CalendarDateLabel",
+                      "bounds": {
+                        "left": 0,
+                        "top": 55,
+                        "right": 163,
+                        "bottom": 156,
+                        "width": 163,
+                        "height": 101
+                      },
+                      "sourceLocation": {
+                        "fileName": "CalendarQuoteSection.kt",
+                        "lineNumber": 167,
+                        "packageHash": 540883522
+                      },
+                      "children": [
+                        {
+                          "name": "Column",
+                          "bounds": {
+                            "left": 0,
+                            "top": 55,
+                            "right": 163,
+                            "bottom": 156,
+                            "width": 163,
+                            "height": 101
+                          },
+                          "sourceLocation": {
+                            "fileName": "CalendarQuoteSection.kt",
+                            "lineNumber": 280,
+                            "packageHash": 540883522
+                          },
+                          "children": [
+                            {
+                              "name": "Column",
+                              "bounds": {
+                                "left": 0,
+                                "top": 55,
+                                "right": 163,
+                                "bottom": 156,
+                                "width": 163,
+                                "height": 101
+                              },
+                              "children": [
+                                {
+                                  "name": "Text",
+                                  "bounds": {
+                                    "left": 53,
+                                    "top": 55,
+                                    "right": 110,
+                                    "bottom": 118,
+                                    "width": 57,
+                                    "height": 63
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "CalendarQuoteSection.kt",
+                                    "lineNumber": 281,
+                                    "packageHash": 540883522
+                                  },
+                                  "semantics": {
+                                    "text": "16"
+                                  },
+                                  "parameters": {
+                                    "color": "#FFFFFFFF"
+                                  }
+                                },
+                                {
+                                  "name": "Text",
+                                  "bounds": {
+                                    "left": 57,
+                                    "top": 118,
+                                    "right": 106,
+                                    "bottom": 156,
+                                    "width": 49,
+                                    "height": 38
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "CalendarQuoteSection.kt",
+                                    "lineNumber": 287,
+                                    "packageHash": 540883522
+                                  },
+                                  "semantics": {
+                                    "text": "(일)"
+                                  },
+                                  "parameters": {
+                                    "color": "#FFFFFFFF"
+                                  }
+                                }
+                              ],
+                              "modifiers": {
+                                "width": "62.0.dp"
+                              }
+                            }
+                          ],
+                          "modifiers": {
+                            "width": "62.0.dp"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Text",
+                      "bounds": {
+                        "left": 163,
+                        "top": 83,
+                        "right": 814,
+                        "bottom": 127,
+                        "width": 651,
+                        "height": 44
+                      },
+                      "sourceLocation": {
+                        "fileName": "CalendarQuoteSection.kt",
+                        "lineNumber": 168,
+                        "packageHash": 540883522
+                      },
+                      "parameters": {
+                        "color": "#FFFFFFFF",
+                        "overflow": "Ellipsis",
+                        "maxLines": "3"
+                      },
+                      "modifiers": {
+                        "weight": "1.0",
+                        "padding": "start=0.0.dp, top=0.0.dp, end=10.0.dp, bottom=0.0.dp"
+                      }
+                    }
+                  ],
+                  "semantics": {
+                    "contentDescription": "선택한 날짜의 필사 문장 열기",
+                    "actions": "OnClick"
+                  },
+                  "modifiers": {
+                    "fill": "Horizontal (1.0)",
+                    "height": "80.0.dp",
+                    "background": "#FF424242, shape=RoundedCornerShape(topStart = CornerSize(size = 10.0.dp), topEnd = CornerSize(size = 10.0.dp), bottomEnd = CornerSize(size = 10.0.dp), bottomStart = CornerSize(size = 10.0.dp))",
+                    "clickable": "enabled=true"
+                  }
+                }
+              ],
+              "semantics": {
+                "contentDescription": "선택한 날짜의 필사 문장 열기",
+                "actions": "OnClick"
+              },
+              "modifiers": {
+                "fill": "Horizontal (1.0)",
+                "height": "80.0.dp",
+                "background": "#FF424242, shape=RoundedCornerShape(topStart = CornerSize(size = 10.0.dp), topEnd = CornerSize(size = 10.0.dp), bottomEnd = CornerSize(size = 10.0.dp), bottomStart = CornerSize(size = 10.0.dp))",
+                "clickable": "enabled=true"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
