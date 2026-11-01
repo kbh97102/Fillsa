@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>필사 작성 화면 캐릭터 QA 독립 재검증 계획 v1</title><style>
+:root{color-scheme:light;--bg:#f5f7f8;--paper:#fff;--ink:#17242b;--muted:#51616b;--line:#dbe2e5;--accent:#2c645b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}
+main{max-width:1180px;margin:auto;padding:40px 20px 72px}header,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:18px}
+.eyebrow{color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+h1{font-size:clamp(27px,4vw,42px);line-height:1.25;margin:10px 0}h2{font-size:23px;line-height:1.3;margin:38px 0 12px;border-top:1px solid var(--line);padding-top:25px}
+h3{font-size:19px}p,li{overflow-wrap:anywhere}a{color:#1760a5}code{background:#eef2f4;border-radius:4px;padding:1px 4px;font-size:.92em}
+.meta{color:var(--muted);font-size:14px}.status{display:inline-block;background:#fff3d6;color:#634607;border:1px solid #f0d182;padding:5px 10px;border-radius:8px;font-weight:700}
+.proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.proof figure{margin:0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fafcfc}
+.proof img{display:block;width:auto;max-width:100%;max-height:420px;margin:auto;object-fit:contain}.proof figcaption{color:var(--muted);font-size:14px;margin-top:10px}
+nav ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 20px;padding-left:20px}.body h1{display:none}.body ul,.body ol{padding-left:25px}.body li{margin:8px 0}
+@media(max-width:760px){main{padding:16px 10px 48px}header,.panel{padding:18px}.proof{grid-template-columns:1fr}.proof img{max-height:360px}nav ul{grid-template-columns:1fr}}
+@media print{body{background:#fff}main{max-width:none;padding:0}header,.panel{border:0;border-radius:0;break-inside:avoid}.proof img{max-height:220px}}
+</style></head>
+<body><main>
+<header><div class="eyebrow">QA 계획 3 / 3</div><h1>필사 작성 화면 캐릭터 QA 독립 재검증 계획 v1</h1>
+<p>필사 입력 화면의 Android 캐릭터 적용 결과를 기존 승인·구현 기록과 현재 Figma로 재검증하는 계획</p><p><span class="status">v1 · 기존 Android 구현 재검증 승인 · 새 코드 수정 없음</span></p>
+<p class="meta">Notion QA 이슈별 독립 계획 · 원본 <a href="2026-11-01-typing-character-3ffe639f-plan.md">Markdown 계획</a> · 원본 SHA-256 6da5cf63a4b8</p></header>
+<section class="panel"><h2>검토할 기준과 현재 증거</h2><div class="proof"><figure><img src="../design-qa/artifacts/2026-11-01-qa-typing-character/figma-light-2929-17920.png" alt="Figma 목표 · 필사 Light 360×720"><figcaption>Figma 목표 · 필사 Light 360×720</figcaption></figure>
+<figure><img src="../design-qa/artifacts/2026-11-01-qa-typing-character/screen-light-current.png" alt="현재 소스 · 조립 Preview"><figcaption>현재 소스 · 조립 Preview</figcaption></figure>
+<figure><img src="../design-qa/artifacts/2026-10-25-typing-guide/runtime-final-light-ime.png" alt="기존 수정 후 · Android 실행 화면"><figcaption>기존 수정 후 · Android 실행 화면</figcaption></figure></div></section>
+<nav class="panel" aria-label="계획 목차"><h2>계획 목차</h2><ul><li><a href="#section-1">선택·승인 기록</a></li>
+<li><a href="#section-2">원문·AS-IS·기준</a></li>
+<li><a href="#section-3">해결 설계와 현재 구현</a></li>
+<li><a href="#section-4">검증과 완료 조건</a></li>
+<li><a href="#section-5">위험과 다음 행동</a></li></ul></nav>
+<article class="panel body"><h1>필사 작성 화면 캐릭터 QA 독립 재검증 계획 v1</h1>
+<h2 id="section-1">선택·승인 기록</h2>
+<ul>
+<li>Notion: <a href="https://app.notion.com/p/3ffe639fc7a480269f40daf8cf01f20c">필사 작성 화면 &gt; 캐릭터 미적용</a>, <code>3ffe639f-c7a4-8026-9f40-daf8cf01f20c</code>.</li>
+<li>Notion 상태/우선순위/기기: In progress / 낮음 / Android, iOS. 최근 수정: 2026-10-29 06:32 UTC.</li>
+<li>계획 버전/단계: v1 / 기존 Android 구현 재검증 승인. 새 코드 수정은 계획하지 않는다.</li>
+<li>이번 승인: 사용자의 2026-11-01 발언 “좋아 세가지 모두 진행, stage로부터 각자의 워크트리를 만들어서 진행하자”. 이 v1의 Android 캐릭터 독립 재검증·보고를 <code>stage</code>의 <code>c14b4e6</code>에서 만든 <code>codex/qa-typing-character-3ffe639f</code> 워크트리에서 진행한다.</li>
+<li>기존 Android 승인 범위: <a href="2_typing.md">화면 문서</a>에 사용자가 필사 입력 화면의 캐릭터·안내·본문 간격 및 다크 배경 수정을 승인했다고 기록되어 있다. <a href="../design-qa/2026-10-25-typing-guide-qa.md">기존 QA</a>에 언어 전환 스위치를 Preview 비교에서 제외하라는 사용자 요청과 실제 앱에서는 유지한 범위가 기록되어 있다. 이번 계획은 그 구현을 새로 승인된 작업으로 간주하지 않으며 현재 상태만 독립 검증한다.</li>
+<li>코드 기준: <code>c14b4e6</code>. <code>TypingQuoteGuide.kt</code>, <code>TypingQuoteView.kt</code>, <code>typing_handwriting.png</code>의 마지막 변경은 <code>3b3e664</code>(2026-10-25)이다. 시작 시 무관한 미커밋 <code>app/.DS_Store</code>, <code>fastlane/report.xml</code>이 있었다.</li>
+</ul>
+<h2 id="section-2">원문·AS-IS·기준</h2>
+<ul>
+<li>Notion 원문은 Android/iOS 수정 전 캡처와 캐릭터·안내 문구가 있는 목표 캡처를 제공한다. 페이지 본문에는 iOS와 Android의 과거 분석·수정 기록이 혼재한다. <a href="../design-qa/artifacts/2026-10-25-android-new-qa/notion-typing-original.md">기존 보존 원문/첨부</a>를 참조한다.</li>
+<li>2026-10-29 SooJi 댓글은 캐릭터가 이제 표시된다고 말하며 iOS 안내 Bold와 iOS 복사 버튼 문제를 추가했다. 두 후속 항목은 Android 캐릭터 적용 범위 밖이며 본 이슈의 Android 완료와 Notion 전체 완료를 구분한다.</li>
+<li>수정 전 Android 재현은 <a href="../design-qa/2026-10-25-android-new-qa-report.html#typing">2026-10-25 원인 분석과 증거</a>에 보관되어 있다. 당시 <code>TypingQuoteView</code>의 TopSection과 BodySection 사이에 안내 컴포넌트가 없었다.</li>
+<li>Figma: <a href="https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-17920">Light <code>2929:17920</code></a>, <a href="https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=3087-28815">Dark <code>3087:28815</code></a>, 모두 360×720. 안내 그룹 Light <code>3087:28754</code>, Dark <code>3087:28984</code>; 60×60 캐릭터와 Pretendard Bold 16/24 <code>#5C65FF</code> 문구. <a href="../design-qa/artifacts/2026-11-01-qa-typing-character/figma-light-2929-17920.png">현재 Light</a>와 <a href="../design-qa/artifacts/2026-11-01-qa-typing-character/figma-dark-3087-28815.png">Dark</a> 전체 기준 이미지는 2026-10-25 추출본과 각각 SHA-256이 동일하다.</li>
+</ul>
+<h2 id="section-3">해결 설계와 현재 구현</h2>
+<ul>
+<li>기존 수정은 정적 <code>TypingQuoteGuide</code>가 원본 Handwriting 캐릭터 래스터와 안내 문구를 표시하고, <code>TypingQuoteContent</code>가 TopSection 다음에 이를 배치하며 20dp 아래 BodySection을 놓는 방식이다. 새 UI state/action/effect/API/data/domain 계약은 없다.</li>
+<li>현재 구현에서 <code>TypingQuoteGuide.kt</code>의 캐릭터는 <code>typing_handwriting</code> drawable, 문구는 <code>R.string.typing_guide</code>, 색상은 <code>R.color.purple01</code>이며 Bold 16/24 테마 서체를 사용한다. <code>TypingQuoteView.kt</code>에 조립되어 있다.</li>
+<li>기존 해결 대안인 BodySection 내부 직접 삽입 대신 독립 안내 컴포넌트를 유지한다. Light/Dark 자산이 동일함은 기존 QA에서 검증됐다. 이번 재검증은 변경 필요성을 발견하지 않는 한 코드 수정 없이 결과를 보고한다.</li>
+</ul>
+<h2 id="section-4">검증과 완료 조건</h2>
+<ol>
+<li>현재 소스의 안내 하위 Preview Light/Dark와 조립 Preview Light/Dark를 CLI headless로 렌더해 캐릭터·문구·위치를 Figma와 비교한다. 언어 전환 스위치는 과거 사용자 요청에 따른 Preview 제외 범위를 유지한다.</li>
+<li><code>:app:assembleDebug</code>와 <code>TypingSaveOutcomeTest</code>를 실행해 입력/저장 회귀를 확인한다. 2026-11-01 실행은 빌드 성공, 테스트 6/6 통과다.</li>
+<li>동일 UI 코드 변경 <code>3b3e664</code> 이후의 <a href="../design-qa/artifacts/2026-10-25-typing-guide/runtime-final-light.png">기존 런타임 전체 프레임</a>과 Dark·IME 증거를 현재 Figma와 대조한다. 새 런타임 캡처를 확보하지 못한 상태를 별도 표시한다.</li>
+<li>이 이슈만의 QA 기록과 HTML 보고서를 작성한다. Android 캐릭터 적용 결과와 iOS 후속 댓글/Notion In progress 상태를 구분한다. Notion 속성은 사용자가 요청하지 않았으므로 수정하지 않는다.</li>
+</ol>
+<h2 id="section-5">위험과 다음 행동</h2>
+<ul>
+<li>현재 에뮬레이터는 기존 검증 환경 <code>emulator-5554</code>와 달리 <code>emulator-5556</code>(1080×2340/440dpi)이다. 새 동일 조건 360×720 앱 전체 프레임은 이번 재검증에서 확보하지 못했다. 과거 캡처의 코드 동일성 및 현재 Preview는 확인했으나 시스템 바·IME·전환의 현재 버전 독립 재실행은 미검증이다.</li>
+<li>새 코드 변경이 필요한 차이를 발견하면 이 계획을 갱신해 변경 범위를 별도 검토받는다. 현재는 수정 계획이 없다.</li>
+</ul></article>
+<footer class="meta">계획의 승인 여부는 이슈마다 별도로 기록한다. 이 HTML은 연결된 Markdown v1 계획과 동일한 내용을 표시한다.</footer>
+</main></body></html>

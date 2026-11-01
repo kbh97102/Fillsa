@@ -1,5 +1,11 @@
 # 필사 입력·저장 결과
 
+## 2026-11-01 캐릭터 적용 Android 독립 재검증
+
+- [Notion 캐릭터 이슈 독립 계획 v1 HTML](2026-11-01-typing-character-3ffe639f-plan.html) · [Markdown](2026-11-01-typing-character-3ffe639f-plan.md) · [QA 기록](../design-qa/2026-11-01-typing-character-3ffe639f-qa.md).
+- Figma Light `2929:17920`/안내 `3087:28754`, Dark `3087:28815`/안내 `3087:28984`; 360×720, ko-KR, 입력 화면. 현재 전체 기준 이미지는 QA 기록에 보관했고 2026-10-25 기준과 SHA-256이 동일하다.
+- 컴포넌트: `TypingQuoteGuide`(캐릭터·문구), `TypingQuoteBodySection`(입력 본문), `TypingQuoteContent`(조립). 이번 독립 워크트리에서 Light/Dark 하위·조립 Preview와 360×720 API 35 실제 앱의 IME 열림/닫힘 전체 프레임을 새로 확인했다. 캐릭터 적용은 유지되며 키보드/시스템 영역의 Figma 차이는 [이번 QA 기록](../design-qa/2026-11-01-typing-character-3ffe639f-qa.md)에 남겼다.
+
 ## Android CLI Preview / Figma 재대조 · 2026-10-28
 
 - [비교 HTML](../design-qa/2026-10-28-typing-preview-figma.html) · [QA 기록](../design-qa/2026-10-28-typing-preview-figma-qa.md).
