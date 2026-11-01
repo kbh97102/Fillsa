@@ -10,6 +10,10 @@ Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에�
 
 - `stage` 기반 독립 워크트리의 [계획 HTML](screens/2026-11-01-home-week-scroll-407e639f-plan.html), [화면 문서](screens/2_home.md), [QA](design-qa/2026-11-01-home-week-scroll-407e639f-qa.md), [결과 HTML](design-qa/2026-11-01-home-week-scroll-407e639f-report.html). 날짜 줄 드래그·선택 분리와 회원 캐시 검증 완료, 전체 Home Figma Pass는 기존 차이와 실계정 검증으로 보류.
 
+## Notion 필사 캐릭터 Android 독립 재검증 · 2026-11-01
+
+- `stage` 기반 독립 워크트리의 [계획 HTML](screens/2026-11-01-typing-character-3ffe639f-plan.html), [화면 문서](screens/2_typing.md), [QA](design-qa/2026-11-01-typing-character-3ffe639f-qa.md), [결과 HTML](design-qa/2026-11-01-typing-character-3ffe639f-report.html). 기존 코드의 캐릭터 표시를 새 Light/Dark·IME 런타임으로 확인했다. 전체 Figma Pass는 시스템 영역 차이로 보류.
+
 ## Android QA 3건 재분석 · 2026-10-28
 
 - [AS-IS / 현재 구현 / TO-BE 보고서](design-qa/2026-10-28-android-three-issues-report.html): 위젯 제외, 홈 연월 선택·필사 캐릭터 안내·로그인 만료 반복.

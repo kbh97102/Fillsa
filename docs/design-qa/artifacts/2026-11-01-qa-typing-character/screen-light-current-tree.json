@@ -1,0 +1,834 @@
+{
+  "previewId": "TypingQuoteLightPreview",
+  "methodFQN": "com.arakene.presentation.ui.home.TypingQuoteViewKt.TypingQuoteLightPreview",
+  "width": 945,
+  "height": 1764,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 16,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "TypingQuotePreview",
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 945,
+        "bottom": 1764,
+        "width": 945,
+        "height": 1764
+      },
+      "sourceLocation": {
+        "fileName": "TypingQuoteView.kt",
+        "lineNumber": 372,
+        "packageHash": 1793196193
+      },
+      "children": [
+        {
+          "name": "FillsaTheme",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 945,
+            "bottom": 1764,
+            "width": 945,
+            "height": 1764
+          },
+          "sourceLocation": {
+            "fileName": "TypingQuoteView.kt",
+            "lineNumber": 380,
+            "packageHash": 1793196193
+          },
+          "children": [
+            {
+              "name": "TypingQuoteContent",
+              "bounds": {
+                "left": 0,
+                "top": 0,
+                "right": 945,
+                "bottom": 1764,
+                "width": 945,
+                "height": 1764
+              },
+              "sourceLocation": {
+                "fileName": "TypingQuoteView.kt",
+                "lineNumber": 382,
+                "packageHash": 1793196193
+              },
+              "children": [
+                {
+                  "name": "Column",
+                  "bounds": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 945,
+                    "bottom": 1764,
+                    "width": 945,
+                    "height": 1764
+                  },
+                  "sourceLocation": {
+                    "fileName": "TypingQuoteView.kt",
+                    "lineNumber": 404,
+                    "packageHash": 1793196193
+                  },
+                  "children": [
+                    {
+                      "name": "Column",
+                      "bounds": {
+                        "left": 0,
+                        "top": 0,
+                        "right": 945,
+                        "bottom": 1764,
+                        "width": 945,
+                        "height": 1764
+                      },
+                      "children": [
+                        {
+                          "name": "TypingQuoteTopSection",
+                          "bounds": {
+                            "left": 39,
+                            "top": 18,
+                            "right": 906,
+                            "bottom": 113,
+                            "width": 867,
+                            "height": 95
+                          },
+                          "sourceLocation": {
+                            "fileName": "TypingQuoteView.kt",
+                            "lineNumber": 416,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "Row",
+                              "bounds": {
+                                "left": 39,
+                                "top": 18,
+                                "right": 906,
+                                "bottom": 113,
+                                "width": 867,
+                                "height": 95
+                              },
+                              "sourceLocation": {
+                                "fileName": "TypingQuoteView.kt",
+                                "lineNumber": 325,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Image",
+                                  "bounds": {
+                                    "left": 39,
+                                    "top": 24,
+                                    "right": 123,
+                                    "bottom": 108,
+                                    "width": 84,
+                                    "height": 84
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "TypingQuoteView.kt",
+                                    "lineNumber": 334,
+                                    "packageHash": 1793196193
+                                  },
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "clickable": "enabled=true",
+                                    "clip": "true"
+                                  }
+                                }
+                              ],
+                              "modifiers": {
+                                "padding": "start=0.0.dp, top=7.0.dp, end=0.0.dp, bottom=7.0.dp",
+                                "fill": "Horizontal (1.0)",
+                                "height": "50.0.dp"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "Column",
+                          "bounds": {
+                            "left": 53,
+                            "top": 131,
+                            "right": 892,
+                            "bottom": 1764,
+                            "width": 839,
+                            "height": 1633
+                          },
+                          "sourceLocation": {
+                            "fileName": "TypingQuoteView.kt",
+                            "lineNumber": 425,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "Column",
+                              "bounds": {
+                                "left": 53,
+                                "top": 131,
+                                "right": 892,
+                                "bottom": 1764,
+                                "width": 839,
+                                "height": 1633
+                              },
+                              "children": [
+                                {
+                                  "name": "TypingQuoteGuide",
+                                  "bounds": {
+                                    "left": 84,
+                                    "top": 131,
+                                    "right": 861,
+                                    "bottom": 352,
+                                    "width": 777,
+                                    "height": 221
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "TypingQuoteView.kt",
+                                    "lineNumber": 433,
+                                    "packageHash": 1793196193
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Column",
+                                      "bounds": {
+                                        "left": 84,
+                                        "top": 131,
+                                        "right": 861,
+                                        "bottom": 352,
+                                        "width": 777,
+                                        "height": 221
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "TypingQuoteGuide.kt",
+                                        "lineNumber": 25,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Column",
+                                          "bounds": {
+                                            "left": 84,
+                                            "top": 131,
+                                            "right": 861,
+                                            "bottom": 352,
+                                            "width": 777,
+                                            "height": 221
+                                          },
+                                          "children": [
+                                            {
+                                              "name": "Image",
+                                              "bounds": {
+                                                "left": 394,
+                                                "top": 131,
+                                                "right": 552,
+                                                "bottom": 289,
+                                                "width": 158,
+                                                "height": 158
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "TypingQuoteGuide.kt",
+                                                "lineNumber": 26,
+                                                "packageHash": 1793196193
+                                              },
+                                              "modifiers": {
+                                                "size": "60.0.dp",
+                                                "clip": "true"
+                                              }
+                                            },
+                                            {
+                                              "name": "Text",
+                                              "bounds": {
+                                                "left": 84,
+                                                "top": 289,
+                                                "right": 861,
+                                                "bottom": 352,
+                                                "width": 777,
+                                                "height": 63
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "TypingQuoteGuide.kt",
+                                                "lineNumber": 31,
+                                                "packageHash": 1793196193
+                                              },
+                                              "semantics": {
+                                                "text": "오늘의 문장을 따라 써주세요."
+                                              },
+                                              "parameters": {
+                                                "textAlign": "Center",
+                                                "color": "#FF5C65FF"
+                                              },
+                                              "modifiers": {
+                                                "fill": "Horizontal (1.0)"
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "TypingQuoteBodySection",
+                                  "bounds": {
+                                    "left": 53,
+                                    "top": 405,
+                                    "right": 892,
+                                    "bottom": 563,
+                                    "width": 839,
+                                    "height": 158
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "TypingQuoteView.kt",
+                                    "lineNumber": 438,
+                                    "packageHash": 1793196193
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "BasicTextField",
+                                      "bounds": {
+                                        "left": 53,
+                                        "top": 405,
+                                        "right": 892,
+                                        "bottom": 563,
+                                        "width": 839,
+                                        "height": 158
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "TypingQuoteBodySection.kt",
+                                        "lineNumber": 74,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "CoreTextField",
+                                          "bounds": {
+                                            "left": 53,
+                                            "top": 405,
+                                            "right": 892,
+                                            "bottom": 563,
+                                            "width": 839,
+                                            "height": 158
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "BasicTextField.kt",
+                                            "lineNumber": 896,
+                                            "packageHash": 245385689
+                                          },
+                                          "children": [
+                                            {
+                                              "name": "CoreTextFieldRootBox",
+                                              "bounds": {
+                                                "left": 53,
+                                                "top": 405,
+                                                "right": 892,
+                                                "bottom": 563,
+                                                "width": 839,
+                                                "height": 158
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "CoreTextField.kt",
+                                                "lineNumber": 568,
+                                                "packageHash": 245385689
+                                              },
+                                              "children": [
+                                                {
+                                                  "name": "Box",
+                                                  "bounds": {
+                                                    "left": 53,
+                                                    "top": 405,
+                                                    "right": 892,
+                                                    "bottom": 563,
+                                                    "width": 839,
+                                                    "height": 158
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "CoreTextField.kt",
+                                                    "lineNumber": 683,
+                                                    "packageHash": 245385689
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "ContextMenuArea",
+                                                      "bounds": {
+                                                        "left": 53,
+                                                        "top": 405,
+                                                        "right": 892,
+                                                        "bottom": 563,
+                                                        "width": 839,
+                                                        "height": 158
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "CoreTextField.kt",
+                                                        "lineNumber": 683,
+                                                        "packageHash": 245385689
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ProvideDefaultPlatformTextContextMenuProviders",
+                                                          "bounds": {
+                                                            "left": 53,
+                                                            "top": 405,
+                                                            "right": 892,
+                                                            "bottom": 563,
+                                                            "width": 839,
+                                                            "height": 158
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "ContextMenu.android.kt",
+                                                            "lineNumber": 55,
+                                                            "packageHash": 245385689
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "ProvideBothDefaultProviders",
+                                                              "bounds": {
+                                                                "left": 53,
+                                                                "top": 405,
+                                                                "right": 892,
+                                                                "bottom": 563,
+                                                                "width": 839,
+                                                                "height": 158
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "PlatformDefaultTextContextMenuProviders.android.kt",
+                                                                "lineNumber": 53,
+                                                                "packageHash": 74542460
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "Box",
+                                                                  "bounds": {
+                                                                    "left": 53,
+                                                                    "top": 405,
+                                                                    "right": 892,
+                                                                    "bottom": 563,
+                                                                    "width": 839,
+                                                                    "height": 158
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "PlatformDefaultTextContextMenuProviders.android.kt",
+                                                                    "lineNumber": 77,
+                                                                    "packageHash": 74542460
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "name": "Text",
+                                                                      "bounds": {
+                                                                        "left": 53,
+                                                                        "top": 405,
+                                                                        "right": 892,
+                                                                        "bottom": 563,
+                                                                        "width": 839,
+                                                                        "height": 158
+                                                                      },
+                                                                      "sourceLocation": {
+                                                                        "fileName": "TypingQuoteBodySection.kt",
+                                                                        "lineNumber": 130,
+                                                                        "packageHash": 1793196193
+                                                                      },
+                                                                      "semantics": {
+                                                                        "text": "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다."
+                                                                      },
+                                                                      "parameters": {
+                                                                        "text": "상황을 가장 잘 활용하는 사람이 가장 좋은 상황을 맞는다.",
+                                                                        "textAlign": "Center"
+                                                                      }
+                                                                    }
+                                                                  ],
+                                                                  "modifiers": {
+                                                                    "fill": "Horizontal (1.0)"
+                                                                  }
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ],
+                                                  "semantics": {
+                                                    "text": "상황을 가장 잘 ",
+                                                    "actions": "OnLongClick, OnClick, SetText"
+                                                  },
+                                                  "modifiers": {
+                                                    "fill": "Horizontal (1.0)",
+                                                    "scroll": "true"
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "TypingQuoteBottomSection",
+                                  "bounds": {
+                                    "left": 53,
+                                    "top": 1638,
+                                    "right": 892,
+                                    "bottom": 1764,
+                                    "width": 839,
+                                    "height": 126
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "TypingQuoteView.kt",
+                                    "lineNumber": 456,
+                                    "packageHash": 1793196193
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Row",
+                                      "bounds": {
+                                        "left": 53,
+                                        "top": 1638,
+                                        "right": 892,
+                                        "bottom": 1764,
+                                        "width": 839,
+                                        "height": 126
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "TypingQuoteView.kt",
+                                        "lineNumber": 281,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Row",
+                                          "bounds": {
+                                            "left": 53,
+                                            "top": 1638,
+                                            "right": 892,
+                                            "bottom": 1764,
+                                            "width": 839,
+                                            "height": 126
+                                          },
+                                          "children": [
+                                            {
+                                              "name": "InteractionButtonSection",
+                                              "bounds": {
+                                                "left": 53,
+                                                "top": 1670,
+                                                "right": 452,
+                                                "bottom": 1733,
+                                                "width": 399,
+                                                "height": 63
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "TypingQuoteView.kt",
+                                                "lineNumber": 288,
+                                                "packageHash": 1793196193
+                                              },
+                                              "children": [
+                                                {
+                                                  "name": "Row",
+                                                  "bounds": {
+                                                    "left": 53,
+                                                    "top": 1670,
+                                                    "right": 452,
+                                                    "bottom": 1733,
+                                                    "width": 399,
+                                                    "height": 63
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "InteractionButtonSection.kt",
+                                                    "lineNumber": 43,
+                                                    "packageHash": 1793196193
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "Row",
+                                                      "bounds": {
+                                                        "left": 53,
+                                                        "top": 1670,
+                                                        "right": 452,
+                                                        "bottom": 1733,
+                                                        "width": 399,
+                                                        "height": 63
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "Image",
+                                                          "bounds": {
+                                                            "left": 53,
+                                                            "top": 1670,
+                                                            "right": 116,
+                                                            "bottom": 1733,
+                                                            "width": 63,
+                                                            "height": 63
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "InteractionButtonSection.kt",
+                                                            "lineNumber": 49,
+                                                            "packageHash": 1793196193
+                                                          },
+                                                          "semantics": {
+                                                            "actions": "OnClick"
+                                                          },
+                                                          "modifiers": {
+                                                            "clickable": "enabled=true",
+                                                            "clip": "true"
+                                                          }
+                                                        },
+                                                        {
+                                                          "name": "Image",
+                                                          "bounds": {
+                                                            "left": 221,
+                                                            "top": 1670,
+                                                            "right": 284,
+                                                            "bottom": 1733,
+                                                            "width": 63,
+                                                            "height": 63
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "InteractionButtonSection.kt",
+                                                            "lineNumber": 58,
+                                                            "packageHash": 1793196193
+                                                          },
+                                                          "semantics": {
+                                                            "actions": "OnClick"
+                                                          },
+                                                          "modifiers": {
+                                                            "padding": "start=40.0.dp, top=0.0.dp, end=40.0.dp, bottom=0.0.dp",
+                                                            "clickable": "enabled=true",
+                                                            "clip": "true"
+                                                          }
+                                                        },
+                                                        {
+                                                          "name": "Box",
+                                                          "bounds": {
+                                                            "left": 389,
+                                                            "top": 1670,
+                                                            "right": 452,
+                                                            "bottom": 1733,
+                                                            "width": 63,
+                                                            "height": 63
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "InteractionButtonSection.kt",
+                                                            "lineNumber": 67,
+                                                            "packageHash": 1793196193
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Image",
+                                                              "bounds": {
+                                                                "left": 389,
+                                                                "top": 1670,
+                                                                "right": 452,
+                                                                "bottom": 1733,
+                                                                "width": 63,
+                                                                "height": 63
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "InteractionButtonSection.kt",
+                                                                "lineNumber": 73,
+                                                                "packageHash": 1793196193
+                                                              },
+                                                              "modifiers": {
+                                                                "clip": "true"
+                                                              }
+                                                            }
+                                                          ],
+                                                          "semantics": {
+                                                            "actions": "OnClick"
+                                                          },
+                                                          "modifiers": {
+                                                            "clickable": "enabled=true"
+                                                          }
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              "name": "Button",
+                                              "bounds": {
+                                                "left": 704,
+                                                "top": 1649,
+                                                "right": 892,
+                                                "bottom": 1754,
+                                                "width": 188,
+                                                "height": 105
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "TypingQuoteView.kt",
+                                                "lineNumber": 296,
+                                                "packageHash": 1793196193
+                                              },
+                                              "children": [
+                                                {
+                                                  "name": "Surface",
+                                                  "bounds": {
+                                                    "left": 704,
+                                                    "top": 1649,
+                                                    "right": 892,
+                                                    "bottom": 1754,
+                                                    "width": 188,
+                                                    "height": 105
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "Button.kt",
+                                                    "lineNumber": 113,
+                                                    "packageHash": 1842882507
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "Box",
+                                                      "bounds": {
+                                                        "left": 704,
+                                                        "top": 1649,
+                                                        "right": 892,
+                                                        "bottom": 1754,
+                                                        "width": 188,
+                                                        "height": 105
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "Surface.kt",
+                                                        "lineNumber": 210,
+                                                        "packageHash": 1842882507
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ProvideContentColorTextStyle",
+                                                          "bounds": {
+                                                            "left": 736,
+                                                            "top": 1670,
+                                                            "right": 860,
+                                                            "bottom": 1733,
+                                                            "width": 124,
+                                                            "height": 63
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "Button.kt",
+                                                            "lineNumber": 136,
+                                                            "packageHash": 1842882507
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Row",
+                                                              "bounds": {
+                                                                "left": 736,
+                                                                "top": 1670,
+                                                                "right": 860,
+                                                                "bottom": 1733,
+                                                                "width": 124,
+                                                                "height": 63
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "Button.kt",
+                                                                "lineNumber": 140,
+                                                                "packageHash": 1842882507
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "Text",
+                                                                  "bounds": {
+                                                                    "left": 736,
+                                                                    "top": 1680,
+                                                                    "right": 860,
+                                                                    "bottom": 1724,
+                                                                    "width": 124,
+                                                                    "height": 44
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "TypingQuoteView.kt",
+                                                                    "lineNumber": 304,
+                                                                    "packageHash": 1793196193
+                                                                  },
+                                                                  "semantics": {
+                                                                    "text": "저장하기"
+                                                                  },
+                                                                  "parameters": {
+                                                                    "color": "#FF212121"
+                                                                  }
+                                                                }
+                                                              ]
+                                                            }
+                                                          ],
+                                                          "parameters": {
+                                                            "textStyle": "TextStyle(color=Color(0.0, 0.0, 0.0, 0.0, None), brush=null, alpha=NaN, fontSize=14.0.sp, fontWeight=FontWeight(weight=500), fontStyle=null, fontSynthesis=null, fontFamily=FontFamily.SansSerif, fontFeatureSettings=null, letterSpacing=0.1.sp, baselineShift=null, textGeometricTransform=null, localeList=null, background=Color(0.0, 0.0, 0.0, 0.0, None), textDecoration=null, shadow=null, drawStyle=null, textAlign=Unspecified, textDirection=Unspecified, lineHeight=20.0.sp, textIndent=null, platformStyle=PlatformTextStyle(spanStyle=null, paragraphSyle=PlatformParagraphStyle(includeFontPadding=false, emojiSupportMatch=EmojiSupportMatch.Default)), lineHeightStyle=LineHeightStyle(alignment=LineHeightStyle.Alignment.Center, trim=LineHeightStyle.Trim.None,mode=Mode(value=0)), lineBreak=LineBreak(strategy=Strategy.Unspecified, strictness=Strictness.Unspecified, wordBreak=WordBreak.Unspecified), hyphens=Hyphens.Unspecified, textMotion=null)"
+                                                          }
+                                                        }
+                                                      ],
+                                                      "semantics": {
+                                                        "role": "Button",
+                                                        "actions": "OnClick"
+                                                      },
+                                                      "modifiers": {
+                                                        "background": "#FFFFFFFF, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                                        "clip": "true",
+                                                        "clickable": "enabled=true"
+                                                      }
+                                                    }
+                                                  ]
+                                                }
+                                              ],
+                                              "parameters": {
+                                                "contentPadding": "PaddingValues(start=12.0.dp, top=8.0.dp, end=12.0.dp, bottom=8.0.dp)",
+                                                "shape": "RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                                "border": "BorderStroke(width=1.0.dp, brush=SolidColor(value=Color(0.12941177, 0.12941177, 0.12941177, 1.0, sRGB IEC61966-2.1)))"
+                                              }
+                                            }
+                                          ],
+                                          "modifiers": {
+                                            "fill": "Horizontal (1.0)"
+                                          }
+                                        }
+                                      ],
+                                      "modifiers": {
+                                        "fill": "Horizontal (1.0)"
+                                      }
+                                    }
+                                  ]
+                                }
+                              ],
+                              "semantics": {
+                                "actions": "OnClick"
+                              },
+                              "modifiers": {
+                                "padding": "start=20.0.dp, top=0.0.dp, end=20.0.dp, bottom=0.0.dp",
+                                "clickable": "enabled=true"
+                              }
+                            }
+                          ],
+                          "semantics": {
+                            "actions": "OnClick"
+                          },
+                          "modifiers": {
+                            "padding": "start=20.0.dp, top=0.0.dp, end=20.0.dp, bottom=0.0.dp",
+                            "clickable": "enabled=true"
+                          }
+                        }
+                      ],
+                      "semantics": {
+                        "actions": "OnClick"
+                      },
+                      "modifiers": {
+                        "background": "#FFFFFFFF",
+                        "clickable": "enabled=true"
+                      }
+                    }
+                  ],
+                  "semantics": {
+                    "actions": "OnClick"
+                  },
+                  "modifiers": {
+                    "background": "#FFFFFFFF",
+                    "clickable": "enabled=true"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

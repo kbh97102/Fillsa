@@ -1,0 +1,131 @@
+{
+  "previewId": "TypingQuoteGuideLightPreview",
+  "methodFQN": "com.arakene.presentation.ui.home.TypingQuoteGuideKt.TypingQuoteGuideLightPreview",
+  "width": 777,
+  "height": 221,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 16,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "FillsaTheme",
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 777,
+        "bottom": 221,
+        "width": 777,
+        "height": 221
+      },
+      "sourceLocation": {
+        "fileName": "TypingQuoteGuide.kt",
+        "lineNumber": 49,
+        "packageHash": 1793196193
+      },
+      "children": [
+        {
+          "name": "TypingQuoteGuide",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 777,
+            "bottom": 221,
+            "width": 777,
+            "height": 221
+          },
+          "sourceLocation": {
+            "fileName": "TypingQuoteGuide.kt",
+            "lineNumber": 50,
+            "packageHash": 1793196193
+          },
+          "children": [
+            {
+              "name": "Column",
+              "bounds": {
+                "left": 0,
+                "top": 0,
+                "right": 777,
+                "bottom": 221,
+                "width": 777,
+                "height": 221
+              },
+              "sourceLocation": {
+                "fileName": "TypingQuoteGuide.kt",
+                "lineNumber": 25,
+                "packageHash": 1793196193
+              },
+              "children": [
+                {
+                  "name": "Column",
+                  "bounds": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 777,
+                    "bottom": 221,
+                    "width": 777,
+                    "height": 221
+                  },
+                  "children": [
+                    {
+                      "name": "Image",
+                      "bounds": {
+                        "left": 310,
+                        "top": 0,
+                        "right": 468,
+                        "bottom": 158,
+                        "width": 158,
+                        "height": 158
+                      },
+                      "sourceLocation": {
+                        "fileName": "TypingQuoteGuide.kt",
+                        "lineNumber": 26,
+                        "packageHash": 1793196193
+                      },
+                      "modifiers": {
+                        "size": "60.0.dp",
+                        "clip": "true"
+                      }
+                    },
+                    {
+                      "name": "Text",
+                      "bounds": {
+                        "left": 0,
+                        "top": 158,
+                        "right": 777,
+                        "bottom": 221,
+                        "width": 777,
+                        "height": 63
+                      },
+                      "sourceLocation": {
+                        "fileName": "TypingQuoteGuide.kt",
+                        "lineNumber": 31,
+                        "packageHash": 1793196193
+                      },
+                      "semantics": {
+                        "text": "오늘의 문장을 따라 써주세요."
+                      },
+                      "parameters": {
+                        "textAlign": "Center",
+                        "color": "#FF5C65FF"
+                      },
+                      "modifiers": {
+                        "fill": "Horizontal (1.0)"
+                      }
+                    }
+                  ],
+                  "modifiers": {
+                    "background": "#FFFFFFFF"
+                  }
+                }
+              ],
+              "modifiers": {
+                "background": "#FFFFFFFF"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
