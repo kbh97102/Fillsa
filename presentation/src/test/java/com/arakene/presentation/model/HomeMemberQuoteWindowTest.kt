@@ -182,4 +182,30 @@ class HomeMemberQuoteWindowTest {
         assertTrue(shouldAcceptHomeMemberQuoteResponse(requestId = 42, latestRequestId = 42))
         assertFalse(shouldAcceptHomeMemberQuoteResponse(requestId = 41, latestRequestId = 42))
     }
+
+    @Test
+    fun `history viewport requests only the weeks that cross into view`() {
+        assertEquals(
+            listOf(LocalDate.of(2026, 8, 16), LocalDate.of(2026, 8, 9)),
+            homeHistoryWindowEnds(
+                anchorEndDate = LocalDate.of(2026, 8, 16),
+                firstVisibleDate = LocalDate.of(2026, 8, 8),
+                lastVisibleDate = LocalDate.of(2026, 8, 14),
+                startDate = LocalDate.of(2025, 6, 10),
+            ),
+        )
+    }
+
+    @Test
+    fun `history viewport stops at service start and server today`() {
+        assertEquals(
+            listOf(LocalDate.of(2025, 6, 11)),
+            homeHistoryWindowEnds(
+                anchorEndDate = LocalDate.of(2025, 6, 11),
+                firstVisibleDate = LocalDate.of(2025, 6, 1),
+                lastVisibleDate = LocalDate.of(2025, 6, 20),
+                startDate = LocalDate.of(2025, 6, 10),
+            ),
+        )
+    }
 }

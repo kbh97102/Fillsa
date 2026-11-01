@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="ko">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Home 날짜 영역 좌우 스크롤 QA 계획 v1</title><style>
+:root{color-scheme:light;--bg:#f5f7f8;--paper:#fff;--ink:#17242b;--muted:#51616b;--line:#dbe2e5;--accent:#2c645b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.68 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}
+main{max-width:1180px;margin:auto;padding:40px 20px 72px}header,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:26px;margin-bottom:18px}
+.eyebrow{color:var(--accent);font-size:13px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+h1{font-size:clamp(27px,4vw,42px);line-height:1.25;margin:10px 0}h2{font-size:23px;line-height:1.3;margin:38px 0 12px;border-top:1px solid var(--line);padding-top:25px}
+h3{font-size:19px}p,li{overflow-wrap:anywhere}a{color:#1760a5}code{background:#eef2f4;border-radius:4px;padding:1px 4px;font-size:.92em}
+.meta{color:var(--muted);font-size:14px}.status{display:inline-block;background:#fff3d6;color:#634607;border:1px solid #f0d182;padding:5px 10px;border-radius:8px;font-weight:700}
+.proof{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.proof figure{margin:0;padding:12px;border:1px solid var(--line);border-radius:12px;background:#fafcfc}
+.proof img{display:block;width:auto;max-width:100%;max-height:420px;margin:auto;object-fit:contain}.proof figcaption{color:var(--muted);font-size:14px;margin-top:10px}
+nav ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px 20px;padding-left:20px}.body h1{display:none}.body ul,.body ol{padding-left:25px}.body li{margin:8px 0}
+@media(max-width:760px){main{padding:16px 10px 48px}header,.panel{padding:18px}.proof{grid-template-columns:1fr}.proof img{max-height:360px}nav ul{grid-template-columns:1fr}}
+@media print{body{background:#fff}main{max-width:none;padding:0}header,.panel{border:0;border-radius:0;break-inside:avoid}.proof img{max-height:220px}}
+</style></head>
+<body><main>
+<header><div class="eyebrow">QA 계획 2 / 3</div><h1>Home 날짜 영역 좌우 스크롤 QA 계획 v1</h1>
+<p>Home 날짜 줄의 과거 히스토리 좌우 스크롤과 날짜 선택 동작을 분리하는 계획</p><p><span class="status">v1 · Android 수정·검증 승인</span></p>
+<p class="meta">Notion QA 이슈별 독립 계획 · 원본 <a href="2026-11-01-home-week-scroll-407e639f-plan.md">Markdown 계획</a> · 원본 SHA-256 d0ad654a07ce</p></header>
+<section class="panel"><h2>검토할 기준과 현재 증거</h2><div class="proof"><figure><img src="../design-qa/artifacts/2026-11-01-qa-home-week-scroll/figma-home-light-2929-13556.png" alt="Figma 목표 · Home Light 360×821"><figcaption>Figma 목표 · Home Light 360×821</figcaption></figure>
+<figure><img src="../design-qa/artifacts/2026-11-01-qa-home-week-scroll/android-before-week-preview.png" alt="Android 수정 전 · 날짜 줄 Preview"><figcaption>Android 수정 전 · 날짜 줄 Preview</figcaption></figure>
+<figure><img src="../design-qa/artifacts/2026-11-01-qa-home-week-scroll/notion-attachment.png" alt="Notion 제보 · Figma 주석"><figcaption>Notion 제보 · Figma 주석</figcaption></figure></div></section>
+<nav class="panel" aria-label="계획 목차"><h2>계획 목차</h2><ul><li><a href="#section-1">선택·승인 기록</a></li>
+<li><a href="#section-2">원문·Figma·AS-IS</a></li>
+<li><a href="#section-3">원인과 해결 설계 / TO-BE</a></li>
+<li><a href="#section-4">변경 순서</a></li>
+<li><a href="#section-5">검증·완료 조건·위험</a></li></ul></nav>
+<article class="panel body"><h1>Home 날짜 영역 좌우 스크롤 QA 계획 v1</h1>
+<h2 id="section-1">선택·승인 기록</h2>
+<ul>
+<li>Notion: <a href="https://app.notion.com/p/Home-407e639fc7a48023a54fece5aa7bb156">Home &gt; 날짜 영역 &gt; 스크롤 필요</a>, <code>407e639f-c7a4-8023-a54f-ece5aa7bb156</code>.</li>
+<li>Notion 상태/우선순위/기기: Not started / 중간 / iOS, Android. 최근 수정: 2026-10-29 06:25 UTC.</li>
+<li>계획 버전/단계: v1 / Android 수정·검증 승인. 구현 승인: 사용자의 2026-11-01 발언 “좋아 세가지 모두 진행, stage로부터 각자의 워크트리를 만들어서 진행하자”. 승인 범위는 이 v1의 Android Home 날짜 줄 스크롤·검증·독립 보고이며 <code>stage</code>의 <code>c14b4e6</code>에서 만든 <code>codex/qa-home-week-scroll-407e639f</code> 워크트리에서 수행한다.</li>
+<li>코드 기준: <code>c14b4e6</code>; 시작 시 기존 미커밋 <code>app/.DS_Store</code>, <code>fastlane/report.xml</code>은 무관하므로 보존한다.</li>
+</ul>
+<h2 id="section-2">원문·Figma·AS-IS</h2>
+<ul>
+<li>본문은 비어 있다. SooJi 댓글은 Home 날짜 영역의 좌우 스크롤을 요구하고 <a href="https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-13556">Figma 노드 <code>2929:13556</code></a>를 연결했다. <a href="../design-qa/artifacts/2026-11-01-qa-home-week-scroll/notion-attachment.png">댓글 첨부</a>는 개발 주석과 날짜 영역을 보여준다.</li>
+<li>Figma 전체 프레임: <a href="../design-qa/artifacts/2026-11-01-qa-home-week-scroll/figma-home-light-2929-13556.png">Light <code>2929:13556</code>, 360×821</a>, ko-KR, 기본 Home. 날짜 영역 <code>3204:2435</code>의 Figma 주석: 10(월)~16(일)을 한 주로 노출, 오늘은 가장 오른쪽, 과거 필사 기록 탐색을 위해 좌우 스크롤 가능. 현재 날짜 칩의 크기·색·배열은 유지한다.</li>
+<li>현재 <code>HomeDateWeekSection</code>은 월 카드와 <code>HomeWeekStrip</code>을 나란히 배치한다. <code>HomeWeekStrip</code>은 전달된 7개 <code>HomeWeekDayState</code>를 일반 <code>Row</code>에 그려 각 날짜 탭만 처리한다. <code>horizontalScroll</code>/<code>LazyRow</code>와 스크롤 이벤트가 없다.</li>
+<li><a href="../design-qa/artifacts/2026-11-01-qa-home-week-scroll/android-before-week-preview.png">수정 전 날짜 Preview</a>, <a href="../design-qa/artifacts/2026-11-01-qa-home-week-scroll/android-before-week-component-tree.json">component tree</a>. 360×50dp, Light, ko, fontScale 1.0, 고정 2026-08-16 fixture. Preview는 정지 화면이므로 제스처 부재는 코드 경로로 확인했고 실제 터치 재현은 아직 수행하지 않았다.</li>
+<li>회원 주간 응답 <code>HomeMemberQuoteWindow</code>는 현재 7일 창과 선택 날짜를 가진다. 날짜 탭과 명언 카드 스와이프는 <code>HomeViewModel.selectDate</code>/<code>selectAdjacentDate</code>를 통해 화면의 선택 날짜를 바꾸며, 창 경계에서는 weekly API를 불러온다. 기존 카드 스와이프는 날짜 줄 제스처와 별개의 영역이다.</li>
+</ul>
+<h2 id="section-3">원인과 해결 설계 / TO-BE</h2>
+<ul>
+<li>원인: 날짜 줄의 7칸 고정 <code>Row</code>와 주간 표시 창이 선택 날짜에 묶인 구조. 화면에 스크롤 가능한 날짜 목록이나 범위 확장 이벤트가 없다.</li>
+<li>권장 동작: Home 최초 표시에서 오늘을 날짜 줄 오른쪽 끝에 두고, 날짜 줄만 좌우로 드래그해 과거 날짜를 탐색한다. 드래그 자체는 선택된 날짜·명언·질문을 바꾸지 않고, 날짜 탭만 기존 선택 이벤트를 보낸다. 오늘보다 미래의 날짜와 서비스 시작일 이전 날짜는 노출하지 않는다. 월 카드는 스크롤 영역 밖에 고정한다.</li>
+<li><code>HomeWeekStrip</code>은 날짜 칩을 재사용하는 가로 스크롤 컨테이너가 된다. viewport와 현재 탐색 범위는 Home UI state로 분리하고, <code>HomeViewModel</code>은 회원의 추가 주간 창을 기존 weekly API와 cache에 읽되 현재 선택을 유지한다. 비회원은 기존 로컬 완료일 집합에서 표시 상태를 만든다. 현재 선택 날짜/명언의 상태 계약은 그대로 둔다.</li>
+<li>회원 추가 주간 로드가 실패하면 이미 로드된 칩은 유지하고 실패한 범위에 완료 표시를 추정하지 않는다. 중복/역순 응답은 기존 request generation/cache 규칙을 따라 폐기한다. 날짜 탭 후 답변 편집·좋아요·이미지 상태는 해당 날짜의 기존 선택 로직을 사용한다.</li>
+<li>대안: 한 번 드래그할 때 7일씩 이동하고 오른쪽 끝 날짜를 자동 선택하면 기존 window API를 더 재사용할 수 있다. 하지만 스크롤만으로 명언/질문이 바뀌어 Figma 주석의 &#x27;히스토리 살펴보기&#x27;와 날짜 탭의 역할이 섞인다. 권장안은 탐색과 선택을 분리한다.</li>
+<li>제품 결정 확인: Figma는 드래그가 선택 날짜를 바꾸는지, 연속 스크롤인지 페이지 단위인지까지 지정하지 않는다. 위 권장안인 <strong>날짜 줄 연속 스크롤, 탭할 때만 선택</strong>을 계획 승인 범위로 제안한다.</li>
+</ul>
+<h2 id="section-4">변경 순서</h2>
+<ol>
+<li><code>FigmaHomeContent.kt</code>의 날짜 칩 표시를 독립 컴포넌트로 유지하며 가로 스크롤 viewport와 초기 오른쪽 정렬을 구현한다. 기존 30dp 칩·5dp 간격·완료 배지는 Figma 노드 <code>3204:2435</code>에 맞춘다.</li>
+<li><code>HomeView.kt</code>가 탐색 범위/스크롤 요청과 날짜 선택 callback을 구분해 전달한다. 명언 카드의 기존 드래그 처리에는 영향을 주지 않는다.</li>
+<li><code>HomeViewModel.kt</code> 및 필요한 Home UI state/모델에서 회원 과거 주간 읽기와 완료 표시 cache를 현재 선택과 분리한다. 기존 weekly API 계약만 사용하고 domain/data 호출 규약은 유지한다. 비회원은 로컬 완료일 정보를 재사용한다.</li>
+<li>화면 문서·이 이슈의 QA 기록을 갱신하고, 독립 AS-IS/TO-BE HTML 보고서를 만든다.</li>
+</ol>
+<h2 id="section-5">검증·완료 조건·위험</h2>
+<ul>
+<li>결정적 날짜 줄 Preview로 360dp/Light·Dark/ko/기본 글자 배율에서 최초 7칸과 오른쪽 오늘 위치를 Figma와 비교한다. 스크롤 후 과거 범위·완료 배지·선택 표시의 하위 상태를 각각 확인한다.</li>
+<li>손가락 드래그로 과거를 탐색하고 다시 오늘까지 복귀하는 실제 에뮬레이터 동작을 검증한다. 날짜 줄 스크롤 중 월 카드/명언이 바뀌지 않고, 날짜 탭 후에는 해당 날짜의 명언·질문·완료 표시가 갱신되어야 한다. 회원 창 경계의 API 성공/실패·비회원·서비스 시작일·오늘 경계를 검증한다.</li>
+<li>하위 Preview 통과 뒤 Home 전체 360×821 조건의 Figma/실행 화면을 비교한다. 시스템 영역·오프라인 fixture 한계를 기록하며 전체 프레임을 확인하지 못하면 최종 Pass로 표시하지 않는다.</li>
+<li>위험: 추가 weekly 조회의 빈도와 진행 중 답변 draft 보존, 로딩 중 반복 드래그, quote card 스와이프와의 터치 경계. 이 이슈 외의 Home 레이아웃·색상과 Calendar 화면은 수정하지 않는다. 복구는 날짜 줄 탐색 state와 관련 변경만 되돌린다.</li>
+</ul></article>
+<footer class="meta">계획의 승인 여부는 이슈마다 별도로 기록한다. 이 HTML은 연결된 Markdown v1 계획과 동일한 내용을 표시한다.</footer>
+</main></body></html>

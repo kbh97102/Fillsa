@@ -250,13 +250,7 @@ fun HomeView(
     }
     val isLike = qaSelectedDay?.let { it.likeYn == YN.Y.type } ?: storedIsLike
 
-    val completedDates = viewModel.completedDates
     val memberWindow = qaMemberWindow ?: viewModel.memberQuoteWindow
-    val weekDays = if (memberWindow != null) {
-        homeMemberWeekDayStates(memberWindow)
-    } else {
-        homeWeekDayStates(selectedDate = date, completedDates = completedDates)
-    }
     val defaultQuestion = "누군가의 호의를 한참 뒤에야 받아들인 적 있나요?"
     val question = if (memberWindow != null) {
         val memberState = HomeMemberFlowState.from(memberWindow)
@@ -274,6 +268,17 @@ fun HomeView(
         ?: viewModel.memberAnchorEndDate
         ?: memberWindow?.endDate
         ?: DateCondition.currentDay()
+    val completedDates = when {
+        qaMemberWindow != null -> homeMemberWeekDayStates(qaMemberWindow)
+            .filter(HomeWeekDayState::isCompleted).map(HomeWeekDayState::date).toSet()
+        memberWindow != null -> viewModel.memberHistoryCompletedDates
+        else -> viewModel.completedDates
+    }
+    val weekDays = homeHistoryDayStates(
+        endDate = calendarReferenceDate,
+        selectedDate = date,
+        completedDates = completedDates,
+    )
     val isStreakTooltipOpen = viewModel.isStreakTooltipOpen
     val answerUiState = if (qaMemberWindow != null) {
         HomeMemberFlowState.from(qaMemberWindow).answer
@@ -359,6 +364,9 @@ fun HomeView(
         onWeekDaySelected = {
             if (homeQaFixture != null) fixtureDate = it
             else viewModel.handleContract(HomeAction.SelectWeekDay(it))
+        },
+        onWeekDatesVisible = { first, last ->
+            if (homeQaFixture == null) viewModel.handleContract(HomeAction.BrowseWeekDates(first, last))
         },
         onStreakStatus = { viewModel.handleContract(HomeAction.ClickStreakStatus) },
         onDismissStreakTooltip = { viewModel.handleContract(HomeAction.DismissStreakTooltip) },

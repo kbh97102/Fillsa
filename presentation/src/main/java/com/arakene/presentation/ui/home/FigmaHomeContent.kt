@@ -2,6 +2,9 @@ package com.arakene.presentation.ui.home
 
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.Canvas
@@ -32,6 +35,8 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.key
+import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -70,6 +75,7 @@ import com.arakene.presentation.util.LocaleType
 import com.arakene.presentation.util.StreakProvider
 import com.arakene.presentation.util.HomeAnswerMaxGraphemes
 import com.arakene.presentation.util.HomeAnswerUiState
+import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.getWikipediaUriString
 import com.arakene.presentation.util.isKnownZeroStreak
 import com.arakene.presentation.util.noEffectClickable
@@ -77,6 +83,9 @@ import com.arakene.presentation.model.HomeMemberQuoteWindow
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlin.math.abs
 
 private val HomePrimary = Color(0xFF5C65FF)
@@ -179,6 +188,17 @@ internal fun homeWeekDayStates(
         )
     }
 
+internal fun homeHistoryDayStates(
+    endDate: LocalDate,
+    selectedDate: LocalDate,
+    completedDates: Set<LocalDate>,
+    startDate: LocalDate = DateCondition.startDay,
+): List<HomeWeekDayState> =
+    (startDate.toEpochDay()..endDate.toEpochDay()).map { epochDay ->
+        val day = LocalDate.ofEpochDay(epochDay)
+        HomeWeekDayState(day, day == selectedDate, day in completedDates)
+    }
+
 internal fun homeMemberWeekDayStates(window: HomeMemberQuoteWindow): List<HomeWeekDayState> =
     window.days.map { day ->
         val dayDate = LocalDate.parse(day.date)
@@ -232,6 +252,7 @@ internal fun FigmaHomeContent(
     onMonthChanged: (YearMonth) -> Unit,
     onDateSelected: (LocalDate) -> Unit,
     onWeekDaySelected: (LocalDate) -> Unit,
+    onWeekDatesVisible: (LocalDate, LocalDate) -> Unit = { _, _ -> },
     onStreakStatus: () -> Unit,
     onDismissStreakTooltip: () -> Unit,
     onStreakCalendar: () -> Unit,
@@ -291,6 +312,7 @@ internal fun FigmaHomeContent(
                     isCalendarOpen = isCalendarOpen,
                     onCalendar = onCalendar,
                     onWeekDaySelected = onWeekDaySelected,
+                    onWeekDatesVisible = onWeekDatesVisible,
                     palette = palette,
                 )
 
@@ -471,6 +493,7 @@ private fun HomeDateWeekSection(
     isCalendarOpen: Boolean,
     onCalendar: () -> Unit,
     onWeekDaySelected: (LocalDate) -> Unit,
+    onWeekDatesVisible: (LocalDate, LocalDate) -> Unit,
     palette: HomeColorPalette,
 ) {
     Row(
@@ -484,6 +507,7 @@ private fun HomeDateWeekSection(
         HomeWeekStrip(
             days = weekDays,
             onWeekDaySelected = onWeekDaySelected,
+            onWeekDatesVisible = onWeekDatesVisible,
             palette = palette,
             modifier = Modifier.weight(1f),
         )
@@ -516,54 +540,69 @@ private fun HomeMonthCalendar(date: LocalDate, isOpen: Boolean, onCalendar: () -
 private fun HomeWeekStrip(
     days: List<HomeWeekDayState>,
     onWeekDaySelected: (LocalDate) -> Unit,
+    onWeekDatesVisible: (LocalDate, LocalDate) -> Unit,
     palette: HomeColorPalette,
     modifier: Modifier = Modifier,
 ) {
-    Row(
-        modifier = modifier,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        days.forEach { day ->
-            val presentation = homeWeekDayPresentation(day)
-            Box(
-                modifier = Modifier
-                    .size(30.dp),
-                contentAlignment = Alignment.Center,
-            ) {
+    key(days.lastOrNull()?.date) {
+        val listState = rememberLazyListState(initialFirstVisibleItemIndex = (days.size - 7).coerceAtLeast(0))
+        LaunchedEffect(listState, days) {
+            snapshotFlow {
+                val visible = listState.layoutInfo.visibleItemsInfo
+                visible.firstOrNull()?.index to visible.lastOrNull()?.index
+            }.distinctUntilChanged().collectLatest { (first, last) ->
+                delay(180)
+                val firstDate = first?.let(days::getOrNull)?.date
+                val lastDate = last?.let(days::getOrNull)?.date
+                if (firstDate != null && lastDate != null) onWeekDatesVisible(firstDate, lastDate)
+            }
+        }
+        LazyRow(
+            modifier = modifier,
+            state = listState,
+            horizontalArrangement = Arrangement.spacedBy((28f / 6f).dp),
+        ) {
+            items(days, key = { it.date.toEpochDay() }) { day ->
+                val presentation = homeWeekDayPresentation(day)
                 Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .clip(RoundedCornerShape(99.dp))
-                        .noEffectClickable { onWeekDaySelected(day.date) }
-                        .background(
-                            when (presentation) {
-                                HomeWeekDayPresentation.Selected -> Color.White
-                                HomeWeekDayPresentation.Completed -> HomePrimary
-                                HomeWeekDayPresentation.Default -> Color.Transparent
-                            }
-                        )
-                        .border(
-                            1.dp,
-                            if (presentation != HomeWeekDayPresentation.Default) HomePrimary else palette.mutedText,
-                            RoundedCornerShape(99.dp),
-                        ),
+                    modifier = Modifier.size(30.dp),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Text(
-                        day.date.dayOfMonth.toString(),
-                        style = FillsaTheme.typography.body4,
-                        color = when (presentation) {
-                            HomeWeekDayPresentation.Selected -> Color(0xFF212121)
-                            HomeWeekDayPresentation.Completed -> Color.White
-                            HomeWeekDayPresentation.Default -> palette.mutedText
-                        },
-                    )
-                }
-                if (presentation == HomeWeekDayPresentation.Completed) {
-                    FigmaAsset(
-                        "home_complete_badge.svg",
-                        Modifier.size(18.dp).align(Alignment.TopCenter).offset(y = (-10).dp),
-                    )
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(RoundedCornerShape(99.dp))
+                            .noEffectClickable { onWeekDaySelected(day.date) }
+                            .background(
+                                when (presentation) {
+                                    HomeWeekDayPresentation.Selected -> Color.White
+                                    HomeWeekDayPresentation.Completed -> HomePrimary
+                                    HomeWeekDayPresentation.Default -> Color.Transparent
+                                }
+                            )
+                            .border(
+                                1.dp,
+                                if (presentation != HomeWeekDayPresentation.Default) HomePrimary else palette.mutedText,
+                                RoundedCornerShape(99.dp),
+                            ),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        Text(
+                            day.date.dayOfMonth.toString(),
+                            style = FillsaTheme.typography.body4,
+                            color = when (presentation) {
+                                HomeWeekDayPresentation.Selected -> Color(0xFF212121)
+                                HomeWeekDayPresentation.Completed -> Color.White
+                                HomeWeekDayPresentation.Default -> palette.mutedText
+                            },
+                        )
+                    }
+                    if (presentation == HomeWeekDayPresentation.Completed) {
+                        FigmaAsset(
+                            "home_complete_badge.svg",
+                            Modifier.size(18.dp).align(Alignment.TopCenter).offset(y = (-10).dp),
+                        )
+                    }
                 }
             }
         }
@@ -577,17 +616,39 @@ private fun HomeDateWeekSpacingPreview() {
     FillsaTheme {
         HomeDateWeekSection(
             date = selectedDate,
-            weekDays = (10..16).map { day ->
-                HomeWeekDayState(
-                    date = LocalDate.of(2026, 8, day),
-                    isSelected = day == 16,
-                    isCompleted = day == 10 || day == 11,
-                )
-            },
+            weekDays = homeHistoryDayStates(
+                startDate = LocalDate.of(2026, 8, 1),
+                endDate = selectedDate,
+                selectedDate = selectedDate,
+                completedDates = setOf(LocalDate.of(2026, 8, 10), LocalDate.of(2026, 8, 11)),
+            ),
             isCalendarOpen = false,
             onCalendar = {},
             onWeekDaySelected = {},
+            onWeekDatesVisible = { _, _ -> },
             palette = homeColorPalette(darkMode = false),
+        )
+    }
+}
+
+@Preview(name = "Home date spacing dark", widthDp = 360, heightDp = 50, uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "ko", fontScale = 1f)
+@Composable
+private fun HomeDateWeekSpacingDarkPreview() {
+    val selectedDate = LocalDate.of(2026, 8, 16)
+    FillsaTheme(darkTheme = true) {
+        HomeDateWeekSection(
+            date = selectedDate,
+            weekDays = homeHistoryDayStates(
+                startDate = LocalDate.of(2026, 8, 1),
+                endDate = selectedDate,
+                selectedDate = selectedDate,
+                completedDates = setOf(LocalDate.of(2026, 8, 10), LocalDate.of(2026, 8, 11)),
+            ),
+            isCalendarOpen = false,
+            onCalendar = {},
+            onWeekDaySelected = {},
+            onWeekDatesVisible = { _, _ -> },
+            palette = homeColorPalette(darkMode = true),
         )
     }
 }

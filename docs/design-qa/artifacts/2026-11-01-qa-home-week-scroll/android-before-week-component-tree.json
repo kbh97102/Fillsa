@@ -1,0 +1,742 @@
+{
+  "previewId": "HomeDateWeekSpacingPreview",
+  "methodFQN": "com.arakene.presentation.ui.home.FigmaHomeContentKt.HomeDateWeekSpacingPreview",
+  "width": 945,
+  "height": 131,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 0,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "HomeDateWeekSpacingPreview",
+      "bounds": {
+        "left": 53,
+        "top": 26,
+        "right": 892,
+        "bottom": 105,
+        "width": 839,
+        "height": 79
+      },
+      "children": [
+        {
+          "name": "FillsaTheme",
+          "bounds": {
+            "left": 53,
+            "top": 26,
+            "right": 892,
+            "bottom": 105,
+            "width": 839,
+            "height": 79
+          },
+          "sourceLocation": {
+            "fileName": "FigmaHomeContent.kt",
+            "lineNumber": 577,
+            "packageHash": 1793196193
+          },
+          "children": [
+            {
+              "name": "HomeDateWeekSection",
+              "bounds": {
+                "left": 53,
+                "top": 26,
+                "right": 892,
+                "bottom": 105,
+                "width": 839,
+                "height": 79
+              },
+              "sourceLocation": {
+                "fileName": "FigmaHomeContent.kt",
+                "lineNumber": 578,
+                "packageHash": 1793196193
+              },
+              "children": [
+                {
+                  "name": "Row",
+                  "bounds": {
+                    "left": 53,
+                    "top": 26,
+                    "right": 892,
+                    "bottom": 105,
+                    "width": 839,
+                    "height": 79
+                  },
+                  "sourceLocation": {
+                    "fileName": "FigmaHomeContent.kt",
+                    "lineNumber": 476,
+                    "packageHash": 1793196193
+                  },
+                  "children": [
+                    {
+                      "name": "Row",
+                      "bounds": {
+                        "left": 53,
+                        "top": 26,
+                        "right": 892,
+                        "bottom": 105,
+                        "width": 839,
+                        "height": 79
+                      },
+                      "children": [
+                        {
+                          "name": "HomeMonthCalendar",
+                          "bounds": {
+                            "left": 53,
+                            "top": 26,
+                            "right": 245,
+                            "bottom": 105,
+                            "width": 192,
+                            "height": 79
+                          },
+                          "sourceLocation": {
+                            "fileName": "FigmaHomeContent.kt",
+                            "lineNumber": 482,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "Row",
+                              "bounds": {
+                                "left": 53,
+                                "top": 26,
+                                "right": 245,
+                                "bottom": 105,
+                                "width": 192,
+                                "height": 79
+                              },
+                              "sourceLocation": {
+                                "fileName": "FigmaHomeContent.kt",
+                                "lineNumber": 495,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Row",
+                                  "bounds": {
+                                    "left": 53,
+                                    "top": 26,
+                                    "right": 245,
+                                    "bottom": 105,
+                                    "width": 192,
+                                    "height": 79
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "FigmaAsset",
+                                      "bounds": {
+                                        "left": 68,
+                                        "top": 50,
+                                        "right": 100,
+                                        "bottom": 82,
+                                        "width": 32,
+                                        "height": 32
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 505,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "AsyncImage",
+                                          "bounds": {
+                                            "left": 68,
+                                            "top": 50,
+                                            "right": 100,
+                                            "bottom": 82,
+                                            "width": 32,
+                                            "height": 32
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "FigmaHomeContent.kt",
+                                            "lineNumber": 1022,
+                                            "packageHash": 1793196193
+                                          },
+                                          "modifiers": {
+                                            "size": "12.0.dp"
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "name": "Text",
+                                      "bounds": {
+                                        "left": 105,
+                                        "top": 47,
+                                        "right": 231,
+                                        "bottom": 85,
+                                        "width": 126,
+                                        "height": 38
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 506,
+                                        "packageHash": 1793196193
+                                      },
+                                      "semantics": {
+                                        "text": "2026.08"
+                                      },
+                                      "parameters": {
+                                        "color": "#FF212121"
+                                      },
+                                      "modifiers": {
+                                        "padding": "start=2.0.dp, top=0.0.dp, end=0.0.dp, bottom=0.0.dp"
+                                      }
+                                    }
+                                  ],
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "height": "30.0.dp",
+                                    "width": "73.0.dp",
+                                    "clip": "true",
+                                    "background": "#FFFFFFFF",
+                                    "clickable": "enabled=true"
+                                  }
+                                }
+                              ],
+                              "semantics": {
+                                "actions": "OnClick"
+                              },
+                              "modifiers": {
+                                "height": "30.0.dp",
+                                "width": "73.0.dp",
+                                "clip": "true",
+                                "background": "#FFFFFFFF",
+                                "clickable": "enabled=true"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "HomeWeekStrip",
+                          "bounds": {
+                            "left": 269,
+                            "top": 26,
+                            "right": 892,
+                            "bottom": 105,
+                            "width": 623,
+                            "height": 79
+                          },
+                          "sourceLocation": {
+                            "fileName": "FigmaHomeContent.kt",
+                            "lineNumber": 484,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "Row",
+                              "bounds": {
+                                "left": 269,
+                                "top": 26,
+                                "right": 892,
+                                "bottom": 105,
+                                "width": 623,
+                                "height": 79
+                              },
+                              "sourceLocation": {
+                                "fileName": "FigmaHomeContent.kt",
+                                "lineNumber": 522,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Row",
+                                  "bounds": {
+                                    "left": 269,
+                                    "top": 26,
+                                    "right": 892,
+                                    "bottom": 105,
+                                    "width": 623,
+                                    "height": 79
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Box",
+                                      "bounds": {
+                                        "left": 269,
+                                        "top": 26,
+                                        "right": 348,
+                                        "bottom": 105,
+                                        "width": 79,
+                                        "height": 79
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 528,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Box",
+                                          "bounds": {
+                                            "left": 269,
+                                            "top": 26,
+                                            "right": 348,
+                                            "bottom": 105,
+                                            "width": 79,
+                                            "height": 79
+                                          },
+                                          "children": [
+                                            {
+                                              "name": "Text",
+                                              "bounds": {
+                                                "left": 293,
+                                                "top": 47,
+                                                "right": 325,
+                                                "bottom": 85,
+                                                "width": 32,
+                                                "height": 38
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "FigmaHomeContent.kt",
+                                                "lineNumber": 552,
+                                                "packageHash": 1793196193
+                                              },
+                                              "semantics": {
+                                                "text": "10"
+                                              },
+                                              "parameters": {
+                                                "color": "#FFFFFFFF"
+                                              }
+                                            },
+                                            {
+                                              "name": "FigmaAsset",
+                                              "bounds": {
+                                                "left": 285,
+                                                "top": 0,
+                                                "right": 332,
+                                                "bottom": 47,
+                                                "width": 47,
+                                                "height": 47
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "FigmaHomeContent.kt",
+                                                "lineNumber": 563,
+                                                "packageHash": 1793196193
+                                              },
+                                              "children": [
+                                                {
+                                                  "name": "AsyncImage",
+                                                  "bounds": {
+                                                    "left": 285,
+                                                    "top": 0,
+                                                    "right": 332,
+                                                    "bottom": 47,
+                                                    "width": 47,
+                                                    "height": 47
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "FigmaHomeContent.kt",
+                                                    "lineNumber": 1022,
+                                                    "packageHash": 1793196193
+                                                  },
+                                                  "modifiers": {
+                                                    "size": "18.0.dp"
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ],
+                                          "semantics": {
+                                            "actions": "OnClick"
+                                          },
+                                          "modifiers": {
+                                            "size": "30.0.dp",
+                                            "fill": "Both (1.0)",
+                                            "clip": "true",
+                                            "clickable": "enabled=true",
+                                            "background": "#FF5C65FF"
+                                          }
+                                        }
+                                      ],
+                                      "modifiers": {
+                                        "size": "30.0.dp"
+                                      }
+                                    },
+                                    {
+                                      "name": "Box",
+                                      "bounds": {
+                                        "left": 360,
+                                        "top": 26,
+                                        "right": 439,
+                                        "bottom": 105,
+                                        "width": 79,
+                                        "height": 79
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 528,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Box",
+                                          "bounds": {
+                                            "left": 360,
+                                            "top": 26,
+                                            "right": 439,
+                                            "bottom": 105,
+                                            "width": 79,
+                                            "height": 79
+                                          },
+                                          "children": [
+                                            {
+                                              "name": "Text",
+                                              "bounds": {
+                                                "left": 386,
+                                                "top": 47,
+                                                "right": 414,
+                                                "bottom": 85,
+                                                "width": 28,
+                                                "height": 38
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "FigmaHomeContent.kt",
+                                                "lineNumber": 552,
+                                                "packageHash": 1793196193
+                                              },
+                                              "semantics": {
+                                                "text": "11"
+                                              },
+                                              "parameters": {
+                                                "color": "#FFFFFFFF"
+                                              }
+                                            },
+                                            {
+                                              "name": "FigmaAsset",
+                                              "bounds": {
+                                                "left": 376,
+                                                "top": 0,
+                                                "right": 423,
+                                                "bottom": 47,
+                                                "width": 47,
+                                                "height": 47
+                                              },
+                                              "sourceLocation": {
+                                                "fileName": "FigmaHomeContent.kt",
+                                                "lineNumber": 563,
+                                                "packageHash": 1793196193
+                                              },
+                                              "children": [
+                                                {
+                                                  "name": "AsyncImage",
+                                                  "bounds": {
+                                                    "left": 376,
+                                                    "top": 0,
+                                                    "right": 423,
+                                                    "bottom": 47,
+                                                    "width": 47,
+                                                    "height": 47
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "FigmaHomeContent.kt",
+                                                    "lineNumber": 1022,
+                                                    "packageHash": 1793196193
+                                                  },
+                                                  "modifiers": {
+                                                    "size": "18.0.dp"
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ],
+                                          "semantics": {
+                                            "actions": "OnClick"
+                                          },
+                                          "modifiers": {
+                                            "size": "30.0.dp",
+                                            "fill": "Both (1.0)",
+                                            "clip": "true",
+                                            "clickable": "enabled=true",
+                                            "background": "#FF5C65FF"
+                                          }
+                                        }
+                                      ],
+                                      "modifiers": {
+                                        "size": "30.0.dp"
+                                      }
+                                    },
+                                    {
+                                      "name": "Box",
+                                      "bounds": {
+                                        "left": 450,
+                                        "top": 26,
+                                        "right": 529,
+                                        "bottom": 105,
+                                        "width": 79,
+                                        "height": 79
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 528,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 474,
+                                            "top": 47,
+                                            "right": 506,
+                                            "bottom": 85,
+                                            "width": 32,
+                                            "height": 38
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "FigmaHomeContent.kt",
+                                            "lineNumber": 552,
+                                            "packageHash": 1793196193
+                                          },
+                                          "semantics": {
+                                            "text": "12"
+                                          },
+                                          "parameters": {
+                                            "color": "#FF9E9E9E"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "OnClick"
+                                      },
+                                      "modifiers": {
+                                        "size": "30.0.dp",
+                                        "fill": "Both (1.0)",
+                                        "clip": "true",
+                                        "clickable": "enabled=true",
+                                        "background": "#00000000"
+                                      }
+                                    },
+                                    {
+                                      "name": "Box",
+                                      "bounds": {
+                                        "left": 541,
+                                        "top": 26,
+                                        "right": 620,
+                                        "bottom": 105,
+                                        "width": 79,
+                                        "height": 79
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 528,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 564,
+                                            "top": 47,
+                                            "right": 597,
+                                            "bottom": 85,
+                                            "width": 33,
+                                            "height": 38
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "FigmaHomeContent.kt",
+                                            "lineNumber": 552,
+                                            "packageHash": 1793196193
+                                          },
+                                          "semantics": {
+                                            "text": "13"
+                                          },
+                                          "parameters": {
+                                            "color": "#FF9E9E9E"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "OnClick"
+                                      },
+                                      "modifiers": {
+                                        "size": "30.0.dp",
+                                        "fill": "Both (1.0)",
+                                        "clip": "true",
+                                        "clickable": "enabled=true",
+                                        "background": "#00000000"
+                                      }
+                                    },
+                                    {
+                                      "name": "Box",
+                                      "bounds": {
+                                        "left": 632,
+                                        "top": 26,
+                                        "right": 711,
+                                        "bottom": 105,
+                                        "width": 79,
+                                        "height": 79
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 528,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 655,
+                                            "top": 47,
+                                            "right": 688,
+                                            "bottom": 85,
+                                            "width": 33,
+                                            "height": 38
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "FigmaHomeContent.kt",
+                                            "lineNumber": 552,
+                                            "packageHash": 1793196193
+                                          },
+                                          "semantics": {
+                                            "text": "14"
+                                          },
+                                          "parameters": {
+                                            "color": "#FF9E9E9E"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "OnClick"
+                                      },
+                                      "modifiers": {
+                                        "size": "30.0.dp",
+                                        "fill": "Both (1.0)",
+                                        "clip": "true",
+                                        "clickable": "enabled=true",
+                                        "background": "#00000000"
+                                      }
+                                    },
+                                    {
+                                      "name": "Box",
+                                      "bounds": {
+                                        "left": 722,
+                                        "top": 26,
+                                        "right": 801,
+                                        "bottom": 105,
+                                        "width": 79,
+                                        "height": 79
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 528,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 745,
+                                            "top": 47,
+                                            "right": 778,
+                                            "bottom": 85,
+                                            "width": 33,
+                                            "height": 38
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "FigmaHomeContent.kt",
+                                            "lineNumber": 552,
+                                            "packageHash": 1793196193
+                                          },
+                                          "semantics": {
+                                            "text": "15"
+                                          },
+                                          "parameters": {
+                                            "color": "#FF9E9E9E"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "OnClick"
+                                      },
+                                      "modifiers": {
+                                        "size": "30.0.dp",
+                                        "fill": "Both (1.0)",
+                                        "clip": "true",
+                                        "clickable": "enabled=true",
+                                        "background": "#00000000"
+                                      }
+                                    },
+                                    {
+                                      "name": "Box",
+                                      "bounds": {
+                                        "left": 813,
+                                        "top": 26,
+                                        "right": 892,
+                                        "bottom": 105,
+                                        "width": 79,
+                                        "height": 79
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 528,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 836,
+                                            "top": 47,
+                                            "right": 869,
+                                            "bottom": 85,
+                                            "width": 33,
+                                            "height": 38
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "FigmaHomeContent.kt",
+                                            "lineNumber": 552,
+                                            "packageHash": 1793196193
+                                          },
+                                          "semantics": {
+                                            "text": "16"
+                                          },
+                                          "parameters": {
+                                            "color": "#FF212121"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "OnClick"
+                                      },
+                                      "modifiers": {
+                                        "size": "30.0.dp",
+                                        "fill": "Both (1.0)",
+                                        "clip": "true",
+                                        "clickable": "enabled=true",
+                                        "background": "#FFFFFFFF"
+                                      }
+                                    }
+                                  ],
+                                  "modifiers": {
+                                    "weight": "1.0"
+                                  }
+                                }
+                              ],
+                              "modifiers": {
+                                "weight": "1.0"
+                              }
+                            }
+                          ]
+                        }
+                      ],
+                      "modifiers": {
+                        "fill": "Horizontal (1.0)",
+                        "padding": "start=20.0.dp, top=10.0.dp, end=20.0.dp, bottom=10.0.dp"
+                      }
+                    }
+                  ],
+                  "modifiers": {
+                    "fill": "Horizontal (1.0)",
+                    "padding": "start=20.0.dp, top=10.0.dp, end=20.0.dp, bottom=10.0.dp"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

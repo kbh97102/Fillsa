@@ -1,0 +1,1436 @@
+{
+  "previewId": "HomeDateWeekSpacingDarkPreview",
+  "methodFQN": "com.arakene.presentation.ui.home.FigmaHomeContentKt.HomeDateWeekSpacingDarkPreview",
+  "width": 945,
+  "height": 131,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 32,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "HomeDateWeekSpacingDarkPreview",
+      "bounds": {
+        "left": 53,
+        "top": 26,
+        "right": 892,
+        "bottom": 105,
+        "width": 839,
+        "height": 79
+      },
+      "children": [
+        {
+          "name": "FillsaTheme",
+          "bounds": {
+            "left": 53,
+            "top": 26,
+            "right": 892,
+            "bottom": 105,
+            "width": 839,
+            "height": 79
+          },
+          "sourceLocation": {
+            "fileName": "FigmaHomeContent.kt",
+            "lineNumber": 638,
+            "packageHash": 1793196193
+          },
+          "children": [
+            {
+              "name": "HomeDateWeekSection",
+              "bounds": {
+                "left": 53,
+                "top": 26,
+                "right": 892,
+                "bottom": 105,
+                "width": 839,
+                "height": 79
+              },
+              "sourceLocation": {
+                "fileName": "FigmaHomeContent.kt",
+                "lineNumber": 639,
+                "packageHash": 1793196193
+              },
+              "children": [
+                {
+                  "name": "Row",
+                  "bounds": {
+                    "left": 53,
+                    "top": 26,
+                    "right": 892,
+                    "bottom": 105,
+                    "width": 839,
+                    "height": 79
+                  },
+                  "sourceLocation": {
+                    "fileName": "FigmaHomeContent.kt",
+                    "lineNumber": 499,
+                    "packageHash": 1793196193
+                  },
+                  "children": [
+                    {
+                      "name": "Row",
+                      "bounds": {
+                        "left": 53,
+                        "top": 26,
+                        "right": 892,
+                        "bottom": 105,
+                        "width": 839,
+                        "height": 79
+                      },
+                      "children": [
+                        {
+                          "name": "HomeMonthCalendar",
+                          "bounds": {
+                            "left": 53,
+                            "top": 26,
+                            "right": 245,
+                            "bottom": 105,
+                            "width": 192,
+                            "height": 79
+                          },
+                          "sourceLocation": {
+                            "fileName": "FigmaHomeContent.kt",
+                            "lineNumber": 505,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "Row",
+                              "bounds": {
+                                "left": 53,
+                                "top": 26,
+                                "right": 245,
+                                "bottom": 105,
+                                "width": 192,
+                                "height": 79
+                              },
+                              "sourceLocation": {
+                                "fileName": "FigmaHomeContent.kt",
+                                "lineNumber": 519,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Row",
+                                  "bounds": {
+                                    "left": 53,
+                                    "top": 26,
+                                    "right": 245,
+                                    "bottom": 105,
+                                    "width": 192,
+                                    "height": 79
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "FigmaAsset",
+                                      "bounds": {
+                                        "left": 68,
+                                        "top": 50,
+                                        "right": 100,
+                                        "bottom": 82,
+                                        "width": 32,
+                                        "height": 32
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 529,
+                                        "packageHash": 1793196193
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "AsyncImage",
+                                          "bounds": {
+                                            "left": 68,
+                                            "top": 50,
+                                            "right": 100,
+                                            "bottom": 82,
+                                            "width": 32,
+                                            "height": 32
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "FigmaHomeContent.kt",
+                                            "lineNumber": 1083,
+                                            "packageHash": 1793196193
+                                          },
+                                          "modifiers": {
+                                            "size": "12.0.dp"
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "name": "Text",
+                                      "bounds": {
+                                        "left": 105,
+                                        "top": 47,
+                                        "right": 231,
+                                        "bottom": 85,
+                                        "width": 126,
+                                        "height": 38
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "FigmaHomeContent.kt",
+                                        "lineNumber": 530,
+                                        "packageHash": 1793196193
+                                      },
+                                      "semantics": {
+                                        "text": "2026.08"
+                                      },
+                                      "parameters": {
+                                        "color": "#FF212121"
+                                      },
+                                      "modifiers": {
+                                        "padding": "start=2.0.dp, top=0.0.dp, end=0.0.dp, bottom=0.0.dp"
+                                      }
+                                    }
+                                  ],
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "height": "30.0.dp",
+                                    "width": "73.0.dp",
+                                    "clip": "true",
+                                    "background": "#FFFFFFFF",
+                                    "clickable": "enabled=true"
+                                  }
+                                }
+                              ],
+                              "semantics": {
+                                "actions": "OnClick"
+                              },
+                              "modifiers": {
+                                "height": "30.0.dp",
+                                "width": "73.0.dp",
+                                "clip": "true",
+                                "background": "#FFFFFFFF",
+                                "clickable": "enabled=true"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "HomeWeekStrip",
+                          "bounds": {
+                            "left": 269,
+                            "top": 26,
+                            "right": 892,
+                            "bottom": 105,
+                            "width": 623,
+                            "height": 79
+                          },
+                          "sourceLocation": {
+                            "fileName": "FigmaHomeContent.kt",
+                            "lineNumber": 507,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "LazyRow",
+                              "bounds": {
+                                "left": 269,
+                                "top": 26,
+                                "right": 892,
+                                "bottom": 105,
+                                "width": 623,
+                                "height": 79
+                              },
+                              "sourceLocation": {
+                                "fileName": "FigmaHomeContent.kt",
+                                "lineNumber": 560,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "LazyList",
+                                  "bounds": {
+                                    "left": 269,
+                                    "top": 26,
+                                    "right": 892,
+                                    "bottom": 105,
+                                    "width": 623,
+                                    "height": 79
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "LazyDsl.kt",
+                                    "lineNumber": 341,
+                                    "packageHash": 245627794
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "LazyLayout",
+                                      "bounds": {
+                                        "left": 269,
+                                        "top": 26,
+                                        "right": 892,
+                                        "bottom": 105,
+                                        "width": 623,
+                                        "height": 79
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "LazyList.kt",
+                                        "lineNumber": 129,
+                                        "packageHash": 245627794
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "LazySaveableStateHolderProvider",
+                                          "bounds": {
+                                            "left": 269,
+                                            "top": 26,
+                                            "right": 892,
+                                            "bottom": 105,
+                                            "width": 623,
+                                            "height": 79
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "LazyLayout.kt",
+                                            "lineNumber": 115,
+                                            "packageHash": 1976722602
+                                          },
+                                          "children": [
+                                            {
+                                              "name": "LazySaveableStateHolderProvider",
+                                              "bounds": {
+                                                "left": 269,
+                                                "top": 26,
+                                                "right": 892,
+                                                "bottom": 105,
+                                                "width": 623,
+                                                "height": 79
+                                              },
+                                              "children": [
+                                                {
+                                                  "name": "SkippableItem",
+                                                  "bounds": {
+                                                    "left": 451,
+                                                    "top": 26,
+                                                    "right": 530,
+                                                    "bottom": 105,
+                                                    "width": 79,
+                                                    "height": 79
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "LazyLayoutItemContentFactory.kt",
+                                                    "lineNumber": 95,
+                                                    "packageHash": 1976722602
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "SaveableStateProvider",
+                                                      "bounds": {
+                                                        "left": 451,
+                                                        "top": 26,
+                                                        "right": 530,
+                                                        "bottom": 105,
+                                                        "width": 79,
+                                                        "height": 79
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "LazyLayoutItemContentFactory.kt",
+                                                        "lineNumber": 126,
+                                                        "packageHash": 1976722602
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ReusableContent",
+                                                          "bounds": {
+                                                            "left": 451,
+                                                            "top": 26,
+                                                            "right": 530,
+                                                            "bottom": 105,
+                                                            "width": 79,
+                                                            "height": 79
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "SaveableStateHolder.kt",
+                                                            "lineNumber": 72,
+                                                            "packageHash": 1636570350
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Item",
+                                                              "bounds": {
+                                                                "left": 451,
+                                                                "top": 26,
+                                                                "right": 530,
+                                                                "bottom": 105,
+                                                                "width": 79,
+                                                                "height": 79
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "LazyLayoutItemContentFactory.kt",
+                                                                "lineNumber": 127,
+                                                                "packageHash": 1976722602
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "LazyLayoutPinnableItem",
+                                                                  "bounds": {
+                                                                    "left": 451,
+                                                                    "top": 26,
+                                                                    "right": 530,
+                                                                    "bottom": 105,
+                                                                    "width": 79,
+                                                                    "height": 79
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "LazyListItemProvider.kt",
+                                                                    "lineNumber": 78,
+                                                                    "packageHash": 245627794
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "name": "Box",
+                                                                      "bounds": {
+                                                                        "left": 451,
+                                                                        "top": 26,
+                                                                        "right": 530,
+                                                                        "bottom": 105,
+                                                                        "width": 79,
+                                                                        "height": 79
+                                                                      },
+                                                                      "sourceLocation": {
+                                                                        "fileName": "FigmaHomeContent.kt",
+                                                                        "lineNumber": 567,
+                                                                        "packageHash": 1793196193
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "name": "Text",
+                                                                          "bounds": {
+                                                                            "left": 475,
+                                                                            "top": 47,
+                                                                            "right": 507,
+                                                                            "bottom": 85,
+                                                                            "width": 32,
+                                                                            "height": 38
+                                                                          },
+                                                                          "sourceLocation": {
+                                                                            "fileName": "FigmaHomeContent.kt",
+                                                                            "lineNumber": 590,
+                                                                            "packageHash": 1793196193
+                                                                          },
+                                                                          "semantics": {
+                                                                            "text": "12"
+                                                                          },
+                                                                          "parameters": {
+                                                                            "color": "#FF9E9E9E"
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "semantics": {
+                                                                        "actions": "OnClick"
+                                                                      },
+                                                                      "modifiers": {
+                                                                        "size": "30.0.dp",
+                                                                        "fill": "Both (1.0)",
+                                                                        "clip": "true",
+                                                                        "clickable": "enabled=true",
+                                                                        "background": "#00000000"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "name": "SkippableItem",
+                                                  "bounds": {
+                                                    "left": 360,
+                                                    "top": 26,
+                                                    "right": 439,
+                                                    "bottom": 105,
+                                                    "width": 79,
+                                                    "height": 79
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "LazyLayoutItemContentFactory.kt",
+                                                    "lineNumber": 95,
+                                                    "packageHash": 1976722602
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "SaveableStateProvider",
+                                                      "bounds": {
+                                                        "left": 360,
+                                                        "top": 26,
+                                                        "right": 439,
+                                                        "bottom": 105,
+                                                        "width": 79,
+                                                        "height": 79
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "LazyLayoutItemContentFactory.kt",
+                                                        "lineNumber": 126,
+                                                        "packageHash": 1976722602
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ReusableContent",
+                                                          "bounds": {
+                                                            "left": 360,
+                                                            "top": 26,
+                                                            "right": 439,
+                                                            "bottom": 105,
+                                                            "width": 79,
+                                                            "height": 79
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "SaveableStateHolder.kt",
+                                                            "lineNumber": 72,
+                                                            "packageHash": 1636570350
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Item",
+                                                              "bounds": {
+                                                                "left": 360,
+                                                                "top": 26,
+                                                                "right": 439,
+                                                                "bottom": 105,
+                                                                "width": 79,
+                                                                "height": 79
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "LazyLayoutItemContentFactory.kt",
+                                                                "lineNumber": 127,
+                                                                "packageHash": 1976722602
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "LazyLayoutPinnableItem",
+                                                                  "bounds": {
+                                                                    "left": 360,
+                                                                    "top": 26,
+                                                                    "right": 439,
+                                                                    "bottom": 105,
+                                                                    "width": 79,
+                                                                    "height": 79
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "LazyListItemProvider.kt",
+                                                                    "lineNumber": 78,
+                                                                    "packageHash": 245627794
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "name": "Box",
+                                                                      "bounds": {
+                                                                        "left": 360,
+                                                                        "top": 26,
+                                                                        "right": 439,
+                                                                        "bottom": 105,
+                                                                        "width": 79,
+                                                                        "height": 79
+                                                                      },
+                                                                      "sourceLocation": {
+                                                                        "fileName": "FigmaHomeContent.kt",
+                                                                        "lineNumber": 567,
+                                                                        "packageHash": 1793196193
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "name": "Box",
+                                                                          "bounds": {
+                                                                            "left": 360,
+                                                                            "top": 26,
+                                                                            "right": 439,
+                                                                            "bottom": 105,
+                                                                            "width": 79,
+                                                                            "height": 79
+                                                                          },
+                                                                          "children": [
+                                                                            {
+                                                                              "name": "Text",
+                                                                              "bounds": {
+                                                                                "left": 386,
+                                                                                "top": 47,
+                                                                                "right": 414,
+                                                                                "bottom": 85,
+                                                                                "width": 28,
+                                                                                "height": 38
+                                                                              },
+                                                                              "sourceLocation": {
+                                                                                "fileName": "FigmaHomeContent.kt",
+                                                                                "lineNumber": 590,
+                                                                                "packageHash": 1793196193
+                                                                              },
+                                                                              "semantics": {
+                                                                                "text": "11"
+                                                                              },
+                                                                              "parameters": {
+                                                                                "color": "#FFFFFFFF"
+                                                                              }
+                                                                            },
+                                                                            {
+                                                                              "name": "FigmaAsset",
+                                                                              "bounds": {
+                                                                                "left": 376,
+                                                                                "top": 0,
+                                                                                "right": 423,
+                                                                                "bottom": 47,
+                                                                                "width": 47,
+                                                                                "height": 47
+                                                                              },
+                                                                              "sourceLocation": {
+                                                                                "fileName": "FigmaHomeContent.kt",
+                                                                                "lineNumber": 601,
+                                                                                "packageHash": 1793196193
+                                                                              },
+                                                                              "children": [
+                                                                                {
+                                                                                  "name": "AsyncImage",
+                                                                                  "bounds": {
+                                                                                    "left": 376,
+                                                                                    "top": 0,
+                                                                                    "right": 423,
+                                                                                    "bottom": 47,
+                                                                                    "width": 47,
+                                                                                    "height": 47
+                                                                                  },
+                                                                                  "sourceLocation": {
+                                                                                    "fileName": "FigmaHomeContent.kt",
+                                                                                    "lineNumber": 1083,
+                                                                                    "packageHash": 1793196193
+                                                                                  },
+                                                                                  "modifiers": {
+                                                                                    "size": "18.0.dp"
+                                                                                  }
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ],
+                                                                          "semantics": {
+                                                                            "actions": "OnClick"
+                                                                          },
+                                                                          "modifiers": {
+                                                                            "size": "30.0.dp",
+                                                                            "fill": "Both (1.0)",
+                                                                            "clip": "true",
+                                                                            "clickable": "enabled=true",
+                                                                            "background": "#FF5C65FF"
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "modifiers": {
+                                                                        "size": "30.0.dp"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "name": "SkippableItem",
+                                                  "bounds": {
+                                                    "left": 724,
+                                                    "top": 26,
+                                                    "right": 803,
+                                                    "bottom": 105,
+                                                    "width": 79,
+                                                    "height": 79
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "LazyLayoutItemContentFactory.kt",
+                                                    "lineNumber": 95,
+                                                    "packageHash": 1976722602
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "SaveableStateProvider",
+                                                      "bounds": {
+                                                        "left": 724,
+                                                        "top": 26,
+                                                        "right": 803,
+                                                        "bottom": 105,
+                                                        "width": 79,
+                                                        "height": 79
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "LazyLayoutItemContentFactory.kt",
+                                                        "lineNumber": 126,
+                                                        "packageHash": 1976722602
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ReusableContent",
+                                                          "bounds": {
+                                                            "left": 724,
+                                                            "top": 26,
+                                                            "right": 803,
+                                                            "bottom": 105,
+                                                            "width": 79,
+                                                            "height": 79
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "SaveableStateHolder.kt",
+                                                            "lineNumber": 72,
+                                                            "packageHash": 1636570350
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Item",
+                                                              "bounds": {
+                                                                "left": 724,
+                                                                "top": 26,
+                                                                "right": 803,
+                                                                "bottom": 105,
+                                                                "width": 79,
+                                                                "height": 79
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "LazyLayoutItemContentFactory.kt",
+                                                                "lineNumber": 127,
+                                                                "packageHash": 1976722602
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "LazyLayoutPinnableItem",
+                                                                  "bounds": {
+                                                                    "left": 724,
+                                                                    "top": 26,
+                                                                    "right": 803,
+                                                                    "bottom": 105,
+                                                                    "width": 79,
+                                                                    "height": 79
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "LazyListItemProvider.kt",
+                                                                    "lineNumber": 78,
+                                                                    "packageHash": 245627794
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "name": "Box",
+                                                                      "bounds": {
+                                                                        "left": 724,
+                                                                        "top": 26,
+                                                                        "right": 803,
+                                                                        "bottom": 105,
+                                                                        "width": 79,
+                                                                        "height": 79
+                                                                      },
+                                                                      "sourceLocation": {
+                                                                        "fileName": "FigmaHomeContent.kt",
+                                                                        "lineNumber": 567,
+                                                                        "packageHash": 1793196193
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "name": "Text",
+                                                                          "bounds": {
+                                                                            "left": 747,
+                                                                            "top": 47,
+                                                                            "right": 780,
+                                                                            "bottom": 85,
+                                                                            "width": 33,
+                                                                            "height": 38
+                                                                          },
+                                                                          "sourceLocation": {
+                                                                            "fileName": "FigmaHomeContent.kt",
+                                                                            "lineNumber": 590,
+                                                                            "packageHash": 1793196193
+                                                                          },
+                                                                          "semantics": {
+                                                                            "text": "15"
+                                                                          },
+                                                                          "parameters": {
+                                                                            "color": "#FF9E9E9E"
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "semantics": {
+                                                                        "actions": "OnClick"
+                                                                      },
+                                                                      "modifiers": {
+                                                                        "size": "30.0.dp",
+                                                                        "fill": "Both (1.0)",
+                                                                        "clip": "true",
+                                                                        "clickable": "enabled=true",
+                                                                        "background": "#00000000"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "name": "SkippableItem",
+                                                  "bounds": {
+                                                    "left": 542,
+                                                    "top": 26,
+                                                    "right": 621,
+                                                    "bottom": 105,
+                                                    "width": 79,
+                                                    "height": 79
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "LazyLayoutItemContentFactory.kt",
+                                                    "lineNumber": 95,
+                                                    "packageHash": 1976722602
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "SaveableStateProvider",
+                                                      "bounds": {
+                                                        "left": 542,
+                                                        "top": 26,
+                                                        "right": 621,
+                                                        "bottom": 105,
+                                                        "width": 79,
+                                                        "height": 79
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "LazyLayoutItemContentFactory.kt",
+                                                        "lineNumber": 126,
+                                                        "packageHash": 1976722602
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ReusableContent",
+                                                          "bounds": {
+                                                            "left": 542,
+                                                            "top": 26,
+                                                            "right": 621,
+                                                            "bottom": 105,
+                                                            "width": 79,
+                                                            "height": 79
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "SaveableStateHolder.kt",
+                                                            "lineNumber": 72,
+                                                            "packageHash": 1636570350
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Item",
+                                                              "bounds": {
+                                                                "left": 542,
+                                                                "top": 26,
+                                                                "right": 621,
+                                                                "bottom": 105,
+                                                                "width": 79,
+                                                                "height": 79
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "LazyLayoutItemContentFactory.kt",
+                                                                "lineNumber": 127,
+                                                                "packageHash": 1976722602
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "LazyLayoutPinnableItem",
+                                                                  "bounds": {
+                                                                    "left": 542,
+                                                                    "top": 26,
+                                                                    "right": 621,
+                                                                    "bottom": 105,
+                                                                    "width": 79,
+                                                                    "height": 79
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "LazyListItemProvider.kt",
+                                                                    "lineNumber": 78,
+                                                                    "packageHash": 245627794
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "name": "Box",
+                                                                      "bounds": {
+                                                                        "left": 542,
+                                                                        "top": 26,
+                                                                        "right": 621,
+                                                                        "bottom": 105,
+                                                                        "width": 79,
+                                                                        "height": 79
+                                                                      },
+                                                                      "sourceLocation": {
+                                                                        "fileName": "FigmaHomeContent.kt",
+                                                                        "lineNumber": 567,
+                                                                        "packageHash": 1793196193
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "name": "Text",
+                                                                          "bounds": {
+                                                                            "left": 565,
+                                                                            "top": 47,
+                                                                            "right": 598,
+                                                                            "bottom": 85,
+                                                                            "width": 33,
+                                                                            "height": 38
+                                                                          },
+                                                                          "sourceLocation": {
+                                                                            "fileName": "FigmaHomeContent.kt",
+                                                                            "lineNumber": 590,
+                                                                            "packageHash": 1793196193
+                                                                          },
+                                                                          "semantics": {
+                                                                            "text": "13"
+                                                                          },
+                                                                          "parameters": {
+                                                                            "color": "#FF9E9E9E"
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "semantics": {
+                                                                        "actions": "OnClick"
+                                                                      },
+                                                                      "modifiers": {
+                                                                        "size": "30.0.dp",
+                                                                        "fill": "Both (1.0)",
+                                                                        "clip": "true",
+                                                                        "clickable": "enabled=true",
+                                                                        "background": "#00000000"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "name": "SkippableItem",
+                                                  "bounds": {
+                                                    "left": 633,
+                                                    "top": 26,
+                                                    "right": 712,
+                                                    "bottom": 105,
+                                                    "width": 79,
+                                                    "height": 79
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "LazyLayoutItemContentFactory.kt",
+                                                    "lineNumber": 95,
+                                                    "packageHash": 1976722602
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "SaveableStateProvider",
+                                                      "bounds": {
+                                                        "left": 633,
+                                                        "top": 26,
+                                                        "right": 712,
+                                                        "bottom": 105,
+                                                        "width": 79,
+                                                        "height": 79
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "LazyLayoutItemContentFactory.kt",
+                                                        "lineNumber": 126,
+                                                        "packageHash": 1976722602
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ReusableContent",
+                                                          "bounds": {
+                                                            "left": 633,
+                                                            "top": 26,
+                                                            "right": 712,
+                                                            "bottom": 105,
+                                                            "width": 79,
+                                                            "height": 79
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "SaveableStateHolder.kt",
+                                                            "lineNumber": 72,
+                                                            "packageHash": 1636570350
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Item",
+                                                              "bounds": {
+                                                                "left": 633,
+                                                                "top": 26,
+                                                                "right": 712,
+                                                                "bottom": 105,
+                                                                "width": 79,
+                                                                "height": 79
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "LazyLayoutItemContentFactory.kt",
+                                                                "lineNumber": 127,
+                                                                "packageHash": 1976722602
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "LazyLayoutPinnableItem",
+                                                                  "bounds": {
+                                                                    "left": 633,
+                                                                    "top": 26,
+                                                                    "right": 712,
+                                                                    "bottom": 105,
+                                                                    "width": 79,
+                                                                    "height": 79
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "LazyListItemProvider.kt",
+                                                                    "lineNumber": 78,
+                                                                    "packageHash": 245627794
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "name": "Box",
+                                                                      "bounds": {
+                                                                        "left": 633,
+                                                                        "top": 26,
+                                                                        "right": 712,
+                                                                        "bottom": 105,
+                                                                        "width": 79,
+                                                                        "height": 79
+                                                                      },
+                                                                      "sourceLocation": {
+                                                                        "fileName": "FigmaHomeContent.kt",
+                                                                        "lineNumber": 567,
+                                                                        "packageHash": 1793196193
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "name": "Text",
+                                                                          "bounds": {
+                                                                            "left": 656,
+                                                                            "top": 47,
+                                                                            "right": 689,
+                                                                            "bottom": 85,
+                                                                            "width": 33,
+                                                                            "height": 38
+                                                                          },
+                                                                          "sourceLocation": {
+                                                                            "fileName": "FigmaHomeContent.kt",
+                                                                            "lineNumber": 590,
+                                                                            "packageHash": 1793196193
+                                                                          },
+                                                                          "semantics": {
+                                                                            "text": "14"
+                                                                          },
+                                                                          "parameters": {
+                                                                            "color": "#FF9E9E9E"
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "semantics": {
+                                                                        "actions": "OnClick"
+                                                                      },
+                                                                      "modifiers": {
+                                                                        "size": "30.0.dp",
+                                                                        "fill": "Both (1.0)",
+                                                                        "clip": "true",
+                                                                        "clickable": "enabled=true",
+                                                                        "background": "#00000000"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "name": "SkippableItem",
+                                                  "bounds": {
+                                                    "left": 269,
+                                                    "top": 26,
+                                                    "right": 348,
+                                                    "bottom": 105,
+                                                    "width": 79,
+                                                    "height": 79
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "LazyLayoutItemContentFactory.kt",
+                                                    "lineNumber": 95,
+                                                    "packageHash": 1976722602
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "SaveableStateProvider",
+                                                      "bounds": {
+                                                        "left": 269,
+                                                        "top": 26,
+                                                        "right": 348,
+                                                        "bottom": 105,
+                                                        "width": 79,
+                                                        "height": 79
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "LazyLayoutItemContentFactory.kt",
+                                                        "lineNumber": 126,
+                                                        "packageHash": 1976722602
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ReusableContent",
+                                                          "bounds": {
+                                                            "left": 269,
+                                                            "top": 26,
+                                                            "right": 348,
+                                                            "bottom": 105,
+                                                            "width": 79,
+                                                            "height": 79
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "SaveableStateHolder.kt",
+                                                            "lineNumber": 72,
+                                                            "packageHash": 1636570350
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Item",
+                                                              "bounds": {
+                                                                "left": 269,
+                                                                "top": 26,
+                                                                "right": 348,
+                                                                "bottom": 105,
+                                                                "width": 79,
+                                                                "height": 79
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "LazyLayoutItemContentFactory.kt",
+                                                                "lineNumber": 127,
+                                                                "packageHash": 1976722602
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "LazyLayoutPinnableItem",
+                                                                  "bounds": {
+                                                                    "left": 269,
+                                                                    "top": 26,
+                                                                    "right": 348,
+                                                                    "bottom": 105,
+                                                                    "width": 79,
+                                                                    "height": 79
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "LazyListItemProvider.kt",
+                                                                    "lineNumber": 78,
+                                                                    "packageHash": 245627794
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "name": "Box",
+                                                                      "bounds": {
+                                                                        "left": 269,
+                                                                        "top": 26,
+                                                                        "right": 348,
+                                                                        "bottom": 105,
+                                                                        "width": 79,
+                                                                        "height": 79
+                                                                      },
+                                                                      "sourceLocation": {
+                                                                        "fileName": "FigmaHomeContent.kt",
+                                                                        "lineNumber": 567,
+                                                                        "packageHash": 1793196193
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "name": "Box",
+                                                                          "bounds": {
+                                                                            "left": 269,
+                                                                            "top": 26,
+                                                                            "right": 348,
+                                                                            "bottom": 105,
+                                                                            "width": 79,
+                                                                            "height": 79
+                                                                          },
+                                                                          "children": [
+                                                                            {
+                                                                              "name": "Text",
+                                                                              "bounds": {
+                                                                                "left": 293,
+                                                                                "top": 47,
+                                                                                "right": 325,
+                                                                                "bottom": 85,
+                                                                                "width": 32,
+                                                                                "height": 38
+                                                                              },
+                                                                              "sourceLocation": {
+                                                                                "fileName": "FigmaHomeContent.kt",
+                                                                                "lineNumber": 590,
+                                                                                "packageHash": 1793196193
+                                                                              },
+                                                                              "semantics": {
+                                                                                "text": "10"
+                                                                              },
+                                                                              "parameters": {
+                                                                                "color": "#FFFFFFFF"
+                                                                              }
+                                                                            },
+                                                                            {
+                                                                              "name": "FigmaAsset",
+                                                                              "bounds": {
+                                                                                "left": 285,
+                                                                                "top": 0,
+                                                                                "right": 332,
+                                                                                "bottom": 47,
+                                                                                "width": 47,
+                                                                                "height": 47
+                                                                              },
+                                                                              "sourceLocation": {
+                                                                                "fileName": "FigmaHomeContent.kt",
+                                                                                "lineNumber": 601,
+                                                                                "packageHash": 1793196193
+                                                                              },
+                                                                              "children": [
+                                                                                {
+                                                                                  "name": "AsyncImage",
+                                                                                  "bounds": {
+                                                                                    "left": 285,
+                                                                                    "top": 0,
+                                                                                    "right": 332,
+                                                                                    "bottom": 47,
+                                                                                    "width": 47,
+                                                                                    "height": 47
+                                                                                  },
+                                                                                  "sourceLocation": {
+                                                                                    "fileName": "FigmaHomeContent.kt",
+                                                                                    "lineNumber": 1083,
+                                                                                    "packageHash": 1793196193
+                                                                                  },
+                                                                                  "modifiers": {
+                                                                                    "size": "18.0.dp"
+                                                                                  }
+                                                                                }
+                                                                              ]
+                                                                            }
+                                                                          ],
+                                                                          "semantics": {
+                                                                            "actions": "OnClick"
+                                                                          },
+                                                                          "modifiers": {
+                                                                            "size": "30.0.dp",
+                                                                            "fill": "Both (1.0)",
+                                                                            "clip": "true",
+                                                                            "clickable": "enabled=true",
+                                                                            "background": "#FF5C65FF"
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "modifiers": {
+                                                                        "size": "30.0.dp"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                },
+                                                {
+                                                  "name": "SkippableItem",
+                                                  "bounds": {
+                                                    "left": 815,
+                                                    "top": 26,
+                                                    "right": 894,
+                                                    "bottom": 105,
+                                                    "width": 79,
+                                                    "height": 79
+                                                  },
+                                                  "sourceLocation": {
+                                                    "fileName": "LazyLayoutItemContentFactory.kt",
+                                                    "lineNumber": 95,
+                                                    "packageHash": 1976722602
+                                                  },
+                                                  "children": [
+                                                    {
+                                                      "name": "SaveableStateProvider",
+                                                      "bounds": {
+                                                        "left": 815,
+                                                        "top": 26,
+                                                        "right": 894,
+                                                        "bottom": 105,
+                                                        "width": 79,
+                                                        "height": 79
+                                                      },
+                                                      "sourceLocation": {
+                                                        "fileName": "LazyLayoutItemContentFactory.kt",
+                                                        "lineNumber": 126,
+                                                        "packageHash": 1976722602
+                                                      },
+                                                      "children": [
+                                                        {
+                                                          "name": "ReusableContent",
+                                                          "bounds": {
+                                                            "left": 815,
+                                                            "top": 26,
+                                                            "right": 894,
+                                                            "bottom": 105,
+                                                            "width": 79,
+                                                            "height": 79
+                                                          },
+                                                          "sourceLocation": {
+                                                            "fileName": "SaveableStateHolder.kt",
+                                                            "lineNumber": 72,
+                                                            "packageHash": 1636570350
+                                                          },
+                                                          "children": [
+                                                            {
+                                                              "name": "Item",
+                                                              "bounds": {
+                                                                "left": 815,
+                                                                "top": 26,
+                                                                "right": 894,
+                                                                "bottom": 105,
+                                                                "width": 79,
+                                                                "height": 79
+                                                              },
+                                                              "sourceLocation": {
+                                                                "fileName": "LazyLayoutItemContentFactory.kt",
+                                                                "lineNumber": 127,
+                                                                "packageHash": 1976722602
+                                                              },
+                                                              "children": [
+                                                                {
+                                                                  "name": "LazyLayoutPinnableItem",
+                                                                  "bounds": {
+                                                                    "left": 815,
+                                                                    "top": 26,
+                                                                    "right": 894,
+                                                                    "bottom": 105,
+                                                                    "width": 79,
+                                                                    "height": 79
+                                                                  },
+                                                                  "sourceLocation": {
+                                                                    "fileName": "LazyListItemProvider.kt",
+                                                                    "lineNumber": 78,
+                                                                    "packageHash": 245627794
+                                                                  },
+                                                                  "children": [
+                                                                    {
+                                                                      "name": "Box",
+                                                                      "bounds": {
+                                                                        "left": 815,
+                                                                        "top": 26,
+                                                                        "right": 894,
+                                                                        "bottom": 105,
+                                                                        "width": 79,
+                                                                        "height": 79
+                                                                      },
+                                                                      "sourceLocation": {
+                                                                        "fileName": "FigmaHomeContent.kt",
+                                                                        "lineNumber": 567,
+                                                                        "packageHash": 1793196193
+                                                                      },
+                                                                      "children": [
+                                                                        {
+                                                                          "name": "Text",
+                                                                          "bounds": {
+                                                                            "left": 838,
+                                                                            "top": 47,
+                                                                            "right": 871,
+                                                                            "bottom": 85,
+                                                                            "width": 33,
+                                                                            "height": 38
+                                                                          },
+                                                                          "sourceLocation": {
+                                                                            "fileName": "FigmaHomeContent.kt",
+                                                                            "lineNumber": 590,
+                                                                            "packageHash": 1793196193
+                                                                          },
+                                                                          "semantics": {
+                                                                            "text": "16"
+                                                                          },
+                                                                          "parameters": {
+                                                                            "color": "#FF212121"
+                                                                          }
+                                                                        }
+                                                                      ],
+                                                                      "semantics": {
+                                                                        "actions": "OnClick"
+                                                                      },
+                                                                      "modifiers": {
+                                                                        "size": "30.0.dp",
+                                                                        "fill": "Both (1.0)",
+                                                                        "clip": "true",
+                                                                        "clickable": "enabled=true",
+                                                                        "background": "#FFFFFFFF"
+                                                                      }
+                                                                    }
+                                                                  ]
+                                                                }
+                                                              ]
+                                                            }
+                                                          ]
+                                                        }
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ],
+                                              "semantics": {
+                                                "actions": "ScrollBy, ScrollToIndex"
+                                              },
+                                              "modifiers": {
+                                                "weight": "1.0",
+                                                "clip": "true",
+                                                "scroll": "true"
+                                              }
+                                            }
+                                          ],
+                                          "semantics": {
+                                            "actions": "ScrollBy, ScrollToIndex"
+                                          },
+                                          "modifiers": {
+                                            "weight": "1.0",
+                                            "clip": "true",
+                                            "scroll": "true"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "modifiers": {
+                        "fill": "Horizontal (1.0)",
+                        "padding": "start=20.0.dp, top=10.0.dp, end=20.0.dp, bottom=10.0.dp"
+                      }
+                    }
+                  ],
+                  "modifiers": {
+                    "fill": "Horizontal (1.0)",
+                    "padding": "start=20.0.dp, top=10.0.dp, end=20.0.dp, bottom=10.0.dp"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

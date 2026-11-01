@@ -37,6 +37,7 @@ import com.arakene.presentation.model.HomeMemberQuoteWindow
 import com.arakene.presentation.model.acceptHomeMemberSelection
 import com.arakene.presentation.model.beginHomeMemberRequest
 import com.arakene.presentation.model.homeInitialLoadCommand
+import com.arakene.presentation.model.homeHistoryWindowEnds
 import com.arakene.presentation.model.homeMemberLoadStateAfterFailure
 import com.arakene.presentation.model.patchHomeMemberImage
 import com.arakene.presentation.model.patchHomeMemberLike
@@ -72,6 +73,7 @@ import com.arakene.presentation.util.selectHomeCalendarDate
 import com.arakene.presentation.util.toggleHomeCalendar
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.currentCoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collect
@@ -116,6 +118,7 @@ class HomeViewModel @Inject constructor(
 
     private var isMemberSession = false
     private var memberWindowRequestJob: Job? = null
+    private val historyWindowJobs = mutableMapOf<LocalDate, Job>()
     private var memberOrchestration by mutableStateOf(HomeMemberOrchestrationState())
     private var activeAuthContext: HomeAuthContext? = null
     private var homeStarted = false
@@ -134,6 +137,14 @@ class HomeViewModel @Inject constructor(
 
     val memberAnchorEndDate: LocalDate?
         get() = memberOrchestration.anchorEndDate
+
+    val memberHistoryCompletedDates: Set<LocalDate>
+        get() = memberOrchestration.cachedWindows.values
+            .flatMap { it.days }
+            .asSequence()
+            .filter { it.state == "done" || it.completed }
+            .map { LocalDate.parse(it.date) }
+            .toSet()
 
     var memberQuestionKo by mutableStateOf<String?>(null)
         private set
@@ -181,7 +192,9 @@ class HomeViewModel @Inject constructor(
     // Answer text and submission are one stateful interaction. Sending them through
     // the navigation throttle can drop the latest draft or a fast submit tap.
     override fun emitAction(action: Action) {
-        if (action is HomeAction.ChangeAnswer || action is HomeAction.RecordAnswer || action is HomeAction.EditAnswer) {
+        if (action is HomeAction.ChangeAnswer || action is HomeAction.RecordAnswer ||
+            action is HomeAction.EditAnswer || action is HomeAction.BrowseWeekDates
+        ) {
             handleAction(action)
         } else {
             super.emitAction(action)
@@ -200,6 +213,10 @@ class HomeViewModel @Inject constructor(
 
             is HomeAction.SelectWeekDay -> {
                 selectDate(action.date)
+            }
+
+            is HomeAction.BrowseWeekDates -> {
+                browseWeekDates(action.first, action.last)
             }
 
             is HomeAction.LoadPreviousWindow -> {
@@ -671,12 +688,15 @@ class HomeViewModel @Inject constructor(
         authBoundJob.cancel()
         authBoundJob = SupervisorJob(viewModelScope.coroutineContext[Job])
         memberWindowRequestJob = null
+        historyWindowJobs.clear()
         memberLikeRequestIds.clear()
         memberLikeMutexes.clear()
     }
 
     private fun clearMemberSessionState() {
         memberWindowRequestJob?.cancel()
+        historyWindowJobs.values.forEach(Job::cancel)
+        historyWindowJobs.clear()
         memberOrchestration = HomeMemberOrchestrationState(
             latestRequestId = memberOrchestration.latestRequestId + 1,
         )
@@ -708,6 +728,30 @@ class HomeViewModel @Inject constructor(
         } else if (targetDate <= DateCondition.currentDay()) {
             date.value = targetDate
             requestRefresh(targetDate)
+        }
+    }
+
+    private fun browseWeekDates(first: LocalDate, last: LocalDate) {
+        if (!isMemberSession) return
+        val anchor = memberAnchorEndDate ?: return
+        val requestToken = authBoundCoordinator.capture() ?: return
+        for (endDate in homeHistoryWindowEnds(anchor, first, last, DateCondition.startDay)) {
+            if (endDate in memberOrchestration.cachedWindows || historyWindowJobs[endDate]?.isActive == true) continue
+            val job = launchAuthBound(requestToken) {
+                try {
+                    val response = getResponse(getMemberWeeklyQuotesUseCase(endDate.toString()))
+                    if (!authBoundCoordinator.accepts(requestToken) || response == null) return@launchAuthBound
+                    val window = HomeMemberQuoteWindow.from(response)
+                    if (window.endDate !in memberOrchestration.cachedWindows) {
+                        memberOrchestration = memberOrchestration.copy(
+                            cachedWindows = memberOrchestration.cachedWindows + (window.endDate to window),
+                        )
+                    }
+                } finally {
+                    historyWindowJobs.remove(endDate, currentCoroutineContext()[Job])
+                }
+            }
+            historyWindowJobs[endDate] = job
         }
     }
 

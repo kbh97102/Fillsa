@@ -234,6 +234,20 @@ data class HomeMemberQuoteWindow(
     }
 }
 
+fun homeHistoryWindowEnds(
+    anchorEndDate: LocalDate,
+    firstVisibleDate: LocalDate,
+    lastVisibleDate: LocalDate,
+    startDate: LocalDate,
+): List<LocalDate> {
+    val first = maxOf(firstVisibleDate, startDate)
+    val last = minOf(lastVisibleDate, anchorEndDate)
+    if (first > last) return emptyList()
+    val firstOffset = ChronoUnit.DAYS.between(last, anchorEndDate) / 7
+    val lastOffset = ChronoUnit.DAYS.between(first, anchorEndDate) / 7
+    return (firstOffset..lastOffset).map { anchorEndDate.minusDays(it * 7) }
+}
+
 enum class WindowDirection {
     Previous,
     Next,

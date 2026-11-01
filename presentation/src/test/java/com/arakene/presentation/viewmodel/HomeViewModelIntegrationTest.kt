@@ -68,6 +68,101 @@ class HomeViewModelIntegrationTest {
     }
 
     @Test
+    fun `browsing older dates caches completion without changing the selected quote`() = runTest {
+        val home = CountingHomeRepository().apply {
+            weeklyHandler = { endDate ->
+                if (endDate == "2026-08-27") {
+                    ApiResult.Success(
+                        MemberWeeklyQuoteResponse(
+                            startDate = "2026-08-21",
+                            endDate = "2026-08-27",
+                            days = (21..27).map { day ->
+                                day("2026-08-$day", if (day == 25) "done" else "past", day, completed = day == 25)
+                            },
+                        ),
+                    )
+                } else ApiResult.Success(weekly())
+            }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        vm.handleContract(HomeAction.BrowseWeekDates(LocalDate.parse("2026-08-25"), LocalDate.parse("2026-08-31")))
+        advanceUntilIdle()
+        assertEquals(listOf(null, "2026-08-27"), home.weeklyEndDates)
+        assertEquals(LocalDate.parse("2026-09-03"), vm.date.value)
+        assertEquals(107, vm.currentQuota.dailyQuoteSeq)
+        assertTrue(LocalDate.parse("2026-08-25") in vm.memberHistoryCompletedDates)
+
+        vm.handleContract(HomeAction.SelectWeekDay(LocalDate.parse("2026-08-25")))
+        advanceUntilIdle()
+        assertEquals(LocalDate.parse("2026-08-25"), vm.date.value)
+        assertEquals(2, home.weeklyEndDates.size)
+    }
+
+    @Test
+    fun `failed history request keeps the selected quote and known completion markers`() = runTest {
+        val home = CountingHomeRepository().apply {
+            weeklyHandler = { endDate ->
+                if (endDate == "2026-08-27") ApiResult.Fail(CommonError.NetworkError)
+                else ApiResult.Success(weekly())
+            }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        vm.handleContract(HomeAction.BrowseWeekDates(LocalDate.parse("2026-08-25"), LocalDate.parse("2026-08-31")))
+        advanceUntilIdle()
+
+        assertEquals(LocalDate.parse("2026-09-03"), vm.date.value)
+        assertEquals(107, vm.currentQuota.dailyQuoteSeq)
+        assertTrue(LocalDate.parse("2026-08-30") in vm.memberHistoryCompletedDates)
+        assertFalse(LocalDate.parse("2026-08-25") in vm.memberHistoryCompletedDates)
+        assertEquals(listOf(null, "2026-08-27"), home.weeklyEndDates)
+    }
+
+    @Test
+    fun `late history response does not overwrite the selected window cache`() = runTest {
+        val releaseHistory = CompletableDeferred<Unit>()
+        var olderCalls = 0
+        fun olderWindow(completed: Boolean) = MemberWeeklyQuoteResponse(
+            startDate = "2026-08-21",
+            endDate = "2026-08-27",
+            days = (21..27).map { day ->
+                day("2026-08-$day", if (day == 25 && completed) "done" else "past", day, completed = day == 25 && completed)
+            },
+        )
+        val home = CountingHomeRepository().apply {
+            weeklyHandler = { endDate ->
+                if (endDate == "2026-08-27") {
+                    olderCalls++
+                    if (olderCalls == 1) {
+                        releaseHistory.await()
+                        ApiResult.Success(olderWindow(completed = false))
+                    } else ApiResult.Success(olderWindow(completed = true))
+                } else ApiResult.Success(weekly())
+            }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        vm.handleContract(HomeAction.BrowseWeekDates(LocalDate.parse("2026-08-25"), LocalDate.parse("2026-08-31")))
+        runCurrent()
+        assertEquals(1, olderCalls)
+        vm.handleContract(HomeAction.SelectWeekDay(LocalDate.parse("2026-08-25")))
+        runCurrent()
+        assertEquals(LocalDate.parse("2026-08-25"), vm.date.value)
+        assertTrue(LocalDate.parse("2026-08-25") in vm.memberHistoryCompletedDates)
+
+        releaseHistory.complete(Unit)
+        advanceUntilIdle()
+        assertTrue(LocalDate.parse("2026-08-25") in vm.memberHistoryCompletedDates)
+    }
+
+    @Test
     fun `Calendar target first anchors weekly then requests aligned target window`() = runTest {
         val home = CountingHomeRepository().apply {
             weeklyResult = ApiResult.Success(weekly())
