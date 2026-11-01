@@ -68,6 +68,20 @@ class HomeWeekStripStateTest {
     }
 
     @Test
+    fun `scrollable history begins at service start and keeps today last`() {
+        val days = homeHistoryDayStates(
+            startDate = LocalDate.of(2026, 8, 10),
+            endDate = LocalDate.of(2026, 8, 16),
+            selectedDate = LocalDate.of(2026, 8, 16),
+            completedDates = setOf(LocalDate.of(2026, 8, 11)),
+        )
+        assertEquals((10..16).toList(), days.map { it.date.dayOfMonth })
+        assertEquals(16, days.last().date.dayOfMonth)
+        assertEquals(16, days.single { it.isSelected }.date.dayOfMonth)
+        assertTrue(days[1].isCompleted)
+    }
+
+    @Test
     fun `authenticated week strip preserves server order and completion flags`() {
         val response = MemberWeeklyQuoteResponse(
             startDate = "2026-08-28",

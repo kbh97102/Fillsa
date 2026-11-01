@@ -42,6 +42,7 @@ sealed interface HomeAction : Action {
     data object ClickNext : HomeAction
     data object ClickBefore : HomeAction
     data class SelectWeekDay(val date: LocalDate) : HomeAction
+    data class BrowseWeekDates(val first: LocalDate, val last: LocalDate) : HomeAction
     data object LoadPreviousWindow : HomeAction
     data object LoadNextWindow : HomeAction
     data object ClickLike : HomeAction

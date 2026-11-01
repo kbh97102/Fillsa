@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home 날짜 영역 좌우 스크롤 QA</title>
+  <style>
+    :root { color-scheme: light; --ink:#182331; --muted:#526174; --line:#dce2e9; --paper:#fff; --accent:#165b50; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#f3f5f7; font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif; }
+    main { max-width:1280px; margin:auto; padding:48px 24px 80px; }
+    header { margin-bottom:28px; }
+    h1 { margin:8px 0 16px; font-size:clamp(28px,4vw,44px); line-height:1.25; }
+    h2 { margin:0 0 16px; font-size:25px; } h3 { margin-top:28px; }
+    a { color:#165caa; overflow-wrap:anywhere; }
+    .eyebrow { color:var(--accent); font-weight:700; letter-spacing:.1em; }
+    .meta, figcaption { color:var(--muted); font-size:14px; }
+    .notice { padding:16px 20px; border-left:4px solid #a96613; background:#fff6e4; }
+    .panel, article { margin-top:24px; padding:28px; background:var(--paper); border:1px solid var(--line); border-radius:16px; }
+    .comparison { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .overview { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+    .overview section { padding:16px; border:1px solid var(--line); border-radius:10px; }
+    .overview h3 { margin:0 0 8px; font-size:17px; }
+    .overview p { margin:0; }
+    .source-body, .comments { overflow-wrap:anywhere; }
+    figure { margin:0; padding:16px; border:1px solid var(--line); border-radius:10px; }
+    figure h3 { font-size:16px; margin:0 0 12px; }
+    img { display:block; max-width:100%; height:auto; margin:0 auto 12px; }
+    .missing { border:1px dashed #bac4d0; padding:24px 12px; color:var(--muted); }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; text-align:left; }
+    th,td { border-bottom:1px solid var(--line); padding:12px; vertical-align:top; }
+    th { background:#f3f6f8; }
+    code { overflow-wrap:anywhere; } pre { white-space:pre-wrap; overflow-wrap:anywhere; padding:16px; background:#f3f6f8; }
+    .status { display:inline-block; border:1px solid var(--line); border-radius:6px; padding:3px 10px; font-weight:600; }
+    @media(max-width:800px) { main { padding:24px 16px 48px; } .comparison, .overview { grid-template-columns:1fr; } .panel, article { padding:20px; } }
+    @media print { body { background:white; } main { padding:0; } .panel,article { border-radius:0; } figure, tr { break-inside:avoid; } }
+  </style>
+</head>
+<body><main>
+  <header>
+    <div class="eyebrow">QA / AS-IS → TO-BE</div>
+    <h1>Home 날짜 영역 좌우 스크롤 QA</h1>
+    <p>Android Home 날짜 줄을 좌우로 탐색하고, 스크롤과 날짜 선택을 분리했다.</p>
+    <p class="meta">2026-11-01 · stage c14b4e6 기반 독립 워크트리 · Android API 35 · 360×821 · ko · Light</p>
+    <div class="notice">날짜 스크롤·탭·회원 캐시 성공/실패 테스트가 통과했다. 전체 Home 프레임에는 기존 Figma 차이가 있고, 실계정 서버 호출은 실행하지 않아 화면 전체 최종 Pass는 보류한다.</div>
+  </header>
+  <section class="panel" aria-label="이슈 한눈에 보기">
+    <h2>이슈 한눈에 보기</h2>
+    <div class="overview">
+      <section><h3><a href="#notion-source">원본 이슈</a></h3><p>Home 날짜 영역에서 과거 기록을 좌우로 스크롤할 수 없음.</p><p class="meta"><a href="#notion-comments">댓글 1건 확인</a></p></section>
+      <section><h3><a href="#issue-cause">이슈 원인</a></h3><p>날짜 줄이 선택 날짜에 묶인 7칸 고정 Row이며 스크롤 입력과 히스토리 캐시가 없었다.</p></section>
+      <section><h3><a href="#issue-solution">해결방법</a></h3><p>7칸 LazyRow와 읽기 전용 주간 캐시를 추가하고 날짜 탭만 선택을 바꾸도록 했다.</p></section>
+      <section><h3><a href="#issue-comparison">AS-IS → TO-BE</a></h3><p>정지한 10–16 → 과거 4–11 탐색·오늘 복귀, 선택은 탭에서만 변경</p></section>
+    </div>
+  </section>
+  <section class="panel" aria-label="선택 이슈와 승인 범위">
+    <h2>선택 이슈와 승인 범위</h2>
+    <p>사용자 승인: “좋아 세가지 모두 진행, stage로부터 각자의 워크트리를 만들어서 진행하자” (2026-11-01). Android Home 계획 v1 범위. <a href="../screens/2026-11-01-home-week-scroll-407e639f-plan.html">HTML 계획</a> · <a href="../screens/2026-11-01-home-week-scroll-407e639f-plan.md">Markdown 계획</a></p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이슈</th><th>구현</th><th>기능 검증</th><th>UI 검증</th><th>최종 상태</th></tr></thead>
+      <tbody><tr><td>407e639f-c7a4-8023-a54f-ece5aa7bb156</td><td>완료</td><td>제스처·통합 테스트 통과</td><td>날짜 줄 확인, 전체 화면 보류</td><td>부분 검증</td></tr></tbody>
+    </table></div>
+  </section>
+  <!-- One issue per report. Copy this template for each issue and replace every token with verified content. -->
+  <article id="home-week-scroll">
+    <span class="status">날짜 스크롤 구현 완료 · 전체 Figma Pass 보류</span>
+    <h2>Home &gt; 날짜 영역 &gt; 스크롤 필요</h2>
+    <p><a href="https://app.notion.com/p/Home-407e639fc7a48023a54fece5aa7bb156">Notion QA 원문</a></p>
+    <section id="notion-source">
+      <h3>Notion 원본 이슈</h3>
+      <p class="meta">page ID 407e639f-c7a4-8023-a54f-ece5aa7bb156 · 생성 2026-10-28 12:14 UTC · 최근 수정 2026-10-29 06:25 UTC · 재조회 2026-11-01 12:02 UTC</p>
+      <p>원문 속성: Status Not started · Priority 중간 · Device iOS, Android · 화면 Home · Category 기능. 이번 작업은 Android 범위다.</p>
+      <div class="source-body"><p>페이지 본문 블록 0건(빈 본문). 요구는 댓글과 Figma 주석에 있다.</p></div>
+      <p>페이지 본문 첨부 없음. 댓글 첨부는 아래에 보존했다.</p>
+    </section>
+    <section id="notion-comments">
+      <h3>Notion 댓글</h3>
+      <p class="meta">페이지 댓글 1건, 다음 커서 없음. 2026-11-01 12:02 UTC 재조회.</p>
+      <div class="comments"><blockquote><p class="meta">SooJi · 2026-10-28 12:17 UTC · 댓글 407e639f-c7a4-8063-94b8-001d072ffcf2</p><p>Home &gt; 날짜 영역<br>좌우 스크롤이 필요합니다!<br><br>더욱 자세한 내용은 피그마 내 주석으로도 내용 확인하실 수 있습니당.<br>🔗피그마로 살펴보기</p><p><a href="https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-13556">Figma 원본</a> · 제보 당시 첨부</p><img src="artifacts/2026-11-01-qa-home-week-scroll/notion-attachment.png" alt="댓글에 첨부된 날짜 영역 주석 캡처"></blockquote></div>
+    </section>
+    <h3>문제와 재현 조건</h3>
+    <p>Figma 날짜 줄 3204:2435의 주석은 10–16의 7일을 한 번에 표시하고 오늘을 오른쪽 끝에 두며, 과거 기록을 좌우로 탐색하도록 한다. 기존 Android는 7칸 Row라 손가락 드래그에 반응하지 않았다. 월 카드와 명언은 탐색 중 유지하고 날짜 탭에서만 선택을 바꾼다.</p>
+    <h3 id="issue-cause">이슈 원인</h3>
+    <p><code>HomeWeekStrip</code>은 7개 날짜를 일반 Row에 그렸고 <code>HomeView</code>는 선택 주간만 전달했다. 회원 완료 정보도 선택된 <code>HomeMemberQuoteWindow</code>에만 연결되어 있었다.</p>
+    <h3 id="issue-solution">해결방법과 실제 수정</h3>
+    <p><code>FigmaHomeContent.kt</code>의 날짜 칩을 LazyRow로 재사용한다. <code>HomeView.kt</code>는 서비스 시작일~서버 오늘의 날짜와 캐시된 완료 상태를 전달한다. <code>HomeViewModel.kt</code>와 <code>HomeMemberQuoteWindow.kt</code>는 보이는 과거 주간을 기존 weekly API로 읽어 캐시에만 보관한다. <code>Action.kt</code>에 탐색 이벤트를 추가했다. 표시 범위가 180ms 안정된 뒤 조회해 빠른 드래그 중 요청을 줄인다. 늦은 응답은 이미 채운 최신 캐시를 덮지 않는다. 스크롤 중 선택 명언·질문은 유지된다. 실패 시 확인되지 않은 완료 배지는 표시하지 않는다.</p>
+    <h3 id="issue-comparison">수정 전 · 목표 기준 · 수정 후</h3>
+    <div class="comparison">
+      <figure><h3>AS-IS · 수정 전 실제 결과</h3><img src="artifacts/2026-11-01-qa-home-week-scroll/android-before-week-preview.png" alt="수정 전 고정 7칸 날짜 줄 Preview"><figcaption>stage c14b4e6 수정 전 · Android CLI 날짜 줄 Preview · 360×50 콘텐츠 · Light · 코드에서 스크롤 입력 부재 확인. 수정 전 실제 제스처 캡처는 확보하지 못했다.</figcaption></figure>
+      <figure><h3>Figma · 목표 기준</h3><img src="artifacts/2026-11-01-qa-home-week-scroll/figma-home-light-2929-13556.png" alt="Figma Home 기본 전체 프레임"><figcaption>Figma VdFocqyqTgevMVCQxwAQ2X / 2929:13556, 날짜 줄 3204:2435 · 360×821 전체 프레임 · Light · ko.</figcaption></figure>
+      <figure><h3>TO-BE · 수정 후 실제 결과</h3><img src="artifacts/2026-11-01-qa-home-week-scroll/after-runtime-initial-360x821.png" alt="수정 후 Home 초기 실제 화면"><img src="artifacts/2026-11-01-qa-home-week-scroll/after-runtime-scrolled-360x821.png" alt="수정 후 과거로 스크롤한 실제 화면"><figcaption>변경 후 Debug 앱 · Medium_Phone_API_35 · API 35 · 360×821 · 160dpi · Light · ko · fontScale 1.0. 위: 10–16 초기, 아래: 4–11 과거 탐색. 전체 화면의 기존 차이는 남아 있다.</figcaption></figure>
+    </div>
+    <h3>검증 결과</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>검증 항목</th><th>실행 명령·절차·시각</th><th>실제 결과</th><th>증거</th></tr></thead>
+      <tbody><tr><td>빌드·단위 테스트</td><td>./gradlew :app:assembleDebug :presentation:testDebugUnitTest</td><td>Pass</td><td>BUILD SUCCESSFUL</td></tr><tr><td>회원 API 캐시 성공/실패</td><td>HomeViewModelIntegrationTest</td><td>선택 유지, 완료 배지 캐시, 실패 시 기존 표시 보존</td><td><a href="2026-11-01-home-week-scroll-407e639f-qa.md">QA 기록</a></td></tr><tr><td>날짜 줄 Preview</td><td>android preview render :presentation --component-tree</td><td>Light/Dark 7칸 초기 상태 확인</td><td><a href="2026-11-01-home-week-scroll-407e639f-qa.md">이미지·tree</a></td></tr><tr><td>실제 앱 제스처</td><td>API 35 에뮬레이터 날짜 줄 좌우 드래그·탭</td><td>4–11 탐색, 10 선택, 10–16 복귀</td><td><a href="artifacts/2026-11-01-qa-home-week-scroll/after-runtime-scrolled-360x821.png">스크롤</a> · <a href="artifacts/2026-11-01-qa-home-week-scroll/after-runtime-selected-360x821.png">선택</a> · <a href="artifacts/2026-11-01-qa-home-week-scroll/after-runtime-return-360x821.png">복귀</a></td></tr></tbody>
+    </table></div>
+    <h3>UI QA 판정</h3><p>Round 1: 날짜 줄 Light/Dark Preview를 먼저 확인하고 Home 조립 Preview, 같은 360×821의 실제 앱 전체 프레임을 Figma와 비교했다. 날짜 줄의 크기·초기 배치·완료 배지·스크롤 동작은 목표에 맞다. 전체 화면에는 기존 상단 streak 0일/목표 100일, live 광고/placeholder, OS 영역 등 차이가 남는다. 날짜 줄은 통과, 전체 조립 화면 최종 Pass는 보류다.</p>
+    <h3>남은 항목과 다음 행동</h3>
+    <p>실계정의 추가 weekly API 호출은 통합 테스트로만 검증했다. 실제 서버 성공/실패와 전체 Home Figma 차이는 후속 검증이 필요하다. 이번 Android 작업만으로 iOS나 Notion 상태를 변경하지 않았다.</p>
+  </article>
+  <footer class="meta"><p><a href="../screens/2026-11-01-home-week-scroll-407e639f-plan.html">계획 HTML</a> · <a href="../screens/2026-11-01-home-week-scroll-407e639f-plan.md">계획 Markdown</a> · <a href="2026-11-01-home-week-scroll-407e639f-qa.md">QA 기록</a></p></footer>
+</main></body>
+</html>

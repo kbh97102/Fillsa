@@ -1,5 +1,11 @@
 # Home
 
+## 2026-11-01 날짜 영역 좌우 스크롤 QA
+
+- [Notion Android 날짜 스크롤 계획 v1 HTML](2026-11-01-home-week-scroll-407e639f-plan.html) · [Markdown](2026-11-01-home-week-scroll-407e639f-plan.md) · [QA 기록](../design-qa/2026-11-01-home-week-scroll-407e639f-qa.md).
+- Figma Light 전체 `2929:13556`, 날짜 줄 `3204:2435`; 360×821, ko-KR, 오늘 7일 범위 오른쪽 배치. 기준 이미지는 QA 기록에 보관했다.
+- 컴포넌트: `HomeDateWeekSection`(월 카드와 날짜 줄 조립), `HomeWeekStrip`(7칸 viewport와 과거 히스토리), `HomeViewModel`(선택과 분리된 회원 주간 캐시). 독립 워크트리에서 초기 10–16 표시, 좌우 드래그, 선택 분리, 회원 캐시 성공·실패를 검증했다. [이번 QA 기록](../design-qa/2026-11-01-home-week-scroll-407e639f-qa.md). 전체 Home 프레임의 기존 Figma 차이와 실계정 주간 호출은 최종 Pass 범위에서 보류한다.
+
 ## Android CLI Preview / Figma 재대조 · 2026-10-28
 
 - [비교 HTML](../design-qa/2026-10-28-calendar-preview-figma.html) · [QA 기록](../design-qa/2026-10-28-calendar-preview-figma-qa.md).
