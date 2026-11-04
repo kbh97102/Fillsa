@@ -1,5 +1,12 @@
 # Home
 
+## 2026-11-03 날짜 영역 연속필사 표시 QA
+
+- Notion [원본](https://app.notion.com/p/Home-40de639fc7a4803ca620ed225eba2a24) `40de639f…2a24` · 독립 [계획 v3 HTML](2026-11-03-home-streak-indicator-40de639f-plan.html) / [Markdown](2026-11-03-home-streak-indicator-40de639f-plan.md) · [QA 기록](../design-qa/2026-11-03-home-streak-indicator-40de639f-qa.md) · [AS-IS/TO-BE 보고서](../design-qa/2026-11-03-home-streak-indicator-40de639f-report.html). Swagger v2의 날짜별 `todayCompleted` 매칭과 사용자 승인 선택일 불꽃 표시를 구현·목데이터 검증했다.
+- Figma 파일 URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-13556. Light 전체 프레임 `2929:13556` 360×821, 날짜 줄 `3204:2435` 240×40, 완료일 `2929:13651`/`3204:2446`. [날짜 줄 기준 이미지](../design-qa/artifacts/2026-11-03-qa-home-streak/figma-week-strip-3204-2435.png), [전체 기준 이미지](../design-qa/assets/home-figma-2929-13556/reference-full.png).
+- 대상 상태: ko, Light/Dark 기본 Home, 2026-08-16 선택·10/11/16일 연속필사. 최종 Debug fixture에서는 선택된 16일에도 기존 불꽃이 표시되고 주간 완료만 true인 12일은 일반 날짜다. Light/Dark API31 전체 런타임을 캡처했지만 실계정 Android 응답은 미확보다. 전체 화면 최종 Figma Pass는 미승인.
+- 컴포넌트: `HomeWeekStrip` ↔ Figma `3204:2435`(미선택 완료 원·불꽃 배지 확인, 선택+완료는 사용자 승인 예외), `HomeDateWeekSection` ↔ Home 날짜 영역(월 카드와 7칸 viewport), `HomeViewModel`/`HomeView`(회원 월간 `todayCompleted`를 `quoteDate`별 배지 원천으로 연결; 비회원 로컬 완료 유지). 회원 weekly `completed/state`는 일반 필사 완료에만 사용한다. 새 댓글 [첨부](../design-qa/artifacts/2026-11-03-qa-home-streak/notion-comment-40de639f.png)의 선택된 오늘 불꽃 누락을 목데이터로 재현해 수정했다.
+
 ## 2026-11-01 날짜 영역 좌우 스크롤 QA
 
 - [Notion Android 날짜 스크롤 계획 v1 HTML](2026-11-01-home-week-scroll-407e639f-plan.html) · [Markdown](2026-11-01-home-week-scroll-407e639f-plan.md) · [QA 기록](../design-qa/2026-11-01-home-week-scroll-407e639f-qa.md).

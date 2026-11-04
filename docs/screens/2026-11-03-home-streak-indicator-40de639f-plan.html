@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home 날짜 영역 연속필사 표시 QA · 계획 v3</title>
+  <style>
+    :root { color-scheme:light; --bg:#f5f7f8; --paper:#fff; --ink:#17242b; --muted:#51616b; --line:#dbe2e5; --accent:#2c645b; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--ink); font:16px/1.68 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif; }
+    main { max-width:1180px; margin:auto; padding:40px 20px 72px; }
+    header,.panel { background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:26px; margin-bottom:18px; }
+    .eyebrow { color:var(--accent); font-size:13px; font-weight:800; letter-spacing:.1em; }
+    h1 { font-size:clamp(27px,4vw,42px); line-height:1.25; margin:10px 0; }
+    h2 { font-size:23px; line-height:1.3; margin:32px 0 12px; }
+    h3 { font-size:19px; }
+    p,li { overflow-wrap:anywhere; }
+    a { color:#1760a5; }
+    code { background:#eef2f4; border-radius:4px; padding:1px 4px; font-size:.92em; }
+    .meta,figcaption { color:var(--muted); font-size:14px; }
+    .status { display:inline-block; background:#fff3d6; color:#634607; border:1px solid #f0d182; padding:5px 10px; border-radius:8px; font-weight:700; }
+    .proof { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
+    .proof figure { margin:0; padding:12px; border:1px solid var(--line); border-radius:12px; background:#fafcfc; }
+    .proof img { display:block; width:auto; max-width:100%; max-height:420px; margin:auto; object-fit:contain; }
+    .proof figcaption { margin-top:10px; }
+    .body h2 { border-top:1px solid var(--line); padding-top:25px; margin-top:38px; }
+    .body ul,.body ol { padding-left:25px; }
+    .body li { margin:8px 0; }
+    table { border-collapse:collapse; width:100%; } th,td { border:1px solid var(--line); padding:8px 10px; text-align:left; vertical-align:top; }
+    @media(max-width:760px) { main { padding:16px 10px 48px; } header,.panel { padding:18px; } .proof { grid-template-columns:1fr; } .proof img { max-height:360px; } table { display:block; overflow-x:auto; } }
+    @media print { body { background:#fff; } main { max-width:none; padding:0; } header,.panel { border:0; border-radius:0; } .proof img { max-height:220px; } }
+  </style>
+</head>
+<body><main>
+  <header>
+    <div class="eyebrow">NOTION ANDROID QA · 40de639f…2a24</div>
+    <h1>Home 날짜 영역 연속필사 표시 QA · 계획 v3</h1>
+    <p>Swagger v2는 일반 필사 완료와 날짜별 연속필사 완료를 구분합니다. Home 불꽃 배지를 월간 <code>todayCompleted</code>에 연결하고, 기존 주간 명언·날짜 스크롤 동작은 유지하는 설계입니다.</p>
+    <p><span class="status">v3 · Android 목데이터 기능 검증 통과 · 전체 Figma 승인 보류</span></p>
+    <p class="meta"><a href="https://app.notion.com/p/Home-40de639fc7a4803ca620ed225eba2a24">Notion 원본</a> · <a href="2026-11-03-home-streak-indicator-40de639f-plan.md">Markdown 원본</a> · <a href="../design-qa/2026-11-03-home-streak-indicator-40de639f-qa.md">QA 기록</a> · <a href="../design-qa/2026-11-03-home-streak-indicator-40de639f-report.html">결과 보고서</a></p>
+  </header>
+  <section class="panel">
+    <h2>검토할 기준과 현재 증거</h2>
+    <div class="proof">
+      <figure><img src="../design-qa/artifacts/2026-11-03-qa-home-streak/figma-week-strip-3204-2435.png" alt="Figma 날짜 줄에서 10일과 11일에 불꽃 완료 배지 표시"><figcaption>Figma 목표 · 노드 <code>3204:2435</code>, 240×40. 10·11일 완료, 16일 선택.</figcaption></figure>
+      <figure><img src="../design-qa/artifacts/2026-11-03-qa-home-streak/before-home-light/com/arakene/presentation/ui/audit/HomeAuditPreviewsKt/AuditFigma292913556_0.png" alt="현재 코드의 Home Preview"><figcaption>AS-IS CLI Preview · 완료 원은 보이나 SVG 배지는 렌더에서 누락. <a href="../design-qa/artifacts/2026-11-03-qa-home-streak/before-home-light/com/arakene/presentation/ui/audit/HomeAuditPreviewsKt/AuditFigma292913556_0.json">component tree</a>.</figcaption></figure>
+      <figure><img src="../design-qa/artifacts/2026-11-03-qa-home-streak/before-runtime-fixture-api31-360x821.png" alt="현재 앱의 고정 완료 데이터 런타임"><figcaption>AS-IS 실제 런타임 · API31, 360×821. 같은 fixture의 10·11일 불꽃 배지는 표시됨. 실계정 제보 재현은 아님.</figcaption></figure>
+      <figure><img src="../design-qa/artifacts/2026-11-03-qa-home-streak/notion-comment-40de639f.png" alt="Notion 제보 첨부에서 선택된 3일에 불꽃이 없는 화면"><figcaption>Notion 댓글 첨부 · HEIC를 PNG로 보존. 선택된 3일의 불꽃 누락을 표시한 제보 화면.</figcaption></figure>
+    </div>
+  </section>
+  <nav class="panel" aria-label="계획 목차"><h2>계획 목차</h2><ul><li><a href="#record">선택·승인 기록</a></li><li><a href="#problem">문제와 근거</a></li><li><a href="#contract">Swagger 서버 계약</a></li><li><a href="#cause">AS-IS와 원인 분석</a></li><li><a href="#design">해결 설계</a></li><li><a href="#steps">수정·검증 순서</a></li><li><a href="#risk">위험과 판단 필요 사항</a></li></ul></nav>
+  <article class="panel body">
+    <h2 id="record">선택·승인 기록</h2>
+    <p>Notion page ID <code>40de639f-c7a4-803c-a620-ed225eba2a24</code>. Android·iOS, Home, 기능, 중간, Not started. 2026-11-03 10:14 UTC 생성, 10:26 UTC 최종 수정. 본문 블록 0건, 댓글 1건과 HEIC 첨부 1개가 있습니다. 사용자의 “그럼 이거 진행해봐 진행하고 목데이터로 검증해서 결과좀 보여줄래”는 서버 판정 매칭 승인, “기존 불꽃 배지 표시 승인”은 Figma에 없는 선택+연속필사 상태에 기존 자산을 겹쳐 표시하는 UI 예외 승인으로 기록합니다.</p>
+    <p>기준은 <code>stage</code> <code>5489625</code>입니다. 기존 미커밋 <code>app/.DS_Store</code>, <code>fastlane/report.xml</code>은 보존합니다.</p>
+    <h2 id="problem">문제와 근거</h2>
+    <p>제보 제목은 “Home &gt; 날짜 영역 &gt; 연속필사 표시안됨”입니다. 2026-11-03 10:26 UTC 추가된 SooJi 댓글은 “대상 : iOS/Android (라이트/블랙) / 당일 연속필사를 한 경우, 불꽃 표시가 나타나지 않고 있습니다!”라고 밝힙니다. <a href="../design-qa/artifacts/2026-11-03-qa-home-streak/notion-comment-40de639f.png">첨부 PNG 사본</a>에는 불꽃이 있는 2일 옆, 불꽃이 없는 선택된 3일이 표시되어 있습니다. 헤더는 2일을 보여줍니다. 실제 Android 계정 응답은 없습니다.</p>
+    <p>Figma 파일 <a href="https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X?node-id=2929-13556">Light Home <code>2929:13556</code></a>은 360×821입니다. 날짜 줄 <code>3204:2435</code>에는 완료 10·11일의 보라색 원과 불꽃, 선택 16일이 표시됩니다. 주석은 7일 노출과 과거 히스토리의 좌우 스크롤을 명시합니다. 선택일이 동시에 완료일인 변형은 이 노드에서 확인되지 않았습니다. <a href="../design-qa/assets/home-figma-2929-13556/reference-full.png">전체 기준 이미지</a>도 보관돼 있습니다.</p>
+    <h2 id="contract">Swagger 서버 계약 · 확인된 사실</h2>
+    <p>사용자 제공 <a href="https://api.fillsa.com/fillsa/docs/swagger-ui/index.html?urls.primaryName=v2">Swagger UI v2</a>의 <a href="https://api.fillsa.com/fillsa/docs/v3/api-docs/v2">OpenAPI 원문</a>을 확인했습니다. 문서 계약을 읽은 것이며 실제 계정의 응답값은 아직 확보하지 않았습니다.</p>
+    <table><thead><tr><th>API·필드</th><th>Swagger 설명</th><th>Home 판정</th></tr></thead><tbody>
+      <tr><td>주간 <code>days[].state</code>, <code>completed</code></td><td><code>done</code>은 오늘 필사 완료를 포함하는 날짜 상태; <code>completed</code>는 필사 완료 여부</td><td>명언·일반 완료 상태. 연속필사 확정값은 아님</td></tr>
+      <tr><td>월간 <code>memberQuotes[].quoteDate</code>, <code>todayCompleted</code></td><td>날짜별 연속 필사 여부</td><td>회원 날짜 불꽃 배지의 원천</td></tr>
+      <tr><td>월간 <code>monthlySummary.streakCount</code></td><td>연속필사 갯수</td><td>집계값이므로 날짜 배치에 사용하지 않음</td></tr>
+      <tr><td>타이핑 저장 <code>todayCompletedChanged</code></td><td>연속 필사 완료 변경여부</td><td>저장 뒤 재조회 신호. 날짜별 확정값으로 사용하지 않음</td></tr>
+      <tr><td><a href="https://api.fillsa.com/fillsa/docs/v3/api-docs/v1">v1</a> <code>currentStreak</code>, <code>isTodayWritten</code></td><td>현재 연속 일수, 오늘 필사 여부</td><td>헤더·오늘 정보. 과거 날짜 목록은 아님</td></tr>
+    </tbody></table>
+    <h2 id="cause">AS-IS 데이터 흐름과 원인 분석</h2>
+    <ol>
+      <li>회원: <code>GET /api/v2/member-quotes/weekly</code> → <code>MemberQuoteDay.state == "done" || completed</code> → <code>memberHistoryCompletedDates</code> → <code>HomeWeekStrip</code> 불꽃. <strong>일반 필사 완료값을 연속필사 표시로 사용 중인 계약 불일치</strong>가 확인됐습니다. 이것이 실제 제보 누락의 직접 원인인지는 미확정입니다.</li>
+      <li>비회원: 로컬 <code>GetAllStreakInfoUseCase</code>의 <code>isDailyWritingCompleted</code> → <code>completedDates</code> → 같은 날짜 줄. 회원 v2 서버 계약은 이 로컬 기록에는 적용되지 않습니다.</li>
+      <li>미선택 완료일은 보라색 원과 <code>home_complete_badge.svg</code>를 표시합니다. 새 댓글은 선택된 오늘의 불꽃 누락을 지목합니다. 현재 <code>isSelected</code> 우선 규칙은 월간 플래그가 참이어도 배지를 숨깁니다.</li>
+    </ol>
+    <p>현재 fixture는 주간 <code>completed</code>만으로 10·11일을 표시하므로 월간 <code>todayCompleted</code>와 값이 다른 경우를 검증하지 못합니다. CLI Preview의 SVG 누락은 실제 에뮬레이터 결과와 달라 운영 증상으로 단정하지 않습니다.</p>
+    <h2 id="design">해결 설계 / TO-BE</h2>
+    <p><strong>권장안:</strong> 회원 날짜별 연속필사는 월간 <code>memberQuotes[].todayCompleted == true</code>인 <code>quoteDate</code> 집합으로 판정합니다. Figma의 보라색 완료 원+불꽃 변형은 이 날짜에만 사용합니다. 주간 <code>completed/state</code>, 답변·좋아요, 헤더 연속 일수나 월간 합계로 날짜 불꽃을 추정하지 않습니다.</p>
+    <p>Android는 월별 <code>todayCompleted</code>를 같은 <code>quoteDate</code>의 주간 날짜에 매칭합니다. 앞뒤 날짜가 이어지는지 직접 계산하지 않습니다. 공개 Swagger는 서버의 월 경계 연속 판정 알고리즘을 정의하지 않습니다.</p>
+    <p>표시 주간이 두 월에 걸치면 두 <code>yearMonth</code>를 조회합니다. 기존 <code>GetQuotesMonthlyUseCase</code>와 응답 모델을 재사용하고 <code>HomeViewModel</code>에서 인증 세대별 월 캐시와 중복 요청을 관리합니다. 스크롤로 새 월이 보일 때 필요한 월만 읽으며 Home 복귀·필사 성공 후 보이는 월을 새로고침합니다. 실패 시 확인된 기존 배지를 보존하고 주간 일반 완료값으로 대체하지 않습니다. 주간 API는 명언·날짜 선택에 계속 사용합니다.</p>
+    <p>비회원 로컬 완료 경로와 Home 날짜 줄의 7칸 viewport·스크롤·선택은 유지합니다. 월간·주간 값이 다르면 불꽃은 월간 <code>todayCompleted</code>를 우선합니다. 새 댓글의 선택+연속필사 상태는 Figma에 변형이 없지만 사용자가 기존 배지 표시를 명시 승인했습니다. 선택 원·숫자를 유지하고 기존 <code>home_complete_badge.svg</code>만 같은 위치에 겹칩니다. iOS 수정은 범위 밖입니다.</p>
+    <h2 id="steps">수정·검증 순서</h2>
+    <ol>
+      <li>새 댓글·첨부의 선택된 오늘 누락을 Android 목데이터로 구성합니다. 실제 계정의 주간 <code>completed/state</code>·월간 <code>todayCompleted</code>는 확보되지 않아 실데이터 재현과 목데이터 검증을 분리합니다.</li>
+      <li>주간 <code>completed=true</code>·월간 <code>todayCompleted=false</code>는 배지 없음, 반대 조합은 배지 있음으로 실패 테스트를 만듭니다. 월 경계, 지연/실패 응답, 인증 전환, Home 복귀·필사 후 갱신, 비회원 로컬 완료도 검증합니다.</li>
+      <li>기존 월간 UseCase를 Home ViewModel에 연결해 월별 날짜 집합·캐시를 만들고 Home View의 회원 날짜 상태에 반영합니다. 선택 원은 유지하면서 연속필사로 판정된 선택일에도 기존 불꽃 배지를 표시합니다.</li>
+      <li><code>:presentation:testDebugUnitTest</code>와 <code>:app:assembleDebug</code>를 실행합니다. 실계정 서버 호출을 못 했다면 미검증으로 기록합니다.</li>
+      <li>구분된 완료 fixture로 Light/Dark 하위 날짜 줄 Preview와 전체 Home Preview를 렌더해 Figma와 비교합니다. Preview SVG 누락은 실제 360×821 에뮬레이터 전체 프레임으로 별도 확인합니다. 최대 5차 비교 후 차이가 남으면 최종 Pass로 표시하지 않습니다.</li>
+      <li>화면 문서·독립 QA 기록·AS-IS/TO-BE HTML을 갱신하고 보고 직전 Notion을 재조회합니다. Notion 상태는 별도 요청 없이 변경하지 않습니다.</li>
+    </ol>
+    <h2 id="risk">위험·복구·판단 필요 사항</h2>
+    <p><code>todayCompleted</code>를 일반 <code>completed</code>와 혼동하면 연속필사하지 않은 날짜에 배지가 생깁니다. 월 경계는 최대 두 월 조회가 필요해 중복 요청·실패·인증 세대 보호를 설계합니다. 기존 날짜 스크롤 회귀 테스트를 다시 실행하며 이 이슈의 변경만 별도 경계로 복구합니다. 기존 사용자 작업 두 파일은 보존합니다.</p>
+    <p>선택+연속필사 UI 예외는 사용자가 승인했습니다. 제보 캡처는 확보했지만 실제 Android 계정의 월간 <code>todayCompleted</code> 값은 없습니다. Swagger만으로 서버의 월 경계 판정과 실계정 응답은 확정하지 않습니다.</p>
+  </article>
+  <footer class="meta">검증: Figma 노드와 현재 소스 Preview, API31 Light/Dark 실제 런타임을 대조했습니다. 실계정 Android 응답은 확인하지 못했습니다. HTML 로컬 링크 10개는 유효하고 미치환 토큰은 없습니다. 연결 가능한 브라우저가 없어 넓은/좁은 화면의 HTML 시각 점검은 미실시했습니다.</footer>
+</main></body>
+</html>

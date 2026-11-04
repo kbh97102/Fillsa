@@ -79,7 +79,6 @@ import com.arakene.presentation.util.DateCondition
 import com.arakene.presentation.util.getWikipediaUriString
 import com.arakene.presentation.util.isKnownZeroStreak
 import com.arakene.presentation.util.noEffectClickable
-import com.arakene.presentation.model.HomeMemberQuoteWindow
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
@@ -167,6 +166,8 @@ internal fun homeWeekDayPresentation(day: HomeWeekDayState): HomeWeekDayPresenta
         else -> HomeWeekDayPresentation.Default
     }
 
+internal fun homeWeekDayShowsBadge(day: HomeWeekDayState): Boolean = day.isCompleted
+
 internal enum class HomeStreakHeaderPresentation {
     ZeroWarning,
     Streak,
@@ -197,16 +198,6 @@ internal fun homeHistoryDayStates(
     (startDate.toEpochDay()..endDate.toEpochDay()).map { epochDay ->
         val day = LocalDate.ofEpochDay(epochDay)
         HomeWeekDayState(day, day == selectedDate, day in completedDates)
-    }
-
-internal fun homeMemberWeekDayStates(window: HomeMemberQuoteWindow): List<HomeWeekDayState> =
-    window.days.map { day ->
-        val dayDate = LocalDate.parse(day.date)
-        HomeWeekDayState(
-            date = dayDate,
-            isSelected = dayDate == window.selectedDate,
-            isCompleted = day.state == "done" || day.completed,
-        )
     }
 
 internal enum class HomeQuoteSwipe {
@@ -597,7 +588,7 @@ private fun HomeWeekStrip(
                             },
                         )
                     }
-                    if (presentation == HomeWeekDayPresentation.Completed) {
+                    if (homeWeekDayShowsBadge(day)) {
                         FigmaAsset(
                             "home_complete_badge.svg",
                             Modifier.size(18.dp).align(Alignment.TopCenter).offset(y = (-10).dp),
@@ -643,6 +634,50 @@ private fun HomeDateWeekSpacingDarkPreview() {
                 endDate = selectedDate,
                 selectedDate = selectedDate,
                 completedDates = setOf(LocalDate.of(2026, 8, 10), LocalDate.of(2026, 8, 11)),
+            ),
+            isCalendarOpen = false,
+            onCalendar = {},
+            onWeekDaySelected = {},
+            onWeekDatesVisible = { _, _ -> },
+            palette = homeColorPalette(darkMode = true),
+        )
+    }
+}
+
+@Preview(name = "Home selected streak light", widthDp = 360, heightDp = 50, locale = "ko", fontScale = 1f)
+@Composable
+private fun HomeDateWeekSelectedStreakLightPreview() {
+    val selectedDate = LocalDate.of(2026, 8, 16)
+    FillsaTheme {
+        HomeDateWeekSection(
+            date = selectedDate,
+            weekDays = homeHistoryDayStates(
+                startDate = LocalDate.of(2026, 8, 10),
+                endDate = selectedDate,
+                selectedDate = selectedDate,
+                completedDates = setOf(LocalDate.of(2026, 8, 10), LocalDate.of(2026, 8, 11), selectedDate),
+            ),
+            isCalendarOpen = false,
+            onCalendar = {},
+            onWeekDaySelected = {},
+            onWeekDatesVisible = { _, _ -> },
+            palette = homeColorPalette(darkMode = false),
+        )
+    }
+}
+
+@Preview(name = "Home selected streak dark", widthDp = 360, heightDp = 50, uiMode = Configuration.UI_MODE_NIGHT_YES, locale = "ko", fontScale = 1f)
+@Composable
+private fun HomeDateWeekSelectedStreakDarkPreview() {
+    val selectedDate = LocalDate.of(2026, 8, 16)
+    FillsaTheme(darkTheme = true) {
+        HomeDateWeekSection(
+            date = selectedDate,
+            weekDays = homeHistoryDayStates(
+                startDate = LocalDate.of(2026, 8, 10),
+                endDate = selectedDate,
+                selectedDate = selectedDate,
+                completedDates = setOf(LocalDate.of(2026, 8, 10), LocalDate.of(2026, 8, 11), selectedDate),
             ),
             isCalendarOpen = false,
             onCalendar = {},

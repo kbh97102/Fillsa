@@ -2,6 +2,10 @@
 
 Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에서 관리한다. 모든 UI 변경은 [Figma 기반 UI 개편 워크플로우](ui-redesign-workflow.md)를 따른다.
 
+## Notion Home 연속필사 표시 QA · 2026-11-03
+
+- 새 이슈 `40de639f…2a24`: [계획 v3 HTML](screens/2026-11-03-home-streak-indicator-40de639f-plan.html) / [Markdown](screens/2026-11-03-home-streak-indicator-40de639f-plan.md), [화면 문서](screens/2_home.md), [QA](design-qa/2026-11-03-home-streak-indicator-40de639f-qa.md), [AS-IS/TO-BE 보고서](design-qa/2026-11-03-home-streak-indicator-40de639f-report.html). Android 월간 서버 판정 매칭과 사용자 승인 선택일 불꽃을 구현하고 목데이터·API31 Light/Dark로 검증했다. 실계정 응답과 전체 Figma 화면 최종 승인은 별도 확인이 남는다.
+
 ## Notion Calendar 미필사 색상 QA · 2026-11-01
 
 - `stage` 기반 독립 워크트리의 [계획 HTML](screens/2026-11-01-calendar-color-408e639f-plan.html), [화면 문서](screens/3_calendar.md), [QA](design-qa/2026-11-01-calendar-color-408e639f-qa.md), [결과 HTML](design-qa/2026-11-01-calendar-color-408e639f-report.html). 다크 안내·테두리 색상 수정과 런타임 확인 완료, 전체 Calendar Figma Pass는 기존 차이로 보류.

@@ -197,6 +197,10 @@ internal data class HomeRuntimeQaFixture(
     val showLoginDialog: Boolean = false,
     val showMultilineDialog: Boolean = false,
 ) {
+    val streakDates: Set<LocalDate> = setOf(
+        LocalDate.of(2026, 8, 10), LocalDate.of(2026, 8, 11), LocalDate.of(2026, 8, 16),
+    )
+
     /** Uses the same server-day window consumed by authenticated production Home. */
     val memberWindow: HomeMemberQuoteWindow by lazy {
         val dates = (10..16).map { LocalDate.of(2026, 8, it) }
@@ -206,7 +210,8 @@ internal data class HomeRuntimeQaFixture(
                 endDate = dates.last().toString(),
                 days = dates.mapIndexed { index, date ->
                     val selected = index == dates.lastIndex
-                    val completed = index < 2
+                    // Deliberately differs from streakDates to exercise the server contract boundary.
+                    val completed = index == 1 || index == 2
                     MemberQuoteDay(
                         date = date.toString(),
                         dayOfWeek = date.dayOfWeek.name,

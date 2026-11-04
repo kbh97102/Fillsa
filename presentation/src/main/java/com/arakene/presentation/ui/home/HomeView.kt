@@ -269,8 +269,7 @@ fun HomeView(
         ?: memberWindow?.endDate
         ?: DateCondition.currentDay()
     val completedDates = when {
-        qaMemberWindow != null -> homeMemberWeekDayStates(qaMemberWindow)
-            .filter(HomeWeekDayState::isCompleted).map(HomeWeekDayState::date).toSet()
+        qaMemberWindow != null -> homeQaFixture?.streakDates.orEmpty()
         memberWindow != null -> viewModel.memberHistoryCompletedDates
         else -> viewModel.completedDates
     }

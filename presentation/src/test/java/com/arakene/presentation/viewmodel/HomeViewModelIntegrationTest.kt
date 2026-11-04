@@ -4,6 +4,10 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.responses.AnswerResponse
 import com.arakene.domain.responses.MemberQuoteDay
 import com.arakene.domain.responses.MemberWeeklyQuoteResponse
+import com.arakene.domain.responses.MemberMonthlyQuoteResponse
+import com.arakene.domain.responses.MemberQuotesData
+import com.arakene.domain.responses.MonthlySummaryData
+import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetStreakCountUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
@@ -48,6 +52,91 @@ class HomeViewModelIntegrationTest {
     @After fun tearDown() { viewModel?.viewModelScope?.cancel() }
 
     @Test
+    fun `weekly typing completion alone does not mark a streak day`() = runTest {
+        val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        assertFalse(LocalDate.parse("2026-08-30") in vm.memberHistoryCompletedDates)
+    }
+
+    @Test
+    fun `monthly streak flags map across months without inferring adjacency`() = runTest {
+        val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
+        val calendar = CountingCalendarRepository().apply {
+            memberHandler = { month ->
+                ApiResult.Success(
+                    when (month) {
+                        "2026-08" -> monthly("2026-08-30" to true, "2026-08-31" to false)
+                        "2026-09" -> monthly("2026-09-01" to true, "2026-09-02" to false)
+                        else -> monthly()
+                    },
+                )
+            }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true), calendar)
+
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+        assertEquals(
+            setOf(LocalDate.parse("2026-08-30"), LocalDate.parse("2026-09-01")),
+            vm.memberHistoryCompletedDates,
+        )
+        assertEquals(listOf("member-monthly:2026-08", "member-monthly:2026-09"), calendar.events)
+
+        vm.handleContract(HomeAction.BrowseWeekDates(LocalDate.parse("2026-08-28"), LocalDate.parse("2026-09-03")))
+        advanceUntilIdle()
+        assertEquals(2, calendar.events.size)
+    }
+
+    @Test
+    fun `resume refreshes visible streak months and keeps known dates on failure`() = runTest {
+        val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
+        val calendar = CountingCalendarRepository().apply {
+            memberResult = ApiResult.Success(monthly("2026-08-30" to true))
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true), calendar)
+
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+        assertTrue(LocalDate.parse("2026-08-30") in vm.memberHistoryCompletedDates)
+
+        calendar.memberResult = ApiResult.Fail(CommonError.NetworkError)
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+        assertTrue(LocalDate.parse("2026-08-30") in vm.memberHistoryCompletedDates)
+        assertEquals(4, calendar.events.size)
+    }
+
+    @Test
+    fun `returning to Home after today's typing fetches the new streak flag`() = runTest {
+        val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
+        var todayCompleted = false
+        val calendar = CountingCalendarRepository().apply {
+            memberHandler = { month ->
+                ApiResult.Success(if (month == "2026-09") monthly("2026-09-03" to todayCompleted) else monthly())
+            }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true), calendar)
+
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+        assertFalse(LocalDate.parse("2026-09-03") in vm.memberHistoryCompletedDates)
+        vm.handleContract(HomeAction.BrowseWeekDates(LocalDate.parse("2026-08-28"), LocalDate.parse("2026-09-03")))
+        advanceUntilIdle()
+
+        todayCompleted = true
+        vm.initialRefresh(null)
+        advanceUntilIdle()
+
+        assertTrue(LocalDate.parse("2026-09-03") in vm.memberHistoryCompletedDates)
+        assertEquals(2, home.weeklyEndDates.size)
+        assertEquals(4, calendar.events.size)
+    }
+
+    @Test
     fun `member initial load and in-window month boundary selection use one weekly request`() = runTest {
         val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
         val local = CountingLocalRepository(loggedIn = true)
@@ -68,7 +157,7 @@ class HomeViewModelIntegrationTest {
     }
 
     @Test
-    fun `browsing older dates caches completion without changing the selected quote`() = runTest {
+    fun `browsing older dates keeps monthly streak markers without changing the selected quote`() = runTest {
         val home = CountingHomeRepository().apply {
             weeklyHandler = { endDate ->
                 if (endDate == "2026-08-27") {
@@ -84,7 +173,10 @@ class HomeViewModelIntegrationTest {
                 } else ApiResult.Success(weekly())
             }
         }
-        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        val calendar = CountingCalendarRepository().apply {
+            memberHandler = { month -> ApiResult.Success(if (month == "2026-08") monthly("2026-08-25" to true) else monthly()) }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true), calendar)
         vm.initialRefresh(null)
         advanceUntilIdle()
 
@@ -94,6 +186,7 @@ class HomeViewModelIntegrationTest {
         assertEquals(LocalDate.parse("2026-09-03"), vm.date.value)
         assertEquals(107, vm.currentQuota.dailyQuoteSeq)
         assertTrue(LocalDate.parse("2026-08-25") in vm.memberHistoryCompletedDates)
+        assertEquals(2, calendar.events.size)
 
         vm.handleContract(HomeAction.SelectWeekDay(LocalDate.parse("2026-08-25")))
         advanceUntilIdle()
@@ -109,7 +202,10 @@ class HomeViewModelIntegrationTest {
                 else ApiResult.Success(weekly())
             }
         }
-        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        val calendar = CountingCalendarRepository().apply {
+            memberHandler = { month -> ApiResult.Success(if (month == "2026-08") monthly("2026-08-30" to true, "2026-08-25" to false) else monthly()) }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true), calendar)
         vm.initialRefresh(null)
         advanceUntilIdle()
 
@@ -145,7 +241,10 @@ class HomeViewModelIntegrationTest {
                 } else ApiResult.Success(weekly())
             }
         }
-        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        val calendar = CountingCalendarRepository().apply {
+            memberHandler = { month -> ApiResult.Success(if (month == "2026-08") monthly("2026-08-25" to true) else monthly()) }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true), calendar)
         vm.initialRefresh(null)
         advanceUntilIdle()
 
@@ -179,17 +278,24 @@ class HomeViewModelIntegrationTest {
     fun `logout clears member window and guest refresh calls no member endpoint`() = runTest {
         val home = CountingHomeRepository().apply { weeklyResult = ApiResult.Success(weekly()) }
         val local = CountingLocalRepository(loggedIn = true)
-        val vm = createViewModel(home, local)
+        val calendar = CountingCalendarRepository().apply {
+            memberResult = ApiResult.Success(monthly("2026-08-30" to true))
+        }
+        val vm = createViewModel(home, local, calendar)
         vm.initialRefresh(null)
         advanceUntilIdle()
         assertTrue(vm.memberQuoteWindow != null)
+        assertTrue(LocalDate.parse("2026-08-30") in vm.memberHistoryCompletedDates)
         val eventsBeforeLogout = home.events.toList()
+        val calendarEventsBeforeLogout = calendar.events.toList()
         assertEquals(listOf("weekly:omitted"), eventsBeforeLogout)
 
         local.loginStatus.emit(false)
         advanceUntilIdle()
 
         assertNull(vm.memberQuoteWindow)
+        assertTrue(vm.memberHistoryCompletedDates.isEmpty())
+        assertEquals(calendarEventsBeforeLogout, calendar.events)
         assertEquals(1, home.weeklyEndDates.size)
         assertEquals(2, home.networkCallCount)
         assertEquals(eventsBeforeLogout, home.events.dropLast(1))
@@ -238,12 +344,18 @@ class HomeViewModelIntegrationTest {
             answerResult = ApiResult.Success(AnswerResponse(999, "서버 답변", "2026-09-08 09:00:00"))
             dailyResult = ApiResult.Fail(CommonError.NetworkError)
         }
-        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true))
+        var currentDayStreak = false
+        val calendar = CountingCalendarRepository().apply {
+            memberHandler = { month -> ApiResult.Success(if (month == "2026-09") monthly("2026-09-03" to currentDayStreak) else monthly()) }
+        }
+        val vm = createViewModel(home, CountingLocalRepository(loggedIn = true), calendar)
         val errors = mutableListOf<CommonError>()
         backgroundScope.launch(UnconfinedTestDispatcher(testScheduler)) { vm.error.toList(errors) }
         vm.initialRefresh(null)
         advanceUntilIdle()
+        assertFalse(LocalDate.parse("2026-09-03") in vm.memberHistoryCompletedDates)
 
+        currentDayStreak = true
         vm.handleContract(HomeAction.ChangeAnswer("내 답변"))
         runCurrent()
         vm.handleContract(HomeAction.RecordAnswer)
@@ -257,6 +369,8 @@ class HomeViewModelIntegrationTest {
         assertEquals("서버 답변", vm.answerUiState.recordedAnswer)
         assertFalse(vm.memberQuoteWindow!!.selectedDay!!.completed)
         assertEquals("today", vm.memberQuoteWindow!!.selectedDay!!.state)
+        assertTrue(LocalDate.parse("2026-09-03") in vm.memberHistoryCompletedDates)
+        assertEquals(listOf("member-monthly:2026-08", "member-monthly:2026-09", "member-monthly:2026-09"), calendar.events)
         assertTrue(errors.isEmpty())
     }
 
@@ -371,15 +485,35 @@ class HomeViewModelIntegrationTest {
         assertEquals("N", vm.memberQuoteWindow!!.selectedDay!!.likeYn)
     }
 
-    private fun createViewModel(home: CountingHomeRepository, local: CountingLocalRepository): HomeViewModel =
+    private fun createViewModel(
+        home: CountingHomeRepository,
+        local: CountingLocalRepository,
+        calendar: CountingCalendarRepository = CountingCalendarRepository(),
+    ): HomeViewModel =
         HomeViewModel(
             GetDailyQuoteNoTokenUseCase(home), GetDailyQuoteUseCase(home), GetMemberWeeklyQuotesUseCase(home),
+            GetQuotesMonthlyUseCase(calendar),
             GetMemberQuoteDayUseCase(home), SaveQuoteAnswerUseCase(home), GetLoginStatusUseCase(local),
             PostLikeUseCase(home), PostUploadImageUseCase(home), DeleteUploadImageUseCase(home),
             UpdateLocalQuoteLikeUseCase(local), GetLocalQuoteListUseCase(local), FindLocalQuoteByIdUseCase(local),
             AddLocalQuoteUseCase(local),
             GetStreakCountUseCase(local, CountingCommonRepository()), GetAllStreakInfoUseCase(local),
         ).also { viewModel = it }
+
+    private fun monthly(vararg flags: Pair<String, Boolean>) = MemberMonthlyQuoteResponse(
+        memberQuotes = flags.mapIndexed { index, (date, streak) ->
+            MemberQuotesData(
+                dailyQuoteSeq = 2_000 + index,
+                quoteDate = date,
+                quote = "명언",
+                author = "작가",
+                completed = !streak,
+                likeYnString = "N",
+                todayCompleted = streak,
+            )
+        },
+        monthlySummary = MonthlySummaryData(typingCount = 0, likeCount = 0, streakCount = 0),
+    )
 
     private fun weekly() = MemberWeeklyQuoteResponse(
         startDate = "2026-08-28", endDate = "2026-09-03",

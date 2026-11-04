@@ -1,8 +1,5 @@
 package com.arakene.presentation.ui.home
 
-import com.arakene.domain.responses.MemberQuoteDay
-import com.arakene.domain.responses.MemberWeeklyQuoteResponse
-import com.arakene.presentation.model.HomeMemberQuoteWindow
 import com.arakene.presentation.model.HomeMemberFlowState
 import com.arakene.presentation.util.HomeRuntimeQaFixture
 import java.time.LocalDate
@@ -13,30 +10,6 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class HomeWeekStripStateTest {
-
-    private fun memberDay(
-        date: String,
-        state: String,
-        completed: Boolean,
-        answer: String?,
-    ) = MemberQuoteDay(
-        date = date,
-        dayOfWeek = "금",
-        state = state,
-        dailyQuoteSeq = 91,
-        korQuote = "오늘의 한국어 명언",
-        engQuote = "Today's English quote",
-        korAuthor = "한국어 작가",
-        engAuthor = "English author",
-        authorUrl = "https://example.com/author",
-        questionKo = "오늘 무엇을 기록하고 싶나요?",
-        questionEn = "What would you like to write today?",
-        answer = answer,
-        answeredAt = answer?.let { "2026-09-03 14:01:13" },
-        likeYn = "N",
-        imagePath = null,
-        completed = completed,
-    )
 
     @Test
     fun `week strip only marks dates supplied by completion data`() {
@@ -68,6 +41,19 @@ class HomeWeekStripStateTest {
     }
 
     @Test
+    fun `selected streak day keeps its selected circle and shows the existing flame`() {
+        val selectedDate = LocalDate.of(2026, 8, 16)
+        val selectedDay = homeWeekDayStates(
+            selectedDate = selectedDate,
+            completedDates = setOf(selectedDate),
+        ).last()
+
+        assertEquals(HomeWeekDayPresentation.Selected, homeWeekDayPresentation(selectedDay))
+        assertTrue(homeWeekDayShowsBadge(selectedDay))
+        assertFalse(homeWeekDayShowsBadge(selectedDay.copy(isCompleted = false)))
+    }
+
+    @Test
     fun `scrollable history begins at service start and keeps today last`() {
         val days = homeHistoryDayStates(
             startDate = LocalDate.of(2026, 8, 10),
@@ -82,55 +68,36 @@ class HomeWeekStripStateTest {
     }
 
     @Test
-    fun `authenticated week strip preserves server order and completion flags`() {
-        val response = MemberWeeklyQuoteResponse(
-            startDate = "2026-08-28",
-            endDate = "2026-09-03",
-            days = listOf(
-                memberDay("2026-08-28", "done", completed = false, answer = null),
-                memberDay("2026-08-29", "past", completed = false, answer = "답변만 있음"),
-                memberDay("2026-08-30", "past", completed = true, answer = null),
-                memberDay("2026-08-31", "past", completed = false, answer = null),
-                memberDay("2026-09-01", "past", completed = false, answer = null),
-                memberDay("2026-09-02", "past", completed = false, answer = null),
-                memberDay("2026-09-03", "today", completed = false, answer = null),
-            ),
+    fun `week strip maps supplied streak dates across month boundary`() {
+        val days = homeHistoryDayStates(
+            startDate = LocalDate.parse("2026-08-28"),
+            endDate = LocalDate.parse("2026-09-03"),
+            selectedDate = LocalDate.parse("2026-09-03"),
+            completedDates = setOf(LocalDate.parse("2026-08-30"), LocalDate.parse("2026-09-01")),
         )
-
-        val days = homeMemberWeekDayStates(HomeMemberQuoteWindow.from(response))
 
         assertEquals(
             listOf(28, 29, 30, 31, 1, 2, 3),
             days.map { it.date.dayOfMonth },
         )
         assertEquals(
-            listOf(true, false, true, false, false, false, false),
+            listOf(false, false, true, false, true, false, false),
             days.map { it.isCompleted },
         )
         assertEquals(LocalDate.of(2026, 9, 3), days.single { it.isSelected }.date)
     }
 
     @Test
-    fun `answer-only day stays incomplete across the August to September boundary`() {
-        val response = MemberWeeklyQuoteResponse(
-            startDate = "2026-08-28",
-            endDate = "2026-09-03",
-            days = listOf(
-                memberDay("2026-08-28", "past", false, null),
-                memberDay("2026-08-29", "past", false, "답변만 있음"),
-                memberDay("2026-08-30", "done", false, null),
-                memberDay("2026-08-31", "past", false, null),
-                memberDay("2026-09-01", "past", false, null),
-                memberDay("2026-09-02", "past", false, null),
-                memberDay("2026-09-03", "today", false, null),
-            ),
+    fun `week strip does not infer streak from adjacent dates`() {
+        val days = homeHistoryDayStates(
+            startDate = LocalDate.parse("2026-08-28"),
+            endDate = LocalDate.parse("2026-09-03"),
+            selectedDate = LocalDate.parse("2026-09-03"),
+            completedDates = setOf(LocalDate.parse("2026-08-30"), LocalDate.parse("2026-09-01")),
         )
 
-        val days = homeMemberWeekDayStates(HomeMemberQuoteWindow.from(response))
-
-        assertFalse(days.single { it.date == LocalDate.parse("2026-08-29") }.isCompleted)
-        assertEquals(1, days.count { it.isCompleted })
-        assertEquals(LocalDate.parse("2026-08-30"), days.single { it.isCompleted }.date)
+        assertFalse(days.single { it.date == LocalDate.parse("2026-08-31") }.isCompleted)
+        assertEquals(2, days.count { it.isCompleted })
     }
 
     @Test
@@ -150,6 +117,20 @@ class HomeWeekStripStateTest {
         assertEquals("기록한 답변", state.answer.recordedAnswer)
         assertEquals("Y", selected.likeYn)
         assertTrue(selected.imagePath?.isNotBlank() == true)
+        assertFalse(state.window.days.single { it.date == "2026-08-10" }.completed)
+        assertTrue(state.window.days.single { it.date == "2026-08-12" }.completed)
+        assertEquals(
+            setOf(LocalDate.parse("2026-08-10"), LocalDate.parse("2026-08-11"), LocalDate.parse("2026-08-16")),
+            fixture.streakDates,
+        )
+        val selectedStreakDay = homeHistoryDayStates(
+            startDate = LocalDate.parse("2026-08-10"),
+            endDate = LocalDate.parse("2026-08-16"),
+            selectedDate = LocalDate.parse("2026-08-16"),
+            completedDates = fixture.streakDates,
+        ).last()
+        assertTrue(selectedStreakDay.isCompleted)
+        assertEquals(HomeWeekDayPresentation.Selected, homeWeekDayPresentation(selectedStreakDay))
     }
 
     @Test

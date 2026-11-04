@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.usecase.calendar.GetQuotesMonthlyUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetStreakCountUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
@@ -92,6 +93,7 @@ class HomeViewModel @Inject constructor(
     private val getDailyQuoteNoTokenUseCase: GetDailyQuoteNoTokenUseCase,
     private val getDailyQuoteUseCase: GetDailyQuoteUseCase,
     private val getMemberWeeklyQuotesUseCase: GetMemberWeeklyQuotesUseCase,
+    private val getQuotesMonthlyUseCase: GetQuotesMonthlyUseCase,
     private val getMemberQuoteDayUseCase: GetMemberQuoteDayUseCase,
     private val saveQuoteAnswerUseCase: SaveQuoteAnswerUseCase,
     private val getLoginStatusUseCase: GetLoginStatusUseCase,
@@ -119,6 +121,11 @@ class HomeViewModel @Inject constructor(
     private var isMemberSession = false
     private var memberWindowRequestJob: Job? = null
     private val historyWindowJobs = mutableMapOf<LocalDate, Job>()
+    private val streakMonthJobs = mutableMapOf<YearMonth, Job>()
+    private val streakMonthRevisions = mutableMapOf<YearMonth, Long>()
+    private var streakMonthRevision = 0L
+    private var visibleStreakRange: Pair<LocalDate, LocalDate>? = null
+    private var streakDatesByMonth by mutableStateOf<Map<YearMonth, Set<LocalDate>>>(emptyMap())
     private var memberOrchestration by mutableStateOf(HomeMemberOrchestrationState())
     private var activeAuthContext: HomeAuthContext? = null
     private var homeStarted = false
@@ -139,12 +146,7 @@ class HomeViewModel @Inject constructor(
         get() = memberOrchestration.anchorEndDate
 
     val memberHistoryCompletedDates: Set<LocalDate>
-        get() = memberOrchestration.cachedWindows.values
-            .flatMap { it.days }
-            .asSequence()
-            .filter { it.state == "done" || it.completed }
-            .map { LocalDate.parse(it.date) }
-            .toSet()
+        get() = streakDatesByMonth.values.flatten().toSet()
 
     var memberQuestionKo by mutableStateOf<String?>(null)
         private set
@@ -375,6 +377,18 @@ class HomeViewModel @Inject constructor(
             result.snackbarMessage?.let { emitEffect(CommonEffect.ShowSnackBar(it)) }
             if (!result.shouldRefresh) return@save
 
+            val visibleRange = visibleStreakRange
+            if (visibleRange == null) {
+                loadStreakMonths(request.target.date, request.target.date, refresh = true)
+            } else {
+                val (first, last) = visibleRange
+                loadStreakMonths(first, last, refresh = true)
+                val targetMonth = YearMonth.from(request.target.date)
+                if (targetMonth < YearMonth.from(first) || targetMonth > YearMonth.from(last)) {
+                    loadStreakMonths(request.target.date, request.target.date, refresh = true)
+                }
+            }
+
             // This reconciliation is optional: a failed GET cannot undo a successful POST.
             val refresh = memberAnswerCoordinator.captureRefresh(memberOrchestration, request)
             val dailyResult = getMemberQuoteDayUseCase(request.target.date.toString())
@@ -410,6 +424,10 @@ class HomeViewModel @Inject constructor(
         requestDate?.let { date.value = it }
         homeStarted = true
         pendingExplicitTarget = requestDate
+        if (isResume && isMemberSession) {
+            (visibleStreakRange ?: memberQuoteWindow?.let { it.startDate to it.endDate })
+                ?.let { (first, last) -> loadStreakMonths(first, last, refresh = true) }
+        }
         activeAuthContext?.let { context ->
             if (loadedAuthContext != context || requestDate != null || isResume) {
                 loadedAuthContext = context
@@ -689,6 +707,8 @@ class HomeViewModel @Inject constructor(
         authBoundJob = SupervisorJob(viewModelScope.coroutineContext[Job])
         memberWindowRequestJob = null
         historyWindowJobs.clear()
+        streakMonthJobs.clear()
+        streakMonthRevisions.clear()
         memberLikeRequestIds.clear()
         memberLikeMutexes.clear()
     }
@@ -697,6 +717,9 @@ class HomeViewModel @Inject constructor(
         memberWindowRequestJob?.cancel()
         historyWindowJobs.values.forEach(Job::cancel)
         historyWindowJobs.clear()
+        streakMonthJobs.values.forEach(Job::cancel)
+        streakMonthJobs.clear()
+        streakMonthRevisions.clear()
         memberOrchestration = HomeMemberOrchestrationState(
             latestRequestId = memberOrchestration.latestRequestId + 1,
         )
@@ -704,6 +727,8 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun clearMemberProjection() {
+        streakDatesByMonth = emptyMap()
+        visibleStreakRange = null
         memberAnswerCoordinator = HomeMemberAnswerCoordinator()
         currentQuota = DailyQuoteDto()
         quoteLoadState = HomeQuoteLoadState.Loading
@@ -733,6 +758,8 @@ class HomeViewModel @Inject constructor(
 
     private fun browseWeekDates(first: LocalDate, last: LocalDate) {
         if (!isMemberSession) return
+        visibleStreakRange = first to last
+        loadStreakMonths(first, last)
         val anchor = memberAnchorEndDate ?: return
         val requestToken = authBoundCoordinator.capture() ?: return
         for (endDate in homeHistoryWindowEnds(anchor, first, last, DateCondition.startDay)) {
@@ -752,6 +779,40 @@ class HomeViewModel @Inject constructor(
                 }
             }
             historyWindowJobs[endDate] = job
+        }
+    }
+
+    private fun loadStreakMonths(first: LocalDate, last: LocalDate, refresh: Boolean = false) {
+        if (!isMemberSession || first.isAfter(last)) return
+        val requestToken = authBoundCoordinator.capture() ?: return
+        var month = YearMonth.from(first)
+        val finalMonth = YearMonth.from(last)
+        while (!month.isAfter(finalMonth)) {
+            val requestedMonth = month
+            month = month.plusMonths(1)
+            if (!refresh && (requestedMonth in streakDatesByMonth || streakMonthJobs[requestedMonth]?.isActive == true)) continue
+            streakMonthJobs.remove(requestedMonth)?.cancel()
+            val revision = ++streakMonthRevision
+            streakMonthRevisions[requestedMonth] = revision
+            streakMonthJobs[requestedMonth] = launchAuthBound(requestToken) {
+                try {
+                    val result = getQuotesMonthlyUseCase(requestedMonth.toString())
+                    if (!authBoundCoordinator.accepts(requestToken) || streakMonthRevisions[requestedMonth] != revision) return@launchAuthBound
+                    if (result is ApiResult.Success) {
+                        val dates = result.data.memberQuotes.asSequence()
+                            .filter { it.todayCompleted }
+                            .mapNotNull { runCatching { LocalDate.parse(it.quoteDate) }.getOrNull() }
+                            .filter { YearMonth.from(it) == requestedMonth }
+                            .toSet()
+                        streakDatesByMonth = streakDatesByMonth + (requestedMonth to dates)
+                    }
+                } finally {
+                    if (streakMonthRevisions[requestedMonth] == revision) {
+                        streakMonthJobs.remove(requestedMonth)
+                        streakMonthRevisions.remove(requestedMonth)
+                    }
+                }
+            }
         }
     }
 
@@ -863,6 +924,7 @@ class HomeViewModel @Inject constructor(
     }
 
     private fun applyMemberWindow(window: HomeMemberQuoteWindow) {
+        loadStreakMonths(window.startDate, window.endDate)
         val selectedDay = window.selectedDay ?: return
         val memberState = HomeMemberFlowState.from(window)
         date.value = memberState.window.selectedDate

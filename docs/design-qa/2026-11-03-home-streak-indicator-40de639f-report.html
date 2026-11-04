@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Home 날짜 영역 연속필사 표시 QA</title>
+  <style>
+    :root { color-scheme: light; --ink:#182331; --muted:#526174; --line:#dce2e9; --paper:#fff; --accent:#165b50; }
+    * { box-sizing:border-box; }
+    body { margin:0; color:var(--ink); background:#f3f5f7; font:16px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif; }
+    main { max-width:1280px; margin:auto; padding:48px 24px 80px; }
+    header { margin-bottom:28px; }
+    h1 { margin:8px 0 16px; font-size:clamp(28px,4vw,44px); line-height:1.25; }
+    h2 { margin:0 0 16px; font-size:25px; } h3 { margin-top:28px; }
+    a { color:#165caa; overflow-wrap:anywhere; }
+    .eyebrow { color:var(--accent); font-weight:700; letter-spacing:.1em; }
+    .meta, figcaption { color:var(--muted); font-size:14px; }
+    .notice { padding:16px 20px; border-left:4px solid #a96613; background:#fff6e4; }
+    .panel, article { margin-top:24px; padding:28px; background:var(--paper); border:1px solid var(--line); border-radius:16px; }
+    .comparison { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; }
+    .overview { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:16px; }
+    .overview section { padding:16px; border:1px solid var(--line); border-radius:10px; }
+    .overview h3 { margin:0 0 8px; font-size:17px; }
+    .overview p { margin:0; }
+    .source-body, .comments { overflow-wrap:anywhere; }
+    figure { margin:0; padding:16px; border:1px solid var(--line); border-radius:10px; }
+    figure h3 { font-size:16px; margin:0 0 12px; }
+    img { display:block; max-width:100%; height:auto; margin:0 auto 12px; }
+    .missing { border:1px dashed #bac4d0; padding:24px 12px; color:var(--muted); }
+    .table-wrap { overflow-x:auto; }
+    table { border-collapse:collapse; width:100%; text-align:left; }
+    th,td { border-bottom:1px solid var(--line); padding:12px; vertical-align:top; }
+    th { background:#f3f6f8; }
+    code { overflow-wrap:anywhere; } pre { white-space:pre-wrap; overflow-wrap:anywhere; padding:16px; background:#f3f6f8; }
+    .status { display:inline-block; border:1px solid var(--line); border-radius:6px; padding:3px 10px; font-weight:600; }
+    @media(max-width:800px) { main { padding:24px 16px 48px; } .comparison, .overview { grid-template-columns:1fr; } .panel, article { padding:20px; } }
+    @media print { body { background:white; } main { padding:0; } .panel,article { border-radius:0; } figure, tr { break-inside:avoid; } }
+  </style>
+</head>
+<body><main>
+  <header>
+    <div class="eyebrow">QA / AS-IS → TO-BE</div>
+    <h1>Home 날짜 영역 연속필사 표시 QA</h1>
+    <p>월간 todayCompleted로 날짜별 연속필사를 매칭하고, 선택된 오늘에도 사용자 승인에 따라 기존 불꽃 배지를 표시했습니다. 주간 완료값과 다른 목데이터로 전후를 검증했습니다.</p>
+    <p class="meta">2026-11-03 13:55 UTC · stage 5489625 기반 · Android Emulator API31 360×821px, density 160, ko, Light/Dark · Debug fixture</p>
+    <div class="notice"><strong>Android 목데이터 검증 통과:</strong> 선택된 연속필사 날짜에 Light/Dark 모두 불꽃이 표시됩니다. 저장 완료 후 Home 재진입의 월간 갱신도 확인했습니다. 뒤로가기 직후에는 서버 저장과 재조회 순서에 따라 즉시 갱신이 보장되지 않습니다. 실제 계정 응답과 전체 Home 화면의 기존 Figma 차이는 별도 확인이 남았습니다.</div>
+  </header>
+  <section class="panel" aria-label="이슈 한눈에 보기">
+    <h2>이슈 한눈에 보기</h2>
+    <div class="overview">
+      <section><h3><a href="#notion-source">원본 이슈</a></h3><p>Home 날짜 영역의 연속필사 불꽃 누락. 새 댓글은 선택된 당일, Light/Dark, iOS/Android를 명시합니다.</p><p class="meta"><a href="#notion-comments">댓글 1건·HEIC 첨부 1개 확인</a></p></section>
+      <section><h3><a href="#issue-cause">이슈 원인</a></h3><p>회원 배지의 날짜 원천이 주간 일반 완료값이었고, 선택 상태가 불꽃 렌더보다 우선합니다.</p></section>
+      <section><h3><a href="#issue-solution">해결방법</a></h3><p>월간 todayCompleted를 quoteDate로 매칭하고 선택 원 위에 기존 불꽃 배지를 표시합니다.</p></section>
+      <section><h3><a href="#issue-comparison">AS-IS → TO-BE</a></h3><p>선택된 연속필사 날짜에 불꽃이 없던 화면에서 같은 원·숫자 위에 불꽃이 나타납니다.</p></section>
+    </div>
+  </section>
+  <section class="panel" aria-label="선택 이슈와 승인 범위">
+    <h2>선택 이슈와 승인 범위</h2>
+    <p>사용자의 “그럼 이거 진행해봐 진행하고 목데이터로 검증해서 결과좀 보여줄래”에 따라 서버 날짜 판정 매칭을 구현했습니다. 새 댓글을 반영한 <a href="../screens/2026-11-03-home-streak-indicator-40de639f-plan.html">계획 v3</a>의 선택+연속필사 상태는 “기존 불꽃 배지 표시 승인”이라는 명시적 UI 예외 승인에 따라 구현했습니다. Notion 상태는 변경하지 않았습니다.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>이슈</th><th>구현</th><th>기능 검증</th><th>UI 검증</th><th>최종 상태</th></tr></thead>
+      <tbody><tr><td>40de639f…2a24 · Android Home</td><td>월간 날짜 매칭·선택일 불꽃 구현</td><td>목데이터 테스트 통과</td><td>Light/Dark API31 배지 확인, 전체 Figma Pass 미부여</td><td>기능 검증 통과 · 전체 UI Blocked</td></tr></tbody>
+    </table></div>
+  </section>
+  <!-- One issue per report. Copy this template for each issue and replace every token with verified content. -->
+  <article id="issue-40de639f">
+    <span class="status">Android 목데이터 검증 통과 · 전체 UI Blocked</span>
+    <h2>Home > 날짜 영역 > 연속필사 표시안됨</h2>
+    <p><a href="https://app.notion.com/p/Home-40de639fc7a4803ca620ed225eba2a24">Notion QA 원문</a></p>
+    <section id="notion-source">
+      <h3>Notion 원본 이슈</h3>
+      <p class="meta">Page ID 40de639f-c7a4-803c-a620-ed225eba2a24 · 생성 2026-11-03 10:14 UTC · 최종 수정 10:26 UTC · 13:57 UTC 최종 재조회</p>
+      <div class="table-wrap"><table><tbody><tr><th>상태</th><td>Not started</td><th>우선순위</th><td>중간</td></tr><tr><th>플랫폼</th><td>iOS, Android</td><th>화면·분류</th><td>Home · 기능</td></tr></tbody></table></div>
+      <div class="source-body"><p>제목: “Home > 날짜 영역 > 연속필사 표시안됨”. 본문 블록은 0건입니다.</p></div>
+      <p>페이지 본문 첨부는 없습니다. 아래 HEIC는 댓글 첨부이며 <a href="artifacts/2026-11-03-qa-home-streak/notion-comment-40de639f.heic">원본 사본</a>과 열람용 PNG를 보존했습니다.</p>
+    </section>
+    <section id="notion-comments">
+      <h3>Notion 댓글</h3>
+      <p class="meta">페이지 댓글 첫 페이지 전체 조회, has_more=false. 댓글 1건·첨부 1개. 블록 본문은 0건이므로 별도 블록 댓글은 없습니다.</p>
+      <div class="comments"><p>SooJi · 2026-11-03 10:26 UTC · comment 40de639f-c7a4-80d5-90e0-001d464b1cba · discussion d74e639f-c7a4-831a-ad33-832c9a039ab3</p><blockquote>대상 : iOS/Android (라이트/블랙)<br>당일 연속필사를 한 경우, 불꽃 표시가 나타나지 않고 있습니다!</blockquote><a href="artifacts/2026-11-03-qa-home-streak/notion-comment-40de639f.png"><img src="artifacts/2026-11-03-qa-home-streak/notion-comment-40de639f.png" alt="제보 댓글의 iOS Dark 화면에서 선택한 3일에 불꽃이 없음"></a><p>제보 당시 HEIC 첨부를 PNG로 변환한 사본입니다. 2일에는 불꽃, 선택된 3일에는 불꽃이 없습니다.</p></div>
+    </section>
+    <h3>문제와 재현 조건</h3>
+    <p>댓글 첨부에는 iOS Dark 화면의 11월 3일 선택 원이 표시되고 불꽃이 없습니다. 직전 2일에는 불꽃, 헤더는 2일입니다. Android 실계정 monthly 응답은 확보하지 못해 실제 계정 조건은 재현하지 못했습니다. Debug fixture에 선택일 todayCompleted=true와 주간/월간 값 불일치를 넣어 코드 경계를 검증했습니다.</p>
+    <h3 id="issue-cause">이슈 원인</h3>
+    <p>확인된 코드 원인 1: 회원 Home이 주간 days[].completed/state로 배지를 판정했습니다. Swagger v2에서 이 값은 일반 필사 완료이며 월간 memberQuotes[].todayCompleted가 날짜별 연속필사 여부입니다. 확인된 코드 원인 2: homeWeekDayPresentation은 isSelected를 먼저 처리하고 HomeWeekStrip은 Completed 변형에서만 불꽃을 그립니다. 따라서 선택된 당일은 연속필사 플래그가 참이어도 불꽃이 숨겨집니다. 서버의 실제 오늘 플래그 및 월 경계 판정 알고리즘은 미확인입니다.</p>
+    <h3 id="issue-solution">해결방법과 실제 수정</h3>
+    <p>HomeViewModel은 보이는 주간 날짜가 걸친 각 월의 memberQuotes를 조회하고 todayCompleted=true의 quoteDate를 보관합니다. HomeView는 이 날짜 집합을 회원 배지 상태에 전달합니다. 복귀·필사 POST 성공 때 재조회하고 실패 시 확인된 표시를 보존합니다. Debug fixture는 주간 완료와 월간 판정을 서로 다르게 설정했습니다. 사용자 승인 예외에 따라 HomeWeekStrip은 선택 원·숫자를 유지하고 연속필사인 선택일에도 기존 home_complete_badge.svg를 같은 위치에 그립니다. Android는 월 경계의 앞뒤 날짜를 직접 계산하지 않습니다.</p><ul><li>presentation/.../viewmodel/HomeViewModel.kt</li><li>presentation/.../ui/home/HomeView.kt, FigmaHomeContent.kt</li><li>presentation/.../util/ComposeExtension.kt 및 관련 테스트</li><li>화면 계획·QA 문서</li></ul>
+    <h3 id="issue-comparison">수정 전 · 목표 기준 · 수정 후</h3>
+    <div class="comparison">
+      <figure><h3>AS-IS · 선택일 불꽃 누락</h3><a href="artifacts/2026-11-03-qa-home-streak/after-runtime-fixture-api31-360x821.png"><img src="artifacts/2026-11-03-qa-home-streak/after-runtime-fixture-api31-360x821.png" alt="선택 16일의 연속필사 플래그가 참이지만 불꽃이 없던 Android Light 전체 프레임"></a><p><a href="artifacts/2026-11-03-qa-home-streak/notion-comment-40de639f.png">Notion 제보 첨부</a> · <a href="artifacts/2026-11-03-qa-home-streak/before-runtime-fixture-api31-360x821.png">최초 수정 전 캡처</a></p><figcaption>선택 16일의 연속필사 flag=true 목데이터, UI 수정 전 · Android API31 · 360×821 Light. 실계정 캡처는 아님.</figcaption></figure>
+      <figure><h3>Figma · 목표 기준</h3><a href="artifacts/2026-11-03-qa-home-streak/figma-week-strip-3204-2435.png"><img src="artifacts/2026-11-03-qa-home-streak/figma-week-strip-3204-2435.png" alt="Figma 날짜 줄에서 10일과 11일은 불꽃, 16일은 선택"></a><figcaption>Figma 파일 VdFocqyqTgevMVCQxwAQ2X, 날짜 줄 3204:2435, 240×40. 선택+연속필사 조합은 확인되지 않음. <a href="assets/home-figma-2929-13556/reference-full.png">전체 기준 프레임</a>.</figcaption></figure>
+      <figure><h3>TO-BE · 선택일 불꽃 표시</h3><a href="artifacts/2026-11-03-qa-home-streak/final-runtime-fixture-api31-360x821.png"><img src="artifacts/2026-11-03-qa-home-streak/final-runtime-fixture-api31-360x821.png" alt="선택 16일에도 기존 불꽃이 표시된 Android Light 전체 프레임"></a><p><a href="artifacts/2026-11-03-qa-home-streak/final-runtime-fixture-dark-api31-360x821.png">Dark 전체 프레임</a> · <a href="artifacts/2026-11-03-qa-home-streak/selected-week-light/com/arakene/presentation/ui/home/FigmaHomeContentKt/HomeDateWeekSelectedStreakLightPreview_0.png">선택일 Preview</a></p><figcaption>같은 선택 16일 연속필사 flag=true 목데이터 · Android API31 · 360×821 Light. 10·11·16일 불꽃, 12일 일반 상태. 선택 원·숫자 유지. CLI Preview SVG 누락은 실제 런타임 캡처로 보완.</figcaption></figure>
+    </div>
+    <h3>검증 결과</h3>
+    <div class="table-wrap"><table>
+      <thead><tr><th>검증 항목</th><th>실행 명령·절차·시각</th><th>실제 결과</th><th>증거</th></tr></thead>
+      <tbody><tr><td>목데이터·회귀 테스트</td><td>./gradlew :presentation:testDebugUnitTest :app:assembleDebug --console=plain · 2026-11-03 13:52 UTC</td><td>성공. 월별 true/false, 8→9월 경계, 선택일 불꽃, 복귀·POST·로그아웃 검증</td><td><a href="2026-11-03-home-streak-indicator-40de639f-qa.md">QA 기록</a></td></tr><tr><td>Debug 빌드</td><td>같은 Gradle 실행 · 2026-11-03 13:52 UTC</td><td>성공</td><td>app/build/outputs/apk/debug/app-debug.apk</td></tr><tr><td>선택일 하위 Preview</td><td>android preview render :presentation --fqn=...HomeDateWeekSelectedStreakLightPreview / DarkPreview --component-tree</td><td>Light/Dark 렌더 성공. CLI SVG 불꽃 누락, Dark 텍스트 잘림</td><td><a href="artifacts/2026-11-03-qa-home-streak/selected-week-light/com/arakene/presentation/ui/home/FigmaHomeContentKt/HomeDateWeekSelectedStreakLightPreview_0.png">Light PNG</a> · <a href="artifacts/2026-11-03-qa-home-streak/selected-week-dark/com/arakene/presentation/ui/home/FigmaHomeContentKt/HomeDateWeekSelectedStreakDarkPreview_0.png">Dark PNG</a></td></tr><tr><td>전체 Preview</td><td>android preview render :presentation --fqn=...AuditFigma292913556 --component-tree</td><td>렌더 성공. 실제 시스템 바·SVG 확인은 런타임 증거 사용</td><td><a href="artifacts/2026-11-03-qa-home-streak/final-home-light/com/arakene/presentation/ui/audit/HomeAuditPreviewsKt/AuditFigma292913556_0.png">PNG</a> · <a href="artifacts/2026-11-03-qa-home-streak/final-home-light/com/arakene/presentation/ui/audit/HomeAuditPreviewsKt/AuditFigma292913556_0.json">tree</a></td></tr><tr><td>실제 전체 프레임</td><td>adb -s emulator-5556 exec-out screencap -p · API31 360×821</td><td>Light/Dark 10·11·선택 16일 불꽃, 12일 기본 날짜 확인</td><td><a href="artifacts/2026-11-03-qa-home-streak/final-runtime-fixture-api31-360x821.png">Light</a> · <a href="artifacts/2026-11-03-qa-home-streak/final-runtime-fixture-dark-api31-360x821.png">Dark</a></td></tr><tr><td>실계정</td><td>Notion 첨부와 코드·목데이터 대조</td><td>Android 실계정 monthly todayCompleted 응답 미확인</td><td><a href="artifacts/2026-11-03-qa-home-streak/notion-comment-40de639f.png">제보 첨부</a></td></tr></tbody>
+    </table></div>
+    <p>컴포넌트 결과: 선택 원·숫자와 기존 불꽃의 결합을 Light/Dark 실제 런타임에서 확인했습니다. 선택+연속필사는 사용자가 승인한 Figma 예외입니다. Preview SVG 누락과 Dark 월 카드 텍스트 잘림이 있어 Preview만으로 불꽃을 판정하지 않았습니다. 전체 Home은 Figma 기준과 기존 시스템 바·하단 및 콘텐츠 차이가 남습니다. <strong>기능 목데이터 검증: 통과. 최종 조립 화면 디자인: Blocked.</strong></p>
+    <h3>남은 항목과 다음 행동</h3>
+    <ul><li>2026-11-04 재확인: 저장 버튼 완료 후 다이얼로그 확인으로 Home에 돌아오면 월간 데이터를 재조회한다. 목데이터에서 오늘 todayCompleted false→true 반영 테스트 통과. 뒤로가기는 저장 요청 직후 Home으로 이동해 서버 저장과 재조회 순서가 바뀔 수 있으므로 즉시 갱신은 보장되지 않는다.</li><li>실제 Android 계정의 11월 3일 monthly todayCompleted 및 주간 응답 확인.</li><li>기존 전체 Home Figma 차이는 해당 화면 QA에서 별도 정리. 이번 선택일 상태는 사용자 승인 예외로 기록.</li><li>iOS 수정과 검증은 이 Android 작업 범위 밖.</li></ul>
+  </article>
+  <footer class="meta"><p><a href="../screens/2026-11-03-home-streak-indicator-40de639f-plan.html">계획 v3 HTML</a> · <a href="../screens/2026-11-03-home-streak-indicator-40de639f-plan.md">Markdown</a> · <a href="2026-11-03-home-streak-indicator-40de639f-qa.md">QA 기록</a> · <a href="https://app.notion.com/p/Home-40de639fc7a4803ca620ed225eba2a24">Notion 원본</a>. 로컬 링크·이미지 정적 검사는 통과했으며 연결 가능한 브라우저가 없어 넓은/좁은 HTML 렌더 시각 점검은 미실시했습니다.</p></footer>
+</main></body>
+</html>

@@ -103,11 +103,12 @@ internal class CountingHomeRepository : HomeRepository {
 internal class CountingCalendarRepository : CalendarRepository {
     val events = mutableListOf<String>()
     var memberResult: ApiResult<MemberMonthlyQuoteResponse> = ApiResult.Fail(CommonError.DefaultError)
+    var memberHandler: (suspend (String) -> ApiResult<MemberMonthlyQuoteResponse>)? = null
     var guestResult: ApiResult<List<MonthlyQuoteResponse>> = ApiResult.Success(emptyList())
 
     override suspend fun getQuotesMonthly(yearMonth: String): ApiResult<MemberMonthlyQuoteResponse> {
         events += "member-monthly:$yearMonth"
-        return memberResult
+        return memberHandler?.invoke(yearMonth) ?: memberResult
     }
     override suspend fun getQuotesMonthlyNonMember(yearMonth: String): ApiResult<List<MonthlyQuoteResponse>> {
         events += "guest-monthly:$yearMonth"
