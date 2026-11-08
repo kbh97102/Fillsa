@@ -14,16 +14,18 @@
 
 ## Figma UI 기준
 
-- Figma URL:
-- 대상 프레임/노드:
-- 대상 기기/프레임 크기:
-- 검증 상태: 미검증
-- 기준 이미지:
-- QA 기록:
+- Figma URL: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X
+- 대상 프레임/노드: Light `2929:3723` (`1.login`, 설명 `2929:3744`), Dark `2929:5815` (`1.login_dark`, 설명 `2929:5836`).
+- 대상 기기/프레임 크기: Figma 360×720, 한국어, 글꼴 배율 1.0, 비회원 로그인 진입 상태. Android Preview 콘텐츠는 상태/내비게이션 바를 제외한 360×672dp. 에뮬레이터 전체 프레임은 360×720px/160dpi/API 35로 별도 기록했다.
+- 검증 상태: 설명 중앙 정렬 Light/Dark Preview·360×720 실행 화면 Pass. 로그인 상태·버튼·하단 배치가 다른 전체 조립 화면 Figma 수용은 Blocked. [차이 기록](../design-qa/2026-11-08-login-description-center-qa.md).
+- 기준 이미지: [Light 전체 프레임](../design-qa/artifacts/2026-10-25-full-screen-audit/figma/2929-3723.png), [Dark 전체 프레임](../design-qa/artifacts/2026-10-25-full-screen-audit/figma/2929-5815.png). Figma MCP `get_design_context`로 두 프레임과 설명 노드의 `text-center`, 320px 폭, 16px Pretendard/24px 줄높이를 2026-11-08 재확인.
+- QA 기록: [로그인 설명 정렬 QA](../design-qa/2026-11-08-login-description-center-qa.md).
 
 ### 컴포넌트 분해
 | 컴포넌트 | Figma 노드 | 책임 | 조립 위치 | 검증 상태 |
 |---|---|---|---|---|
+| 로그인 안내 설명 `Text` | Light `2929:3744`, Dark `2929:5836` | 320dp 폭에서 같은 문구를 두 줄로 중앙 정렬 | `LoginContent`의 로고와 버튼 그룹 사이 | 컴포넌트 Pass |
+| 로그인 전체 `LoginContent` | Light `2929:3723`, Dark `2929:5815` | 설명과 기존 로고·버튼·약관 조립 | `Screens.Login` | 전체 프레임 Blocked |
 
 
 ## 전체 화면 대조 · 2026-10-25

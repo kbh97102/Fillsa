@@ -387,7 +387,10 @@ internal fun LoginContent(
             stringResource(R.string.login_description),
             style = FillsaTheme.typography.body2,
             color = FillsaTheme.colorScheme.onBackground1,
-            modifier = Modifier.padding(top = if (darkMode) 50.dp else 80.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = if (darkMode) 50.dp else 80.dp),
+            textAlign = TextAlign.Center,
         )
 
         // 카카오

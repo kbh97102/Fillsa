@@ -1,0 +1,571 @@
+{
+  "previewId": "AuditFigma29293723",
+  "methodFQN": "com.arakene.presentation.ui.audit.LoginScreenAuditPreviewsKt.AuditFigma29293723",
+  "width": 945,
+  "height": 1764,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 16,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "AuditRoot",
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 945,
+        "bottom": 1764,
+        "width": 945,
+        "height": 1764
+      },
+      "sourceLocation": {
+        "fileName": "LoginScreenAuditPreviews.kt",
+        "lineNumber": 34,
+        "packageHash": 239198555
+      },
+      "children": [
+        {
+          "name": "FillsaTheme",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 945,
+            "bottom": 1764,
+            "width": 945,
+            "height": 1764
+          },
+          "sourceLocation": {
+            "fileName": "AuditFixtures.kt",
+            "lineNumber": 60,
+            "packageHash": 239198555
+          },
+          "children": [
+            {
+              "name": "Column",
+              "bounds": {
+                "left": 0,
+                "top": 0,
+                "right": 945,
+                "bottom": 1764,
+                "width": 945,
+                "height": 1764
+              },
+              "sourceLocation": {
+                "fileName": "AuditFixtures.kt",
+                "lineNumber": 63,
+                "packageHash": 239198555
+              },
+              "children": [
+                {
+                  "name": "LoginContent",
+                  "bounds": {
+                    "left": 53,
+                    "top": 0,
+                    "right": 892,
+                    "bottom": 1764,
+                    "width": 839,
+                    "height": 1764
+                  },
+                  "sourceLocation": {
+                    "fileName": "LoginScreenAuditPreviews.kt",
+                    "lineNumber": 35,
+                    "packageHash": 239198555
+                  },
+                  "children": [
+                    {
+                      "name": "Column",
+                      "bounds": {
+                        "left": 53,
+                        "top": 0,
+                        "right": 892,
+                        "bottom": 1764,
+                        "width": 839,
+                        "height": 1764
+                      },
+                      "sourceLocation": {
+                        "fileName": "LoginView.kt",
+                        "lineNumber": 360,
+                        "packageHash": 2142118766
+                      },
+                      "children": [
+                        {
+                          "name": "Column",
+                          "bounds": {
+                            "left": 53,
+                            "top": 0,
+                            "right": 892,
+                            "bottom": 1764,
+                            "width": 839,
+                            "height": 1764
+                          },
+                          "children": [
+                            {
+                              "name": "Image",
+                              "bounds": {
+                                "left": 236,
+                                "top": 404,
+                                "right": 709,
+                                "bottom": 798,
+                                "width": 473,
+                                "height": 394
+                              },
+                              "sourceLocation": {
+                                "fileName": "LoginView.kt",
+                                "lineNumber": 374,
+                                "packageHash": 2142118766
+                              },
+                              "modifiers": {
+                                "padding": "start=0.0.dp, top=154.0.dp, end=0.0.dp, bottom=0.0.dp",
+                                "clip": "true"
+                              }
+                            },
+                            {
+                              "name": "Text",
+                              "bounds": {
+                                "left": 53,
+                                "top": 1008,
+                                "right": 892,
+                                "bottom": 1121,
+                                "width": 839,
+                                "height": 113
+                              },
+                              "sourceLocation": {
+                                "fileName": "LoginView.kt",
+                                "lineNumber": 386,
+                                "packageHash": 2142118766
+                              },
+                              "semantics": {
+                                "text": "로그인 후, 나만의 필사를 안전하게 저장할 수 있습니다."
+                              },
+                              "parameters": {
+                                "textAlign": "Center",
+                                "color": "#FF212121"
+                              },
+                              "modifiers": {
+                                "fill": "Horizontal (1.0)",
+                                "padding": "start=0.0.dp, top=80.0.dp, end=0.0.dp, bottom=0.0.dp"
+                              }
+                            },
+                            {
+                              "name": "LoginButton",
+                              "bounds": {
+                                "left": 53,
+                                "top": 1179,
+                                "right": 892,
+                                "bottom": 1257,
+                                "width": 839,
+                                "height": 78
+                              },
+                              "sourceLocation": {
+                                "fileName": "LoginView.kt",
+                                "lineNumber": 397,
+                                "packageHash": 2142118766
+                              },
+                              "children": [
+                                {
+                                  "name": "Row",
+                                  "bounds": {
+                                    "left": 53,
+                                    "top": 1179,
+                                    "right": 892,
+                                    "bottom": 1257,
+                                    "width": 839,
+                                    "height": 78
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "LoginView.kt",
+                                    "lineNumber": 309,
+                                    "packageHash": 2142118766
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Row",
+                                      "bounds": {
+                                        "left": 53,
+                                        "top": 1179,
+                                        "right": 892,
+                                        "bottom": 1257,
+                                        "width": 839,
+                                        "height": 78
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Image",
+                                          "bounds": {
+                                            "left": 243,
+                                            "top": 1179,
+                                            "right": 324,
+                                            "bottom": 1257,
+                                            "width": 81,
+                                            "height": 78
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "LoginView.kt",
+                                            "lineNumber": 321,
+                                            "packageHash": 2142118766
+                                          },
+                                          "modifiers": {
+                                            "clip": "true"
+                                          }
+                                        },
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 345,
+                                            "top": 1196,
+                                            "right": 702,
+                                            "bottom": 1240,
+                                            "width": 357,
+                                            "height": 44
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "LoginView.kt",
+                                            "lineNumber": 323,
+                                            "packageHash": 2142118766
+                                          },
+                                          "semantics": {
+                                            "text": "카카오 계정으로 시작하기"
+                                          },
+                                          "parameters": {
+                                            "color": "#FF371D1E"
+                                          },
+                                          "modifiers": {
+                                            "padding": "start=8.0.dp, top=0.0.dp, end=0.0.dp, bottom=0.0.dp"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "OnClick"
+                                      },
+                                      "modifiers": {
+                                        "padding": "start=0.0.dp, top=10.0.dp, end=0.0.dp, bottom=10.0.dp",
+                                        "background": "#FFFFE600, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                        "fill": "Horizontal (1.0)",
+                                        "clickable": "enabled=true"
+                                      }
+                                    }
+                                  ],
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "padding": "start=0.0.dp, top=10.0.dp, end=0.0.dp, bottom=10.0.dp",
+                                    "background": "#FFFFE600, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                    "fill": "Horizontal (1.0)",
+                                    "clickable": "enabled=true"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "LoginButton",
+                              "bounds": {
+                                "left": 53,
+                                "top": 1351,
+                                "right": 892,
+                                "bottom": 1430,
+                                "width": 839,
+                                "height": 79
+                              },
+                              "sourceLocation": {
+                                "fileName": "LoginView.kt",
+                                "lineNumber": 406,
+                                "packageHash": 2142118766
+                              },
+                              "children": [
+                                {
+                                  "name": "Row",
+                                  "bounds": {
+                                    "left": 53,
+                                    "top": 1351,
+                                    "right": 892,
+                                    "bottom": 1430,
+                                    "width": 839,
+                                    "height": 79
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "LoginView.kt",
+                                    "lineNumber": 309,
+                                    "packageHash": 2142118766
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Row",
+                                      "bounds": {
+                                        "left": 53,
+                                        "top": 1351,
+                                        "right": 892,
+                                        "bottom": 1430,
+                                        "width": 839,
+                                        "height": 79
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Image",
+                                          "bounds": {
+                                            "left": 260,
+                                            "top": 1351,
+                                            "right": 339,
+                                            "bottom": 1430,
+                                            "width": 79,
+                                            "height": 79
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "LoginView.kt",
+                                            "lineNumber": 321,
+                                            "packageHash": 2142118766
+                                          },
+                                          "modifiers": {
+                                            "clip": "true"
+                                          }
+                                        },
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 360,
+                                            "top": 1369,
+                                            "right": 686,
+                                            "bottom": 1413,
+                                            "width": 326,
+                                            "height": 44
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "LoginView.kt",
+                                            "lineNumber": 323,
+                                            "packageHash": 2142118766
+                                          },
+                                          "semantics": {
+                                            "text": "구글 계정으로 시작하기"
+                                          },
+                                          "parameters": {
+                                            "color": "#FF371D1E"
+                                          },
+                                          "modifiers": {
+                                            "padding": "start=8.0.dp, top=0.0.dp, end=0.0.dp, bottom=0.0.dp"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "OnClick"
+                                      },
+                                      "modifiers": {
+                                        "padding": "start=0.0.dp, top=10.0.dp, end=0.0.dp, bottom=10.0.dp",
+                                        "background": "#FFEEEEEF, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                        "fill": "Horizontal (1.0)",
+                                        "clickable": "enabled=true"
+                                      }
+                                    }
+                                  ],
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "padding": "start=0.0.dp, top=10.0.dp, end=0.0.dp, bottom=10.0.dp",
+                                    "background": "#FFEEEEEF, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                    "fill": "Horizontal (1.0)",
+                                    "clickable": "enabled=true"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "LoginButton",
+                              "bounds": {
+                                "left": 53,
+                                "top": 1524,
+                                "right": 892,
+                                "bottom": 1605,
+                                "width": 839,
+                                "height": 81
+                              },
+                              "sourceLocation": {
+                                "fileName": "LoginView.kt",
+                                "lineNumber": 416,
+                                "packageHash": 2142118766
+                              },
+                              "children": [
+                                {
+                                  "name": "Row",
+                                  "bounds": {
+                                    "left": 53,
+                                    "top": 1524,
+                                    "right": 892,
+                                    "bottom": 1605,
+                                    "width": 839,
+                                    "height": 81
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "LoginView.kt",
+                                    "lineNumber": 309,
+                                    "packageHash": 2142118766
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Row",
+                                      "bounds": {
+                                        "left": 53,
+                                        "top": 1524,
+                                        "right": 892,
+                                        "bottom": 1605,
+                                        "width": 839,
+                                        "height": 81
+                                      },
+                                      "children": [
+                                        {
+                                          "name": "Image",
+                                          "bounds": {
+                                            "left": 280,
+                                            "top": 1524,
+                                            "right": 358,
+                                            "bottom": 1605,
+                                            "width": 78,
+                                            "height": 81
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "LoginView.kt",
+                                            "lineNumber": 321,
+                                            "packageHash": 2142118766
+                                          },
+                                          "modifiers": {
+                                            "clip": "true"
+                                          }
+                                        },
+                                        {
+                                          "name": "Text",
+                                          "bounds": {
+                                            "left": 379,
+                                            "top": 1543,
+                                            "right": 666,
+                                            "bottom": 1587,
+                                            "width": 287,
+                                            "height": 44
+                                          },
+                                          "sourceLocation": {
+                                            "fileName": "LoginView.kt",
+                                            "lineNumber": 323,
+                                            "packageHash": 2142118766
+                                          },
+                                          "semantics": {
+                                            "text": "비회원으로 시작하기"
+                                          },
+                                          "parameters": {
+                                            "color": "#FF371D1E"
+                                          },
+                                          "modifiers": {
+                                            "padding": "start=8.0.dp, top=0.0.dp, end=0.0.dp, bottom=0.0.dp"
+                                          }
+                                        }
+                                      ],
+                                      "semantics": {
+                                        "actions": "OnClick"
+                                      },
+                                      "modifiers": {
+                                        "padding": "start=0.0.dp, top=10.0.dp, end=0.0.dp, bottom=10.0.dp",
+                                        "background": "#FFFFFFFF, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                        "fill": "Horizontal (1.0)",
+                                        "clickable": "enabled=true"
+                                      }
+                                    }
+                                  ],
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "padding": "start=0.0.dp, top=10.0.dp, end=0.0.dp, bottom=10.0.dp",
+                                    "background": "#FFFFFFFF, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp))",
+                                    "fill": "Horizontal (1.0)",
+                                    "clickable": "enabled=true"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "LinksComposables",
+                              "bounds": {
+                                "left": 209,
+                                "top": 1663,
+                                "right": 651,
+                                "bottom": 1710,
+                                "width": 442,
+                                "height": 47
+                              },
+                              "sourceLocation": {
+                                "fileName": "BasicText.kt",
+                                "lineNumber": 688,
+                                "packageHash": 245385689
+                              },
+                              "children": [
+                                {
+                                  "name": "Box",
+                                  "bounds": {
+                                    "left": 209,
+                                    "top": 1663,
+                                    "right": 337,
+                                    "bottom": 1710,
+                                    "width": 128,
+                                    "height": 47
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "TextLinkScope.kt",
+                                    "lineNumber": 223,
+                                    "packageHash": 245385689
+                                  },
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "clickable": "enabled=true"
+                                  }
+                                },
+                                {
+                                  "name": "Box",
+                                  "bounds": {
+                                    "left": 386,
+                                    "top": 1663,
+                                    "right": 651,
+                                    "bottom": 1710,
+                                    "width": 265,
+                                    "height": 47
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "TextLinkScope.kt",
+                                    "lineNumber": 223,
+                                    "packageHash": 245385689
+                                  },
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "clickable": "enabled=true"
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "modifiers": {
+                            "fill": "Both (1.0)",
+                            "background": "#FFFFEFCC",
+                            "padding": "start=20.0.dp, top=0.0.dp, end=20.0.dp, bottom=0.0.dp"
+                          }
+                        }
+                      ],
+                      "modifiers": {
+                        "fill": "Both (1.0)",
+                        "background": "#FFFFEFCC",
+                        "padding": "start=20.0.dp, top=0.0.dp, end=20.0.dp, bottom=0.0.dp"
+                      }
+                    }
+                  ]
+                }
+              ],
+              "modifiers": {
+                "fill": "Both (1.0)",
+                "background": "#FFFFEFCC"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
