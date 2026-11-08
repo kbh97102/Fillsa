@@ -175,9 +175,13 @@ internal class CountingLocalRepository(
 }
 
 internal class CountingCommonRepository : CommonRepository {
+    var streakResult: ApiResult<MemberStreakResponse> = ApiResult.Success(MemberStreakResponse(currentStreak = 7, isTodayWritten = false))
+    var streakCalls = 0
     override fun getNotice(): Flow<PagingData<NoticeResponse>> = flowOf(PagingData.empty())
-    override suspend fun getMemberStreaks(): ApiResult<MemberStreakResponse> =
-        ApiResult.Success(MemberStreakResponse(currentStreak = 7, isTodayWritten = false))
+    override suspend fun getMemberStreaks(): ApiResult<MemberStreakResponse> {
+        streakCalls++
+        return streakResult
+    }
     override suspend fun getPopUpGeneral(): ApiResult<PopupResponse> = ApiResult.Fail(CommonError.DefaultError)
     override suspend fun getPopUpVersionUpdate(): ApiResult<PopupResponse> = ApiResult.Fail(CommonError.DefaultError)
     override suspend fun deleteResign(): ApiResult<Int> = ApiResult.Success(1)

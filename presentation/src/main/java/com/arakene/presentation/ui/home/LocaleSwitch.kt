@@ -39,7 +39,6 @@ fun LocaleSwitch(
                 color = containerColor,
                 shape = RoundedCornerShape(99.dp)
             )
-            .padding(rootPadding)
             .noEffectClickable {
                 setSelected(
                     if (selected == LocaleType.ENG) {
@@ -48,7 +47,8 @@ fun LocaleSwitch(
                         LocaleType.ENG
                     }
                 )
-            },
+            }
+            .padding(rootPadding),
         verticalAlignment = Alignment.CenterVertically
     ) {
 

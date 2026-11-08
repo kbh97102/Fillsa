@@ -1,0 +1,324 @@
+{
+  "previewId": "TypingCompletedLightPreview",
+  "methodFQN": "com.arakene.presentation.ui.home.TypingResultDialogKt.TypingCompletedLightPreview",
+  "width": 840,
+  "height": 638,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 16,
+  "deviceId": "Custom",
+  "components": [
+    {
+      "name": "FillsaTheme",
+      "bounds": {
+        "left": 0,
+        "top": 0,
+        "right": 840,
+        "bottom": 638,
+        "width": 840,
+        "height": 638
+      },
+      "sourceLocation": {
+        "fileName": "TypingResultDialog.kt",
+        "lineNumber": 230,
+        "packageHash": 1793196193
+      },
+      "children": [
+        {
+          "name": "TypingResultContent",
+          "bounds": {
+            "left": 0,
+            "top": 0,
+            "right": 840,
+            "bottom": 638,
+            "width": 840,
+            "height": 638
+          },
+          "sourceLocation": {
+            "fileName": "TypingResultDialog.kt",
+            "lineNumber": 231,
+            "packageHash": 1793196193
+          },
+          "children": [
+            {
+              "name": "Column",
+              "bounds": {
+                "left": 0,
+                "top": 0,
+                "right": 840,
+                "bottom": 638,
+                "width": 840,
+                "height": 638
+              },
+              "sourceLocation": {
+                "fileName": "TypingResultDialog.kt",
+                "lineNumber": 80,
+                "packageHash": 1793196193
+              },
+              "children": [
+                {
+                  "name": "Column",
+                  "bounds": {
+                    "left": 0,
+                    "top": 0,
+                    "right": 840,
+                    "bottom": 638,
+                    "width": 840,
+                    "height": 638
+                  },
+                  "children": [
+                    {
+                      "name": "TypingResultCharacter",
+                      "bounds": {
+                        "left": 263,
+                        "top": 53,
+                        "right": 578,
+                        "bottom": 368,
+                        "width": 315,
+                        "height": 315
+                      },
+                      "sourceLocation": {
+                        "fileName": "TypingResultDialog.kt",
+                        "lineNumber": 91,
+                        "packageHash": 1793196193
+                      },
+                      "children": [
+                        {
+                          "name": "Box",
+                          "bounds": {
+                            "left": 263,
+                            "top": 53,
+                            "right": 578,
+                            "bottom": 368,
+                            "width": 315,
+                            "height": 315
+                          },
+                          "sourceLocation": {
+                            "fileName": "TypingResultDialog.kt",
+                            "lineNumber": 153,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "TypingResultImage",
+                              "bounds": {
+                                "left": 263,
+                                "top": 53,
+                                "right": 578,
+                                "bottom": 368,
+                                "width": 315,
+                                "height": 315
+                              },
+                              "sourceLocation": {
+                                "fileName": "TypingResultDialog.kt",
+                                "lineNumber": 165,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Image",
+                                  "bounds": {
+                                    "left": 263,
+                                    "top": 53,
+                                    "right": 578,
+                                    "bottom": 368,
+                                    "width": 315,
+                                    "height": 315
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "TypingResultDialog.kt",
+                                    "lineNumber": 206,
+                                    "packageHash": 1793196193
+                                  },
+                                  "modifiers": {
+                                    "size": "120.0.dp",
+                                    "clip": "true"
+                                  }
+                                }
+                              ]
+                            }
+                          ],
+                          "modifiers": {
+                            "size": "120.0.dp"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Box",
+                      "bounds": {
+                        "left": 0,
+                        "top": 368,
+                        "right": 840,
+                        "bottom": 447,
+                        "width": 840,
+                        "height": 79
+                      },
+                      "sourceLocation": {
+                        "fileName": "TypingResultDialog.kt",
+                        "lineNumber": 92,
+                        "packageHash": 1793196193
+                      },
+                      "children": [
+                        {
+                          "name": "Text",
+                          "bounds": {
+                            "left": 316,
+                            "top": 376,
+                            "right": 524,
+                            "bottom": 439,
+                            "width": 208,
+                            "height": 63
+                          },
+                          "sourceLocation": {
+                            "fileName": "TypingResultDialog.kt",
+                            "lineNumber": 93,
+                            "packageHash": 1793196193
+                          },
+                          "semantics": {
+                            "text": "필사 완료!"
+                          },
+                          "parameters": {
+                            "textAlign": "Center",
+                            "color": "#FF212121",
+                            "maxLines": "1"
+                          }
+                        }
+                      ],
+                      "modifiers": {
+                        "fill": "Horizontal (1.0)",
+                        "height": "30.0.dp"
+                      }
+                    },
+                    {
+                      "name": "Box",
+                      "bounds": {
+                        "left": 0,
+                        "top": 447,
+                        "right": 840,
+                        "bottom": 638,
+                        "width": 840,
+                        "height": 191
+                      },
+                      "sourceLocation": {
+                        "fileName": "TypingResultDialog.kt",
+                        "lineNumber": 101,
+                        "packageHash": 1793196193
+                      },
+                      "children": [
+                        {
+                          "name": "Row",
+                          "bounds": {
+                            "left": 32,
+                            "top": 479,
+                            "right": 809,
+                            "bottom": 608,
+                            "width": 777,
+                            "height": 129
+                          },
+                          "sourceLocation": {
+                            "fileName": "TypingResultDialog.kt",
+                            "lineNumber": 102,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "TypingResultButton",
+                              "bounds": {
+                                "left": 32,
+                                "top": 479,
+                                "right": 809,
+                                "bottom": 608,
+                                "width": 777,
+                                "height": 129
+                              },
+                              "sourceLocation": {
+                                "fileName": "TypingResultDialog.kt",
+                                "lineNumber": 108,
+                                "packageHash": 1793196193
+                              },
+                              "children": [
+                                {
+                                  "name": "Box",
+                                  "bounds": {
+                                    "left": 32,
+                                    "top": 479,
+                                    "right": 809,
+                                    "bottom": 608,
+                                    "width": 777,
+                                    "height": 129
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "TypingResultDialog.kt",
+                                    "lineNumber": 137,
+                                    "packageHash": 1793196193
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Text",
+                                      "bounds": {
+                                        "left": 385,
+                                        "top": 519,
+                                        "right": 457,
+                                        "bottom": 569,
+                                        "width": 72,
+                                        "height": 50
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "TypingResultDialog.kt",
+                                        "lineNumber": 147,
+                                        "packageHash": 1793196193
+                                      },
+                                      "semantics": {
+                                        "text": "확인"
+                                      },
+                                      "parameters": {
+                                        "color": "#FF212121"
+                                      }
+                                    }
+                                  ],
+                                  "semantics": {
+                                    "actions": "OnClick"
+                                  },
+                                  "modifiers": {
+                                    "width": "296.0.dp",
+                                    "height": "49.0.dp",
+                                    "clip": "true",
+                                    "background": "#FFFFCB5C",
+                                    "clickable": "enabled=true"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "modifiers": {
+                        "fill": "Horizontal (1.0)",
+                        "height": "73.0.dp"
+                      }
+                    }
+                  ],
+                  "modifiers": {
+                    "width": "320.0.dp",
+                    "height": "243.0.dp",
+                    "shadow": "elevation=12.0.dp, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp)), clip=true",
+                    "clip": "true",
+                    "background": "#FFFFFFFF"
+                  }
+                }
+              ],
+              "modifiers": {
+                "width": "320.0.dp",
+                "height": "243.0.dp",
+                "shadow": "elevation=12.0.dp, shape=RoundedCornerShape(topStart = CornerSize(size = 8.0.dp), topEnd = CornerSize(size = 8.0.dp), bottomEnd = CornerSize(size = 8.0.dp), bottomStart = CornerSize(size = 8.0.dp)), clip=true",
+                "clip": "true",
+                "background": "#FFFFFFFF"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

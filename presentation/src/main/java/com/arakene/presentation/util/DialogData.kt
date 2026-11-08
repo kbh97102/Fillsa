@@ -12,7 +12,7 @@ enum class DialogLayoutMode {
     HomeDarkMeasured,
 }
 
-enum class TypingResultKind { Continue, Streak, Incomplete }
+enum class TypingResultKind { Continue, Streak, Completed, Incomplete }
 
 @Stable
 class DialogData private constructor() {

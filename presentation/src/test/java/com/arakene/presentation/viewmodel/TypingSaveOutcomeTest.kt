@@ -5,6 +5,8 @@ import com.arakene.domain.repository.TypingRepository
 import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.responses.DailyQuoteDto
+import com.arakene.domain.responses.MemberQuoteDay
+import com.arakene.domain.responses.MemberStreakResponse
 import com.arakene.domain.responses.MemberTypingQuoteResponse
 import com.arakene.domain.responses.TypingSaveResponse
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
@@ -15,6 +17,7 @@ import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
 import com.arakene.domain.usecase.db.InsertStreakInfoUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
+import com.arakene.domain.usecase.home.GetMemberQuoteDayUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostTypingUseCase
 import com.arakene.domain.util.ApiResult
@@ -43,6 +46,8 @@ import org.junit.Assert.assertNull
 import org.junit.Rule
 import org.junit.Test
 import java.util.concurrent.atomic.AtomicInteger
+import java.time.LocalDate
+import com.arakene.domain.model.StreakInfo
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class TypingSaveOutcomeTest {
@@ -64,7 +69,7 @@ class TypingSaveOutcomeTest {
 
     @Test
     fun `completed save popup confirmation returns to Home`() = runTest {
-        val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)))
+        val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)), home = completedHome())
         val dialog = async(Dispatchers.Default) { withTimeout(3_000) { vm.effect.filterIsInstance<CommonEffect.ShowDialog>().first() } }
 
         vm.handleContract(saveAction())
@@ -72,7 +77,7 @@ class TypingSaveOutcomeTest {
         val move = async(Dispatchers.Default) { withTimeout(3_000) { vm.effect.filterIsInstance<CommonEffect.Move>().first() } }
 
         assertNotNull(shown.dialogData.onClick)
-        assertEquals(TypingResultKind.Streak, shown.dialogData.typingResultKind)
+        assertEquals(TypingResultKind.Continue, shown.dialogData.typingResultKind)
         shown.dialogData.onClick!!.invoke()
         assertEquals(Screens.Home(), move.await().screen)
     }
@@ -91,7 +96,7 @@ class TypingSaveOutcomeTest {
 
     @Test
     fun `incomplete save offers typing without opening another typing route`() = runTest {
-        val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)))
+        val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)), home = completedHome(false))
         val dialog = async(Dispatchers.Default) { withTimeout(3_000) { vm.effect.filterIsInstance<CommonEffect.ShowDialog>().first() } }
 
         vm.handleContract(saveAction().copy(korTyping = "오늘의"))
@@ -124,7 +129,7 @@ class TypingSaveOutcomeTest {
     @Test
     fun `repeated save taps issue one member request`() = runTest {
         val repository = FakeTypingRepository(ApiResult.Success(savedTyping), delayMillis = 150)
-        val vm = createViewModel(repository)
+        val vm = createViewModel(repository, home = completedHome())
         val dialog = async(Dispatchers.Default) { withTimeout(3_000) { vm.effect.filterIsInstance<CommonEffect.ShowDialog>().first() } }
 
         vm.handleContract(saveAction())
@@ -134,33 +139,113 @@ class TypingSaveOutcomeTest {
         assertEquals(1, repository.saveCount.get())
     }
 
+    @Test
+    fun `today completed save shows streak even when changed flags are false`() = runTest {
+        val home = completedHome(date = LocalDate.now().toString())
+        val common = CountingCommonRepository()
+        val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)), home = home, common = common)
+        val dialog = async(Dispatchers.Default) { withTimeout(3_000) { vm.effect.filterIsInstance<CommonEffect.ShowDialog>().first() } }
+
+        vm.handleContract(saveAction(LocalDate.now().toString()))
+
+        assertEquals(TypingResultKind.Streak, dialog.await().dialogData.typingResultKind)
+        assertEquals(0, common.streakCalls)
+        assertEquals(listOf("member-daily:${LocalDate.now()}"), home.events)
+    }
+
+    @Test
+    fun `past completed save shows completed when today was written`() = runTest {
+        val common = CountingCommonRepository().apply {
+            streakResult = ApiResult.Success(MemberStreakResponse(currentStreak = 1, isTodayWritten = true))
+        }
+        val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)), home = completedHome(), common = common)
+        val dialog = async(Dispatchers.Default) { withTimeout(3_000) { vm.effect.filterIsInstance<CommonEffect.ShowDialog>().first() } }
+
+        vm.handleContract(saveAction())
+
+        assertEquals(TypingResultKind.Completed, dialog.await().dialogData.typingResultKind)
+        assertEquals(1, common.streakCalls)
+    }
+
+    @Test
+    fun `daily lookup failure and mismatched quote or date never show success popup`() = runTest {
+        for (home in listOf(CountingHomeRepository(), completedHome().apply {
+            dailyResult = ApiResult.Success(completedDay().copy(dailyQuoteSeq = 99))
+        }, completedHome().apply {
+            dailyResult = ApiResult.Success(completedDay().copy(date = "2026-10-12"))
+        })) {
+            val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)), home = home)
+            val dialog = async(Dispatchers.Default) { withTimeoutOrNull(500) { vm.effect.filterIsInstance<CommonEffect.ShowDialog>().first() } }
+            vm.handleContract(saveAction())
+            assertNull(dialog.await())
+        }
+    }
+
+    @Test
+    fun `streak lookup failure never shows success popup`() = runTest {
+        val common = CountingCommonRepository().apply { streakResult = ApiResult.Fail(CommonError.NetworkError) }
+        val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)), home = completedHome(), common = common)
+        val dialog = async(Dispatchers.Default) { withTimeoutOrNull(500) { vm.effect.filterIsInstance<CommonEffect.ShowDialog>().first() } }
+
+        vm.handleContract(saveAction())
+
+        assertNull(dialog.await())
+    }
+
+    @Test
+    fun `guest past save preserves today status and shows completed`() = runTest {
+        val local = CountingLocalRepository(loggedIn = false).apply {
+            streakInfos = listOf(StreakInfo(LocalDate.now(), isDailyWritingCompleted = true))
+        }
+        val vm = createViewModel(FakeTypingRepository(ApiResult.Success(savedTyping)), local = local)
+        val dialog = async(Dispatchers.Default) { withTimeout(3_000) { vm.effect.filterIsInstance<CommonEffect.ShowDialog>().first() } }
+
+        vm.handleContract(saveAction())
+
+        assertEquals(TypingResultKind.Completed, dialog.await().dialogData.typingResultKind)
+    }
+
     private fun createViewModel(
         typing: TypingRepository,
         loggedIn: Boolean = true,
         local: CountingLocalRepository = CountingLocalRepository(loggedIn = loggedIn),
+        home: CountingHomeRepository = CountingHomeRepository(),
+        common: CountingCommonRepository = CountingCommonRepository(),
     ): TypingViewModel {
         return TypingViewModel(
-            postLikeUseCase = PostLikeUseCase(CountingHomeRepository()),
+            postLikeUseCase = PostLikeUseCase(home),
             addLocalQuoteUseCase = AddLocalQuoteUseCase(local),
             getLoginStateUseCase = GetLoginStatusUseCase(local),
             updateLocalQuoteLikeUseCase = UpdateLocalQuoteLikeUseCase(local),
             getTypingUseCase = GetTypingUseCase(typing),
             postTypingUseCase = PostTypingUseCase(typing),
+            getMemberQuoteDayUseCase = GetMemberQuoteDayUseCase(home),
             getLocalQuoteUseCase = GetLocalQuoteUseCase(local),
             deleteLocalQuoteUseCase = DeleteLocalQuoteUseCase(local),
-            getMemberStreakResponse = GetMemberStreaksUseCase(CountingCommonRepository(), local),
+            getMemberStreakResponse = GetMemberStreaksUseCase(common, local),
             setTodayTypingComplete = InsertStreakInfoUseCase(local),
         ).also { viewModel = it }
     }
 
-    private fun saveAction() = TypingAction.Save(
+    private fun saveAction(date: String = "2026-10-11") = TypingAction.Save(
         korTyping = "오늘의 문장",
         engTyping = "",
         dailyQuote = DailyQuoteDto().copy(dailyQuoteSeq = 42, korQuote = "오늘의 문장").apply {
-            quoteDate = "2026-10-11"
+            quoteDate = date
         },
         localeType = LocaleType.KOR,
         isLike = false,
+    )
+
+    private fun completedHome(completed: Boolean = true, date: String = "2026-10-11") = CountingHomeRepository().apply {
+        dailyResult = ApiResult.Success(completedDay(completed).copy(date = date))
+    }
+
+    private fun completedDay(completed: Boolean = true) = MemberQuoteDay(
+        date = "2026-10-11", dayOfWeek = "SUNDAY", state = "WRITTEN", dailyQuoteSeq = 42,
+        korQuote = "오늘의 문장", engQuote = null, korAuthor = null, engAuthor = null,
+        authorUrl = null, questionKo = null, questionEn = null, answer = null,
+        answeredAt = null, likeYn = YN.N.type, imagePath = null, completed = completed,
     )
 
     private val savedTyping = TypingSaveResponse(

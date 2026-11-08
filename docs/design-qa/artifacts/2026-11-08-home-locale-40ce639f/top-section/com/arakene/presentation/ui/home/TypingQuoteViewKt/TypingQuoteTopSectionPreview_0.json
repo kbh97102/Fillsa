@@ -1,0 +1,256 @@
+{
+  "previewId": "TypingQuoteTopSectionPreview",
+  "methodFQN": "com.arakene.presentation.ui.home.TypingQuoteViewKt.TypingQuoteTopSectionPreview",
+  "width": 1080,
+  "height": 131,
+  "densityDpi": 420,
+  "fontScale": 1.0,
+  "uiMode": 0,
+  "deviceId": "medium_phone",
+  "components": [
+    {
+      "name": "TypingQuoteTopSectionPreview",
+      "bounds": {
+        "left": 0,
+        "top": 18,
+        "right": 1080,
+        "bottom": 113,
+        "width": 1080,
+        "height": 95
+      },
+      "children": [
+        {
+          "name": "TypingQuoteTopSection",
+          "bounds": {
+            "left": 0,
+            "top": 18,
+            "right": 1080,
+            "bottom": 113,
+            "width": 1080,
+            "height": 95
+          },
+          "sourceLocation": {
+            "fileName": "TypingQuoteView.kt",
+            "lineNumber": 359,
+            "packageHash": 1793196193
+          },
+          "children": [
+            {
+              "name": "Row",
+              "bounds": {
+                "left": 0,
+                "top": 18,
+                "right": 1080,
+                "bottom": 113,
+                "width": 1080,
+                "height": 95
+              },
+              "sourceLocation": {
+                "fileName": "TypingQuoteView.kt",
+                "lineNumber": 325,
+                "packageHash": 1793196193
+              },
+              "children": [
+                {
+                  "name": "Row",
+                  "bounds": {
+                    "left": 0,
+                    "top": 18,
+                    "right": 1080,
+                    "bottom": 113,
+                    "width": 1080,
+                    "height": 95
+                  },
+                  "children": [
+                    {
+                      "name": "Image",
+                      "bounds": {
+                        "left": 0,
+                        "top": 24,
+                        "right": 84,
+                        "bottom": 108,
+                        "width": 84,
+                        "height": 84
+                      },
+                      "sourceLocation": {
+                        "fileName": "TypingQuoteView.kt",
+                        "lineNumber": 334,
+                        "packageHash": 1793196193
+                      },
+                      "semantics": {
+                        "actions": "OnClick"
+                      },
+                      "modifiers": {
+                        "clickable": "enabled=true",
+                        "clip": "true"
+                      }
+                    },
+                    {
+                      "name": "LocaleSwitch",
+                      "bounds": {
+                        "left": 932,
+                        "top": 35,
+                        "right": 1072,
+                        "bottom": 97,
+                        "width": 140,
+                        "height": 62
+                      },
+                      "sourceLocation": {
+                        "fileName": "TypingQuoteView.kt",
+                        "lineNumber": 343,
+                        "packageHash": 1793196193
+                      },
+                      "children": [
+                        {
+                          "name": "Row",
+                          "bounds": {
+                            "left": 932,
+                            "top": 35,
+                            "right": 1072,
+                            "bottom": 97,
+                            "width": 140,
+                            "height": 62
+                          },
+                          "sourceLocation": {
+                            "fileName": "LocaleSwitch.kt",
+                            "lineNumber": 36,
+                            "packageHash": 1793196193
+                          },
+                          "children": [
+                            {
+                              "name": "Row",
+                              "bounds": {
+                                "left": 932,
+                                "top": 35,
+                                "right": 1072,
+                                "bottom": 97,
+                                "width": 140,
+                                "height": 62
+                              },
+                              "children": [
+                                {
+                                  "name": "LocaleItem",
+                                  "bounds": {
+                                    "left": 953,
+                                    "top": 40,
+                                    "right": 986,
+                                    "bottom": 92,
+                                    "width": 33,
+                                    "height": 52
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "LocaleSwitch.kt",
+                                    "lineNumber": 55,
+                                    "packageHash": 1793196193
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Text",
+                                      "bounds": {
+                                        "left": 953,
+                                        "top": 40,
+                                        "right": 986,
+                                        "bottom": 92,
+                                        "width": 33,
+                                        "height": 52
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "LocaleSwitch.kt",
+                                        "lineNumber": 87,
+                                        "packageHash": 1793196193
+                                      },
+                                      "semantics": {
+                                        "text": "한"
+                                      },
+                                      "parameters": {
+                                        "color": "#FF212121"
+                                      },
+                                      "modifiers": {
+                                        "background": "#FFFFFFFF, shape=RoundedCornerShape(topStart = CornerSize(size = 99.0.dp), topEnd = CornerSize(size = 99.0.dp), bottomEnd = CornerSize(size = 99.0.dp), bottomStart = CornerSize(size = 99.0.dp))"
+                                      }
+                                    }
+                                  ]
+                                },
+                                {
+                                  "name": "LocaleItem",
+                                  "bounds": {
+                                    "left": 1028,
+                                    "top": 45,
+                                    "right": 1051,
+                                    "bottom": 88,
+                                    "width": 23,
+                                    "height": 43
+                                  },
+                                  "sourceLocation": {
+                                    "fileName": "LocaleSwitch.kt",
+                                    "lineNumber": 64,
+                                    "packageHash": 1793196193
+                                  },
+                                  "children": [
+                                    {
+                                      "name": "Text",
+                                      "bounds": {
+                                        "left": 1028,
+                                        "top": 45,
+                                        "right": 1051,
+                                        "bottom": 88,
+                                        "width": 23,
+                                        "height": 43
+                                      },
+                                      "sourceLocation": {
+                                        "fileName": "LocaleSwitch.kt",
+                                        "lineNumber": 87,
+                                        "packageHash": 1793196193
+                                      },
+                                      "semantics": {
+                                        "text": "A"
+                                      },
+                                      "parameters": {
+                                        "color": "#FF212121"
+                                      },
+                                      "modifiers": {
+                                        "background": "#00000000, shape=RoundedCornerShape(topStart = CornerSize(size = 99.0.dp), topEnd = CornerSize(size = 99.0.dp), bottomEnd = CornerSize(size = 99.0.dp), bottomStart = CornerSize(size = 99.0.dp))"
+                                      }
+                                    }
+                                  ]
+                                }
+                              ],
+                              "semantics": {
+                                "actions": "OnClick"
+                              },
+                              "modifiers": {
+                                "background": "#FFFFCB5C, shape=RoundedCornerShape(topStart = CornerSize(size = 99.0.dp), topEnd = CornerSize(size = 99.0.dp), bottomEnd = CornerSize(size = 99.0.dp), bottomStart = CornerSize(size = 99.0.dp))",
+                                "clickable": "enabled=true"
+                              }
+                            }
+                          ],
+                          "semantics": {
+                            "actions": "OnClick"
+                          },
+                          "modifiers": {
+                            "background": "#FFFFCB5C, shape=RoundedCornerShape(topStart = CornerSize(size = 99.0.dp), topEnd = CornerSize(size = 99.0.dp), bottomEnd = CornerSize(size = 99.0.dp), bottomStart = CornerSize(size = 99.0.dp))",
+                            "clickable": "enabled=true"
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "modifiers": {
+                    "fill": "Horizontal (1.0)",
+                    "height": "50.0.dp",
+                    "padding": "start=0.0.dp, top=7.0.dp, end=0.0.dp, bottom=7.0.dp"
+                  }
+                }
+              ],
+              "modifiers": {
+                "fill": "Horizontal (1.0)",
+                "height": "50.0.dp",
+                "padding": "start=0.0.dp, top=7.0.dp, end=0.0.dp, bottom=7.0.dp"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

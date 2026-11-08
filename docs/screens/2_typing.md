@@ -1,5 +1,18 @@
 # 필사 입력·저장 결과
 
+## 2026-11-08 저장 결과 팝업 4종 · Android 후속 수정
+
+- Notion [원문](https://app.notion.com/p/3ffe639fc7a48056b876d1ab3e28f520) `3ffe639f-c7a4-8056-b876-d1ab3e28f520`. 사용자 “진행”으로 [교차 플랫폼 계획 v2](../../../../iosProjects/Fiilsa/docs/screens/2026-11-08-typing-result-3ffe639f-cross-platform-plan.md)의 Android 분기를 수정했다. [이번 QA 기록](../design-qa/2026-11-08-typing-result-3ffe639f-qa.md): 단위 11/11, Galaxy 비회원 미완료·오늘 완료 Pass, 일반 완료 Light/Dark Preview 부분 통과, 회원 실서버·전체 화면 Figma Blocked.
+- Figma 파일: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X. 일반 완료 Light/Dark 전체 프레임 `3566:2674`/`3566:2808`, 팝업 `3566:2737`/`3566:2885`, Greeting 캐릭터 `3566:2743`/`3566:2888`, 360×720, ko-KR, Light/Dark. [Light 기준](../../../../iosProjects/Fiilsa/docs/design-qa/assets/2026-11-03-typing-result-3ffe639f/figma-completed-new-light-3566-2674.png) · [Dark 기준](../../../../iosProjects/Fiilsa/docs/design-qa/assets/2026-11-08-cross-platform-typing-result/figma-completed-dark-3566-2808.png). 기존 계속/연속/미완료 상태는 이 문서 아래의 기준 프레임을 유지한다.
+- 컴포넌트: `TypingViewModel`은 POST 성공 후 daily `completed`와 과거 날짜의 streak `isTodayWritten`을 읽어 팝업 종류를 고른다. `TypingResultDialog`는 4종 제목·Greeting SVG·버튼을 표시한다. `TypingQuoteContent`는 팝업과 입력 화면을 조립한다. 대상은 오늘/과거 × 완료/미완료 × 오늘 작성 여부 × Light/Dark, 중복 저장·후속 GET 실패다. 계정 경로는 사용자 요청으로 실제 서버 검증에서 제외하고 목 응답으로 확인한다.
+
+## 2026-11-08 한/A 토글 · 홈 디자인 통일과 터치 QA
+
+- 사용자 승인: “필사화면 토글 디자인을 홈화면과 동일하게 하자” 이후 “진행”. Figma 필사 원본과 다른 토글 스타일은 승인 예외다. [교차 플랫폼 계획 v6](../../../../iosProjects/Fiilsa/docs/screens/2026-11-08-home-locale-40ce639f-cross-platform-plan.md) · [QA 기록](../design-qa/2026-11-08-home-locale-40ce639f-qa.md).
+- Figma 파일: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X. 필사 Light `2929:17920`, Dark `3087:28815`, 토글 `2929:18075`/`3087:28821`; 홈 Light/Dark `2929:13556`/`3039:26518`, 홈 토글 `2929:13611`. 360×720dp, ko-KR, Light/Dark, 입력 화면·키보드 표시/숨김. [필사 Light 전체 기준](../design-qa/artifacts/2026-11-01-qa-typing-character/figma-light-2929-17920.png) · [Dark 전체 기준](../design-qa/artifacts/2026-11-01-qa-typing-character/figma-dark-3087-28815.png).
+- 컴포넌트: `LocaleSwitch`는 한/A 선택과 보이는 캡슐 전체 클릭을 담당한다. `FigmaHomeContent`는 노란 홈 스타일을, `TypingQuoteTopSection`은 같은 노란 스타일과 뒤로가기를 조립한다. `QuoteDetailContentSection`은 공유 터치 수정의 회귀 대상이다. 한/영 선택 × Light/Dark와 토글 가장자리·인접 영역 탭을 검증한다.
+- 수정 전: 홈 캡슐의 보이는 왼쪽 끝은 클릭 bounds 바깥이고 필사 호출은 보라색·큰 패딩을 사용했다. 수정 후 필사는 홈과 같은 노란 토글을 사용한다. Preview의 과거 토글 제외 분기를 제거해 하위·전체 Light/Dark Preview를 렌더했고, Galaxy Light에서 보이는 네 가장자리 탭을 확인했다. 최종 전체 Figma 화면 수용은 [QA 기록](../design-qa/2026-11-08-home-locale-40ce639f-qa.md)의 조건 차이로 Blocked다.
+
 ## 2026-11-01 캐릭터 적용 Android 독립 재검증
 
 - [Notion 캐릭터 이슈 독립 계획 v1 HTML](2026-11-01-typing-character-3ffe639f-plan.html) · [Markdown](2026-11-01-typing-character-3ffe639f-plan.md) · [QA 기록](../design-qa/2026-11-01-typing-character-3ffe639f-qa.md).

@@ -162,6 +162,9 @@ private fun TypingResultCharacter(kind: TypingResultKind, darkMode: Boolean) {
                 else R.drawable.typing_result_light_incomplete_character_light_state_basic,
                 Modifier.size(120.dp),
             )
+            TypingResultKind.Completed -> TypingResultImage(
+                R.drawable.typing_result_completed_greeting, Modifier.size(120.dp),
+            )
             TypingResultKind.Streak -> {
                 if (darkMode) {
                     TypingResultImage(R.drawable.typing_result_dark_streak_union, Modifier.offset(28.65.dp, 29.04.dp).size(75.57.dp, 80.71.dp))
@@ -223,6 +226,11 @@ private fun TypingResultImage(@DrawableRes drawable: Int, modifier: Modifier) {
     TypingResultContent(TypingResultKind.Incomplete, "필사가 완료되지 않았어요.", false, {}, {})
 }
 
+@Preview(widthDp = 320, heightDp = 243, locale = "ko", fontScale = 1f, uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Composable private fun TypingCompletedLightPreview() = FillsaTheme(darkTheme = false) {
+    TypingResultContent(TypingResultKind.Completed, "필사 완료!", false, {}, {})
+}
+
 @Preview(widthDp = 320, heightDp = 245, locale = "ko", fontScale = 1f, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable private fun TypingContinueDarkPreview() = FillsaTheme(darkTheme = true) {
     TypingResultContent(TypingResultKind.Continue, "오늘도 이어서 필사를 해주세요!", true, {}, {})
@@ -236,4 +244,9 @@ private fun TypingResultImage(@DrawableRes drawable: Int, modifier: Modifier) {
 @Preview(widthDp = 320, heightDp = 245, locale = "ko", fontScale = 1f, uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable private fun TypingIncompleteDarkPreview() = FillsaTheme(darkTheme = true) {
     TypingResultContent(TypingResultKind.Incomplete, "필사가 완료되지 않았어요.", true, {}, {})
+}
+
+@Preview(widthDp = 320, heightDp = 245, locale = "ko", fontScale = 1f, uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable private fun TypingCompletedDarkPreview() = FillsaTheme(darkTheme = true) {
+    TypingResultContent(TypingResultKind.Completed, "필사 완료!", true, {}, {})
 }

@@ -1,5 +1,7 @@
 # 알림 설정·회원 탈퇴
 
+- Notion [오전 9시 알림 미수신](https://app.notion.com/p/9-40ee639fc7a480f8b78cc68b8b689b62) Android 기능 QA: [독립 계획 v1 HTML](2026-11-06-daily-notification-40ee639f-plan.html) · [Markdown](2026-11-06-daily-notification-40ee639f-plan.md). 예약 시각·전달 경로를 다루며 화면 디자인 변경은 계획하지 않는다. 구현 승인 대기.
+
 ## Android 구성
 
 - Compose 위치: `presentation/ui/mypage/AlertView.kt`, `AlertSwitchSection.kt`, `MyPageBottomButtonSection.kt`

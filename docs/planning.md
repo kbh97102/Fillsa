@@ -2,6 +2,10 @@
 
 Android 앱의 화면별 기능·상태·Figma UI 기준은 `docs/screens/`에서 관리한다. 모든 UI 변경은 [Figma 기반 UI 개편 워크플로우](ui-redesign-workflow.md)를 따른다.
 
+## Notion Android QA 재선택 · 2026-11-06
+
+- 사용자가 Android 관련 미완료 이슈 전체를 선택했다. [이슈별 진행 색인](design-qa/2026-11-06-notion-android-qa-index.md)에서 독립 계획·승인·QA·보고 상태를 추적한다. 1번 앱 이름은 이후 수정·검증했고, 2번 오전 9시 알림은 계획 v1 검토 대기다.
+
 ## Notion Home 연속필사 표시 QA · 2026-11-03
 
 - 새 이슈 `40de639f…2a24`: [계획 v3 HTML](screens/2026-11-03-home-streak-indicator-40de639f-plan.html) / [Markdown](screens/2026-11-03-home-streak-indicator-40de639f-plan.md), [화면 문서](screens/2_home.md), [QA](design-qa/2026-11-03-home-streak-indicator-40de639f-qa.md), [AS-IS/TO-BE 보고서](design-qa/2026-11-03-home-streak-indicator-40de639f-report.html). Android 월간 서버 판정 매칭과 사용자 승인 선택일 불꽃을 구현하고 목데이터·API31 Light/Dark로 검증했다. 실계정 응답과 전체 Figma 화면 최종 승인은 별도 확인이 남는다.

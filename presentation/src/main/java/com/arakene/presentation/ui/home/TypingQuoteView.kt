@@ -32,11 +32,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
@@ -340,16 +340,13 @@ private fun TypingQuoteTopSection(
             colorFilter = ColorFilter.tint(FillsaTheme.colorScheme.onBackground1)
         )
 
-        // Approved Preview exclusion: Fast Preview emits an incompatible LocaleSwitch call.
-        if (!LocalInspectionMode.current) {
-            LocaleSwitch(
-                selected = locale,
-                setSelected = setLocale,
-                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 6.dp),
-                textStyle = FillsaTheme.typography.buttonSmallNormal,
-                rootPadding = PaddingValues(horizontal = 4.dp, vertical = 3.dp)
-            )
-        }
+        LocaleSwitch(
+            selected = locale,
+            setSelected = setLocale,
+            containerColor = Color(0xFFFFCB5C),
+            selectedContainerColor = Color.White,
+            contentColor = Color(0xFF212121),
+        )
 
     }
 

@@ -1,5 +1,10 @@
 # Home
 
+## 2026-11-08 한/A 토글 터치 경계 QA
+
+- Figma 파일: https://www.figma.com/design/VdFocqyqTgevMVCQxwAQ2X. Home Light/Dark 전체 `2929:13556`/`3039:26518`, 토글 `2929:13611`; 360×821, ko-KR, Light/Dark·한/영. [전체 기준 이미지](../design-qa/assets/home-figma-2929-13556/reference-full.png) · [QA 기록](../design-qa/2026-11-08-home-locale-40ce639f-qa.md).
+- `LocaleSwitch`의 클릭 modifier를 배경 다음, 내부 패딩 앞으로 옮겼다. Galaxy에서 수정 전 실패했던 홈 `(865,460)`과 좌·우·상·하 가장자리 탭이 전환됐고 카드 내부 탭은 필사로 이동했다. `TypingQuoteTopSection`은 홈 스타일로 통일해 네 가장자리 탭도 통과했다. `QuoteDetailContentSection`은 APK 빌드만 확인했으며 전체 Figma 화면 수용은 [QA 기록](../design-qa/2026-11-08-home-locale-40ce639f-qa.md)에 따라 Blocked다.
+
 ## 2026-11-03 날짜 영역 연속필사 표시 QA
 
 - Notion [원본](https://app.notion.com/p/Home-40de639fc7a4803ca620ed225eba2a24) `40de639f…2a24` · 독립 [계획 v3 HTML](2026-11-03-home-streak-indicator-40de639f-plan.html) / [Markdown](2026-11-03-home-streak-indicator-40de639f-plan.md) · [QA 기록](../design-qa/2026-11-03-home-streak-indicator-40de639f-qa.md) · [AS-IS/TO-BE 보고서](../design-qa/2026-11-03-home-streak-indicator-40de639f-report.html). Swagger v2의 날짜별 `todayCompleted` 매칭과 사용자 승인 선택일 불꽃 표시를 구현·목데이터 검증했다.

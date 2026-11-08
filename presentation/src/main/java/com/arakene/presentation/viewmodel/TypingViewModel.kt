@@ -6,16 +6,16 @@ import com.arakene.domain.requests.LikeRequest
 import com.arakene.domain.requests.LocalQuoteInfo
 import com.arakene.domain.requests.TypingQuoteRequest
 import com.arakene.domain.responses.DailyQuoteDto
-import com.arakene.domain.responses.MemberStreakResponse
+import com.arakene.domain.util.CommonError
 import com.arakene.domain.usecase.common.DeleteLocalQuoteUseCase
 import com.arakene.domain.usecase.common.GetLoginStatusUseCase
 import com.arakene.domain.usecase.common.GetMemberStreaksUseCase
 import com.arakene.domain.usecase.db.AddLocalQuoteUseCase
 import com.arakene.domain.usecase.db.GetLocalQuoteUseCase
-import com.arakene.domain.usecase.db.GetTodayLocalStreakInfoUseCase
 import com.arakene.domain.usecase.db.InsertStreakInfoUseCase
 import com.arakene.domain.usecase.db.UpdateLocalQuoteLikeUseCase
 import com.arakene.domain.usecase.home.GetTypingUseCase
+import com.arakene.domain.usecase.home.GetMemberQuoteDayUseCase
 import com.arakene.domain.usecase.home.PostLikeUseCase
 import com.arakene.domain.usecase.home.PostTypingUseCase
 import com.arakene.domain.util.YN
@@ -36,6 +36,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import java.time.LocalDate
 import java.util.concurrent.atomic.AtomicBoolean
 
 @HiltViewModel
@@ -46,27 +47,19 @@ class TypingViewModel @Inject constructor(
     private val updateLocalQuoteLikeUseCase: UpdateLocalQuoteLikeUseCase,
     private val getTypingUseCase: GetTypingUseCase,
     private val postTypingUseCase: PostTypingUseCase,
+    private val getMemberQuoteDayUseCase: GetMemberQuoteDayUseCase,
     private val getLocalQuoteUseCase: GetLocalQuoteUseCase,
     private val deleteLocalQuoteUseCase: DeleteLocalQuoteUseCase,
     private val getMemberStreakResponse: GetMemberStreaksUseCase,
     private val setTodayTypingComplete: InsertStreakInfoUseCase,
 ) : BaseViewModel() {
 
-    private var streakResponse: MemberStreakResponse? = null
     private val saving = AtomicBoolean(false)
 
     var isLike = mutableStateOf(false)
 
     val savedKorTyping = mutableStateOf("")
     val savedEngTyping = mutableStateOf("")
-
-    init {
-        viewModelScope.launch {
-            getMemberStreakResponse().let {
-                streakResponse = it
-            }
-        }
-    }
 
     override fun handleAction(action: Action) {
         when (val typingAction = action as TypingAction) {
@@ -158,6 +151,12 @@ class TypingViewModel @Inject constructor(
                 val isComplete =
                     (dailyQuoteDto.korQuote?.isNotBlank() == true && korTyping == dailyQuoteDto.korQuote) ||
                         (dailyQuoteDto.engQuote?.isNotBlank() == true && engTyping == dailyQuoteDto.engQuote)
+                val quoteDate = runCatching { LocalDate.parse(dailyQuoteDto.quoteDate) }.getOrNull()
+                if (quoteDate == null) {
+                    emitError(CommonError.DefaultError)
+                    return@launch
+                }
+                val isTodayQuote = quoteDate == LocalDate.now()
                 if (!loginStatus) {
 
                     val emptyDraft = korTyping.isEmpty() && engTyping.isEmpty() && !likeYn
@@ -173,7 +172,7 @@ class TypingViewModel @Inject constructor(
                         if (!useSaveSnackBar) return@launch
                     }
 
-                    if (isComplete) {
+                    if (isComplete && isTodayQuote) {
                         logError("Save start in typingViewModel")
                         setTodayTypingComplete()
                     }
@@ -209,51 +208,46 @@ class TypingViewModel @Inject constructor(
                 }
 
                 if (useSaveSnackBar) {
-
-                    when {
-                        // 연속 필사 완료
-                        isComplete && (streakResponse?.currentStreak ?: 0) > 0 -> {
-                            emitEffect(
-                                CommonEffect.ShowDialog(
-                                    DialogData.Builder()
-                                        .title("연속 필사 완료!")
-                                        .typingResultKind(TypingResultKind.Streak)
-                                        .singleButton(true)
-                                        .okText("확인")
-                                        .onClick { emitEffect(CommonEffect.Move(Screens.Home())) }
-                                        .build()
-                                )
-                            )
+                    val completed = if (loginStatus) {
+                        val day = getResponse(getMemberQuoteDayUseCase(dailyQuoteDto.quoteDate)) ?: return@launch
+                        if (day.dailyQuoteSeq != dailyQuoteDto.dailyQuoteSeq || day.date != dailyQuoteDto.quoteDate) {
+                            emitError(CommonError.DefaultError)
+                            return@launch
                         }
-                        // 필사 완료
-                        isComplete -> {
-                            emitEffect(
-                                CommonEffect.ShowDialog(
-                                    DialogData.Builder()
-                                        .title("오늘도 이어서 필사를 해주세요!")
-                                        .typingResultKind(TypingResultKind.Continue)
-                                        .singleButton(true)
-                                        .okText("확인")
-                                        .onClick { emitEffect(CommonEffect.Move(Screens.Home())) }
-                                        .build()
-                                )
-                            )
-                        }
-                        // 필사 미완료
-                        !isComplete -> {
-                            emitEffect(
-                                CommonEffect.ShowDialog(
-                                    DialogData.Builder()
-                                        .title("필사가 완료되지 않았어요.")
-                                        .typingResultKind(TypingResultKind.Incomplete)
-                                        .singleButton(false)
-                                        .okText("필사하기")
-                                        .build()
-                                )
-                            )
-                        }
+                        day.completed
+                    } else {
+                        isComplete
                     }
-
+                    val todayWritten = if (completed && !isTodayQuote) {
+                        val status = getMemberStreakResponse()
+                        if (loginStatus && status == null) {
+                            emitError(CommonError.DefaultError)
+                            return@launch
+                        }
+                        status?.isTodayWritten == true
+                    } else false
+                    val kind = when {
+                        !completed -> TypingResultKind.Incomplete
+                        isTodayQuote -> TypingResultKind.Streak
+                        todayWritten -> TypingResultKind.Completed
+                        else -> TypingResultKind.Continue
+                    }
+                    val incomplete = kind == TypingResultKind.Incomplete
+                    val title = when (kind) {
+                        TypingResultKind.Incomplete -> "필사가 완료되지 않았어요."
+                        TypingResultKind.Streak -> "연속 필사 완료!"
+                        TypingResultKind.Completed -> "필사 완료!"
+                        TypingResultKind.Continue -> "오늘도 이어서 필사를 해주세요!"
+                    }
+                    emitEffect(CommonEffect.ShowDialog(
+                        DialogData.Builder()
+                            .title(title)
+                            .typingResultKind(kind)
+                            .singleButton(!incomplete)
+                            .okText(if (incomplete) "필사하기" else "확인")
+                            .onClick(if (incomplete) null else { { emitEffect(CommonEffect.Move(Screens.Home())) } })
+                            .build()
+                    ))
                 }
             } finally {
                 saving.set(false)
